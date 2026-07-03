@@ -17,15 +17,28 @@ export function TakeTraining() {
   const [result, setResult] = useState<QuizResult | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const startedAt = useRef(Date.now())
 
   useEffect(() => {
-    void api.get<AssignmentDetail>(`/api/training/assignments/${id}`).then((a) => {
-      setAssignment(a)
-      if (a.status === 'assigned') void api.post(`/api/training/assignments/${a.id}/start`)
-    })
+    api
+      .get<AssignmentDetail>(`/api/training/assignments/${id}`)
+      .then((a) => {
+        setAssignment(a)
+        if (a.status === 'assigned') void api.post(`/api/training/assignments/${a.id}/start`)
+      })
+      .catch((e) => setLoadError(e instanceof Error ? e.message : 'Failed to load training'))
   }, [id])
 
+  if (loadError)
+    return (
+      <div className="fade-in mx-auto max-w-2xl py-10 text-center">
+        <p className="text-sm text-bad">{loadError}</p>
+        <Link to="/me" className="mt-3 inline-block text-sm text-accent hover:underline">
+          ← Back to your portal
+        </Link>
+      </div>
+    )
   if (!assignment) return <Spinner label="Loading training…" />
   const module = assignment.module
 

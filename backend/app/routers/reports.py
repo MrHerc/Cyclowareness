@@ -1,5 +1,7 @@
+from datetime import datetime, timedelta, timezone
+
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..ai.ai_service import triage_assist
@@ -49,11 +51,21 @@ async def submit_report(
     )
     db.add(report)
 
+    # Reward the sensor behaviour, but cap the credit at 3 reports per 24h so
+    # the score can't be farmed by spamming reports.
     employee = db.get(Employee, user.employee_id)
-    risk_engine.apply_event(
-        db, employee, "real_threat_report",
-        reason="Reported a suspicious artifact (human sensor)",
-    )
+    since = datetime.now(timezone.utc) - timedelta(hours=24)
+    recent_credits = db.execute(
+        select(func.count(PhishingReport.id)).where(
+            PhishingReport.employee_id == employee.id,
+            PhishingReport.created_at >= since,
+        )
+    ).scalar() or 0
+    if recent_credits < 3:
+        risk_engine.apply_event(
+            db, employee, "real_threat_report",
+            reason="Reported a suspicious artifact (human sensor)",
+        )
     db.commit()
     return report
 

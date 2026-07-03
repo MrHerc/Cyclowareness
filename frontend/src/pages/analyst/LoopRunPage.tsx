@@ -18,10 +18,23 @@ import {
 
 export function LoopRunPage() {
   const { id } = useParams()
-  const { data: run, refresh } = usePoll<LoopRunDetail>(() => api.get(`/api/loop-runs/${id}`), 1500, [id])
+  const { data: run, error: loadError, refresh } = usePoll<LoopRunDetail>(
+    () => api.get(`/api/loop-runs/${id}`),
+    1500,
+    [id],
+  )
   const [busyAction, setBusyAction] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  if (!run && loadError)
+    return (
+      <div className="fade-in py-10 text-center">
+        <p className="text-sm text-bad">{loadError}</p>
+        <Link to="/" className="mt-3 inline-block text-sm text-accent hover:underline">
+          ← Back to the dashboard
+        </Link>
+      </div>
+    )
   if (!run) return <Spinner label="Loading loop run…" />
 
   const act = async (action: 'approve' | 'reject' | 'force-measure') => {
@@ -360,18 +373,22 @@ function ModulePanel({
   const [title, setTitle] = useState(module.title)
   const [description, setDescription] = useState(module.description)
   const [takeaway, setTakeaway] = useState(module.takeaway)
+  const [content, setContent] = useState(module.content)
   const [saving, setSaving] = useState(false)
 
   const save = async () => {
     setSaving(true)
     try {
-      await api.patch(`/api/training/modules/${module.id}`, { title, description, takeaway })
+      await api.patch(`/api/training/modules/${module.id}`, { title, description, takeaway, content })
       await refresh()
       setEditing(false)
     } finally {
       setSaving(false)
     }
   }
+
+  const editSection = (index: number, field: 'heading' | 'body', value: string) =>
+    setContent((prev) => prev.map((s, i) => (i === index ? { ...s, [field]: value } : s)))
 
   return (
     <Card className={cx('p-5', editable && 'border-warn/40')}>
@@ -409,6 +426,21 @@ function ModulePanel({
             rows={2}
             className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm italic outline-none focus:border-accent/60"
           />
+          {content.map((section, i) => (
+            <div key={i} className="space-y-1.5 rounded-lg border border-border bg-surface-2 p-3">
+              <input
+                value={section.heading}
+                onChange={(e) => editSection(i, 'heading', e.target.value)}
+                className="w-full rounded-md border border-border bg-surface px-2.5 py-1.5 text-[12px] font-semibold text-accent outline-none focus:border-accent/60"
+              />
+              <textarea
+                value={section.body}
+                onChange={(e) => editSection(i, 'body', e.target.value)}
+                rows={3}
+                className="w-full rounded-md border border-border bg-surface px-2.5 py-1.5 text-[13px] outline-none focus:border-accent/60"
+              />
+            </div>
+          ))}
           <div className="flex gap-2">
             <Button onClick={() => void save()} busy={saving}>
               Save changes

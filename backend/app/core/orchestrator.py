@@ -253,7 +253,15 @@ async def _resume_target_train(run_id: int) -> None:
         db.close()
 
 
+def _stage_already_ran(run: LoopRun, stage: int) -> bool:
+    return any(e["stage"] == stage for e in (run.stage_history or []))
+
+
 async def _target_and_train(db: Session, run: LoopRun) -> None:
+    # Idempotency guard: concurrent approvals may both submit this task;
+    # only the first may run TARGET (tasks execute serially on the event loop).
+    if _stage_already_ran(run, LoopStage.TARGET) or run.status == LoopStatus.FAILED:
+        return
     threat = db.get(Threat, run.trigger_threat_id)
 
     # ----- Stage 4: TARGET -----
@@ -386,6 +394,13 @@ async def _measure_feedback_async(run_id: int) -> None:
 
 
 async def _measure_and_feedback(db: Session, run: LoopRun) -> None:
+    # Idempotency guard: two "last" quiz completions (or force-measure racing a
+    # completion) can both submit this task; the second must be a no-op.
+    if _stage_already_ran(run, LoopStage.MEASURE) or run.status in (
+        LoopStatus.COMPLETED,
+        LoopStatus.FAILED,
+    ):
+        return
     # ----- Stage 6: MEASURE -----
     run.status = LoopStatus.RUNNING
     _stage_start(run, LoopStage.MEASURE, "Measuring completion, comprehension and behaviour…")

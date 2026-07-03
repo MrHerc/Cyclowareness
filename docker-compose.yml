@@ -1,0 +1,60 @@
+# Cyclowareness — production topology.
+# Demo/dev needs none of this (SQLite + in-process runner); see README Quick start.
+#
+#   docker compose up --build
+#
+# Backend:  http://localhost:8000   Frontend: http://localhost:5173
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cyclowareness
+      POSTGRES_USER: cyclo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in the environment}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyclo -d cyclowareness"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://cyclo:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in the environment}@db:5432/cyclowareness
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in the environment}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      SANDBOX_ANALYZER: ${SANDBOX_ANALYZER:-mock}
+      # Switch to celery once the worker task is wired (core/task_runner.py TODO)
+      TASK_RUNNER: inprocess
+      CORS_ORIGINS: http://localhost:5173
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

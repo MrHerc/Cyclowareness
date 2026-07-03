@@ -65,8 +65,13 @@ class MockAIProvider:
         senders = iocs.get("sender_patterns") or []
         domain = domains[0] if domains else "a lookalike domain"
         sender = senders[0] if senders else "an unfamiliar external address"
-        channel = {"smishing": "sms", "quishing": "qr", "bec": "email", "malware": "email",
-                   "phishing": "email"}.get(threat_type, analysis.get("artifact_type", "email"))
+        # Channel follows the artifact's actual channel (a chat phish trains
+        # the chat channel), falling back to the threat-type default.
+        artifact_type = analysis.get("artifact_type", "email")
+        if artifact_type in ("sms", "qr", "chat"):
+            channel = artifact_type
+        else:
+            channel = {"smishing": "sms", "quishing": "qr"}.get(threat_type, "email")
 
         blueprints = {
             "phishing": {

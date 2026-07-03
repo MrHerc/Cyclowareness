@@ -138,6 +138,8 @@ def complete(sim_id: int, db: Session = Depends(get_db), user: User = Depends(re
     simulation = db.get(PhishingSimulation, sim_id)
     if simulation is None:
         raise HTTPException(status_code=404, detail="Simulation not found")
+    if simulation.status != SimulationStatus.ACTIVE:
+        raise HTTPException(status_code=409, detail="Only an active simulation can be closed")
     simulation.status = SimulationStatus.COMPLETED
     simulation.completed_at = datetime.now(timezone.utc)
     db.commit()

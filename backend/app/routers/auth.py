@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+import time
+from collections import defaultdict, deque
+
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -9,6 +12,24 @@ from ..schemas import LoginRequest, TokenResponse
 from ..security import create_access_token, get_current_user, verify_password
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
+
+# Simple in-memory brute-force throttle: 10 failed attempts / 5 min per key.
+_FAILED: dict[str, deque[float]] = defaultdict(deque)
+_WINDOW_SECONDS = 300
+_MAX_FAILURES = 10
+
+
+def _throttle(key: str) -> None:
+    now = time.monotonic()
+    attempts = _FAILED[key]
+    while attempts and now - attempts[0] > _WINDOW_SECONDS:
+        attempts.popleft()
+    if len(attempts) >= _MAX_FAILURES:
+        raise HTTPException(status_code=429, detail="Too many failed attempts — try again later")
+
+
+def _record_failure(key: str) -> None:
+    _FAILED[key].append(time.monotonic())
 
 
 def _token_response(user: User) -> TokenResponse:
@@ -22,9 +43,12 @@ def _token_response(user: User) -> TokenResponse:
 
 
 @router.post("/login", response_model=TokenResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)):
+def login(payload: LoginRequest, request: Request, db: Session = Depends(get_db)):
+    key = f"{request.client.host if request.client else '?'}:{payload.email.lower()}"
+    _throttle(key)
     user = db.execute(select(User).where(User.email == payload.email)).scalar_one_or_none()
     if user is None or not verify_password(payload.password, user.hashed_password):
+        _record_failure(key)
         raise HTTPException(status_code=401, detail="Incorrect email or password")
     return _token_response(user)
 

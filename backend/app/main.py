@@ -24,6 +24,34 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname
 settings = get_settings()
 
 
+def _recover_orphaned_runs() -> None:
+    """In-process tasks die with the process; surface interrupted runs as
+    failed instead of leaving them wedged at RUNNING forever (spec §6.1:
+    a stalled stage is surfaced, not silently dropped)."""
+    from sqlalchemy import select
+
+    from .models import LoopRun, LoopStatus
+
+    db = session_scope()
+    try:
+        stuck = db.execute(
+            select(LoopRun).where(LoopRun.status == LoopStatus.RUNNING)
+        ).scalars().all()
+        for run in stuck:
+            history = [dict(e) for e in (run.stage_history or [])]
+            for entry in history:
+                if entry["status"] == "in_progress":
+                    entry["status"] = "failed"
+                    entry["error"] = "Interrupted by a server restart — resubmit the artifact"
+            run.stage_history = history
+            run.status = LoopStatus.FAILED
+            db.add(run)
+        if stuck:
+            db.commit()
+    finally:
+        db.close()
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
@@ -32,6 +60,7 @@ async def lifespan(app: FastAPI):
         seed_if_empty(db)
     finally:
         db.close()
+    _recover_orphaned_runs()
     # Let the task runner accept submissions from threadpool workers
     import asyncio
 

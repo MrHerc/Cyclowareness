@@ -79,7 +79,8 @@ export interface Threat {
 export interface QuizQuestion {
   question: string
   options: string[]
-  correct_index: number
+  // Absent on employee-facing payloads — the answer key never ships to the quiz-taker
+  correct_index?: number
   explanation?: string
 }
 

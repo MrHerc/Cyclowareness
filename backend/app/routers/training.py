@@ -71,12 +71,34 @@ def edit_module(
     module = db.get(TrainingModule, module_id)
     if module is None:
         raise HTTPException(status_code=404, detail="Module not found")
+    if payload.quiz is not None:
+        _validate_quiz_shape(payload.quiz)
+    if payload.content is not None:
+        for section in payload.content:
+            if not isinstance(section, dict) or "heading" not in section or "body" not in section:
+                raise HTTPException(status_code=422, detail="Each content section needs heading and body")
     for field in ("title", "description", "content", "quiz", "takeaway"):
         value = getattr(payload, field)
         if value is not None:
             setattr(module, field, value)
     db.commit()
     return module
+
+
+def _validate_quiz_shape(quiz: list) -> None:
+    """A malformed quiz would make assignments uncompletable — reject it here."""
+    if not (3 <= len(quiz) <= 5):
+        raise HTTPException(status_code=422, detail="Quiz must have 3–5 questions")
+    for q in quiz:
+        if not isinstance(q, dict) or not all(k in q for k in ("question", "options", "correct_index")):
+            raise HTTPException(status_code=422, detail="Each question needs question, options, correct_index")
+        if not isinstance(q["options"], list) or len(q["options"]) != 4:
+            raise HTTPException(status_code=422, detail="Each question needs exactly 4 options")
+        try:
+            if not (0 <= int(q["correct_index"]) <= 3):
+                raise ValueError
+        except (TypeError, ValueError):
+            raise HTTPException(status_code=422, detail="correct_index must be 0–3")
 
 
 # --- Employee: my assignments ---------------------------------------------------
@@ -99,7 +121,8 @@ def get_assignment(
     assignment = db.get(TrainingAssignment, assignment_id)
     if assignment is None:
         raise HTTPException(status_code=404, detail="Assignment not found")
-    if user.role == "employee" and assignment.employee_id != user.employee_id:
+    # Allow-list: only the owner or an analyst may read an assignment
+    if user.role != "analyst" and assignment.employee_id != user.employee_id:
         raise HTTPException(status_code=403, detail="Not your assignment")
     return _assignment_detail(assignment)
 
@@ -136,6 +159,11 @@ def complete_assignment(
         raise HTTPException(status_code=403, detail="Not your assignment")
     if assignment.status == AssignmentStatus.COMPLETED:
         raise HTTPException(status_code=409, detail="Already completed")
+    if assignment.status == AssignmentStatus.EXPIRED:
+        raise HTTPException(
+            status_code=409,
+            detail="This assignment expired (its loop run was already measured)",
+        )
 
     module = db.get(TrainingModule, assignment.module_id)
     quiz = module.quiz or []
@@ -204,6 +232,13 @@ def complete_assignment(
 
 def _assignment_detail(assignment: TrainingAssignment) -> AssignmentDetail:
     detail = AssignmentDetail.model_validate(assignment)
-    detail.module = TrainingModuleOut.model_validate(assignment.module)
+    module = TrainingModuleOut.model_validate(assignment.module)
+    # Never ship the answer key to the quiz-taker: strip correct_index and
+    # explanations. The grading endpoint returns them after submission.
+    module.quiz = [
+        {"question": q.get("question", ""), "options": q.get("options", [])}
+        for q in (assignment.module.quiz or [])
+    ]
+    detail.module = module
     detail.employee_name = assignment.employee.name if assignment.employee else ""
     return detail
