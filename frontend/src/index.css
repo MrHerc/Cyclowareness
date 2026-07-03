@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #060b16;
+  --color-surface: #0c1424;
+  --color-surface-2: #121c31;
+  --color-surface-3: #18234a;
+  --color-border: #1d2a45;
+  --color-border-2: #2a3a5c;
+  --color-ink: #e8eef9;
+  --color-muted: #7e90b3;
+  --color-faint: #55658a;
+  --color-accent: #2dd4bf;
+  --color-indigo: #818cf8;
+  --color-good: #34d399;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --color-crit: #ef4444;
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(45, 212, 191, 0.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(129, 140, 248, 0.05), transparent 60%),
+    var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(45, 212, 191, 0.3);
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #24314f transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #24314f; border-radius: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Loop visualization animations */
+@keyframes loop-dash {
+  to { stroke-dashoffset: -24; }
+}
+.loop-flow {
+  stroke-dasharray: 4 8;
+  animation: loop-dash 1.2s linear infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.pulse-glow { animation: pulse-glow 1.6s ease-in-out infinite; }
+
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fade-slide-in 0.35s ease both; }
