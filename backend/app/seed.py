@@ -183,16 +183,40 @@ def seed_if_empty(db: Session) -> None:
     for local, sims_clicked in [("rashad.mammadov", 3), ("elvin.quliyev", 2), ("tural.hasanov", 2), ("sevinj.rahimova", 2), ("ilkin.mustafayev", 1), ("zahra.novruzova", 1)]:
         for i in range(sims_clicked):
             event(employees[local], "simulated_phish_click", 12.0, f"Clicked lure in Q{2 + i} awareness simulation", days_ago(30 + i * 35, rng.uniform(0, 12)))
-    # Good reporters
-    for local, count in [("aysel.huseynova", 4), ("nigar.karimova", 3), ("gunel.safarova", 2), ("aytan.guliyeva", 3), ("lala.ahmadova", 1), ("anar.suleymanov", 1)]:
+    # Good reporters — with matching PhishingReport records (drives report
+    # badges & the human-sensor metric), closed as dismissed so they don't
+    # crowd the live triage queue.
+    reporter_samples = [
+        ("Suspicious 'shared document' link from an unknown sender", "email"),
+        ("Text message about a prize I never entered", "sms"),
+        ("QR code taped over the cafeteria menu board", "qr"),
+        ("Teams message from 'IT' asking me to confirm my password", "chat"),
+    ]
+    for local, count in [("aysel.huseynova", 5), ("nigar.karimova", 3), ("gunel.safarova", 2), ("aytan.guliyeva", 3), ("lala.ahmadova", 1), ("anar.suleymanov", 1)]:
         for i in range(count):
             event(employees[local], "simulated_phish_report", -5.0, "Reported simulation lure within minutes", days_ago(25 + i * 28, rng.uniform(0, 12)))
+            sample_text, sample_type = reporter_samples[i % len(reporter_samples)]
+            db.add(PhishingReport(
+                employee_id=employees[local].id,
+                artifact_type=sample_type,
+                artifact_ref=sample_text,
+                note="",
+                status=ReportStatus.DISMISSED,
+                created_at=days_ago(20 + i * 12, rng.uniform(0, 12)),
+            ))
             if i % 2 == 0:
                 event(employees[local], "real_threat_report", -4.0, "Reported a suspicious external email", days_ago(20 + i * 31, rng.uniform(0, 12)))
-    # Past training completions
-    for local in ("leyla.aliyeva", "rashad.mammadov", "tural.hasanov", "sevinj.rahimova", "aysel.huseynova", "murad.nasirov", "samir.aliyev", "javid.huseynli"):
+    # Past training completions — with matching completed assignments (drives
+    # the Fast Learner / Perfect Score / Streak badges).
+    past_completions = [
+        ("leyla.aliyeva", 100.0), ("rashad.mammadov", 100.0), ("tural.hasanov", 80.0),
+        ("sevinj.rahimova", 80.0), ("aysel.huseynova", 100.0), ("murad.nasirov", 80.0),
+        ("samir.aliyev", 100.0), ("javid.huseynli", 80.0), ("aytan.guliyeva", 100.0),
+        ("nigar.karimova", 100.0),
+    ]
+    for local, score in past_completions:
         event(employees[local], "training_completed", -4.0, 'Completed "Invoice fraud: the pressure play"', days_ago(52, rng.uniform(0, 10)))
-        event(employees[local], "training_comprehension", -4.8, "Quiz comprehension 80%", days_ago(52, rng.uniform(0, 10)))
+        event(employees[local], "training_comprehension", round(-6.0 * score / 100, 2), f"Quiz comprehension {score:.0f}%", days_ago(52, rng.uniform(0, 10)))
 
     # ------------------------------------------------------- past loop run #1
     threat1 = Threat(
@@ -460,6 +484,24 @@ def seed_if_empty(db: Session) -> None:
             else:
                 event(employees[local], "simulated_phish_report", -5.0, f'Reported lure in simulation "{sim2.name}"', days_ago(1, rng.uniform(0, 10)))
         db.add(target)
+
+    # Champion completed assignments (unlinked to a run) so the badge & points
+    # systems have something to reward from the first login.
+    champion_completions = [
+        ("aysel.huseynova", module1, 100.0), ("aysel.huseynova", module2, 100.0),
+        ("nigar.karimova", module1, 100.0), ("nigar.karimova", module2, 80.0),
+        ("aytan.guliyeva", module1, 100.0), ("gunel.safarova", module1, 80.0),
+        ("kamran.ismayilov", module1, 100.0), ("sabina.mammadli", module2, 80.0),
+    ]
+    for local, module, score in champion_completions:
+        db.add(TrainingAssignment(
+            module_id=module.id, employee_id=employees[local].id, loop_run_id=None,
+            status=AssignmentStatus.COMPLETED, score=score,
+            time_spent_seconds=rng.randint(120, 260),
+            targeting_reasons=["Proactive awareness assignment"],
+            assigned_at=days_ago(40, rng.uniform(0, 10)),
+            completed_at=days_ago(39, rng.uniform(0, 10)),
+        ))
 
     # ------------------------------------------------ open reports (triage queue)
     db.add(PhishingReport(

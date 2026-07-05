@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Plus, Rocket, Wand2, X } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
-import type { DepartmentRisk, Simulation, SimulationDetail, Threat } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, SectionTitle, Spinner, cx, pct, timeAgo } from '../../components/ui'
+import type { DepartmentRisk, SimTemplate, Simulation, SimulationDetail, Threat } from '../../lib/types'
+import { Badge, Button, Card, EmptyState, SectionTitle, Spinner, channelLabel, cx, pct, timeAgo } from '../../components/ui'
 
 export function SimulationsPage() {
   const { data: sims, refresh } = usePoll<Simulation[]>(() => api.get('/api/simulations'), 4000)
@@ -100,16 +100,23 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
                 <h2 className="text-lg font-bold">{sim.name}</h2>
                 <div className="mt-1 flex items-center gap-2">
                   <Badge value={sim.status} />
-                  <Badge value={sim.channel} />
+                  <Badge value={sim.channel} label={channelLabel(sim.channel)} />
                   {sim.template_threat_id && (
                     <span className="text-xs text-accent">built from real threat #{sim.template_threat_id}</span>
                   )}
+                  {sim.lure_template_id && <span className="text-xs text-accent">prebuilt lure</span>}
                 </div>
               </div>
               <button onClick={onClose} className="text-muted hover:text-ink">
                 <X size={18} />
               </button>
             </div>
+
+            {sim.lure_preview && (
+              <pre className="mt-3 max-h-32 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-2.5 font-mono text-[11px] leading-relaxed text-muted">
+                {sim.lure_preview}
+              </pre>
+            )}
 
             <div className="mt-4 grid grid-cols-4 gap-2">
               <MiniStat label="Targets" value={String(sim.stats.targets)} />
@@ -210,20 +217,33 @@ function MiniStat({ label, value, tone }: { label: string; value: string; tone?:
 function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated: (id: number) => void }) {
   const [name, setName] = useState('')
   const [channel, setChannel] = useState('email')
-  const [templateId, setTemplateId] = useState<number | ''>('')
+  const [source, setSource] = useState<'prebuilt' | 'real' | 'generic'>('prebuilt')
+  const [lureTemplateId, setLureTemplateId] = useState<string>('')
+  const [threatId, setThreatId] = useState<number | ''>('')
   const [deptIds, setDeptIds] = useState<number[]>([])
   const [threats, setThreats] = useState<Threat[]>([])
+  const [templates, setTemplates] = useState<SimTemplate[]>([])
   const [departments, setDepartments] = useState<DepartmentRisk[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     void api.get<Threat[]>('/api/threats').then((list) => setThreats(list.filter((t) => t.verdict && t.verdict !== 'benign')))
+    void api.get<SimTemplate[]>('/api/simulations/templates').then(setTemplates)
     void api.get<DepartmentRisk[]>('/api/departments').then(setDepartments)
   }, [])
 
   const toggleDept = (id: number) =>
     setDeptIds((prev) => (prev.includes(id) ? prev.filter((d) => d !== id) : [...prev, id]))
+
+  const selectedTemplate = templates.find((t) => t.id === lureTemplateId)
+  const selectedThreat = threats.find((t) => t.id === threatId)
+  const previewLure =
+    source === 'prebuilt'
+      ? selectedTemplate?.sample_lure
+      : source === 'real'
+        ? selectedThreat?.artifact_ref
+        : null
 
   const create = async () => {
     setBusy(true)
@@ -232,7 +252,8 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
       const res = await api.post<{ id: number }>('/api/simulations', {
         name,
         channel,
-        template_threat_id: templateId === '' ? null : templateId,
+        lure_template_id: source === 'prebuilt' && lureTemplateId ? lureTemplateId : null,
+        template_threat_id: source === 'real' && threatId !== '' ? threatId : null,
         target_department_ids: deptIds,
         target_employee_ids: [],
       })
@@ -242,6 +263,13 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
       setBusy(false)
     }
   }
+
+  const canCreate =
+    name.trim() &&
+    deptIds.length > 0 &&
+    (source === 'generic' ||
+      (source === 'prebuilt' && lureTemplateId) ||
+      (source === 'real' && threatId !== ''))
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
@@ -255,14 +283,90 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
             <X size={17} />
           </button>
         </div>
-        <div className="space-y-3">
+        <div className="max-h-[70vh] space-y-3 overflow-y-auto pr-1">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Campaign name"
             className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-faint focus:border-accent/60"
           />
-          <div className="grid grid-cols-2 gap-3">
+
+          {/* Lure source */}
+          <div>
+            <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted">Lure source</span>
+            <div className="flex gap-1 rounded-lg border border-border bg-surface-2 p-1">
+              {([
+                ['prebuilt', 'Prebuilt lure'],
+                ['real', 'Real threat'],
+                ['generic', 'Generic'],
+              ] as const).map(([key, label]) => (
+                <button
+                  key={key}
+                  onClick={() => setSource(key)}
+                  className={cx(
+                    'flex-1 rounded-md px-2 py-1.5 text-xs font-medium transition-colors',
+                    source === key ? 'bg-accent/15 text-accent' : 'text-muted hover:text-ink',
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {source === 'prebuilt' && (
+            <div className="space-y-1.5">
+              {templates.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    setLureTemplateId(t.id)
+                    setChannel(t.channel)
+                  }}
+                  className={cx(
+                    'block w-full rounded-lg border p-2.5 text-left transition-colors',
+                    lureTemplateId === t.id
+                      ? 'border-accent/60 bg-accent/5'
+                      : 'border-border bg-surface-2 hover:border-border-2',
+                  )}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[13px] font-medium">{t.name}</span>
+                    <Badge value={t.channel} label={channelLabel(t.channel)} />
+                    <Badge value={t.difficulty} label={t.difficulty} />
+                  </div>
+                  <p className="mt-0.5 text-[11px] text-muted">{t.description}</p>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {source === 'real' && (
+            <label className="block">
+              <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted">
+                Real analyzed threat <span className="text-accent">(train on a real attack)</span>
+              </span>
+              <select
+                value={threatId}
+                onChange={(e) => {
+                  const v = e.target.value === '' ? '' : Number(e.target.value)
+                  setThreatId(v)
+                  const th = threats.find((t) => t.id === v)
+                  if (th) setChannel(th.artifact_type)
+                }}
+                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent/60"
+              >
+                <option value="">— select a threat —</option>
+                {threats.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    #{t.id} {t.title} ({t.threat_type})
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          {source === 'generic' && (
             <label className="block">
               <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted">Channel</span>
               <select
@@ -272,29 +376,24 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
               >
                 {['email', 'sms', 'qr', 'chat'].map((c) => (
                   <option key={c} value={c}>
-                    {c}
+                    {channelLabel(c)}
                   </option>
                 ))}
               </select>
             </label>
-            <label className="block">
-              <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted">
-                Template (real analyzed threat)
+          )}
+
+          {previewLure && (
+            <div>
+              <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-faint">
+                Lure preview · {channelLabel(channel)}
               </span>
-              <select
-                value={templateId}
-                onChange={(e) => setTemplateId(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent/60"
-              >
-                <option value="">— generic lure —</option>
-                {threats.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    #{t.id} {t.title}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+              <pre className="max-h-28 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-2.5 font-mono text-[11px] leading-relaxed text-muted">
+                {previewLure}
+              </pre>
+            </div>
+          )}
+
           <div>
             <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted">
               Target departments
@@ -321,7 +420,7 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
             <Button variant="ghost" onClick={onClose}>
               Cancel
             </Button>
-            <Button onClick={() => void create()} busy={busy} disabled={!name.trim() || deptIds.length === 0}>
+            <Button onClick={() => void create()} busy={busy} disabled={!canCreate}>
               Create campaign
             </Button>
           </div>

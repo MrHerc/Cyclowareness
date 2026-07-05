@@ -174,9 +174,20 @@ class ReportDetail(ReportOut):
 class SimulationCreate(BaseModel):
     name: str
     template_threat_id: int | None = None
+    lure_template_id: str | None = None
     channel: str = "email"
     target_employee_ids: list[int] = Field(default_factory=list)
     target_department_ids: list[int] = Field(default_factory=list)
+
+
+class SimTemplateOut(BaseModel):
+    id: str
+    name: str
+    channel: str
+    threat_type: str
+    difficulty: str
+    description: str
+    sample_lure: str
 
 
 class SimTargetOut(ORMModel):
@@ -190,6 +201,8 @@ class SimulationOut(ORMModel):
     id: int
     name: str
     template_threat_id: int | None
+    lure_template_id: str | None
+    lure_preview: str
     channel: str
     status: str
     launched_at: datetime | None

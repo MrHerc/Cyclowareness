@@ -9,6 +9,7 @@ from ..core import metrics, risk_engine
 from ..database import get_db
 from ..models import (
     AssignmentStatus,
+    Department,
     Employee,
     LoopRun,
     LoopStatus,
@@ -90,14 +91,28 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
     ).scalars().all()
     completed = [a for a in assignments if a.status == AssignmentStatus.COMPLETED]
 
-    # Gamification (spec §6.4): points, streak, leaderboard
+    # Gamification (spec §6.4): points, streak, leaderboard, badges, team standings
     points = sum(50 + int((a.score or 0) / 2) for a in completed)
     streak = _streak(completed)
     leaderboard = _leaderboard(db)
 
-    reports_count = db.execute(
+    reports = db.execute(
         select(PhishingReport).where(PhishingReport.employee_id == employee.id)
     ).scalars().all()
+    events = employee.risk_events
+    sim_clicks = sum(1 for e in events if e.type == "simulated_phish_click")
+    sim_reports = sum(1 for e in events if e.type == "simulated_phish_report")
+    best_score = max((a.score or 0 for a in completed), default=0)
+
+    badges = _badges(
+        completed=len(completed),
+        reports=len(reports),
+        streak=streak,
+        best_score=best_score,
+        sim_clicks=sim_clicks,
+        sim_reports=sim_reports,
+        risk_score=employee.current_risk_score,
+    )
 
     return {
         "employee": {
@@ -116,9 +131,11 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
         "gamification": {
             "points": points,
             "streak": streak,
-            "reports_submitted": len(reports_count),
+            "reports_submitted": len(reports),
             "leaderboard": leaderboard,
             "rank": next((i + 1 for i, row in enumerate(leaderboard) if row["employee_id"] == employee.id), None),
+            "badges": badges,
+            "team_leaderboard": _team_leaderboard(db, employee.department_id),
         },
     }
 
@@ -183,3 +200,73 @@ def _leaderboard(db: Session) -> list[dict]:
             rows.append({"employee_id": emp.id, "name": emp.name, "points": points})
     rows.sort(key=lambda r: -r["points"])
     return rows[:8]
+
+
+# Badge catalogue — each has a threshold and a progress fraction so the UI
+# can show "locked" badges filling up. Icons are lucide-react names.
+_BADGE_DEFS = [
+    {"id": "first_report", "name": "First Sighting", "icon": "Eye",
+     "description": "Report your first suspicious message", "signal": "reports", "target": 1},
+    {"id": "sharp_eye", "name": "Sharp Eye", "icon": "ScanEye",
+     "description": "Report 5 suspicious messages", "signal": "reports", "target": 5},
+    {"id": "perfect_score", "name": "Perfect Score", "icon": "Target",
+     "description": "Ace a training quiz (100%)", "signal": "best_score", "target": 100},
+    {"id": "streak_keeper", "name": "Streak Keeper", "icon": "Flame",
+     "description": "Pass 3 modules in a row", "signal": "streak", "target": 3},
+    {"id": "fast_learner", "name": "Fast Learner", "icon": "GraduationCap",
+     "description": "Complete 5 training modules", "signal": "completed", "target": 5},
+    {"id": "unclickable", "name": "Unclickable", "icon": "ShieldCheck",
+     "description": "Face simulations without ever clicking a lure", "signal": "unclickable", "target": 1},
+]
+
+
+def _badges(**signals) -> list[dict]:
+    faced_sim = signals["sim_clicks"] + signals["sim_reports"]
+    values = {
+        "reports": signals["reports"],
+        "best_score": signals["best_score"],
+        "streak": signals["streak"],
+        "completed": signals["completed"],
+        # Earned only once the employee has actually faced a simulation.
+        "unclickable": 1 if (faced_sim > 0 and signals["sim_clicks"] == 0) else 0,
+    }
+    out = []
+    for b in _BADGE_DEFS:
+        value = values.get(b["signal"], 0)
+        earned = value >= b["target"]
+        out.append({
+            "id": b["id"],
+            "name": b["name"],
+            "icon": b["icon"],
+            "description": b["description"],
+            "earned": earned,
+            "progress": round(min(1.0, value / b["target"]), 2),
+        })
+    return out
+
+
+def _team_leaderboard(db: Session, my_department_id: int) -> list[dict]:
+    """Department standings: average risk score (lower = safer) with points."""
+    departments = db.execute(select(Department)).scalars().all()
+    rows = []
+    for dept in departments:
+        employees = db.execute(
+            select(Employee).where(Employee.department_id == dept.id)
+        ).scalars().all()
+        if not employees:
+            continue
+        avg_risk = sum(e.current_risk_score for e in employees) / len(employees)
+        points = 0
+        for emp in employees:
+            completed = [a for a in emp.assignments if a.status == AssignmentStatus.COMPLETED]
+            points += sum(50 + int((a.score or 0) / 2) for a in completed)
+        rows.append({
+            "department_id": dept.id,
+            "name": dept.name,
+            "avg_risk": round(avg_risk, 1),
+            "points": points,
+            "is_mine": dept.id == my_department_id,
+        })
+    # Safest team first (lowest average risk).
+    rows.sort(key=lambda r: r["avg_risk"])
+    return rows

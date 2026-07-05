@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..core import risk_engine
+from ..core.sim_templates import SIM_TEMPLATES, get_template
 from ..database import get_db
 from ..models import (
     Employee,
@@ -13,12 +14,19 @@ from ..models import (
     SimOutcome,
     SimulationStatus,
     SimulationTarget,
+    Threat,
     User,
 )
-from ..schemas import SimulationCreate, SimulationDetail, SimulationOut
+from ..schemas import SimTemplateOut, SimulationCreate, SimulationDetail, SimulationOut
 from ..security import require_analyst
 
 router = APIRouter(prefix="/api/simulations", tags=["simulations"])
+
+
+@router.get("/templates", response_model=list[SimTemplateOut])
+def list_templates(user: User = Depends(require_analyst)):
+    """Prebuilt multi-channel lure templates (email/SMS/QR/chat)."""
+    return SIM_TEMPLATES
 
 
 @router.post("", response_model=SimulationDetail)
@@ -38,10 +46,26 @@ def create_simulation(
     if not employee_ids:
         raise HTTPException(status_code=422, detail="No targets selected")
 
+    channel = payload.channel
+    lure_preview = ""
+    if payload.lure_template_id:
+        template = get_template(payload.lure_template_id)
+        if template is None:
+            raise HTTPException(status_code=404, detail="Lure template not found")
+        channel = template["channel"]
+        lure_preview = template["sample_lure"]
+    elif payload.template_threat_id:
+        threat = db.get(Threat, payload.template_threat_id)
+        if threat is not None:
+            channel = threat.artifact_type
+            lure_preview = threat.artifact_ref[:600]
+
     simulation = PhishingSimulation(
         name=payload.name,
         template_threat_id=payload.template_threat_id,
-        channel=payload.channel,
+        lure_template_id=payload.lure_template_id,
+        lure_preview=lure_preview,
+        channel=channel,
         status=SimulationStatus.DRAFT,
         created_by=user.email,
     )

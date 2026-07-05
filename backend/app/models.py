@@ -257,6 +257,9 @@ class PhishingSimulation(Base):
     name: Mapped[str] = mapped_column(String(255))
     # Differentiator: simulations reuse REAL analyzed threats as templates
     template_threat_id: Mapped[int | None] = mapped_column(ForeignKey("threats.id"), nullable=True)
+    # Or a prebuilt multi-channel lure template (core/sim_templates.py)
+    lure_template_id: Mapped[str | None] = mapped_column(String(60), nullable=True)
+    lure_preview: Mapped[str] = mapped_column(Text, default="")
     channel: Mapped[str] = mapped_column(String(20), default="email")
     status: Mapped[str] = mapped_column(String(20), default=SimulationStatus.DRAFT)
     launched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)

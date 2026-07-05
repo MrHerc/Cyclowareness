@@ -208,6 +208,8 @@ export interface Simulation {
   id: number
   name: string
   template_threat_id: number | null
+  lure_template_id: string | null
+  lure_preview: string
   channel: string
   status: 'draft' | 'active' | 'completed'
   launched_at: string | null
@@ -316,7 +318,36 @@ export interface EmployeeDashboard {
     reports_submitted: number
     leaderboard: { employee_id: number; name: string; points: number }[]
     rank: number | null
+    badges: Badge[]
+    team_leaderboard: TeamStanding[]
   }
+}
+
+export interface Badge {
+  id: string
+  name: string
+  icon: string
+  description: string
+  earned: boolean
+  progress: number
+}
+
+export interface TeamStanding {
+  department_id: number
+  name: string
+  avg_risk: number
+  points: number
+  is_mine: boolean
+}
+
+export interface SimTemplate {
+  id: string
+  name: string
+  channel: string
+  threat_type: string
+  difficulty: string
+  description: string
+  sample_lure: string
 }
 
 export interface ExecutiveDashboard {

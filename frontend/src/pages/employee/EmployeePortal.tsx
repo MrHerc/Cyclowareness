@@ -1,9 +1,24 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Award, Flame, Megaphone, PlayCircle, Trophy, X } from 'lucide-react'
+import {
+  Award,
+  Eye,
+  Flame,
+  GraduationCap,
+  Lock,
+  Megaphone,
+  PlayCircle,
+  ScanEye,
+  ShieldCheck,
+  Target,
+  Trophy,
+  Users,
+  X,
+  type LucideIcon,
+} from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
-import type { AssignmentDetail, EmployeeDashboard, Report } from '../../lib/types'
+import type { AssignmentDetail, Badge as BadgeType, EmployeeDashboard, Report } from '../../lib/types'
 import {
   Badge,
   Button,
@@ -121,6 +136,50 @@ export function EmployeePortal() {
         </Card>
       </div>
 
+      {/* badges + team standings */}
+      <div className="grid gap-5 lg:grid-cols-3">
+        <Card className="p-5 lg:col-span-2">
+          <SectionTitle
+            right={
+              <span className="text-[11px] text-faint">
+                {dash.gamification.badges.filter((b) => b.earned).length}/{dash.gamification.badges.length} earned
+              </span>
+            }
+          >
+            Achievements
+          </SectionTitle>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            {dash.gamification.badges.map((b) => (
+              <BadgeTile key={b.id} badge={b} />
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <SectionTitle>
+            <span className="flex items-center gap-1.5">
+              <Users size={13} className="text-indigo" /> Team standings
+            </span>
+          </SectionTitle>
+          <p className="mb-2 text-[11px] text-faint">Safest department first (lowest average risk)</p>
+          <div className="space-y-1">
+            {dash.gamification.team_leaderboard.map((t, i) => (
+              <div
+                key={t.department_id}
+                className={cx(
+                  'flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm',
+                  t.is_mine ? 'bg-accent/10 text-accent' : 'text-muted',
+                )}
+              >
+                <span className="w-5 text-xs font-bold">{i + 1}</span>
+                <span className="flex-1 truncate">{t.name}</span>
+                <span className="font-mono text-xs font-semibold tabular-nums">{t.avg_risk.toFixed(0)}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
       {/* assigned training */}
       <Card className="p-5">
         <SectionTitle right={<span className="text-[11px] text-faint">{pending.length} to complete</span>}>
@@ -206,6 +265,46 @@ export function EmployeePortal() {
             void refreshAssignments()
           }}
         />
+      )}
+    </div>
+  )
+}
+
+const BADGE_ICONS: Record<string, LucideIcon> = {
+  Eye,
+  ScanEye,
+  Target,
+  Flame,
+  GraduationCap,
+  ShieldCheck,
+}
+
+function BadgeTile({ badge }: { badge: BadgeType }) {
+  const Icon = BADGE_ICONS[badge.icon] ?? Award
+  return (
+    <div
+      className={cx(
+        'relative flex flex-col items-center rounded-xl border p-3 text-center transition-colors',
+        badge.earned ? 'border-accent/40 bg-accent/5' : 'border-border bg-surface-2',
+      )}
+      title={badge.description}
+    >
+      <div
+        className={cx(
+          'flex h-10 w-10 items-center justify-center rounded-full border',
+          badge.earned ? 'border-accent/50 bg-accent/10 text-accent' : 'border-border-2 bg-surface-3 text-faint',
+        )}
+      >
+        {badge.earned ? <Icon size={19} /> : <Lock size={16} />}
+      </div>
+      <div className={cx('mt-2 text-[12px] font-semibold', badge.earned ? 'text-ink' : 'text-muted')}>
+        {badge.name}
+      </div>
+      <div className="mt-0.5 line-clamp-2 text-[10px] leading-tight text-faint">{badge.description}</div>
+      {!badge.earned && badge.progress > 0 && (
+        <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-surface-3">
+          <div className="h-full rounded-full bg-indigo" style={{ width: `${badge.progress * 100}%` }} />
+        </div>
       )}
     </div>
   )
