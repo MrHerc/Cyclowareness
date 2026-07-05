@@ -148,6 +148,22 @@ All Claude calls live behind `ai_service` with strict output schemas, defensive 
 - `triage_assist` — reported artifact → indicators + IOCs for the analyst
 - `executive_briefing` — metrics → natural-language posture summary
 
+## Tests
+
+```bash
+cd backend
+.venv\Scripts\pip install -r requirements-dev.txt
+.venv\Scripts\python -m pytest -q          # 35 tests: risk engine, loop
+                                           # orchestrator (all 7 stages +
+                                           # idempotency), analyzer contract,
+                                           # AI schemas, auth/RBAC
+```
+
+A ready-to-use GitHub Actions workflow lives at [`docs/ci.yml`](docs/ci.yml) —
+it runs the backend suite and the frontend type-check + build on every push and
+pull request. To activate it, copy it to `.github/workflows/ci.yml` and push
+with a token that has the `workflow` scope.
+
 ## Production deployment
 
 `docker-compose.yml` ships the full production topology (PostgreSQL + Redis + API). Steps to harden:

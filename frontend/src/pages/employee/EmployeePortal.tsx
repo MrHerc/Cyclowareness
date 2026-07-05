@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
+import { useEscape } from '../../lib/useEscape'
 import type { AssignmentDetail, Badge as BadgeType, EmployeeDashboard, Report } from '../../lib/types'
 import {
   Badge,
@@ -33,7 +34,10 @@ import {
 } from '../../components/ui'
 
 export function EmployeePortal() {
-  const { data: dash, refresh } = usePoll<EmployeeDashboard>(() => api.get('/api/dashboard/employee'), 4000)
+  const { data: dash, error: dashError, refresh } = usePoll<EmployeeDashboard>(
+    () => api.get('/api/dashboard/employee'),
+    4000,
+  )
   const { data: assignments, refresh: refreshAssignments } = usePoll<AssignmentDetail[]>(
     () => api.get('/api/training/my'),
     4000,
@@ -41,6 +45,22 @@ export function EmployeePortal() {
   const { data: myReports, refresh: refreshReports } = usePoll<Report[]>(() => api.get('/api/reports/my'), 6000)
   const [showReport, setShowReport] = useState(false)
 
+  // An account with no linked employee profile (e.g. a pure analyst opening
+  // /me directly) can't have a portal — surface it instead of spinning forever.
+  if (!dash && dashError) {
+    return (
+      <div className="fade-in py-16 text-center">
+        <div className="text-3xl">🔒</div>
+        <h1 className="mt-3 text-lg font-bold">This portal is for employee accounts</h1>
+        <p className="mt-1 text-sm text-muted">
+          Your account isn't linked to an employee profile, so there's no personal security portal to show.
+        </p>
+        <Link to="/" className="mt-4 inline-block text-sm text-accent hover:underline">
+          ← Back to the dashboard
+        </Link>
+      </div>
+    )
+  }
   if (!dash) return <Spinner label="Loading your portal…" />
 
   const tone = riskTone(dash.employee.risk_score)
@@ -371,6 +391,7 @@ function ReportModal({ onClose, onSubmitted }: { onClose: () => void; onSubmitte
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  useEscape(onClose)
 
   const submit = async () => {
     setBusy(true)

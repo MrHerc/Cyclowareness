@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Radar,
@@ -15,7 +15,7 @@ import {
   X,
 } from 'lucide-react'
 import { useAuth } from '../lib/auth'
-import { cx } from './ui'
+import { cx, Spinner } from './ui'
 import type { RoleName } from '../lib/types'
 
 const NAV = {
@@ -142,7 +142,9 @@ export function Layout() {
       )}
 
       <main className="min-h-screen px-4 pb-8 pt-20 sm:px-6 lg:ml-60 lg:px-8 lg:pt-7">
-        <Outlet />
+        <Suspense fallback={<Spinner label="Loading…" />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   )

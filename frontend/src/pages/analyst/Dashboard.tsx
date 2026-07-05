@@ -5,6 +5,7 @@ import { Tour, hasSeenTour, type TourStep } from '../../components/Tour'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import { useLoopStream } from '../../lib/useLoopStream'
+import { useEscape } from '../../lib/useEscape'
 import type { AnalystDashboard as Dash, RunSummary } from '../../lib/types'
 import { LoopViz, StageTracker } from '../../components/LoopViz'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
@@ -301,6 +302,7 @@ export function AnalystDashboard() {
 function ResetDemoModal({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  useEscape(onClose)
 
   const reset = async () => {
     setBusy(true)
@@ -427,6 +429,7 @@ function SubmitArtifactModal({ onClose }: { onClose: () => void }) {
   const [content, setContent] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  useEscape(onClose)
 
   const submit = async () => {
     setBusy(true)

@@ -41,6 +41,17 @@ body {
   background: rgba(45, 212, 191, 0.3);
 }
 
+/* Keyboard-only focus ring (mouse clicks don't trigger it) — a11y baseline
+   for every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Scrollbars */
 * {
   scrollbar-width: thin;

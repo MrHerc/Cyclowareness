@@ -1,20 +1,23 @@
-import { StrictMode } from 'react'
+import { lazy, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './index.css'
 import { AuthProvider, homeFor, useAuth } from './lib/auth'
 import { Layout } from './components/Layout'
 import { Login } from './pages/Login'
-import { AnalystDashboard } from './pages/analyst/Dashboard'
-import { LoopRunPage } from './pages/analyst/LoopRunPage'
-import { TriageQueue } from './pages/analyst/TriageQueue'
-import { TrainingReview } from './pages/analyst/TrainingReview'
-import { EmployeesPage } from './pages/analyst/EmployeesPage'
-import { SimulationsPage } from './pages/analyst/SimulationsPage'
-import { FeedPage } from './pages/analyst/FeedPage'
-import { EmployeePortal } from './pages/employee/EmployeePortal'
-import { TakeTraining } from './pages/employee/TakeTraining'
-import { ExecutivePage } from './pages/executive/ExecutivePage'
+
+// Route-level code-splitting: the charting-heavy analyst/exec pages load on
+// demand, keeping the initial bundle (and login) lean.
+const AnalystDashboard = lazy(() => import('./pages/analyst/Dashboard').then((m) => ({ default: m.AnalystDashboard })))
+const LoopRunPage = lazy(() => import('./pages/analyst/LoopRunPage').then((m) => ({ default: m.LoopRunPage })))
+const TriageQueue = lazy(() => import('./pages/analyst/TriageQueue').then((m) => ({ default: m.TriageQueue })))
+const TrainingReview = lazy(() => import('./pages/analyst/TrainingReview').then((m) => ({ default: m.TrainingReview })))
+const EmployeesPage = lazy(() => import('./pages/analyst/EmployeesPage').then((m) => ({ default: m.EmployeesPage })))
+const SimulationsPage = lazy(() => import('./pages/analyst/SimulationsPage').then((m) => ({ default: m.SimulationsPage })))
+const FeedPage = lazy(() => import('./pages/analyst/FeedPage').then((m) => ({ default: m.FeedPage })))
+const EmployeePortal = lazy(() => import('./pages/employee/EmployeePortal').then((m) => ({ default: m.EmployeePortal })))
+const TakeTraining = lazy(() => import('./pages/employee/TakeTraining').then((m) => ({ default: m.TakeTraining })))
+const ExecutivePage = lazy(() => import('./pages/executive/ExecutivePage').then((m) => ({ default: m.ExecutivePage })))
 
 function RequireRole({ roles, children }: { roles: string[]; children: React.ReactElement }) {
   const { session } = useAuth()

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Plus, Rocket, Wand2, X } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
+import { useEscape } from '../../lib/useEscape'
 import type { DepartmentRisk, SimTemplate, Simulation, SimulationDetail, Threat } from '../../lib/types'
 import { Badge, Button, Card, EmptyState, SectionTitle, Spinner, channelLabel, cx, pct, timeAgo } from '../../components/ui'
 
@@ -226,6 +227,7 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
   const [departments, setDepartments] = useState<DepartmentRisk[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  useEscape(onClose)
 
   useEffect(() => {
     void api.get<Threat[]>('/api/threats').then((list) => setThreats(list.filter((t) => t.verdict && t.verdict !== 'benign')))

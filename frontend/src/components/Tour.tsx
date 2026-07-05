@@ -41,21 +41,37 @@ export function Tour({ steps, onClose }: { steps: TourStep[]; onClose: () => voi
     onClose()
   }
 
-  // Track the spotlight target (scroll it into view, follow resize/scroll).
+  // Track the spotlight target. We scroll it into view exactly ONCE per step,
+  // then re-measure on scroll/resize WITHOUT re-scrolling — otherwise a smooth
+  // scroll's own scroll events would re-arm the animation into a feedback loop.
+  // setRect is guarded by geometry equality so identical measurements don't
+  // force re-renders.
   useLayoutEffect(() => {
-    const update = () => {
-      const el = step.target ? document.querySelector(step.target) : null
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      // Let the smooth-scroll settle before measuring.
-      requestAnimationFrame(() => setRect(readRect(step.target)))
-      setTimeout(() => setRect(readRect(step.target)), 260)
+    const measure = () => {
+      const next = readRect(step.target)
+      setRect((prev) => {
+        if (
+          prev && next &&
+          prev.top === next.top && prev.left === next.left &&
+          prev.width === next.width && prev.height === next.height
+        ) {
+          return prev
+        }
+        return next
+      })
     }
-    update()
-    window.addEventListener('resize', update)
-    window.addEventListener('scroll', update, true)
+    const el = step.target ? document.querySelector(step.target) : null
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // Measure after the smooth scroll has had time to settle.
+    const raf = requestAnimationFrame(measure)
+    const t1 = setTimeout(measure, 320)
+    window.addEventListener('resize', measure)
+    window.addEventListener('scroll', measure, true)
     return () => {
-      window.removeEventListener('resize', update)
-      window.removeEventListener('scroll', update, true)
+      cancelAnimationFrame(raf)
+      clearTimeout(t1)
+      window.removeEventListener('resize', measure)
+      window.removeEventListener('scroll', measure, true)
     }
   }, [step.target])
 
@@ -85,7 +101,12 @@ export function Tour({ steps, onClose }: { steps: TourStep[]; onClose: () => voi
     if (!spotlight) return { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
     const below = spotlight.top + spotlight.height + 14
     const roomBelow = window.innerHeight - below > 220
-    const left = Math.min(Math.max(16, spotlight.left), window.innerWidth - 380)
+    // Clamp so the 352px card (or narrower on small screens) always stays fully
+    // on-screen with a 16px inset — the floor is applied last so it can't go
+    // negative on narrow viewports.
+    const cardW = Math.min(352, window.innerWidth - 32)
+    const maxLeft = Math.max(16, window.innerWidth - cardW - 16)
+    const left = Math.min(Math.max(16, spotlight.left), maxLeft)
     if (roomBelow) return { top: below, left }
     return { top: Math.max(16, spotlight.top - 232), left }
   })()

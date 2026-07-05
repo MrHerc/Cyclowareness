@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..ai.ai_service import executive_briefing
@@ -17,7 +17,9 @@ from ..models import (
     PhishingSimulation,
     ReportStatus,
     RiskEvent,
+    SimOutcome,
     SimulationStatus,
+    SimulationTarget,
     TrainingAssignment,
     User,
 )
@@ -101,8 +103,16 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
     ).scalars().all()
     events = employee.risk_events
     sim_clicks = sum(1 for e in events if e.type == "simulated_phish_click")
-    sim_reports = sum(1 for e in events if e.type == "simulated_phish_report")
     best_score = max((a.score or 0 for a in completed), default=0)
+    # "Faced a simulation" = was a resolved target, regardless of outcome, so
+    # an employee who only ever *ignored* lures still counts (ignores emit no
+    # risk event, so we must query the targets directly).
+    faced_sims = db.execute(
+        select(func.count(SimulationTarget.id)).where(
+            SimulationTarget.employee_id == employee.id,
+            SimulationTarget.outcome != SimOutcome.PENDING,
+        )
+    ).scalar() or 0
 
     badges = _badges(
         completed=len(completed),
@@ -110,7 +120,7 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
         streak=streak,
         best_score=best_score,
         sim_clicks=sim_clicks,
-        sim_reports=sim_reports,
+        faced_sims=faced_sims,
         risk_score=employee.current_risk_score,
     )
 
@@ -221,14 +231,13 @@ _BADGE_DEFS = [
 
 
 def _badges(**signals) -> list[dict]:
-    faced_sim = signals["sim_clicks"] + signals["sim_reports"]
     values = {
         "reports": signals["reports"],
         "best_score": signals["best_score"],
         "streak": signals["streak"],
         "completed": signals["completed"],
-        # Earned only once the employee has actually faced a simulation.
-        "unclickable": 1 if (faced_sim > 0 and signals["sim_clicks"] == 0) else 0,
+        # Earned once the employee has faced ≥1 simulation and never clicked.
+        "unclickable": 1 if (signals["faced_sims"] > 0 and signals["sim_clicks"] == 0) else 0,
     }
     out = []
     for b in _BADGE_DEFS:
