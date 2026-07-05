@@ -50,7 +50,8 @@ export function EmployeesPage() {
       </div>
 
       <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[560px] text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-2 text-left text-[11px] uppercase tracking-wide text-faint">
               <th className="px-4 py-2.5 font-medium">Employee</th>
@@ -82,6 +83,7 @@ export function EmployeesPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </Card>
 
       {selectedId !== null && <EmployeeDrawer id={selectedId} onClose={() => setSelectedId(null)} />}

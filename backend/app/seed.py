@@ -46,15 +46,48 @@ rng = random.Random(2026)
 
 NOW = datetime.now(timezone.utc)
 
+# Tables cleared (child → parent order) by reset_and_reseed before re-seeding.
+_ALL_MODELS = [
+    RiskEvent,
+    SimulationTarget,
+    PhishingSimulation,
+    TrainingAssignment,
+    PhishingReport,
+    LoopRun,
+    TrainingModule,
+    Threat,
+    FeedItem,
+    MetricSnapshot,
+    User,
+    Employee,
+    Department,
+]
+
 
 def days_ago(days: float, hour_jitter: float = 0.0) -> datetime:
     return NOW - timedelta(days=days, hours=hour_jitter)
+
+
+def reset_and_reseed(db: Session) -> None:
+    """Wipe all data and re-seed the demo world (one-click exhibition reset)."""
+    global rng
+    logger.info("Resetting demo data…")
+    for model in _ALL_MODELS:
+        db.query(model).delete()
+    db.commit()
+    rng = random.Random(2026)  # deterministic world on every reset
+    seed_if_empty(db)
 
 
 def seed_if_empty(db: Session) -> None:
     if db.execute(select(User)).first() is not None:
         return
     logger.info("Seeding demo data (Caspian Dynamics)…")
+
+    # Anchor the six months of history to the moment of (re)seeding so a reset
+    # weeks later still shows a fresh, current-looking timeline.
+    global NOW
+    NOW = datetime.now(timezone.utc)
 
     # ------------------------------------------------------------------ org
     dept_specs = [

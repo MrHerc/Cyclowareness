@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import { Loader2 } from 'lucide-react'
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
@@ -11,11 +11,12 @@ export function Card({
   children,
   className,
   onClick,
+  ...rest
 }: {
   children: ReactNode
   className?: string
   onClick?: () => void
-}) {
+} & Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'onClick'>) {
   return (
     <div
       onClick={onClick}
@@ -24,6 +25,7 @@ export function Card({
         onClick && 'cursor-pointer transition-colors hover:border-border-2',
         className,
       )}
+      {...rest}
     >
       {children}
     </div>

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AlertTriangle, Inbox, Plus, Send, X } from 'lucide-react'
+import { AlertTriangle, HelpCircle, Inbox, Plus, RotateCcw, Send, X } from 'lucide-react'
+import { Tour, hasSeenTour, type TourStep } from '../../components/Tour'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { AnalystDashboard as Dash, RunSummary } from '../../lib/types'
@@ -21,9 +22,56 @@ import {
 } from '../../components/ui'
 import { STAGES } from '../../lib/types'
 
+const TOUR_STEPS: TourStep[] = [
+  {
+    title: 'Welcome to Cyclowareness',
+    body: "This is a closed-loop security-awareness platform. In 60 seconds you'll see how a real threat becomes personalized training for the exact people at risk — and how the result feeds back in. Use → or click anywhere to advance.",
+  },
+  {
+    target: '[data-tour="loop"]',
+    title: 'The loop, turning live',
+    body: 'Every threat travels these seven stages: ingest → analyze → convert → target → train → measure → feedback. The number in each node is how many runs are at that stage right now. Click a run below to watch it move.',
+  },
+  {
+    target: '[data-tour="attention"]',
+    title: 'What needs you',
+    body: 'Reported threats to triage, AI-generated training awaiting your approval, active simulations and runs in flight. These are your entry points into the loop.',
+  },
+  {
+    target: '[data-tour="metrics"]',
+    title: 'The proof it works',
+    body: 'Four outcome metrics. Click rate should fall, report rate (your human sensors) should rise, and the average risk score should drift down as training lands. This is the before/after evidence.',
+  },
+  {
+    target: '[data-tour="active-runs"]',
+    title: 'Active loop runs',
+    body: 'Each row is a live LoopRun with its stage tracker. Click any run to open the full timeline, the sandbox verdict, the AI-generated module and the targeting rationale.',
+  },
+  {
+    target: '[data-tour="heatmap"]',
+    title: 'Where the risk is',
+    body: 'Department risk roll-ups. The riskiest departments get targeted first when a matching threat enters the loop — targeted, never blasted to everyone.',
+  },
+  {
+    target: '[data-tour="actions"]',
+    title: 'Start a loop yourself',
+    body: 'Submit any artifact — an email, URL, SMS or QR target — and watch it flow through all seven stages. Reset demo restores a fresh world between exhibition visitors. That\'s the tour!',
+  },
+]
+
 export function AnalystDashboard() {
-  const { data } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 2500)
+  const { data, refresh } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 2500)
   const [showSubmit, setShowSubmit] = useState(false)
+  const [showReset, setShowReset] = useState(false)
+  const [showTour, setShowTour] = useState(false)
+
+  // Auto-launch the tour once, after the dashboard has data to spotlight.
+  useEffect(() => {
+    if (data && !hasSeenTour()) {
+      const t = setTimeout(() => setShowTour(true), 700)
+      return () => clearTimeout(t)
+    }
+  }, [data])
 
   if (!data) return <Spinner label="Loading the loop…" />
 
@@ -31,20 +79,31 @@ export function AnalystDashboard() {
 
   return (
     <div className="fade-in space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight">Loop Dashboard</h1>
           <p className="text-sm text-muted">
             Live view of every threat travelling through the closed loop.
           </p>
         </div>
-        <Button onClick={() => setShowSubmit(true)}>
-          <Plus size={15} /> Submit artifact
-        </Button>
+        <div className="flex items-center gap-2" data-tour="actions">
+          <button
+            onClick={() => setShowTour(true)}
+            className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:border-border-2 hover:text-ink"
+          >
+            <HelpCircle size={14} /> Take the tour
+          </button>
+          <Button variant="ghost" onClick={() => setShowReset(true)}>
+            <RotateCcw size={14} /> Reset demo
+          </Button>
+          <Button onClick={() => setShowSubmit(true)}>
+            <Plus size={15} /> Submit artifact
+          </Button>
+        </div>
       </div>
 
       {/* attention strip */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4" data-tour="attention">
         <AttentionCard
           to="/reports"
           icon={<Inbox size={15} />}
@@ -70,21 +129,23 @@ export function AnalystDashboard() {
 
       <div className="grid gap-5 xl:grid-cols-3">
         {/* THE LOOP — centerpiece */}
-        <Card className="p-5 xl:col-span-2">
-          <SectionTitle
-            right={
-              <span className="text-[11px] text-faint">
-                ingest → analyze → convert → target → train → measure → feedback
-              </span>
-            }
-          >
-            The Loop — live
-          </SectionTitle>
-          <LoopViz activeRuns={data.active_runs} loopsClosed={loopsClosed} />
+        <Card className="p-5 xl:col-span-2" >
+          <div data-tour="loop">
+            <SectionTitle
+              right={
+                <span className="hidden text-[11px] text-faint sm:inline">
+                  ingest → analyze → convert → target → train → measure → feedback
+                </span>
+              }
+            >
+              The Loop — live
+            </SectionTitle>
+            <LoopViz activeRuns={data.active_runs} loopsClosed={loopsClosed} />
+          </div>
         </Card>
 
         {/* outcome metrics */}
-        <div className="space-y-3">
+        <div className="space-y-3" data-tour="metrics">
           <StatCard
             label="Phishing click rate"
             value={pct(data.metrics.phishing_click_rate)}
@@ -113,7 +174,7 @@ export function AnalystDashboard() {
       </div>
 
       {/* active runs */}
-      <Card className="p-5">
+      <Card className="p-5" data-tour="active-runs">
         <SectionTitle right={<span className="text-[11px] text-faint">{data.active_runs.length} in flight</span>}>
           Active loop runs
         </SectionTitle>
@@ -155,7 +216,7 @@ export function AnalystDashboard() {
 
       <div className="grid gap-5 xl:grid-cols-2">
         {/* department heatmap */}
-        <Card className="p-5">
+        <Card className="p-5" data-tour="heatmap">
           <SectionTitle right={<Link to="/employees" className="text-[11px] text-accent hover:underline">all employees →</Link>}>
             Department risk heatmap
           </SectionTitle>
@@ -219,6 +280,63 @@ export function AnalystDashboard() {
       </Card>
 
       {showSubmit && <SubmitArtifactModal onClose={() => setShowSubmit(false)} />}
+      {showReset && (
+        <ResetDemoModal
+          onClose={() => setShowReset(false)}
+          onDone={() => {
+            setShowReset(false)
+            void refresh()
+          }}
+        />
+      )}
+      {showTour && <Tour steps={TOUR_STEPS} onClose={() => setShowTour(false)} />}
+    </div>
+  )
+}
+
+function ResetDemoModal({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const reset = async () => {
+    setBusy(true)
+    setError(null)
+    try {
+      await api.post('/api/admin/reset-demo')
+      onDone()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Reset failed')
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+      <div
+        className="w-full max-w-md rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <div className="rounded-lg border border-warn/40 bg-warn/10 p-2 text-warn">
+            <RotateCcw size={16} />
+          </div>
+          <h3 className="text-base font-semibold">Reset the demo world?</h3>
+        </div>
+        <p className="text-sm leading-relaxed text-muted">
+          This wipes all current data and restores a fresh <span className="text-ink">Caspian Dynamics</span> world —
+          26 employees, six months of history, seeded loop runs and simulations — re-anchored to today. Perfect for a
+          clean start between exhibition visitors.
+        </p>
+        {error && <div className="mt-3 text-xs text-bad">{error}</div>}
+        <div className="mt-4 flex justify-end gap-2">
+          <Button variant="ghost" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={() => void reset()} busy={busy}>
+            <RotateCcw size={14} /> Reset to fresh demo
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

@@ -200,7 +200,8 @@ export function LoopRunPage() {
           {run.assignments.length > 0 && (
             <Card className="p-5">
               <SectionTitle>Stage 5 — Training delivery</SectionTitle>
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[440px] text-sm">
                 <thead>
                   <tr className="text-left text-[11px] uppercase tracking-wide text-faint">
                     <th className="pb-2 font-medium">Employee</th>
@@ -222,6 +223,7 @@ export function LoopRunPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </Card>
           )}
 
