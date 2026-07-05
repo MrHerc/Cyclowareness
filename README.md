@@ -82,10 +82,32 @@ Three deliberately pluggable seams, all selected by config — the loop code nev
 
 | Seam | Config | Demo default | Production option |
 |---|---|---|---|
-| Sandbox | `SANDBOX_ANALYZER` | `mock` (realistic deterministic verdicts) | `real` → VirusTotal / CAPEv2 adapter (`analyzers/real_analyzer.py`, stubbed with documented TODOs) |
+| Sandbox | `SANDBOX_ANALYZER` | `mock` (realistic deterministic verdicts) | `real` → **VirusTotal adapter fully implemented** (submit URL → poll analysis → normalise verdict + IOCs) in `analyzers/real_analyzer.py`; CAPEv2 self-hosted flow documented as a deployment TODO |
 | Task queue | `TASK_RUNNER` | `inprocess` (asyncio background tasks) | `celery` → Redis + Celery workers (adapter in `core/task_runner.py`) |
 | AI | `ANTHROPIC_API_KEY` | empty → deterministic `MockAIProvider` | set key → live Claude calls (`AI_MODEL`, default `claude-sonnet-5`) |
 | Database | `DATABASE_URL` | SQLite file | PostgreSQL (`postgresql+psycopg://…`), JSON columns are JSONB-compatible |
+
+### Turning on the real integrations
+
+Both are pure configuration — the loop code never changes:
+
+```bash
+# Live AI (real Claude-generated training per threat)
+ANTHROPIC_API_KEY=sk-ant-...        # in backend/.env
+AI_MODEL=claude-sonnet-5
+
+# Real sandbox (VirusTotal URL/hash reputation)
+SANDBOX_ANALYZER=real
+REAL_ANALYZER_BACKEND=virustotal
+REAL_ANALYZER_API_KEY=<your-vt-api-key>
+```
+
+With the AI key set, `ai_service` routes every generation through Claude and
+falls back to the deterministic mock only if a call fails or returns malformed
+output. With the VirusTotal backend, the ANALYZE stage extracts the artifact's
+URL, submits it, polls the analysis to completion and maps VT's engine stats to
+the same analyzer contract the mock produces — so the dashboard, targeting and
+training are identical whether the verdict came from the mock or the real world.
 
 **No live malware is ever executed inside the web application.** Real detonation belongs to an external sandbox behind the `RealAnalyzer` adapter; the analyzer contract is:
 

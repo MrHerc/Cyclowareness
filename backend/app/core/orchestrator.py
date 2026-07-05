@@ -37,6 +37,7 @@ from ..models import (
     TrainingModule,
 )
 from . import metrics, risk_engine
+from .events import notify_loop
 from .task_runner import get_task_runner
 
 logger = logging.getLogger("cyclowareness.loop")
@@ -71,6 +72,7 @@ def _stage_start(run: LoopRun, stage: int, detail: str = "") -> None:
     )
     run.stage_history = history
     run.current_stage = stage
+    notify_loop(run.id, stage, "in_progress")
 
 
 def _stage_done(run: LoopRun, stage: int, detail: str = "") -> None:
@@ -83,6 +85,7 @@ def _stage_done(run: LoopRun, stage: int, detail: str = "") -> None:
                 entry["detail"] = detail
             break
     run.stage_history = history
+    notify_loop(run.id, stage, "completed")
 
 
 def _stage_failed(run: LoopRun, stage: int, error: str) -> None:
@@ -95,6 +98,7 @@ def _stage_failed(run: LoopRun, stage: int, error: str) -> None:
             break
     run.stage_history = history
     run.status = LoopStatus.FAILED
+    notify_loop(run.id, stage, "failed")
 
 
 # --- Stage 1: INGEST ---------------------------------------------------------

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, CheckCircle2, ChevronRight, CircleAlert, Pencil, XCircle } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
+import { useLoopStream } from '../../lib/useLoopStream'
 import { STAGES, type LoopRunDetail, type TrainingModule } from '../../lib/types'
 import {
   Badge,
@@ -20,11 +21,14 @@ export function LoopRunPage() {
   const { id } = useParams()
   const { data: run, error: loadError, refresh } = usePoll<LoopRunDetail>(
     () => api.get(`/api/loop-runs/${id}`),
-    1500,
+    2500,
     [id],
   )
   const [busyAction, setBusyAction] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  // Live stage updates push an instant refresh; polling backs it up.
+  useLoopStream(refresh)
 
   if (!run && loadError)
     return (

@@ -4,6 +4,7 @@ import { AlertTriangle, HelpCircle, Inbox, Plus, RotateCcw, Send, X } from 'luci
 import { Tour, hasSeenTour, type TourStep } from '../../components/Tour'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
+import { useLoopStream } from '../../lib/useLoopStream'
 import type { AnalystDashboard as Dash, RunSummary } from '../../lib/types'
 import { LoopViz, StageTracker } from '../../components/LoopViz'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
@@ -60,10 +61,13 @@ const TOUR_STEPS: TourStep[] = [
 ]
 
 export function AnalystDashboard() {
-  const { data, refresh } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 2500)
+  const { data, refresh } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 4000)
   const [showSubmit, setShowSubmit] = useState(false)
   const [showReset, setShowReset] = useState(false)
   const [showTour, setShowTour] = useState(false)
+
+  // Instant refresh on any loop-stage transition (polling is the fallback).
+  useLoopStream(refresh)
 
   // Auto-launch the tour once, after the dashboard has data to spotlight.
   useEffect(() => {

@@ -18,6 +18,7 @@ from .routers import (
     simulations,
     threats,
     training,
+    ws,
 )
 from .seed import seed_if_empty
 
@@ -67,9 +68,14 @@ async def lifespan(app: FastAPI):
 
     from .core.task_runner import get_task_runner
 
+    loop = asyncio.get_running_loop()
     runner = get_task_runner()
     if hasattr(runner, "attach_loop"):
-        runner.attach_loop(asyncio.get_running_loop())
+        runner.attach_loop(loop)
+    # Let the real-time event manager post broadcasts from background tasks.
+    from .core.events import manager
+
+    manager.attach_loop(loop)
     yield
 
 
@@ -91,6 +97,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(admin.router)
+app.include_router(ws.router)
 app.include_router(dashboard.router)
 app.include_router(loop_runs.router)
 app.include_router(threats.router)
