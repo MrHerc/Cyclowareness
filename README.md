@@ -22,7 +22,11 @@ Every full pass is a persisted, auditable **LoopRun**. The analyst dashboard ren
 
 ## Quick start (demo build — zero external services)
 
-Prerequisites: Python 3.12+, Node 20+.
+**Windows, already set up?** Just double-click **`start-demo.bat`** — it launches
+the API and the UI in their own windows and opens the browser. Close those two
+windows to stop the demo.
+
+First time (or on another machine), prerequisites: Python 3.12+, Node 20+.
 
 ```bash
 # 1. Backend (SQLite + mock sandbox + mock AI — the full loop works offline)
