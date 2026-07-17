@@ -1,11 +1,3 @@
-# GitHub Actions CI for Cyclowareness.
-#
-# To enable: copy this file to `.github/workflows/ci.yml` and push with a
-# token that has the `workflow` scope (a classic PAT without it — or a
-# fine-grained token missing "Workflows: write" — will have the push rejected).
-# It runs the backend pytest suite and the frontend type-check + build on every
-# push to master/main and on pull requests.
-
 name: CI
 
 on:

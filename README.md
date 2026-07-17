@@ -159,10 +159,8 @@ cd backend
                                            # AI schemas, auth/RBAC
 ```
 
-A ready-to-use GitHub Actions workflow lives at [`docs/ci.yml`](docs/ci.yml) —
-it runs the backend suite and the frontend type-check + build on every push and
-pull request. To activate it, copy it to `.github/workflows/ci.yml` and push
-with a token that has the `workflow` scope.
+GitHub Actions (`.github/workflows/ci.yml`) runs the backend suite and the
+frontend type-check + build on every push and pull request.
 
 ## Production deployment
 
