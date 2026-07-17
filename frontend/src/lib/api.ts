@@ -27,15 +27,31 @@ export class ApiError extends Error {
   }
 }
 
+/** Shown whenever the API can't be reached at all (backend or dev server down). */
+export const API_UNREACHABLE =
+  "Can't reach the Cyclowareness API — make sure the backend is running on port 8000, then try again."
+
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const session = getSession()
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (session) headers['Authorization'] = `Bearer ${session.access_token}`
-  const res = await fetch(path, {
-    method,
-    headers,
-    body: body === undefined ? undefined : JSON.stringify(body),
-  })
+  let res: Response
+  try {
+    res = await fetch(path, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+    })
+  } catch {
+    // fetch rejects only on a network-level failure (dev server down, offline).
+    // Surface something a human can act on instead of "Failed to fetch".
+    throw new ApiError(0, API_UNREACHABLE)
+  }
+  // The dev proxy answers 502/503/504 with an empty body when the API itself
+  // is down — same root cause as above, so give the same actionable message.
+  if (res.status === 502 || res.status === 503 || res.status === 504) {
+    throw new ApiError(res.status, API_UNREACHABLE)
+  }
   if (res.status === 401 && !path.endsWith('/auth/login')) {
     setSession(null)
     window.location.href = '/login'
