@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, CheckCircle2, XCircle } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle2, Send, Sparkles, XCircle } from 'lucide-react'
 import { api } from '../../lib/api'
 import type { AssignmentDetail, QuizResult } from '../../lib/types'
 import { Badge, Button, Card, Spinner, channelLabel, cx } from '../../components/ui'
 
-type Phase = 'lesson' | 'quiz' | 'result'
+type Phase = 'lesson' | 'quiz' | 'result' | 'review'
 
 export function TakeTraining() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [assignment, setAssignment] = useState<AssignmentDetail | null>(null)
   const [phase, setPhase] = useState<Phase>('lesson')
-  const [answers, setAnswers] = useState<number[]>([])
+  const [answers, setAnswers] = useState<(number | null)[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
   const [result, setResult] = useState<QuizResult | null>(null)
   const [busy, setBusy] = useState(false)
@@ -25,7 +25,9 @@ export function TakeTraining() {
       .get<AssignmentDetail>(`/api/training/assignments/${id}`)
       .then((a) => {
         setAssignment(a)
-        if (a.status === 'assigned') void api.post(`/api/training/assignments/${a.id}/start`)
+        setAnswers(new Array(a.module.quiz.length).fill(null))
+        if (a.status === 'completed') setPhase('review')
+        else if (a.status === 'assigned') void api.post(`/api/training/assignments/${a.id}/start`)
       })
       .catch((e) => setLoadError(e instanceof Error ? e.message : 'Failed to load training'))
   }, [id])
@@ -41,28 +43,14 @@ export function TakeTraining() {
     )
   if (!assignment) return <Spinner label="Loading training…" />
   const module = assignment.module
+  const isReview = phase === 'review'
 
-  if (assignment.status === 'completed' && phase !== 'result') {
-    return (
-      <div className="fade-in mx-auto max-w-2xl py-8 text-center">
-        <CheckCircle2 size={32} className="mx-auto text-good" />
-        <h1 className="mt-3 text-lg font-bold">Already completed</h1>
-        <p className="mt-1 text-sm text-muted">
-          You scored {assignment.score?.toFixed(0)}% on this module.
-        </p>
-        <Link to="/me" className="mt-4 inline-block text-sm text-accent hover:underline">
-          ← Back to your portal
-        </Link>
-      </div>
-    )
-  }
-
-  const submitQuiz = async (finalAnswers: number[]) => {
+  const submitQuiz = async () => {
     setBusy(true)
     setError(null)
     try {
       const res = await api.post<QuizResult>(`/api/training/assignments/${assignment.id}/complete`, {
-        answers: finalAnswers,
+        answers: answers.map((a) => a ?? 0),
         time_spent_seconds: Math.round((Date.now() - startedAt.current) / 1000),
       })
       setResult(res)
@@ -74,16 +62,8 @@ export function TakeTraining() {
     }
   }
 
-  const answer = (optionIndex: number) => {
-    const next = [...answers]
-    next[questionIndex] = optionIndex
-    setAnswers(next)
-    if (questionIndex < module.quiz.length - 1) {
-      setQuestionIndex(questionIndex + 1)
-    } else {
-      void submitQuiz(next)
-    }
-  }
+  const isLast = questionIndex === module.quiz.length - 1
+  const allAnswered = answers.every((a) => a !== null)
 
   return (
     <div className="fade-in mx-auto max-w-2xl space-y-5">
@@ -91,6 +71,11 @@ export function TakeTraining() {
         <button onClick={() => navigate('/me')} className="flex items-center gap-1 text-sm text-muted hover:text-ink">
           <ArrowLeft size={15} /> Portal
         </button>
+        {module.ai_generated && (
+          <span className="flex items-center gap-1 rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo">
+            <Sparkles size={10} /> AI-built from a real threat
+          </span>
+        )}
         <Badge value={module.channel} label={channelLabel(module.channel)} />
         <span className="text-[11px] text-faint">~{module.est_minutes} min</span>
       </div>
@@ -103,9 +88,16 @@ export function TakeTraining() {
             Why you received this: {assignment.targeting_reasons.join(' · ')}
           </p>
         )}
+        {isReview && (
+          <div className="mt-2 flex items-center gap-2 rounded-lg border border-good/30 bg-good/5 px-3 py-2 text-sm text-good">
+            <CheckCircle2 size={15} />
+            Completed{assignment.score !== null && <> — you scored <span className="font-bold">{assignment.score.toFixed(0)}%</span></>}.
+            Reviewing the lesson never hurts.
+          </div>
+        )}
       </div>
 
-      {phase === 'lesson' && (
+      {(phase === 'lesson' || isReview) && (
         <>
           <div className="space-y-3">
             {module.content.map((section, i) => (
@@ -120,10 +112,22 @@ export function TakeTraining() {
               </Card>
             ))}
           </div>
-          <div className="flex justify-end">
-            <Button onClick={() => setPhase('quiz')} className="px-5 py-2">
-              Take the quiz <ArrowRight size={15} />
-            </Button>
+          {module.takeaway && isReview && (
+            <Card className="border-accent/30 bg-accent/5 p-5 text-center">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">Remember this</div>
+              <p className="mt-1.5 text-sm italic leading-relaxed">“{module.takeaway}”</p>
+            </Card>
+          )}
+          <div className="flex justify-end pb-6">
+            {isReview ? (
+              <Button onClick={() => navigate('/me')} variant="subtle" className="px-5 py-2">
+                Back to your portal
+              </Button>
+            ) : (
+              <Button onClick={() => setPhase('quiz')} className="px-5 py-2">
+                Take the quiz <ArrowRight size={15} />
+              </Button>
+            )}
           </div>
         </>
       )}
@@ -136,11 +140,13 @@ export function TakeTraining() {
             </span>
             <div className="flex gap-1">
               {module.quiz.map((_, i) => (
-                <span
+                <button
                   key={i}
+                  onClick={() => setQuestionIndex(i)}
+                  aria-label={`Go to question ${i + 1}`}
                   className={cx(
-                    'h-1.5 w-6 rounded-full',
-                    i < questionIndex ? 'bg-accent' : i === questionIndex ? 'bg-accent/50' : 'bg-surface-3',
+                    'h-1.5 w-6 rounded-full transition-colors',
+                    answers[i] !== null ? 'bg-accent' : i === questionIndex ? 'bg-accent/50' : 'bg-surface-3',
                   )}
                 />
               ))}
@@ -148,18 +154,61 @@ export function TakeTraining() {
           </div>
           <h2 className="text-base font-semibold leading-relaxed">{module.quiz[questionIndex].question}</h2>
           <div className="mt-4 space-y-2">
-            {module.quiz[questionIndex].options.map((opt, oi) => (
-              <button
-                key={oi}
-                disabled={busy}
-                onClick={() => answer(oi)}
-                className="block w-full rounded-xl border border-border bg-surface-2 px-4 py-3 text-left text-sm transition-colors hover:border-accent/60 hover:bg-accent/5 disabled:opacity-50"
-              >
-                <span className="mr-2 font-mono text-xs text-faint">{String.fromCharCode(65 + oi)}</span>
-                {opt}
-              </button>
-            ))}
+            {module.quiz[questionIndex].options.map((opt, oi) => {
+              const selected = answers[questionIndex] === oi
+              return (
+                <button
+                  key={oi}
+                  onClick={() =>
+                    setAnswers((prev) => prev.map((a, i) => (i === questionIndex ? oi : a)))
+                  }
+                  aria-pressed={selected}
+                  className={cx(
+                    'block w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
+                    selected
+                      ? 'border-accent bg-accent/10 text-ink'
+                      : 'border-border bg-surface-2 hover:border-accent/50 hover:bg-accent/5',
+                  )}
+                >
+                  <span className={cx('mr-2 font-mono text-xs', selected ? 'text-accent' : 'text-faint')}>
+                    {String.fromCharCode(65 + oi)}
+                  </span>
+                  {opt}
+                </button>
+              )
+            })}
           </div>
+
+          {/* deliberate navigation — no auto-submit traps */}
+          <div className="mt-5 flex items-center justify-between">
+            <Button
+              variant="ghost"
+              disabled={questionIndex === 0}
+              onClick={() => setQuestionIndex((i) => Math.max(0, i - 1))}
+            >
+              <ArrowLeft size={14} /> Previous
+            </Button>
+            {isLast ? (
+              <Button
+                onClick={() => void submitQuiz()}
+                busy={busy}
+                disabled={!allAnswered}
+                className="px-5"
+              >
+                <Send size={14} /> Submit answers
+              </Button>
+            ) : (
+              <Button
+                disabled={answers[questionIndex] === null}
+                onClick={() => setQuestionIndex((i) => Math.min(module.quiz.length - 1, i + 1))}
+              >
+                Next <ArrowRight size={14} />
+              </Button>
+            )}
+          </div>
+          {isLast && !allAnswered && (
+            <p className="mt-2 text-right text-[11px] text-faint">Answer every question to submit.</p>
+          )}
           {error && <div className="mt-3 text-xs text-bad">{error}</div>}
         </Card>
       )}

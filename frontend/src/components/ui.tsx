@@ -153,6 +153,11 @@ export function EmptyState({ children }: { children: ReactNode }) {
   )
 }
 
+/** Shimmering placeholder shown while data loads — never fake an empty state. */
+export function Skeleton({ className }: { className?: string }) {
+  return <div className={cx('animate-pulse rounded-lg bg-surface-3/60', className)} />
+}
+
 export function StatCard({
   label,
   value,

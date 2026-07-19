@@ -11,8 +11,8 @@ export interface TourStep {
 
 const SEEN_KEY = 'cyclo_tour_seen'
 
-export function hasSeenTour(): boolean {
-  return localStorage.getItem(SEEN_KEY) === '1'
+export function hasSeenTour(storageKey: string = SEEN_KEY): boolean {
+  return localStorage.getItem(storageKey) === '1'
 }
 
 interface Rect {
@@ -30,14 +30,22 @@ function readRect(selector?: string): Rect | null {
   return { top: r.top, left: r.left, width: r.width, height: r.height }
 }
 
-export function Tour({ steps, onClose }: { steps: TourStep[]; onClose: () => void }) {
+export function Tour({
+  steps,
+  onClose,
+  storageKey = SEEN_KEY,
+}: {
+  steps: TourStep[]
+  onClose: () => void
+  storageKey?: string
+}) {
   const [index, setIndex] = useState(0)
   const [rect, setRect] = useState<Rect | null>(null)
   const step = steps[index]
   const cardRef = useRef<HTMLDivElement>(null)
 
   const finish = () => {
-    localStorage.setItem(SEEN_KEY, '1')
+    localStorage.setItem(storageKey, '1')
     onClose()
   }
 

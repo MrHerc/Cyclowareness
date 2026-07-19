@@ -141,10 +141,14 @@ export function Layout() {
         </>
       )}
 
+      {/* Content is capped and centred: past ~1600px the dashboard would
+          otherwise sprawl edge-to-edge and lose all sense of composition. */}
       <main className="min-h-screen px-4 pb-8 pt-20 sm:px-6 lg:ml-60 lg:px-8 lg:pt-7">
-        <Suspense fallback={<Spinner label="Loading…" />}>
-          <Outlet />
-        </Suspense>
+        <div className="mx-auto w-full max-w-[1440px]">
+          <Suspense fallback={<Spinner label="Loading…" />}>
+            <Outlet />
+          </Suspense>
+        </div>
       </main>
     </div>
   )
