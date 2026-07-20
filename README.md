@@ -4,6 +4,10 @@
 
 Cyclowareness analyzes real threats in a secure sandbox, uses AI to convert each threat into micro-training targeted at the specific employees most at risk, measures the resulting behavioral change through a quantified risk score, and feeds every result back into the system. It learns from real attacks, not templates.
 
+> **Where this is going:** [`ROADMAP.md`](ROADMAP.md) is an honest gap analysis from
+> this exhibition demo to a sellable MVP — what is genuinely built, what is a stub,
+> and the sequenced phases to a first paying customer.
+
 ## The loop (the invention)
 
 ```
