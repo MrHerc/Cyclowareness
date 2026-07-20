@@ -7,6 +7,8 @@ Cyclowareness analyzes real threats in a secure sandbox, uses AI to convert each
 > **Where this is going:** [`ROADMAP.md`](ROADMAP.md) is an honest gap analysis from
 > this exhibition demo to a sellable MVP — what is genuinely built, what is a stub,
 > and the sequenced phases to a first paying customer.
+> [`SPRINT-PLAN.md`](SPRINT-PLAN.md) is the next 15 working days in detail: the
+> service stack to wire up, and a day-by-day path to a live pilot.
 
 ## The loop (the invention)
 
