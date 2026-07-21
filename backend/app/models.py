@@ -203,6 +203,10 @@ class TrainingModule(Base):
     channel: Mapped[str] = mapped_column(String(20), default="email")
     est_minutes: Mapped[int] = mapped_column(Integer, default=3)
     ai_generated: Mapped[bool] = mapped_column(Boolean, default=False)
+    # Which engine actually wrote this: "anthropic" | "mock" | "" (human-authored).
+    # Never inferred from ai_generated — the analyst must be able to see when a
+    # module came from the offline generator rather than a live model.
+    generation_source: Mapped[str] = mapped_column(String(20), default="")
     status: Mapped[str] = mapped_column(String(20), default=ModuleStatus.PENDING_REVIEW)
     approved_by: Mapped[str | None] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
@@ -365,8 +369,11 @@ class MetricSnapshot(Base):
     __tablename__ = "metric_snapshots"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    # Rates are nullable on purpose: NULL means "not enough data in the window
+    # to measure", which is materially different from 0.0 ("measured, nobody
+    # clicked"). Charting a fabricated zero would bend the efficacy trend.
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
-    phishing_click_rate: Mapped[float] = mapped_column(Float, default=0.0)   # 0–1
-    report_rate: Mapped[float] = mapped_column(Float, default=0.0)           # 0–1 human-sensor strength
-    avg_risk_score: Mapped[float] = mapped_column(Float, default=0.0)        # 0–100
-    training_completion_rate: Mapped[float] = mapped_column(Float, default=0.0)  # 0–1
+    phishing_click_rate: Mapped[float | None] = mapped_column(Float, nullable=True)   # 0–1
+    report_rate: Mapped[float | None] = mapped_column(Float, nullable=True)           # 0–1 human-sensor strength
+    avg_risk_score: Mapped[float | None] = mapped_column(Float, nullable=True)        # 0–100
+    training_completion_rate: Mapped[float | None] = mapped_column(Float, nullable=True)  # 0–1

@@ -15,7 +15,7 @@ ANALYSIS = {
 
 
 async def test_generate_training_returns_valid_module():
-    module = await ai_service.generate_training(ANALYSIS)
+    module, source = await ai_service.generate_training(ANALYSIS)
     for key in ("title", "description", "content", "quiz", "takeaway"):
         assert key in module
     assert 2 <= len(module["content"]) <= 6
@@ -23,11 +23,14 @@ async def test_generate_training_returns_valid_module():
     for q in module["quiz"]:
         assert len(q["options"]) == 4
         assert 0 <= q["correct_index"] <= 3
+    # Provenance must be reported honestly — no ANTHROPIC_API_KEY is configured
+    # in the suite, so this content genuinely came from the offline generator.
+    assert source == ai_service.SOURCE_MOCK
 
 
 async def test_training_themes_to_threat_type():
     bec = dict(ANALYSIS, threat_type="bec")
-    module = await ai_service.generate_training(bec)
+    module, _ = await ai_service.generate_training(bec)
     assert module["channel"] in ("email", "sms", "qr", "chat", "web")
 
 

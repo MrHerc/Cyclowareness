@@ -95,6 +95,8 @@ export interface TrainingModule {
   channel: string
   est_minutes: number
   ai_generated: boolean
+  /** Which engine wrote it: 'anthropic' | 'mock' | '' (human-authored). */
+  generation_source: string
   status: 'pending_review' | 'approved' | 'rejected'
   approved_by: string | null
   created_at: string
@@ -251,19 +253,27 @@ export interface FeedItem {
   pushed_to_loop: boolean
 }
 
+/**
+ * Rates are `null` when the trailing window holds fewer than `min_sample`
+ * resolved events — "not measured yet", never a fabricated 0.
+ */
 export interface Metrics {
-  phishing_click_rate: number
-  report_rate: number
-  avg_risk_score: number
-  training_completion_rate: number
+  window_days: number
+  min_sample: number
+  phishing_click_rate: number | null
+  report_rate: number | null
+  simulation_sample: number
+  avg_risk_score: number | null
+  training_completion_rate: number | null
+  training_sample: number
 }
 
 export interface TrendPoint {
   date: string
-  phishing_click_rate: number
-  report_rate: number
-  avg_risk_score: number
-  training_completion_rate: number
+  phishing_click_rate: number | null
+  report_rate: number | null
+  avg_risk_score: number | null
+  training_completion_rate: number | null
 }
 
 export interface RunSummary {

@@ -51,11 +51,13 @@ export function OutcomeTrendChart({ data, height = 220 }: { data: TrendPoint[]; 
         <Tooltip
           {...tooltipStyle()}
           formatter={(value, name) => [
-            `${(Number(value) * 100).toFixed(1)}%`,
+            value === null || value === undefined ? 'not measured' : `${(Number(value) * 100).toFixed(1)}%`,
             String(name) === 'phishing_click_rate' ? 'Click rate' : 'Report rate',
           ]}
           labelFormatter={(label) => monthLabel(String(label))}
         />
+        {/* connectNulls stays false on purpose: an unmeasured period must read
+            as a gap, not as a line drawn through a value nobody recorded. */}
         <Area
           type="monotone"
           dataKey="phishing_click_rate"
@@ -63,6 +65,7 @@ export function OutcomeTrendChart({ data, height = 220 }: { data: TrendPoint[]; 
           strokeWidth={2}
           fill="url(#gradClick)"
           dot={false}
+          connectNulls={false}
         />
         <Area
           type="monotone"
@@ -71,6 +74,7 @@ export function OutcomeTrendChart({ data, height = 220 }: { data: TrendPoint[]; 
           strokeWidth={2}
           fill="url(#gradReport)"
           dot={false}
+          connectNulls={false}
         />
       </AreaChart>
     </ResponsiveContainer>
@@ -87,10 +91,20 @@ export function RiskTrendChart({ data, height = 220 }: { data: TrendPoint[]; hei
         <YAxis tick={AXIS} domain={[0, 100]} tickLine={false} axisLine={false} />
         <Tooltip
           {...tooltipStyle()}
-          formatter={(value) => [Number(value).toFixed(1), 'Avg risk score']}
+          formatter={(value) => [
+            value === null || value === undefined ? 'not measured' : Number(value).toFixed(1),
+            'Avg risk score',
+          ]}
           labelFormatter={(label) => monthLabel(String(label))}
         />
-        <Line type="monotone" dataKey="avg_risk_score" stroke="#818cf8" strokeWidth={2} dot={false} />
+        <Line
+          type="monotone"
+          dataKey="avg_risk_score"
+          stroke="#818cf8"
+          strokeWidth={2}
+          dot={false}
+          connectNulls={false}
+        />
       </LineChart>
     </ResponsiveContainer>
   )

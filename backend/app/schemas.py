@@ -95,6 +95,7 @@ class TrainingModuleOut(ORMModel):
     channel: str
     est_minutes: int
     ai_generated: bool
+    generation_source: str
     status: str
     approved_by: str | None
     created_at: datetime

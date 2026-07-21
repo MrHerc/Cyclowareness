@@ -3,16 +3,23 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { ExecutiveDashboard } from '../../lib/types'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
-import { Card, SectionTitle, Spinner, StatCard, cx, pct, riskTone } from '../../components/ui'
+import { Card, SectionTitle, Spinner, StatCard, cx, metricSub, pct, riskTone } from '../../components/ui'
 
 export function ExecutivePage() {
   const { data } = usePoll<ExecutiveDashboard>(() => api.get('/api/dashboard/executive'), 15000)
 
   if (!data) return <Spinner label="Preparing the executive briefing…" />
 
-  const first = data.trend[0]
-  const last = data.trend[data.trend.length - 1]
-  const clickImproved = first && last ? first.phishing_click_rate - last.phishing_click_rate : 0
+  // Only claim improvement when both endpoints were actually measured.
+  // A first-minus-last delta across gaps is not evidence, and this number is
+  // the one a CISO repeats to their board.
+  const measured = data.trend.filter((p) => p.phishing_click_rate !== null)
+  const first = measured[0]
+  const last = measured[measured.length - 1]
+  const clickImproved =
+    measured.length >= 2 && first && last
+      ? (first.phishing_click_rate as number) - (last.phishing_click_rate as number)
+      : null
 
   return (
     <div className="fade-in space-y-5">
@@ -35,17 +42,35 @@ export function ExecutivePage() {
         <StatCard
           label="Click rate"
           value={pct(data.metrics.phishing_click_rate)}
-          sub={clickImproved > 0 ? `↓ ${(clickImproved * 100).toFixed(0)}pp since start` : 'last 30 days'}
-          tone={data.metrics.phishing_click_rate > 0.25 ? 'bad' : 'good'}
+          sub={
+            clickImproved !== null && clickImproved > 0
+              ? `↓ ${(clickImproved * 100).toFixed(0)}pp across ${measured.length} measured periods`
+              : metricSub(
+                  data.metrics.phishing_click_rate,
+                  data.metrics.simulation_sample,
+                  data.metrics.window_days,
+                  'lower is better',
+                )
+          }
+          tone={data.metrics.phishing_click_rate !== null && data.metrics.phishing_click_rate > 0.25 ? 'bad' : 'good'}
         />
-        <StatCard label="Report rate" value={pct(data.metrics.report_rate)} sub="human sensor strength" tone="accent" />
+        <StatCard
+          label="Report rate"
+          value={pct(data.metrics.report_rate)}
+          sub={metricSub(data.metrics.report_rate, data.metrics.simulation_sample, data.metrics.window_days, 'human sensor strength')}
+          tone="accent"
+        />
         <StatCard
           label="Avg risk score"
-          value={data.metrics.avg_risk_score.toFixed(1)}
+          value={data.metrics.avg_risk_score !== null ? data.metrics.avg_risk_score.toFixed(1) : '—'}
           sub="0–100, lower is safer"
-          tone={data.metrics.avg_risk_score >= 55 ? 'warn' : 'good'}
+          tone={data.metrics.avg_risk_score !== null && data.metrics.avg_risk_score >= 55 ? 'warn' : 'good'}
         />
-        <StatCard label="Training completion" value={pct(data.metrics.training_completion_rate)} sub="micro-modules" />
+        <StatCard
+          label="Training completion"
+          value={pct(data.metrics.training_completion_rate)}
+          sub={metricSub(data.metrics.training_completion_rate, data.metrics.training_sample, data.metrics.window_days, 'micro-modules')}
+        />
         <StatCard label="Loops closed" value={data.loops_closed} sub="threats → training → measured" tone="accent" />
       </div>
 

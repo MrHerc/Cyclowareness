@@ -57,11 +57,15 @@ def _recover_orphaned_runs() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
-    db = session_scope()
-    try:
-        seed_if_empty(db)
-    finally:
-        db.close()
+    # Seeding is a demo affordance, never automatic in production: an empty
+    # customer database must stay empty, not fill itself with a fictional
+    # Azerbaijani energy company. Run `python -m app.seed` for the demo world.
+    if settings.is_demo:
+        db = session_scope()
+        try:
+            seed_if_empty(db)
+        finally:
+            db.close()
     _recover_orphaned_runs()
     # Let the task runner accept submissions from threadpool workers
     import asyncio
@@ -96,7 +100,11 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
-app.include_router(admin.router)
+# The admin router exists solely to wipe and re-seed the exhibition world.
+# It must not exist in production: any analyst token could destroy a customer's
+# entire dataset with a single request.
+if settings.is_demo:
+    app.include_router(admin.router)
 app.include_router(ws.router)
 app.include_router(dashboard.router)
 app.include_router(loop_runs.router)

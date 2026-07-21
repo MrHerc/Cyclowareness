@@ -19,9 +19,34 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install dependencies
-        run: pip install -r requirements-dev.txt
+        run: pip install -r requirements-dev.txt "psycopg[binary]"
       - name: Run tests
         run: python -m pytest -q
+
+      # The demo build and the production build are different API surfaces.
+      # The suite runs as APP_ENV=demo, so assert the production gating here.
+      - name: Production build refuses demo-grade config
+        run: |
+          if APP_ENV=production SECRET_KEY=short DATABASE_URL=sqlite:///./x.db \
+             python -c "import app.main" 2>/dev/null; then
+            echo "::error::production booted with demo-grade config"; exit 1
+          fi
+          echo "refused as expected"
+      - name: Demo-only routes absent from production surface
+        env:
+          APP_ENV: production
+          SECRET_KEY: ci-placeholder-key-at-least-32-bytes-long!!
+          DATABASE_URL: postgresql+psycopg://u:p@localhost:5432/c
+          CORS_ORIGINS: https://app.example.com
+        run: |
+          python - <<'PY'
+          from app.main import app
+          paths = set(app.openapi()["paths"])
+          bad = [p for p in paths if "auto-outcomes" in p or "reset-demo" in p]
+          assert not bad, f"demo-only routes exposed in production: {bad}"
+          assert "/api/loop-runs" in paths, "core routes missing"
+          print(f"production surface clean ({len(paths)} paths)")
+          PY
 
   frontend:
     name: Frontend — typecheck & build

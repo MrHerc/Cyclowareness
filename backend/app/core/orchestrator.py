@@ -141,7 +141,7 @@ async def _run_pipeline(run_id: int) -> None:
         _stage_start(run, LoopStage.ANALYZE, "Detonating artifact in sandbox…")
         db.commit()
         try:
-            await asyncio.sleep(settings.stage_delay_analyze)
+            await asyncio.sleep(settings.delay_analyze)
             analyzer = get_analyzer()
             result = await analyzer.analyze(
                 artifact_type=threat.artifact_type,
@@ -182,7 +182,7 @@ async def _run_pipeline(run_id: int) -> None:
         _stage_start(run, LoopStage.CONVERT, "AI is converting the threat into micro-training…")
         db.commit()
         try:
-            await asyncio.sleep(settings.stage_delay_convert)
+            await asyncio.sleep(settings.delay_convert)
             analysis = {
                 "verdict": threat.verdict,
                 "confidence": threat.confidence,
@@ -193,7 +193,7 @@ async def _run_pipeline(run_id: int) -> None:
                 "artifact_excerpt": (threat.artifact_ref or "")[:1200],
                 "title": threat.title,
             }
-            training = await generate_training(analysis)
+            training, generation_source = await generate_training(analysis)
             explanation = await explain_threat(analysis)
 
             module = TrainingModule(
@@ -206,6 +206,7 @@ async def _run_pipeline(run_id: int) -> None:
                 channel=training.get("channel", threat.artifact_type),
                 est_minutes=training.get("est_minutes", 3),
                 ai_generated=True,
+                generation_source=generation_source,
                 status=ModuleStatus.PENDING_REVIEW,
             )
             db.add(module)
@@ -213,10 +214,12 @@ async def _run_pipeline(run_id: int) -> None:
             db.add(threat)
             db.flush()
             run.training_module_id = module.id
+            engine_label = "Claude" if generation_source == "anthropic" else "offline generator"
             _stage_done(
                 run,
                 LoopStage.CONVERT,
-                f'AI generated module "{module.title}" ({len(module.quiz)} quiz questions)',
+                f'{engine_label} generated module "{module.title}" '
+                f"({len(module.quiz)} quiz questions)",
             )
             db.commit()
         except Exception as exc:  # noqa: BLE001
@@ -272,7 +275,7 @@ async def _target_and_train(db: Session, run: LoopRun) -> None:
     _stage_start(run, LoopStage.TARGET, "Mapping threat to at-risk employees…")
     db.commit()
     try:
-        await asyncio.sleep(settings.stage_delay_target)
+        await asyncio.sleep(settings.delay_target)
         targets = risk_engine.select_targets(
             db,
             threat_type=threat.threat_type,

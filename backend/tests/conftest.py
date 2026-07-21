@@ -7,6 +7,10 @@ loop completes instantly in tests.
 import os
 
 # Must be set before app modules import settings / build the engine.
+# The suite runs against SQLite with a throwaway key, which the production
+# config validator rightly refuses — so tests declare themselves as the demo
+# environment. (test_config.py covers the production guard explicitly.)
+os.environ["APP_ENV"] = "demo"
 os.environ["DATABASE_URL"] = "sqlite:///./test_cyclowareness.db"
 os.environ["STAGE_DELAY_ANALYZE"] = "0"
 os.environ["STAGE_DELAY_CONVERT"] = "0"

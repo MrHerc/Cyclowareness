@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..config import get_settings
 from ..core import risk_engine
 from ..core.sim_templates import SIM_TEMPLATES, get_template
 from ..database import get_db
@@ -130,10 +131,20 @@ def record_outcome(
     return _detail(db, simulation)
 
 
-@router.post("/{sim_id}/auto-outcomes", response_model=SimulationDetail)
 def auto_outcomes(sim_id: int, db: Session = Depends(get_db), user: User = Depends(require_analyst)):
-    """Demo helper: resolve all pending targets with behaviour weighted by each
-    employee's current risk score (riskier people click more, report less)."""
+    """DEMO ONLY — resolve pending targets with synthetic, risk-weighted behaviour.
+
+    This route is registered exclusively when ``APP_ENV=demo`` (see the
+    conditional registration below). It must never exist in production: the
+    outcomes are dice rolls weighted by the employee's own risk score, and
+    ``_apply_outcome`` writes them into the real ``RiskEvent`` audit trail —
+    so risk would generate clicks and clicks would update risk. Every
+    downstream metric (click rate, report rate, the executive trend) would be
+    reporting on fabricated behaviour it cannot distinguish from real.
+
+    Real outcomes come from tracked-link delivery instead (see SPRINT-PLAN.md,
+    week 3).
+    """
     simulation = db.get(PhishingSimulation, sim_id)
     if simulation is None:
         raise HTTPException(status_code=404, detail="Simulation not found")
@@ -155,6 +166,12 @@ def auto_outcomes(sim_id: int, db: Session = Depends(get_db), user: User = Depen
         _apply_outcome(db, simulation, target, outcome)
     db.commit()
     return _detail(db, simulation)
+
+
+# Synthetic outcomes are a demo affordance, not a product feature — the route
+# only exists in the exhibition build.
+if get_settings().is_demo:
+    router.post("/{sim_id}/auto-outcomes", response_model=SimulationDetail)(auto_outcomes)
 
 
 @router.post("/{sim_id}/complete", response_model=SimulationDetail)

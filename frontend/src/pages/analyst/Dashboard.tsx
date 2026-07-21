@@ -18,6 +18,7 @@ import {
   Spinner,
   StatCard,
   cx,
+  metricSub,
   pct,
   riskTone,
   timeAgo,
@@ -149,30 +150,31 @@ export function AnalystDashboard() {
           </div>
         </Card>
 
-        {/* outcome metrics */}
+        {/* outcome metrics — a rate with too small a sample renders as
+            "not enough data", never as a fabricated number */}
         <div className="space-y-3" data-tour="metrics">
           <StatCard
             label="Phishing click rate"
             value={pct(data.metrics.phishing_click_rate)}
-            sub="last 30 days — lower is better"
-            tone={data.metrics.phishing_click_rate > 0.25 ? 'bad' : 'neutral'}
+            sub={metricSub(data.metrics.phishing_click_rate, data.metrics.simulation_sample, data.metrics.window_days, 'lower is better')}
+            tone={data.metrics.phishing_click_rate !== null && data.metrics.phishing_click_rate > 0.25 ? 'bad' : 'neutral'}
           />
           <StatCard
             label="Report rate (human sensor)"
             value={pct(data.metrics.report_rate)}
-            sub="employees reporting lures — higher is better"
+            sub={metricSub(data.metrics.report_rate, data.metrics.simulation_sample, data.metrics.window_days, 'higher is better')}
             tone="accent"
           />
           <StatCard
             label="Avg risk score"
-            value={data.metrics.avg_risk_score.toFixed(1)}
+            value={data.metrics.avg_risk_score !== null ? data.metrics.avg_risk_score.toFixed(1) : '—'}
             sub="org-wide, 0–100"
-            tone={data.metrics.avg_risk_score >= 55 ? 'warn' : 'good'}
+            tone={data.metrics.avg_risk_score !== null && data.metrics.avg_risk_score >= 55 ? 'warn' : 'good'}
           />
           <StatCard
             label="Training completion"
             value={pct(data.metrics.training_completion_rate)}
-            sub="assigned micro-modules completed"
+            sub={metricSub(data.metrics.training_completion_rate, data.metrics.training_sample, data.metrics.window_days, 'assigned modules completed')}
             tone="neutral"
           />
         </div>

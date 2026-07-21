@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Card,
+  GenerationSourceBadge,
   RiskBar,
   SectionTitle,
   Spinner,
@@ -401,11 +402,7 @@ function ModulePanel({
       <SectionTitle
         right={
           <div className="flex items-center gap-2">
-            {module.ai_generated && (
-              <span className="rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] text-indigo">
-                AI generated
-              </span>
-            )}
+            <GenerationSourceBadge source={module.generation_source} />
             <Badge value={module.status} />
           </div>
         }

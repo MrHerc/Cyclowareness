@@ -158,6 +158,32 @@ export function Skeleton({ className }: { className?: string }) {
   return <div className={cx('animate-pulse rounded-lg bg-surface-3/60', className)} />
 }
 
+/**
+ * Honest provenance for generated content. Content written by the offline
+ * generator must never be presentable as live-model output — the analyst
+ * approving it needs to know which engine actually wrote it.
+ */
+export function GenerationSourceBadge({ source }: { source: string }) {
+  if (source === 'mock') {
+    return (
+      <span
+        title="Written by the offline generator, not a live model. Review this closely before approving."
+        className="inline-flex items-center rounded-md border border-warn/40 bg-warn/10 px-1.5 py-0.5 text-[10px] font-medium text-warn"
+      >
+        Offline generator
+      </span>
+    )
+  }
+  if (source === 'anthropic') {
+    return (
+      <span className="inline-flex items-center rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo">
+        AI generated
+      </span>
+    )
+  }
+  return null
+}
+
 export function StatCard({
   label,
   value,
@@ -210,6 +236,25 @@ export function RiskBar({ score, className }: { score: number; className?: strin
 export function pct(v: number | null | undefined, digits = 0): string {
   if (v === null || v === undefined) return '—'
   return `${(v * 100).toFixed(digits)}%`
+}
+
+/**
+ * Caption for a windowed rate. When the sample is too small the caption says
+ * so — with the actual n — instead of dressing a missing measurement up as a
+ * healthy one.
+ */
+export function metricSub(
+  value: number | null,
+  sample: number,
+  windowDays: number,
+  hint: string,
+): string {
+  if (value === null) {
+    return sample === 0
+      ? `no events in the last ${windowDays} days`
+      : `not enough data yet (n=${sample})`
+  }
+  return `last ${windowDays} days (n=${sample}) — ${hint}`
 }
 
 export function timeAgo(iso: string | null | undefined): string {

@@ -4,7 +4,16 @@ import { ArrowRight, BookOpenCheck } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { LoopRun, TrainingModule } from '../../lib/types'
-import { Badge, Card, EmptyState, SectionTitle, Spinner, cx, timeAgo } from '../../components/ui'
+import {
+  Badge,
+  Card,
+  EmptyState,
+  GenerationSourceBadge,
+  SectionTitle,
+  Spinner,
+  cx,
+  timeAgo,
+} from '../../components/ui'
 
 const TABS = [
   { key: 'pending_review', label: 'Awaiting review' },
@@ -63,11 +72,7 @@ export function TrainingReview() {
                   <button onClick={() => setOpenId(open ? null : m.id)} className="text-left text-sm font-semibold hover:text-accent">
                     {m.title}
                   </button>
-                  {m.ai_generated && (
-                    <span className="rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] text-indigo">
-                      AI generated
-                    </span>
-                  )}
+                  <GenerationSourceBadge source={m.generation_source} />
                   <Badge value={m.status} />
                   <Badge value={m.channel} />
                   <span className="ml-auto text-xs text-faint">{timeAgo(m.created_at)}</span>

@@ -262,6 +262,7 @@ def seed_if_empty(db: Session) -> None:
         channel="email",
         est_minutes=3,
         ai_generated=True,
+        generation_source="mock",
         status=ModuleStatus.APPROVED,
         approved_by="analyst@caspiandynamics.az",
         created_at=days_ago(21),
@@ -360,6 +361,7 @@ def seed_if_empty(db: Session) -> None:
         channel="email",
         est_minutes=3,
         ai_generated=True,
+        generation_source="mock",
         status=ModuleStatus.APPROVED,
         approved_by="analyst@caspiandynamics.az",
         created_at=days_ago(9),
@@ -641,6 +643,7 @@ def seed_if_empty(db: Session) -> None:
         channel="email",
         est_minutes=3,
         ai_generated=True,
+        generation_source="mock",
         status=ModuleStatus.PENDING_REVIEW,
         created_at=days_ago(0.04),
     )
@@ -709,3 +712,37 @@ def _fabricated_history(start: datetime, details: list[str]) -> list[dict]:
             }
         )
     return history
+
+
+def main() -> None:
+    """`python -m app.seed` — build the demo world explicitly.
+
+    Seeding is no longer automatic on startup: a production database must never
+    fill itself with a fictional company. This entry point refuses to run
+    outside the demo environment for the same reason.
+    """
+    import sys
+
+    from .config import get_settings
+    from .database import Base, engine, session_scope
+
+    settings = get_settings()
+    if not settings.is_demo:
+        sys.exit(
+            "Refusing to seed: APP_ENV is not 'demo'.\n"
+            "The Caspian Dynamics demo world is fictional data and must never be "
+            "written into a production database."
+        )
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    Base.metadata.create_all(bind=engine)
+    db = session_scope()
+    try:
+        seed_if_empty(db)
+        print("Demo world ready. Sign in as analyst@caspiandynamics.az / analyst123")
+    finally:
+        db.close()
+
+
+if __name__ == "__main__":
+    main()

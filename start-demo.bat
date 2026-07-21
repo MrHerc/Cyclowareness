@@ -17,8 +17,11 @@ if not exist "%~dp0backend\.venv\Scripts\python.exe" (
   pause
   exit /b 1
 )
+REM APP_ENV=demo unlocks the exhibition build: seeded world, reset button,
+REM synthetic simulation outcomes, and the artificial stage pacing that makes
+REM the loop visibly turn. Production defaults to none of it.
 cd /d "%~dp0backend"
-start "Cyclowareness API" cmd /k .venv\Scripts\python.exe -m uvicorn app.main:app --port 8000
+start "Cyclowareness API" cmd /k "set APP_ENV=demo&& .venv\Scripts\python.exe -m uvicorn app.main:app --port 8000"
 
 REM --- Frontend (Vite on :5173) ---
 cd /d "%~dp0frontend"
