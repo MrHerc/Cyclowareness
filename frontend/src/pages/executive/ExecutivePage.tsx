@@ -3,7 +3,7 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { ExecutiveDashboard } from '../../lib/types'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
-import { Card, LoadState, SectionTitle, StatCard, cx, metricSub, pct, riskTone } from '../../components/ui'
+import { Card, DeptRiskTile, LoadState, SectionTitle, StatCard, metricSub, pct } from '../../components/ui'
 
 export function ExecutivePage() {
   const { data, error, refresh } = usePoll<ExecutiveDashboard>(
@@ -113,21 +113,15 @@ export function ExecutivePage() {
       <Card className="p-5">
         <SectionTitle>Departments</SectionTitle>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
-          {data.departments.map((d) => {
-            const tone = riskTone(d.avg_risk)
-            return (
-              <div key={d.id} className="rounded-lg border border-border bg-surface-2 p-3">
-                <div className="truncate text-xs font-medium text-muted">{d.name}</div>
-                <div className={cx('mt-1 text-xl font-bold tabular-nums', tone.text)}>{d.avg_risk.toFixed(0)}</div>
-                <div className="text-[10px] text-faint">
-                  {d.employee_count} people · {d.high_risk_count} high-risk
-                </div>
-                <div className="mt-2 h-1 overflow-hidden rounded-full bg-surface-3">
-                  <div className={cx('h-full', tone.bar)} style={{ width: `${d.avg_risk}%` }} />
-                </div>
-              </div>
-            )
-          })}
+          {data.departments.map((d) => (
+            <DeptRiskTile
+              key={d.id}
+              name={d.name}
+              avgRisk={d.avg_risk}
+              employeeCount={d.employee_count}
+              highRiskCount={d.high_risk_count}
+            />
+          ))}
         </div>
       </Card>
     </div>

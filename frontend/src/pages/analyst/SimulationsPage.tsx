@@ -4,7 +4,22 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import { useEscape } from '../../lib/useEscape'
 import type { DepartmentRisk, SimTemplate, Simulation, SimulationDetail, Threat } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, LoadState, SectionTitle, channelLabel, cx, pct, timeAgo } from '../../components/ui'
+import {
+  Badge,
+  Button,
+  Card,
+  Drawer,
+  EmptyState,
+  LoadState,
+  Modal,
+  SectionTitle,
+  StatCard,
+  Tabs,
+  channelLabel,
+  cx,
+  pct,
+  timeAgo,
+} from '../../components/ui'
 import { useCapabilities } from '../../lib/useCapabilities'
 
 export function SimulationsPage() {
@@ -99,11 +114,7 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/50" onClick={onClose}>
-      <div
-        className="h-full w-full max-w-2xl overflow-y-auto border-l border-border bg-surface p-6 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Drawer title={sim?.name ?? 'Simulation'} width="max-w-2xl" onClose={onClose}>
         {!sim ? (
           <LoadState error={loadError} onRetry={refresh} />
         ) : (
@@ -132,10 +143,15 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
             )}
 
             <div className="mt-4 grid grid-cols-4 gap-2">
-              <MiniStat label="Targets" value={String(sim.stats.targets)} />
-              <MiniStat label="Resolved" value={String(sim.stats.resolved)} />
-              <MiniStat label="Click rate" value={pct(sim.stats.click_rate)} tone={sim.stats.click_rate && sim.stats.click_rate > 0.3 ? 'bad' : undefined} />
-              <MiniStat label="Report rate" value={pct(sim.stats.report_rate)} tone="good" />
+              <StatCard size="sm" label="Targets" value={String(sim.stats.targets)} />
+              <StatCard size="sm" label="Resolved" value={String(sim.stats.resolved)} />
+              <StatCard
+                size="sm"
+                label="Click rate"
+                value={pct(sim.stats.click_rate)}
+                tone={sim.stats.click_rate !== null && sim.stats.click_rate > 0.3 ? 'bad' : 'neutral'}
+              />
+              <StatCard size="sm" label="Report rate" value={pct(sim.stats.report_rate)} tone="good" />
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
@@ -188,8 +204,7 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
             </div>
           </>
         )}
-      </div>
-    </div>
+    </Drawer>
   )
 }
 
@@ -225,16 +240,11 @@ function OutcomeButtons({ simId, targetId, refresh }: { simId: number; targetId:
   )
 }
 
-function MiniStat({ label, value, tone }: { label: string; value: string; tone?: 'good' | 'bad' }) {
-  return (
-    <div className="rounded-lg border border-border bg-surface-2 p-3">
-      <div className="text-[10px] uppercase tracking-wide text-faint">{label}</div>
-      <div className={cx('mt-1 text-lg font-bold tabular-nums', tone === 'good' && 'text-good', tone === 'bad' && 'text-bad')}>
-        {value}
-      </div>
-    </div>
-  )
-}
+const LURE_SOURCES = [
+  { key: 'prebuilt' as const, label: 'Prebuilt lure' },
+  { key: 'real' as const, label: 'Real threat' },
+  { key: 'generic' as const, label: 'Generic' },
+]
 
 function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated: (id: number) => void }) {
   const [name, setName] = useState('')
@@ -295,17 +305,7 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
       (source === 'real' && threatId !== ''))
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
-      <div
-        className="w-full max-w-lg rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold">New simulation campaign</h3>
-          <button onClick={onClose} className="text-muted hover:text-ink">
-            <X size={17} />
-          </button>
-        </div>
+    <Modal title="New simulation campaign" onClose={onClose}>
         <div className="max-h-[70vh] space-y-3 overflow-y-auto pr-1">
           <input
             value={name}
@@ -317,24 +317,7 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
           {/* Lure source */}
           <div>
             <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted">Lure source</span>
-            <div className="flex gap-1 rounded-lg border border-border bg-surface-2 p-1">
-              {([
-                ['prebuilt', 'Prebuilt lure'],
-                ['real', 'Real threat'],
-                ['generic', 'Generic'],
-              ] as const).map(([key, label]) => (
-                <button
-                  key={key}
-                  onClick={() => setSource(key)}
-                  className={cx(
-                    'flex-1 rounded-md px-2 py-1.5 text-xs font-medium transition-colors',
-                    source === key ? 'bg-accent/15 text-accent' : 'text-muted hover:text-ink',
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+            <Tabs tabs={LURE_SOURCES} value={source} onChange={setSource} fill />
           </div>
 
           {source === 'prebuilt' && (
@@ -448,7 +431,6 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </Modal>
   )
 }

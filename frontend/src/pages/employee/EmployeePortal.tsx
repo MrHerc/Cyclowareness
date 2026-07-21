@@ -36,6 +36,7 @@ import {
   Button,
   Card,
   LoadState,
+  Modal,
   SectionTitle,
   Skeleton,
   ThreatOriginChip,
@@ -128,12 +129,9 @@ export function EmployeePortal() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setShowTour(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:border-border-2 hover:text-ink"
-          >
+          <Button variant="ghost" onClick={() => setShowTour(true)}>
             <HelpCircle size={14} /> Tour
-          </button>
+          </Button>
           <span data-tour="me-report">
             <Button onClick={() => setShowReport(true)} className="px-4 py-2 text-[15px]">
               <Megaphone size={16} /> Report suspicious
@@ -685,11 +683,11 @@ function ReportModal({ onClose, onSubmitted }: { onClose: () => void; onSubmitte
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={created ? onSubmitted : onClose}>
-      <div
-        className="w-full max-w-lg rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal
+      title={created ? 'Report received' : 'Report something suspicious'}
+      onClose={created ? onSubmitted : onClose}
+      hideHeader={!!created}
+    >
         {created ? (
           /* success — pay off the AI moment instead of a disappearing sticker */
           <div className="fade-in">
@@ -725,12 +723,6 @@ function ReportModal({ onClose, onSubmitted }: { onClose: () => void; onSubmitte
           </div>
         ) : (
           <>
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold">Report something suspicious</h3>
-              <button onClick={onClose} aria-label="Close" className="text-muted hover:text-ink">
-                <X size={17} />
-              </button>
-            </div>
             <div className="space-y-3">
               <div className="flex flex-wrap gap-1.5">
                 {REPORT_TYPES.map((t) => (
@@ -771,7 +763,6 @@ function ReportModal({ onClose, onSubmitted }: { onClose: () => void; onSubmitte
             </div>
           </>
         )}
-      </div>
-    </div>
+    </Modal>
   )
 }

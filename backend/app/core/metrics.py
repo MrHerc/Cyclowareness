@@ -10,7 +10,7 @@ the dashboard can chart before/after trends:
 """
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import func, select
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
 from ..models import (
@@ -42,21 +42,37 @@ def compute_current_metrics(db: Session) -> dict:
     """
     since = datetime.now(timezone.utc) - timedelta(days=WINDOW_DAYS)
 
-    targets = db.execute(
-        select(SimulationTarget).where(SimulationTarget.outcome != SimOutcome.PENDING)
-    ).scalars().all()
-    recent = [t for t in targets if t.outcome_at and _aware(t.outcome_at) >= since]
-    clicks = sum(1 for t in recent if t.outcome == SimOutcome.CLICKED)
-    reports = sum(1 for t in recent if t.outcome == SimOutcome.REPORTED)
-    sim_n = len(recent)
+    # Counted in SQL. This is the analyst dashboard's hot path — every open tab
+    # polls it every few seconds — and the previous shape loaded every
+    # SimulationTarget and TrainingAssignment ever created into Python to filter
+    # them in comprehensions. Fine at 26 employees, ruinous at 5000 with a year
+    # of history.
+    sim_n, clicks, reports = db.execute(
+        select(
+            func.count(SimulationTarget.id),
+            func.sum(case((SimulationTarget.outcome == SimOutcome.CLICKED, 1), else_=0)),
+            func.sum(case((SimulationTarget.outcome == SimOutcome.REPORTED, 1), else_=0)),
+        ).where(
+            SimulationTarget.outcome != SimOutcome.PENDING,
+            SimulationTarget.outcome_at.is_not(None),
+            SimulationTarget.outcome_at >= since,
+        )
+    ).one()
+    sim_n = sim_n or 0
+    clicks = int(clicks or 0)
+    reports = int(reports or 0)
     sim_ok = sim_n >= MIN_SAMPLE
 
     avg_risk = db.execute(select(func.avg(Employee.current_risk_score))).scalar()
 
-    assignments = db.execute(select(TrainingAssignment)).scalars().all()
-    recent_assignments = [a for a in assignments if _aware(a.assigned_at) >= since]
-    completed = sum(1 for a in recent_assignments if a.status == AssignmentStatus.COMPLETED)
-    train_n = len(recent_assignments)
+    train_n, completed = db.execute(
+        select(
+            func.count(TrainingAssignment.id),
+            func.sum(case((TrainingAssignment.status == AssignmentStatus.COMPLETED, 1), else_=0)),
+        ).where(TrainingAssignment.assigned_at >= since)
+    ).one()
+    train_n = train_n or 0
+    completed = int(completed or 0)
     train_ok = train_n >= MIN_SAMPLE
 
     return {

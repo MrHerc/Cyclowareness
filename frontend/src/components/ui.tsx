@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react'
-import { CircleAlert, Loader2, RefreshCw, Sparkles } from 'lucide-react'
+import { CircleAlert, Loader2, RefreshCw, Sparkles, X } from 'lucide-react'
+import { useEscape } from '../lib/useEscape'
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ')
@@ -123,7 +124,22 @@ const badgePalette: Record<string, string> = {
   manual: 'bg-muted/10 text-muted border-border-2',
 }
 
+/** Human wording for a delivery channel. Single source of truth. */
+const CHANNEL_LABELS: Record<string, string> = {
+  email: 'Email',
+  url: 'URL',
+  file: 'File',
+  sms: 'SMS',
+  qr: 'QR code',
+  chat: 'Chat',
+  web: 'Web',
+}
+
 export function Badge({ value, label }: { value: string; label?: string }) {
+  // Channel values are prettified automatically: the same record used to read
+  // "email" in a list and "Email" in its own drawer, because getting it right
+  // depended on each call site remembering to pass `label`.
+  const text = label ?? CHANNEL_LABELS[value] ?? value
   return (
     <span
       className={cx(
@@ -131,8 +147,113 @@ export function Badge({ value, label }: { value: string; label?: string }) {
         badgePalette[value] ?? 'bg-muted/10 text-muted border-border-2',
       )}
     >
-      {(label ?? value).replace(/_/g, ' ')}
+      {text.replace(/_/g, ' ')}
     </span>
+  )
+}
+
+/**
+ * Small labelled chip for indicators, targeting reasons and IOC tags.
+ *
+ * One concept that had drifted into three border opacities and two corner
+ * radii across the analyst and employee views.
+ */
+export function Chip({
+  children,
+  tone = 'indigo',
+}: {
+  children: ReactNode
+  tone?: 'indigo' | 'warn' | 'accent' | 'muted'
+}) {
+  const tones = {
+    indigo: 'border-indigo/30 bg-indigo/10 text-indigo',
+    warn: 'border-warn/30 bg-warn/10 text-warn',
+    accent: 'border-accent/30 bg-accent/10 text-accent',
+    muted: 'border-border-2 bg-surface-3 text-muted',
+  }
+  return (
+    <span className={cx('inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px]', tones[tone])}>
+      {children}
+    </span>
+  )
+}
+
+/**
+ * Segmented control used for status filters.
+ *
+ * Was hand-rolled three times at two different sizes and with no ARIA, so
+ * screen readers heard a row of unlabelled buttons.
+ */
+export function Tabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+  fill,
+}: {
+  tabs: readonly { key: T; label: string }[]
+  value: T
+  onChange: (key: T) => void
+  fill?: boolean
+}) {
+  return (
+    <div
+      role="tablist"
+      className={cx('flex gap-1 rounded-lg border border-border bg-surface p-1', !fill && 'w-fit')}
+    >
+      {tabs.map((t) => (
+        <button
+          key={t.key}
+          role="tab"
+          aria-selected={value === t.key}
+          onClick={() => onChange(t.key)}
+          className={cx(
+            'rounded-md px-3.5 py-1.5 text-[13px] font-medium transition-colors',
+            fill && 'flex-1',
+            value === t.key ? 'bg-accent/15 text-accent' : 'text-muted hover:text-ink',
+          )}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/**
+ * Callout for AI-produced or explanatory content.
+ *
+ * The indigo "AI said this" panel had drifted into five shapes with three
+ * different header treatments; this is the one shape.
+ */
+export function InfoPanel({
+  title,
+  icon,
+  tone = 'indigo',
+  right,
+  children,
+}: {
+  title: string
+  icon?: ReactNode
+  tone?: 'indigo' | 'accent'
+  right?: ReactNode
+  children: ReactNode
+}) {
+  const tones = {
+    indigo: 'border-indigo/25 bg-indigo/5',
+    accent: 'border-accent/25 bg-accent/5',
+  }
+  const heads = { indigo: 'text-indigo', accent: 'text-accent' }
+  return (
+    <div className={cx('rounded-lg border p-3', tones[tone])}>
+      <div className="flex items-center justify-between gap-2">
+        <div className={cx('flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide', heads[tone])}>
+          {icon}
+          {title}
+        </div>
+        {right}
+      </div>
+      <div className="mt-1.5 text-[13px] leading-relaxed">{children}</div>
+    </div>
   )
 }
 
@@ -240,16 +361,29 @@ export function ThreatOriginChip({ source }: { source: string }) {
   )
 }
 
+/**
+ * A labelled number.
+ *
+ * `size="sm"` replaces the three near-identical local `MiniStat` components
+ * that had drifted apart in label size, weight, colour and tracking.
+ * `align="center"` + `icon` covers the employee scorecard variant.
+ */
 export function StatCard({
   label,
   value,
   sub,
   tone = 'neutral',
+  size = 'md',
+  icon,
+  align = 'left',
 }: {
   label: string
   value: ReactNode
   sub?: ReactNode
-  tone?: 'neutral' | 'good' | 'bad' | 'accent' | 'warn'
+  tone?: 'neutral' | 'good' | 'bad' | 'accent' | 'warn' | 'indigo'
+  size?: 'sm' | 'md'
+  icon?: ReactNode
+  align?: 'left' | 'center'
 }) {
   const tones = {
     neutral: 'text-ink',
@@ -257,13 +391,168 @@ export function StatCard({
     bad: 'text-bad',
     accent: 'text-accent',
     warn: 'text-warn',
+    indigo: 'text-indigo',
+  }
+  const sm = size === 'sm'
+  return (
+    <Card
+      className={cx(
+        sm ? 'bg-surface-2 p-3' : 'p-4',
+        align === 'center' && 'text-center',
+      )}
+    >
+      {icon && <div className={cx('mb-1', align === 'center' && 'flex justify-center')}>{icon}</div>}
+      <div
+        className={cx(
+          'font-semibold uppercase tracking-[0.12em] text-muted',
+          sm ? 'text-[10px]' : 'text-[11px]',
+        )}
+      >
+        {label}
+      </div>
+      <div className={cx('font-semibold tabular-nums', sm ? 'mt-1 text-lg' : 'mt-1.5 text-2xl', tones[tone])}>
+        {value}
+      </div>
+      {sub && <div className={cx('mt-1 text-faint', sm ? 'text-[10px]' : 'text-xs')}>{sub}</div>}
+    </Card>
+  )
+}
+
+/**
+ * One department's risk, as shown on the analyst heatmap, the executive view
+ * and the employees filter — previously three tiles that had drifted in radius,
+ * caption wording and whether the bar existed at all.
+ */
+export function DeptRiskTile({
+  name,
+  avgRisk,
+  employeeCount,
+  highRiskCount,
+  selected,
+  onClick,
+}: {
+  name: string
+  avgRisk: number
+  employeeCount: number
+  highRiskCount: number
+  selected?: boolean
+  onClick?: () => void
+}) {
+  const tone = riskTone(avgRisk)
+  const inner = (
+    <>
+      <div className="truncate text-xs font-medium text-muted">{name}</div>
+      <div className={cx('mt-1 text-xl font-bold tabular-nums', tone.text)}>{avgRisk.toFixed(0)}</div>
+      <div className="text-[10px] text-faint">
+        {employeeCount} people · {highRiskCount} high-risk
+      </div>
+      <div className="mt-2 h-1 overflow-hidden rounded-full bg-surface-3">
+        <div className={cx('h-full', tone.bar)} style={{ width: `${Math.min(100, avgRisk)}%` }} />
+      </div>
+    </>
+  )
+  const base = 'rounded-lg border p-3 text-left transition-colors'
+  if (!onClick) {
+    return <div className={cx(base, 'border-border bg-surface-2')}>{inner}</div>
   }
   return (
-    <Card className="p-4">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">{label}</div>
-      <div className={cx('mt-1.5 text-2xl font-semibold tabular-nums', tones[tone])}>{value}</div>
-      {sub && <div className="mt-1 text-xs text-faint">{sub}</div>}
-    </Card>
+    <button
+      onClick={onClick}
+      aria-pressed={selected}
+      className={cx(
+        base,
+        selected ? 'border-accent/60 bg-accent/5' : 'border-border bg-surface-2 hover:border-border-2',
+      )}
+    >
+      {inner}
+    </button>
+  )
+}
+
+// --- overlays ---------------------------------------------------------------------
+
+const MODAL_SIZES = {
+  sm: 'max-w-md',
+  md: 'max-w-lg',
+  lg: 'max-w-xl',
+} as const
+
+/**
+ * Centred dialog. One scrim, one panel treatment, real dialog semantics and
+ * Escape-to-close built in — previously four hand-rolled copies, one of which
+ * had no close affordance at all.
+ */
+export function Modal({
+  title,
+  onClose,
+  size = 'md',
+  children,
+  hideHeader,
+}: {
+  title: string
+  onClose: () => void
+  size?: keyof typeof MODAL_SIZES
+  children: ReactNode
+  hideHeader?: boolean
+}) {
+  useEscape(onClose)
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className={cx(
+          'w-full rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in',
+          MODAL_SIZES[size],
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {!hideHeader && (
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="text-base font-semibold">{title}</h3>
+            <button onClick={onClose} aria-label="Close" className="text-muted transition-colors hover:text-ink">
+              <X size={17} />
+            </button>
+          </div>
+        )}
+        {children}
+      </div>
+    </div>
+  )
+}
+
+/** Right-side panel. Same scrim and dismissal rules as Modal. */
+export function Drawer({
+  title,
+  onClose,
+  width = 'max-w-md',
+  children,
+}: {
+  title: string
+  onClose: () => void
+  width?: string
+  children: ReactNode
+}) {
+  useEscape(onClose)
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/60" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className={cx(
+          'h-full w-full overflow-y-auto border-l border-border bg-surface p-6 shadow-2xl fade-in',
+          width,
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </div>
+    </div>
   )
 }
 

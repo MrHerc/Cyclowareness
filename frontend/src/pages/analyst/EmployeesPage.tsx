@@ -3,7 +3,18 @@ import { X } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { DepartmentRisk, Employee, EmployeeDetail } from '../../lib/types'
-import { Badge, Card, LoadState, RiskBar, SectionTitle, cx, riskTone, timeAgo } from '../../components/ui'
+import {
+  Badge,
+  Card,
+  DeptRiskTile,
+  Drawer,
+  LoadState,
+  RiskBar,
+  SectionTitle,
+  cx,
+  riskTone,
+  timeAgo,
+} from '../../components/ui'
 
 export function EmployeesPage() {
   const { data: employees, error: empError, refresh } = usePoll<Employee[]>(
@@ -34,26 +45,17 @@ export function EmployeesPage() {
 
       {/* dept heatmap / filter */}
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
-        {departments.map((d) => {
-          const tone = riskTone(d.avg_risk)
-          const active = deptFilter === d.id
-          return (
-            <button
-              key={d.id}
-              onClick={() => setDeptFilter(active ? null : d.id)}
-              className={cx(
-                'rounded-xl border p-3 text-left transition-colors',
-                active ? 'border-accent/60 bg-accent/5' : 'border-border bg-surface hover:border-border-2',
-              )}
-            >
-              <div className="truncate text-xs font-medium text-muted">{d.name}</div>
-              <div className={cx('mt-1 text-xl font-bold tabular-nums', tone.text)}>{d.avg_risk.toFixed(0)}</div>
-              <div className="text-[10px] text-faint">
-                {d.employee_count} people · {d.high_risk_count} high
-              </div>
-            </button>
-          )
-        })}
+        {departments.map((d) => (
+          <DeptRiskTile
+            key={d.id}
+            name={d.name}
+            avgRisk={d.avg_risk}
+            employeeCount={d.employee_count}
+            highRiskCount={d.high_risk_count}
+            selected={deptFilter === d.id}
+            onClick={() => setDeptFilter(deptFilter === d.id ? null : d.id)}
+          />
+        ))}
       </div>
 
       <Card className="overflow-hidden">
@@ -116,11 +118,7 @@ function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
   }, [id])
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/50" onClick={onClose}>
-      <div
-        className="h-full w-full max-w-md overflow-y-auto border-l border-border bg-surface p-6 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Drawer title={detail?.name ?? 'Employee'} onClose={onClose}>
         {!detail ? (
           <LoadState error={error} />
         ) : (
@@ -199,7 +197,6 @@ function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
             </div>
           </>
         )}
-      </div>
-    </div>
+    </Drawer>
   )
 }

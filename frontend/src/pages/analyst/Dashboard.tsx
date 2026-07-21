@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AlertTriangle, HelpCircle, Inbox, Plus, RotateCcw, Send, X } from 'lucide-react'
+import { AlertTriangle, HelpCircle, Inbox, Plus, RotateCcw, Send } from 'lucide-react'
 import { Tour, hasSeenTour, type TourStep } from '../../components/Tour'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
@@ -14,14 +14,15 @@ import {
   Badge,
   Button,
   Card,
+  DeptRiskTile,
   EmptyState,
   LoadState,
+  Modal,
   SectionTitle,
   StatCard,
   cx,
   metricSub,
   pct,
-  riskTone,
   timeAgo,
 } from '../../components/ui'
 import { STAGES } from '../../lib/types'
@@ -96,12 +97,9 @@ export function AnalystDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-2" data-tour="actions">
-          <button
-            onClick={() => setShowTour(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:border-border-2 hover:text-ink"
-          >
+          <Button variant="ghost" onClick={() => setShowTour(true)}>
             <HelpCircle size={14} /> Take the tour
-          </button>
+          </Button>
           {/* Wiping and re-seeding only exists in the exhibition build. */}
           {caps.demo_mode && (
             <Button variant="ghost" onClick={() => setShowReset(true)}>
@@ -140,18 +138,22 @@ export function AnalystDashboard() {
       </div>
 
       <div className="grid gap-5 xl:grid-cols-3">
-        {/* THE LOOP — centerpiece */}
-        <Card className="p-5 xl:col-span-2" >
-          <div data-tour="loop">
-            <SectionTitle
-              right={
-                <span className="hidden text-[11px] text-faint sm:inline">
-                  ingest → analyze → convert → target → train → measure → feedback
-                </span>
-              }
-            >
-              The Loop — live
-            </SectionTitle>
+        {/* THE LOOP — the signature visual, deliberately outweighting every
+            other card on the page: accent border, inner glow, larger title. */}
+        <Card className="relative overflow-hidden border-accent/25 p-5 xl:col-span-2">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 -top-24 h-48 bg-[radial-gradient(ellipse_at_center,rgba(45,212,191,0.10),transparent_70%)]"
+          />
+          <div data-tour="loop" className="relative">
+            <div className="mb-3 flex items-baseline justify-between gap-3">
+              <h2 className="text-base font-semibold tracking-tight">
+                The Loop <span className="text-accent">— live</span>
+              </h2>
+              <span className="hidden text-[11px] text-faint sm:inline">
+                ingest → analyze → convert → target → train → measure → feedback
+              </span>
+            </div>
             <LoopViz activeRuns={data.active_runs} loopsClosed={loopsClosed} />
           </div>
         </Card>
@@ -234,23 +236,15 @@ export function AnalystDashboard() {
             Department risk heatmap
           </SectionTitle>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-            {data.departments.map((d) => {
-              const tone = riskTone(d.avg_risk)
-              return (
-                <div key={d.id} className="rounded-lg border border-border bg-surface-2 p-3">
-                  <div className="truncate text-xs font-medium text-muted">{d.name}</div>
-                  <div className={cx('mt-1 text-xl font-bold tabular-nums', tone.text)}>
-                    {d.avg_risk.toFixed(0)}
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-faint">
-                    {d.employee_count} people · {d.high_risk_count} high-risk
-                  </div>
-                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-surface-3">
-                    <div className={cx('h-full', tone.bar)} style={{ width: `${d.avg_risk}%` }} />
-                  </div>
-                </div>
-              )
-            })}
+            {data.departments.map((d) => (
+              <DeptRiskTile
+                key={d.id}
+                name={d.name}
+                avgRisk={d.avg_risk}
+                employeeCount={d.employee_count}
+                highRiskCount={d.high_risk_count}
+              />
+            ))}
           </div>
         </Card>
 
@@ -310,7 +304,6 @@ export function AnalystDashboard() {
 function ResetDemoModal({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  useEscape(onClose)
 
   const reset = async () => {
     setBusy(true)
@@ -325,33 +318,27 @@ function ResetDemoModal({ onClose, onDone }: { onClose: () => void; onDone: () =
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
-      <div
-        className="w-full max-w-md rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-3 flex items-center gap-2">
-          <div className="rounded-lg border border-warn/40 bg-warn/10 p-2 text-warn">
-            <RotateCcw size={16} />
-          </div>
-          <h3 className="text-base font-semibold">Reset the demo world?</h3>
+    <Modal title="Reset the demo world?" size="sm" onClose={onClose}>
+      <div className="flex gap-3">
+        <div className="h-fit rounded-lg border border-warn/40 bg-warn/10 p-2 text-warn">
+          <RotateCcw size={16} />
         </div>
         <p className="text-sm leading-relaxed text-muted">
           This wipes all current data and restores a fresh <span className="text-ink">Caspian Dynamics</span> world —
           26 employees, six months of history, seeded loop runs and simulations — re-anchored to today. Perfect for a
           clean start between exhibition visitors.
         </p>
-        {error && <div className="mt-3 text-xs text-bad">{error}</div>}
-        <div className="mt-4 flex justify-end gap-2">
-          <Button variant="ghost" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={() => void reset()} busy={busy}>
-            <RotateCcw size={14} /> Reset to fresh demo
-          </Button>
-        </div>
       </div>
-    </div>
+      {error && <div className="mt-3 text-xs text-bad">{error}</div>}
+      <div className="mt-4 flex justify-end gap-2">
+        <Button variant="ghost" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={() => void reset()} busy={busy}>
+          <RotateCcw size={14} /> Reset to fresh demo
+        </Button>
+      </div>
+    </Modal>
   )
 }
 
@@ -460,17 +447,7 @@ function SubmitArtifactModal({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
-      <div
-        className="w-full max-w-xl rounded-2xl border border-border bg-surface p-5 shadow-2xl fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold">Submit artifact into the loop</h3>
-          <button onClick={onClose} className="text-muted hover:text-ink">
-            <X size={17} />
-          </button>
-        </div>
+    <Modal title="Submit artifact into the loop" size="lg" onClose={onClose}>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
@@ -535,7 +512,6 @@ function SubmitArtifactModal({ onClose }: { onClose: () => void }) {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </Modal>
   )
 }

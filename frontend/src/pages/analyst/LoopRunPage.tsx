@@ -13,6 +13,7 @@ import {
   RiskBar,
   SectionTitle,
   Spinner,
+  StatCard,
   cx,
   pct,
   timeAgo,
@@ -236,17 +237,20 @@ export function LoopRunPage() {
             <Card className="border-accent/30 p-5">
               <SectionTitle>Stages 6–7 — Measured results & feedback</SectionTitle>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                <MiniStat label="Completion" value={pct(run.measure_summary.completion_rate)} />
-                <MiniStat
+                <StatCard size="sm" label="Completion" value={pct(run.measure_summary.completion_rate)} />
+                <StatCard
+                  size="sm"
                   label="Avg quiz score"
                   value={run.measure_summary.avg_score !== null ? `${run.measure_summary.avg_score.toFixed(0)}%` : '—'}
                 />
-                <MiniStat
+                <StatCard
+                  size="sm"
                   label="Net risk change"
                   value={`${run.measure_summary.risk_delta_total > 0 ? '+' : ''}${run.measure_summary.risk_delta_total.toFixed(1)}`}
                   tone={run.measure_summary.risk_delta_total <= 0 ? 'good' : 'bad'}
                 />
-                <MiniStat
+                <StatCard
+                  size="sm"
                   label="Avg time"
                   value={
                     run.measure_summary.avg_time_seconds
@@ -282,17 +286,6 @@ export function LoopRunPage() {
             </Card>
           )}
         </div>
-      </div>
-    </div>
-  )
-}
-
-function MiniStat({ label, value, tone }: { label: string; value: string; tone?: 'good' | 'bad' }) {
-  return (
-    <div className="rounded-lg border border-border bg-surface-2 p-3">
-      <div className="text-[10px] uppercase tracking-wide text-faint">{label}</div>
-      <div className={cx('mt-1 text-lg font-bold tabular-nums', tone === 'good' && 'text-good', tone === 'bad' && 'text-bad')}>
-        {value}
       </div>
     </div>
   )

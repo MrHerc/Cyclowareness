@@ -21,7 +21,7 @@ Signals and their weights (documented; keep this table in sync with README):
 Role sensitivity sets the baseline: base = 20 + role_sensitivity * 20.
 Scores are clamped to [0, 100].
 """
-from sqlalchemy import func, select
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
 from ..models import Department, Employee, RiskEvent
@@ -118,27 +118,39 @@ def risk_breakdown(db: Session, employee: Employee, limit_events: int = 200) -> 
 
 
 def department_rollups(db: Session) -> list[dict]:
-    """Department-level risk roll-ups for the dashboard heatmap."""
-    departments = db.execute(select(Department)).scalars().all()
-    rollups = []
-    for dept in departments:
-        employees = db.execute(
-            select(Employee).where(Employee.department_id == dept.id)
-        ).scalars().all()
-        if not employees:
-            continue
-        scores = [e.current_risk_score for e in employees]
-        rollups.append(
-            {
-                "id": dept.id,
-                "name": dept.name,
-                "avg_risk": round(sum(scores) / len(scores), 1),
-                "employee_count": len(employees),
-                "high_risk_count": sum(1 for s in scores if s >= HIGH_RISK_THRESHOLD),
-            }
+    """Department-level risk roll-ups for the dashboard heatmap.
+
+    Aggregated in SQL. This runs on every analyst dashboard poll (one per open
+    tab, every few seconds), so the previous shape — one query per department,
+    then every employee row pulled into Python — was N+1 plus a full roster
+    load on a hot path.
+    """
+    high_risk = func.sum(
+        case((Employee.current_risk_score >= HIGH_RISK_THRESHOLD, 1), else_=0)
+    )
+    rows = db.execute(
+        select(
+            Department.id,
+            Department.name,
+            func.avg(Employee.current_risk_score),
+            func.count(Employee.id),
+            high_risk,
         )
-    rollups.sort(key=lambda r: -r["avg_risk"])
-    return rollups
+        .join(Employee, Employee.department_id == Department.id)
+        .group_by(Department.id, Department.name)
+        .order_by(func.avg(Employee.current_risk_score).desc())
+    ).all()
+
+    return [
+        {
+            "id": dept_id,
+            "name": name,
+            "avg_risk": round(float(avg or 0.0), 1),
+            "employee_count": count,
+            "high_risk_count": int(high or 0),
+        }
+        for dept_id, name, avg, count, high in rows
+    ]
 
 
 def select_targets(

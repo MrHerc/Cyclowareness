@@ -4,7 +4,7 @@ import { ArrowRight, ShieldQuestion } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { Report } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, LoadState, SectionTitle, channelLabel, cx, timeAgo } from '../../components/ui'
+import { Badge, Button, Card, EmptyState, LoadState, SectionTitle, Tabs, channelLabel, timeAgo } from '../../components/ui'
 
 const TABS = [
   { key: 'new', label: 'New' },
@@ -54,20 +54,7 @@ export function TriageQueue() {
         </p>
       </div>
 
-      <div className="flex gap-1 rounded-lg border border-border bg-surface p-1 w-fit">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={cx(
-              'rounded-md px-3.5 py-1.5 text-[13px] font-medium transition-colors',
-              tab === t.key ? 'bg-accent/15 text-accent' : 'text-muted hover:text-ink',
-            )}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      <Tabs tabs={TABS} value={tab} onChange={setTab} />
 
       {error && <div className="text-sm text-bad">{error}</div>}
 
