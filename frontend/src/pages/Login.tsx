@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ShieldHalf, ArrowRight } from 'lucide-react'
 import { homeFor, useAuth } from '../lib/auth'
+import { useCapabilities } from '../lib/useCapabilities'
 import { Button } from '../components/ui'
 
 const DEMO_ACCOUNTS = [
@@ -13,6 +14,7 @@ const DEMO_ACCOUNTS = [
 
 export function Login() {
   const { login } = useAuth()
+  const caps = useCapabilities()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -101,24 +103,28 @@ export function Login() {
               </Button>
             </form>
 
-            <div className="mt-5 border-t border-border pt-4">
-              <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">
-                Demo accounts — one click
+            {/* The seeded accounts only exist in the exhibition build; in
+                production these buttons would fail on every click. */}
+            {caps.demo_mode && (
+              <div className="mt-5 border-t border-border pt-4">
+                <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">
+                  Demo accounts — one click
+                </div>
+                <div className="space-y-1.5">
+                  {DEMO_ACCOUNTS.map((acc) => (
+                    <button
+                      key={acc.email}
+                      disabled={busy}
+                      onClick={() => void doLogin(acc.email, acc.password)}
+                      className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2 px-3 py-2 text-left text-xs transition-colors hover:border-accent/50"
+                    >
+                      <span className="font-medium">{acc.label}</span>
+                      <span className="text-faint">{acc.email}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="space-y-1.5">
-                {DEMO_ACCOUNTS.map((acc) => (
-                  <button
-                    key={acc.email}
-                    disabled={busy}
-                    onClick={() => void doLogin(acc.email, acc.password)}
-                    className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2 px-3 py-2 text-left text-xs transition-colors hover:border-accent/50"
-                  >
-                    <span className="font-medium">{acc.label}</span>
-                    <span className="text-faint">{acc.email}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

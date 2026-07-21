@@ -301,6 +301,7 @@ export interface AnalystDashboard {
     awaiting_approval: number
     active_simulations: number
     active_runs: number
+    loops_closed: number
   }
   recent_events: {
     id: number

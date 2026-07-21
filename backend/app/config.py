@@ -18,6 +18,19 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 DEFAULT_SECRET_KEY = "dev-only-secret-change-me"
 MIN_SECRET_KEY_BYTES = 32
 
+# Any secret that has ever appeared in the repo is public. Length alone is not
+# safety: the .env.example placeholder is 33 characters and would otherwise
+# sail past the minimum-length check, so a deployment that copies the example
+# verbatim would run on a published signing key.
+_PUBLISHED_SECRETS = frozenset(
+    {
+        DEFAULT_SECRET_KEY,
+        "change-me-to-a-long-random-string",
+        "test-secret",
+    }
+)
+_PLACEHOLDER_MARKERS = ("change-me", "changeme", "your-secret", "replace-me", "example")
+
 
 class UnsafeProductionConfig(RuntimeError):
     """Raised at startup when APP_ENV=production but the config is demo-grade."""
@@ -92,8 +105,15 @@ class Settings(BaseSettings):
 
         problems: list[str] = []
 
-        if self.secret_key == DEFAULT_SECRET_KEY:
-            problems.append("SECRET_KEY is still the published development default")
+        lowered = self.secret_key.lower()
+        if self.secret_key in _PUBLISHED_SECRETS or any(
+            marker in lowered for marker in _PLACEHOLDER_MARKERS
+        ):
+            problems.append(
+                "SECRET_KEY is a placeholder published in this repository — anyone "
+                "can mint an analyst token with it. Generate one with: "
+                "python -c \"import secrets; print(secrets.token_urlsafe(48))\""
+            )
         elif len(self.secret_key.encode()) < MIN_SECRET_KEY_BYTES:
             problems.append(
                 f"SECRET_KEY is shorter than {MIN_SECRET_KEY_BYTES} bytes "

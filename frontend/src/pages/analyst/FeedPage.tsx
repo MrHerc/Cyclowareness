@@ -4,10 +4,10 @@ import { ArrowRight, Rss } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { FeedItem } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, Spinner, channelLabel, timeAgo } from '../../components/ui'
+import { Badge, Button, Card, EmptyState, LoadState, channelLabel, timeAgo } from '../../components/ui'
 
 export function FeedPage() {
-  const { data: items, refresh } = usePoll<FeedItem[]>(() => api.get('/api/feed'), 8000)
+  const { data: items, error: loadError, refresh } = usePoll<FeedItem[]>(() => api.get('/api/feed'), 8000)
   const navigate = useNavigate()
   const [busyId, setBusyId] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -37,7 +37,7 @@ export function FeedPage() {
       {error && <div className="text-sm text-bad">{error}</div>}
 
       {!items ? (
-        <Spinner />
+        <LoadState error={loadError} onRetry={refresh} />
       ) : items.length === 0 ? (
         <EmptyState>
           <Rss size={20} className="mx-auto mb-2 text-faint" />

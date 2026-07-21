@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react'
-import { Loader2 } from 'lucide-react'
+import { CircleAlert, Loader2, RefreshCw, Sparkles } from 'lucide-react'
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ')
@@ -145,6 +145,39 @@ export function Spinner({ label }: { label?: string }) {
   )
 }
 
+/**
+ * The single place a page waits for its first payload.
+ *
+ * `usePoll` keeps `data` at null when a request fails, so a page that only
+ * checks `if (!data) return <Spinner/>` spins forever whenever the API is
+ * unreachable — hiding the one actionable message the client produces. Always
+ * pass the poll's `error` through here instead.
+ */
+export function LoadState({
+  error,
+  label,
+  onRetry,
+}: {
+  error: string | null
+  label?: string
+  onRetry?: () => void
+}) {
+  if (!error) return <Spinner label={label} />
+  return (
+    <div className="fade-in py-12 text-center">
+      <div className="mx-auto flex max-w-md flex-col items-center gap-3 rounded-xl border border-bad/40 bg-bad/5 px-5 py-6">
+        <CircleAlert size={22} className="text-bad" />
+        <p className="text-sm leading-relaxed text-bad">{error}</p>
+        {onRetry && (
+          <Button variant="ghost" onClick={onRetry}>
+            <RefreshCw size={13} /> Try again
+          </Button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export function EmptyState({ children }: { children: ReactNode }) {
   return (
     <div className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-faint">
@@ -182,6 +215,29 @@ export function GenerationSourceBadge({ source }: { source: string }) {
     )
   }
   return null
+}
+
+/**
+ * Employee-facing provenance chip.
+ *
+ * Both variants are derived from a real analyzed threat — that is what the
+ * loop does. Only the live-model variant may claim to be AI-built; content the
+ * offline generator wrote must not borrow that credit. "Offline generator" is
+ * internal jargon, so employees simply see the claim we can stand behind.
+ */
+export function ThreatOriginChip({ source }: { source: string }) {
+  const aiWritten = source === 'anthropic'
+  return (
+    <span
+      className={cx(
+        'flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[10px] font-medium',
+        aiWritten ? 'border-indigo/30 bg-indigo/10 text-indigo' : 'border-accent/30 bg-accent/10 text-accent',
+      )}
+    >
+      <Sparkles size={10} />
+      {aiWritten ? 'AI-built from a real threat' : 'Built from a real threat'}
+    </span>
+  )
 }
 
 export function StatCard({

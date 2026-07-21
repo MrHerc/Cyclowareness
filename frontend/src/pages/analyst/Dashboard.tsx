@@ -6,6 +6,7 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import { useLoopStream } from '../../lib/useLoopStream'
 import { useEscape } from '../../lib/useEscape'
+import { useCapabilities } from '../../lib/useCapabilities'
 import type { AnalystDashboard as Dash, RunSummary } from '../../lib/types'
 import { LoopViz, StageTracker } from '../../components/LoopViz'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
@@ -14,8 +15,8 @@ import {
   Button,
   Card,
   EmptyState,
+  LoadState,
   SectionTitle,
-  Spinner,
   StatCard,
   cx,
   metricSub,
@@ -63,7 +64,8 @@ const TOUR_STEPS: TourStep[] = [
 ]
 
 export function AnalystDashboard() {
-  const { data, refresh } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 4000)
+  const { data, error, refresh } = usePoll<Dash>(() => api.get('/api/dashboard/analyst'), 4000)
+  const caps = useCapabilities()
   const [showSubmit, setShowSubmit] = useState(false)
   const [showReset, setShowReset] = useState(false)
   const [showTour, setShowTour] = useState(false)
@@ -79,9 +81,10 @@ export function AnalystDashboard() {
     }
   }, [data])
 
-  if (!data) return <Spinner label="Loading the loop…" />
+  if (!data) return <LoadState error={error} label="Loading the loop…" onRetry={refresh} />
 
-  const loopsClosed = data.recent_runs.filter((r) => r.status === 'completed').length
+  // Comes from a SQL count — recent_runs is capped at 10 and would saturate.
+  const loopsClosed = data.counts.loops_closed
 
   return (
     <div className="fade-in space-y-5">
@@ -99,9 +102,12 @@ export function AnalystDashboard() {
           >
             <HelpCircle size={14} /> Take the tour
           </button>
-          <Button variant="ghost" onClick={() => setShowReset(true)}>
-            <RotateCcw size={14} /> Reset demo
-          </Button>
+          {/* Wiping and re-seeding only exists in the exhibition build. */}
+          {caps.demo_mode && (
+            <Button variant="ghost" onClick={() => setShowReset(true)}>
+              <RotateCcw size={14} /> Reset demo
+            </Button>
+          )}
           <Button onClick={() => setShowSubmit(true)}>
             <Plus size={15} /> Submit artifact
           </Button>

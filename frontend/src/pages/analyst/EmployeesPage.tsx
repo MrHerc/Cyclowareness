@@ -3,15 +3,22 @@ import { X } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { DepartmentRisk, Employee, EmployeeDetail } from '../../lib/types'
-import { Badge, Card, RiskBar, SectionTitle, Spinner, cx, riskTone, timeAgo } from '../../components/ui'
+import { Badge, Card, LoadState, RiskBar, SectionTitle, cx, riskTone, timeAgo } from '../../components/ui'
 
 export function EmployeesPage() {
-  const { data: employees } = usePoll<Employee[]>(() => api.get('/api/employees'), 5000)
-  const { data: departments } = usePoll<DepartmentRisk[]>(() => api.get('/api/departments'), 5000)
+  const { data: employees, error: empError, refresh } = usePoll<Employee[]>(
+    () => api.get('/api/employees'),
+    5000,
+  )
+  const { data: departments, error: deptError } = usePoll<DepartmentRisk[]>(
+    () => api.get('/api/departments'),
+    5000,
+  )
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [deptFilter, setDeptFilter] = useState<number | null>(null)
 
-  if (!employees || !departments) return <Spinner label="Loading risk model…" />
+  if (!employees || !departments)
+    return <LoadState error={empError ?? deptError} label="Loading risk model…" onRetry={refresh} />
 
   const deptName = (id: number) => departments.find((d) => d.id === id)?.name ?? '—'
   const visible = deptFilter ? employees.filter((e) => e.department_id === deptFilter) : employees
@@ -93,10 +100,19 @@ export function EmployeesPage() {
 
 function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
   const [detail, setDetail] = useState<EmployeeDetail | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     setDetail(null)
-    void api.get<EmployeeDetail>(`/api/employees/${id}`).then(setDetail)
+    setError(null)
+    let alive = true
+    api
+      .get<EmployeeDetail>(`/api/employees/${id}`)
+      .then((d) => alive && setDetail(d))
+      .catch((e) => alive && setError(e instanceof Error ? e.message : 'Failed to load'))
+    return () => {
+      alive = false
+    }
   }, [id])
 
   return (
@@ -106,7 +122,7 @@ function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         {!detail ? (
-          <Spinner />
+          <LoadState error={error} />
         ) : (
           <>
             <div className="flex items-start justify-between">

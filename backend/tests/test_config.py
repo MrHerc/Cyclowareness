@@ -28,8 +28,21 @@ def test_safe_production_config_boots():
 
 
 def test_production_rejects_default_secret_key():
-    with pytest.raises(UnsafeProductionConfig, match="development default"):
+    with pytest.raises(UnsafeProductionConfig, match="placeholder published"):
         _settings(secret_key=DEFAULT_SECRET_KEY)
+
+
+def test_production_rejects_the_env_example_placeholder():
+    """Length is not safety — the shipped example is 33 chars and public."""
+    with pytest.raises(UnsafeProductionConfig, match="placeholder published"):
+        _settings(secret_key="change-me-to-a-long-random-string")
+
+
+def test_production_accepts_a_real_generated_secret():
+    import secrets
+
+    s = _settings(secret_key=secrets.token_urlsafe(48))
+    assert s.app_env == "production"
 
 
 def test_production_rejects_short_secret_key():
@@ -56,7 +69,7 @@ def test_production_reports_every_problem_at_once():
             cors_origins="http://localhost:5173",
         )
     message = str(exc.value)
-    assert "development default" in message
+    assert "placeholder published" in message
     assert "SQLite" in message
     assert "localhost" in message
 

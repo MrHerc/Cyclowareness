@@ -39,6 +39,14 @@ WEIGHTS: dict[str, float] = {
 
 HIGH_RISK_THRESHOLD = 60.0
 
+# Keys in a Threat's artifact_meta that steer who gets selected (and therefore
+# who takes a +8 exposure hit and a forced assignment). Anything that accepts
+# metadata from an unprivileged source must strip these first — see
+# routers/reports.py::push_to_loop.
+TARGETING_META_KEYS = frozenset(
+    {"targeted_employee_ids", "recipients", "targeted_departments"}
+)
+
 
 def clamp(score: float) -> float:
     return max(0.0, min(100.0, round(score, 1)))

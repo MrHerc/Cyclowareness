@@ -3,12 +3,15 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { ExecutiveDashboard } from '../../lib/types'
 import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
-import { Card, SectionTitle, Spinner, StatCard, cx, metricSub, pct, riskTone } from '../../components/ui'
+import { Card, LoadState, SectionTitle, StatCard, cx, metricSub, pct, riskTone } from '../../components/ui'
 
 export function ExecutivePage() {
-  const { data } = usePoll<ExecutiveDashboard>(() => api.get('/api/dashboard/executive'), 15000)
+  const { data, error, refresh } = usePoll<ExecutiveDashboard>(
+    () => api.get('/api/dashboard/executive'),
+    15000,
+  )
 
-  if (!data) return <Spinner label="Preparing the executive briefing…" />
+  if (!data) return <LoadState error={error} label="Preparing the executive briefing…" onRetry={refresh} />
 
   // Only claim improvement when both endpoints were actually measured.
   // A first-minus-last delta across gaps is not evidence, and this number is
@@ -43,7 +46,10 @@ export function ExecutivePage() {
           label="Click rate"
           value={pct(data.metrics.phishing_click_rate)}
           sub={
-            clickImproved !== null && clickImproved > 0
+            // Never pair an improvement claim with an unmeasured headline: the
+            // trend can hold older measured periods while the current window is
+            // empty, which rendered "—" above "↓ 12pp" — a number a CISO repeats.
+            data.metrics.phishing_click_rate !== null && clickImproved !== null && clickImproved > 0
               ? `↓ ${(clickImproved * 100).toFixed(0)}pp across ${measured.length} measured periods`
               : metricSub(
                   data.metrics.phishing_click_rate,
@@ -52,7 +58,13 @@ export function ExecutivePage() {
                   'lower is better',
                 )
           }
-          tone={data.metrics.phishing_click_rate !== null && data.metrics.phishing_click_rate > 0.25 ? 'bad' : 'good'}
+          tone={
+            data.metrics.phishing_click_rate === null
+              ? 'neutral'
+              : data.metrics.phishing_click_rate > 0.25
+                ? 'bad'
+                : 'good'
+          }
         />
         <StatCard
           label="Report rate"

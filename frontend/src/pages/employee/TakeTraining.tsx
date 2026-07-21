@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, CheckCircle2, Send, Sparkles, XCircle } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle2, Send, XCircle } from 'lucide-react'
 import { api } from '../../lib/api'
 import type { AssignmentDetail, QuizResult } from '../../lib/types'
-import { Badge, Button, Card, Spinner, channelLabel, cx } from '../../components/ui'
+import { Badge, Button, Card, Spinner, ThreatOriginChip, channelLabel, cx } from '../../components/ui'
 
 type Phase = 'lesson' | 'quiz' | 'result' | 'review'
 
@@ -71,11 +71,7 @@ export function TakeTraining() {
         <button onClick={() => navigate('/me')} className="flex items-center gap-1 text-sm text-muted hover:text-ink">
           <ArrowLeft size={15} /> Portal
         </button>
-        {module.ai_generated && (
-          <span className="flex items-center gap-1 rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo">
-            <Sparkles size={10} /> AI-built from a real threat
-          </span>
-        )}
+        {module.ai_generated && <ThreatOriginChip source={module.generation_source} />}
         <Badge value={module.channel} label={channelLabel(module.channel)} />
         <span className="text-[11px] text-faint">~{module.est_minutes} min</span>
       </div>

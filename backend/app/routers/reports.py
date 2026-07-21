@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from ..ai.ai_service import triage_assist
 from ..core import risk_engine
 from ..core.orchestrator import start_loop
+from ..core.risk_engine import TARGETING_META_KEYS
 from ..database import get_db
 from ..models import (
     Employee,
@@ -113,7 +114,19 @@ def push_to_loop(
     if report.status == ReportStatus.IN_LOOP:
         raise HTTPException(status_code=409, detail="Report is already in the loop")
 
-    meta = dict(report.artifact_meta or {})
+    # SECURITY: artifact_meta on a report is attacker-controlled — any employee
+    # can POST arbitrary keys. risk_engine.select_targets honours several of
+    # them, so passing them through unchecked would let one employee name
+    # colleagues as "directly targeted", inflating their risk score (+8 each)
+    # and forcing training on them, with an audit trail that reads as genuine
+    # threat exposure. Only descriptive fields survive the trust boundary.
+    # Analyst-submitted threats and feed items keep the keys: those sources are
+    # already privileged.
+    meta = {
+        k: v
+        for k, v in (report.artifact_meta or {}).items()
+        if k not in TARGETING_META_KEYS
+    }
     subject = meta.get("subject") or (report.artifact_ref[:60] + "…")
     threat = Threat(
         source=ThreatSource.HUMAN_SENSOR,

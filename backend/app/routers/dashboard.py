@@ -65,6 +65,13 @@ def analyst_dashboard(db: Session = Depends(get_db), user: User = Depends(requir
             "awaiting_approval": sum(1 for r in active_runs if r.status == LoopStatus.AWAITING_APPROVAL),
             "active_simulations": len(active_sims),
             "active_runs": len(active_runs),
+            # Counted in SQL, not from the truncated recent_runs list — that
+            # list is capped at 10, so deriving the total from it silently
+            # saturated and contradicted the executive view.
+            "loops_closed": db.execute(
+                select(func.count(LoopRun.id)).where(LoopRun.status == LoopStatus.COMPLETED)
+            ).scalar()
+            or 0,
         },
         "recent_events": [
             {

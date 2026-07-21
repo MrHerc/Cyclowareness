@@ -14,7 +14,6 @@ import {
   PlayCircle,
   ScanEye,
   ShieldCheck,
-  Sparkles,
   Target,
   Trophy,
   Users,
@@ -36,9 +35,10 @@ import {
   Badge,
   Button,
   Card,
+  LoadState,
   SectionTitle,
   Skeleton,
-  Spinner,
+  ThreatOriginChip,
   channelLabel,
   cx,
   riskTone,
@@ -70,7 +70,7 @@ const PORTAL_TOUR: TourStep[] = [
 ]
 
 export function EmployeePortal() {
-  const { data: dash, error: dashError, refresh } = usePoll<EmployeeDashboard>(
+  const { data: dash, error: dashError, status: dashStatus, refresh } = usePoll<EmployeeDashboard>(
     () => api.get('/api/dashboard/employee'),
     4000,
   )
@@ -90,7 +90,10 @@ export function EmployeePortal() {
     }
   }, [dash])
 
-  if (!dash && dashError) {
+  // Only a 403 actually means "no employee profile". Reporting a dead API or a
+  // 500 with that copy sends the analyst chasing a permissions problem that
+  // does not exist.
+  if (!dash && dashStatus === 403) {
     return (
       <div className="fade-in py-16 text-center">
         <div className="text-3xl">🔒</div>
@@ -104,7 +107,7 @@ export function EmployeePortal() {
       </div>
     )
   }
-  if (!dash) return <Spinner label="Loading your portal…" />
+  if (!dash) return <LoadState error={dashError} label="Loading your portal…" onRetry={refresh} />
 
   const assignmentsLoading = assignments === undefined || assignments === null
   const pending = (assignments ?? []).filter((a) => a.status === 'assigned' || a.status === 'in_progress')
@@ -423,11 +426,7 @@ function PendingTrainingCard({ assignment: a }: { assignment: AssignmentDetail }
     >
       {/* origin story — the loop, visible */}
       <div className="flex flex-wrap items-center gap-2">
-        {a.module.ai_generated && (
-          <span className="flex items-center gap-1 rounded-md border border-indigo/30 bg-indigo/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo">
-            <Sparkles size={10} /> AI-built from a real threat
-          </span>
-        )}
+        {a.module.ai_generated && <ThreatOriginChip source={a.module.generation_source} />}
         <Badge value={a.module.channel} label={channelLabel(a.module.channel)} />
         <span className="text-[11px] text-faint">~{a.module.est_minutes} min</span>
         <span className="ml-auto text-[11px] text-faint">{timeAgo(a.assigned_at)}</span>

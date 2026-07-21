@@ -124,3 +124,19 @@ def health():
         "task_runner": settings.task_runner,
         "ai_provider": "anthropic" if settings.anthropic_api_key else "mock",
     }
+
+
+@app.get("/api/capabilities")
+def capabilities():
+    """What this deployment can actually do — read by the UI at startup.
+
+    Several affordances (the demo reset button, synthetic simulation outcomes,
+    the one-click demo logins) only exist in the exhibition build. Without this
+    endpoint the frontend renders them unconditionally and they dead-end with a
+    404 in production, which reads as a broken product.
+    """
+    return {
+        "demo_mode": settings.is_demo,
+        "ai_provider": "anthropic" if settings.anthropic_api_key else "mock",
+        "analyzer": settings.sandbox_analyzer,
+    }

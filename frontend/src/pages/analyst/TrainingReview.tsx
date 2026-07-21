@@ -9,8 +9,8 @@ import {
   Card,
   EmptyState,
   GenerationSourceBadge,
+  LoadState,
   SectionTitle,
-  Spinner,
   cx,
   timeAgo,
 } from '../../components/ui'
@@ -23,7 +23,11 @@ const TABS = [
 
 export function TrainingReview() {
   const [tab, setTab] = useState<(typeof TABS)[number]['key']>('pending_review')
-  const { data: modules } = usePoll<TrainingModule[]>(() => api.get(`/api/training/modules?status=${tab}`), 4000, [tab])
+  const { data: modules, error, refresh } = usePoll<TrainingModule[]>(
+    () => api.get(`/api/training/modules?status=${tab}`),
+    4000,
+    [tab],
+  )
   const { data: pendingRuns } = usePoll<LoopRun[]>(() => api.get('/api/loop-runs?status=awaiting_approval'), 4000)
   const [openId, setOpenId] = useState<number | null>(null)
 
@@ -55,7 +59,7 @@ export function TrainingReview() {
       </div>
 
       {!modules ? (
-        <Spinner />
+        <LoadState error={error} onRetry={refresh} />
       ) : modules.length === 0 ? (
         <EmptyState>
           <BookOpenCheck size={20} className="mx-auto mb-2 text-faint" />

@@ -299,22 +299,64 @@ class MockAIProvider:
     # -- executive briefing -------------------------------------------------------
 
     def _briefing(self, metrics: dict[str, Any]) -> str:
+        """Compose a posture summary that degrades honestly.
+
+        Rates arrive as ``None`` when the trailing window holds too small a
+        sample, so every sentence here is conditional: the briefing states what
+        was measured and stays silent about what was not. Note ``.get(k, 0)``
+        would NOT help — the key exists, its value is None.
+        """
         current = metrics.get("current", {})
         trend = metrics.get("trend", [])
         depts = metrics.get("departments", [])
-        click = current.get("phishing_click_rate", 0) * 100
-        report_rate = current.get("report_rate", 0) * 100
-        risk = current.get("avg_risk_score", 0)
-        direction = "improving"
-        if len(trend) >= 2:
-            direction = "improving" if trend[-1]["avg_risk_score"] <= trend[0]["avg_risk_score"] else "under pressure"
-        best = min(depts, key=lambda d: d["avg_risk"])["name"] if depts else "—"
-        worst = max(depts, key=lambda d: d["avg_risk"])["name"] if depts else "—"
-        return (
-            f"Our human cyber-risk posture is {direction}: the organisation-wide risk score now stands at {risk:.0f} out of 100. "
-            f"Employees clicked {click:.0f} percent of simulated phishing lures in the last month, while {report_rate:.0f} percent were proactively reported — "
-            f"every reported message becomes new, targeted training the same day, which is the engine behind the trend. "
-            f"{best} is currently our most resilient department, while {worst} carries the highest concentration of risk and is receiving prioritised micro-training. "
-            f"The clearest proof of behaviour change is the gap between click rate and report rate closing month over month. "
-            f"For the next thirty days the focus should be lifting the report rate above the click rate in {worst}, converting our most exposed team into our best early-warning sensor."
-        )
+
+        click = current.get("phishing_click_rate")
+        report_rate = current.get("report_rate")
+        risk = current.get("avg_risk_score")
+
+        # Only judge direction across points that were actually measured.
+        measured_risk = [p["avg_risk_score"] for p in trend if p.get("avg_risk_score") is not None]
+        if len(measured_risk) >= 2:
+            direction = "improving" if measured_risk[-1] <= measured_risk[0] else "under pressure"
+        else:
+            direction = "not yet established"
+
+        sentences: list[str] = []
+        if risk is not None:
+            sentences.append(
+                f"Our human cyber-risk posture is {direction}: the organisation-wide risk "
+                f"score now stands at {risk:.0f} out of 100."
+            )
+        else:
+            sentences.append(
+                "We do not yet have enough measured activity to state an organisation-wide "
+                "risk posture."
+            )
+
+        if click is not None and report_rate is not None:
+            sentences.append(
+                f"Employees clicked {click * 100:.0f} percent of simulated phishing lures in "
+                f"the last month, while {report_rate * 100:.0f} percent were proactively "
+                f"reported — every reported message becomes new, targeted training the same "
+                f"day, which is the engine behind the trend."
+            )
+        else:
+            sentences.append(
+                "Simulation results are still below the threshold we are willing to report "
+                "on; the next campaign will establish a baseline."
+            )
+
+        if depts:
+            best = min(depts, key=lambda d: d["avg_risk"])["name"]
+            worst = max(depts, key=lambda d: d["avg_risk"])["name"]
+            sentences.append(
+                f"{best} is currently our most resilient department, while {worst} carries "
+                f"the highest concentration of risk and is receiving prioritised "
+                f"micro-training."
+            )
+            sentences.append(
+                f"For the next thirty days the focus should be lifting the report rate above "
+                f"the click rate in {worst}, converting our most exposed team into our best "
+                f"early-warning sensor."
+            )
+        return " ".join(sentences)

@@ -4,10 +4,11 @@ import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import { useEscape } from '../../lib/useEscape'
 import type { DepartmentRisk, SimTemplate, Simulation, SimulationDetail, Threat } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, SectionTitle, Spinner, channelLabel, cx, pct, timeAgo } from '../../components/ui'
+import { Badge, Button, Card, EmptyState, LoadState, SectionTitle, channelLabel, cx, pct, timeAgo } from '../../components/ui'
+import { useCapabilities } from '../../lib/useCapabilities'
 
 export function SimulationsPage() {
-  const { data: sims, refresh } = usePoll<Simulation[]>(() => api.get('/api/simulations'), 4000)
+  const { data: sims, error, refresh } = usePoll<Simulation[]>(() => api.get('/api/simulations'), 4000)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [showCreate, setShowCreate] = useState(false)
 
@@ -26,7 +27,7 @@ export function SimulationsPage() {
       </div>
 
       {!sims ? (
-        <Spinner />
+        <LoadState error={error} onRetry={refresh} />
       ) : sims.length === 0 ? (
         <EmptyState>No campaigns yet — create one from a real analyzed threat.</EmptyState>
       ) : (
@@ -72,15 +73,26 @@ export function SimulationsPage() {
 }
 
 function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void; onChanged: () => Promise<void> }) {
-  const { data: sim, refresh } = usePoll<SimulationDetail>(() => api.get(`/api/simulations/${id}`), 3000, [id])
+  const { data: sim, error: loadError, refresh } = usePoll<SimulationDetail>(
+    () => api.get(`/api/simulations/${id}`),
+    3000,
+    [id],
+  )
+  const caps = useCapabilities()
   const [busy, setBusy] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   const act = async (action: string) => {
     setBusy(action)
+    setActionError(null)
     try {
       await api.post(`/api/simulations/${id}/${action}`)
       await refresh()
       await onChanged()
+    } catch (e) {
+      // Without this the failure was a silent no-op plus an unhandled rejection:
+      // the drawer just sat there and the analyst assumed the click worked.
+      setActionError(e instanceof Error ? e.message : 'Action failed')
     } finally {
       setBusy(null)
     }
@@ -93,7 +105,7 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
         onClick={(e) => e.stopPropagation()}
       >
         {!sim ? (
-          <Spinner />
+          <LoadState error={loadError} onRetry={refresh} />
         ) : (
           <>
             <div className="flex items-start justify-between gap-3">
@@ -134,15 +146,24 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
               )}
               {sim.status === 'active' && (
                 <>
-                  <Button variant="subtle" busy={busy === 'auto-outcomes'} onClick={() => void act('auto-outcomes')}>
-                    <Wand2 size={14} /> Simulate outcomes (demo)
-                  </Button>
+                  {/* Synthetic outcomes exist only in the exhibition build —
+                      in production the route is not registered at all. */}
+                  {caps.demo_mode && (
+                    <Button variant="subtle" busy={busy === 'auto-outcomes'} onClick={() => void act('auto-outcomes')}>
+                      <Wand2 size={14} /> Simulate outcomes (demo)
+                    </Button>
+                  )}
                   <Button variant="ghost" busy={busy === 'complete'} onClick={() => void act('complete')}>
                     Close campaign
                   </Button>
                 </>
               )}
             </div>
+            {actionError && (
+              <div className="mt-2 rounded-lg border border-bad/40 bg-bad/10 px-3 py-2 text-xs text-bad">
+                {actionError}
+              </div>
+            )}
 
             <div className="mt-5">
               <SectionTitle>Per-target outcomes → risk engine</SectionTitle>

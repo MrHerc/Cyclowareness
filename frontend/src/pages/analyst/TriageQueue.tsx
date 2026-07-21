@@ -4,7 +4,7 @@ import { ArrowRight, ShieldQuestion } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { Report } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, SectionTitle, Spinner, channelLabel, cx, timeAgo } from '../../components/ui'
+import { Badge, Button, Card, EmptyState, LoadState, SectionTitle, channelLabel, cx, timeAgo } from '../../components/ui'
 
 const TABS = [
   { key: 'new', label: 'New' },
@@ -14,7 +14,11 @@ const TABS = [
 
 export function TriageQueue() {
   const [tab, setTab] = useState<(typeof TABS)[number]['key']>('new')
-  const { data: reports, refresh } = usePoll<Report[]>(() => api.get(`/api/reports?status=${tab}`), 4000, [tab])
+  const { data: reports, error: loadError, refresh } = usePoll<Report[]>(
+    () => api.get(`/api/reports?status=${tab}`),
+    4000,
+    [tab],
+  )
   const navigate = useNavigate()
   const [busyId, setBusyId] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -68,7 +72,7 @@ export function TriageQueue() {
       {error && <div className="text-sm text-bad">{error}</div>}
 
       {!reports ? (
-        <Spinner />
+        <LoadState error={loadError} onRetry={refresh} />
       ) : reports.length === 0 ? (
         <EmptyState>
           <ShieldQuestion size={20} className="mx-auto mb-2 text-faint" />
