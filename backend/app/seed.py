@@ -13,9 +13,10 @@ import logging
 import random
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from .core.risk_engine import baseline_for
 from .models import (
     AssignmentStatus,
     Department,
@@ -688,8 +689,47 @@ def seed_if_empty(db: Session) -> None:
     db.flush()
     report3.linked_loop_run_id = run3.id
 
+    _reconcile_scores_with_audit_trail(db, employees.values())
+
     db.commit()
     logger.info("Seed complete: %d employees, 6 departments, 3 loop runs, 2 simulations", len(employee_specs))
+
+
+def _reconcile_scores_with_audit_trail(db: Session, employees) -> None:
+    """Make every seeded score derivable from its own events.
+
+    The demo scores are hand-chosen so the roster tells a story (Rashad is the
+    high-risk account executive, Aysel the model citizen) while the seeded
+    RiskEvents are written independently. That left the employee drawer showing
+    "Score breakdown (explainable)" summing to one number directly beneath a
+    "Current risk score" showing another — on every one of the 26 employees.
+
+    Explainability is the product's central claim about this number, so the
+    unexplained remainder is written as one labelled event rather than left as
+    a silent gap. It is a truthful label: an organisation adopting the platform
+    genuinely does arrive with a prior assessment, and everything after it is
+    earned inside the loop.
+    """
+    db.flush()
+    totals = dict(
+        db.execute(
+            select(RiskEvent.employee_id, func.sum(RiskEvent.delta)).group_by(RiskEvent.employee_id)
+        ).all()
+    )
+    for emp in employees:
+        explained = baseline_for(emp) + float(totals.get(emp.id) or 0.0)
+        remainder = round(emp.current_risk_score - explained, 2)
+        if abs(remainder) < 0.05:
+            continue
+        db.add(
+            RiskEvent(
+                employee_id=emp.id,
+                type="baseline_assessment",
+                delta=remainder,
+                reason="Pre-platform risk assessment, carried over at onboarding",
+                created_at=days_ago(400),
+            )
+        )
 
 
 def _fabricated_history(start: datetime, details: list[str]) -> list[dict]:

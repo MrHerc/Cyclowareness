@@ -169,29 +169,45 @@ async def triage_assist(report: dict[str, Any]) -> dict[str, Any]:
     so a heuristic fallback is preferable to blocking an employee from
     reporting a live phish. The mock here is a real keyword/IOC extractor, not
     canned prose, so a degraded triage note is still genuinely useful.
+
+    The engine that produced it is recorded under ``source`` in the returned
+    dict (a JSON column, so this needs no schema change). Both the analyst's
+    triage queue and the employee's own report list label this panel "AI", and
+    a keyword extractor must not be presented as a model's judgement.
     """
     provider = get_provider()
+    is_live = provider is not _mock
     try:
         raw = await provider.complete("triage_assist", report)
-        return _validate_triage(_parse_json(raw))
+        data = _validate_triage(_parse_json(raw))
+        data["source"] = SOURCE_ANTHROPIC if is_live else SOURCE_MOCK
+        return data
     except Exception:
-        if provider is _mock:
+        if not is_live:
             raise
         logger.exception("Live AI triage failed; falling back to heuristic triage")
         raw = await _mock.complete("triage_assist", report)
-        return _validate_triage(_parse_json(raw))
+        data = _validate_triage(_parse_json(raw))
+        data["source"] = SOURCE_MOCK
+        return data
 
 
-async def executive_briefing(metrics: dict[str, Any]) -> str:
-    """Org risk posture → natural-language executive summary."""
+async def executive_briefing(metrics: dict[str, Any]) -> tuple[str, str]:
+    """Org risk posture → natural-language executive summary.
+
+    Returns ``(text, source)``. The executive view heads this paragraph "AI
+    briefing"; when the offline generator wrote it, the reader — the one person
+    least able to tell the difference — is entitled to know.
+    """
     provider = get_provider()
+    is_live = provider is not _mock
     try:
         text = (await provider.complete("executive_briefing", metrics)).strip()
         if not text:
             raise ValueError("Empty briefing")
-        return text
+        return text, (SOURCE_ANTHROPIC if is_live else SOURCE_MOCK)
     except Exception:
-        if provider is _mock:
+        if not is_live:
             raise
         logger.exception("Live AI briefing failed; falling back to mock")
-        return (await _mock.complete("executive_briefing", metrics)).strip()
+        return (await _mock.complete("executive_briefing", metrics)).strip(), SOURCE_MOCK

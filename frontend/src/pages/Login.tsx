@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ShieldHalf, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { homeFor, useAuth } from '../lib/auth'
 import { useCapabilities } from '../lib/useCapabilities'
-import { Button } from '../components/ui'
+import { LoopMark } from '../components/Brand'
+import { Button, Callout, Input, cx } from '../components/ui'
+import { STAGES } from '../lib/types'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Security Analyst', email: 'analyst@caspiandynamics.az', password: 'analyst123' },
-  { label: 'Employee (Finance)', email: 'leyla.aliyeva@caspiandynamics.az', password: 'demo123' },
-  { label: 'Employee (high risk)', email: 'rashad.mammadov@caspiandynamics.az', password: 'demo123' },
-  { label: 'Executive (read-only)', email: 'exec@caspiandynamics.az', password: 'exec123' },
+  { role: 'Security analyst', email: 'analyst@caspiandynamics.az', password: 'analyst123' },
+  { role: 'Employee — Finance', email: 'leyla.aliyeva@caspiandynamics.az', password: 'demo123' },
+  { role: 'Employee — high risk', email: 'rashad.mammadov@caspiandynamics.az', password: 'demo123' },
+  { role: 'Executive — read only', email: 'exec@caspiandynamics.az', password: 'exec123' },
 ]
 
 export function Login() {
@@ -28,104 +30,107 @@ export function Login() {
       const session = await login(e, p)
       navigate(homeFor(session.role))
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed')
+      setError(err instanceof Error ? err.message : 'Sign-in failed')
     } finally {
       setBusy(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-5xl fade-in">
-        <div className="grid gap-10 md:grid-cols-2 md:items-center">
-          {/* left: brand story */}
-          <div>
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-accent/40 bg-accent/10">
-                <ShieldHalf size={26} className="text-accent" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight">Cyclowareness</h1>
-                <p className="text-[11px] uppercase tracking-[0.22em] text-faint">
-                  closed-loop security awareness
-                </p>
-              </div>
-            </div>
-            <h2 className="text-3xl font-semibold leading-snug tracking-tight">
-              Real threats become <span className="text-accent">personalized training</span> — automatically.
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
-              Every reported attack is detonated in a sandbox, converted by AI into targeted
-              micro-training for the exact people at risk, and measured — the results feed straight
-              back into the risk model. Learn, detect, neutralize. And repeat.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2 text-[11px] text-faint">
-              {['Ingest', 'Analyze', 'Convert', 'Target', 'Train', 'Measure', 'Feedback'].map((s, i) => (
-                <span key={s} className="flex items-center gap-2">
-                  <span className="rounded-md border border-border bg-surface px-2 py-1 font-medium tracking-wide text-muted">
-                    {s}
-                  </span>
-                  {i < 6 && <span className="text-accent/60">→</span>}
-                </span>
-              ))}
-            </div>
+    <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-5 py-12">
+      <div className="rise grid w-full gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-20">
+        {/* --- the proposition ------------------------------------------- */}
+        <div>
+          <div className="flex items-center gap-3">
+            <LoopMark size={30} className="text-brand-fg" />
+            <span className="text-h tracking-tight">Cyclowareness</span>
           </div>
 
-          {/* right: login card */}
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-2xl shadow-black/40">
-            <h3 className="text-lg font-semibold">Sign in</h3>
-            <form
-              className="mt-4 space-y-3"
-              onSubmit={(e) => {
-                e.preventDefault()
-                void doLogin(email, password)
-              }}
-            >
-              <input
-                type="email"
-                required
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none transition-colors placeholder:text-faint focus:border-accent/60"
-              />
-              <input
-                type="password"
-                required
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none transition-colors placeholder:text-faint focus:border-accent/60"
-              />
-              {error && <div className="text-xs text-bad">{error}</div>}
-              <Button type="submit" busy={busy} className="w-full justify-center py-2">
-                Sign in <ArrowRight size={14} />
-              </Button>
-            </form>
+          <h1 className="text-display mt-8 max-w-xl">
+            The attack your people just reported becomes the training they get tomorrow.
+          </h1>
+          <p className="text-lead mt-5 max-w-lg text-c2">
+            A reported threat is analysed, converted into a short lesson, and delivered only to the
+            people that threat would actually have worked on. What they do next updates the risk
+            model — which decides who gets targeted the next time round.
+          </p>
 
-            {/* The seeded accounts only exist in the exhibition build; in
-                production these buttons would fail on every click. */}
-            {caps.demo_mode && (
-              <div className="mt-5 border-t border-border pt-4">
-                <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">
-                  Demo accounts — one click
-                </div>
-                <div className="space-y-1.5">
-                  {DEMO_ACCOUNTS.map((acc) => (
-                    <button
-                      key={acc.email}
-                      disabled={busy}
-                      onClick={() => void doLogin(acc.email, acc.password)}
-                      className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2 px-3 py-2 text-left text-xs transition-colors hover:border-accent/50"
-                    >
-                      <span className="font-medium">{acc.label}</span>
-                      <span className="text-faint">{acc.email}</span>
-                    </button>
-                  ))}
-                </div>
+          {/* The loop, stated plainly. Seven numbered stages read as a system;
+              seven identical pills read as decoration. */}
+          <ol className="mt-9 grid max-w-lg grid-cols-2 gap-x-8 gap-y-2.5 sm:grid-cols-3">
+            {STAGES.map((s) => (
+              <li key={s.n} className="flex items-baseline gap-2.5 border-t border-hair pt-2">
+                <span className="text-xs font-mono text-c3">{String(s.n).padStart(2, '0')}</span>
+                <span className="text-sm font-medium">{s.label}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* --- sign in ---------------------------------------------------- */}
+        <div className="w-full max-w-md justify-self-end rounded-panel border border-hair bg-panel p-6">
+          <h2 className="text-h">Sign in</h2>
+          <p className="text-sm mt-1 text-c2">Use your work account.</p>
+
+          <form
+            className="mt-5 space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault()
+              void doLogin(email, password)
+            }}
+          >
+            <Input
+              label="Email"
+              type="email"
+              required
+              autoComplete="username"
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              label="Password"
+              type="password"
+              required
+              autoComplete="current-password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && (
+              <div aria-live="polite">
+                <Callout tone="danger">{error}</Callout>
               </div>
             )}
-          </div>
+            <Button type="submit" variant="primary" size="lg" busy={busy} className="w-full">
+              Sign in <ArrowRight size={15} aria-hidden />
+            </Button>
+          </form>
+
+          {/* The seeded accounts exist only in the exhibition build; in
+              production every one of these buttons would fail on click. */}
+          {caps.demo_mode && (
+            <div className="mt-6 border-t border-hair pt-5">
+              <div className="label text-c3">Demo accounts</div>
+              <div className="mt-2.5 space-y-1">
+                {DEMO_ACCOUNTS.map((acc) => (
+                  <button
+                    key={acc.email}
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void doLogin(acc.email, acc.password)}
+                    className={cx(
+                      'flex w-full items-baseline justify-between gap-3 rounded-control px-2.5 py-2 text-left transition-colors',
+                      'hover:bg-raised disabled:opacity-50',
+                    )}
+                  >
+                    <span className="text-sm font-medium">{acc.role}</span>
+                    <span className="text-xs truncate text-c3">{acc.email}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

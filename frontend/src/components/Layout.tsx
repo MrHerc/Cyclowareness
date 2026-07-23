@@ -1,154 +1,159 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
-  Radar,
-  Inbox,
   BookOpenCheck,
-  Users,
-  Send,
-  Rss,
+  GraduationCap,
+  Inbox,
+  LineChart,
   LogOut,
   Menu,
-  ShieldHalf,
-  GraduationCap,
-  LineChart,
+  Moon,
+  Radar,
+  Rss,
+  Send,
+  Sun,
+  Users,
   X,
 } from 'lucide-react'
 import { useAuth } from '../lib/auth'
-import { cx, Spinner } from './ui'
+import { useTheme } from '../lib/useTheme'
+import { LoopMark } from './Brand'
+import { IconButton, Spinner, cx } from './ui'
 import type { RoleName } from '../lib/types'
 
 const NAV = {
   analyst: [
-    { to: '/', label: 'Loop Dashboard', icon: Radar, end: true },
-    { to: '/reports', label: 'Triage Queue', icon: Inbox },
-    { to: '/training', label: 'Training Review', icon: BookOpenCheck },
-    { to: '/employees', label: 'Employees & Risk', icon: Users },
+    { to: '/', label: 'Loop', icon: Radar, end: true },
+    { to: '/reports', label: 'Triage', icon: Inbox },
+    { to: '/training', label: 'Training', icon: BookOpenCheck },
+    { to: '/employees', label: 'People & risk', icon: Users },
     { to: '/simulations', label: 'Simulations', icon: Send },
-    { to: '/feed', label: 'Intel Feed', icon: Rss },
+    { to: '/feed', label: 'Intel', icon: Rss },
   ],
-  employee: [{ to: '/me', label: 'My Security Portal', icon: GraduationCap, end: true }],
-  executive: [{ to: '/exec', label: 'Executive View', icon: LineChart, end: true }],
-}
+  employee: [{ to: '/me', label: 'My security', icon: GraduationCap, end: true }],
+  executive: [{ to: '/exec', label: 'Posture', icon: LineChart, end: true }],
+} satisfies Record<RoleName, { to: string; label: string; icon: typeof Radar; end?: boolean }[]>
 
-const Brand = () => (
-  <div className="flex items-center gap-2.5">
-    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/40 bg-accent/10">
-      <ShieldHalf size={19} className="text-accent" />
-    </div>
-    <div>
-      <div className="text-[15px] font-bold leading-tight tracking-tight">Cyclowareness</div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-faint">learn · detect · repeat</div>
-    </div>
-  </div>
-)
-
-function SidebarBody({
-  role,
-  name,
-  onSignOut,
-}: {
-  role: RoleName
-  name: string
-  onSignOut: () => void
-}) {
-  const items = NAV[role] ?? []
-  return (
-    <>
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
-        {items.map(({ to, label, icon: Icon, end }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end as boolean | undefined}
-            className={({ isActive }) =>
-              cx(
-                'flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
-                isActive ? 'bg-accent/10 text-accent' : 'text-muted hover:bg-surface-2 hover:text-ink',
-              )
-            }
-          >
-            <Icon size={16} />
-            {label}
-          </NavLink>
-        ))}
-      </nav>
-      <div className="border-t border-border p-4">
-        <div className="truncate text-[13px] font-medium">{name}</div>
-        <div className="mb-2 text-[11px] capitalize text-faint">{role}</div>
-        <button
-          onClick={onSignOut}
-          className="flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-bad"
-        >
-          <LogOut size={13} /> Sign out
-        </button>
-      </div>
-    </>
-  )
-}
-
+/**
+ * A top bar rather than the usual fixed left rail.
+ *
+ * The rail cost 240px of width on every page of a data-dense product, and
+ * carried a single item for two of the three roles. It is also the most
+ * recognisable admin-template silhouette there is. Horizontal navigation gives
+ * the tables and the loop the room they actually need, and behaves the same
+ * whether a role has one destination or six.
+ */
 export function Layout() {
   const { session, logout } = useAuth()
+  const { theme, toggle } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  // Close the mobile drawer whenever the route changes.
-  useEffect(() => setMobileOpen(false), [location.pathname])
+  useEffect(() => setMenuOpen(false), [location.pathname])
 
   if (!session) return <Navigate to="/login" replace />
+
+  const items = NAV[session.role] ?? []
   const name = session.employee_name ?? session.email
   const signOut = () => {
     logout()
     navigate('/login')
   }
 
+  const link = ({ isActive }: { isActive: boolean }) =>
+    cx(
+      'relative flex items-center gap-2 rounded-control px-3 py-1.5 text-sm font-medium transition-colors',
+      isActive ? 'bg-raised text-c1' : 'text-c2 hover:text-c1',
+    )
+
   return (
     <div className="min-h-screen">
-      {/* Mobile top bar */}
-      <header className="fixed inset-x-0 top-0 z-30 flex items-center justify-between border-b border-border bg-surface/90 px-4 py-3 backdrop-blur lg:hidden">
-        <Brand />
-        <button
-          onClick={() => setMobileOpen(true)}
-          aria-label="Open menu"
-          className="rounded-lg border border-border p-2 text-muted hover:text-ink"
-        >
-          <Menu size={18} />
-        </button>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:bg-panel focus:px-3 focus:py-2 focus:text-sm"
+      >
+        Skip to content
+      </a>
+
+      <header className="sticky top-0 z-30 border-b border-hair bg-canvas/85 backdrop-blur">
+        <div className="mx-auto flex h-14 w-full max-w-[1560px] items-center gap-4 px-4 sm:px-6">
+          <NavLink to={items[0]?.to ?? '/'} className="flex shrink-0 items-center gap-2" aria-label="Cyclowareness home">
+            <LoopMark size={22} className="text-brand-fg" />
+            <span className="text-body hidden font-semibold tracking-tight sm:inline">Cyclowareness</span>
+          </NavLink>
+
+          <nav aria-label="Primary" className="hidden flex-1 items-center gap-0.5 lg:flex">
+            {items.map(({ to, label, icon: Icon, end }) => (
+              <NavLink key={to} to={to} end={end} className={link}>
+                <Icon size={15} aria-hidden />
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="ml-auto flex items-center gap-1 lg:ml-0">
+            <IconButton label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} onClick={toggle}>
+              {theme === 'dark' ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
+            </IconButton>
+
+            <div className="hidden items-center gap-3 border-l border-hair pl-3 sm:flex">
+              <div className="text-right leading-tight">
+                <div className="text-sm max-w-40 truncate font-medium">{name}</div>
+                <div className="text-xs capitalize text-c3">{session.role}</div>
+              </div>
+              <IconButton label="Sign out" onClick={signOut}>
+                <LogOut size={15} aria-hidden />
+              </IconButton>
+            </div>
+
+            <IconButton label="Open menu" onClick={() => setMenuOpen(true)} className="lg:hidden">
+              <Menu size={18} aria-hidden />
+            </IconButton>
+          </div>
+        </div>
       </header>
 
-      {/* Desktop sidebar — always present ≥lg */}
-      <aside className="fixed inset-y-0 left-0 z-20 hidden w-60 flex-col border-r border-border bg-surface/80 backdrop-blur lg:flex">
-        <div className="px-5 pb-5 pt-6">
-          <Brand />
-        </div>
-        <SidebarBody role={session.role} name={name} onSignOut={signOut} />
-      </aside>
-
-      {/* Mobile drawer — mounted only when open */}
-      {mobileOpen && (
+      {/* Mounted only when open: toggling Tailwind v4 translate utilities left a
+          stale `translate: -100%` in the computed style, so the panel is
+          conditionally rendered instead. */}
+      {menuOpen && (
         <>
-          <div className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => setMobileOpen(false)} />
-          <aside className="fixed inset-y-0 left-0 z-50 flex w-64 max-w-[80vw] flex-col border-r border-border bg-surface shadow-2xl lg:hidden">
-            <div className="flex items-center justify-between px-5 pb-5 pt-6">
-              <Brand />
-              <button onClick={() => setMobileOpen(false)} aria-label="Close menu" className="text-muted hover:text-ink">
-                <X size={18} />
+          <div className="fixed inset-0 z-40 bg-black/65 lg:hidden" onClick={() => setMenuOpen(false)} />
+          <aside
+            className="fixed inset-y-0 right-0 z-50 flex w-72 max-w-[85vw] flex-col border-l border-line bg-panel shadow-2xl lg:hidden"
+            aria-label="Menu"
+          >
+            <div className="flex items-center justify-between border-b border-hair px-4 py-3">
+              <span className="text-body font-semibold">{name}</span>
+              <IconButton label="Close menu" onClick={() => setMenuOpen(false)}>
+                <X size={18} aria-hidden />
+              </IconButton>
+            </div>
+            <nav aria-label="Primary" className="flex-1 space-y-0.5 overflow-y-auto p-3">
+              {items.map(({ to, label, icon: Icon, end }) => (
+                <NavLink key={to} to={to} end={end} className={({ isActive }) => cx(link({ isActive }), 'w-full')}>
+                  <Icon size={16} aria-hidden />
+                  {label}
+                </NavLink>
+              ))}
+            </nav>
+            <div className="border-t border-hair p-3">
+              <button
+                onClick={signOut}
+                className="text-sm flex items-center gap-2 rounded-control px-3 py-2 text-c2 transition-colors hover:text-danger"
+              >
+                <LogOut size={15} aria-hidden /> Sign out
               </button>
             </div>
-            <SidebarBody role={session.role} name={name} onSignOut={signOut} />
           </aside>
         </>
       )}
 
-      {/* Content is capped and centred: past ~1600px the dashboard would
-          otherwise sprawl edge-to-edge and lose all sense of composition. */}
-      <main className="min-h-screen px-4 pb-8 pt-20 sm:px-6 lg:ml-60 lg:px-8 lg:pt-7">
-        <div className="mx-auto w-full max-w-[1440px]">
-          <Suspense fallback={<Spinner label="Loading…" />}>
-            <Outlet />
-          </Suspense>
-        </div>
+      <main id="main" className="mx-auto w-full max-w-[1560px] px-4 pb-16 pt-6 sm:px-6">
+        <Suspense fallback={<Spinner label="Loading" />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   )

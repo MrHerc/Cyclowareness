@@ -23,7 +23,10 @@ export function useLoopStream(onEvent: () => void) {
     const connect = () => {
       if (closed) return
       const proto = location.protocol === 'https:' ? 'wss' : 'ws'
-      ws = new WebSocket(`${proto}://${location.host}/api/ws?token=${encodeURIComponent(session.access_token)}`)
+      // No token in the URL: the handshake URL is written verbatim into the
+      // server's access log and into every proxy in front of it, and these
+      // tokens live for twelve hours. It goes in the first frame instead.
+      ws = new WebSocket(`${proto}://${location.host}/api/ws`)
 
       ws.onmessage = (ev) => {
         try {
@@ -35,6 +38,7 @@ export function useLoopStream(onEvent: () => void) {
       }
       ws.onopen = () => {
         retry = 0
+        ws?.send(JSON.stringify({ token: session.access_token }))
       }
       ws.onclose = () => {
         if (closed) return

@@ -1,9 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, CheckCircle2, Send, XCircle } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Send,
+  TrendingDown,
+  TrendingUp,
+  XCircle,
+} from 'lucide-react'
 import { api } from '../../lib/api'
 import type { AssignmentDetail, QuizResult } from '../../lib/types'
-import { Badge, Button, Card, Spinner, ThreatOriginChip, channelLabel, cx } from '../../components/ui'
+import {
+  Button,
+  Callout,
+  Chip,
+  Empty,
+  LoadState,
+  PageHeader,
+  Panel,
+  Provenance,
+  RiskMeter,
+  Spinner,
+  channelLabel,
+  cx,
+  signed,
+} from '../../components/ui'
 
 type Phase = 'lesson' | 'quiz' | 'result' | 'review'
 
@@ -34,11 +56,13 @@ export function TakeTraining() {
 
   if (loadError)
     return (
-      <div className="fade-in mx-auto max-w-2xl py-10 text-center">
-        <p className="text-sm text-bad">{loadError}</p>
-        <Link to="/me" className="mt-3 inline-block text-sm text-accent hover:underline">
-          ← Back to your portal
-        </Link>
+      <div className="rise mx-auto max-w-2xl">
+        <LoadState error={loadError} />
+        <p className="text-sm mt-4 text-center">
+          <Link to="/me" className="inline-flex items-center gap-1.5 text-brand-fg hover:underline">
+            <ArrowLeft size={14} aria-hidden /> Back to your portal
+          </Link>
+        </p>
       </div>
     )
   if (!assignment) return <Spinner label="Loading training…" />
@@ -64,64 +88,78 @@ export function TakeTraining() {
 
   const isLast = questionIndex === module.quiz.length - 1
   const allAnswered = answers.every((a) => a !== null)
+  const question = module.quiz[questionIndex]
 
   return (
-    <div className="fade-in mx-auto max-w-2xl space-y-5">
-      <div className="flex items-center gap-3">
-        <button onClick={() => navigate('/me')} className="flex items-center gap-1 text-sm text-muted hover:text-ink">
-          <ArrowLeft size={15} /> Portal
-        </button>
-        {module.ai_generated && <ThreatOriginChip source={module.generation_source} />}
-        <Badge value={module.channel} label={channelLabel(module.channel)} />
-        <span className="text-[11px] text-faint">~{module.est_minutes} min</span>
+    <div className="rise mx-auto max-w-2xl space-y-6 pb-8">
+      <PageHeader
+        breadcrumb={
+          <Link to="/me" className="inline-flex items-center gap-1.5 hover:text-c1">
+            <ArrowLeft size={14} aria-hidden /> Your portal
+          </Link>
+        }
+        title={module.title}
+        lede={module.description}
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        {/* Never let canned content borrow the model's credit — Provenance
+            decides the employee-facing wording from the generation source. */}
+        {module.ai_generated && <Provenance source={module.generation_source} audience="employee" />}
+        <Chip>{channelLabel(module.channel)}</Chip>
+        <span className="text-xs text-c3">about {module.est_minutes} min</span>
       </div>
 
-      <div>
-        <h1 className="text-xl font-bold tracking-tight">{module.title}</h1>
-        <p className="mt-1 text-sm text-muted">{module.description}</p>
-        {assignment.targeting_reasons.length > 0 && (
-          <p className="mt-2 rounded-lg border border-indigo/25 bg-indigo/5 px-3 py-2 text-xs italic text-indigo">
-            Why you received this: {assignment.targeting_reasons.join(' · ')}
-          </p>
-        )}
-        {isReview && (
-          <div className="mt-2 flex items-center gap-2 rounded-lg border border-good/30 bg-good/5 px-3 py-2 text-sm text-good">
-            <CheckCircle2 size={15} />
-            Completed{assignment.score !== null && <> — you scored <span className="font-bold">{assignment.score.toFixed(0)}%</span></>}.
-            Reviewing the lesson never hurts.
-          </div>
-        )}
-      </div>
+      {assignment.targeting_reasons.length > 0 && (
+        <Callout tone="brand" title="Why you received this">
+          {assignment.targeting_reasons.join(' · ')}
+        </Callout>
+      )}
+
+      {isReview && (
+        <Callout tone="success" title="Already completed" icon={<CheckCircle2 size={13} aria-hidden />}>
+          {assignment.score !== null ? (
+            <>
+              You scored <span className="font-semibold text-c1">{assignment.score.toFixed(0)}%</span> on this module.
+              Nothing here can change that score — this is the lesson kept open for reference.
+            </>
+          ) : (
+            <>
+              You have finished this module. Nothing here can change your score — this is the lesson kept open for
+              reference.
+            </>
+          )}
+        </Callout>
+      )}
 
       {(phase === 'lesson' || isReview) && (
         <>
-          <div className="space-y-3">
-            {module.content.map((section, i) => (
-              <Card key={section.heading} className="p-5">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">
-                    {i + 1}
-                  </span>
-                  <h2 className="text-sm font-semibold">{section.heading}</h2>
-                </div>
-                <p className="mt-2.5 text-sm leading-relaxed text-muted">{section.body}</p>
-              </Card>
-            ))}
-          </div>
+          <Panel title="Lesson">
+            <div className="space-y-6">
+              {module.content.map((section, i) => (
+                <article key={section.heading}>
+                  <h3 className="text-h flex items-baseline gap-2.5">
+                    <span className="text-xs shrink-0 font-mono text-c3">{String(i + 1).padStart(2, '0')}</span>
+                    <span>{section.heading}</span>
+                  </h3>
+                  <p className="text-body mt-2 leading-relaxed text-c2">{section.body}</p>
+                </article>
+              ))}
+            </div>
+          </Panel>
+
           {module.takeaway && isReview && (
-            <Card className="border-accent/30 bg-accent/5 p-5 text-center">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">Remember this</div>
-              <p className="mt-1.5 text-sm italic leading-relaxed">“{module.takeaway}”</p>
-            </Card>
+            <Callout tone="brand" title="Remember this">
+              <span className="italic">{module.takeaway}</span>
+            </Callout>
           )}
-          <div className="flex justify-end pb-6">
+
+          <div className="flex justify-end">
             {isReview ? (
-              <Button onClick={() => navigate('/me')} variant="subtle" className="px-5 py-2">
-                Back to your portal
-              </Button>
+              <Button onClick={() => navigate('/me')}>Back to your portal</Button>
             ) : (
-              <Button onClick={() => setPhase('quiz')} className="px-5 py-2">
-                Take the quiz <ArrowRight size={15} />
+              <Button variant="primary" size="lg" onClick={() => setPhase('quiz')}>
+                Take the quiz <ArrowRight size={15} aria-hidden />
               </Button>
             )}
           </div>
@@ -129,149 +167,203 @@ export function TakeTraining() {
       )}
 
       {phase === 'quiz' && (
-        <Card className="p-6">
-          <div className="mb-4 flex items-center justify-between text-xs text-faint">
-            <span>
-              Question {questionIndex + 1} of {module.quiz.length}
-            </span>
-            <div className="flex gap-1">
-              {module.quiz.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setQuestionIndex(i)}
-                  aria-label={`Go to question ${i + 1}`}
-                  className={cx(
-                    'h-1.5 w-6 rounded-full transition-colors',
-                    answers[i] !== null ? 'bg-accent' : i === questionIndex ? 'bg-accent/50' : 'bg-surface-3',
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-          <h2 className="text-base font-semibold leading-relaxed">{module.quiz[questionIndex].question}</h2>
-          <div className="mt-4 space-y-2">
-            {module.quiz[questionIndex].options.map((opt, oi) => {
-              const selected = answers[questionIndex] === oi
-              return (
-                <button
-                  key={oi}
-                  onClick={() =>
-                    setAnswers((prev) => prev.map((a, i) => (i === questionIndex ? oi : a)))
-                  }
-                  aria-pressed={selected}
-                  className={cx(
-                    'block w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
-                    selected
-                      ? 'border-accent bg-accent/10 text-ink'
-                      : 'border-border bg-surface-2 hover:border-accent/50 hover:bg-accent/5',
-                  )}
-                >
-                  <span className={cx('mr-2 font-mono text-xs', selected ? 'text-accent' : 'text-faint')}>
-                    {String.fromCharCode(65 + oi)}
-                  </span>
-                  {opt}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* deliberate navigation — no auto-submit traps */}
-          <div className="mt-5 flex items-center justify-between">
-            <Button
-              variant="ghost"
-              disabled={questionIndex === 0}
-              onClick={() => setQuestionIndex((i) => Math.max(0, i - 1))}
-            >
-              <ArrowLeft size={14} /> Previous
-            </Button>
-            {isLast ? (
-              <Button
-                onClick={() => void submitQuiz()}
-                busy={busy}
-                disabled={!allAnswered}
-                className="px-5"
-              >
-                <Send size={14} /> Submit answers
-              </Button>
-            ) : (
-              <Button
-                disabled={answers[questionIndex] === null}
-                onClick={() => setQuestionIndex((i) => Math.min(module.quiz.length - 1, i + 1))}
-              >
-                Next <ArrowRight size={14} />
-              </Button>
-            )}
-          </div>
-          {isLast && !allAnswered && (
-            <p className="mt-2 text-right text-[11px] text-faint">Answer every question to submit.</p>
-          )}
-          {error && <div className="mt-3 text-xs text-bad">{error}</div>}
-        </Card>
-      )}
-
-      {phase === 'result' && result && (
-        <div className="space-y-4">
-          <Card className={cx('p-6 text-center', result.passed ? 'border-good/40' : 'border-warn/40')}>
-            <div className="text-4xl">{result.passed ? '🎉' : '💪'}</div>
-            <h2 className="mt-2 text-2xl font-bold">
-              {result.score.toFixed(0)}%{' '}
-              <span className="text-sm font-medium text-muted">
-                ({result.correct}/{result.total} correct)
-              </span>
-            </h2>
-            <p className={cx('mt-1 text-sm font-medium', result.passed ? 'text-good' : 'text-warn')}>
-              {result.passed ? 'Passed — well done!' : 'Not quite — review the explanations below.'}
-            </p>
-            <div
-              className={cx(
-                'mx-auto mt-4 w-fit rounded-xl border px-4 py-2.5 text-sm',
-                result.risk_delta <= 0 ? 'border-good/40 bg-good/10 text-good' : 'border-warn/40 bg-warn/10 text-warn',
-              )}
-            >
-              Your risk score changed by{' '}
-              <span className="font-mono font-bold">
-                {result.risk_delta > 0 ? '+' : ''}
-                {result.risk_delta.toFixed(1)}
-              </span>{' '}
-              → now <span className="font-mono font-bold">{result.new_risk_score.toFixed(1)}</span>
-            </div>
-          </Card>
-
-          <Card className="p-5">
-            <div className="space-y-3">
-              {module.quiz.map((q, qi) => {
-                const pq = result.per_question[qi]
+        <Panel
+          title={`Question ${questionIndex + 1} of ${module.quiz.length}`}
+          actions={
+            <div role="group" aria-label="Quiz progress" className="flex items-center gap-1">
+              {module.quiz.map((_, i) => {
+                const answered = answers[i] !== null
+                const current = i === questionIndex
                 return (
-                  <div key={qi} className="rounded-lg border border-border bg-surface-2 p-3">
-                    <div className="flex items-start gap-2">
-                      {pq.correct ? (
-                        <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-good" />
-                      ) : (
-                        <XCircle size={15} className="mt-0.5 shrink-0 text-bad" />
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setQuestionIndex(i)}
+                    aria-current={current ? 'step' : undefined}
+                    aria-label={`Question ${i + 1}, ${answered ? 'answered' : 'not answered'}`}
+                    className="flex h-4 items-center px-0.5"
+                  >
+                    <span
+                      className={cx(
+                        'block h-1.5 rounded-full transition-all',
+                        current ? 'w-8' : 'w-5',
+                        answered ? 'bg-brand' : current ? 'bg-brand/45' : 'bg-line-strong',
                       )}
-                      <div>
-                        <div className="text-[13px] font-medium">{q.question}</div>
-                        {!pq.correct && (
-                          <div className="mt-1 text-xs text-good">Correct: {q.options[pq.correct_index]}</div>
-                        )}
-                        {pq.explanation && <p className="mt-1 text-xs text-muted">{pq.explanation}</p>}
-                      </div>
-                    </div>
-                  </div>
+                    />
+                  </button>
                 )
               })}
             </div>
-          </Card>
+          }
+        >
+          {!question ? (
+            <Empty>This module has no quiz questions.</Empty>
+          ) : (
+            <>
+              <h3 className="text-lead font-semibold">{question.question}</h3>
+              <div role="group" aria-label={question.question} className="mt-4 space-y-2">
+                {question.options.map((opt, oi) => {
+                  const selected = answers[questionIndex] === oi
+                  return (
+                    <button
+                      key={oi}
+                      type="button"
+                      onClick={() => setAnswers((prev) => prev.map((a, i) => (i === questionIndex ? oi : a)))}
+                      aria-pressed={selected}
+                      className={cx(
+                        'text-body flex w-full items-baseline gap-3 rounded-control border px-4 py-3 text-left transition-colors',
+                        selected
+                          ? 'border-brand bg-brand/12 text-c1'
+                          : 'border-line bg-raised text-c2 hover:border-line-strong hover:text-c1',
+                      )}
+                    >
+                      <span className={cx('text-xs shrink-0 font-mono', selected ? 'text-brand-fg' : 'text-c3')}>
+                        {String.fromCharCode(65 + oi)}
+                      </span>
+                      <span>{opt}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Deliberate navigation — no auto-submit traps. An earlier version
+                  submitted the quiz on the last answer click, so one misclick
+                  applied an irreversible score and risk change. Submitting is
+                  always an explicit act, and only once every question is answered. */}
+              <div className="mt-6 flex items-center justify-between gap-3 border-t border-hair pt-4">
+                <Button
+                  variant="ghost"
+                  disabled={questionIndex === 0}
+                  onClick={() => setQuestionIndex((i) => Math.max(0, i - 1))}
+                >
+                  <ArrowLeft size={14} aria-hidden /> Previous
+                </Button>
+                {isLast ? (
+                  <Button
+                    variant="primary"
+                    onClick={() => void submitQuiz()}
+                    busy={busy}
+                    disabled={!allAnswered}
+                  >
+                    <Send size={14} aria-hidden /> Submit answers
+                  </Button>
+                ) : (
+                  <Button
+                    disabled={answers[questionIndex] === null}
+                    onClick={() => setQuestionIndex((i) => Math.min(module.quiz.length - 1, i + 1))}
+                  >
+                    Next <ArrowRight size={14} aria-hidden />
+                  </Button>
+                )}
+              </div>
+              {isLast && !allAnswered && (
+                <p className="text-xs mt-2 text-right text-c3">Answer every question before you submit.</p>
+              )}
+              {error && (
+                <div className="mt-3" role="alert">
+                  <Callout tone="danger" title="Submission failed">
+                    {error}
+                  </Callout>
+                </div>
+              )}
+            </>
+          )}
+        </Panel>
+      )}
+
+      {phase === 'result' && result && (
+        <div className="space-y-5" aria-live="polite">
+          <Panel tone="feature">
+            <div className="text-center">
+              <div className="label text-c3">Your score</div>
+              <p className="text-display mt-1.5">{result.score.toFixed(0)}%</p>
+              <p className="text-sm mt-1 text-c2">
+                {result.correct} of {result.total} correct
+              </p>
+              <p
+                className={cx(
+                  'text-lead mt-4 inline-flex items-center gap-2 font-semibold',
+                  result.passed ? 'text-success' : 'text-warning',
+                )}
+              >
+                {result.passed ? (
+                  <CheckCircle2 size={16} aria-hidden />
+                ) : (
+                  <XCircle size={16} aria-hidden />
+                )}
+                {result.passed ? 'Passed' : 'Not a pass yet'}
+              </p>
+              <p className="text-sm mt-1 text-c2">
+                {result.passed
+                  ? 'This module is closed out for you.'
+                  : 'Read the explanations below — they are the part that sticks.'}
+              </p>
+            </div>
+
+            {/* Cause and effect, stated in that order: what you did, what it
+                moved, where it now sits. The sign is spelled out so the colour
+                is never the only thing carrying the direction. */}
+            <div className="mt-6 border-t border-hair pt-5 text-center">
+              <div className="label text-c3">What this changed</div>
+              <p className="text-lead mt-2 text-c2">
+                You completed this module, so your risk score moved by{' '}
+                <span
+                  className={cx(
+                    'inline-flex items-baseline gap-1 font-mono font-semibold',
+                    result.risk_delta <= 0 ? 'text-success' : 'text-warning',
+                  )}
+                >
+                  {result.risk_delta <= 0 ? (
+                    <TrendingDown size={14} aria-hidden />
+                  ) : (
+                    <TrendingUp size={14} aria-hidden />
+                  )}
+                  {signed(result.risk_delta)}
+                </span>
+                . It is now{' '}
+                <span className="font-mono font-semibold text-c1">{result.new_risk_score.toFixed(1)}</span> out of 100.
+              </p>
+              <div className="mt-3 flex justify-center">
+                <RiskMeter score={result.new_risk_score} />
+              </div>
+            </div>
+          </Panel>
+
+          <Panel title="Answer review">
+            <ul className="space-y-3">
+              {module.quiz.map((q, qi) => {
+                const pq = result.per_question[qi]
+                // per_question is keyed by position; if the server ever returns a
+                // shorter list, skip rather than blank the whole result screen.
+                if (!pq) return null
+                return (
+                  <li key={qi} className="rounded-control border border-hair bg-raised p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="text-body font-medium">{q.question}</p>
+                      <span className="shrink-0">
+                        <Chip tone={pq.correct ? 'success' : 'danger'}>{pq.correct ? 'Correct' : 'Incorrect'}</Chip>
+                      </span>
+                    </div>
+                    {!pq.correct && (
+                      <p className="text-sm mt-1.5 text-success">
+                        The right answer was {q.options[pq.correct_index] ?? '—'}
+                      </p>
+                    )}
+                    {pq.explanation && <p className="text-sm mt-1.5 text-c2">{pq.explanation}</p>}
+                  </li>
+                )
+              })}
+            </ul>
+          </Panel>
 
           {module.takeaway && (
-            <Card className="border-accent/30 bg-accent/5 p-5 text-center">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">Remember this</div>
-              <p className="mt-1.5 text-sm italic leading-relaxed">“{module.takeaway}”</p>
-            </Card>
+            <Callout tone="brand" title="Remember this">
+              <span className="italic">{module.takeaway}</span>
+            </Callout>
           )}
 
-          <div className="flex justify-center pb-6">
-            <Button onClick={() => navigate('/me')} className="px-5 py-2">
+          <div className="flex justify-center">
+            <Button variant="primary" size="lg" onClick={() => navigate('/me')}>
               Back to your portal
             </Button>
           </div>

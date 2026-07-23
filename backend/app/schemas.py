@@ -25,6 +25,21 @@ class TokenResponse(BaseModel):
     employee_name: str | None = None
 
 
+class IdentityResponse(BaseModel):
+    """Who the caller is — deliberately without a token.
+
+    /auth/me used to answer with a TokenResponse, which meant it minted a fresh
+    12-hour credential on every call. Anyone holding a stolen token could renew
+    it indefinitely by pinging an endpoint whose only job is to say a name, so
+    revocation by expiry never actually arrived.
+    """
+
+    role: str
+    email: str
+    employee_id: int | None = None
+    employee_name: str | None = None
+
+
 # --- Org -------------------------------------------------------------------
 
 class DepartmentOut(ORMModel):

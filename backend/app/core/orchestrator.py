@@ -265,10 +265,29 @@ def _stage_already_ran(run: LoopRun, stage: int) -> bool:
 
 
 async def _target_and_train(db: Session, run: LoopRun) -> None:
-    # Idempotency guard: concurrent approvals may both submit this task;
-    # only the first may run TARGET (tasks execute serially on the event loop).
+    # Two concurrent approvals both submit this task. Each task opens its own
+    # session and may have read `run` before the other committed TARGET, so the
+    # in-memory object is not a safe basis for the guard — refresh it first.
+    # Without this, both tasks pass, and every selected employee is charged
+    # exposure twice and assigned the module twice.
+    db.refresh(run)
     if _stage_already_ran(run, LoopStage.TARGET) or run.status == LoopStatus.FAILED:
         return
+
+    # Re-read the human gate at the moment of use. Approve and reject race on
+    # the same run, and this task can have been queued before the rejection
+    # landed; a module an analyst rejected must never reach an employee, which
+    # is the entire purpose of the gate.
+    module = db.get(TrainingModule, run.training_module_id) if run.training_module_id else None
+    if module is None or module.status != ModuleStatus.APPROVED:
+        logger.warning(
+            "TARGET refused for run %s: module %s is not approved (status=%s)",
+            run.id,
+            run.training_module_id,
+            getattr(module, "status", None),
+        )
+        return
+
     threat = db.get(Threat, run.trigger_threat_id)
 
     # ----- Stage 4: TARGET -----
@@ -283,8 +302,15 @@ async def _target_and_train(db: Session, run: LoopRun) -> None:
             reporter_id=threat.reported_by_employee_id,
         )
         run.targeting = targets
-        # Being targeted by a real threat is itself a risk signal (exposure).
+        # Exposure is charged only to the people the artifact actually reached
+        # (`exposed`, set by select_targets). Employees pulled in by a prior —
+        # a high score, or a click on an unrelated simulation — were never
+        # exposed to THIS threat, so writing them a "+8 exposed to real threat"
+        # event states something that did not happen, and feeds the score that
+        # selected them straight back into itself.
         for target in targets:
+            if not target.get("exposed"):
+                continue
             employee = db.get(Employee, target["employee_id"])
             if employee is not None:
                 risk_engine.apply_event(

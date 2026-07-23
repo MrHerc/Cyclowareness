@@ -21,6 +21,8 @@ Signals and their weights (documented; keep this table in sync with README):
 Role sensitivity sets the baseline: base = 20 + role_sensitivity * 20.
 Scores are clamped to [0, 100].
 """
+from datetime import datetime, timedelta, timezone
+
 from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
@@ -38,6 +40,18 @@ WEIGHTS: dict[str, float] = {
 }
 
 HIGH_RISK_THRESHOLD = 60.0
+
+# How far back a simulated-phish click still counts as "recent" behaviour when
+# selecting targets.
+RECENT_CLICK_DAYS = 90
+
+# Selection reasons that mean the artifact actually reached this person. Only
+# these justify charging a `real_threat_exposure` penalty — see select_targets.
+EXPOSURE_REASONS = (
+    "Directly targeted by this artifact",
+    "Received this artifact",
+    "Works in an exposed department",
+)
 
 # Keys in a Threat's artifact_meta that steer who gets selected (and therefore
 # who takes a +8 exposure hit and a forced assignment). Anything that accepts
@@ -75,16 +89,26 @@ def apply_event(
     else:
         delta = WEIGHTS.get(event_type, 0.0) * scale
 
-    delta = round(delta, 2)
+    # Record the delta that was actually APPLIED, not the one that was
+    # requested. At the 0/100 rails the two differ, and the difference is
+    # silently permanent: an employee already at 100 who clicks again used to
+    # get a +12 event that moved nothing, after which
+    # baseline + sum(deltas) no longer equalled the score the same screen
+    # displayed. The audit trail is the product's claim to being explainable,
+    # so it has to reconcile exactly.
+    before = employee.current_risk_score
+    after = clamp(before + round(delta, 2))
+    applied = round(after - before, 2)
+
     event = RiskEvent(
         employee_id=employee.id,
         type=event_type,
-        delta=delta,
+        delta=applied,
         reason=reason,
         loop_run_id=loop_run_id,
     )
     db.add(event)
-    employee.current_risk_score = clamp(employee.current_risk_score + delta)
+    employee.current_risk_score = after
     db.add(employee)
     return event
 
@@ -168,8 +192,17 @@ def select_targets(
       2. exposed dept    — their department matches the threat's target profile
       3. repeat clickers — recent simulated-phish clicks (same behaviour class)
       4. high risk score — current score >= HIGH_RISK_THRESHOLD
-    The reporter is included with a lighter 'reinforcement' rationale only if
-    they clicked before reporting (they are the sensor, not the failure).
+
+    Each target carries ``exposed``: True only when signal 1 or 2 selected them,
+    i.e. when the artifact actually reached them. Signals 3 and 4 are *priors* —
+    reasons to train someone, not evidence that anything happened to them — and
+    the caller must not charge them an exposure penalty on that basis. Doing so
+    made the score self-amplifying: a high score selected you, the selection
+    raised your score, which selected you again on the next unrelated threat.
+
+    The reporter is dropped unless some other signal also flagged them; when it
+    did, they are kept with an explicit reinforcement rationale. They are the
+    sensor, not the failure.
     """
     employees = db.execute(select(Employee)).scalars().all()
     by_id = {e.id: e for e in employees}
@@ -207,10 +240,15 @@ def select_targets(
         if emp.department_id in exposed_dept_ids:
             add(emp.id, "Works in an exposed department")
 
-    # 3. Recent simulated-phish clickers (behavioural precedent)
+    # 3. Recent simulated-phish clickers (behavioural precedent).
+    # Bounded by time, not by row count: "the last 50 click events ever" is not
+    # recency, and on a quiet roster it reaches back years — so someone who
+    # clicked once in 2024 kept being described to their face as having
+    # "recently clicked".
+    since = datetime.now(timezone.utc) - timedelta(days=RECENT_CLICK_DAYS)
     click_rows = db.execute(
         select(RiskEvent.employee_id)
-        .where(RiskEvent.type == "simulated_phish_click")
+        .where(RiskEvent.type == "simulated_phish_click", RiskEvent.created_at >= since)
         .order_by(RiskEvent.created_at.desc())
         .limit(50)
     ).scalars().all()
@@ -241,6 +279,7 @@ def select_targets(
             "department_id": by_id[emp_id].department_id,
             "risk_score": by_id[emp_id].current_risk_score,
             "reasons": reasons,
+            "exposed": any(r in EXPOSURE_REASONS for r in reasons),
         }
         for emp_id, reasons in ranked
     ]

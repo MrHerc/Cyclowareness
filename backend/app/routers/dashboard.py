@@ -28,6 +28,23 @@ from ..security import get_current_user, require_analyst, require_analyst_or_exe
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
 
+def _loops_closed(db: Session) -> int:
+    """Runs that actually completed the cycle the number claims.
+
+    Both dashboards caption this "threats → training → measured", but a run
+    whose artifact came back benign closes at CONVERT — no module, nobody
+    trained, nothing measured — and still lands on status COMPLETED. Counting
+    those inflated the headline figure the product uses as its proof of work,
+    so the measurement itself is now the condition.
+    """
+    return db.execute(
+        select(func.count(LoopRun.id)).where(
+            LoopRun.status == LoopStatus.COMPLETED,
+            LoopRun.measure_summary.is_not(None),
+        )
+    ).scalar() or 0
+
+
 @router.get("/analyst")
 def analyst_dashboard(db: Session = Depends(get_db), user: User = Depends(require_analyst)):
     active_runs = db.execute(
@@ -68,9 +85,7 @@ def analyst_dashboard(db: Session = Depends(get_db), user: User = Depends(requir
             # Counted in SQL, not from the truncated recent_runs list — that
             # list is capped at 10, so deriving the total from it silently
             # saturated and contradicted the executive view.
-            "loops_closed": db.execute(
-                select(func.count(LoopRun.id)).where(LoopRun.status == LoopStatus.COMPLETED)
-            ).scalar()
+            "loops_closed": _loops_closed(db)
             or 0,
         },
         "recent_events": [
@@ -164,18 +179,18 @@ async def executive_dashboard(
     current = metrics.compute_current_metrics(db)
     trend = metrics.trend(db, days=180)
     departments = risk_engine.department_rollups(db)
-    completed_runs = db.execute(
-        select(LoopRun).where(LoopRun.status == LoopStatus.COMPLETED)
-    ).scalars().all()
-    briefing = await executive_briefing(
+    briefing, briefing_source = await executive_briefing(
         {"current": current, "trend": trend[-12:], "departments": departments}
     )
     return {
         "metrics": current,
         "trend": trend,
         "departments": departments,
-        "loops_closed": len(completed_runs),
+        "loops_closed": _loops_closed(db),
         "briefing": briefing,
+        # Which engine wrote the paragraph above. The executive is the reader
+        # least equipped to tell a model's analysis from a template's.
+        "briefing_source": briefing_source,
     }
 
 

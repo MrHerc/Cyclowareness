@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, X } from 'lucide-react'
-import { Button, cx } from './ui'
+import { Button, IconButton, cx } from './ui'
 
 export interface TourStep {
   /** CSS selector of the element to spotlight. Omit for a centered intro/outro. */
@@ -126,67 +126,65 @@ export function Tour({
       {/* Dim everything except the spotlight (box-shadow cut-out). */}
       {spotlight ? (
         <div
-          className="pointer-events-none absolute rounded-xl transition-all duration-300 ease-out"
+          className="pointer-events-none absolute rounded-panel border-[1.5px] border-brand transition-all duration-300 ease-out"
           style={{
             top: spotlight.top,
             left: spotlight.left,
             width: spotlight.width,
             height: spotlight.height,
-            boxShadow: '0 0 0 9999px rgba(3, 7, 15, 0.82)',
-            border: '1.5px solid rgba(45, 212, 191, 0.7)',
+            boxShadow: '0 0 0 9999px rgb(0 0 0 / 0.78)',
           }}
         />
       ) : (
-        <div className="absolute inset-0 bg-[rgba(3,7,15,0.82)]" />
+        <div className="absolute inset-0 bg-black/78" />
       )}
 
-      {/* Click-catcher to advance / dismiss on backdrop. */}
-      <div className="absolute inset-0" onClick={() => setIndex((i) => Math.min(steps.length - 1, i + 1))} />
+      {/* Backdrop click advances, and finishes on the last step — otherwise the
+          final click is a no-op and the tour reads as stuck. */}
+      <div
+        className="absolute inset-0"
+        onClick={() => (isLast ? finish() : setIndex((i) => i + 1))}
+      />
 
       <div
         ref={cardRef}
         style={cardStyle}
         onClick={(e) => e.stopPropagation()}
-        className="absolute w-[352px] max-w-[calc(100vw-32px)] rounded-2xl border border-accent/30 bg-surface p-5 shadow-2xl fade-in"
+        className="rise absolute w-[352px] max-w-[calc(100vw-32px)] rounded-panel border border-line bg-panel p-5 shadow-2xl shadow-black/50"
       >
-        <button
-          onClick={finish}
-          aria-label="Close tour"
-          className="absolute right-3 top-3 text-muted hover:text-ink"
-        >
-          <X size={16} />
-        </button>
-        <div className="mb-1 flex items-center gap-1.5">
+        <IconButton label="Close tour" onClick={finish} className="absolute right-2 top-2">
+          <X size={16} aria-hidden />
+        </IconButton>
+        <div className="flex items-center gap-1.5" aria-hidden>
           {steps.map((_, i) => (
             <span
               key={i}
-              className={cx('h-1.5 rounded-full transition-all', i === index ? 'w-5 bg-accent' : 'w-1.5 bg-surface-3')}
+              className={cx('h-1 rounded-full transition-all', i === index ? 'w-5 bg-brand' : 'w-1 bg-line-strong')}
             />
           ))}
         </div>
-        <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-faint">
+        <div className="label mt-3 text-c3">
           Step {index + 1} of {steps.length}
         </div>
-        <h3 className="mt-1 text-base font-semibold">{step.title}</h3>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{step.body}</p>
-        <div className="mt-4 flex items-center justify-between">
-          <button
-            onClick={finish}
-            className="text-xs text-faint transition-colors hover:text-muted"
-          >
-            Skip tour
+        <h3 className="text-h mt-1.5">{step.title}</h3>
+        <p className="text-sm mt-2 leading-relaxed text-c2">{step.body}</p>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <button onClick={finish} className="text-xs text-c3 transition-colors hover:text-c1">
+            Skip
           </button>
           <div className="flex gap-2">
             {index > 0 && (
-              <Button variant="ghost" onClick={() => setIndex((i) => i - 1)}>
-                <ArrowLeft size={14} /> Back
+              <Button variant="ghost" size="sm" onClick={() => setIndex((i) => i - 1)}>
+                <ArrowLeft size={14} aria-hidden /> Back
               </Button>
             )}
             {isLast ? (
-              <Button onClick={finish}>Got it</Button>
+              <Button variant="primary" size="sm" onClick={finish}>
+                Done
+              </Button>
             ) : (
-              <Button onClick={() => setIndex((i) => i + 1)}>
-                Next <ArrowRight size={14} />
+              <Button variant="primary" size="sm" onClick={() => setIndex((i) => i + 1)}>
+                Next <ArrowRight size={14} aria-hidden />
               </Button>
             )}
           </div>

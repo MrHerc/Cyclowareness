@@ -2,8 +2,17 @@ import { FileText } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { ExecutiveDashboard } from '../../lib/types'
-import { OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
-import { Card, DeptRiskTile, LoadState, SectionTitle, StatCard, metricSub, pct } from '../../components/ui'
+import { ChartLegend, OutcomeTrendChart, RiskTrendChart } from '../../components/charts'
+import {
+  DeptTile,
+  LoadState,
+  Metric,
+  PageHeader,
+  Panel,
+  Provenance,
+  metricSub,
+  pct,
+} from '../../components/ui'
 
 export function ExecutivePage() {
   const { data, error, refresh } = usePoll<ExecutiveDashboard>(
@@ -11,110 +20,124 @@ export function ExecutivePage() {
     15000,
   )
 
-  if (!data) return <LoadState error={error} label="Preparing the executive briefing…" onRetry={refresh} />
+  if (!data) return <LoadState error={error} label="Preparing the executive briefing" onRetry={refresh} />
 
-  // Only claim improvement when both endpoints were actually measured.
-  // A first-minus-last delta across gaps is not evidence, and this number is
-  // the one a CISO repeats to their board.
+  const m = data.metrics
+
+  // The improvement claim must end at the number it captions.
+  //
+  // This used to be first-measured minus LAST-MEASURED-SNAPSHOT, while the
+  // headline above it showed the live 30-day window computed from actual
+  // simulation outcomes. Those are two different series, so the tile read
+  // "29%" over "down 21pp" when the real change against the earliest measured
+  // point was 2.1pp. A CISO repeats this number to a board.
+  //
+  // Comparing the live headline against the earliest measured snapshot is the
+  // only pairing where the caption describes the value it sits under.
   const measured = data.trend.filter((p) => p.phishing_click_rate !== null)
-  const first = measured[0]
-  const last = measured[measured.length - 1]
+  const baseline = measured[0]?.phishing_click_rate ?? null
   const clickImproved =
-    measured.length >= 2 && first && last
-      ? (first.phishing_click_rate as number) - (last.phishing_click_rate as number)
-      : null
+    baseline !== null && m.phishing_click_rate !== null ? baseline - m.phishing_click_rate : null
 
   return (
-    <div className="fade-in space-y-5">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight">Executive View</h1>
-        <p className="text-sm text-muted">Human cyber-risk posture, at a glance. Read-only.</p>
-      </div>
+    <div className="rise space-y-6">
+      <PageHeader
+        title="Executive view"
+        lede="Human cyber-risk posture across the organisation, at a glance. Read-only."
+      />
 
-      {/* AI briefing */}
-      <Card className="border-indigo/30 p-5">
-        <SectionTitle>
-          <span className="flex items-center gap-1.5">
-            <FileText size={13} className="text-indigo" /> AI briefing — current posture
+      <Panel
+        tone="feature"
+        title={
+          <span className="flex items-center gap-2">
+            <FileText size={15} className="text-brand-fg" aria-hidden />
+            {data.briefing_source === 'anthropic' ? 'AI briefing' : 'Automated briefing'}
           </span>
-        </SectionTitle>
-        <p className="text-[15px] leading-relaxed text-ink/90">{data.briefing}</p>
-      </Card>
+        }
+        subtitle="Current posture, written from the measurements below."
+        /* The heading names the engine that actually wrote the paragraph. When
+           no model is configured the text comes from a template, and the
+           executive is the reader least able to tell the difference. */
+        actions={<Provenance source={data.briefing_source} />}
+      >
+        {/* The briefing is rewritten on every poll, so it must be announced
+            rather than silently swapped under a reader mid-sentence. */}
+        <p className="text-lead text-c1" aria-live="polite">
+          {data.briefing}
+        </p>
+      </Panel>
 
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-5">
-        <StatCard
+        <Metric
           label="Click rate"
-          value={pct(data.metrics.phishing_click_rate)}
-          sub={
+          value={pct(m.phishing_click_rate)}
+          caption={
             // Never pair an improvement claim with an unmeasured headline: the
             // trend can hold older measured periods while the current window is
-            // empty, which rendered "—" above "↓ 12pp" — a number a CISO repeats.
-            data.metrics.phishing_click_rate !== null && clickImproved !== null && clickImproved > 0
-              ? `↓ ${(clickImproved * 100).toFixed(0)}pp across ${measured.length} measured periods`
-              : metricSub(
-                  data.metrics.phishing_click_rate,
-                  data.metrics.simulation_sample,
-                  data.metrics.window_days,
-                  'lower is better',
-                )
+            // empty, which rendered "—" above a confident "down 12pp".
+            // 0.5pp is below the noise floor of a per-campaign rate, so nothing
+            // is claimed until the movement is worth a sentence.
+            m.phishing_click_rate !== null && clickImproved !== null && clickImproved > 0.005
+              ? `down ${(clickImproved * 100).toFixed(1)}pp since the first measured period`
+              : metricSub(m.phishing_click_rate, m.simulation_sample, m.window_days, 'lower is better')
           }
           tone={
-            data.metrics.phishing_click_rate === null
-              ? 'neutral'
-              : data.metrics.phishing_click_rate > 0.25
-                ? 'bad'
-                : 'good'
+            m.phishing_click_rate === null ? 'neutral' : m.phishing_click_rate > 0.25 ? 'danger' : 'success'
           }
+          size="sm"
         />
-        <StatCard
+        <Metric
           label="Report rate"
-          value={pct(data.metrics.report_rate)}
-          sub={metricSub(data.metrics.report_rate, data.metrics.simulation_sample, data.metrics.window_days, 'human sensor strength')}
-          tone="accent"
+          value={pct(m.report_rate)}
+          caption={metricSub(m.report_rate, m.simulation_sample, m.window_days, 'human sensor strength')}
+          tone={m.report_rate !== null ? 'success' : 'neutral'}
+          size="sm"
         />
-        <StatCard
+        <Metric
           label="Avg risk score"
-          value={data.metrics.avg_risk_score !== null ? data.metrics.avg_risk_score.toFixed(1) : '—'}
-          sub="0–100, lower is safer"
-          tone={data.metrics.avg_risk_score !== null && data.metrics.avg_risk_score >= 55 ? 'warn' : 'good'}
+          value={m.avg_risk_score !== null ? m.avg_risk_score.toFixed(1) : '—'}
+          caption="0–100, lower is safer"
+          tone={m.avg_risk_score === null ? 'neutral' : m.avg_risk_score >= 55 ? 'warning' : 'success'}
+          size="sm"
         />
-        <StatCard
+        <Metric
           label="Training completion"
-          value={pct(data.metrics.training_completion_rate)}
-          sub={metricSub(data.metrics.training_completion_rate, data.metrics.training_sample, data.metrics.window_days, 'micro-modules')}
+          value={pct(m.training_completion_rate)}
+          caption={metricSub(m.training_completion_rate, m.training_sample, m.window_days, 'micro-modules')}
+          size="sm"
         />
-        <StatCard label="Loops closed" value={data.loops_closed} sub="threats → training → measured" tone="accent" />
+        <Metric
+          label="Loops closed"
+          value={data.loops_closed}
+          caption="threat → training → measured"
+          tone="brand"
+          size="sm"
+        />
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-2">
-        <Card className="p-5">
-          <SectionTitle
-            right={
-              <div className="flex items-center gap-3 text-[11px]">
-                <span className="flex items-center gap-1 text-bad">
-                  <span className="h-1.5 w-3 rounded-full bg-bad" /> click rate
-                </span>
-                <span className="flex items-center gap-1 text-accent">
-                  <span className="h-1.5 w-3 rounded-full bg-accent" /> report rate
-                </span>
-              </div>
-            }
-          >
-            Behaviour change — before / after
-          </SectionTitle>
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Panel
+          title="Behaviour change, before and after"
+          actions={
+            <ChartLegend
+              items={[
+                { label: 'click rate', color: 'var(--color-series-1)' },
+                { label: 'report rate', color: 'var(--color-series-2)' },
+              ]}
+            />
+          }
+        >
           <OutcomeTrendChart data={data.trend} height={240} />
-        </Card>
-        <Card className="p-5">
-          <SectionTitle>Organisation risk trend</SectionTitle>
+        </Panel>
+        <Panel title="Organisation risk trend">
           <RiskTrendChart data={data.trend} height={240} />
-        </Card>
+        </Panel>
       </div>
 
-      <Card className="p-5">
-        <SectionTitle>Departments</SectionTitle>
+      <Panel title="Departments" subtitle="Average risk score, and how many people sit in the high band">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
           {data.departments.map((d) => (
-            <DeptRiskTile
+            <DeptTile
               key={d.id}
               name={d.name}
               avgRisk={d.avg_risk}
@@ -123,7 +146,7 @@ export function ExecutivePage() {
             />
           ))}
         </div>
-      </Card>
+      </Panel>
     </div>
   )
 }

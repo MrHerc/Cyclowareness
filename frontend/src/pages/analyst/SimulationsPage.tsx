@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react'
-import { Plus, Rocket, Wand2, X } from 'lucide-react'
+import { CircleSlash, Inbox, MousePointerClick, Plus, Rocket, ShieldCheck, Wand2 } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
-import { useEscape } from '../../lib/useEscape'
+import { useCapabilities } from '../../lib/useCapabilities'
 import type { DepartmentRisk, SimTemplate, Simulation, SimulationDetail, Threat } from '../../lib/types'
 import {
-  Badge,
   Button,
-  Card,
+  Callout,
+  Chip,
+  ChoiceRow,
+  CodeBlock,
   Drawer,
-  EmptyState,
+  Empty,
+  GroupLabel,
+  Input,
   LoadState,
+  Metric,
   Modal,
-  SectionTitle,
-  StatCard,
+  PageHeader,
+  Panel,
+  RiskMeter,
+  Select,
+  Status,
+  TD,
+  TH,
+  Table,
   Tabs,
   channelLabel,
   cx,
   pct,
   timeAgo,
 } from '../../components/ui'
-import { useCapabilities } from '../../lib/useCapabilities'
 
 export function SimulationsPage() {
   const { data: sims, error, refresh } = usePoll<Simulation[]>(() => api.get('/api/simulations'), 4000)
@@ -28,46 +38,55 @@ export function SimulationsPage() {
   const [showCreate, setShowCreate] = useState(false)
 
   return (
-    <div className="fade-in space-y-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">Phishing Simulations</h1>
-          <p className="text-sm text-muted">
-            Drills built from <span className="text-accent">real analyzed threats</span> — not canned templates. Outcomes feed the risk engine.
-          </p>
-        </div>
-        <Button onClick={() => setShowCreate(true)}>
-          <Plus size={15} /> New campaign
-        </Button>
-      </div>
+    <div className="rise space-y-6">
+      <PageHeader
+        title="Simulations"
+        lede={
+          <>
+            Drills built from <span className="text-c1">real analyzed threats</span>, not canned templates. Every
+            outcome feeds the risk engine.
+          </>
+        }
+        actions={
+          <Button variant="primary" onClick={() => setShowCreate(true)}>
+            <Plus size={15} aria-hidden /> New campaign
+          </Button>
+        }
+      />
 
       {!sims ? (
-        <LoadState error={error} onRetry={refresh} />
-      ) : sims.length === 0 ? (
-        <EmptyState>No campaigns yet — create one from a real analyzed threat.</EmptyState>
+        <LoadState error={error} label="Loading campaigns" onRetry={refresh} />
       ) : (
-        <div className="space-y-2">
-          {sims.map((s) => (
-            <Card
-              key={s.id}
-              onClick={() => setSelectedId(s.id)}
-              className="flex flex-wrap items-center gap-3 px-4 py-3"
-            >
-              <span className="font-mono text-[11px] text-faint">#{s.id}</span>
-              <span className="min-w-40 flex-1 truncate text-sm font-medium">{s.name}</span>
-              <Badge value={s.channel} />
-              {s.template_threat_id && (
-                <span className="rounded-md border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">
-                  from real threat #{s.template_threat_id}
-                </span>
-              )}
-              <Badge value={s.status} />
-              <span className="text-[11px] text-faint">
-                {s.launched_at ? `launched ${timeAgo(s.launched_at)}` : `created ${timeAgo(s.created_at)}`}
-              </span>
-            </Card>
-          ))}
-        </div>
+        <Panel title="Campaigns" actions={<span className="text-sm text-c3">{sims.length}</span>}>
+          {sims.length === 0 ? (
+            <Empty icon={<Inbox size={20} aria-hidden />}>
+              No campaigns yet. Create one from a real analyzed threat.
+            </Empty>
+          ) : (
+            <ul className="divide-hair">
+              {sims.map((s) => (
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedId(s.id)}
+                    className="-mx-2 flex w-full flex-wrap items-center gap-x-4 gap-y-2 rounded-control px-2 py-2.5 text-left transition-colors hover:bg-raised"
+                  >
+                    <span className="text-xs w-9 shrink-0 font-mono text-c3">#{s.id}</span>
+                    <span className="text-body min-w-48 flex-1 truncate font-medium">{s.name}</span>
+                    <Chip>{channelLabel(s.channel)}</Chip>
+                    {s.template_threat_id !== null && (
+                      <Chip tone="brand">From real threat #{s.template_threat_id}</Chip>
+                    )}
+                    <Status value={s.status} />
+                    <span className="text-xs w-28 shrink-0 text-right text-c3">
+                      {s.launched_at ? `launched ${timeAgo(s.launched_at)}` : `created ${timeAgo(s.created_at)}`}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
       )}
 
       {selectedId !== null && (
@@ -86,6 +105,8 @@ export function SimulationsPage() {
     </div>
   )
 }
+
+/* --- one campaign ---------------------------------------------------------- */
 
 function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void; onChanged: () => Promise<void> }) {
   const { data: sim, error: loadError, refresh } = usePoll<SimulationDetail>(
@@ -115,49 +136,48 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
 
   return (
     <Drawer title={sim?.name ?? 'Simulation'} width="max-w-2xl" onClose={onClose}>
-        {!sim ? (
-          <LoadState error={loadError} onRetry={refresh} />
-        ) : (
-          <>
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h2 className="text-lg font-bold">{sim.name}</h2>
-                <div className="mt-1 flex items-center gap-2">
-                  <Badge value={sim.status} />
-                  <Badge value={sim.channel} label={channelLabel(sim.channel)} />
-                  {sim.template_threat_id && (
-                    <span className="text-xs text-accent">built from real threat #{sim.template_threat_id}</span>
-                  )}
-                  {sim.lure_template_id && <span className="text-xs text-accent">prebuilt lure</span>}
-                </div>
-              </div>
-              <button onClick={onClose} className="text-muted hover:text-ink">
-                <X size={18} />
-              </button>
-            </div>
-
-            {sim.lure_preview && (
-              <pre className="mt-3 max-h-32 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-2.5 font-mono text-[11px] leading-relaxed text-muted">
-                {sim.lure_preview}
-              </pre>
+      {!sim ? (
+        <LoadState error={loadError} label="Loading campaign" onRetry={refresh} />
+      ) : (
+        <div className="space-y-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <Status value={sim.status} />
+            <Chip>{channelLabel(sim.channel)}</Chip>
+            {sim.template_threat_id !== null && (
+              <Chip tone="brand">Built from real threat #{sim.template_threat_id}</Chip>
             )}
+            {sim.lure_template_id && <Chip>Prebuilt lure</Chip>}
+          </div>
 
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              <StatCard size="sm" label="Targets" value={String(sim.stats.targets)} />
-              <StatCard size="sm" label="Resolved" value={String(sim.stats.resolved)} />
-              <StatCard
-                size="sm"
-                label="Click rate"
-                value={pct(sim.stats.click_rate)}
-                tone={sim.stats.click_rate !== null && sim.stats.click_rate > 0.3 ? 'bad' : 'neutral'}
-              />
-              <StatCard size="sm" label="Report rate" value={pct(sim.stats.report_rate)} tone="good" />
+          {sim.lure_preview && (
+            <div>
+              <span className="label mb-1.5 block text-c3">Lure</span>
+              <CodeBlock maxHeight={140}>{sim.lure_preview}</CodeBlock>
             </div>
+          )}
 
-            <div className="mt-4 flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <Metric size="sm" label="Targets" value={sim.stats.targets} />
+            <Metric size="sm" label="Resolved" value={sim.stats.resolved} />
+            <Metric
+              size="sm"
+              label="Click rate"
+              value={pct(sim.stats.click_rate)}
+              tone={sim.stats.click_rate !== null && sim.stats.click_rate > 0.3 ? 'danger' : 'neutral'}
+            />
+            <Metric
+              size="sm"
+              label="Report rate"
+              value={pct(sim.stats.report_rate)}
+              tone={sim.stats.report_rate !== null ? 'success' : 'neutral'}
+            />
+          </div>
+
+          {(sim.status === 'draft' || sim.status === 'active') && (
+            <div className="flex flex-wrap gap-2">
               {sim.status === 'draft' && (
-                <Button busy={busy === 'launch'} onClick={() => void act('launch')}>
-                  <Rocket size={14} /> Launch campaign
+                <Button variant="primary" busy={busy === 'launch'} onClick={() => void act('launch')}>
+                  <Rocket size={14} aria-hidden /> Launch campaign
                 </Button>
               )}
               {sim.status === 'active' && (
@@ -165,8 +185,8 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
                   {/* Synthetic outcomes exist only in the exhibition build —
                       in production the route is not registered at all. */}
                   {caps.demo_mode && (
-                    <Button variant="subtle" busy={busy === 'auto-outcomes'} onClick={() => void act('auto-outcomes')}>
-                      <Wand2 size={14} /> Simulate outcomes (demo)
+                    <Button busy={busy === 'auto-outcomes'} onClick={() => void act('auto-outcomes')}>
+                      <Wand2 size={14} aria-hidden /> Simulate outcomes (demo)
                     </Button>
                   )}
                   <Button variant="ghost" busy={busy === 'complete'} onClick={() => void act('complete')}>
@@ -175,76 +195,147 @@ function SimDrawer({ id, onClose, onChanged }: { id: number; onClose: () => void
                 </>
               )}
             </div>
-            {actionError && (
-              <div className="mt-2 rounded-lg border border-bad/40 bg-bad/10 px-3 py-2 text-xs text-bad">
-                {actionError}
-              </div>
-            )}
+          )}
 
-            <div className="mt-5">
-              <SectionTitle>Per-target outcomes → risk engine</SectionTitle>
-              <div className="space-y-1.5">
-                {sim.targets.map((t) => (
-                  <div key={t.id} className="flex items-center gap-3 rounded-lg border border-border bg-surface-2 px-3 py-2 text-xs">
-                    <span className="w-36 truncate font-medium">{t.employee_name}</span>
-                    <span className="w-24 truncate text-faint">{t.department}</span>
-                    {t.risk_score !== null && (
-                      <span className="tabular-nums text-muted">risk {t.risk_score.toFixed(0)}</span>
-                    )}
-                    <div className="ml-auto flex items-center gap-2">
-                      {sim.status === 'active' && t.outcome === 'pending' ? (
-                        <OutcomeButtons simId={sim.id} targetId={t.id} refresh={refresh} />
-                      ) : (
-                        <Badge value={t.outcome} />
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
+          <div aria-live="polite">{actionError && <Callout tone="danger">{actionError}</Callout>}</div>
+
+          <div>
+            <GroupLabel right={<span className="text-xs text-c3">outcomes feed the risk engine</span>}>
+              Per-target outcomes
+            </GroupLabel>
+            {sim.targets.length === 0 ? (
+              <Empty>No one has been targeted by this campaign yet.</Empty>
+            ) : (
+              <Table minWidth={520}>
+                <thead>
+                  <tr>
+                    <TH>Person</TH>
+                    <TH>Department</TH>
+                    <TH>Risk</TH>
+                    <TH numeric>Outcome</TH>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sim.targets.map((t) => (
+                    <tr key={t.id}>
+                      <TD>
+                        <span className="text-sm block truncate font-medium">{t.employee_name}</span>
+                      </TD>
+                      <TD muted>
+                        <span className="text-sm block truncate">{t.department}</span>
+                      </TD>
+                      <TD>
+                        {t.risk_score !== null ? (
+                          <RiskMeter score={t.risk_score} />
+                        ) : (
+                          <span className="text-sm text-c3">not scored</span>
+                        )}
+                      </TD>
+                      <TD numeric>
+                        {sim.status === 'active' && t.outcome === 'pending' ? (
+                          <OutcomeRecorder
+                            simId={sim.id}
+                            targetId={t.id}
+                            employeeName={t.employee_name}
+                            refresh={refresh}
+                          />
+                        ) : (
+                          <Status value={t.outcome} />
+                        )}
+                      </TD>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
+          </div>
+        </div>
+      )}
     </Drawer>
   )
 }
 
-function OutcomeButtons({ simId, targetId, refresh }: { simId: number; targetId: number; refresh: () => Promise<void> }) {
-  const [busy, setBusy] = useState(false)
+/**
+ * The only way an analyst records what a target actually did.
+ *
+ * Three identical grey pills made "clicked" and "reported" — opposite outcomes,
+ * one of which raises a risk score and one of which lowers it — indistinguishable
+ * until after the click. Each option now carries its own word, icon and tone, and
+ * the trio is named so a screen reader knows whose outcome it is recording.
+ */
+const OUTCOMES = [
+  { value: 'clicked', label: 'Clicked', icon: MousePointerClick, cls: 'border-danger/45 text-danger hover:bg-danger/10' },
+  { value: 'reported', label: 'Reported', icon: ShieldCheck, cls: 'border-success/40 text-success hover:bg-success/10' },
+  { value: 'ignored', label: 'Ignored', icon: CircleSlash, cls: 'border-line text-c2 hover:bg-raised hover:text-c1' },
+] as const
+
+function OutcomeRecorder({
+  simId,
+  targetId,
+  employeeName,
+  refresh,
+}: {
+  simId: number
+  targetId: number
+  employeeName: string
+  refresh: () => Promise<void>
+}) {
+  const [busy, setBusy] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
   const record = async (outcome: string) => {
-    setBusy(true)
+    setBusy(outcome)
+    setError(null)
     try {
       await api.post(`/api/simulations/${simId}/targets/${targetId}/outcome`, { outcome })
       await refresh()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not record that outcome')
     } finally {
-      setBusy(false)
+      setBusy(null)
     }
   }
+
   return (
-    <div className="flex gap-1">
-      {(['clicked', 'reported', 'ignored'] as const).map((o) => (
-        <button
-          key={o}
-          disabled={busy}
-          onClick={() => void record(o)}
-          className={cx(
-            'rounded-md border px-1.5 py-0.5 text-[10px] font-medium transition-colors disabled:opacity-40',
-            o === 'clicked' && 'border-bad/40 text-bad hover:bg-bad/10',
-            o === 'reported' && 'border-good/40 text-good hover:bg-good/10',
-            o === 'ignored' && 'border-border-2 text-muted hover:bg-surface-3',
-          )}
-        >
-          {o}
-        </button>
-      ))}
+    <div className="flex flex-col items-end gap-1">
+      <div role="group" aria-label={`Record outcome for ${employeeName}`} className="flex justify-end gap-1">
+        {OUTCOMES.map((o) => {
+          const Icon = o.icon
+          return (
+            <button
+              key={o.value}
+              type="button"
+              disabled={busy !== null}
+              aria-busy={busy === o.value || undefined}
+              onClick={() => void record(o.value)}
+              className={cx(
+                'text-xs inline-flex items-center gap-1 whitespace-nowrap rounded-chip border px-1.5 py-0.5 font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40',
+                o.cls,
+              )}
+            >
+              <Icon size={12} aria-hidden /> {o.label}
+            </button>
+          )
+        })}
+      </div>
+      {error && (
+        <span role="alert" className="text-xs text-danger">
+          {error}
+        </span>
+      )}
     </div>
   )
 }
+
+/* --- creating a campaign --------------------------------------------------- */
 
 const LURE_SOURCES = [
   { key: 'prebuilt' as const, label: 'Prebuilt lure' },
   { key: 'real' as const, label: 'Real threat' },
   { key: 'generic' as const, label: 'Generic' },
 ]
+
+const GENERIC_CHANNELS = ['email', 'sms', 'qr', 'chat']
 
 function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated: (id: number) => void }) {
   const [name, setName] = useState('')
@@ -256,14 +347,21 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
   const [threats, setThreats] = useState<Threat[]>([])
   const [templates, setTemplates] = useState<SimTemplate[]>([])
   const [departments, setDepartments] = useState<DepartmentRisk[]>([])
+  const [optionsError, setOptionsError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  useEscape(onClose)
 
   useEffect(() => {
-    void api.get<Threat[]>('/api/threats').then((list) => setThreats(list.filter((t) => t.verdict && t.verdict !== 'benign')))
-    void api.get<SimTemplate[]>('/api/simulations/templates').then(setTemplates)
-    void api.get<DepartmentRisk[]>('/api/departments').then(setDepartments)
+    // Without a catch these three failed silently and the pickers just stayed
+    // empty, which reads as "there is nothing to choose" rather than "the API
+    // is down".
+    const fail = (e: unknown) => setOptionsError(e instanceof Error ? e.message : 'Could not load the lure sources')
+    void api
+      .get<Threat[]>('/api/threats')
+      .then((list) => setThreats(list.filter((t) => t.verdict && t.verdict !== 'benign')))
+      .catch(fail)
+    void api.get<SimTemplate[]>('/api/simulations/templates').then(setTemplates).catch(fail)
+    void api.get<DepartmentRisk[]>('/api/departments').then(setDepartments).catch(fail)
   }, [])
 
   const toggleDept = (id: number) =>
@@ -305,132 +403,113 @@ function CreateSimModal({ onClose, onCreated }: { onClose: () => void; onCreated
       (source === 'real' && threatId !== ''))
 
   return (
-    <Modal title="New simulation campaign" onClose={onClose}>
-        <div className="max-h-[70vh] space-y-3 overflow-y-auto pr-1">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Campaign name"
-            className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-faint focus:border-accent/60"
-          />
+    <Modal title="New simulation campaign" size="lg" onClose={onClose}>
+      <div className="space-y-4">
+        <Input
+          label="Campaign name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Q3 invoice lure — Finance"
+        />
 
-          {/* Lure source */}
-          <div>
-            <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted">Lure source</span>
-            <Tabs tabs={LURE_SOURCES} value={source} onChange={setSource} fill />
-          </div>
+        <div>
+          <span className="label mb-1.5 block text-c3">Lure source</span>
+          <Tabs label="Lure source" tabs={LURE_SOURCES} value={source} onChange={setSource} fill />
+        </div>
 
-          {source === 'prebuilt' && (
+        <div aria-live="polite">
+          {optionsError && <Callout tone="warning">{optionsError}</Callout>}
+        </div>
+
+        {source === 'prebuilt' && (
+          <div role="group" aria-label="Choose a lure">
+            <span className="label mb-1.5 block text-c3">Choose a lure</span>
             <div className="space-y-1.5">
               {templates.map((t) => (
                 <button
                   key={t.id}
+                  type="button"
+                  aria-pressed={lureTemplateId === t.id}
                   onClick={() => {
                     setLureTemplateId(t.id)
                     setChannel(t.channel)
                   }}
                   className={cx(
-                    'block w-full rounded-lg border p-2.5 text-left transition-colors',
+                    'block w-full rounded-control border p-2.5 text-left transition-colors',
                     lureTemplateId === t.id
-                      ? 'border-accent/60 bg-accent/5'
-                      : 'border-border bg-surface-2 hover:border-border-2',
+                      ? 'border-brand bg-brand/8'
+                      : 'border-hair bg-raised hover:border-line-strong',
                   )}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-[13px] font-medium">{t.name}</span>
-                    <Badge value={t.channel} label={channelLabel(t.channel)} />
-                    <Badge value={t.difficulty} label={t.difficulty} />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium">{t.name}</span>
+                    <Chip>{channelLabel(t.channel)}</Chip>
+                    <Chip>{t.difficulty} difficulty</Chip>
                   </div>
-                  <p className="mt-0.5 text-[11px] text-muted">{t.description}</p>
+                  <p className="text-xs mt-1 text-c2">{t.description}</p>
                 </button>
               ))}
             </div>
-          )}
+          </div>
+        )}
 
-          {source === 'real' && (
-            <label className="block">
-              <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted">
-                Real analyzed threat <span className="text-accent">(train on a real attack)</span>
-              </span>
-              <select
-                value={threatId}
-                onChange={(e) => {
-                  const v = e.target.value === '' ? '' : Number(e.target.value)
-                  setThreatId(v)
-                  const th = threats.find((t) => t.id === v)
-                  if (th) setChannel(th.artifact_type)
-                }}
-                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent/60"
-              >
-                <option value="">— select a threat —</option>
-                {threats.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    #{t.id} {t.title} ({t.threat_type})
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
+        {source === 'real' && (
+          <Select
+            label="Real analyzed threat"
+            hint="Only threats the sandbox judged suspicious or malicious. The drill trains on the attack that actually arrived."
+            value={threatId}
+            onChange={(e) => {
+              const v = e.target.value === '' ? '' : Number(e.target.value)
+              setThreatId(v)
+              const th = threats.find((t) => t.id === v)
+              if (th) setChannel(th.artifact_type)
+            }}
+          >
+            <option value="">Select a threat</option>
+            {threats.map((t) => (
+              <option key={t.id} value={t.id}>
+                #{t.id} {t.title} ({t.threat_type ?? 'unclassified'})
+              </option>
+            ))}
+          </Select>
+        )}
 
-          {source === 'generic' && (
-            <label className="block">
-              <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted">Channel</span>
-              <select
-                value={channel}
-                onChange={(e) => setChannel(e.target.value)}
-                className="w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm outline-none focus:border-accent/60"
-              >
-                {['email', 'sms', 'qr', 'chat'].map((c) => (
-                  <option key={c} value={c}>
-                    {channelLabel(c)}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
+        {source === 'generic' && (
+          <Select label="Channel" value={channel} onChange={(e) => setChannel(e.target.value)}>
+            {GENERIC_CHANNELS.map((c) => (
+              <option key={c} value={c}>
+                {channelLabel(c)}
+              </option>
+            ))}
+          </Select>
+        )}
 
-          {previewLure && (
-            <div>
-              <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-faint">
-                Lure preview · {channelLabel(channel)}
-              </span>
-              <pre className="max-h-28 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-2.5 font-mono text-[11px] leading-relaxed text-muted">
-                {previewLure}
-              </pre>
-            </div>
-          )}
-
+        {previewLure && (
           <div>
-            <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-muted">
-              Target departments
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {departments.map((d) => (
-                <button
-                  key={d.id}
-                  onClick={() => toggleDept(d.id)}
-                  className={cx(
-                    'rounded-lg border px-2.5 py-1 text-xs transition-colors',
-                    deptIds.includes(d.id)
-                      ? 'border-accent/60 bg-accent/10 text-accent'
-                      : 'border-border bg-surface-2 text-muted hover:border-border-2',
-                  )}
-                >
-                  {d.name}
-                </button>
-              ))}
-            </div>
+            <span className="label mb-1.5 block text-c3">Lure preview · {channelLabel(channel)}</span>
+            <CodeBlock maxHeight={120}>{previewLure}</CodeBlock>
           </div>
-          {error && <div className="text-xs text-bad">{error}</div>}
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button onClick={() => void create()} busy={busy} disabled={!canCreate}>
-              Create campaign
-            </Button>
-          </div>
+        )}
+
+        <ChoiceRow
+          label="Target departments"
+          multiple
+          options={departments.map((d) => ({ value: d.id, label: d.name }))}
+          value={deptIds}
+          onChange={toggleDept}
+        />
+
+        <div aria-live="polite">{error && <Callout tone="danger">{error}</Callout>}</div>
+
+        <div className="flex justify-end gap-2">
+          <Button variant="ghost" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={() => void create()} busy={busy} disabled={!canCreate}>
+            Create campaign
+          </Button>
         </div>
+      </div>
     </Modal>
   )
 }

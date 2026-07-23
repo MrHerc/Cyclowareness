@@ -19,6 +19,21 @@ export function setSession(session: Session | null) {
   else localStorage.removeItem(TOKEN_KEY)
 }
 
+/**
+ * Lets AuthProvider hear about a session cleared from inside the fetch layer
+ * (an expired token on a background poll) without api.ts importing React.
+ */
+const sessionCleared = new Set<() => void>()
+
+export function onSessionCleared(listener: () => void): () => void {
+  sessionCleared.add(listener)
+  return () => sessionCleared.delete(listener)
+}
+
+function notifySessionCleared() {
+  for (const listener of sessionCleared) listener()
+}
+
 export class ApiError extends Error {
   status: number
   constructor(status: number, message: string) {
@@ -53,9 +68,17 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
     throw new ApiError(res.status, API_UNREACHABLE)
   }
   if (res.status === 401 && !path.endsWith('/auth/login')) {
+    // Clear the credential, but do NOT navigate from inside the fetch layer.
+    //
+    // Every page polls in the background, so an expired token used to trigger
+    // `window.location.href = '/login'` from a timer tick — a full document
+    // reload that threw away whatever the analyst was in the middle of editing,
+    // with no warning and no way back. Clearing the session is enough: the
+    // route guards in main.tsx already redirect once React re-renders, and the
+    // in-flight caller still gets a real error to show.
     setSession(null)
-    window.location.href = '/login'
-    throw new ApiError(401, 'Session expired')
+    notifySessionCleared()
+    throw new ApiError(401, 'Your session has expired. Sign in again to continue.')
   }
   if (!res.ok) {
     let detail = res.statusText

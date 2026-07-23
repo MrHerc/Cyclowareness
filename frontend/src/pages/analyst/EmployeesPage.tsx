@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { DepartmentRisk, Employee, EmployeeDetail } from '../../lib/types'
 import {
-  Badge,
-  Card,
-  DeptRiskTile,
+  DeptTile,
   Drawer,
+  Empty,
+  GroupLabel,
   LoadState,
-  RiskBar,
-  SectionTitle,
+  Metric,
+  PageHeader,
+  Panel,
+  RiskMeter,
+  Status,
+  TD,
+  TH,
+  Table,
   cx,
-  riskTone,
+  pct,
+  riskBand,
+  signed,
   timeAgo,
 } from '../../components/ui'
 
@@ -29,75 +37,111 @@ export function EmployeesPage() {
   const [deptFilter, setDeptFilter] = useState<number | null>(null)
 
   if (!employees || !departments)
-    return <LoadState error={empError ?? deptError} label="Loading risk model…" onRetry={refresh} />
+    return <LoadState error={empError ?? deptError} label="Loading the risk model" onRetry={refresh} />
 
   const deptName = (id: number) => departments.find((d) => d.id === id)?.name ?? '—'
   const visible = deptFilter ? employees.filter((e) => e.department_id === deptFilter) : employees
 
   return (
-    <div className="fade-in space-y-5">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight">Employees & Risk</h1>
-        <p className="text-sm text-muted">
-          Transparent, explainable scores — every number traces back to concrete events. This score drives the TARGET stage.
-        </p>
-      </div>
+    <div className="rise space-y-6">
+      <PageHeader
+        title="People and risk"
+        lede="Every score traces back to concrete events, and every event is listed. This model decides who the TARGET stage picks."
+      />
 
-      {/* dept heatmap / filter */}
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
-        {departments.map((d) => (
-          <DeptRiskTile
-            key={d.id}
-            name={d.name}
-            avgRisk={d.avg_risk}
-            employeeCount={d.employee_count}
-            highRiskCount={d.high_risk_count}
-            selected={deptFilter === d.id}
-            onClick={() => setDeptFilter(deptFilter === d.id ? null : d.id)}
-          />
-        ))}
-      </div>
-
-      <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
-        <table className="w-full min-w-[560px] text-sm">
-          <thead>
-            <tr className="border-b border-border bg-surface-2 text-left text-[11px] uppercase tracking-wide text-faint">
-              <th className="px-4 py-2.5 font-medium">Employee</th>
-              <th className="px-4 py-2.5 font-medium">Department</th>
-              <th className="px-4 py-2.5 font-medium">Role</th>
-              <th className="px-4 py-2.5 font-medium">Sensitivity</th>
-              <th className="px-4 py-2.5 font-medium">Risk score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((e) => (
-              <tr
-                key={e.id}
-                onClick={() => setSelectedId(e.id)}
-                className="cursor-pointer border-b border-border/60 transition-colors last:border-0 hover:bg-surface-2"
-              >
-                <td className="px-4 py-2.5 font-medium">{e.name}</td>
-                <td className="px-4 py-2.5 text-muted">{deptName(e.department_id)}</td>
-                <td className="px-4 py-2.5 text-muted">{e.role_title}</td>
-                <td className="px-4 py-2.5">
-                  <div className="h-1.5 w-14 overflow-hidden rounded-full bg-surface-3">
-                    <div className="h-full bg-indigo" style={{ width: `${e.role_sensitivity * 100}%` }} />
-                  </div>
-                </td>
-                <td className="px-4 py-2.5">
-                  <RiskBar score={e.current_risk_score} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <Panel
+        title="Risk by department"
+        subtitle="Select a department to filter the list below. Select it again to clear."
+      >
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
+          {departments.map((d) => (
+            <DeptTile
+              key={d.id}
+              name={d.name}
+              avgRisk={d.avg_risk}
+              employeeCount={d.employee_count}
+              highRiskCount={d.high_risk_count}
+              selected={deptFilter === d.id}
+              onClick={() => setDeptFilter(deptFilter === d.id ? null : d.id)}
+            />
+          ))}
         </div>
-      </Card>
+      </Panel>
+
+      <Panel
+        title="People"
+        subtitle={deptFilter ? `Filtered to ${deptName(deptFilter)}` : undefined}
+        actions={<span className="text-sm text-c3">{visible.length}</span>}
+      >
+        {visible.length === 0 ? (
+          <Empty icon={<Users size={16} aria-hidden />}>No people in this department yet.</Empty>
+        ) : (
+          <Table minWidth={640}>
+            <thead>
+              <tr>
+                <TH>Employee</TH>
+                <TH>Department</TH>
+                <TH>Role</TH>
+                <TH numeric>Role sensitivity</TH>
+                <TH numeric>Risk score</TH>
+              </tr>
+            </thead>
+            <tbody>
+              {visible.map((e) => (
+                /* The row stays clickable for the mouse, but the name is a real
+                   button — that is the keyboard and screen-reader path into the
+                   drawer, which a bare onClick on the <tr> never provided. */
+                <tr
+                  key={e.id}
+                  onClick={() => setSelectedId(e.id)}
+                  className="cursor-pointer transition-colors hover:bg-raised"
+                >
+                  <TD>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(e.id)}
+                      aria-label={`Open the risk breakdown for ${e.name}`}
+                      className="rounded-chip text-left font-medium text-c1 hover:underline"
+                    >
+                      {e.name}
+                    </button>
+                  </TD>
+                  <TD muted>{deptName(e.department_id)}</TD>
+                  <TD muted>{e.role_title}</TD>
+                  <TD numeric>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-1 w-12 overflow-hidden rounded-full bg-sunken" aria-hidden>
+                        <span
+                          className="block h-full rounded-full bg-line-strong"
+                          style={{ width: `${Math.min(100, Math.max(0, e.role_sensitivity * 100))}%` }}
+                        />
+                      </span>
+                      <span className="text-sm w-9 text-right text-c2">{pct(e.role_sensitivity)}</span>
+                    </span>
+                  </TD>
+                  <TD numeric>
+                    <RiskMeter score={e.current_risk_score} />
+                  </TD>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Panel>
 
       {selectedId !== null && <EmployeeDrawer id={selectedId} onClose={() => setSelectedId(null)} />}
     </div>
   )
+}
+
+/**
+ * Hand-tuned scaling: contributions are small numbers, so ×2.2 makes a large
+ * factor fill the track without a second pass over the data. The track itself
+ * is always drawn, so a contribution of exactly 0 still reads as "measured,
+ * moved nothing" instead of vanishing.
+ */
+function barWidth(contribution: number): string {
+  return `${Math.min(100, Math.abs(contribution) * 2.2)}%`
 }
 
 function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
@@ -107,6 +151,8 @@ function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
   useEffect(() => {
     setDetail(null)
     setError(null)
+    // `alive` drops a response that lands after the drawer moved to another
+    // employee — otherwise a slow request overwrites the newer one.
     let alive = true
     api
       .get<EmployeeDetail>(`/api/employees/${id}`)
@@ -117,86 +163,89 @@ function EmployeeDrawer({ id, onClose }: { id: number; onClose: () => void }) {
     }
   }, [id])
 
+  const band = detail ? riskBand(detail.current_risk_score) : null
+
   return (
     <Drawer title={detail?.name ?? 'Employee'} onClose={onClose}>
-        {!detail ? (
-          <LoadState error={error} />
+      <div aria-live="polite" aria-busy={!detail && !error}>
+        {!detail || !band ? (
+          <LoadState error={error} label="Loading the breakdown" />
         ) : (
-          <>
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="text-lg font-bold">{detail.name}</h2>
-                <p className="text-sm text-muted">
-                  {detail.role_title} · {detail.department_name}
-                </p>
-              </div>
-              <button onClick={onClose} className="text-muted hover:text-ink">
-                <X size={18} />
-              </button>
-            </div>
+          <div className="space-y-6">
+            <p className="text-sm text-c2">
+              {detail.role_title} · {detail.department_name}
+            </p>
 
-            <div className="mt-5 rounded-xl border border-border bg-surface-2 p-4 text-center">
-              <div className="text-[11px] uppercase tracking-wide text-faint">Current risk score</div>
-              <div className={cx('mt-1 text-4xl font-bold tabular-nums', riskTone(detail.current_risk_score).text)}>
-                {detail.current_risk_score.toFixed(1)}
-              </div>
-              <div className="mt-1 text-xs text-muted">{riskTone(detail.current_risk_score).label} risk</div>
-            </div>
+            <Metric
+              label="Current risk score"
+              value={detail.current_risk_score.toFixed(1)}
+              caption={`${band.label} band · scale 0–100`}
+              tone={band.tone}
+            />
 
-            <div className="mt-5">
-              <SectionTitle>Score breakdown (explainable)</SectionTitle>
-              <div className="space-y-1.5">
-                {detail.risk_breakdown.map((f) => (
-                  <div key={f.factor} className="flex items-center gap-2 text-xs">
-                    <span className="w-44 truncate text-muted">{f.label}</span>
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
-                      <div
-                        className={cx('h-full rounded-full', f.contribution >= 0 ? 'bg-bad' : 'bg-good')}
-                        style={{ width: `${Math.min(100, Math.abs(f.contribution) * 2.2)}%` }}
-                      />
-                    </div>
-                    <span
-                      className={cx(
-                        'w-12 text-right font-mono font-semibold tabular-nums',
-                        f.contribution >= 0 ? 'text-bad' : 'text-good',
-                      )}
-                    >
-                      {f.contribution > 0 ? '+' : ''}
-                      {f.contribution.toFixed(1)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-5">
-              <SectionTitle>Recent risk events (audit trail)</SectionTitle>
-              <div className="space-y-1.5">
-                {detail.recent_events.length === 0 && (
-                  <p className="text-xs text-faint">No events yet.</p>
-                )}
-                {detail.recent_events.map((e) => (
-                  <div key={e.id} className="rounded-lg border border-border bg-surface-2 px-3 py-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <Badge value={e.type} />
+            <section>
+              <GroupLabel right={<span className="text-xs text-c3">contribution to the score</span>}>
+                Score breakdown
+              </GroupLabel>
+              {detail.risk_breakdown.length === 0 ? (
+                <Empty>Nothing has scored against this person yet.</Empty>
+              ) : (
+                <ul className="space-y-2">
+                  {detail.risk_breakdown.map((f) => (
+                    <li key={f.factor} className="flex items-center gap-3">
+                      <span className="text-sm w-44 shrink-0 truncate text-c2">{f.label}</span>
+                      <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-sunken">
+                        <span
+                          className={cx(
+                            'block h-full rounded-full',
+                            f.contribution >= 0 ? 'bg-danger' : 'bg-success',
+                          )}
+                          style={{ width: barWidth(f.contribution) }}
+                        />
+                      </span>
                       <span
                         className={cx(
-                          'font-mono font-semibold tabular-nums',
-                          e.delta > 0 ? 'text-bad' : 'text-good',
+                          'text-sm w-12 shrink-0 text-right font-mono font-semibold',
+                          f.contribution >= 0 ? 'text-danger' : 'text-success',
                         )}
                       >
-                        {e.delta > 0 ? '+' : ''}
-                        {e.delta.toFixed(1)}
+                        {signed(f.contribution)}
                       </span>
-                    </div>
-                    <p className="mt-1 text-muted">{e.reason}</p>
-                    <p className="mt-0.5 text-[10px] text-faint">{timeAgo(e.created_at)}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            <section>
+              <GroupLabel>Risk events</GroupLabel>
+              {detail.recent_events.length === 0 ? (
+                <Empty>No risk events recorded yet.</Empty>
+              ) : (
+                <ul className="space-y-2">
+                  {detail.recent_events.map((e) => (
+                    <li key={e.id} className="rounded-control border border-hair bg-raised px-3 py-2.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <Status value={e.type} />
+                        <span
+                          className={cx(
+                            'text-sm font-mono font-semibold',
+                            e.delta > 0 ? 'text-danger' : e.delta < 0 ? 'text-success' : 'text-c3',
+                          )}
+                        >
+                          {signed(e.delta)}
+                        </span>
+                      </div>
+                      <p className="text-sm mt-1.5 text-c2">{e.reason}</p>
+                      <p className="text-xs mt-1 text-c3">{timeAgo(e.created_at)}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          </div>
         )}
+      </div>
     </Drawer>
   )
 }

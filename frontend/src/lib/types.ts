@@ -198,6 +198,12 @@ export interface Report {
     indicators: string[]
     likely_iocs: { urls?: string[]; domains?: string[]; sender_patterns?: string[] }
     recommended_action: string
+    /**
+     * Which engine wrote it: 'anthropic' | 'mock'. Absent on reports triaged
+     * before this field existed, which is why every reader treats a missing
+     * value as "not a live model" rather than assuming one.
+     */
+    source?: string
   } | null
   linked_threat_id: number | null
   linked_loop_run_id: number | null
@@ -367,6 +373,8 @@ export interface ExecutiveDashboard {
   departments: DepartmentRisk[]
   loops_closed: number
   briefing: string
+  /** Which engine wrote `briefing`: 'anthropic' | 'mock'. */
+  briefing_source: string
 }
 
 export const STAGES = [

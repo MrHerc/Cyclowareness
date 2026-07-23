@@ -95,13 +95,27 @@ class RealAnalyzer(BaseAnalyzer):
                 sha256 = hashlib.sha256(artifact_ref.encode()).hexdigest()
                 resp = await client.get(f"{VT_BASE}/files/{sha256}", headers=headers)
                 if resp.status_code == 404:
-                    # Unknown to VT — report as low-signal benign with the hash.
+                    # "VirusTotal has never seen this" is NOT "this is safe".
+                    #
+                    # Reporting benign here closed the loop at ANALYZE with
+                    # "verdict benign — no training needed", and every artifact
+                    # without a link takes this path: SMS lures, chat messages,
+                    # and text-only BEC — which is precisely the category no
+                    # reputation service can rule on. A real invoice-fraud email
+                    # was dismissed without a human ever seeing it.
+                    #
+                    # Unresolved goes to the analyst, with confidence 0.0 so the
+                    # UI shows no strength behind a verdict nothing measured.
                     return {
-                        "verdict": "benign",
-                        "confidence": 0.5,
+                        "verdict": "suspicious",
+                        "confidence": 0.0,
                         "threat_type": "other",
                         "iocs": {"urls": [], "domains": [], "hashes": [sha256], "sender_patterns": []},
-                        "behavior_summary": "No URL to analyse and the artifact hash is unknown to VirusTotal.",
+                        "behavior_summary": (
+                            "Not analysed: the artifact contains no URL, and its hash is unknown to "
+                            "VirusTotal. Reputation services cannot rule on text-only lures — this "
+                            "needs an analyst, and has not been cleared."
+                        ),
                         "raw_report": {"engine": "VirusTotal v3 (file)", "sha256": sha256, "found": False},
                     }
                 resp.raise_for_status()
@@ -114,15 +128,28 @@ class RealAnalyzer(BaseAnalyzer):
         return self._normalise_vt(stats, results, iocs, artifact_type, raw)
 
     async def _poll_analysis(
-        self, client: httpx.AsyncClient, headers: dict, analysis_id: str, attempts: int = 10
+        self, client: httpx.AsyncClient, headers: dict, analysis_id: str, attempts: int = 8
     ) -> tuple[dict, dict]:
+        """Poll until VirusTotal reports the analysis complete.
+
+        Paced at 20s rather than 3s: the free tier allows 4 requests per minute,
+        and the submission itself already spent one, so the old loop blew the
+        quota within seconds and the resulting 429 raised straight out of
+        raise_for_status and failed the whole run. A 429 is now honoured rather
+        than treated as a fatal error.
+        """
+        delay = 20.0
         for _ in range(attempts):
             resp = await client.get(f"{VT_BASE}/analyses/{analysis_id}", headers=headers)
+            if resp.status_code == 429:
+                retry_after = resp.headers.get("Retry-After")
+                await asyncio.sleep(float(retry_after) if retry_after else delay)
+                continue
             resp.raise_for_status()
             attributes = resp.json().get("data", {}).get("attributes", {})
             if attributes.get("status") == "completed":
                 return attributes.get("stats", {}), attributes.get("results", {})
-            await asyncio.sleep(3)
+            await asyncio.sleep(delay)
         raise TimeoutError("VirusTotal analysis did not complete in time")
 
     async def _url_iocs(

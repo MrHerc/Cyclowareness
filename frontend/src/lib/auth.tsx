@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from 'react'
-import { api, getSession, setSession } from './api'
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
+import { api, getSession, onSessionCleared, setSession } from './api'
 import type { Session } from './types'
 
 interface AuthContextValue {
@@ -12,6 +12,12 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSessionState] = useState<Session | null>(getSession())
+
+  // A 401 on any request — including a background poll — clears the stored
+  // credential inside api.ts. Mirroring that into React state is what lets the
+  // route guards redirect on the next render, instead of api.ts reloading the
+  // whole document out from under an unsaved form.
+  useEffect(() => onSessionCleared(() => setSessionState(null)), [])
 
   const login = useCallback(async (email: string, password: string) => {
     const s = await api.post<Session>('/api/auth/login', { email, password })

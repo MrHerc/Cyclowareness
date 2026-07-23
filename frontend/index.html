@@ -4,8 +4,29 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Cyclowareness — closed-loop cybersecurity awareness platform. Real threats become personalized training." />
-    <title>Cyclowareness — learn · detect · repeat</title>
+    <meta
+      name="description"
+      content="Cyclowareness — closed-loop security awareness. Real threats become targeted training for the people actually at risk, and the measured results feed back into the risk model."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <title>Cyclowareness</title>
+    <script>
+      // Resolve the theme before first paint. Applying it from React instead
+      // flashes the wrong palette for a frame on every load.
+      (function () {
+        try {
+          var stored = localStorage.getItem('cyclo_theme')
+          document.documentElement.dataset.theme =
+            stored === 'dark' || stored === 'light'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark'
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark'
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

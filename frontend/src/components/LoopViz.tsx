@@ -1,21 +1,25 @@
-// The signature UI: the loop, turning live. Seven stages on a ring, animated
-// flow between them, live run counts pulsing on the active stages.
+// The signature visual: the loop, turning live. Seven stages on a ring with
+// animated flow between them and live run counts on the stages that are busy.
+//
+// Every colour reads from a CSS custom property so the same SVG works in both
+// themes — the previous version hard-coded eight hex literals and turned
+// invisible the moment the palette moved.
 import { Inbox, FlaskConical, Sparkles, Crosshair, GraduationCap, Gauge, RefreshCw } from 'lucide-react'
 import { STAGES, type RunSummary, type StageEntry } from '../lib/types'
 import { cx } from './ui'
 
 const ICONS = [Inbox, FlaskConical, Sparkles, Crosshair, GraduationCap, Gauge, RefreshCw]
 
-const CX = 260
-const CY = 240
-const R = 168
+const CX = 280
+const CY = 270
+const R = 186
 
-function nodePos(index: number): { x: number; y: number; angle: number } {
+function nodePos(index: number): { x: number; y: number } {
   const angle = (-90 + index * (360 / 7)) * (Math.PI / 180)
-  return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle), angle }
+  return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) }
 }
 
-function arcPath(fromIndex: number, toIndex: number, trim = 12): string {
+function arcPath(fromIndex: number, toIndex: number, trim = 13): string {
   const step = 360 / 7
   const a1 = (-90 + fromIndex * step + trim) * (Math.PI / 180)
   const a2 = (-90 + toIndex * step - trim + (toIndex < fromIndex ? 360 : 0)) * (Math.PI / 180)
@@ -40,111 +44,130 @@ export function LoopViz({
     countByStage.set(run.current_stage, (countByStage.get(run.current_stage) ?? 0) + 1)
   }
 
+  const busy = STAGES.filter((s) => (countByStage.get(s.n) ?? 0) > 0)
+  const summary =
+    activeRuns.length === 0
+      ? 'No loop runs are in flight.'
+      : `${activeRuns.length} loop ${activeRuns.length === 1 ? 'run' : 'runs'} in flight: ` +
+        busy.map((s) => `${countByStage.get(s.n)} at ${s.label}`).join(', ') + '.'
+
   return (
-    <svg viewBox="0 0 520 500" className="mx-auto w-full max-w-[560px]">
-      {/* base ring segments with direction arrows */}
-      <defs>
-        <marker id="loop-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-          <path d="M 0 0.8 L 6.5 4 L 0 7.2 Z" fill="#2a3a5c" />
-        </marker>
-      </defs>
-      {STAGES.map((s, i) => (
-        <path
-          key={`base-${s.n}`}
-          d={arcPath(i, (i + 1) % 7)}
-          fill="none"
-          stroke="#1d2a45"
-          strokeWidth={2}
-          markerEnd="url(#loop-arrow)"
-        />
-      ))}
-      {/* animated flow overlay — the loop is alive */}
-      {STAGES.map((s, i) => {
-        const hot = (countByStage.get(s.n) ?? 0) > 0
-        return (
+    <figure className="m-0">
+      <svg
+        viewBox="0 0 560 560"
+        className="mx-auto w-full max-w-[520px]"
+        role="img"
+        aria-label={`The seven-stage loop. ${summary}${loopsClosed !== undefined ? ` ${loopsClosed} loops closed to date.` : ''}`}
+      >
+        <defs>
+          <marker id="loop-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M 0 0.8 L 6.5 4 L 0 7.2 Z" fill="var(--color-line-strong)" />
+          </marker>
+        </defs>
+
+        {/* the track */}
+        {STAGES.map((s, i) => (
           <path
-            key={`flow-${s.n}`}
+            key={`base-${s.n}`}
             d={arcPath(i, (i + 1) % 7)}
             fill="none"
-            stroke={hot ? '#2dd4bf' : '#2dd4bf33'}
-            strokeWidth={hot ? 2.5 : 1.5}
-            className="loop-flow"
+            stroke="var(--color-hair)"
+            strokeWidth={2}
+            markerEnd="url(#loop-arrow)"
           />
-        )
-      })}
+        ))}
 
-      {/* stage nodes */}
-      {STAGES.map((s, i) => {
-        const { x, y } = nodePos(i)
-        const count = countByStage.get(s.n) ?? 0
-        const active = count > 0
-        const Icon = ICONS[i]
-        const labelY = y < CY - 40 ? y - 44 : y > CY + 40 ? y + 52 : y + (x < CX ? -44 : -44)
-        return (
-          <g
-            key={s.n}
-            onClick={() => onStageClick?.(s.n)}
-            className={onStageClick ? 'cursor-pointer' : undefined}
-          >
-            <title>{`${s.label} — ${s.hint}`}</title>
-            {active && (
-              <circle cx={x} cy={y} r={36} fill="#2dd4bf" opacity={0.12} className="pulse-glow" />
-            )}
-            <circle
-              cx={x}
-              cy={y}
-              r={27}
-              fill={active ? '#0e2a2c' : '#121c31'}
-              stroke={active ? '#2dd4bf' : '#2a3a5c'}
-              strokeWidth={active ? 2 : 1.5}
+        {/* the flow — brighter on segments leaving a stage that holds runs */}
+        {STAGES.map((s, i) => {
+          const hot = (countByStage.get(s.n) ?? 0) > 0
+          return (
+            <path
+              key={`flow-${s.n}`}
+              d={arcPath(i, (i + 1) % 7)}
+              fill="none"
+              stroke="var(--color-brand)"
+              strokeOpacity={hot ? 0.95 : 0.22}
+              strokeWidth={hot ? 2.5 : 1.5}
+              className="loop-flow"
             />
-            <svg x={x - 11} y={y - 11} width={22} height={22}>
-              <Icon size={22} color={active ? '#2dd4bf' : '#7e90b3'} strokeWidth={1.8} />
-            </svg>
-            <text
-              x={x}
-              y={labelY}
-              textAnchor="middle"
-              className="fill-current"
-              fill={active ? '#e8eef9' : '#7e90b3'}
-              fontSize={12}
-              fontWeight={600}
-              letterSpacing="0.08em"
-            >
-              {s.label.toUpperCase()}
-            </text>
-            <text x={x} y={labelY + 14} textAnchor="middle" fill="#55658a" fontSize={9.5}>
-              {s.hint}
-            </text>
-            {count > 0 && (
-              <g>
-                <circle cx={x + 22} cy={y - 22} r={10} fill="#2dd4bf" />
-                <text x={x + 22} y={y - 18.2} textAnchor="middle" fill="#06231f" fontSize={11} fontWeight={700}>
-                  {count}
-                </text>
-              </g>
-            )}
-          </g>
-        )
-      })}
+          )
+        })}
 
-      {/* center */}
-      <text x={CX} y={CY - 26} textAnchor="middle" fill="#55658a" fontSize={10} letterSpacing="0.2em">
-        LIVE LOOP RUNS
-      </text>
-      <text x={CX} y={CY + 16} textAnchor="middle" fill="#2dd4bf" fontSize={44} fontWeight={700}>
-        {activeRuns.length}
-      </text>
-      {loopsClosed !== undefined && (
-        <text x={CX} y={CY + 42} textAnchor="middle" fill="#7e90b3" fontSize={11}>
-          {loopsClosed} loops closed
+        {/* stages */}
+        {STAGES.map((s, i) => {
+          const { x, y } = nodePos(i)
+          const count = countByStage.get(s.n) ?? 0
+          const active = count > 0
+          const Icon = ICONS[i]
+          // Labels sit radially outside the ring so they never collide with the
+          // track or with each other.
+          const outward = 1 + 46 / R
+          const lx = CX + (x - CX) * outward
+          const ly = CY + (y - CY) * outward
+          const anchor = Math.abs(lx - CX) < 30 ? 'middle' : lx > CX ? 'start' : 'end'
+          return (
+            <g
+              key={s.n}
+              onClick={() => onStageClick?.(s.n)}
+              className={onStageClick ? 'cursor-pointer' : undefined}
+              style={{ color: active ? 'var(--color-brand-fg)' : 'var(--color-c3)' }}
+            >
+              <title>{`Stage ${s.n} — ${s.label}: ${s.hint}${count ? ` · ${count} in flight` : ''}`}</title>
+              <circle
+                cx={x}
+                cy={y}
+                r={26}
+                fill={active ? 'var(--color-brand-dim)' : 'var(--color-panel)'}
+                stroke={active ? 'var(--color-brand)' : 'var(--color-line)'}
+                strokeWidth={active ? 2 : 1.5}
+              />
+              <svg x={x - 10} y={y - 10} width={20} height={20}>
+                <Icon size={20} color="currentColor" strokeWidth={1.75} />
+              </svg>
+              <text
+                x={lx}
+                y={ly}
+                textAnchor={anchor}
+                fill={active ? 'var(--color-c1)' : 'var(--color-c2)'}
+                fontSize={12.5}
+                fontWeight={600}
+                letterSpacing="0.02em"
+              >
+                {s.label}
+              </text>
+              <text x={lx} y={ly + 14} textAnchor={anchor} fill="var(--color-c3)" fontSize={10.5}>
+                {s.hint}
+              </text>
+              {count > 0 && (
+                <>
+                  <circle cx={x + 20} cy={y - 20} r={10} fill="var(--color-brand)" />
+                  <text x={x + 20} y={y - 16.2} textAnchor="middle" fill="#fff" fontSize={11} fontWeight={700}>
+                    {count}
+                  </text>
+                </>
+              )}
+            </g>
+          )
+        })}
+
+        {/* centre readout */}
+        <text x={CX} y={CY - 24} textAnchor="middle" fill="var(--color-c3)" fontSize={10.5} letterSpacing="0.16em">
+          IN FLIGHT
         </text>
-      )}
-    </svg>
+        <text x={CX} y={CY + 20} textAnchor="middle" fill="var(--color-c1)" fontSize={46} fontWeight={650}>
+          {activeRuns.length}
+        </text>
+        {loopsClosed !== undefined && (
+          <text x={CX} y={CY + 44} textAnchor="middle" fill="var(--color-c2)" fontSize={12}>
+            {loopsClosed} loops closed
+          </text>
+        )}
+      </svg>
+    </figure>
   )
 }
 
-// Compact linear tracker for run cards & detail views.
+/** Compact linear tracker for run rows and detail views. */
 export function StageTracker({
   history,
   status,
@@ -162,32 +185,37 @@ export function StageTracker({
     if (last?.status === 'in_progress') return 'active'
     return 'pending'
   }
-  const dot = size === 'sm' ? 'h-2 w-2' : 'h-2.5 w-2.5'
+  const done = STAGES.filter((s) => stageState(s.n) === 'done').length
+  const dot = size === 'sm' ? 'h-1.5 w-1.5' : 'h-2 w-2'
   return (
-    <div className="flex items-center gap-1">
+    <span
+      className="inline-flex items-center gap-1"
+      role="img"
+      aria-label={`Stage ${done} of ${STAGES.length} complete`}
+    >
       {STAGES.map((s, i) => {
         const state = stageState(s.n)
-        const isWaitingHere =
-          (status === 'awaiting_approval' && s.n === 4) ||
-          (status === 'awaiting_training' && s.n === 6)
+        const waitingHere =
+          (status === 'awaiting_approval' && s.n === 4) || (status === 'awaiting_training' && s.n === 6)
         return (
-          <div key={s.n} className="flex items-center gap-1" title={`${s.label}: ${state}`}>
-            <div
+          <span key={s.n} className="inline-flex items-center gap-1">
+            <span
+              title={`${s.label}: ${state}`}
               className={cx(
                 'rounded-full',
                 dot,
-                state === 'done' && 'bg-accent',
-                state === 'active' && 'bg-warn pulse-glow',
-                state === 'failed' && 'bg-bad',
-                state === 'pending' && (isWaitingHere ? 'border border-warn bg-warn/20' : 'border border-border-2 bg-transparent'),
+                state === 'done' && 'bg-brand',
+                state === 'active' && 'bg-warning breathe',
+                state === 'failed' && 'bg-danger',
+                state === 'pending' && (waitingHere ? 'bg-warning/40 ring-1 ring-warning' : 'bg-line-strong'),
               )}
             />
-            {i < 6 && (
-              <div className={cx('h-px w-2.5', state === 'done' ? 'bg-accent/50' : 'bg-border')} />
+            {i < STAGES.length - 1 && (
+              <span className={cx('h-px w-2', state === 'done' ? 'bg-brand/50' : 'bg-hair')} />
             )}
-          </div>
+          </span>
         )
       })}
-    </div>
+    </span>
   )
 }

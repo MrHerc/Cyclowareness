@@ -28,6 +28,14 @@ class AnthropicProvider:
         self.client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
         self.model = settings.ai_model
 
+    # A full training module is a title, description, 2-6 content sections and
+    # 3-5 four-option quiz questions with explanations. 2000 tokens truncated
+    # that mid-object, and a truncated object fails JSON parsing — which the
+    # layer above reports as "the model returned malformed JSON", sending the
+    # reader after a prompt bug that does not exist.
+    MAX_TOKENS = {"training_generation": 8000}
+    DEFAULT_MAX_TOKENS = 2000
+
     async def complete(self, task: str, payload: dict[str, Any]) -> str:
         template = load_prompt(task)
         key = "metrics_json" if task == "executive_briefing" else (
@@ -36,10 +44,25 @@ class AnthropicProvider:
         prompt = template.replace("{" + key + "}", json.dumps(payload, indent=2, default=str))
         response = await self.client.messages.create(
             model=self.model,
-            max_tokens=2000,
+            max_tokens=self.MAX_TOKENS.get(task, self.DEFAULT_MAX_TOKENS),
             messages=[{"role": "user", "content": prompt}],
         )
-        return response.content[0].text
+
+        if response.stop_reason == "max_tokens":
+            raise ValueError(
+                f"AI response for {task} hit the {self.MAX_TOKENS.get(task, self.DEFAULT_MAX_TOKENS)}-token "
+                "ceiling and is incomplete"
+            )
+
+        # Take the first TEXT block, not content[0]. Current Claude models
+        # think adaptively by default and emit a thinking block first, which has
+        # no `.text` — so indexing position 0 raised AttributeError on the very
+        # first live call, and the layer above turned that into a fallback to
+        # canned content (demo) or a failed stage (production).
+        text = next((b.text for b in response.content if getattr(b, "type", None) == "text"), None)
+        if text is None:
+            raise ValueError(f"AI response for {task} contained no text block")
+        return text
 
 
 class MockAIProvider:

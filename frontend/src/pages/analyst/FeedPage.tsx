@@ -4,7 +4,20 @@ import { ArrowRight, Rss } from 'lucide-react'
 import { api } from '../../lib/api'
 import { usePoll } from '../../lib/usePoll'
 import type { FeedItem } from '../../lib/types'
-import { Badge, Button, Card, EmptyState, LoadState, channelLabel, timeAgo } from '../../components/ui'
+import {
+  Button,
+  Callout,
+  Chip,
+  CodeBlock,
+  Empty,
+  GroupLabel,
+  LoadState,
+  PageHeader,
+  Panel,
+  Status,
+  channelLabel,
+  timeAgo,
+} from '../../components/ui'
 
 export function FeedPage() {
   const { data: items, error: loadError, refresh } = usePoll<FeedItem[]>(() => api.get('/api/feed'), 8000)
@@ -26,57 +39,69 @@ export function FeedPage() {
   }
 
   return (
-    <div className="fade-in space-y-5">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight">Curated Intel Feed</h1>
-        <p className="text-sm text-muted">
-          Input-only: relevant real-world threats an analyst can push straight into the loop (stage 1). Not a news portal.
-        </p>
-      </div>
+    <div className="rise space-y-6">
+      <PageHeader
+        title="Intel feed"
+        lede="Curated real-world threats an analyst can push straight into stage 1. Input only — this is not a news portal."
+      />
 
-      {error && <div className="text-sm text-bad">{error}</div>}
+      {/* A push that fails leaves the analyst on this page, so the reason has to
+          be announced rather than silently swallowed. */}
+      {error && (
+        <div role="alert" aria-live="polite">
+          <Callout tone="danger">{error}</Callout>
+        </div>
+      )}
 
       {!items ? (
-        <LoadState error={loadError} onRetry={refresh} />
+        <LoadState error={loadError} label="Loading the feed" onRetry={refresh} />
       ) : items.length === 0 ? (
-        <EmptyState>
-          <Rss size={20} className="mx-auto mb-2 text-faint" />
-          Feed is empty.
-        </EmptyState>
+        <Empty icon={<Rss size={20} aria-hidden />}>
+          Nothing in the feed right now. Curated items appear here as they are published.
+        </Empty>
       ) : (
-        <div className="space-y-3">
-          {items.map((item) => (
-            <Card key={item.id} className="p-5">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge value={item.severity} />
-                <Badge value={item.threat_type} />
-                <Badge value={item.artifact_type} label={channelLabel(item.artifact_type)} />
-                <span className="text-xs text-faint">
-                  {item.source_name} · {timeAgo(item.published_at)}
-                </span>
-                {item.pushed_to_loop && (
-                  <span className="ml-auto rounded-md border border-good/30 bg-good/10 px-1.5 py-0.5 text-[10px] text-good">
-                    in the loop ✓
+        <Panel
+          title="Published items"
+          actions={<span className="text-sm text-c3">{items.length}</span>}
+        >
+          <ul className="divide-hair">
+            {items.map((item) => (
+              <li key={item.id} className="py-4 first:pt-0 last:pb-0">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+                  <Status value={item.severity} />
+                  <Chip>{item.threat_type.replace(/_/g, ' ')}</Chip>
+                  <Chip>{channelLabel(item.artifact_type)}</Chip>
+                  <span className="text-xs text-c3">
+                    {item.source_name} · {timeAgo(item.published_at)}
                   </span>
-                )}
-              </div>
-              <h3 className="mt-2 text-sm font-semibold">{item.title}</h3>
-              <p className="mt-1 text-[13px] leading-relaxed text-muted">{item.summary}</p>
-              {item.artifact_example && (
-                <pre className="mt-3 max-h-28 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-3 font-mono text-[11px] leading-relaxed text-muted">
-                  {item.artifact_example}
-                </pre>
-              )}
-              {!item.pushed_to_loop && (
-                <div className="mt-3">
-                  <Button busy={busyId === item.id} onClick={() => void push(item)}>
-                    Push into the loop <ArrowRight size={14} />
-                  </Button>
+                  {item.pushed_to_loop && (
+                    <span className="ml-auto">
+                      <Status value="in_loop" label="In the loop" />
+                    </span>
+                  )}
                 </div>
-              )}
-            </Card>
-          ))}
-        </div>
+
+                <h3 className="text-h mt-2.5">{item.title}</h3>
+                <p className="text-body mt-1 max-w-3xl text-c2">{item.summary}</p>
+
+                {item.artifact_example && (
+                  <div className="mt-3 max-w-3xl">
+                    <GroupLabel>Sample artifact</GroupLabel>
+                    <CodeBlock maxHeight={140}>{item.artifact_example}</CodeBlock>
+                  </div>
+                )}
+
+                {!item.pushed_to_loop && (
+                  <div className="mt-3">
+                    <Button variant="primary" busy={busyId === item.id} onClick={() => void push(item)}>
+                      Push into the loop <ArrowRight size={14} aria-hidden />
+                    </Button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Panel>
       )}
     </div>
   )
