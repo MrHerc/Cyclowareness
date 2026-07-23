@@ -13,6 +13,10 @@ SAFE = dict(
     secret_key="x" * 48,
     database_url="postgresql+psycopg://u:p@db:5432/cyclo",
     cors_origins="https://app.customer.com",
+    # The mock analyzer invents its forensic observations. In production those
+    # inventions are shown to an analyst as sandbox evidence and written into
+    # employee training as fact, so a real deployment must use a real backend.
+    sandbox_analyzer="real",
 )
 
 
@@ -58,6 +62,18 @@ def test_production_rejects_sqlite():
 def test_production_rejects_localhost_cors():
     with pytest.raises(UnsafeProductionConfig, match="localhost"):
         _settings(cors_origins="https://app.customer.com,http://localhost:5173")
+
+
+def test_production_rejects_the_mock_sandbox_analyzer():
+    """The mock analyzer fabricates its findings.
+
+    It writes plausible invented behaviour ("contacted a command-and-control
+    host", "dropped an executable") that reaches the analyst as sandbox evidence
+    and the employee as training content. Shipping it to a customer is the
+    product asserting forensic facts nothing observed.
+    """
+    with pytest.raises(UnsafeProductionConfig, match="invents its forensic observations"):
+        _settings(sandbox_analyzer="mock")
 
 
 def test_production_reports_every_problem_at_once():

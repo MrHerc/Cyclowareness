@@ -123,6 +123,14 @@ class Settings(BaseSettings):
         if self.database_url.startswith("sqlite"):
             problems.append("DATABASE_URL points at SQLite; use PostgreSQL in production")
 
+        if self.sandbox_analyzer != "real":
+            problems.append(
+                "SANDBOX_ANALYZER=mock invents its forensic observations. In production those "
+                "fabricated findings are shown to an analyst as sandbox evidence and are written "
+                "into employee training as fact. Set SANDBOX_ANALYZER=real with a "
+                "REAL_ANALYZER_API_KEY, or run APP_ENV=demo."
+            )
+
         localhost_origins = [
             o for o in self.cors_origin_list if "localhost" in o or "127.0.0.1" in o
         ]
