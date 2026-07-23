@@ -38,6 +38,11 @@ jobs:
           SECRET_KEY: ci-placeholder-key-at-least-32-bytes-long!!
           DATABASE_URL: postgresql+psycopg://u:p@localhost:5432/c
           CORS_ORIGINS: https://app.example.com
+          # A valid production config now also requires the real sandbox
+          # analyzer (the mock fabricates findings). Supplying it lets the app
+          # boot so the route surface can be inspected.
+          SANDBOX_ANALYZER: real
+          REAL_ANALYZER_API_KEY: ci-placeholder-not-used-at-import
         run: |
           python - <<'PY'
           from app.main import app
