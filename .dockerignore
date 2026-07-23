@@ -1,0 +1,15 @@
+# Keep the build context small and reproducible.
+**/node_modules
+**/.venv
+**/__pycache__
+**/*.pyc
+**/dist
+backend/frontend_dist
+**/*.db
+**/*.sqlite3
+.git
+.github
+.claude
+*.log
+.env
+.env.local

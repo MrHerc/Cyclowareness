@@ -8,22 +8,18 @@
       name="description"
       content="Cyclowareness — closed-loop security awareness. Real threats become targeted training for the people actually at risk, and the measured results feed back into the risk model."
     />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="color-scheme" content="light dark" />
     <title>Cyclowareness</title>
     <script>
       // Resolve the theme before first paint. Applying it from React instead
-      // flashes the wrong palette for a frame on every load.
+      // flashes the wrong palette for a frame on every load. Light is the
+      // default; only an explicit dark preference overrides it.
       (function () {
         try {
-          var stored = localStorage.getItem('cyclo_theme')
           document.documentElement.dataset.theme =
-            stored === 'dark' || stored === 'light'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: light)').matches
-                ? 'light'
-                : 'dark'
+            localStorage.getItem('cyclo_theme') === 'dark' ? 'dark' : 'light'
         } catch (e) {
-          document.documentElement.dataset.theme = 'dark'
+          document.documentElement.dataset.theme = 'light'
         }
       })()
     </script>

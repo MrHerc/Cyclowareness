@@ -1,0 +1,41 @@
+# Render Blueprint for Cyclowareness + ZORBOX.
+#
+# One Docker web service that serves the API and the compiled frontend from a
+# single origin. Connect this repo in the Render dashboard (New > Blueprint) and
+# it provisions everything below. See DEPLOY.md for the click-path and the
+# handful of things you must decide.
+#
+# This deploys the EXHIBITION build (APP_ENV=demo): SQLite, the seeded Caspian
+# Dynamics world, one-click demo logins. The production config validator would
+# otherwise refuse to boot on SQLite — which is correct, but not what a booth
+# demo wants. To run it as a real product instead, set APP_ENV=production, point
+# DATABASE_URL at a Postgres instance, and supply a real SECRET_KEY (see below).
+
+services:
+  - type: web
+    name: cyclowareness
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: free            # 512 MB. Fine for a demo; see DEPLOY.md for the sizing note.
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: demo
+      # A strong signing key, generated once by Render and kept out of git.
+      - key: SECRET_KEY
+        generateValue: true
+      # The awareness loop and ZORBOX both run the mock/heuristic engines unless
+      # a key is supplied. Set these in the dashboard (sync:false = never in git)
+      # to switch on live Claude and the real VirusTotal adapter.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SANDBOX_ANALYZER
+        value: mock
+      - key: REAL_ANALYZER_API_KEY
+        sync: false
+      # Uploaded samples land here. /tmp is ephemeral, which for a malware
+      # quarantine is a feature: nothing survives a redeploy.
+      - key: ZORBOX_QUARANTINE
+        value: /tmp/zorbox-quarantine

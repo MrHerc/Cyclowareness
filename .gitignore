@@ -26,3 +26,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Frontend build copied into the backend image at Docker build time
+backend/frontend_dist/
+frontend/dist/

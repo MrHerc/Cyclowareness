@@ -15,6 +15,8 @@ const TrainingReview = lazy(() => import('./pages/analyst/TrainingReview').then(
 const EmployeesPage = lazy(() => import('./pages/analyst/EmployeesPage').then((m) => ({ default: m.EmployeesPage })))
 const SimulationsPage = lazy(() => import('./pages/analyst/SimulationsPage').then((m) => ({ default: m.SimulationsPage })))
 const FeedPage = lazy(() => import('./pages/analyst/FeedPage').then((m) => ({ default: m.FeedPage })))
+const SandboxPage = lazy(() => import('./pages/analyst/SandboxPage').then((m) => ({ default: m.SandboxPage })))
+const SandboxJobPage = lazy(() => import('./pages/analyst/SandboxJobPage').then((m) => ({ default: m.SandboxJobPage })))
 const EmployeePortal = lazy(() => import('./pages/employee/EmployeePortal').then((m) => ({ default: m.EmployeePortal })))
 const TakeTraining = lazy(() => import('./pages/employee/TakeTraining').then((m) => ({ default: m.TakeTraining })))
 const ExecutivePage = lazy(() => import('./pages/executive/ExecutivePage').then((m) => ({ default: m.ExecutivePage })))
@@ -92,6 +94,22 @@ createRoot(document.getElementById('root')!).render(
               element={
                 <RequireRole roles={['analyst']}>
                   <FeedPage />
+                </RequireRole>
+              }
+            />
+            <Route
+              path="/sandbox"
+              element={
+                <RequireRole roles={['analyst']}>
+                  <SandboxPage />
+                </RequireRole>
+              }
+            />
+            <Route
+              path="/sandbox/:id"
+              element={
+                <RequireRole roles={['analyst']}>
+                  <SandboxJobPage />
                 </RequireRole>
               }
             />

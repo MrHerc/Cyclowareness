@@ -26,6 +26,37 @@ Cyclowareness analyzes real threats in a secure sandbox, uses AI to convert each
 
 Every full pass is a persisted, auditable **LoopRun**. The analyst dashboard renders the loop turning in real time; a stalled or failed stage is surfaced, never dropped. Between CONVERT and TARGET sits a **human-in-the-loop gate**: an analyst reviews (and can edit) every AI-generated module before anyone receives it.
 
+## ZORBOX — the file & URL sandbox (`/sandbox`, `backend/app/sandbox/`)
+
+The analyzer behind stage 2 is also a standalone malware sandbox, built to the
+Azerbaijan Cybersecurity Centre's national-sandbox brief. Submit a file or a
+URL; ZORBOX identifies it by content (not by its extension), analyses it, and
+returns a **scored, explainable verdict** — every point traceable to a signal a
+human can read.
+
+- **Static analysis, never execution.** Six analyzers — PE (`pefile`), Office
+  macros (`oletools`), scripts (PowerShell/JS/VBS/batch/Python, with base64
+  layers decoded, not run), PDF, ELF, and a universal entropy/IOC extractor —
+  plus a **22-rule YARA tier**. The sample is parsed, never run.
+- **Content-based identification** catches the deception the extension hides: an
+  `.exe` renamed `invoice.pdf` is flagged the moment its bytes disagree with its
+  name.
+- **Archives** (`.zip/.rar/.7z`, and OOXML) are unpacked with bounds against zip
+  bombs, path traversal and nesting; each member becomes its own scored job, and
+  an encrypted archive **pauses and asks for a password — it is never
+  brute-forced**.
+- **URL submission** downloads the target behind an **SSRF guard** that refuses
+  private, loopback and cloud-metadata addresses and re-checks every redirect.
+- **Scoring** is `0.6 × rule + 0.4 × model`, banded Low/Medium/High/Critical per
+  the brief. The model is a transparent, expert-weighted logistic regression
+  whose every feature contribution is shown — labelled as expert-weighted, not
+  as a classifier trained on a corpus it never saw.
+- **Exports:** JSON, **STIX 2.1**, and a PDF report — each stating which tiers
+  ran. **Dynamic detonation** (Cuckoo/CAPEv2/Firejail/native syscall tracing)
+  runs on an isolated worker off the web host, never on shared hosting; the seam
+  is defined in `sandbox/native.py` and every report says plainly when the
+  sample was not detonated.
+
 ## Quick start (demo build — zero external services)
 
 **Windows, already set up?** Just double-click **`start-demo.bat`** — it launches

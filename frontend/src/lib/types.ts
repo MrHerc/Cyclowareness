@@ -386,3 +386,94 @@ export const STAGES = [
   { n: 6, key: 'measure', label: 'Measure', hint: 'Risk score + behavior Δ' },
   { n: 7, key: 'feedback', label: 'Feedback', hint: 'Results update the model' },
 ] as const
+
+// --- ZORBOX sandbox -----------------------------------------------------------
+// Mirrors backend/app/sandbox/schemas.py.
+
+export type RiskLevel = 'low' | 'medium' | 'high' | 'critical'
+
+export type JobStatus =
+  | 'queued'
+  | 'running'
+  | 'awaiting_password'
+  | 'completed'
+  | 'failed'
+
+export interface SandboxSignal {
+  id: string
+  title: string
+  severity: 'info' | 'low' | 'medium' | 'high' | 'critical'
+  detail: string
+  evidence: Record<string, unknown>
+  analyzer: string
+}
+
+export interface AnalyzerResultView {
+  analyzer: string
+  ran: boolean
+  unavailable_reason: string | null
+  signals: Omit<SandboxSignal, 'analyzer'>[]
+  facts: Record<string, unknown>
+  iocs: Record<string, string[]>
+  duration_ms: number
+}
+
+export interface SandboxJobSummary {
+  public_id: string
+  source: 'upload' | 'url' | 'loop' | 'archive_member'
+  original_name: string
+  submitted_url: string | null
+  sha256: string
+  size_bytes: number
+  mime: string
+  family: string
+  status: JobStatus
+  stage: string
+  risk_level: RiskLevel
+  final_score: number
+  created_at: string
+  completed_at: string | null
+}
+
+export interface ScoreBreakdown {
+  formula: string
+  rule: {
+    score: number
+    signal_count: number
+    bands: { severity: string; count: number; contribution: number; signals: string[] }[]
+  }
+  model: {
+    score: number
+    provenance: string
+    features: Record<string, number>
+    contributions: { feature: string; value: number; weight: number; contribution: number }[]
+    bias: number
+  }
+  top_reasons: { id: string; title: string; severity: string; detail: string }[]
+  tiers: Record<string, { ran: boolean; detail: string; unavailable_analyzers?: Record<string, string> }>
+}
+
+export interface SandboxJobDetail extends SandboxJobSummary {
+  md5: string
+  magic: string
+  extension_mismatch: boolean
+  error: string | null
+  tiers: ScoreBreakdown['tiers']
+  analysis: Record<string, AnalyzerResultView>
+  iocs: Record<string, string[]>
+  score_breakdown: ScoreBreakdown
+  rule_score: number
+  ai_score: number
+  feedback: string | null
+  archive_path: string | null
+  duration_ms: number | null
+  children: SandboxJobSummary[]
+}
+
+export interface SandboxCapabilities {
+  static_analyzers: string[]
+  unavailable_analyzers: Record<string, string>
+  yara: { loaded: number; failed?: Record<string, string>; error?: string }
+  dynamic_worker: boolean
+  supported_extensions: string[]
+}

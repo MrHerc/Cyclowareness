@@ -15,6 +15,7 @@ from .routers import (
     feed,
     loop_runs,
     reports,
+    sandbox,
     simulations,
     threats,
     training,
@@ -56,6 +57,10 @@ def _recover_orphaned_runs() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Import for its side effect: registering SandboxJob on Base.metadata so
+    # create_all builds the sandbox_jobs table.
+    from .sandbox import models as _sandbox_models  # noqa: F401
+
     Base.metadata.create_all(bind=engine)
     # Seeding is a demo affordance, never automatic in production: an empty
     # customer database must stay empty, not fill itself with a fictional
@@ -114,6 +119,8 @@ app.include_router(employees.router)
 app.include_router(reports.router)
 app.include_router(simulations.router)
 app.include_router(feed.router)
+# ZORBOX: the file/URL sandbox. Its own table, so create_all picks it up.
+app.include_router(sandbox.router)
 
 
 @app.get("/api/health")
@@ -140,3 +147,33 @@ def capabilities():
         "ai_provider": "anthropic" if settings.anthropic_api_key else "mock",
         "analyzer": settings.sandbox_analyzer,
     }
+
+
+# --- serve the built frontend --------------------------------------------------
+# When a compiled SPA is present (the Docker image builds it in), the API also
+# serves it, so the whole product runs as ONE service on ONE origin: no CORS,
+# and the /api/ws WebSocket is same-origin. In local dev this directory does not
+# exist and Vite serves the frontend instead — so this block is a no-op there.
+_FRONTEND_DIST = __import__("pathlib").Path(__file__).resolve().parent.parent / "frontend_dist"
+
+if _FRONTEND_DIST.is_dir():
+    from fastapi.responses import FileResponse
+    from fastapi.staticfiles import StaticFiles
+
+    # Hashed build assets, served with their own caching semantics.
+    app.mount("/assets", StaticFiles(directory=_FRONTEND_DIST / "assets"), name="assets")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    def spa(full_path: str):
+        """Return a real file when one exists, else index.html.
+
+        The SPA owns client-side routes like /sandbox/{id}, so any path that is
+        not an API route and not a real asset must fall back to index.html for
+        the router to resolve. /api/* never reaches here — those routes are
+        registered above and match first.
+        """
+        candidate = (_FRONTEND_DIST / full_path).resolve()
+        # Contain path traversal: the resolved path must stay inside the dist.
+        if _FRONTEND_DIST in candidate.parents and candidate.is_file():
+            return FileResponse(candidate)
+        return FileResponse(_FRONTEND_DIST / "index.html")

@@ -4,10 +4,15 @@ export type Theme = 'dark' | 'light'
 
 const KEY = 'cyclo_theme'
 
+/**
+ * Light is the product's identity, so it is the unconditional default. A
+ * visitor who has never chosen gets the near-white instrument — the OS dark
+ * preference does NOT auto-select dark, because the whole look was designed
+ * light-first. Dark stays available for anyone who toggles to it.
+ */
 function read(): Theme {
   const stored = localStorage.getItem(KEY)
-  if (stored === 'dark' || stored === 'light') return stored
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return stored === 'dark' ? 'dark' : 'light'
 }
 
 /** Applied before React mounts too — see the inline script in index.html. */

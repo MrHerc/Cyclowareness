@@ -2,6 +2,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   BookOpenCheck,
+  Boxes,
   GraduationCap,
   Inbox,
   LineChart,
@@ -27,6 +28,7 @@ const NAV = {
     { to: '/reports', label: 'Triage', icon: Inbox },
     { to: '/training', label: 'Training', icon: BookOpenCheck },
     { to: '/employees', label: 'People & risk', icon: Users },
+    { to: '/sandbox', label: 'Sandbox', icon: Boxes },
     { to: '/simulations', label: 'Simulations', icon: Send },
     { to: '/feed', label: 'Intel', icon: Rss },
   ],
