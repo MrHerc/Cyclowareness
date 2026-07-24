@@ -40,9 +40,11 @@ export function Panel({
   /** Spotlight hook for the guided tour. */
   'data-tour'?: string
 } & Omit<HTMLAttributes<HTMLElement>, 'title' | 'className' | 'children'>) {
+  // A whisper shadow lifts panels off the glowing ground — the premium digital
+  // depth Linear/Stripe use. `quiet` stays flat; it is a bare grouping, not a card.
   const tones = {
-    default: 'border-hair bg-panel',
-    feature: 'border-brand/30 bg-panel',
+    default: 'border-hair bg-panel shadow-panel',
+    feature: 'border-brand/30 bg-panel shadow-panel',
     quiet: 'border-transparent bg-transparent',
   }
   return (

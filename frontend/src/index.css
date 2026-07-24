@@ -9,59 +9,64 @@
       product can be re-themed (and printed, and projected) without hunting
       literals through 30 components. Charts and SVG read the same variables.
 
-   2. The brand hue is NOT a status colour. Violet means "Cyclowareness / the
-      loop / the thing you are pointing at". Red, amber and green mean risk, and
-      only risk. An earlier palette used one teal for the brand AND for
-      "healthy" AND for "running" AND for links, so a rising click-rate and a
-      live loop run looked identical.
+   2. The brand hue is NOT a status colour. A single electric blue means
+      "Cyclowareness / the loop / the thing you are pointing at". Red, amber and
+      green mean risk, and only risk. Because the brand is now blue, `info` moved
+      off blue onto cyan so the two never collide — an earlier palette reused one
+      hue for the brand AND for "healthy" AND for "running" AND for links, so a
+      rising click-rate and a live loop run looked identical.
 
-   3. Every content tone clears WCAG AA (4.5:1) on the surface it sits on.
+   3. Every content tone clears WCAG AA (4.5:1) on the surface it sits on, and
+      white text on a `brand` fill clears it too (blue is dark enough).
 
    4. **Light is the default.** The instrument reads on a near-white ground:
       exhibition halls are lit for photography, projectors wash dark UI out, and
       the first screenshot of this product usually lands on a white slide. Dark
       is a supported alternative, not the identity.
 
-   The look is meant to read as an INSTRUMENT — cool neutrals, hairline rules, a
-   fine measurement grid, tabular figures, high-chroma accent used sparingly —
-   rather than as a soft pastel dashboard.
+   The look is DIGITAL — a cool near-white ground lit by two soft blue glows
+   (not a printed grid), crisp hairline panels, tabular figures, and one decisive
+   electric-blue accent used sparingly.
    ========================================================================== */
 
 @theme {
   /* --- surfaces: canvas < raised < panel, with sunken for wells ----------- */
-  --color-canvas: #f3f4f8;
+  --color-canvas: #f4f6fb;
   --color-panel: #ffffff;
-  --color-raised: #f8f9fc;
-  --color-sunken: #eaecf3;
+  --color-raised: #f7f9fd;
+  --color-sunken: #eceff7;
 
   /* --- lines: hairline, structural, emphatic ------------------------------ */
-  --color-hair: #e6e8f0;
-  --color-line: #d6d9e4;
-  --color-line-strong: #b6bbcb;
+  --color-hair: #e7eaf3;
+  --color-line: #d7dce9;
+  --color-line-strong: #b7bed3;
 
   /* --- content: 1 primary, 2 secondary, 3 tertiary (all AA on panel) ------ */
-  --color-c1: #12141c;
-  --color-c2: #4d5364;
-  --color-c3: #6c7385;
+  --color-c1: #0f1524;
+  --color-c2: #495066;
+  --color-c3: #697187;
 
-  /* --- brand: fills/strokes use `brand`, text uses `brand-fg` ------------- */
-  --color-brand: #5a33e8;
-  --color-brand-fg: #4c27d9;
-  --color-brand-dim: #efeaff;
+  /* --- brand: electric blue. `brand` fills (white text clears AA on it),
+         `brand-fg` is the darker step for text/links on a light surface. ---- */
+  --color-brand: #2b5cff;
+  --color-brand-fg: #1e46e0;
+  --color-brand-dim: #e7ecff;
 
-  /* --- status: risk only -------------------------------------------------- */
+  /* --- status: risk only. `info` is cyan, kept clear of the blue brand. --- */
   --color-danger: #c81e1e;
   --color-warning: #9a5b00;
   --color-success: #077d55;
-  --color-info: #1d5fd4;
+  --color-info: #0e7490;
 
-  /* --- data series (charts): distinguishable, and never the brand hue ----- */
+  /* --- data series (charts): red/green/blue, CVD-validated with the legend
+         as secondary encoding (validate_palette: floor-band pass). ---------- */
   --color-series-1: #c81e1e;
   --color-series-2: #077d55;
-  --color-series-3: #1d5fd4;
+  --color-series-3: #2b5cff;
 
-  /* --- the measurement grid laid over the canvas ------------------------- */
-  --color-grid: #dfe2ec;
+  /* --- the two soft glows that light the canvas (a colour, so both themes
+         tune it). Replaces the old printed grid. --------------------------- */
+  --glow: 43 92 255;
 
   /* --- type scale: eight steps, nothing else -------------------------------
      An earlier version used thirteen sizes across three notations
@@ -107,6 +112,10 @@
   --radius-panel: 0.5rem;
   --radius-control: 0.375rem;
   --radius-chip: 0.25rem;
+
+  /* Whisper shadow that lifts panels off the glowing ground. Tuned cool and
+     faint — depth, not drop-shadow. Barely visible in dark, which is correct. */
+  --shadow-panel: 0 1px 2px rgb(15 23 42 / 0.04), 0 2px 8px rgb(15 23 42 / 0.05);
 }
 
 /* -----------------------------------------------------------------------------
@@ -127,20 +136,20 @@
   --color-c2: #a3a8bb;
   --color-c3: #8d93a8;
 
-  --color-brand: #7c5cff;
-  --color-brand-fg: #a48fff;
-  --color-brand-dim: #241d42;
+  --color-brand: #4d78ff;
+  --color-brand-fg: #8aa5ff;
+  --color-brand-dim: #17224a;
 
   --color-danger: #ff6b6b;
   --color-warning: #f5b544;
   --color-success: #3ecf8e;
-  --color-info: #6aa8ff;
+  --color-info: #34c3d6;
 
   --color-series-1: #ff6b6b;
   --color-series-2: #3ecf8e;
   --color-series-3: #6aa8ff;
 
-  --color-grid: #191c28;
+  --glow: 77 120 255;
 }
 
 /* =============================================================================
@@ -169,16 +178,17 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  /* A 24px measurement grid, at the threshold of visibility. It is what makes
-     the near-white ground read as an instrument surface rather than as blank
-     paper — present when you look for it, absent when you read. Panels sit
-     opaque on top, so it never interferes with data. */
+  /* Two soft blue glows light the near-white ground — one from the top-right,
+     one from the bottom-left — giving the surface depth and a digital feel
+     without the printed grid it used to carry (which read as graph paper).
+     Fixed so the light stays put while content scrolls; panels sit opaque on
+     top, so it never touches the data. */
   background-color: var(--color-canvas);
   background-image:
-    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: -1px -1px;
+    radial-gradient(1150px 560px at 88% -12%, rgb(var(--glow) / 0.08), transparent 60%),
+    radial-gradient(880px 520px at -8% 112%, rgb(var(--glow) / 0.05), transparent 58%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 ::selection {
