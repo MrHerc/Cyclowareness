@@ -17,7 +17,12 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     region: frankfurt
-    plan: free            # 512 MB. Fine for a demo; see DEPLOY.md for the sizing note.
+    # Standard = 2 GB / 1 CPU. The 512 MB tiers (free, starter) flap under the
+    # malware-analysis stack (YARA + oletools + pefile loaded together); 2 GB
+    # holds it with ~3x headroom. Verified live: health 15/15, three consecutive
+    # analyses with no restart. Declared here so a Blueprint re-sync can't revert
+    # the instance to 512 MB.
+    plan: standard
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
