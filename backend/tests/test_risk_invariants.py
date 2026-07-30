@@ -98,3 +98,123 @@ def test_direct_recipients_are_marked_exposed(db):
     assert mine is not None, "a named recipient was not selected"
     assert mine["exposed"] is True
     assert "Received this artifact" in mine["reasons"]
+
+
+# --- the three defects found while designing the Remediation Engine ------------
+
+
+def test_being_mailed_a_threat_cannot_move_your_score(db):
+    """An outsider must not have a write primitive on the risk heatmap.
+
+    Regression: `real_threat_exposure` carried +8.0 and was charged to everyone
+    the artifact "reached", which included merely receiving it and merely working
+    in an exposed department. Mailing a chosen employee six times drove them to
+    the top of the heatmap having done nothing, and one BEC mail to finance
+    charged +8 to every person in the department.
+
+    The event is still recorded — it explains why they were selected for
+    training — but it no longer accuses them of anything.
+    """
+    emp = db.execute(select(Employee)).scalars().first()
+    before = emp.current_risk_score
+    try:
+        for _ in range(6):
+            risk_engine.apply_event(
+                db, emp, "real_threat_exposure", reason="Exposed to a real threat"
+            )
+        db.flush()
+        assert emp.current_risk_score == before, (
+            f"six deliveries moved the score {before} -> {emp.current_risk_score}"
+        )
+        assert risk_engine.WEIGHTS["real_threat_exposure"] == 0.0
+    finally:
+        db.rollback()
+
+
+def test_a_bad_batch_can_be_revoked_and_the_score_recomputed(db):
+    """Regression: nothing could withdraw a risk event.
+
+    `apply_event` moved the score incrementally with no path back, so one
+    misconfigured connector was permanent. A number nobody can withdraw is a
+    number nobody should trust.
+    """
+    emp = db.execute(select(Employee)).scalars().first()
+    original = emp.current_risk_score
+    try:
+        event = risk_engine.apply_event(
+            db, emp, "simulated_phish_click", reason="poisoned batch"
+        )
+        event.source_id = "connector:test:batch-1"
+        db.flush()
+        assert emp.current_risk_score > original, "setup failed — score did not move"
+
+        affected = risk_engine.revoke_events(
+            db, source_id="connector:test:batch-1", reason="connector misconfigured"
+        )
+        db.flush()
+
+        assert [e.id for e in affected] == [emp.id]
+        assert emp.current_risk_score == original, "score did not return after revocation"
+        # Revoked, not deleted: the trail still shows the claim was made.
+        assert event.revoked_at is not None
+        assert event.revoked_reason == "connector misconfigured"
+    finally:
+        db.rollback()
+
+
+def test_revoked_events_leave_the_breakdown(db):
+    """The explainable breakdown must agree with the score after a revocation."""
+    emp = db.execute(select(Employee)).scalars().first()
+    try:
+        event = risk_engine.apply_event(
+            db, emp, "simulated_phish_click", reason="poisoned"
+        )
+        event.source_id = "connector:test:batch-2"
+        db.flush()
+        risk_engine.revoke_events(db, source_id="connector:test:batch-2", reason="x")
+        db.flush()
+
+        breakdown = risk_engine.risk_breakdown(db, emp)
+        explained = round(sum(item["contribution"] for item in breakdown), 2)
+        assert abs(explained - emp.current_risk_score) < 0.05, (
+            f"breakdown {explained} != score {emp.current_risk_score} after revocation"
+        )
+    finally:
+        db.rollback()
+
+
+def test_departed_employees_are_not_targeted(db):
+    """Regression: `Employee` had no lifecycle, so someone who left in March was
+    still assigned training in July and still averaged into the heatmap."""
+    from app.models import EmployeeStatus
+
+    emp = db.execute(select(Employee)).scalars().first()
+    try:
+        emp.status = EmployeeStatus.LEFT
+        db.flush()
+        targets = risk_engine.select_targets(
+            db,
+            threat_type="phishing",
+            artifact_meta={"recipients": [emp.email]},
+            reporter_id=None,
+        )
+        assert all(t["employee_id"] != emp.id for t in targets), (
+            "a departed employee was selected for training"
+        )
+    finally:
+        db.rollback()
+
+
+def test_departed_employees_leave_the_department_heatmap(db):
+    from app.models import EmployeeStatus
+
+    emp = db.execute(select(Employee)).scalars().first()
+    dept_id = emp.department_id
+    before = next(d for d in risk_engine.department_rollups(db) if d["id"] == dept_id)
+    try:
+        emp.status = EmployeeStatus.LEFT
+        db.flush()
+        after = next(d for d in risk_engine.department_rollups(db) if d["id"] == dept_id)
+        assert after["employee_count"] == before["employee_count"] - 1
+    finally:
+        db.rollback()

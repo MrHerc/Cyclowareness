@@ -91,6 +91,12 @@ class AssignmentStatus:
     EXPIRED = "expired"
 
 
+class EmployeeStatus:
+    ACTIVE = "active"
+    ON_LEAVE = "on_leave"
+    LEFT = "left"
+
+
 class ReportStatus:
     NEW = "new"
     IN_LOOP = "in_loop"
@@ -146,6 +152,18 @@ class Employee(Base):
     # 0.0–1.0: how sensitive this role is (finance approver > intern)
     role_sensitivity: Mapped[float] = mapped_column(Float, default=0.3)
     current_risk_score: Mapped[float] = mapped_column(Float, default=30.0)
+    # Lifecycle. Without it, someone who left in March is still assigned training
+    # in July and still averages into their old department's heatmap — and
+    # "on_leave" is the difference between a missed deadline that means something
+    # and one that means the person was on holiday.
+    status: Mapped[str] = mapped_column(String(16), default=EmployeeStatus.ACTIVE, index=True)
+    left_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    # Self-referential and nullable: needed before any feature may claim to
+    # notify a manager. A schema field that is structurally always false is
+    # worse than no field at all.
+    manager_employee_id: Mapped[int | None] = mapped_column(
+        ForeignKey("employees.id"), nullable=True
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     department: Mapped[Department] = relationship(back_populates="employees")
@@ -300,6 +318,15 @@ class RiskEvent(Base):
     delta: Mapped[float] = mapped_column(Float)
     reason: Mapped[str] = mapped_column(Text, default="")
     loop_run_id: Mapped[int | None] = mapped_column(ForeignKey("loop_runs.id"), nullable=True)
+    # Which batch or connector wrote this, so a bad one can be withdrawn as a
+    # unit (risk_engine.revoke_events). Null for events this application raised
+    # about its own activity.
+    source_id: Mapped[str | None] = mapped_column(String(120), nullable=True, index=True)
+    # Revoked, never deleted: "a claim was made and later withdrawn" is a
+    # different fact from "the claim never existed", and the audit trail owes
+    # the employee the first one.
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    revoked_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     employee: Mapped[Employee] = relationship(back_populates="risk_events")

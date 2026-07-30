@@ -315,7 +315,7 @@ def seed_if_empty(db: Session) -> None:
             targeting_reasons=next(t["reasons"] for t in run1.targeting if t["employee_id"] == emp.id),
             assigned_at=days_ago(20.9), completed_at=days_ago(19.8, rng.uniform(0, 8)),
         ))
-        event(emp, "real_threat_exposure", 8.0, 'Exposed to real threat "Fake telecom suspension notice"', days_ago(20.9), run1.id)
+        event(emp, "real_threat_exposure", 0.0, 'Exposed to real threat "Fake telecom suspension notice"', days_ago(20.9), run1.id)
         event(emp, "training_completed", -4.0, f'Completed "{module1.title}"', days_ago(19.8), run1.id)
         if score >= 60:
             event(emp, "training_comprehension", round(-6.0 * score / 100, 2), f"Quiz comprehension {score:.0f}%", days_ago(19.8), run1.id)
@@ -416,7 +416,7 @@ def seed_if_empty(db: Session) -> None:
             targeting_reasons=next(t["reasons"] for t in run2.targeting if t["employee_id"] == emp.id),
             assigned_at=days_ago(8.8), completed_at=days_ago(7, rng.uniform(0, 10)),
         ))
-        event(emp, "real_threat_exposure", 8.0, 'Exposed to real threat "CEO impersonation wire-fraud attempt"', days_ago(8.8), run2.id)
+        event(emp, "real_threat_exposure", 0.0, 'Exposed to real threat "CEO impersonation wire-fraud attempt"', days_ago(8.8), run2.id)
         event(emp, "training_completed", -4.0, f'Completed "{module2.title}"', days_ago(7), run2.id)
         if score >= 60:
             event(emp, "training_comprehension", round(-6.0 * score / 100, 2), f"Quiz comprehension {score:.0f}%", days_ago(7), run2.id)
@@ -426,7 +426,7 @@ def seed_if_empty(db: Session) -> None:
         targeting_reasons=["High risk score (61)"],
         assigned_at=days_ago(8.8),
     ))
-    event(employees["ilkin.mustafayev"], "real_threat_exposure", 8.0, 'Exposed to real threat "CEO impersonation wire-fraud attempt"', days_ago(8.8), run2.id)
+    event(employees["ilkin.mustafayev"], "real_threat_exposure", 0.0, 'Exposed to real threat "CEO impersonation wire-fraud attempt"', days_ago(8.8), run2.id)
     event(employees["ilkin.mustafayev"], "training_ignored", 4.0, "Assigned micro-training expired uncompleted", days_ago(6.5), run2.id)
 
     # ------------------------------------------------------------ simulations

@@ -11,7 +11,7 @@ Signals and their weights (documented; keep this table in sync with README):
     simulated_phish_click     +12.0   clicked a simulated phishing lure
     simulated_phish_report     -5.0   reported a simulated phish (good!)
     real_threat_report         -4.0   reported a real suspicious artifact
-    real_threat_exposure       +8.0   was a target of a real analyzed threat
+    real_threat_exposure        0.0   was targeted by a real threat — recorded, not scored
     training_completed         -4.0   base credit for completing a module
     training_comprehension     -6.0   × (quiz score / 100), on top of base
     training_failed            +3.0   completed but failed the quiz (<60%)
@@ -19,20 +19,33 @@ Signals and their weights (documented; keep this table in sync with README):
     manual_adjustment           ±x    analyst override (reason required)
 
 Role sensitivity sets the baseline: base = 20 + role_sensitivity * 20.
-Scores are clamped to [0, 100].
+Scores are clamped to [0, 100], and the score is defined as
+
+    baseline + Σ(deltas of every NON-REVOKED event)
+
+so a bad batch can be withdrawn (``revoke_events``) and the score recomputed
+from the trail rather than being permanently baked in.
 """
 from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
-from ..models import Department, Employee, RiskEvent
+from ..models import Department, Employee, EmployeeStatus, RiskEvent
 
 WEIGHTS: dict[str, float] = {
     "simulated_phish_click": 12.0,
     "simulated_phish_report": -5.0,
     "real_threat_report": -4.0,
-    "real_threat_exposure": 8.0,
+    # Being SENT a threat is not evidence of human risk — interacting with it is.
+    # This weight used to be +8.0, which handed an outsider a write primitive on
+    # the score: mail a chosen employee six times and they top the risk heatmap
+    # having done nothing, and a single BEC mail to finance charged +8 to every
+    # person in the department. The event is still written, because "this threat
+    # reached you" is a fact worth showing in the audit trail and it is what
+    # justifies TRAINING someone — it just no longer moves the number that claims
+    # to measure their behaviour.
+    "real_threat_exposure": 0.0,
     "training_completed": -4.0,
     "training_comprehension": -6.0,   # scaled by quiz score
     "training_failed": 3.0,
@@ -45,17 +58,19 @@ HIGH_RISK_THRESHOLD = 60.0
 # selecting targets.
 RECENT_CLICK_DAYS = 90
 
-# Selection reasons that mean the artifact actually reached this person. Only
-# these justify charging a `real_threat_exposure` penalty — see select_targets.
+# Selection reasons that mean the artifact actually reached this person, and so
+# justify RECORDING a `real_threat_exposure` event against them. The event is
+# deliberately zero-weighted (see WEIGHTS): it explains why they were selected
+# for training, and it does not accuse them of anything.
 EXPOSURE_REASONS = (
     "Directly targeted by this artifact",
     "Received this artifact",
     "Works in an exposed department",
 )
 
-# Keys in a Threat's artifact_meta that steer who gets selected (and therefore
-# who takes a +8 exposure hit and a forced assignment). Anything that accepts
-# metadata from an unprivileged source must strip these first — see
+# Keys in a Threat's artifact_meta that steer who gets selected, and therefore
+# who receives a forced assignment. Anything that accepts metadata from an
+# unprivileged source must strip these first — see
 # routers/reports.py::push_to_loop.
 TARGETING_META_KEYS = frozenset(
     {"targeted_employee_ids", "recipients", "targeted_departments"}
@@ -113,11 +128,69 @@ def apply_event(
     return event
 
 
+def recompute_score(db: Session, employee: Employee) -> float:
+    """Rebuild the score from the trail: baseline + Σ(non-revoked deltas).
+
+    The score is maintained incrementally by ``apply_event`` because that is what
+    makes it cheap on a hot path. This is the other half of that bargain: a way
+    to derive it from scratch. Without it, one misconfigured connector or one
+    poisoned batch is permanent — there is no sequence of API calls that undoes
+    it — and a number nobody can withdraw is a number nobody should trust.
+    """
+    total = db.execute(
+        select(func.sum(RiskEvent.delta)).where(
+            RiskEvent.employee_id == employee.id,
+            RiskEvent.revoked_at.is_(None),
+        )
+    ).scalar()
+    employee.current_risk_score = clamp(baseline_for(employee) + float(total or 0.0))
+    db.add(employee)
+    return employee.current_risk_score
+
+
+def revoke_events(db: Session, *, source_id: str, reason: str) -> list[Employee]:
+    """Withdraw every event a given source wrote, then recompute those scores.
+
+    ``source_id`` identifies the batch or connector that produced them — the
+    unit an operator actually wants to undo ("everything that Defender webhook
+    wrote last Tuesday"). Events are marked revoked rather than deleted: the
+    audit trail must still show that a claim was made and later withdrawn, which
+    is a different fact from the claim never having existed.
+    """
+    events = db.execute(
+        select(RiskEvent).where(
+            RiskEvent.source_id == source_id, RiskEvent.revoked_at.is_(None)
+        )
+    ).scalars().all()
+    if not events:
+        return []
+
+    now = datetime.now(timezone.utc)
+    employee_ids = set()
+    for event in events:
+        event.revoked_at = now
+        event.revoked_reason = reason[:500]
+        db.add(event)
+        employee_ids.add(event.employee_id)
+
+    # The session runs with autoflush=False, so these marks must be pushed before
+    # recompute_score's aggregate query — otherwise it sums the very events we
+    # just revoked and the score does not move.
+    db.flush()
+
+    affected = db.execute(
+        select(Employee).where(Employee.id.in_(employee_ids))
+    ).scalars().all()
+    for employee in affected:
+        recompute_score(db, employee)
+    return affected
+
+
 def risk_breakdown(db: Session, employee: Employee, limit_events: int = 200) -> list[dict]:
     """Explainable factor breakdown: baseline + net contribution per signal type."""
     rows = db.execute(
         select(RiskEvent.type, func.sum(RiskEvent.delta), func.count(RiskEvent.id))
-        .where(RiskEvent.employee_id == employee.id)
+        .where(RiskEvent.employee_id == employee.id, RiskEvent.revoked_at.is_(None))
         .group_by(RiskEvent.type)
     ).all()
     breakdown = [
@@ -160,7 +233,12 @@ def department_rollups(db: Session) -> list[dict]:
             func.count(Employee.id),
             high_risk,
         )
-        .join(Employee, Employee.department_id == Department.id)
+        # Departed staff must not average into their old department's risk.
+        .join(
+            Employee,
+            (Employee.department_id == Department.id)
+            & (Employee.status != EmployeeStatus.LEFT),
+        )
         .group_by(Department.id, Department.name)
         .order_by(func.avg(Employee.current_risk_score).desc())
     ).all()
@@ -204,7 +282,13 @@ def select_targets(
     did, they are kept with an explicit reinforcement rationale. They are the
     sensor, not the failure.
     """
-    employees = db.execute(select(Employee)).scalars().all()
+    # Only people who can actually receive and act on training. Assigning to a
+    # departed employee is noise in every metric it touches; assigning to someone
+    # on leave produces an expiry that reads as "ignored the training" and
+    # charges them for it.
+    employees = db.execute(
+        select(Employee).where(Employee.status == EmployeeStatus.ACTIVE)
+    ).scalars().all()
     by_id = {e.id: e for e in employees}
     candidates: dict[int, list[str]] = {}
 

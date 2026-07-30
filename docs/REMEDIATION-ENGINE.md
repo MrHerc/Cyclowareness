@@ -205,12 +205,28 @@ ATT&CK is retained as an advisory crosswalk so the SOC can speak its own languag
 
 ### A. The company's own material — **the default, and the preferred answer**
 
-It is already approved, on-brand, in the right language, and legally reviewed. When it
-covers the behaviour, it wins.
+It is already approved, on-brand, and legally reviewed. When it covers the behaviour, it
+wins.
 
-Design for the **common** case, not the ideal one: assume a SharePoint folder of PDFs and
-PowerPoints with no metadata. The zero-integration fallback — a human registers a URL, a
-title, a duration and 1–3 HRB tags — must always work, and it is sufficient for a pilot.
+**Decided: the pilot has a SharePoint/Drive folder of PDFs and PowerPoints with no
+metadata.** That is the design target — not an LMS, not SCORM, not xAPI. Three consequences,
+and they simplify the build considerably:
+
+1. **The catalogue is populated by hand, and that is fine.** A human registers a file:
+   URL/upload, title, language, duration, and 1–3 HRB tags. Twenty minutes of work covers a
+   pilot's whole library. No connector is on the critical path.
+2. **No completion callback exists.** A PDF on SharePoint cannot tell us it was read. So the
+   honest design is: the *lesson* may be the customer's file, but the **assessment lives in
+   our portal** — the learner opens the file, returns, and answers 3–5 questions. Completion
+   is then something we actually observe rather than something we assume. Where even that is
+   refused, the evidence ladder in §11 applies and the UI says "we cannot confirm".
+3. **Tagging quality is the whole ballgame.** With no metadata to import, the HRB tags a
+   human types *are* the matching signal. This is why the taxonomy is 29 entries and not 300
+   (§4) — a vocabulary a content owner can hold in their head is the only one that gets
+   tagged accurately.
+
+A connector seam still gets defined (the `sandbox/native.py` pattern), because a later
+customer will have an LMS. It is defined and not implemented.
 
 ### B. Curated external — **mostly link-only**
 
@@ -241,6 +257,29 @@ prompt can see, not by asking the model to behave.
 > the obvious path — "translate the good blog into Azerbaijani" — is infringement unless
 > `permitted_use >= translate`. Link out to the English original, or write our own
 > Azerbaijani content, or license it. There is no fourth option.
+
+**Decided: the product is bilingual — Azerbaijani and English, and the learner chooses.**
+That is the right call for the audience, and it has four architectural consequences:
+
+1. **`language` is a hard eligibility filter, never a ranking hint.** An asset in the wrong
+   language is not a worse match; it is not a match. Serving an English module to an
+   Azerbaijani-preferring learner tests their English, not their security judgement.
+2. **`Employee.preferred_language`** becomes a real field, defaulting per-tenant, learner-
+   overridable in the portal.
+3. **Coverage gaps gain a language dimension.** An HRB covered in English but not in
+   Azerbaijani is a *gap for Azerbaijani learners*, and the `CoverageGap` rows must say so —
+   otherwise the catalogue looks complete while half the workforce silently falls through to
+   AI generation.
+4. **The framing is always written in the learner's language**, even when the body is not.
+   Where an English-only external asset is genuinely the best available material, it may be
+   offered to an Azerbaijani learner **only** with an explicit "this material is in English"
+   label and an Azerbaijani framing around it — never silently. And it may be *linked*, never
+   machine-translated, unless `permitted_use >= translate`.
+
+This makes AI generation more load-bearing than it would be in a monolingual product: for
+Azerbaijani, the freely-adaptable external corpus is close to empty, so bespoke Azerbaijani
+content is often the only lawful option that is also in the right language. That is a real
+cost and it should be planned for rather than discovered.
 
 ### C. AI-generated — **the exception, not the default**
 
@@ -605,30 +644,42 @@ GDPR-shaped law that is personal data about a security incident.
 | plan rejected by the firewall | persisted with the typed reason; routed to a human; counted as a security metric |
 | asset link dead or content changed | asset quarantined; **open assignments pointing at it suspended** |
 | identity unresolved | review queue, never a guess |
-| employee left | no assignment (requires the lifecycle field below) |
+| employee left or on leave | no assignment (`Employee.status`, §14) |
 | duplicate/retried trigger | dedupe key on `(kind, subject, occurred_at window)`; idempotent |
 
 ---
 
-## 14. Three live defects this design depends on fixing
+## 14. Three live defects this design depended on — now fixed
 
-Found while designing, verified in the current code. They are pre-existing and independent of
-this feature, but they undermine it.
+Found while designing and verified in the current code. All three are **fixed**, with
+regression tests (`tests/test_risk_invariants.py`).
 
-1. **Mere delivery charges risk.** `EXPOSURE_REASONS` includes `"Received this artifact"` and
-   `"Works in an exposed department"`, and `real_threat_exposure` is `+8.0`. An external
-   attacker who repeatedly mails a chosen employee drives their score to 100 — and a single
-   BEC mail to finance charges +8 to *every* member of that department.
+1. **Mere delivery charged risk.** `real_threat_exposure` was `+8.0`, and `EXPOSURE_REASONS`
+   includes `"Received this artifact"` and `"Works in an exposed department"`. An outsider who
+   repeatedly mailed a chosen employee drove them to the top of the risk heatmap having done
+   nothing, and one BEC mail to finance charged +8 to *every* member of the department.
    **Being sent a phish is not evidence of human risk; interacting with it is.**
-2. **There is no undo.** `apply_event` moves the score incrementally and nothing can revoke
-   an event, so one poisoned batch or one misconfigured connector is permanent. Needs
-   `RiskEvent.source_id` + `revoked_at`, with the score defined as
-   `baseline + Σ(non-revoked deltas)` — which the reconciliation test already added this week
-   would then keep honest.
-3. **`Employee` has no lifecycle or manager link.** No `status` / `left_at` means departed
-   staff still receive assignments and still average into the department heatmap. No
-   `manager_employee_id` means `notify_manager` can never be honoured — so it must be added
-   or the field must be dropped rather than shipped structurally false.
+   *Fixed:* the weight is `0.0`. The event is still written — it explains why the person was
+   selected for training — but it no longer moves the number that claims to measure their
+   behaviour.
+2. **There was no undo.** `apply_event` moved the score incrementally with no path back, so
+   one poisoned batch or one misconfigured connector was permanent.
+   *Fixed:* `RiskEvent.source_id` + `revoked_at` + `revoked_reason`, plus
+   `risk_engine.recompute_score()` and `revoke_events(source_id, reason)`. The score is now
+   defined as `baseline + Σ(non-revoked deltas)`, and events are revoked rather than deleted —
+   "a claim was made and later withdrawn" is a different fact from "the claim never existed",
+   and the audit trail owes the employee the first one.
+3. **`Employee` had no lifecycle or manager link**, so departed staff were still assigned
+   training and still averaged into their old department's heatmap, and `notify_manager` could
+   never have been honoured.
+   *Fixed:* `status` (`active` / `on_leave` / `left`), `left_at`, and
+   `manager_employee_id`. `select_targets` assigns only to `active`; `department_rollups`
+   excludes `left`.
+
+> **Migration note.** These add columns to existing tables, and `create_all()` only ever
+> CREATEs — it will not ALTER. The deployed instance re-seeds a fresh ephemeral SQLite file on
+> every deploy, so it self-heals there. Any long-lived database needs the Alembic work that is
+> already the known outstanding prerequisite in `SPRINT-PLAN.md`.
 
 ---
 
