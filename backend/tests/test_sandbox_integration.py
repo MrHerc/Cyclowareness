@@ -14,6 +14,7 @@ from __future__ import annotations
 import io
 import pathlib
 import re
+import time
 
 import pytest
 
@@ -120,6 +121,48 @@ def test_a_clean_verdict_rates_no_impact(db):
 
 
 # --- the portal's own half ----------------------------------------------------
+#: How long to let a submission settle before giving up on it. Analysis of these
+#: tiny samples takes milliseconds; this is a deadlock guard, not a wait.
+_SETTLE_TIMEOUT_S = 20.0
+
+
+def submit_and_settle(client, headers, name: str, data: bytes) -> dict:
+    """Upload a sample and return its report once analysis has finished.
+
+    UPLOAD IS ASYNCHRONOUS AND THE TEST MUST NOT PRETEND OTHERWISE. `POST
+    /upload` returns as soon as the bytes are quarantined and hands the analysis
+    to a background thread, so the job it returns is `queued` with `final_score`
+    still at its column default of 0.0.
+
+    Reading that row straight away and calling it "before" is a race, and it is
+    the race that turned CI red: on a slower Windows box the analysis had not
+    finished by the time the detonation report was posted either, so both reads
+    saw 0.0 and the assertion held. On Linux the analysis finished in between —
+    `assert 17.3 == 0.0`. The test was wrong on both machines; only one of them
+    said so.
+
+    Waiting is also the more faithful test. A real worker is only ever offered
+    COMPLETED jobs (see `_needs_dynamic`), so a detonation report for a job that
+    is still being parsed is a state the contract does not produce.
+    """
+    r = client.post(
+        "/api/sandbox/upload", headers=headers, files={"file": (name, io.BytesIO(data), None)}
+    )
+    assert r.status_code == 201, r.text
+    public_id = r.json()["public_id"]
+
+    deadline = time.monotonic() + _SETTLE_TIMEOUT_S
+    while time.monotonic() < deadline:
+        job = client.get(f"/api/sandbox/jobs/{public_id}", headers=headers).json()
+        if job["status"] not in ("queued", "running"):
+            return job
+        time.sleep(0.05)
+    raise AssertionError(
+        f"analysis of {name} did not settle within {_SETTLE_TIMEOUT_S}s "
+        f"(last status: {job['status']})"
+    )
+
+
 def test_upload_records_the_submitting_portal_user(client, analyst_headers, db):
     """The engine stores an identity string; the portal joins back to its user.
 
@@ -237,14 +280,13 @@ def test_a_detonation_report_moves_the_verdict_and_is_written_to_the_audit_trail
     """
     from app.platform.models import AuditEvent
 
-    r = client.post(
-        "/api/sandbox/upload",
-        headers=analyst_headers,
-        files={"file": ("payload.exe", io.BytesIO(b"MZ" + b"\x00" * 512), None)},
+    # Settled first: "before" has to be the score the STATIC tier reached, not
+    # whatever the row happened to hold mid-analysis. See submit_and_settle.
+    before = submit_and_settle(
+        client, analyst_headers, "payload.exe", b"MZ" + b"\x00" * 512
     )
-    assert r.status_code == 201, r.text
-    public_id = r.json()["public_id"]
-    before = client.get(f"/api/sandbox/jobs/{public_id}", headers=analyst_headers).json()
+    public_id = before["public_id"]
+    assert before["status"] == "completed"
 
     r = client.post(
         f"/api/dynamic/report/{public_id}",
@@ -307,12 +349,9 @@ def test_the_detonation_report_never_names_the_machine_that_ran_it(
     dynamic tier its own way.
     """
     host = "det-01.internal.caspiandynamics.az"
-    r = client.post(
-        "/api/sandbox/upload",
-        headers=analyst_headers,
-        files={"file": ("thing.exe", io.BytesIO(b"MZ" + b"\x00" * 300), None)},
-    )
-    public_id = r.json()["public_id"]
+    public_id = submit_and_settle(
+        client, analyst_headers, "thing.exe", b"MZ" + b"\x00" * 300
+    )["public_id"]
     r = client.post(
         f"/api/dynamic/report/{public_id}",
         headers=worker_headers,
@@ -352,12 +391,9 @@ def test_a_non_finite_number_from_the_worker_cannot_poison_the_exports(
     out — accepted with a 200, after which every export of that job is a 500 for
     ever. It is neutralised at the seam.
     """
-    r = client.post(
-        "/api/sandbox/upload",
-        headers=analyst_headers,
-        files={"file": ("thing2.exe", io.BytesIO(b"MZ" + b"\x00" * 300), None)},
-    )
-    public_id = r.json()["public_id"]
+    public_id = submit_and_settle(
+        client, analyst_headers, "thing2.exe", b"MZ" + b"\x00" * 300
+    )["public_id"]
     r = client.post(
         f"/api/dynamic/report/{public_id}",
         headers={**worker_headers, "Content-Type": "application/json"},
@@ -378,12 +414,7 @@ def test_an_unsigned_deployment_says_so_rather_than_implying_an_assurance(
     client, analyst_headers
 ):
     """No SIGNING_KEY: the evidence export is still produced in full."""
-    r = client.post(
-        "/api/sandbox/upload",
-        headers=analyst_headers,
-        files={"file": ("doc.txt", io.BytesIO(b"plain"), "text/plain")},
-    )
-    public_id = r.json()["public_id"]
+    public_id = submit_and_settle(client, analyst_headers, "doc.txt", b"plain text")["public_id"]
     r = client.get(f"/api/sandbox/jobs/{public_id}/export.signed", headers=analyst_headers)
     assert r.status_code == 200
     body = r.json()
