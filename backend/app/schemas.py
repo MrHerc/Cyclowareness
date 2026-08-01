@@ -247,10 +247,207 @@ class LoopRunOut(ORMModel):
     completed_at: datetime | None
 
 
+class RunSummaryOut(BaseModel):
+    """A loop run with enough of its threat attached to render a row.
+
+    The analyst dashboard built this shape inline while the list endpoint
+    returned the bare LoopRun, so a client reading the list had no title to show
+    and every caller invented its own join. One shape, built in one place.
+    """
+
+    id: int
+    status: str
+    current_stage: int
+    stage_history: list[Any]
+    threat_title: str
+    threat_type: str | None
+    verdict: str | None
+    source: str | None
+    targets: int
+    created_at: datetime | None
+    completed_at: datetime | None
+
+    @classmethod
+    def from_run(cls, run: Any) -> "RunSummaryOut":
+        threat = run.threat
+        return cls(
+            id=run.id,
+            status=run.status,
+            current_stage=run.current_stage,
+            stage_history=run.stage_history or [],
+            # An orphaned run has no threat to name. "Unknown artifact" is
+            # honest; an empty string reads as a rendering bug.
+            threat_title=threat.title if threat else "Unknown artifact",
+            threat_type=threat.threat_type if threat else None,
+            verdict=threat.verdict if threat else None,
+            source=threat.source if threat else None,
+            targets=len(run.targeting or []),
+            created_at=run.created_at,
+            completed_at=run.completed_at,
+        )
+
+
 class LoopRunDetail(LoopRunOut):
     threat: ThreatOut | None = None
     training_module: TrainingModuleOut | None = None
     assignments: list[dict[str, Any]] = []
+
+
+# --- Approvals -------------------------------------------------------------
+# A view over the loop's human gate. These shapes live here rather than in the
+# platform package because everything they describe — LoopRun, TrainingModule,
+# Threat — is core loop state; the approval queue adds no storage of its own.
+
+
+class ProposedTarget(BaseModel):
+    """One person the TARGET stage would select, and why.
+
+    Straight from ``risk_engine.select_targets`` — the same call the loop makes
+    after approval. The analyst is being asked to approve content that will be
+    put in front of these people, so the reasons are theirs to disagree with.
+    """
+
+    employee_id: int
+    name: str
+    department_id: int | None = None
+    risk_score: float | None = None
+    reasons: list[str] = []
+    #: True only where the artifact actually reached this person. False means
+    #: they were selected on a prior (a high score, a past click), which is a
+    #: reason to train them and not evidence that anything happened to them.
+    exposed: bool = False
+
+
+class SafetyCheck(BaseModel):
+    """One pre-approval check, and whether it actually ran.
+
+    ``checked=False`` with ``passed=None`` is the honest shape for a check this
+    deployment cannot perform. Reporting it as a pass would turn "we did not
+    look" into "we looked and found nothing" on the one screen where an analyst
+    signs their name to the result.
+    """
+
+    check: str
+    checked: bool
+    passed: bool | None
+    detail: str
+
+
+class SafetyStatus(BaseModel):
+    checks: list[SafetyCheck] = []
+    checks_run: int = 0
+    checks_not_run: int = 0
+    failed: int = 0
+    #: Reads as an all-clear only when nothing was skipped and nothing failed.
+    summary: str = ""
+
+
+class ApprovalQueueItem(BaseModel):
+    run_id: int
+    created_at: datetime
+    waiting_seconds: int
+    threat_id: int
+    threat_title: str
+    threat_type: str | None = None
+    threat_verdict: str | None = None
+    threat_confidence: float | None = None
+    #: Derived, never stored: a Threat carries a verdict and a confidence, not a
+    #: severity. ``severity_basis`` states the derivation in words so the label
+    #: cannot be mistaken for something an analyzer asserted.
+    severity: str
+    severity_basis: str
+    module_id: int | None = None
+    module_title: str = ""
+    quiz_questions: int = 0
+    est_minutes: int | None = None
+    ai_generated: bool = False
+    #: "anthropic" | "mock" | "" — which engine wrote the module. Never inferred.
+    generation_source: str = ""
+    generation_label: str = ""
+    #: Computed for the returned page only, by calling select_targets.
+    proposed_target_count: int | None = None
+    #: A prior endorsement from POST /decision with require_second_approval.
+    awaiting_second_approval: bool = False
+    endorsed_by: str | None = None
+
+
+class ApprovalQueue(BaseModel):
+    items: list[ApprovalQueueItem]
+    total: int
+    limit: int
+    offset: int
+    truncated: bool
+
+
+class ApprovalDetail(BaseModel):
+    """Everything needed to decide, on one screen.
+
+    ``artifact_excerpt`` and ``artifact_meta`` are attacker-authored. They are
+    carried here as evidence for a human to read and are never treated as
+    instructions by anything downstream — which is also why the field is an
+    excerpt with a stated cap rather than the whole artifact.
+    """
+
+    run_id: int
+    run_status: str
+    awaiting_approval: bool
+    created_at: datetime
+    waiting_seconds: int
+
+    threat: ThreatOut | None = None
+    artifact_excerpt: str = ""
+    artifact_excerpt_truncated: bool = False
+    #: Sandbox output as recorded by the ANALYZE stage, or a stated reason it is
+    #: absent. Never an empty object that reads as "analysed, found nothing".
+    analysis: dict[str, Any] = {}
+    analysis_note: str = ""
+
+    module: TrainingModuleOut | None = None
+    generation_label: str = ""
+    severity: str = ""
+    severity_basis: str = ""
+
+    proposed_targets: list[ProposedTarget] = []
+    targeting_note: str = ""
+
+    safety: SafetyStatus = SafetyStatus()
+    second_approval: dict[str, Any] = {}
+
+
+class ApprovalDecisionRequest(BaseModel):
+    """approve | reject | request_revision.
+
+    ``require_second_approval`` holds an approval instead of applying it: the
+    run stays at the gate and the endorsement is recorded, so a second,
+    different analyst has to act before any employee sees the module.
+    """
+
+    decision: str
+    comment: str = ""
+    require_second_approval: bool = False
+
+
+class ApprovalDecisionResult(BaseModel):
+    run_id: int
+    decision: str
+    #: The whole point of the field: request_revision and a held approval both
+    #: return 200 without moving the loop, and must not read like an approval.
+    loop_advanced: bool
+    run_status: str
+    module_status: str | None = None
+    audited_action: str
+    comment: str = ""
+    second_approval: dict[str, Any] = {}
+    detail: str = ""
+
+
+class ApprovalHistoryEntry(BaseModel):
+    at: datetime
+    actor_email: str
+    actor_role: str
+    action: str
+    comment: str
+    detail: dict[str, Any] | None = None
 
 
 # --- Feed ------------------------------------------------------------------

@@ -40,6 +40,7 @@ from .models import (
     TrainingModule,
     User,
 )
+from .platform.seed_platform import PLATFORM_MODELS, seed_platform
 from .security import hash_password
 
 logger = logging.getLogger("cyclowareness.seed")
@@ -48,7 +49,11 @@ rng = random.Random(2026)
 NOW = datetime.now(timezone.utc)
 
 # Tables cleared (child → parent order) by reset_and_reseed before re-seeding.
+# The platform tables lead: their rows reference employees and departments, so
+# a reset that skipped them would leave findings and incident subjects pointing
+# at people who no longer exist.
 _ALL_MODELS = [
+    *PLATFORM_MODELS,
     RiskEvent,
     SimulationTarget,
     PhishingSimulation,
@@ -690,6 +695,11 @@ def seed_if_empty(db: Session) -> None:
     report3.linked_loop_run_id = run3.id
 
     _reconcile_scores_with_audit_trail(db, employees.values())
+
+    # The governance layer (policy, intel, incident risk, integrations, audit).
+    # Seeded last because every one of its storylines names people and
+    # departments that must already exist.
+    seed_platform(db)
 
     db.commit()
     logger.info("Seed complete: %d employees, 6 departments, 3 loop runs, 2 simulations", len(employee_specs))

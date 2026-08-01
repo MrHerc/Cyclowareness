@@ -4,28 +4,46 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyclowareness — closed-loop human cyber risk</title>
     <meta
       name="description"
-      content="Cyclowareness — closed-loop security awareness. Real threats become targeted training for the people actually at risk, and the measured results feed back into the risk model."
+      content="Cyclowareness turns real threats that hit the organisation into targeted, human-approved, measured training — and feeds the measured result back into the risk model."
     />
-    <meta name="color-scheme" content="light dark" />
-    <title>Cyclowareness</title>
+    <!-- Matches --color-void in design/tokens.css. Sets the browser chrome and
+         the mobile address bar to the product's background rather than white. -->
+    <meta name="theme-color" content="#05070d" />
+    <meta name="color-scheme" content="dark" />
+    <style>
+      /* Painted before any stylesheet or module has loaded. Without it the first
+         frame is the user agent's white page, which on a projector reads as a
+         flash of failure before the application has started. */
+      html {
+        background: #05070d;
+      }
+    </style>
     <script>
-      // Resolve the theme before first paint. Applying it from React instead
-      // flashes the wrong palette for a frame on every load. Light is the
-      // default; only an explicit dark preference overrides it.
+      // The token layer defines one palette and declares `color-scheme: dark`;
+      // there is no `[data-theme="light"]` block yet, so dark is the only honest
+      // default. Resolving the attribute here rather than from React keeps the
+      // document consistent from the first paint, and when a light palette is
+      // added this is the one place that has to learn about the preference.
       (function () {
         try {
-          document.documentElement.dataset.theme =
-            localStorage.getItem('cyclo_theme') === 'dark' ? 'dark' : 'light'
+          var stored = localStorage.getItem('cyclo_theme')
+          document.documentElement.dataset.theme = stored === 'light' ? 'light' : 'dark'
         } catch (e) {
-          document.documentElement.dataset.theme = 'light'
+          document.documentElement.dataset.theme = 'dark'
         }
       })()
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="font-family: system-ui, sans-serif; color: #e9eef8; padding: 2rem">
+        Cyclowareness needs JavaScript. Nothing on this page is rendered on the server.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

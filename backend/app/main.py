@@ -9,11 +9,17 @@ from .config import get_settings
 from .database import Base, engine, session_scope
 from .routers import (
     admin,
+    approvals,
+    audit,
     auth,
     dashboard,
     employees,
     feed,
+    incident_risks,
+    integrations,
+    intel,
     loop_runs,
+    policy,
     reports,
     sandbox,
     simulations,
@@ -60,6 +66,9 @@ async def lifespan(app: FastAPI):
     # Import for its side effect: registering SandboxJob on Base.metadata so
     # create_all builds the sandbox_jobs table.
     from .sandbox import models as _sandbox_models  # noqa: F401
+
+    # Same reason: policy, intel, incident-risk, integration and audit tables.
+    from .platform import models as _platform_models  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
     # Seeding is a demo affordance, never automatic in production: an empty
@@ -121,6 +130,16 @@ app.include_router(simulations.router)
 app.include_router(feed.router)
 # ZORBOX: the file/URL sandbox. Its own table, so create_all picks it up.
 app.include_router(sandbox.router)
+# The organisational layer: the customer's own documents, the advisories that
+# break them, and the external platforms training runs on.
+app.include_router(policy.router)
+app.include_router(intel.router)
+app.include_router(integrations.router)
+# Obligations charged to named people, the human approval gate as a queue, and
+# the trail every one of them writes to.
+app.include_router(incident_risks.router)
+app.include_router(approvals.router)
+app.include_router(audit.router)
 
 
 @app.get("/api/health")

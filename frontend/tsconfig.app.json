@@ -16,7 +16,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
+    /* Linting.
+       `strict` was off until the shell landed. Every file in `src` already
+       passes with it on, and without it the null-vs-zero discipline the whole
+       product rests on is a convention rather than a compiler error. */
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,

@@ -12,13 +12,13 @@ from ..models import (
     TrainingModule,
     User,
 )
-from ..schemas import LoopRunDetail, LoopRunOut
+from ..schemas import LoopRunDetail, LoopRunOut, RunSummaryOut
 from ..security import require_analyst
 
 router = APIRouter(prefix="/api/loop-runs", tags=["loop"])
 
 
-@router.get("", response_model=list[LoopRunOut])
+@router.get("", response_model=list[RunSummaryOut])
 def list_runs(
     status: str | None = None,
     db: Session = Depends(get_db),
@@ -33,7 +33,8 @@ def list_runs(
         ).limit(50)
     elif status:
         query = query.where(LoopRun.status == status)
-    return db.execute(query).scalars().all()
+    runs = db.execute(query).scalars().all()
+    return [RunSummaryOut.from_run(run) for run in runs]
 
 
 @router.get("/{run_id}", response_model=LoopRunDetail)

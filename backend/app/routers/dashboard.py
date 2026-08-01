@@ -23,6 +23,7 @@ from ..models import (
     TrainingAssignment,
     User,
 )
+from ..schemas import RunSummaryOut
 from ..security import get_current_user, require_analyst, require_analyst_or_exec
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
@@ -195,20 +196,9 @@ async def executive_dashboard(
 
 
 def _run_summary(db: Session, run: LoopRun) -> dict:
-    threat = run.threat
-    return {
-        "id": run.id,
-        "status": run.status,
-        "current_stage": run.current_stage,
-        "stage_history": run.stage_history,
-        "threat_title": threat.title if threat else "?",
-        "threat_type": threat.threat_type if threat else None,
-        "verdict": threat.verdict if threat else None,
-        "source": threat.source if threat else None,
-        "targets": len(run.targeting or []),
-        "created_at": run.created_at.isoformat() if run.created_at else None,
-        "completed_at": run.completed_at.isoformat() if run.completed_at else None,
-    }
+    """One row of the loop list. Shape owned by schemas.RunSummaryOut so the
+    dashboard and /api/loop-runs can never drift apart again."""
+    return RunSummaryOut.from_run(run).model_dump(mode="json")
 
 
 def _streak(completed: list[TrainingAssignment]) -> int:
