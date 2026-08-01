@@ -30,3 +30,6 @@ Thumbs.db
 # Frontend build copied into the backend image at Docker build time
 backend/frontend_dist/
 frontend/dist/
+
+# CI writes the pytest transcript here so failures can be echoed as annotations.
+backend/pytest-output.txt

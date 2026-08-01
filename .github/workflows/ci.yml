@@ -20,8 +20,31 @@ jobs:
           cache: pip
       - name: Install dependencies
         run: pip install -r requirements-dev.txt "psycopg[binary]"
+      # `-q` alone puts the reason for a failure only in the raw job log, which
+      # needs repository admin rights to download. So a red build says "exit
+      # code 1" to everyone who is not an admin, and the person best placed to
+      # fix it has to ask someone else what broke. Echoing the failing test ids
+      # and the traceback as `::error::` puts them in the run's annotations,
+      # which are visible to anyone who can see the repository.
       - name: Run tests
-        run: python -m pytest -q
+        run: |
+          set +e
+          python -m pytest -q --tb=short 2>&1 | tee pytest-output.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          if [ "$code" -ne 0 ]; then
+            grep -E '^(FAILED|ERROR)' pytest-output.txt | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+            # The last block holds the assertion that actually fired.
+            echo "::group::tail of pytest output"
+            tail -60 pytest-output.txt
+            echo "::endgroup::"
+            tail -25 pytest-output.txt | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::$line"
+            done
+          fi
+          exit "$code"
 
       # The demo build and the production build are different API surfaces.
       # The suite runs as APP_ENV=demo, so assert the production gating here.
