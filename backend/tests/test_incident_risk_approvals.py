@@ -243,7 +243,7 @@ def test_assign_states_the_requirements_it_cannot_carry(client, analyst_headers)
     assert outcomes["training"]["fulfilled"] is True
     assert outcomes["sandbox"]["fulfilled"] is False
     assert outcomes["sandbox"]["mechanism"] == ""
-    assert "ZORBOX" in outcomes["sandbox"]["detail"]
+    assert "Sandbox" in outcomes["sandbox"]["detail"]
     assert outcomes["min_score"]["fulfilled"] is False
     assert outcomes["min_score"]["mechanism"] == "reviewer decision"
     assert "80" in outcomes["min_score"]["detail"]

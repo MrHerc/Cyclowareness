@@ -574,7 +574,7 @@ class IncidentRiskSubject(Base):
     assignment_id: Mapped[int | None] = mapped_column(
         ForeignKey("training_assignments.id"), nullable=True
     )
-    #: Deliberately not a foreign key: ZORBOX jobs are retention-managed and get
+    #: Deliberately not a foreign key: sandbox jobs are retention-managed and get
     #: pruned, and an incident record must not be deletable as a side effect of
     #: sample housekeeping. The id is kept as a lookup, not as a constraint.
     sandbox_job_id: Mapped[int | None] = mapped_column(Integer, nullable=True)

@@ -16,7 +16,7 @@ plain language when it cannot run. A zero-rule response that looked like a
 success would be the platform asserting a document contains no controls when in
 fact nothing ever read it.
 
-**An uploaded policy is untrusted input.** It is streamed into the ZORBOX
+**An uploaded policy is untrusted input.** It is streamed into the sandbox
 quarantine under a content-addressed name; its own filename is provenance to be
 displayed, never a path to write to.
 """
@@ -79,7 +79,7 @@ from ..platform.schemas import (
     PolicyUploadMeta,
     PolicyVersionOut,
 )
-from ..sandbox.storage import EmptySample, SampleTooLarge, store_stream
+from ..sandbox.engine.storage import EmptySample, SampleTooLarge, store_stream
 from ..security import require_analyst, require_analyst_or_exec
 
 router = APIRouter(prefix="/api/policy", tags=["policy"])
@@ -356,7 +356,7 @@ async def register_policy(
 ):
     """Register a policy document, with the file itself optional.
 
-    When a file is supplied the bytes go straight into the ZORBOX quarantine —
+    When a file is supplied the bytes go straight into the sandbox quarantine —
     content-addressed, owner-read-only, never executable, and never written to a
     path built from the submitted filename. The ``Policy`` row keeps only
     provenance: the name to display, the declared MIME type, and the true size

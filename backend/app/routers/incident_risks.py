@@ -816,7 +816,7 @@ def _requirement_outcomes(
     * **quiz** — the module has to contain one. A module with no questions
       cannot evidence comprehension however many people complete it.
     * **sandbox** — nothing here assigns a detonation exercise to an employee.
-      ZORBOX submission is analyst-only by design (it accepts hostile input),
+      Sandbox submission is analyst-only by design (it accepts hostile input),
       so an incident that requires one needs a human to arrange it.
     * **min_score** — a ``TrainingAssignment`` has no per-incident pass mark.
       The quiz grader passes at its own fixed threshold; the incident's bar is
@@ -879,7 +879,7 @@ def _requirement_outcomes(
                 mechanism="",
                 detail=(
                     "Nothing in this deployment assigns a sandbox exercise to an employee. "
-                    "ZORBOX submission is analyst-only because it accepts hostile input by "
+                    "Sandbox submission is analyst-only because it accepts hostile input by "
                     "design. Record the exercise against the subject by hand, or drop the "
                     "requirement — it will not be satisfied by anything above."
                 ),

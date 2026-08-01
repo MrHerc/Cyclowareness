@@ -26,18 +26,33 @@ Cyclowareness analyzes real threats in a secure sandbox, uses AI to convert each
 
 Every full pass is a persisted, auditable **LoopRun**. The analyst dashboard renders the loop turning in real time; a stalled or failed stage is surfaced, never dropped. Between CONVERT and TARGET sits a **human-in-the-loop gate**: an analyst reviews (and can edit) every AI-generated module before anyone receives it.
 
-## ZORBOX — the file & URL sandbox (`/sandbox`, `backend/app/sandbox/`)
+## Cyclowareness Sandbox — the file & URL analysis engine (`/sandbox`, `backend/app/sandbox/`)
 
-The analyzer behind stage 2 is also a standalone malware sandbox, built to the
-Azerbaijan Cybersecurity Centre's national-sandbox brief. Submit a file or a
-URL; ZORBOX identifies it by content (not by its extension), analyses it, and
-returns a **scored, explainable verdict** — every point traceable to a signal a
-human can read.
+The analyzer behind stage 2 is also a standalone product. Submit a file or a
+URL; the engine identifies it by content (not by its extension), analyses it,
+and returns a **scored, explainable verdict** — every point traceable to a
+signal a human can read.
 
-- **Static analysis, never execution.** Six analyzers — PE (`pefile`), Office
+`backend/app/sandbox/engine/` is a **verbatim copy** of the standalone
+Cyclowareness Sandbox's engine — the same files, byte for byte, so a verdict
+reached here and a verdict reached there are reached by the same code. It
+reaches out of itself in exactly four places, and `backend/app/sandbox/db.py`
+explains the seam that satisfies them. A test asserts that list has not grown.
+
+- **Static analysis, never execution.** Twelve analyzers — PE (`pefile`), Office
   macros (`oletools`), scripts (PowerShell/JS/VBS/batch/Python, with base64
-  layers decoded, not run), PDF, ELF, and a universal entropy/IOC extractor —
-  plus a **22-rule YARA tier**. The sample is parsed, never run.
+  layers decoded, not run), PDF, RTF, LNK, ELF, JAR, APK, disk images,
+  VirusTotal enrichment, and a universal entropy/IOC extractor — plus a
+  **22-rule YARA tier**. The sample is parsed, never run.
+- **A verdict, an impact rating and an ATT&CK mapping**, not just a number: the
+  classification names the threat, the rating states what the evidence shows the
+  sample can do, and every technique names the signal it was derived from.
+- **Authenticode publisher trust** for signed PE files, verified against pinned
+  anchors rather than the chain the file carries.
+- **Detonation is off-host.** The web application never runs a sample. An
+  isolated worker claims jobs over `/api/dynamic/*` and posts behaviour back to
+  be merged and re-scored; with no worker attached, every report says the sample
+  was not run rather than reporting a clean behavioural result nobody observed.
 - **Content-based identification** catches the deception the extension hides: an
   `.exe` renamed `invoice.pdf` is flagged the moment its bytes disagree with its
   name.

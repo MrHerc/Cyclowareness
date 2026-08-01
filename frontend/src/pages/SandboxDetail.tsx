@@ -15,10 +15,14 @@ import { Link, useParams } from 'react-router-dom'
 import type { SandboxJobDetail } from '../domain/types'
 import { AnalyzerDetail } from '../features/sandbox/AnalyzerDetail'
 import { ArchiveChildren } from '../features/sandbox/ArchiveChildren'
+import { ClassificationPanel } from '../features/sandbox/ClassificationPanel'
+import { DynamicPanel } from '../features/sandbox/DynamicPanel'
 import { FeedbackPanel } from '../features/sandbox/FeedbackPanel'
+import { ImpactPanel } from '../features/sandbox/ImpactPanel'
 import { IocPanel } from '../features/sandbox/IocPanel'
 import { FailurePanel, PasswordPrompt, ProgressPanel } from '../features/sandbox/JobStatePanels'
 import { JobToolbar } from '../features/sandbox/JobToolbar'
+import { MitrePanel } from '../features/sandbox/MitrePanel'
 import { ScoreBreakdownPanel } from '../features/sandbox/ScoreBreakdownPanel'
 import { SignalList } from '../features/sandbox/SignalList'
 import { TierStatement } from '../features/sandbox/TierStatement'
@@ -26,7 +30,7 @@ import { TopReasons } from '../features/sandbox/TopReasons'
 import { VerdictHeader } from '../features/sandbox/VerdictHeader'
 import { collectSignals } from '../features/sandbox/shared'
 import { AsyncBoundary, SkeletonCard } from '../components/states'
-import { useSandboxJob } from '../lib/api/queries'
+import { useSandboxCapabilities, useSandboxJob } from '../lib/api/queries'
 
 export default function SandboxDetail() {
   const { id } = useParams<{ id: string }>()
@@ -63,6 +67,10 @@ export default function SandboxDetail() {
 }
 
 function Report({ job }: { job: SandboxJobDetail }) {
+  // Whether a detonation worker exists at all is a property of the deployment,
+  // not of this job — so the behavioural panel can tell "nobody could run it"
+  // apart from "it was run and did nothing".
+  const capabilities = useSandboxCapabilities()
   const completed = job.status === 'completed'
   const signals = collectSignals(job.analysis)
   // A job created before the scoring stage carries an empty breakdown object,
@@ -81,8 +89,19 @@ function Report({ job }: { job: SandboxJobDetail }) {
 
       {completed ? (
         <>
+          <ClassificationPanel verdict={job.verdict} />
           {hasBreakdown ? <TopReasons reasons={job.score_breakdown.top_reasons} /> : null}
           <TierStatement tiers={job.tiers} />
+          <ImpactPanel impact={job.impact} />
+          {/* Before the static signals, deliberately: whether the sample was
+              ever RUN changes how much the rest of the page is worth, and a
+              reader who stops early must have been told. */}
+          <DynamicPanel
+            dynamic={job.dynamic}
+            workerAttached={capabilities.data?.dynamic_worker ?? false}
+            workerUnavailableReason={capabilities.data?.dynamic_unavailable_reason ?? null}
+          />
+          <MitrePanel techniques={job.mitre} />
           <SignalList signals={signals} />
           {hasBreakdown ? (
             <ScoreBreakdownPanel

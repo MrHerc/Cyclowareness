@@ -36,6 +36,12 @@ export interface JobsTableProps {
 
 const MOVING = new Set(['queued', 'running'])
 
+const VERDICT_TONE: Record<string, string> = {
+  malicious: 'text-critical',
+  suspicious: 'text-high',
+  clean: 'text-safe',
+}
+
 function StageBar({ stage }: { stage: string }) {
   return (
     <div className="mt-1.5 max-w-40">
@@ -58,6 +64,7 @@ export function JobsTable({ jobs }: JobsTableProps) {
           <TableHead>Sample</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Verdict</TableHead>
           <TableHead>Risk</TableHead>
           <TableHead numeric>Score</TableHead>
           <TableHead numeric>Submitted</TableHead>
@@ -67,6 +74,9 @@ export function JobsTable({ jobs }: JobsTableProps) {
         {jobs.map((job) => {
           const scored = isScored(job)
           const moving = MOVING.has(job.status)
+          // `null` from the queue endpoint, `{}` from the detail one — both mean
+          // "not classified yet". `verdict` in it is what tells an answer apart.
+          const answer = job.verdict && 'verdict' in job.verdict ? job.verdict : null
 
           return (
             <TableRow
@@ -96,6 +106,29 @@ export function JobsTable({ jobs }: JobsTableProps) {
               <TableCell>
                 <StatusDot status={job.status} />
                 {moving ? <StageBar stage={job.stage} /> : null}
+              </TableCell>
+
+              <TableCell>
+                {/* The engine's answer, not a restatement of the score. A job
+                    can score 27 and still be classified suspicious, and the two
+                    columns disagreeing is information, not a bug. */}
+                {answer ? (
+                  <>
+                    <span className={VERDICT_TONE[answer.verdict] ?? 'text-fg'}>
+                      {humanise(answer.verdict)}
+                    </span>
+                    {answer.threat_name ? (
+                      <p className="tech truncate text-fg-faint" title={answer.threat_name}>
+                        {answer.threat_name}
+                      </p>
+                    ) : null}
+                  </>
+                ) : (
+                  <NoMeasurement
+                    label="Not classified"
+                    reason="The engine has not reached a verdict for this job yet."
+                  />
+                )}
               </TableCell>
 
               <TableCell>

@@ -10,17 +10,25 @@ anthropic>=0.40
 httpx>=0.27
 python-multipart>=0.0.12
 
-# --- ZORBOX static analysis engine ---
+# --- Cyclowareness Sandbox static analysis engine ---
 # Every one is a pure-Python or well-audited wheel; none executes a sample.
+# Detonation happens only in the off-host worker (see ../worker), never here.
 pefile>=2024.8.26          # PE (.exe/.dll) structure + imports
 oletools>=0.60             # Office macro + OLE analysis (olevba/oleid)
 yara-python>=4.5           # signature scanning
-py7zr>=0.22                # 7z archive handling
+# py7zr 1.0 removed read()/readall() in favour of the writer-factory API the
+# engine calls. A `>=0.22` floor let a fresh install resolve to either, and on
+# 1.x every .7z failed to unpack — so the floor is the API boundary, not caution.
+py7zr>=1.0,<2              # 7z archive handling
 rarfile>=4.2               # RAR listing (extraction needs the `unrar` binary)
 pdfminer.six>=20240706     # PDF text + metadata
 reportlab>=4.2             # PDF report generation
 stix2>=3.0                 # STIX 2.1 export
 puremagic>=1.28            # content-based file type identification
+# Ed25519 detached signatures over the canonical report bytes, so a recipient
+# who does not trust this deployment can verify a report offline. A signature an
+# auditor is expected to rely on is not a place for our own maths.
+cryptography>=42           # signed, independently verifiable reports
 
 # --- Production queue (optional; enable with TASK_RUNNER=celery) ---
 # celery>=5.4

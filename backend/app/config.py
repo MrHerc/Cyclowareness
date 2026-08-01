@@ -66,6 +66,49 @@ class Settings(BaseSettings):
     stage_delay_convert: float = 6.0
     stage_delay_target: float = 3.0
 
+    # Egress. `app/sandbox/sovereignty.py` is the choke point every outbound
+    # call in the analysis path asks before making it, and its refusals are
+    # counted and reported.
+    #
+    # THE DEFAULT DIFFERS FROM THE STANDALONE SANDBOX ON PURPOSE, and the
+    # difference is a factual one, not a preference. The standalone defaults it
+    # ON because it is an appliance whose whole promise is that files never leave
+    # the building. This portal calls an LLM by design — the loop's CONVERT stage
+    # is a model call — so a deployment with an API key set and this flag on would
+    # print "no analysis data leaves this deployment" onto an incident record
+    # handed to a regulator while posting to a third-party model API. Defaulting
+    # it off states the truth; an operator who wants the guarantee sets
+    # SOVEREIGN_MODE=true, and the AI provider then refuses rather than lying.
+    sovereign_mode: bool = False
+    #: The deliberate exception, separately controllable so an air-gapped
+    #: deployment can close it too. Submitting a URL for analysis IS a request to
+    #: fetch it, so the fetcher is not an exfiltration path.
+    sovereign_allow_url_fetch: bool = True
+
+    # The shared token an off-host detonation worker authenticates with. Empty
+    # closes the dynamic seam entirely with a 503: accepting externally supplied
+    # "behaviour" into a verdict is a trust decision the operator must make
+    # deliberately, so it is opt-in rather than opt-out. This is the widest
+    # credential in the system — it buys every sample's bytes and the ability to
+    # fabricate behaviour for any job.
+    dynamic_worker_token: str = ""
+
+    # Report signing. A base64 or hex Ed25519 seed; empty means reports are
+    # still exported in full but carry `"signed": false` and the reason, rather
+    # than implying an assurance the deployment cannot give.
+    signing_key: str = ""
+
+    # Notifying entity (regulatory records).
+    # A NIS2 Article 23 early warning and a DORA Article 19 notification both
+    # identify the notifying entity. The sandbox engine cannot know who is
+    # running it, so these are supplied here and copied verbatim into the
+    # incident record; left empty, the record names them as operator input still
+    # required rather than inventing an entity.
+    entity_name: str = ""
+    entity_country: str = ""
+    entity_sector: str = ""
+    entity_contact: str = ""
+
     # Behaviour
     auto_approve_training: bool = False
     access_token_expire_minutes: int = 720

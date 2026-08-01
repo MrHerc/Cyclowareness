@@ -22,6 +22,7 @@ from .routers import (
     policy,
     reports,
     sandbox,
+    sandbox_dynamic,
     simulations,
     threats,
     training,
@@ -63,9 +64,12 @@ def _recover_orphaned_runs() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Import for its side effect: registering SandboxJob on Base.metadata so
-    # create_all builds the sandbox_jobs table.
-    from .sandbox import models as _sandbox_models  # noqa: F401
+    # Imported for their side effect: registering the sandbox tables on
+    # Base.metadata so create_all builds them. `engine.models` is the vendored
+    # engine's own SandboxJob; `links` is the portal's join back to its users and
+    # its awareness loop, which the engine deliberately knows nothing about.
+    from .sandbox import links as _sandbox_links  # noqa: F401
+    from .sandbox.engine import models as _sandbox_models  # noqa: F401
 
     # Same reason: policy, intel, incident-risk, integration and audit tables.
     from .platform import models as _platform_models  # noqa: F401
@@ -128,8 +132,11 @@ app.include_router(employees.router)
 app.include_router(reports.router)
 app.include_router(simulations.router)
 app.include_router(feed.router)
-# ZORBOX: the file/URL sandbox. Its own table, so create_all picks it up.
+# The Cyclowareness Sandbox: file and URL analysis, on the same engine as the
+# standalone product. `sandbox_dynamic` is the off-host detonation seam — the
+# web application itself never runs a sample.
 app.include_router(sandbox.router)
+app.include_router(sandbox_dynamic.router)
 # The organisational layer: the customer's own documents, the advisories that
 # break them, and the external platforms training runs on.
 app.include_router(policy.router)

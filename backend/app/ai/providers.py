@@ -37,6 +37,15 @@ class AnthropicProvider:
     DEFAULT_MAX_TOKENS = 2000
 
     async def complete(self, task: str, payload: dict[str, Any]) -> str:
+        # The egress choke point, asked before the call rather than after it.
+        # Without this, SOVEREIGN_MODE=true would be a setting that changed a
+        # sentence in the incident record and nothing else — and that sentence
+        # goes to a regulator. A refusal here is loud and counted; see
+        # `sandbox/sovereignty.py`.
+        from ..sandbox import sovereignty
+
+        sovereignty.check("llm", detail=f"{task} prompt for the {self.model} model")
+
         template = load_prompt(task)
         key = "metrics_json" if task == "executive_briefing" else (
             "report_json" if task == "triage_assist" else "analysis_json"

@@ -111,10 +111,12 @@ export const endpoints = {
     pushToLoop: (id: number | string) => `/api/feed/${id}/push-to-loop`,
   },
 
-  /* --- ZORBOX sandbox ---------------------------------------------------- */
+  /* --- Cyclowareness Sandbox --------------------------------------------- */
   sandbox: {
     capabilities: () => '/api/sandbox/capabilities',
-    jobs: (params: { status?: string; limit?: number } = {}) => `/api/sandbox/jobs${qs(params)}`,
+    jobs: (params: { status?: string; limit?: number; offset?: number } = {}) =>
+      `/api/sandbox/jobs${qs(params)}`,
+    stats: () => '/api/sandbox/jobs/stats',
     job: (publicId: string) => `/api/sandbox/jobs/${publicId}`,
     upload: () => '/api/sandbox/upload',
     submitUrl: () => '/api/sandbox/url',
@@ -124,6 +126,12 @@ export const endpoints = {
     exportJson: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.json`,
     exportStix: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.stix`,
     exportPdf: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.pdf`,
+    /** The technical facts sorted into the fields a NIS2 Article 23 early
+     *  warning asks for. Explicitly a draft, never a filing. */
+    exportIncident: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.incident`,
+    /** Canonical bytes plus a detached signature, for a recipient who does not
+     *  trust this deployment. Produced in full even when unsigned. */
+    exportSigned: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.signed`,
   },
 
   /* --- policy intelligence ----------------------------------------------- */

@@ -110,7 +110,7 @@ Every source speaks one normalised `RiskSignal`. Three rules it rests on:
 
 **Class C — exposure without interaction (pre-emptive, cohort-level)**
 
-| `sandbox_verdict` | ZORBOX | 0 or + | a file a named person submitted or received |
+| `sandbox_verdict` | Sandbox | 0 or + | a file a named person submitted or received |
 | `campaign_intel` | feed | 0 | a campaign against this sector |
 | `breach_credential_exposure` | credential monitoring | 0 | corporate addresses only, from an authenticated feed only; never name the breached third party to anyone but the learner |
 
@@ -693,7 +693,7 @@ regression tests (`tests/test_risk_invariants.py`).
 2. **The closed output schema + the enforcement firewall (§7.4).** Cheap to build, and it is
    the entire security-review answer.
 3. **The trigger boundary: one signed webhook, one `RiskSignal` schema, two adapters** — for
-   the two sources we already produce internally (simulation outcomes, ZORBOX verdicts).
+   the two sources we already produce internally (simulation outcomes, sandbox verdicts).
    Build the *contract*, not ten integrations; the same move `sandbox/native.py` already
    makes.
 4. **`ai_ran` / `not_attached_reason`.** Hours of work, and it is what a security buyer

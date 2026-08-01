@@ -1,0 +1,1015 @@
+"""Static analysis of Windows PE images (.exe / .dll / .sys).
+
+The sample is never executed, never loaded, never imported. `pefile` parses the
+headers as data and that is the whole of the interaction with it.
+
+What this module claims and does not claim:
+
+* It reports *structure*: what the header says, what the section table looks
+  like, which capabilities the import table makes available. Structure is
+  evidence, not a verdict — a packed binary with injection imports is a
+  description, and the score is somebody else's job (see contracts.Signal).
+* It never validates a signature chain. `pe.signature_present` means the
+  security directory is non-empty, nothing more. An invalid or stolen
+  certificate is still "present", and pretending otherwise would be the exact
+  kind of confident-and-wrong a security tool must not be.
+* Every limit here is a denial-of-service limit. A malformed PE is a sample that
+  wants the analyzer to allocate 4 GB or recurse forever; bounds are not
+  politeness, they are the defence.
+"""
+from __future__ import annotations
+
+import math
+import re
+import time
+from datetime import datetime, timezone
+from typing import Any, Iterable
+
+from ..contracts import AnalyzerResult, IOCs, Sample, Signal
+
+NAME = "pe"
+
+#: Mimes identify.py assigns to the PE family.
+_PE_MIMES = frozenset({"application/x-dosexec"})
+
+# --- bounds -------------------------------------------------------------------
+#: Entropy is measured on at most this much of a section. A packer fills the
+#: whole section, so a 1 MiB window is representative, and a 300 MiB virtual
+#: section cannot make us walk 300 MiB.
+MAX_ENTROPY_BYTES = 1 * 1024 * 1024
+#: How much of the file the string/IOC scan reads.
+MAX_IOC_SCAN_BYTES = 8 * 1024 * 1024
+MAX_SECTIONS_RECORDED = 96
+MAX_IMPORT_FUNCS_RECORDED = 400
+MAX_IMPORT_FUNCS_SCANNED = 8000
+MAX_EXPORTS_RECORDED = 200
+MAX_RESOURCE_TYPES = 32
+MAX_IOCS_PER_KIND = 64
+#: Any sample-derived string that reaches a Signal is cut to this.
+STR_LIMIT = 200
+
+#: Entropy above which an *executable* section is treated as packed/encrypted.
+ENTROPY_PACKED = 7.2
+#: Below ~10 imported functions on a native binary the import table has been
+#: packed away — a real Win32 program cannot do anything with fewer.
+FEW_IMPORTS_THRESHOLD = 10
+
+#: PE section characteristics.
+_SCN_CNT_CODE = 0x00000020
+_SCN_MEM_EXECUTE = 0x20000000
+_SCN_MEM_READ = 0x40000000
+_SCN_MEM_WRITE = 0x80000000
+
+_FILE_DLL = 0x2000
+
+#: Timestamps outside this window are a tampered or absurd header. The lower
+#: bound predates Win95; the upper is "the future", allowing a day of clock skew.
+_TS_FLOOR = datetime(1995, 1, 1, tzinfo=timezone.utc).timestamp()
+
+#: Section names that only ever come from a packer or a protector.
+_PACKER_SECTIONS = {
+    "upx0": "UPX", "upx1": "UPX", "upx2": "UPX", ".upx0": "UPX", ".upx1": "UPX",
+    ".aspack": "ASPack", ".adata": "ASPack", "aspack": "ASPack",
+    ".themida": "Themida", ".winlice": "WinLicense", ".vmp0": "VMProtect",
+    ".vmp1": "VMProtect", ".vmp2": "VMProtect", ".enigma1": "Enigma",
+    ".enigma2": "Enigma", ".petite": "Petite", ".mpress1": "MPRESS",
+    ".mpress2": "MPRESS", ".nsp0": "NsPack", ".nsp1": "NsPack",
+    ".packed": "generic packer", ".pelock": "PELock", "pebundle": "PEBundle",
+    ".mew": "MEW", ".fsg": "FSG", ".boom": "BoomBinder", ".taz": "PESpin",
+    ".rlp": "RLPack", "kkrunchy": "kkrunchy",
+}
+
+#: Capability groups. Matching is prefix-based on the lowercased API name, so
+#: one entry covers the A/W/Ex variants. `min_hits` is what stops a single
+#: ubiquitous API from claiming a capability on its own.
+#: How strongly each capability group argues for offensive intent when it
+#: co-occurs with others. Calibrated against real signed Microsoft system
+#: binaries: notepad.exe, kernel32.dll and shell32.dll all legitimately import
+#: from the low-weight groups, so those must not add up to a detection on their
+#: own. Injection and keylogging carry weight because they have few innocent
+#: readings in combination.
+_GROUP_WEIGHT: dict[str, int] = {
+    "process_injection": 3,
+    "keylogging": 3,
+    "anti_debug": 1,
+    "dynamic_resolution": 1,
+    "persistence": 1,
+    "crypto": 1,
+    "network": 1,
+}
+
+_CAPABILITIES: tuple[tuple[str, str, str, int, tuple[str, ...]], ...] = (
+    (
+        # Only APIs whose combination has no ordinary reading. OpenProcess,
+        # ResumeThread, GetThreadContext, VirtualProtectEx and the generic Nt*
+        # memory calls were removed: every Windows shell, debugger and process
+        # manager imports them, and including them made the whole of System32
+        # look like an injector.
+        "process_injection", "Process injection primitives imported", "high", 2,
+        ("virtualallocex", "writeprocessmemory", "createremotethread",
+         "ntcreatethreadex", "rtlcreateuserthread", "queueuserapc",
+         "ntqueueapcthread", "setthreadcontext",
+         "ntunmapviewofsection", "ntwritevirtualmemory"),
+    ),
+    (
+        "dynamic_resolution", "Resolves its own API addresses at runtime", "medium", 2,
+        ("loadlibrary", "getprocaddress", "ldrloaddll",
+         "ldrgetprocedureaddress", "ldrgetdllhandle", "getmodulehandle"),
+    ),
+    (
+        "anti_debug", "Anti-debugging / anti-analysis checks", "medium", 1,
+        ("isdebuggerpresent", "checkremotedebuggerpresent",
+         "ntqueryinformationprocess", "outputdebugstring",
+         "ntsetinformationthread", "debugactiveprocess",
+         "zwqueryinformationprocess", "ntqueryobject"),
+    ),
+    (
+        "persistence", "Writes persistence (registry / service)", "medium", 1,
+        ("regsetvalue", "ntsetvaluekey", "zwsetvaluekey", "regcreatekey",
+         "createservice", "startservice", "openscmanager",
+         "changeserviceconfig"),
+    ),
+    (
+        # Two required, not one: shell32.dll installs hooks and reads key state
+        # because it IS the Windows shell. One of these APIs on its own is UI
+        # code; the pair is a keylogger's shape.
+        "keylogging", "Keyboard / input capture", "high", 2,
+        ("setwindowshookex", "getasynckeystate", "getkeyboardstate",
+         "getkeynametext", "getrawinputdata", "registerrawinputdevices"),
+    ),
+    (
+        "crypto", "Cryptographic API use", "medium", 1,
+        ("cryptencrypt", "cryptdecrypt", "cryptacquirecontext", "cryptgenkey",
+         "cryptderivekey", "cryptimportkey", "cryptcreatehash",
+         "bcrypt", "ncrypt"),
+    ),
+    (
+        "network", "Network / download capability", "low", 1,
+        ("winhttp", "internetopen", "internetconnect", "internetreadfile",
+         "httpopenrequest", "httpsendrequest", "urldownloadtofile",
+         "wsastartup", "wsasocket", "wsaconnect", "gethostbyname",
+         "getaddrinfo", "inet_addr", "ftpputfile", "ftpgetfile",
+         "dnsquery"),
+    ),
+)
+
+#: Names matched EXACTLY rather than as prefixes.
+#:
+#: `send`, `connect`, `recv` and `socket` are Winsock functions whose names are
+#: complete. Listed among the prefixes they swallowed `SendMessageW`,
+#: `SendMessageA`, `SendInput`, `SendDlgItemMessageA`, `SendNotifyMessageW` and
+#: `ConnectNamedPipe` -- and `SendMessage` is in essentially every Windows GUI
+#: program, so with `min_hits = 1` almost anything with a window was credited
+#: with "Network / download capability".
+#:
+#: The prefix style is right for the rest: it is what makes one entry cover the
+#: A/W/Ex variants. These are simply not prefixes.
+_EXACT_IMPORTS: dict[str, frozenset[str]] = {
+    "network": frozenset({
+        "socket", "connect", "send", "sendto", "recv", "recvfrom",
+        "accept", "bind", "listen", "closesocket", "shutdown",
+    }),
+}
+
+# `persistence` deliberately keeps RegCreateKey, which is common in benign
+# software; it never fires alone at high severity, and the matched APIs travel
+# with the signal so an analyst can dismiss it in one glance.
+
+_URL_RE = re.compile(rb"(?i)\b(?:https?|ftp)://[A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=%]{3,512}")
+#: Candidate host tokens, validated in Python afterwards — a single flat
+#: character class cannot backtrack, unlike a nested-quantifier domain regex.
+_HOST_RE = re.compile(rb"(?i)\b[A-Za-z0-9][A-Za-z0-9.\-]{2,252}\.[A-Za-z]{2,18}\b")
+_IPV4_RE = re.compile(rb"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+
+#: Restricting host extraction to real TLDs is what keeps `kernel32.dll` and
+#: `msvcrt.dll` out of the domain list.
+_TLDS = frozenset("""
+com net org info biz io co ru cn de uk eu fr nl br in ir jp it pl us ca au ch se
+no fi dk es cz gr be at pt hu ro tr ua kz by az ge tv cc me ws su xyz top club
+online site shop live app dev cloud space website tech store fun icu pro link
+vip work life world today one asia mobi name gov edu mil int ly gg to sh st cf
+ga ml tk pw cx nu is ee lv lt sk si hr rs bg md am uz kg tj tm mn kr tw hk sg my
+th vn id ph nz za ng ke eg sa ae qa kw il pk bd lk np mm kh la
+""".split())
+
+#: Never emitted as IOCs — they are what a PE contains by construction.
+_HOST_NOISE = frozenset({
+    "schemas.microsoft.com", "www.w3.org", "schemas.xmlsoap.org",
+    "schemas.openxmlformats.org", "crl.microsoft.com", "www.microsoft.com",
+    "go.microsoft.com", "ocsp.digicert.com", "crl3.digicert.com",
+    "crl4.digicert.com", "www.digicert.com", "sectigo.com",
+})
+
+
+# --- small helpers ------------------------------------------------------------
+
+def _clean(value: Any, limit: int = STR_LIMIT) -> str:
+    """Sample-derived text, made safe to put in a Signal or a JSON fact."""
+    if isinstance(value, bytes):
+        text = value.decode("utf-8", "replace")
+    else:
+        text = str(value)
+    text = "".join(ch if 32 <= ord(ch) < 127 else "." for ch in text)
+    return text[:limit]
+
+
+def _entropy(data: bytes) -> float:
+    if not data:
+        return 0.0
+    counts = [0] * 256
+    for byte in data:
+        counts[byte] += 1
+    total = len(data)
+    result = 0.0
+    for count in counts:
+        if count:
+            p = count / total
+            result -= p * math.log2(p)
+    return round(result, 3)
+
+
+def _take(items: Iterable[str], limit: int) -> list[str]:
+    out: list[str] = []
+    for item in items:
+        if len(out) >= limit:
+            break
+        out.append(item)
+    return out
+
+
+def _dedup(values: Iterable[str]) -> list[str]:
+    seen: dict[str, None] = {}
+    for value in values:
+        seen.setdefault(value, None)
+    return list(seen)
+
+
+# --- IOC extraction -----------------------------------------------------------
+
+def _valid_host(host: str) -> bool:
+    if len(host) > 253 or host.count(".") < 1:
+        return False
+    labels = host.split(".")
+    if labels[-1].lower() not in _TLDS:
+        return False
+    if any(not label or len(label) > 63 for label in labels):
+        return False
+    if host.lower() in _HOST_NOISE:
+        return False
+    # "1.2.3.4" style tokens are handled by the IP extractor.
+    return not labels[0].isdigit()
+
+
+def _valid_ip(text: str) -> bool:
+    parts = text.split(".")
+    if len(parts) != 4:
+        return False
+    try:
+        octets = [int(p) for p in parts]
+    except ValueError:
+        return False
+    if any(o > 255 for o in octets) or any(len(p) > 3 for p in parts):
+        return False
+    if octets[0] in (0, 127, 255) or octets == [255, 255, 255, 255]:
+        return False
+    # Version strings ("6.1.7601.0") are the dominant false positive in a PE;
+    # a leading octet under 10 with a zero somewhere is almost always one.
+    if octets[0] < 10 and 0 in octets[1:]:
+        return False
+    return True
+
+
+def _extract_iocs(data: bytes) -> IOCs:
+    """URLs / hosts / IPs from the raw image, ASCII and UTF-16LE.
+
+    Extraction only. Nothing here is resolved, fetched or contacted.
+    """
+    blobs = [data]
+    if b"\x00" in data[:4096]:
+        # Wide strings, read on both alignments — far cheaper than a real
+        # UTF-16 decode and it finds the same indicators.
+        blobs.append(data[0::2])
+        blobs.append(data[1::2])
+
+    urls: list[str] = []
+    hosts: list[str] = []
+    ips: list[str] = []
+
+    for blob in blobs:
+        for match in _URL_RE.finditer(blob):
+            url = match.group(0).decode("latin-1").rstrip(".,);'\"")
+            if len(url) > 8:
+                urls.append(url[:512])
+            if len(urls) > MAX_IOCS_PER_KIND * 4:
+                break
+        for match in _HOST_RE.finditer(blob):
+            host = match.group(0).decode("latin-1").strip(".")
+            if _valid_host(host):
+                hosts.append(host.lower())
+            if len(hosts) > MAX_IOCS_PER_KIND * 8:
+                break
+        for match in _IPV4_RE.finditer(blob):
+            ip = match.group(0).decode("latin-1")
+            if _valid_ip(ip):
+                ips.append(ip)
+            if len(ips) > MAX_IOCS_PER_KIND * 8:
+                break
+
+    # A host that only ever appeared inside a URL we already have is not a
+    # second indicator, but we still list it — the domain field is what
+    # blocklists are keyed on.
+    for url in urls:
+        rest = url.split("://", 1)[-1]
+        host = rest.split("/", 1)[0].split(":", 1)[0].split("@")[-1]
+        if _valid_host(host):
+            hosts.append(host.lower())
+
+    return IOCs(
+        urls=_take(_dedup(urls), MAX_IOCS_PER_KIND),
+        domains=_take(_dedup(hosts), MAX_IOCS_PER_KIND),
+        ips=_take(_dedup(ips), MAX_IOCS_PER_KIND),
+    )
+
+
+# --- header facts -------------------------------------------------------------
+
+def _lookup(table: Any, value: int, prefix: str) -> str:
+    try:
+        name = table.get(value)
+    except Exception:
+        name = None
+    if not isinstance(name, str):
+        return f"{prefix}_UNKNOWN_0x{value:04x}"
+    return name
+
+
+def _section_facts(pe_obj: Any) -> list[dict[str, Any]]:
+    sections: list[dict[str, Any]] = []
+    for section in (pe_obj.sections or [])[:MAX_SECTIONS_RECORDED]:
+        try:
+            raw = section.get_data(length=MAX_ENTROPY_BYTES) or b""
+        except Exception:
+            raw = b""
+        flags = int(getattr(section, "Characteristics", 0) or 0)
+        sections.append({
+            "name": _clean(getattr(section, "Name", b"").rstrip(b"\x00"), 32),
+            "virtual_address": int(getattr(section, "VirtualAddress", 0) or 0),
+            "virtual_size": int(getattr(section, "Misc_VirtualSize", 0) or 0),
+            "raw_size": int(getattr(section, "SizeOfRawData", 0) or 0),
+            "raw_offset": int(getattr(section, "PointerToRawData", 0) or 0),
+            "entropy": _entropy(raw),
+            "entropy_sampled_bytes": len(raw),
+            "characteristics": flags,
+            "executable": bool(flags & (_SCN_MEM_EXECUTE | _SCN_CNT_CODE)),
+            "writable": bool(flags & _SCN_MEM_WRITE),
+            "readable": bool(flags & _SCN_MEM_READ),
+        })
+    return sections
+
+
+def _import_facts(pe_obj: Any) -> tuple[list[str], list[str], int]:
+    """(dll names, "dll!func" strings, total functions seen)."""
+    dlls: list[str] = []
+    funcs: list[str] = []
+    total = 0
+    for attr in ("DIRECTORY_ENTRY_IMPORT", "DIRECTORY_ENTRY_DELAY_IMPORT"):
+        for entry in getattr(pe_obj, attr, None) or []:
+            try:
+                dll = _clean(getattr(entry, "dll", b"") or b"", 64)
+                dlls.append(dll)
+                for imp in getattr(entry, "imports", None) or []:
+                    if total >= MAX_IMPORT_FUNCS_SCANNED:
+                        return _dedup(dlls), funcs, total
+                    total += 1
+                    name = getattr(imp, "name", None)
+                    label = _clean(name, 96) if name else f"ordinal_{getattr(imp, 'ordinal', 0)}"
+                    if len(funcs) < MAX_IMPORT_FUNCS_RECORDED:
+                        funcs.append(f"{dll}!{label}")
+            except Exception:
+                continue
+    return _dedup(dlls), funcs, total
+
+
+def _imported_names(pe_obj: Any) -> list[str]:
+    names: list[str] = []
+    for attr in ("DIRECTORY_ENTRY_IMPORT", "DIRECTORY_ENTRY_DELAY_IMPORT"):
+        for entry in getattr(pe_obj, attr, None) or []:
+            for imp in getattr(entry, "imports", None) or []:
+                if len(names) >= MAX_IMPORT_FUNCS_SCANNED:
+                    return names
+                raw = getattr(imp, "name", None)
+                if raw:
+                    names.append(_clean(raw, 96))
+    return names
+
+
+def _resource_facts(pe_obj: Any) -> dict[str, Any]:
+    root = getattr(pe_obj, "DIRECTORY_ENTRY_RESOURCE", None)
+    if root is None:
+        return {"present": False, "types": [], "count": 0}
+    types: list[str] = []
+    count = 0
+    try:
+        import pefile
+
+        for entry in (root.entries or [])[:MAX_RESOURCE_TYPES]:
+            count += 1
+            if getattr(entry, "name", None) is not None:
+                types.append(_clean(str(entry.name), 48))
+            else:
+                rid = int(getattr(entry, "id", 0) or 0)
+                types.append(pefile.RESOURCE_TYPE.get(rid) or f"RT_UNKNOWN_{rid}")
+    except Exception:
+        pass
+    return {"present": True, "types": _dedup(types), "count": count}
+
+
+# --- the analyzer -------------------------------------------------------------
+
+def _signature_signals(
+    sample: Sample, facts: dict[str, Any], signature_size: int
+) -> list[Signal]:
+    """What the Authenticode signature actually establishes.
+
+    `pe.signature_present` used to be the whole story, at `info`, with a detail
+    string admitting it validated nothing. It is now the fallback for when
+    verification cannot run at all.
+
+    Three outcomes are worth different things, and only one of them accuses:
+
+    * **the signature does not cover these bytes** — the file was altered after
+      it was signed. Measured across 104 signed benign files and every signed
+      malware sample on the detonation host, this fires zero times by accident;
+      the Authenticode hash either matches or the file changed.
+    * **verified and anchored** — the chain is cryptographically linked up to an
+      issuer this deployment trusts. This is `info`: it is not innocence, it is
+      identity. What it buys is in `scoring.STRUCTURAL_SIGNALS`.
+    * **signed by someone we do not anchor** — most of the software on earth.
+      Reported, never held against the file.
+    """
+    from .. import authenticode
+
+    try:
+        with open(sample.path, "rb") as handle:
+            data = handle.read(authenticode.MAX_HASH_BYTES + 1)
+        result = authenticode.verify(data)
+    except Exception as exc:  # noqa: BLE001 - hostile input, never a crash
+        facts["signature"] = {"error": f"{type(exc).__name__}: {exc}"[:160]}
+        return [Signal(
+            id="pe.signature_present",
+            title="An Authenticode signature is present",
+            severity="info",
+            detail="The signature could not be examined; presence only.",
+            evidence={"security_directory_bytes": signature_size},
+        )]
+
+    facts["signature"] = result.to_dict()
+    publisher = result.publisher.to_dict() if result.publisher else {}
+    evidence: dict[str, Any] = {
+        "security_directory_bytes": signature_size,
+        "digest_algorithm": result.digest_algorithm,
+        "chain": list(result.chain_subjects),
+        "revocation_checked": False,
+    }
+    if publisher:
+        evidence["publisher"] = publisher
+
+    if result.parsed and not result.covers_file:
+        return [Signal(
+            id="pe.signature_does_not_cover_file",
+            title="The Authenticode signature does not cover these bytes",
+            severity="high",
+            detail=(
+                "A signature is present and parses, but the file's Authenticode "
+                "hash is not the one the signature commits to. The file has been "
+                "modified since it was signed, or a signature was copied onto it "
+                "from somewhere else."
+            ),
+            evidence=evidence,
+        )]
+
+    if result.verified:
+        who = publisher.get("organisation") or publisher.get("common_name") or "unknown"
+        return [Signal(
+            id="pe.signature_verified",
+            title=f"Signed by {who}"[:120],
+            severity="info",
+            detail=(
+                f"The Authenticode signature covers these exact bytes, the "
+                f"signer's key verifies it, and the chain links to "
+                f"'{result.anchor}', which this deployment trusts. Revocation is "
+                "NOT checked — this engine makes no network calls — so a "
+                "certificate withdrawn after signing still verifies here."
+            ),
+            evidence={**evidence, "anchor": result.anchor},
+        )]
+
+    reason = {
+        "self-signed": "the certificate signs for itself; anyone can make one",
+        "unanchored": "the issuing authority is not one this deployment anchors",
+    }.get(result.chain, result.reason or "the signature could not be verified")
+    if result.digest_algorithm in authenticode.WEAK_DIGESTS:
+        reason += f"; signed under {result.digest_algorithm}, which is not collision-resistant"
+    return [Signal(
+        id="pe.signature_present",
+        title="An Authenticode signature is present but not verified",
+        severity="info",
+        detail=f"Present, {reason}. Most software is signed by an authority this "
+               "list does not include; that is not held against the file.",
+        evidence=evidence,
+    )]
+
+
+def handles(sample: Sample) -> bool:
+    if sample.mime in _PE_MIMES:
+        return True
+    try:
+        return sample.read(2) == b"MZ"
+    except OSError:
+        return False
+
+
+def analyze(sample: Sample) -> AnalyzerResult:
+    started = time.monotonic()
+
+    try:
+        import pefile
+    except Exception as exc:  # pragma: no cover - dependency is pinned
+        return AnalyzerResult.unavailable(NAME, f"pefile is not importable: {exc!r}")
+
+    if not handles(sample):
+        return AnalyzerResult.not_applicable(NAME, sample.mime or "unknown")
+
+    try:
+        data = sample.read(MAX_IOC_SCAN_BYTES)
+    except OSError as exc:
+        return AnalyzerResult.unavailable(NAME, f"sample unreadable: {exc.__class__.__name__}")
+
+    signals: list[Signal] = []
+    facts: dict[str, Any] = {"file_size": sample.size_bytes}
+
+    pe_obj = None
+    try:
+        # fast_load: parse the headers now, and only the data directories we
+        # actually use, each behind its own try. A crafted resource tree is a
+        # classic pefile resource exhaustion, so it is opt-in and bounded.
+        pe_obj = pefile.PE(sample.path, fast_load=True)
+    except Exception as exc:
+        signals.append(Signal(
+            id="pe.parse_failed",
+            title="PE header could not be parsed",
+            severity="high",
+            detail=(
+                "The file begins with MZ but its PE structure is malformed. "
+                "Corruption is possible; deliberate header damage to defeat "
+                "static analysis is more common."
+            ),
+            evidence={"error": _clean(f"{exc.__class__.__name__}: {exc}", STR_LIMIT)},
+        ))
+        iocs = _extract_iocs(data)
+        return AnalyzerResult(
+            analyzer=NAME, ran=True, signals=signals,
+            facts={**facts, "parsed": False},
+            iocs=iocs,
+            duration_ms=int((time.monotonic() - started) * 1000),
+        )
+
+    try:
+        return _analyze_parsed(sample, data, pe_obj, pefile, signals, facts, started)
+    except Exception as exc:
+        # We got a header but something below it fought back. That is still an
+        # observation, not a clean result.
+        signals.append(Signal(
+            id="pe.parse_failed",
+            title="PE parsing aborted part-way",
+            severity="medium",
+            detail="Headers parsed but a later structure could not be walked.",
+            evidence={"error": _clean(f"{exc.__class__.__name__}: {exc}", STR_LIMIT)},
+        ))
+        return AnalyzerResult(
+            analyzer=NAME, ran=True, signals=signals,
+            facts={**facts, "parsed": "partial"},
+            iocs=_extract_iocs(data),
+            duration_ms=int((time.monotonic() - started) * 1000),
+        )
+    finally:
+        try:
+            pe_obj.close()
+        except Exception:
+            pass
+
+
+def _analyze_parsed(
+    sample: Sample,
+    data: bytes,
+    pe_obj: Any,
+    pefile: Any,
+    signals: list[Signal],
+    facts: dict[str, Any],
+    started: float,
+) -> AnalyzerResult:
+    for directory in (
+        "IMAGE_DIRECTORY_ENTRY_IMPORT",
+        "IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT",
+        "IMAGE_DIRECTORY_ENTRY_EXPORT",
+        "IMAGE_DIRECTORY_ENTRY_RESOURCE",
+        "IMAGE_DIRECTORY_ENTRY_TLS",
+        "IMAGE_DIRECTORY_ENTRY_SECURITY",
+        "IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR",
+    ):
+        try:
+            pe_obj.parse_data_directories(
+                directories=[pefile.DIRECTORY_ENTRY[directory]]
+            )
+        except Exception:
+            continue
+
+    file_header = pe_obj.FILE_HEADER
+    opt = pe_obj.OPTIONAL_HEADER
+    characteristics = int(getattr(file_header, "Characteristics", 0) or 0)
+    is_dll = bool(characteristics & _FILE_DLL)
+
+    facts["parsed"] = True
+    facts["machine"] = _lookup(pefile.MACHINE_TYPE, int(file_header.Machine), "MACHINE")
+    facts["subsystem"] = _lookup(pefile.SUBSYSTEM_TYPE, int(opt.Subsystem), "SUBSYSTEM")
+    facts["is_dll"] = is_dll
+    facts["is_driver"] = facts["subsystem"] == "IMAGE_SUBSYSTEM_NATIVE"
+    facts["is_64bit"] = int(opt.Magic) == 0x20B
+    facts["entry_point_rva"] = int(opt.AddressOfEntryPoint)
+    facts["image_base"] = int(opt.ImageBase)
+    facts["characteristics"] = characteristics
+
+    # --- timestamp ------------------------------------------------------------
+    timestamp = int(getattr(file_header, "TimeDateStamp", 0) or 0)
+    facts["timestamp_raw"] = timestamp
+    compiled_at = None
+    try:
+        compiled_at = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+    except (OverflowError, OSError, ValueError):
+        compiled_at = None
+    facts["compiled_at"] = compiled_at
+
+    now = time.time()
+    if timestamp == 0:
+        _ts_signal(signals, "zeroed", timestamp, compiled_at)
+    elif timestamp > now + 86400:
+        _ts_signal(signals, "in the future", timestamp, compiled_at)
+    elif timestamp < _TS_FLOOR:
+        _ts_signal(signals, "implausibly old", timestamp, compiled_at)
+
+    # --- sections -------------------------------------------------------------
+    sections = _section_facts(pe_obj)
+    facts["sections"] = sections
+    facts["section_count"] = len(pe_obj.sections or [])
+
+    packed = [s for s in sections if s["executable"] and s["entropy"] > ENTROPY_PACKED]
+    if packed:
+        signals.append(Signal(
+            id="pe.high_entropy_section",
+            title="Executable section is packed or encrypted",
+            severity="high",
+            detail=(
+                f"{len(packed)} executable section(s) measure above {ENTROPY_PACKED} "
+                "bits/byte, which compiled code does not. The real code is "
+                "unpacked in memory at runtime and is not visible here."
+            ),
+            evidence={"sections": [
+                {"name": s["name"], "entropy": s["entropy"], "raw_size": s["raw_size"]}
+                for s in packed[:16]
+            ]},
+        ))
+
+    # Executable only. A section that reserves memory and carries no data is the
+    # shape of a packer stub — but it is equally the shape of `.bss`, which every
+    # C compiler emits for uninitialised data, and of `.ndata`, which every NSIS
+    # installer carries. Measured on real files: `.bss` and `.ndata` appear in
+    # both halves of the corpus (WinMerge and Notepad++ on one side, Heodo and
+    # GuLoader on the other), so the NAME separates nothing.
+    #
+    # What separates them is whether the empty section is executable. Code that
+    # only exists after unpacking is a packer; data that only exists after
+    # loading is how programs are linked.
+    stubs = [
+        s for s in sections
+        if s["raw_size"] == 0 and s["virtual_size"] >= 0x1000 and s.get("executable")
+    ]
+    if stubs:
+        signals.append(Signal(
+            id="pe.section_size_anomaly",
+            title="Executable section reserves memory but carries no code on disk",
+            severity="high",
+            detail=(
+                "An executable section with zero raw size and a large virtual "
+                "size is space reserved for code that only exists after "
+                "unpacking. It is the standard shape of a packer stub. "
+                "Non-executable sections of the same shape are ordinary — `.bss` "
+                "and an installer's `.ndata` both look like this."
+            ),
+            evidence={"sections": [
+                {"name": s["name"], "raw_size": 0, "virtual_size": s["virtual_size"]}
+                for s in stubs[:16]
+            ]},
+        ))
+
+    wx = [s for s in sections if s["writable"] and s["executable"]]
+    if wx:
+        signals.append(Signal(
+            id="pe.writable_executable_section",
+            title="Section is both writable and executable",
+            severity="medium",
+            detail=(
+                "W+X sections let a program rewrite its own code. Compilers do "
+                "not emit this; unpackers and self-modifying stubs need it."
+            ),
+            evidence={"sections": [s["name"] for s in wx[:16]]},
+        ))
+
+    packers = {
+        s["name"]: _PACKER_SECTIONS[s["name"].lower()]
+        for s in sections if s["name"].lower() in _PACKER_SECTIONS
+    }
+    if packers:
+        signals.append(Signal(
+            id="pe.packer_section_name",
+            title="Section names belong to a known packer",
+            severity="medium",
+            detail="Section naming matches a commodity packer or protector.",
+            evidence={"matches": packers},
+        ))
+
+    # --- entry point ----------------------------------------------------------
+    entry = facts["entry_point_rva"]
+    host_section = None
+    for s in sections:
+        span = max(s["virtual_size"], s["raw_size"])
+        if s["virtual_address"] <= entry < s["virtual_address"] + max(span, 1):
+            host_section = s
+            break
+    facts["entry_point_section"] = host_section["name"] if host_section else None
+
+    if entry == 0 and not is_dll and not facts["is_driver"]:
+        signals.append(Signal(
+            id="pe.entrypoint_anomaly",
+            title="Executable declares no entry point",
+            severity="medium",
+            detail="A non-DLL image with a zero entry point cannot start normally.",
+            evidence={"entry_point_rva": 0},
+        ))
+    elif entry and host_section is None:
+        signals.append(Signal(
+            id="pe.entrypoint_anomaly",
+            title="Entry point lies outside every section",
+            severity="high",
+            detail="Execution would begin at an address the section table does not map.",
+            evidence={"entry_point_rva": entry},
+        ))
+    elif host_section is not None and not host_section["executable"]:
+        signals.append(Signal(
+            id="pe.entrypoint_anomaly",
+            title="Entry point is in a non-executable section",
+            severity="medium",
+            detail="The section containing the entry point is not marked executable.",
+            evidence={"entry_point_rva": entry, "section": host_section["name"]},
+        ))
+
+    # --- .NET, signature, rich header ----------------------------------------
+    is_dotnet = False
+    try:
+        com = opt.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR"]]
+        is_dotnet = bool(com.VirtualAddress and com.Size)
+    except Exception:
+        is_dotnet = False
+    facts["is_dotnet"] = is_dotnet
+    if is_dotnet:
+        signals.append(Signal(
+            id="pe.dotnet_assembly",
+            title="Managed (.NET) assembly",
+            severity="info",
+            detail=(
+                "The image is .NET. Its real logic is IL in the metadata, not in "
+                "the import table, so import-based capability findings are "
+                "expected to be sparse and are not evidence of packing."
+            ),
+            evidence={},
+        ))
+
+    signature_size = 0
+    try:
+        sec_dir = opt.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_SECURITY"]]
+        signature_size = int(sec_dir.Size or 0) if sec_dir.VirtualAddress else 0
+    except Exception:
+        signature_size = 0
+    facts["signature_present"] = signature_size > 0
+    facts["signature_size"] = signature_size
+    if signature_size > 0:
+        signals.extend(_signature_signals(sample, facts, signature_size))
+
+    rich = None
+    try:
+        rich = pe_obj.parse_rich_header()
+    except Exception:
+        rich = None
+    facts["rich_header_present"] = bool(rich)
+    if rich:
+        try:
+            facts["rich_header_entries"] = len(rich.get("values", [])) // 2
+        except Exception:
+            facts["rich_header_entries"] = None
+
+    try:
+        facts["tls_callbacks_present"] = bool(
+            getattr(getattr(pe_obj, "DIRECTORY_ENTRY_TLS", None), "struct", None)
+            and pe_obj.DIRECTORY_ENTRY_TLS.struct.AddressOfCallBacks
+        )
+    except Exception:
+        facts["tls_callbacks_present"] = False
+    if facts["tls_callbacks_present"]:
+        signals.append(Signal(
+            id="pe.tls_callbacks",
+            title="TLS callbacks registered",
+            severity="medium",
+            detail=(
+                "TLS callbacks run before the entry point. They are a standard "
+                "place to hide initialisation and anti-debug checks that a "
+                "debugger breaking on the entry point will already have missed."
+            ),
+            evidence={},
+        ))
+
+    # --- imports / exports ----------------------------------------------------
+    dlls, funcs, total_imports = _import_facts(pe_obj)
+    facts["imported_dlls"] = dlls
+    facts["imported_functions"] = funcs
+    facts["imported_function_count"] = total_imports
+
+    imphash = ""
+    try:
+        imphash = pe_obj.get_imphash() or ""
+    except Exception:
+        imphash = ""
+    facts["imphash"] = imphash or None
+
+    exports: list[str] = []
+    export_dir = getattr(pe_obj, "DIRECTORY_ENTRY_EXPORT", None)
+    if export_dir is not None:
+        try:
+            for exp in (export_dir.symbols or [])[:MAX_EXPORTS_RECORDED]:
+                name = getattr(exp, "name", None)
+                exports.append(_clean(name, 96) if name else f"ordinal_{getattr(exp, 'ordinal', 0)}")
+        except Exception:
+            pass
+    facts["exports"] = exports
+    facts["export_count"] = len(exports)
+
+    facts["resources"] = _resource_facts(pe_obj)
+
+    if total_imports == 0:
+        signals.append(Signal(
+            id="pe.no_imports",
+            title="No import table",
+            severity="high",
+            detail=(
+                "A Windows binary with no imports cannot call the OS through the "
+                "loader. Either the imports are resolved by hand at runtime "
+                "(shellcode-style) or the table was packed away."
+            ),
+            evidence={"imported_dlls": dlls[:16]},
+        ))
+    elif total_imports < FEW_IMPORTS_THRESHOLD and not is_dotnet:
+        signals.append(Signal(
+            id="pe.few_imports",
+            title=f"Only {total_imports} imported function(s)",
+            severity="medium",
+            detail=(
+                "A native Windows program needs far more than this to do "
+                "anything useful. The usual explanation is a packed import table "
+                "rebuilt at runtime."
+            ),
+            evidence={"count": total_imports, "functions": funcs[:20]},
+        ))
+
+    normalized = [n.lower() for n in _imported_names(pe_obj)]
+    present: dict[str, list[str]] = {}
+    for group, title, _severity, min_hits, patterns in _CAPABILITIES:
+        exact = _EXACT_IMPORTS.get(group, frozenset())
+        matched = _dedup(
+            name for name in normalized
+            if name in exact or any(name.startswith(p) for p in patterns)
+        )
+        if len(matched) >= min_hits:
+            present[group] = sorted(matched)
+            # An imported API is a FACT about capability, never a detection on
+            # its own. Every group here appears in ordinary software:
+            # GetProcAddress is in essentially every program, IsDebuggerPresent
+            # ships in the MSVC CRT startup, RegSetValue is any app that saves
+            # a setting, and kernel32.dll itself exports the injection
+            # primitives. Reporting these individually as medium/high made
+            # every signed Microsoft DLL score as malware.
+            signals.append(Signal(
+                id=f"pe.imports.{group}",
+                title=title,
+                severity="info",
+                detail=(
+                    f"The import table exposes {len(matched)} API(s) in the "
+                    f"'{group}' capability group. Capability, not intent — this is "
+                    "scored only in combination (see pe.import_combination)."
+                ),
+                evidence={"capability": group, "apis": _take(present[group], 24)},
+            ))
+
+    # Intent is argued by the COMBINATION, and it is argued more weakly when the
+    # binary carries a signature. (Presence only — this analyzer does not
+    # validate the chain, so a signature attenuates the heuristic rather than
+    # clearing the sample.)
+    combo_weight = sum(_GROUP_WEIGHT.get(g, 1) for g in present)
+    signed = bool(facts.get("signature_present"))
+    # A signed binary has to clear a much higher bar. Signing is the strongest
+    # false-positive suppressor available to static analysis, and the platform
+    # DLLs that legitimately hold the widest capability sets are exactly the
+    # ones that carry a signature. (Presence, not chain validation — so this
+    # attenuates the heuristic; it never clears a sample outright.)
+    threshold_high, threshold_medium = (12, 9) if signed else (6, 4)
+    if combo_weight >= threshold_medium:
+        combo_severity = "high" if combo_weight >= threshold_high else "medium"
+        signals.append(Signal(
+            id="pe.import_combination",
+            title="Import table combines several offensive capability groups",
+            severity=combo_severity,
+            detail=(
+                f"{len(present)} capability groups co-occur (weight {combo_weight}): "
+                + ", ".join(sorted(present))
+                + ". No single one of these is unusual; together, and in this "
+                + ("signed" if signed else "unsigned")
+                + " binary, the combination is."
+            ),
+            evidence={
+                "groups": sorted(present),
+                "weight": combo_weight,
+                "signature_present": signed,
+                "threshold": threshold_medium,
+            },
+        ))
+
+    # --- overlay --------------------------------------------------------------
+    overlay_offset = None
+    try:
+        overlay_offset = pe_obj.get_overlay_data_start_offset()
+    except Exception:
+        overlay_offset = None
+    if overlay_offset is not None and sample.size_bytes > overlay_offset:
+        overlay_size = sample.size_bytes - overlay_offset
+        facts["overlay_offset"] = int(overlay_offset)
+        facts["overlay_size"] = int(overlay_size)
+        # A few bytes of alignment padding is not a payload.
+        if overlay_size >= 1024:
+            overlay_slice = data[overlay_offset:overlay_offset + MAX_ENTROPY_BYTES]
+            signals.append(Signal(
+                id="pe.overlay_present",
+                title=f"{overlay_size} bytes appended past the last section",
+                severity="medium",
+                detail=(
+                    "Data after the final section is not loaded into memory by "
+                    "the loader, so it is invisible to a naive scan. Installers "
+                    "and signed binaries use it legitimately; droppers use it to "
+                    "carry a second stage."
+                ),
+                evidence={
+                    "offset": int(overlay_offset),
+                    "size": int(overlay_size),
+                    "entropy": _entropy(overlay_slice),
+                    "signed": facts["signature_present"],
+                },
+            ))
+    else:
+        facts["overlay_size"] = 0
+
+    iocs = _extract_iocs(data)
+    if imphash:
+        iocs.hashes = _dedup([f"imphash:{imphash}", *iocs.hashes])
+
+    return AnalyzerResult(
+        analyzer=NAME,
+        ran=True,
+        signals=signals,
+        facts=facts,
+        iocs=iocs,
+        duration_ms=int((time.monotonic() - started) * 1000),
+    )
+
+
+def _ts_signal(signals: list[Signal], kind: str, raw: int, iso: str | None) -> None:
+    signals.append(Signal(
+        id="pe.timestamp_anomaly",
+        title=f"Compile timestamp is {kind}",
+        # Info, not medium: reproducible/deterministic builds put a content hash
+        # in this field, so every modern Microsoft binary reads as "in the
+        # future". Scoring that made the whole of System32 look malicious.
+        severity="info",
+        detail=(
+            "The PE compile timestamp is a plain header field and is trivially "
+            "edited, which is why altered ones are worth reporting. Note the "
+            "benign case: reproducible/deterministic builds put a content hash "
+            "in this field, which reads as a nonsense date."
+        ),
+        evidence={"timestamp_raw": raw, "interpreted": iso},
+    ))

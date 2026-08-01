@@ -1,5 +1,5 @@
 /**
- * ZORBOX — submission and the analysis queue.
+ * Cyclowareness Sandbox — submission and the analysis queue.
  *
  * The page is composition only: it owns the query hooks and the one piece of
  * shared view state (the status filter, kept in the URL so a view can be sent to
@@ -11,11 +11,12 @@ import { FlaskConical } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import { CapabilityStrip } from '../features/sandbox/CapabilityStrip'
 import { JobsTable } from '../features/sandbox/JobsTable'
+import { QueueSummary } from '../features/sandbox/QueueSummary'
 import { SubmissionPanel } from '../features/sandbox/SubmissionPanel'
 import { DataSourceLabel } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel, Select } from '../components/ui'
-import { useSandboxCapabilities, useSandboxJobs } from '../lib/api/queries'
+import { useSandboxCapabilities, useSandboxJobs, useSandboxStats } from '../lib/api/queries'
 import { backingFor } from '../lib/demo/registry'
 
 const STATUS_OPTIONS = [
@@ -34,6 +35,7 @@ export default function Sandbox() {
 
   const capabilities = useSandboxCapabilities()
   const jobs = useSandboxJobs({ status: status === 'all' ? undefined : status, limit: 50 })
+  const stats = useSandboxStats()
 
   function setStatus(next: string) {
     const updated = new URLSearchParams(params)
@@ -56,6 +58,11 @@ export default function Sandbox() {
       </header>
 
       <SubmissionPanel />
+
+      {/* Rendered only once the counts have actually arrived. Zeroed tiles under
+          a spinner are indistinguishable from a deployment that has analysed
+          nothing, and that is the one reading this panel must never invite. */}
+      {stats.data ? <QueueSummary stats={stats.data} /> : null}
 
       <AsyncBoundary
         isLoading={capabilities.isLoading}

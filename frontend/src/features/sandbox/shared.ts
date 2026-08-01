@@ -198,5 +198,5 @@ export function saveBlob(blob: Blob, filename: string): void {
 /** A filesystem-safe stem for an exported report. */
 export function exportStem(job: Pick<SandboxJobSummary, 'original_name' | 'public_id'>): string {
   const cleaned = (job.original_name || '').replace(/[^a-zA-Z0-9._-]/g, '').slice(0, 60)
-  return `zorbox-${cleaned || job.public_id}`
+  return `cyclowareness-${cleaned || job.public_id}`
 }

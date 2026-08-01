@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import { FileJson, FileText, RotateCw, Share2 } from 'lucide-react'
+import { FileJson, FileText, RotateCw, Scale, Share2, ShieldCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { SandboxJobDetail } from '../../domain/types'
 import { api, ApiError } from '../../lib/api/client'
@@ -21,18 +21,36 @@ export interface JobToolbarProps {
   job: SandboxJobDetail
 }
 
-type ExportKind = 'json' | 'stix' | 'pdf'
+type ExportKind = 'json' | 'stix' | 'pdf' | 'incident' | 'signed'
 
+/** Four audiences, four documents. The JSON is for an analyst, the STIX for a
+ *  threat-intel platform, the incident draft for the compliance function that
+ *  has 24 hours to send a NIS2 early warning, and the signed copy for a
+ *  recipient who does not trust this deployment and must verify it offline. */
 const EXPORTS: { kind: ExportKind; label: string; suffix: string; path: (id: string) => string }[] = [
   { kind: 'json', label: 'JSON report', suffix: '.json', path: endpoints.sandbox.exportJson },
   { kind: 'stix', label: 'STIX bundle', suffix: '.stix.json', path: endpoints.sandbox.exportStix },
   { kind: 'pdf', label: 'PDF report', suffix: '.pdf', path: endpoints.sandbox.exportPdf },
+  {
+    kind: 'incident',
+    label: 'Incident draft',
+    suffix: '.incident.json',
+    path: endpoints.sandbox.exportIncident,
+  },
+  {
+    kind: 'signed',
+    label: 'Signed evidence',
+    suffix: '.signed.json',
+    path: endpoints.sandbox.exportSigned,
+  },
 ]
 
 const ICONS: Record<ExportKind, LucideIcon> = {
   json: FileJson,
   stix: Share2,
   pdf: FileText,
+  incident: Scale,
+  signed: ShieldCheck,
 }
 
 export function JobToolbar({ job }: JobToolbarProps) {

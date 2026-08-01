@@ -1,4 +1,4 @@
-# Render Blueprint for Cyclowareness + ZORBOX.
+# Render Blueprint for Cyclowareness, including the Cyclowareness Sandbox.
 #
 # One Docker web service that serves the API and the compiled frontend from a
 # single origin. Connect this repo in the Render dashboard (New > Blueprint) and
@@ -31,7 +31,7 @@ services:
       # A strong signing key, generated once by Render and kept out of git.
       - key: SECRET_KEY
         generateValue: true
-      # The awareness loop and ZORBOX both run the mock/heuristic engines unless
+      # The awareness loop and the sandbox both run the mock/heuristic engines unless
       # a key is supplied. Set these in the dashboard (sync:false = never in git)
       # to switch on live Claude and the real VirusTotal adapter.
       - key: ANTHROPIC_API_KEY
@@ -42,5 +42,33 @@ services:
         sync: false
       # Uploaded samples land here. /tmp is ephemeral, which for a malware
       # quarantine is a feature: nothing survives a redeploy.
-      - key: ZORBOX_QUARANTINE
-        value: /tmp/zorbox-quarantine
+      # The name matters: the engine reads SANDBOX_QUARANTINE and nothing else.
+      # This key previously carried the old engine's name, which the current one
+      # does not read — so every sample on the live deployment was landing in
+      # the system temp directory while this file said otherwise.
+      - key: SANDBOX_QUARANTINE
+        value: /tmp/cyclowareness-quarantine
+      # The shared token an off-host detonation worker authenticates with.
+      # Unset, /api/dynamic/* answers 503 and every report says detonation did
+      # not run — which is the truth for a deployment with no worker. Set it
+      # here AND on the worker to open the tier. It is the widest credential in
+      # the system: it buys every sample's bytes and the ability to fabricate
+      # behaviour for any job, so it never belongs in git.
+      - key: DYNAMIC_WORKER_TOKEN
+        sync: false
+      # Ed25519 seed for signing report exports. Unset, the signed export is
+      # still produced in full and states that it is unsigned, rather than
+      # implying an assurance this deployment cannot give.
+      - key: SIGNING_KEY
+        sync: false
+      # Copied verbatim into the regulatory incident record. Left empty, the
+      # record names them as operator input still required rather than
+      # inventing an entity.
+      - key: ENTITY_NAME
+        sync: false
+      - key: ENTITY_COUNTRY
+        sync: false
+      - key: ENTITY_SECTOR
+        sync: false
+      - key: ENTITY_CONTACT
+        sync: false

@@ -50,6 +50,7 @@ import type {
   RunSummary,
   SandboxCapabilities,
   SandboxJobDetail,
+  SandboxJobStats,
   SandboxJobSummary,
   SimTemplate,
   Simulation,
@@ -116,6 +117,7 @@ export const qk = {
   sandbox: {
     all: ['sandbox'] as const,
     capabilities: () => ['sandbox', 'capabilities'] as const,
+    stats: () => ['sandbox', 'stats'] as const,
     jobs: (filters?: unknown) => ['sandbox', 'jobs', filters ?? null] as const,
     job: (id: string) => ['sandbox', 'job', id] as const,
   },
@@ -464,13 +466,32 @@ export function useSandboxCapabilities(options?: Opts<SandboxCapabilities>) {
   })
 }
 
+/** The queue. The endpoint answers with a `{items,total,limit,offset}` envelope,
+ *  and this hook hands back just the rows — use `useSandboxJobPage` when the
+ *  total matters, which it does anywhere the UI writes "showing N of M". */
 export function useSandboxJobs(
-  filters: { status?: string; limit?: number } = {},
-  options?: Opts<SandboxJobSummary[]>,
+  filters: { status?: string; limit?: number; offset?: number } = {},
+  options?: ListOpts<SandboxJobSummary>,
 ) {
-  return useQuery<SandboxJobSummary[], ApiError>({
+  return useQuery<Paginated<SandboxJobSummary> | SandboxJobSummary[], ApiError, SandboxJobSummary[]>({
     queryKey: qk.sandbox.jobs(filters),
-    queryFn: () => api.get<SandboxJobSummary[]>(endpoints.sandbox.jobs(filters)),
+    queryFn: () =>
+      api.get<Paginated<SandboxJobSummary> | SandboxJobSummary[]>(endpoints.sandbox.jobs(filters)),
+    select: (payload) => itemsOf(payload),
+    refetchInterval: POLL_LIVE,
+    ...options,
+  })
+}
+
+/** Counts over the whole table, not over a page of it.
+ *
+ *  A dashboard cannot be honest by paging: the page limit is smaller than the
+ *  table will be, so a tile counted client-side from `useSandboxJobs` is a
+ *  property of how many rows the last poll happened to fetch. */
+export function useSandboxStats(options?: Opts<SandboxJobStats>) {
+  return useQuery<SandboxJobStats, ApiError>({
+    queryKey: qk.sandbox.stats(),
+    queryFn: () => api.get<SandboxJobStats>(endpoints.sandbox.stats()),
     refetchInterval: POLL_LIVE,
     ...options,
   })

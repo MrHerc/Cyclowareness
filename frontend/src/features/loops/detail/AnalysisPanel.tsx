@@ -3,7 +3,7 @@
  *
  * Two capability statements live here rather than in a footnote, because both
  * are things a viewer would otherwise assume in the product's favour: the loop's
- * ANALYZE stage runs the platform analyzer and does not create a ZORBOX sandbox
+ * ANALYZE stage runs the platform analyzer and does not create a sandbox
  * job, and no MITRE mapping is carried on the threat record the UI is given.
  */
 
@@ -130,7 +130,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
           <h3 className="text-h text-fg">Sandbox report</h3>
           <p className="mt-1.5 text-sm text-fg-muted">
             No sandbox job is linked to this run. The loop&apos;s analysis stage runs the platform
-            analyzer against the artifact reference; it does not create a ZORBOX job, and the
+            analyzer against the artifact reference; it does not create a sandbox job, and the
             platform records no link between the two. For a full static report, submit the artifact
             to the{' '}
             <Link to="/sandbox" className="text-brand hover:underline">

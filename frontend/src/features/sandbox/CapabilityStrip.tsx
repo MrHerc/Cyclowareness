@@ -136,6 +136,14 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
                     Every report states this as a blind spot rather than reporting a clean
                     behavioural result that was never observed.
                   </p>
+                  {/* The engine's own reason, not a guess. "Not available" and
+                      "not available because no worker token is configured" send
+                      an operator to different places. */}
+                  {capabilities.dynamic_unavailable_reason ? (
+                    <p className="text-xs text-fg-faint">
+                      {capabilities.dynamic_unavailable_reason}
+                    </p>
+                  ) : null}
                 </>
               )}
               <Tooltip content="Detonation needs a disposable, network-isolated machine with kernel-level control. A managed web host does not provide one, and executing hostile code on shared infrastructure is the thing this design exists to avoid.">

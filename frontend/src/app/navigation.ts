@@ -121,7 +121,7 @@ export const NAV_SECTIONS: NavSection[] = [
         to: '/sandbox',
         icon: Boxes,
         permission: 'sandbox.view',
-        hint: 'ZORBOX static analysis of files and URLs',
+        hint: 'Static and behavioural analysis of files and URLs',
       },
     ],
   },

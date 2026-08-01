@@ -8,7 +8,7 @@
  *    no such record and the panel says so and points at the run list, instead of
  *    guessing by title.
  *
- * 2. **The loop does not raise a ZORBOX job.** Stage 2 runs the platform
+ * 2. **The loop does not raise a sandbox job.** Stage 2 runs the platform
  *    analyzer over the artifact text; the file sandbox is a separate surface
  *    with its own submissions. Implying a detonation that never happened would
  *    be the most flattering lie available on this screen.
@@ -110,7 +110,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
       <h3 className="label text-fg-faint">Sandbox</h3>
       <p className="mt-2 text-sm text-fg-muted">
         The loop’s ANALYZE stage runs the platform analyzer over this artifact’s text. It does not
-        raise a ZORBOX job, and this deployment records no link from a threat record to one — so no
+        raise a sandbox job, and this deployment records no link from a threat record to one — so no
         detonation verdict is claimed here.
       </p>
       <Button variant="ghost" size="sm" asChild className="mt-2">

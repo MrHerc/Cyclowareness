@@ -60,7 +60,7 @@ export const SURFACES: Record<string, SurfaceBacking> = {
     id: 'sandbox',
     label: 'Sandbox',
     backing: 'live',
-    note: 'ZORBOX performs real static analysis. Dynamic detonation runs off-host and is reported as not run.',
+    note: 'Real static analysis on the same engine as the standalone product. Dynamic detonation runs off-host and is reported as not run unless a worker is attached.',
   },
   simulations: {
     id: 'simulations',

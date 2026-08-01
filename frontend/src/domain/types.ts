@@ -498,7 +498,7 @@ export interface ExecutiveDashboard {
 }
 
 /* ============================================================================
-   Sandbox (ZORBOX)
+   Cyclowareness Sandbox
    ========================================================================== */
 
 export type SandboxJobStatus =
@@ -528,6 +528,67 @@ export interface AnalyzerResultView {
   duration_ms: number
 }
 
+/** The engine's classification of a sample.
+ *
+ * `verdict` is the answer; `threat_name` is the label an analyst quotes. The
+ * detection panel is the engine's own internal detectors, not third parties —
+ * `detection_ratio` is "3 / 6" of OUR checks, and the UI must never present it
+ * as a multi-vendor score.
+ */
+export interface SandboxVerdict {
+  verdict: 'malicious' | 'suspicious' | 'clean' | string
+  threat_name: string | null
+  detection_ratio: string
+  detected: number
+  total_engines: number
+  platform: string | null
+  category: string | null
+  family: string | null
+  engines?: { engine: string; detected: boolean; result: string; severity: string }[]
+}
+
+/** A demonstrated-impact rating, in the engine's own notation.
+ *
+ * Not CVSS, and it says so: `rating` names the notation and `disclaimer` states
+ * what the number is and is not. `base_score` 0 at severity 'none' means
+ * nothing was demonstrated — read `rationale`, never treat it as "no risk".
+ */
+export interface SandboxImpact {
+  rating: string
+  vector: string
+  base_score: number
+  severity: 'none' | 'low' | 'medium' | 'high' | 'critical' | string
+  metrics: Record<string, string>
+  capabilities: string[]
+  rationale: { metric: string; value: string; why: string }[]
+  disclaimer: string
+}
+
+export interface MitreTechnique {
+  technique_id: string
+  name: string
+  tactic: string
+  evidence: string[]
+}
+
+/** What an off-host worker reported after detonating the sample.
+ *
+ * `ran: false` is not "nothing happened" — it means no detonation took place,
+ * and `unavailable_reason` says why. `refused` is narrower still: the sandbox
+ * declined this sample, which is a hole in the evidence the UI must show.
+ */
+export interface SandboxDynamicReport {
+  engine?: string
+  worker?: string
+  ran?: boolean
+  unavailable_reason?: string | null
+  refused?: boolean
+  timeline?: { t_ms: number; kind: string; detail: string }[]
+  signals?: SandboxSignal[]
+  facts?: Record<string, unknown>
+  duration_ms?: number
+}
+
 export interface SandboxJobSummary {
   public_id: string
   source: 'upload' | 'url' | 'loop' | 'archive_member'
@@ -541,6 +602,15 @@ export interface SandboxJobSummary {
   stage: string
   risk_level: 'low' | 'medium' | 'high' | 'critical'
   final_score: number
+  /** Absent while the job is still running — it has not been classified yet.
+   *
+   *  Two shapes of absence, because two endpoints spell it differently: the
+   *  queue sends `null`, the detail view normalises it to `{}`. Both mean "not
+   *  classified", and `verdict` in it is the check that tells them apart from a
+   *  real answer. Carried on the summary because it is the first thing anyone
+   *  looks at, and a queue that shows a score without a verdict makes the
+   *  reader guess. */
+  verdict: SandboxVerdict | Record<string, never> | null
   created_at: string
   completed_at: string | null
 }
@@ -582,6 +652,28 @@ export interface SandboxJobDetail extends SandboxJobSummary {
   archive_path: string | null
   duration_ms: number | null
   children: SandboxJobSummary[]
+  /** `{}` while the job is still running; never null on a completed job. */
+  verdict: SandboxVerdict | Record<string, never>
+  impact: SandboxImpact | Record<string, never>
+  mitre: MitreTechnique[]
+  dynamic: SandboxDynamicReport
+  /** Set when the awareness loop's ANALYZE stage raised this job. */
+  loop_run_id: number | null
+}
+
+/** Counted in SQL over every job, not over the page the client happens to hold.
+ *  A tile computed from one page is a property of the page, not of the estate. */
+export interface SandboxJobStats {
+  total: number
+  completed: number
+  in_flight: number
+  /** Always carries all four keys, so the UI never has to distinguish "none"
+   *  from "not reported". They sum to `completed`. */
+  verdicts: { malicious: number; suspicious: number; clean: number; unclassified: number }
+  needs_attention: number
+  average_score: number
+  families: { family: string; count: number }[]
+  top_risk: SandboxJobSummary[]
 }
 
 export interface SandboxCapabilities {
@@ -590,6 +682,9 @@ export interface SandboxCapabilities {
   yara: { loaded: number; files?: number; failed?: Record<string, string> | null; error?: string }
   /** Dynamic detonation runs off-host; false here is the honest default. */
   dynamic_worker: boolean
+  /** Why no worker is attached. Present exactly when `dynamic_worker` is false,
+   *  so the UI can say what is missing instead of showing a bare "no". */
+  dynamic_unavailable_reason: string | null
   supported_extensions: string[]
 }
 
