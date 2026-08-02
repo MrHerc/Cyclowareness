@@ -64,12 +64,15 @@ export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigat
         <Menu className="size-4" aria-hidden="true" strokeWidth={1.75} />
       </IconButton>
 
+      {/* `sr-only sm:not-sr-only`, not `hidden sm:block`: hidden removes the
+          name from the accessibility tree as well as from the screen, so below
+          `sm` this link announced as nothing but its icon. */}
       <Link
         to={homeFor(role)}
         className="flex shrink-0 items-center gap-2.5 rounded-control py-1 pr-1"
       >
         <ProductMark />
-        <span className="hidden text-h text-fg sm:block">{PRODUCT_NAME}</span>
+        <span className="sr-only text-h text-fg sm:not-sr-only">{PRODUCT_NAME}</span>
       </Link>
 
       <EnvironmentIndicator className="hidden sm:inline-flex" />

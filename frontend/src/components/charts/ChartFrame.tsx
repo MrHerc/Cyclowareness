@@ -8,6 +8,11 @@ export interface ChartFrameProps {
   title: string
   /** One line under the title: the window, the sample size, the caveat. */
   caption?: string
+  /** The heading level for `title`. Defaults to 3, which is right when the
+   *  chart sits inside a Panel (h2). A chart placed directly under the page
+   *  h1 must pass 2, or the document skips a level and a screen reader
+   *  reports a missing section. Mirrors `Panel`'s own escape hatch. */
+  headingLevel?: 2 | 3 | 4
   /** Rendered by `ChartLegend`, so wording and swatches never drift. */
   legend?: LegendItem[]
   /** Right-hand header slot — a range switch, a link to the underlying rows. */
@@ -56,6 +61,7 @@ export interface ChartFrameProps {
 export function ChartFrame({
   title,
   caption,
+  headingLevel = 3,
   legend,
   action,
   height = 240,
@@ -69,6 +75,8 @@ export function ChartFrame({
   className,
   children,
 }: ChartFrameProps) {
+  const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
+
   return (
     <figure
       className={cn(
@@ -78,7 +86,7 @@ export function ChartFrame({
     >
       <header className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="text-h text-fg">{title}</h3>
+          <Heading className="text-h text-fg">{title}</Heading>
           {caption ? <p className="mt-0.5 text-xs text-fg-subtle">{caption}</p> : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}

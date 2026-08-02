@@ -31,7 +31,12 @@ export function ProgressPanel({ job }: { job: SandboxJobDetail }) {
         aria-hidden="true"
         className="scan relative mt-4 h-1 overflow-hidden rounded-chip bg-raised"
       />
-      <p aria-live="polite" className="mt-3 text-sm text-fg-subtle">
+      {/* The live region is NOT here. This panel unmounts the instant the job
+          settles, which is the exact moment there is something worth announcing
+          — so a screen reader heard every intermediate stage and never the
+          verdict. It lives in SandboxDetail, which persists across the
+          transition. */}
+      <p className="mt-3 text-sm text-fg-subtle">
         {`Stage: ${humanise(job.stage) || 'queued'}. This page refreshes itself until the job settles.`}
       </p>
     </Panel>

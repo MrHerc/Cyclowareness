@@ -76,7 +76,7 @@ export default function Portal() {
    * Kept as the seam for when the endpoint does carry one. */
   const incidentByAssignment = useMemo(
     () => new Map<number, (typeof incidentList)[number]>(),
-    [incidentList],
+    [],
   )
 
   const { open, finished } = useMemo(() => {

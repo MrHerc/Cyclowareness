@@ -125,7 +125,7 @@ export default function Departments() {
           </div>
 
           <div className="grid gap-4 xl:grid-cols-2">
-            <DepartmentRiskHeatmap
+            <DepartmentRiskHeatmap headingLevel={2}
               departments={rows}
               onSelect={(department) => navigate(`/employees?department=${department.id}`)}
             />
@@ -172,7 +172,7 @@ export default function Departments() {
             loadingLabel="Loading the organisation trend"
             skeleton={<SkeletonChart height={240} />}
           >
-            <RiskTrendChart
+            <RiskTrendChart headingLevel={2}
               points={dashboard.data?.trend ?? []}
               windowDays={dashboard.data?.metrics.window_days}
             />

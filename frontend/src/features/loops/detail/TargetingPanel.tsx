@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import type { DepartmentRisk, StageEntry, Target } from '../../../domain/types'
 import { STAGES } from '../../../domain/types'
 import { cn, num, riskBand, riskBandLabel } from '../../../lib/format'
+import { BAND_TEXT } from '../../people/riskModel'
 import {
   Table,
   TableBody,
@@ -29,12 +30,6 @@ export interface TargetingPanelProps {
   entry: StageEntry | undefined
   targets: Target[]
   departments: DepartmentRisk[] | undefined
-}
-
-const BAND_CLASS: Record<'low' | 'elevated' | 'high', string> = {
-  high: 'text-high',
-  elevated: 'text-medium',
-  low: 'text-safe',
 }
 
 function exposureOf(target: Target): { label: string; className: string } {
@@ -95,7 +90,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
                       {departmentName(target.department_id)}
                     </TableCell>
                     <TableCell numeric>
-                      <span className={cn(BAND_CLASS[riskBand(target.risk_score)])}>
+                      <span className={cn(BAND_TEXT[riskBand(target.risk_score)])}>
                         {num(target.risk_score, 0)}
                       </span>
                       <span className="ml-2 text-xs text-fg-faint">

@@ -164,10 +164,22 @@ function Comparison({
       : 'text-fg-muted'
   const Icon = direction === 'up' ? TrendingUp : TrendingDown
 
+  // WHETHER THIS IS GOOD NEWS WAS CARRIED ONLY BY HUE — green for better, red
+  // for worse, with the arrow saying only which way the number moved. A reader
+  // who cannot separate the two colours got the magnitude and the direction and
+  // not the judgement, which is the part that matters. Said in words too.
+  const judgement =
+    comparison.improvement && direction !== 'flat'
+      ? direction === comparison.improvement
+        ? 'an improvement'
+        : 'worse than the previous period'
+      : null
+
   return (
     <span className={cn('inline-flex items-center gap-1.5 text-sm', tone)}>
       {direction === 'flat' ? null : <Icon className="size-4 shrink-0" aria-hidden="true" />}
       {direction === 'flat' ? 'No change' : formatDelta(state.delta, format, digits)}
+      {judgement ? <span className="sr-only"> — {judgement}</span> : null}
       {comparison.label ? <span className="text-xs text-fg-faint">{comparison.label}</span> : null}
     </span>
   )

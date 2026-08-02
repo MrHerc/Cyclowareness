@@ -134,11 +134,11 @@ export function DynamicPanel({
                     <span className="text-body text-fg">{signal.title}</span>
                     <span
                       className={cn(
-                        'shrink-0 text-xs uppercase',
+                        'shrink-0 text-xs',
                         SEVERITY_TONE[signal.severity] ?? 'text-fg-muted',
                       )}
                     >
-                      {signal.severity}
+                      {humanise(signal.severity)}
                     </span>
                   </div>
                   {signal.detail ? (

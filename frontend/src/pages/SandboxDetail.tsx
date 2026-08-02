@@ -78,8 +78,26 @@ function Report({ job }: { job: SandboxJobDetail }) {
   // computed would invent the one number this page exists to justify.
   const hasBreakdown = Boolean(job.score_breakdown && Object.keys(job.score_breakdown).length > 0)
 
+  // ONE region, mounted for the whole life of the report, so the transition
+  // from "running" to a verdict is a change of text inside a live element
+  // rather than one element being replaced by another. A region that unmounts
+  // at the moment of the announcement announces nothing.
+  const announcement =
+    job.status === 'queued' || job.status === 'running'
+      ? `Analysing ${job.original_name || 'the sample'}. Stage: ${job.stage || 'queued'}.`
+      : job.status === 'completed'
+        ? `Analysis complete for ${job.original_name || 'the sample'}. Verdict: ${
+            job.verdict && 'verdict' in job.verdict ? job.verdict.verdict : 'not classified'
+          }. Score ${job.final_score} out of 100.`
+        : job.status === 'awaiting_password'
+          ? 'This archive is encrypted and analysis has paused for a password.'
+          : `Analysis ${job.status} for ${job.original_name || 'the sample'}.`
+
   return (
     <div className="space-y-6">
+      <p aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
       <VerdictHeader job={job} />
       <JobToolbar job={job} />
 

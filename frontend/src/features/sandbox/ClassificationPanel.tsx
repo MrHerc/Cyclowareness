@@ -15,7 +15,7 @@
 
 import type { SandboxVerdict } from '../../domain/types'
 import { Panel } from '../../components/ui'
-import { cn } from '../../lib/format'
+import { cn, humanise } from '../../lib/format'
 
 export interface ClassificationPanelProps {
   verdict: SandboxVerdict | Record<string, never>
@@ -58,7 +58,7 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div className="min-w-0">
           <p className="label text-fg-subtle">Classification</p>
-          <p className={cn('mt-2 text-display uppercase', tone)}>{answer.verdict}</p>
+          <p className={cn('mt-2 text-display', tone)}>{humanise(answer.verdict)}</p>
           {answer.threat_name ? (
             <p className="tech mt-2 break-all text-body text-fg">{answer.threat_name}</p>
           ) : null}

@@ -27,6 +27,9 @@ const ELEVATED_AT = 40
 const HIGH_AT = 60
 
 export interface RiskTrendChartProps {
+  /** Forwarded to ChartFrame. Pass 2 when the chart sits directly under
+   *  the page h1, or the outline skips a level. */
+  headingLevel?: 2 | 3 | 4
   points: TrendPoint[]
   windowDays?: number
   height?: number
@@ -54,6 +57,7 @@ export interface RiskTrendChartProps {
  * different measurements. The thresholds are reference lines instead.
  */
 export function RiskTrendChart({
+  headingLevel,
   points,
   windowDays,
   height = 240,
@@ -67,6 +71,7 @@ export function RiskTrendChart({
 
   return (
     <ChartFrame
+      headingLevel={headingLevel}
       title="Risk over time"
       caption={
         windowDays

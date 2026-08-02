@@ -75,9 +75,11 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
         </div>
 
         <div className="min-w-0">
-          <h2 className="truncate text-title text-fg" title={name}>
+          {/* h1: this IS the page. The route rendered no h1 at all, so the
+              report opened with no title in the document outline. */}
+          <h1 className="truncate text-title text-fg" title={name}>
             {name}
-          </h2>
+          </h1>
 
           <dl className="divide-line mt-3">
             {job.submitted_url ? (

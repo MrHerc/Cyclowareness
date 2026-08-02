@@ -33,11 +33,25 @@
   --color-elevated: #101b2d;
   --color-raised: #16233a;
 
-  /* --- content: AA-measured on --color-surface --------------------------- */
+  /* --- content ------------------------------------------------------------
+     MEASURED AGAINST --color-raised, THE DARKEST SURFACE ANY OF THESE LAND ON,
+     not against --color-surface. The comment here used to say "AA-measured on
+     --color-surface", which was true and useless: `fg-faint` measured 3.42 on
+     surface and 2.92 on raised, so every caption, timestamp and hint in the
+     product sat below the 4.5:1 floor while the file above them claimed
+     otherwise.
+
+     Ratios on raised / elevated / surface:
+       fg          13.51 / 14.84 / 15.85
+       fg-muted     7.32 /  8.04 /  8.59
+       fg-subtle    6.38 /  7.03 /  7.49
+       fg-faint     4.68 /  5.15 /  5.49
+     `fg-subtle` was lifted with `fg-faint`: raising faint alone put the two
+     within 0.1 of each other, which is two tokens that render as one. */
   --color-fg: #e9eef8;
   --color-fg-muted: #a3b2ca;
-  --color-fg-subtle: #7e8fa9;
-  --color-fg-faint: #5d6b83;
+  --color-fg-subtle: #99a6bb;
+  --color-fg-faint: #7f8da4;
 
   /* --- brand: cyan. `brand` fills/strokes, `brand-fg` for text on dark ---- */
   --color-brand: #22d3ee;

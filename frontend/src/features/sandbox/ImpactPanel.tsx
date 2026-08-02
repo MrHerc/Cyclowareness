@@ -13,7 +13,7 @@
 
 import type { SandboxImpact } from '../../domain/types'
 import { Panel } from '../../components/ui'
-import { cn, num } from '../../lib/format'
+import { cn, humanise, num } from '../../lib/format'
 
 export interface ImpactPanelProps {
   impact: SandboxImpact | Record<string, never>
@@ -49,8 +49,8 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
             <span className={cn('text-hero', SEVERITY_TONE[rated.severity] ?? 'text-fg')}>
               {num(rated.base_score, 1)}
             </span>
-            <span className={cn('text-lead uppercase', SEVERITY_TONE[rated.severity] ?? 'text-fg')}>
-              {rated.severity}
+            <span className={cn('text-lead', SEVERITY_TONE[rated.severity] ?? 'text-fg')}>
+              {humanise(rated.severity)}
             </span>
             <span className="tech break-all text-xs text-fg-faint">{rated.vector}</span>
           </div>

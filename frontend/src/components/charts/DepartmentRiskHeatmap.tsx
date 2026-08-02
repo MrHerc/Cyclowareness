@@ -17,6 +17,9 @@ const BAND_TEXT: Record<'low' | 'elevated' | 'high', string> = {
 }
 
 export interface DepartmentRiskHeatmapProps {
+  /** Forwarded to ChartFrame. Pass 2 when the chart sits directly under
+   *  the page h1, or the outline skips a level. */
+  headingLevel?: 2 | 3 | 4
   departments: DepartmentRisk[]
   /** Present the cell as a button and drill through on activation. */
   onSelect?: (department: DepartmentRisk) => void
@@ -36,6 +39,7 @@ export interface DepartmentRiskHeatmapProps {
  * this will be shown.
  */
 export function DepartmentRiskHeatmap({
+  headingLevel,
   departments,
   onSelect,
   height = 260,
@@ -48,6 +52,7 @@ export function DepartmentRiskHeatmap({
 
   return (
     <ChartFrame
+      headingLevel={headingLevel}
       title="Risk by department"
       caption="Average risk score, 0–100 · worst first"
       legend={[
