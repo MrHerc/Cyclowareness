@@ -40,21 +40,39 @@ branch_labels = None
 depends_on = None
 
 
-#: The nine columns the vendored engine added. `server_default` is not optional
-#: on the NOT NULL ones: an existing row has no value for a column that did not
-#: exist, so adding it without a default fails outright on PostgreSQL and leaves
-#: NULLs in a NOT NULL column on SQLite.
-_ADDED = (
+#: Columns that are simply added. `tenant_id` keeps a server default because the
+#: MODEL declares one — a nullable owner is an owner nobody checks — and a
+#: VARCHAR default needs no cast on any dialect.
+_ADDED_PLAIN = (
     # (name, type, nullable, server_default)
     ("tenant_id", sa.String(length=64), False, "default"),
     ("submitted_by", sa.String(length=64), True, None),
-    ("dynamic", sa.JSON(), False, "{}"),
     ("sample_deleted_at", sa.DateTime(), True, None),
-    ("impact", sa.JSON(), False, "{}"),
-    ("verdict", sa.JSON(), False, "{}"),
-    ("mitre", sa.JSON(), False, "[]"),
     ("first_completed_at", sa.DateTime(), True, None),
     ("engine_manifest", sa.JSON(), True, None),
+)
+
+#: NOT NULL JSON columns, and the value existing rows get.
+#:
+#: ADDED NULLABLE, BACKFILLED, THEN CONSTRAINED — three steps, not one, because
+#: the one-step form is not portable. `ADD COLUMN dynamic JSON DEFAULT '{}' NOT
+#: NULL` is what a `server_default` renders to, and PostgreSQL refuses it:
+#:
+#:     column "dynamic" is of type json but default expression is of type text
+#:     HINT: You will need to rewrite or cast the expression.
+#:
+#: SQLite accepts the same statement happily, so the migration passed every local
+#: run and failed on the first PostgreSQL one. A `::json` cast would fix it for
+#: PostgreSQL and break SQLite, so the fix is to stop needing a default at all:
+#: nothing is left behind for a later revision to drop, and `alembic check` has
+#: no phantom server default to report as drift for ever.
+#: Python values, not JSON strings — the JSON type serialises them for whichever
+#: dialect is running.
+_ADDED_JSON: tuple[tuple[str, object], ...] = (
+    ("dynamic", {}),
+    ("impact", {}),
+    ("verdict", {}),
+    ("mitre", []),
 )
 
 
@@ -94,10 +112,14 @@ def upgrade() -> None:
     )
 
     with op.batch_alter_table("sandbox_jobs", schema=None) as batch_op:
-        for name, type_, nullable, default in _ADDED:
+        for name, type_, nullable, default in _ADDED_PLAIN:
             batch_op.add_column(
                 sa.Column(name, type_, nullable=nullable, server_default=default)
             )
+        # Nullable for now — there is no portable way to give an existing row a
+        # JSON value in the same statement. See _ADDED_JSON.
+        for name, _value in _ADDED_JSON:
+            batch_op.add_column(sa.Column(name, sa.JSON(), nullable=True))
         batch_op.create_index(
             batch_op.f("ix_sandbox_jobs_tenant_id"), ["tenant_id"], unique=False
         )
@@ -105,14 +127,23 @@ def upgrade() -> None:
         batch_op.drop_column("loop_run_id")
         batch_op.drop_column("submitted_by_user_id")
 
-    # `server_default` was needed to backfill the existing rows; it is not part
-    # of the model, so leaving it on would make `alembic check` report drift on
-    # every run for ever. `tenant_id` keeps its default deliberately — the model
-    # declares one, because a nullable owner is an owner nobody checks.
+    # Give every existing row a value, then close the column.
+    #
+    # A plain literal, not a bound parameter and not a typed construct. In
+    # ASSIGNMENT context PostgreSQL leaves `'{}'` untyped and coerces it to the
+    # column's type, which is exactly what is wanted; it is only in DEFAULT
+    # context that it types the literal as text first and refuses. A bound
+    # parameter would arrive explicitly typed as text and hit the same refusal,
+    # and a typed SQLAlchemy construct cannot render under `alembic --sql` at
+    # all ("No literal value renderer is available for literal value").
+    #
+    # The interpolated values are the two constants above, never input.
+    for name, value in _ADDED_JSON:
+        op.execute(f"UPDATE sandbox_jobs SET {name} = '{value}' WHERE {name} IS NULL")
+
     with op.batch_alter_table("sandbox_jobs", schema=None) as batch_op:
-        for name, _type, _nullable, default in _ADDED:
-            if default is not None and name != "tenant_id":
-                batch_op.alter_column(name, server_default=None)
+        for name, _value in _ADDED_JSON:
+            batch_op.alter_column(name, existing_type=sa.JSON(), nullable=False)
 
 
 def downgrade() -> None:
@@ -123,7 +154,9 @@ def downgrade() -> None:
             batch_op.f("ix_sandbox_jobs_loop_run_id"), ["loop_run_id"], unique=False
         )
         batch_op.drop_index(batch_op.f("ix_sandbox_jobs_tenant_id"))
-        for name, _type, _nullable, _default in _ADDED:
+        for name, _type, _nullable, _default in _ADDED_PLAIN:
+            batch_op.drop_column(name)
+        for name, _value in _ADDED_JSON:
             batch_op.drop_column(name)
 
     op.execute(

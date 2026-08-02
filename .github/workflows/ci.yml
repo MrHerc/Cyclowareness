@@ -113,8 +113,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
+      # Same reason as the pytest step: the raw job log needs admin rights to
+      # download, so a failure here must put its own error into the annotations.
       - name: Chain runs clean on an empty database
-        run: alembic upgrade head
+        run: |
+          set +e
+          alembic upgrade head 2>&1 | tee up.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          if [ "$code" -ne 0 ]; then
+            grep -iE 'error|exception|psycopg|sqlalchemy' up.txt | tail -12 | while IFS= read -r l; do
+              echo "::error::$l"
+            done
+          fi
+          exit "$code"
 
       # The gate. `alembic check` compares models.py against the migrated
       # schema, so a model changed without a revision fails the build instead of
@@ -131,8 +143,16 @@ jobs:
 
       - name: Downgrade to base and back up again
         run: |
-          alembic downgrade base
-          alembic upgrade head
+          set +e
+          { alembic downgrade base && alembic upgrade head; } 2>&1 | tee rt.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          if [ "$code" -ne 0 ]; then
+            grep -iE 'error|exception|psycopg|sqlalchemy' rt.txt | tail -12 | while IFS= read -r l; do
+              echo "::error::$l"
+            done
+          fi
+          exit "$code"
 
       # An operator upgrading an existing deployment walks this path, and no
       # fresh-database test ever touches it.
