@@ -155,53 +155,6 @@ def upgrade() -> None:
         batch_op.create_index(batch_op.f('ix_policies_policy_type'), ['policy_type'], unique=False)
         batch_op.create_index(batch_op.f('ix_policies_status'), ['status'], unique=False)
 
-    op.create_table('sandbox_jobs',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('public_id', sa.String(length=36), nullable=False),
-    sa.Column('source', sa.String(length=24), nullable=False),
-    sa.Column('submitted_by_user_id', sa.Integer(), nullable=True),
-    sa.Column('original_name', sa.String(length=512), nullable=False),
-    sa.Column('submitted_url', sa.Text(), nullable=True),
-    sa.Column('sha256', sa.String(length=64), nullable=False),
-    sa.Column('md5', sa.String(length=32), nullable=False),
-    sa.Column('size_bytes', sa.Integer(), nullable=False),
-    sa.Column('mime', sa.String(length=128), nullable=False),
-    sa.Column('magic', sa.String(length=255), nullable=False),
-    sa.Column('family', sa.String(length=32), nullable=False),
-    sa.Column('extension_mismatch', sa.Integer(), nullable=False),
-    sa.Column('status', sa.String(length=24), nullable=False),
-    sa.Column('stage', sa.String(length=64), nullable=False),
-    sa.Column('error', sa.Text(), nullable=True),
-    sa.Column('tiers', sa.JSON(), nullable=False),
-    sa.Column('analysis', sa.JSON(), nullable=False),
-    sa.Column('iocs', sa.JSON(), nullable=False),
-    sa.Column('score_breakdown', sa.JSON(), nullable=False),
-    sa.Column('rule_score', sa.Float(), nullable=False),
-    sa.Column('ai_score', sa.Float(), nullable=False),
-    sa.Column('final_score', sa.Float(), nullable=False),
-    sa.Column('risk_level', sa.String(length=16), nullable=False),
-    sa.Column('feedback', sa.String(length=24), nullable=True),
-    sa.Column('feedback_note', sa.Text(), nullable=True),
-    sa.Column('parent_job_id', sa.Integer(), nullable=True),
-    sa.Column('archive_path', sa.Text(), nullable=True),
-    sa.Column('loop_run_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=False),
-    sa.Column('started_at', sa.DateTime(), nullable=True),
-    sa.Column('completed_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['loop_run_id'], ['loop_runs.id'], ),
-    sa.ForeignKeyConstraint(['parent_job_id'], ['sandbox_jobs.id'], ),
-    sa.ForeignKeyConstraint(['submitted_by_user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    with op.batch_alter_table('sandbox_jobs', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_created_at'), ['created_at'], unique=False)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_parent_job_id'), ['parent_job_id'], unique=False)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_public_id'), ['public_id'], unique=True)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_risk_level'), ['risk_level'], unique=False)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_sha256'), ['sha256'], unique=False)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_loop_run_id'), ['loop_run_id'], unique=False)
-        batch_op.create_index(batch_op.f('ix_sandbox_jobs_status'), ['status'], unique=False)
-
     op.create_table('employees',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
@@ -459,6 +412,53 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['trigger_threat_id'], ['threats.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('sandbox_jobs',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('public_id', sa.String(length=36), nullable=False),
+    sa.Column('source', sa.String(length=24), nullable=False),
+    sa.Column('submitted_by_user_id', sa.Integer(), nullable=True),
+    sa.Column('original_name', sa.String(length=512), nullable=False),
+    sa.Column('submitted_url', sa.Text(), nullable=True),
+    sa.Column('sha256', sa.String(length=64), nullable=False),
+    sa.Column('md5', sa.String(length=32), nullable=False),
+    sa.Column('size_bytes', sa.Integer(), nullable=False),
+    sa.Column('mime', sa.String(length=128), nullable=False),
+    sa.Column('magic', sa.String(length=255), nullable=False),
+    sa.Column('family', sa.String(length=32), nullable=False),
+    sa.Column('extension_mismatch', sa.Integer(), nullable=False),
+    sa.Column('status', sa.String(length=24), nullable=False),
+    sa.Column('stage', sa.String(length=64), nullable=False),
+    sa.Column('error', sa.Text(), nullable=True),
+    sa.Column('tiers', sa.JSON(), nullable=False),
+    sa.Column('analysis', sa.JSON(), nullable=False),
+    sa.Column('iocs', sa.JSON(), nullable=False),
+    sa.Column('score_breakdown', sa.JSON(), nullable=False),
+    sa.Column('rule_score', sa.Float(), nullable=False),
+    sa.Column('ai_score', sa.Float(), nullable=False),
+    sa.Column('final_score', sa.Float(), nullable=False),
+    sa.Column('risk_level', sa.String(length=16), nullable=False),
+    sa.Column('feedback', sa.String(length=24), nullable=True),
+    sa.Column('feedback_note', sa.Text(), nullable=True),
+    sa.Column('parent_job_id', sa.Integer(), nullable=True),
+    sa.Column('archive_path', sa.Text(), nullable=True),
+    sa.Column('loop_run_id', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('started_at', sa.DateTime(), nullable=True),
+    sa.Column('completed_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['loop_run_id'], ['loop_runs.id'], ),
+    sa.ForeignKeyConstraint(['parent_job_id'], ['sandbox_jobs.id'], ),
+    sa.ForeignKeyConstraint(['submitted_by_user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('sandbox_jobs', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_created_at'), ['created_at'], unique=False)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_parent_job_id'), ['parent_job_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_public_id'), ['public_id'], unique=True)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_risk_level'), ['risk_level'], unique=False)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_sha256'), ['sha256'], unique=False)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_loop_run_id'), ['loop_run_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_sandbox_jobs_status'), ['status'], unique=False)
+
     op.create_table('simulation_targets',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('simulation_id', sa.Integer(), nullable=False),
@@ -563,6 +563,16 @@ def downgrade() -> None:
     op.drop_table('risk_events')
     op.drop_table('phishing_reports')
     op.drop_table('simulation_targets')
+    with op.batch_alter_table('sandbox_jobs', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_status'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_sha256'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_loop_run_id'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_risk_level'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_public_id'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_parent_job_id'))
+        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_created_at'))
+
+    op.drop_table('sandbox_jobs')
     op.drop_table('loop_runs')
     op.drop_table('training_modules')
     op.drop_table('phishing_simulations')
@@ -611,16 +621,6 @@ def downgrade() -> None:
         batch_op.drop_index(batch_op.f('ix_employees_status'))
 
     op.drop_table('employees')
-    with op.batch_alter_table('sandbox_jobs', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_status'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_sha256'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_loop_run_id'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_risk_level'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_public_id'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_parent_job_id'))
-        batch_op.drop_index(batch_op.f('ix_sandbox_jobs_created_at'))
-
-    op.drop_table('sandbox_jobs')
     with op.batch_alter_table('policies', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_policies_status'))
         batch_op.drop_index(batch_op.f('ix_policies_policy_type'))
