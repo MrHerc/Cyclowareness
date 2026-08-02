@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install dependencies
-        run: pip install -r requirements-dev.txt "psycopg[binary]"
+        run: pip install -r requirements-dev.txt
       # `-q` alone puts the reason for a failure only in the raw job log, which
       # needs repository admin rights to download. So a red build says "exit
       # code 1" to everyone who is not an admin, and the person best placed to
@@ -74,6 +74,97 @@ jobs:
           assert not bad, f"demo-only routes exposed in production: {bad}"
           assert "/api/loop-runs" in paths, "core routes missing"
           print(f"production surface clean ({len(paths)} paths)")
+          PY
+
+  # SQLite forgives things PostgreSQL does not: it has no real ALTER (Alembic
+  # rebuilds the table instead), it accepts a NULL into a NOT NULL column added
+  # without a default, and its JSON is text. Every one of those differences is a
+  # migration that passes locally and fails on the database production actually
+  # runs. So the chain is proved where it will be used.
+  migrations:
+    name: Migrations — PostgreSQL
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: cyclo
+          POSTGRES_PASSWORD: cyclo
+          POSTGRES_DB: cyclowareness
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      APP_ENV: demo
+      SECRET_KEY: ci-placeholder-key-at-least-32-bytes-long!!
+      DATABASE_URL: postgresql+psycopg://cyclo:cyclo@localhost:5432/cyclowareness
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Chain runs clean on an empty database
+        run: alembic upgrade head
+
+      # The gate. `alembic check` compares models.py against the migrated
+      # schema, so a model changed without a revision fails the build instead of
+      # reaching a customer as a column that create_all() silently never added.
+      - name: Models and migrations agree
+        run: |
+          if ! alembic check 2>&1 | tee check.txt; then
+            grep -E 'Detected|added|removed' check.txt | while IFS= read -r l; do
+              echo "::error::$l"
+            done
+            echo "::error::models.py changed without a migration — run: alembic revision --autogenerate -m '<what changed>'"
+            exit 1
+          fi
+
+      - name: Downgrade to base and back up again
+        run: |
+          alembic downgrade base
+          alembic upgrade head
+
+      # An operator upgrading an existing deployment walks this path, and no
+      # fresh-database test ever touches it.
+      - name: A pre-Alembic database is adopted, not bricked
+        run: |
+          python - <<'PY'
+          from sqlalchemy import text
+          from alembic import command
+          from app.database import alembic_config, engine, run_migrations, _legacy_stamp_target
+
+          # Rewind to the pre-integration release, then erase the version table
+          # so the database looks exactly like one create_all() built.
+          cfg = alembic_config()
+          with engine.begin() as c:
+              cfg.attributes["connection"] = c
+              command.downgrade(cfg, "0001_baseline")
+          with engine.begin() as c:
+              c.execute(text("DROP TABLE alembic_version"))
+
+          with engine.connect() as c:
+              target = _legacy_stamp_target(c)
+          assert target == "0001_baseline", f"ladder said {target!r}"
+
+          run_migrations()
+
+          with engine.connect() as c:
+              cols = {r[0] for r in c.execute(text(
+                  "SELECT column_name FROM information_schema.columns "
+                  "WHERE table_name = 'sandbox_jobs'"))}
+          missing = {"tenant_id", "impact", "verdict", "mitre", "dynamic"} - cols
+          assert not missing, f"adoption left columns missing: {missing}"
+          print("pre-Alembic database adopted and upgraded on PostgreSQL")
           PY
 
   frontend:

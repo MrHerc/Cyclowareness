@@ -24,8 +24,10 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt "psycopg[binary]>=3.2"
+RUN pip install --no-cache-dir -r requirements.txt
 
+COPY backend/alembic.ini .
+COPY backend/migrations ./migrations
 COPY backend/app ./app
 # The compiled SPA, where main.py looks for it.
 COPY --from=frontend /fe/dist ./frontend_dist

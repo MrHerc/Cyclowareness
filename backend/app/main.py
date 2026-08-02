@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
-from .database import Base, engine, session_scope
+from .database import run_migrations, session_scope
 from .routers import (
     admin,
     approvals,
@@ -64,17 +64,14 @@ def _recover_orphaned_runs() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Imported for their side effect: registering the sandbox tables on
-    # Base.metadata so create_all builds them. `engine.models` is the vendored
-    # engine's own SandboxJob; `links` is the portal's join back to its users and
-    # its awareness loop, which the engine deliberately knows nothing about.
-    from .sandbox import links as _sandbox_links  # noqa: F401
-    from .sandbox.engine import models as _sandbox_models  # noqa: F401
-
-    # Same reason: policy, intel, incident-risk, integration and audit tables.
-    from .platform import models as _platform_models  # noqa: F401
-
-    Base.metadata.create_all(bind=engine)
+    # ALEMBIC OWNS THE SCHEMA, not `create_all()`. See app/database.py for the
+    # upgrade this replaced: `create_all()` reported success and left nine
+    # columns missing, because it cannot alter a table it has already seen.
+    #
+    # A database built by the old path has the tables but no `alembic_version`,
+    # so it is stamped at the revision its columns actually match and upgraded
+    # from there — the two steps an operator would otherwise run by hand.
+    run_migrations()
     # Seeding is a demo affordance, never automatic in production: an empty
     # customer database must stay empty, not fill itself with a fictional
     # Azerbaijani energy company. Run `python -m app.seed` for the demo world.

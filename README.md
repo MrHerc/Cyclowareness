@@ -141,7 +141,7 @@ Three deliberately pluggable seams, all selected by config — the loop code nev
 | Sandbox | `SANDBOX_ANALYZER` | `mock` (realistic deterministic verdicts) | `real` → **VirusTotal adapter fully implemented** (submit URL → poll analysis → normalise verdict + IOCs) in `analyzers/real_analyzer.py`; CAPEv2 self-hosted flow documented as a deployment TODO |
 | Task queue | `TASK_RUNNER` | `inprocess` (asyncio background tasks) | `celery` → Redis + Celery workers (adapter in `core/task_runner.py`) |
 | AI | `ANTHROPIC_API_KEY` | empty → deterministic `MockAIProvider` | set key → live Claude calls (`AI_MODEL`, default `claude-sonnet-5`) |
-| Database | `DATABASE_URL` | SQLite file | PostgreSQL (`postgresql+psycopg://…`), JSON columns are JSONB-compatible |
+| Database | `DATABASE_URL` | SQLite file | PostgreSQL (`postgresql+psycopg://…`). Schema is owned by Alembic, never by `create_all()` — see DEPLOY.md |
 
 ### Turning on the real integrations
 

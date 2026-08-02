@@ -141,5 +141,31 @@ The demo build runs on SQLite. A real deployment must not: set
 `APP_ENV=production`, point `DATABASE_URL` at a Postgres instance (Render
 Postgres, or Neon), and supply a real `SECRET_KEY`. The config validator refuses
 to boot a production instance on SQLite, a placeholder key, localhost CORS, or
-the mock sandbox analyzer — by design. Schema migrations (Alembic) are the one
-prerequisite still outstanding for a real rollout; see `SPRINT-PLAN.md`.
+the mock sandbox analyzer — by design.
+
+## Schema changes
+
+**Alembic owns the schema.** `create_all()` is gone from the boot path, because
+it CREATES a table it has never seen and does nothing at all to one it has — so
+a release that adds a column reports success and leaves the column missing.
+That is not hypothetical: swapping in the vendored sandbox engine added nine
+columns to `sandbox_jobs`, and on an existing database every sandbox query then
+raised `no such column: sandbox_jobs.tenant_id` while `/api/health` answered 200
+throughout.
+
+The service runs `alembic upgrade head` itself at boot, so an ordinary deploy
+needs no extra step. A database built by the old `create_all()` path has the
+tables but no `alembic_version`; it is stamped at the revision its columns
+actually match and upgraded from there. A database holding tables that match no
+revision is **refused** rather than guessed at — stamping the wrong one would
+make the next upgrade alter columns that are not there, which corrupts instead
+of failing.
+
+To run migrations by hand instead (`alembic upgrade head` from `backend/`), the
+URL comes from `DATABASE_URL`; `alembic.ini` deliberately carries none, so there
+is only ever one answer to which database is being migrated.
+
+**One caveat, stated plainly:** migrating at boot assumes one instance starts at
+a time. Two replicas booting together would both try to migrate. Render runs a
+single instance, so this is safe today — but a deployment that scales out must
+move `alembic upgrade head` into a release command that runs once.

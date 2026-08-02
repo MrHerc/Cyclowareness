@@ -2,6 +2,10 @@
 fastapi>=0.115
 uvicorn[standard]>=0.32
 sqlalchemy>=2.0
+# Migrations own the schema. `create_all()` cannot alter a table it has already
+# seen, so it reports success and leaves the columns missing — see
+# app/database.py for the upgrade that bricked every sandbox route this way.
+alembic>=1.13
 pydantic>=2.9
 pydantic-settings>=2.6
 PyJWT>=2.9
@@ -34,5 +38,10 @@ cryptography>=42           # signed, independently verifiable reports
 # celery>=5.4
 # redis>=5.0
 
-# --- Production database (optional; set DATABASE_URL=postgresql+psycopg://...) ---
-# psycopg[binary]>=3.2
+# --- Production database ---
+# NOT optional, despite how this read for a long time. config.py refuses to boot
+# with APP_ENV=production unless DATABASE_URL is PostgreSQL — so leaving psycopg
+# commented out meant the published requirements could not run production at
+# all. It was installed in the Dockerfile only, which silently confined every
+# non-Docker deployment to APP_ENV=demo.
+psycopg[binary]>=3.2       # DATABASE_URL=postgresql+psycopg://...
