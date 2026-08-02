@@ -41,6 +41,7 @@ export const EmployeeDetail = lazy(() => import('../pages/EmployeeDetail'))
 export const Departments = lazy(() => import('../pages/Departments'))
 export const RiskProfiles = lazy(() => import('../pages/RiskProfiles'))
 export const IncidentRisks = lazy(() => import('../pages/IncidentRisks'))
+export const Remediation = lazy(() => import('../pages/Remediation'))
 export const IncidentRiskDetail = lazy(() => import('../pages/IncidentRiskDetail'))
 
 /* --- governance ---------------------------------------------------------- */

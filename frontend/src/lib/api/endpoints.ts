@@ -134,6 +134,18 @@ export const endpoints = {
     exportSigned: (publicId: string) => `/api/sandbox/jobs/${publicId}/export.signed`,
   },
 
+  /* --- remediation -------------------------------------------------------- */
+  remediation: {
+    plans: (params: { status?: string; limit?: number; offset?: number } = {}) =>
+      `/api/remediation/plans${qs(params)}`,
+    plan: (id: number | string) => `/api/remediation/plans/${id}`,
+    mine: () => '/api/remediation/plans/mine',
+    decision: (id: number | string) => `/api/remediation/plans/${id}/decision`,
+    coverageGaps: () => '/api/remediation/coverage-gaps',
+    controlGaps: () => '/api/remediation/control-gaps',
+    stats: () => '/api/remediation/stats',
+  },
+
   /* --- policy intelligence ----------------------------------------------- */
   policy: {
     policies: (params: { type?: string; status?: string; department?: string; q?: string } = {}) =>

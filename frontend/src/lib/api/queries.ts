@@ -48,6 +48,10 @@ import type {
   PolicyFinding,
   Report,
   RunSummary,
+  RemediationControlGap,
+  RemediationCoverageGap,
+  RemediationPlan,
+  RemediationStats,
   SandboxCapabilities,
   SandboxJobDetail,
   SandboxJobStats,
@@ -114,6 +118,15 @@ export const qk = {
     departments: () => ['departments'] as const,
   },
   feed: { list: () => ['feed'] as const },
+  remediation: {
+    all: ['remediation'] as const,
+    plans: (filters?: unknown) => ['remediation', 'plans', filters ?? null] as const,
+    plan: (id: number | string) => ['remediation', 'plan', id] as const,
+    mine: () => ['remediation', 'mine'] as const,
+    coverageGaps: () => ['remediation', 'coverage-gaps'] as const,
+    controlGaps: () => ['remediation', 'control-gaps'] as const,
+    stats: () => ['remediation', 'stats'] as const,
+  },
   sandbox: {
     all: ['sandbox'] as const,
     capabilities: () => ['sandbox', 'capabilities'] as const,
@@ -449,6 +462,77 @@ export function useFeed(options?: Opts<FeedItem[]>) {
   return useQuery<FeedItem[], ApiError>({
     queryKey: qk.feed.list(),
     queryFn: () => api.get<FeedItem[]>(endpoints.feed.list()),
+    ...options,
+  })
+}
+
+/* ============================================================================
+   Remediation
+   ========================================================================== */
+
+/** The plan queue. Paged envelope, unwrapped — `useRemediationStats` carries the
+ *  totals, because a count taken from a page is a property of the page. */
+export function useRemediationPlans(
+  filters: { status?: string; limit?: number; offset?: number } = {},
+  options?: ListOpts<RemediationPlan>,
+) {
+  return useQuery<Paginated<RemediationPlan> | RemediationPlan[], ApiError, RemediationPlan[]>({
+    queryKey: qk.remediation.plans(filters),
+    queryFn: () =>
+      api.get<Paginated<RemediationPlan> | RemediationPlan[]>(endpoints.remediation.plans(filters)),
+    select: (payload) => itemsOf(payload),
+    refetchInterval: POLL_QUEUE,
+    ...options,
+  })
+}
+
+export function useRemediationPlan(id: number | undefined, options?: Opts<RemediationPlan>) {
+  return useQuery<RemediationPlan, ApiError>({
+    queryKey: qk.remediation.plan(id ?? 'none'),
+    queryFn: () => api.get<RemediationPlan>(endpoints.remediation.plan(id!)),
+    enabled: id !== undefined,
+    ...options,
+  })
+}
+
+/** A learner's own plans. Scoped server-side by the session's employee id. */
+export function useMyRemediationPlans(options?: Opts<RemediationPlan[]>) {
+  return useQuery<RemediationPlan[], ApiError>({
+    queryKey: qk.remediation.mine(),
+    queryFn: () => api.get<RemediationPlan[]>(endpoints.remediation.mine()),
+    ...options,
+  })
+}
+
+/** The content roadmap: behaviours the catalogue could not answer. */
+export function useCoverageGaps(options?: Opts<{ items: RemediationCoverageGap[]; total: number; covered_behaviours: string[]; note: string }>) {
+  return useQuery({
+    queryKey: qk.remediation.coverageGaps(),
+    queryFn: () =>
+      api.get<{ items: RemediationCoverageGap[]; total: number; covered_behaviours: string[]; note: string }>(
+        endpoints.remediation.coverageGaps(),
+      ),
+    ...options,
+  })
+}
+
+/** Where a control, not a module, is the fix. */
+export function useControlGaps(options?: Opts<{ items: RemediationControlGap[]; total: number; note: string }>) {
+  return useQuery({
+    queryKey: qk.remediation.controlGaps(),
+    queryFn: () =>
+      api.get<{ items: RemediationControlGap[]; total: number; note: string }>(
+        endpoints.remediation.controlGaps(),
+      ),
+    ...options,
+  })
+}
+
+export function useRemediationStats(options?: Opts<RemediationStats>) {
+  return useQuery<RemediationStats, ApiError>({
+    queryKey: qk.remediation.stats(),
+    queryFn: () => api.get<RemediationStats>(endpoints.remediation.stats()),
+    refetchInterval: POLL_QUEUE,
     ...options,
   })
 }

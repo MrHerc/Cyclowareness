@@ -177,6 +177,16 @@ def seed_if_empty(db: Session) -> None:
                 phishing_click_rate=round(max(0.10, 0.34 - 0.23 * progress + rng.uniform(-0.02, 0.02)), 3),
                 report_rate=round(min(0.60, 0.08 + 0.28 * progress + rng.uniform(-0.02, 0.02)), 3),
                 avg_risk_score=round(59.0 - 16.0 * progress + rng.uniform(-1.5, 1.5), 1),
+                # Drawn ABOVE the composite, and deliberately flatter. The
+                # composite falls faster because it also collects training
+                # credit; behaviour is the slower, harder number. A demo whose
+                # two lines moved together would teach the opposite of what the
+                # split exists to show.
+                #
+                # The MIGRATION refuses to backfill this for real deployments —
+                # they genuinely did not measure it — but the seed is openly
+                # drawing a demonstration curve and labels every point `seeded`.
+                avg_behaviour_risk=round(61.0 - 9.0 * progress + rng.uniform(-1.5, 1.5), 1),
                 training_completion_rate=round(min(0.97, 0.42 + 0.45 * progress + rng.uniform(-0.03, 0.03)), 3),
                 # Drawn, not measured. Labelled so the chart can say so —
                 # this curve used to render under "measured from this

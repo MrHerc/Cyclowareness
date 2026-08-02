@@ -139,6 +139,7 @@ export const routes: RouteObject[] = [
           { path: 'employees/:id', element: guarded('employees.view', <Page.EmployeeDetail />) },
           { path: 'departments', element: guarded('departments.view', <Page.Departments />) },
           { path: 'risk-profiles', element: guarded('risk.view', <Page.RiskProfiles />) },
+          { path: 'remediation', element: guarded('remediation.view', <Page.Remediation />) },
           {
             path: 'incident-risks',
             element: guarded('incident_risks.view', <Page.IncidentRisks />),

@@ -21,6 +21,7 @@ import { Badge, Button, Panel } from '../components/ui'
 import type { AssignmentDetail } from '../domain/types'
 import { CurrentAssignmentCard } from '../features/portal/CurrentAssignmentCard'
 import { IncidentObligations } from '../features/portal/IncidentObligations'
+import { MyRemediationPlans } from '../features/portal/MyRemediationPlans'
 import { isIncidentWorkOpen } from '../features/portal/incidentWork'
 import { Recognition } from '../features/portal/Recognition'
 import { ReportHistory } from '../features/portal/ReportHistory'
@@ -33,6 +34,7 @@ import {
   useEmployeeDashboard,
   useMyAssignments,
   useMyIncidentRisks,
+  useMyRemediationPlans,
   useMyProfile,
   useMyReports,
 } from '../lib/api/queries'
@@ -74,6 +76,10 @@ export default function Portal() {
    * `item.assignment_id`, which was always `undefined`, so every entry was
    * skipped — the map was already empty, it just looked like it was not.
    * Kept as the seam for when the endpoint does carry one. */
+  // Only approved and delivered plans come back; the server withholds the
+  // rest, so a plan no human has cleared can never appear here.
+  const myPlans = useMyRemediationPlans()
+
   const incidentByAssignment = useMemo(
     () => new Map<number, (typeof incidentList)[number]>(),
     [],
@@ -215,6 +221,8 @@ export default function Portal() {
           ) : (
             <IncidentObligations items={incidentList} />
           )}
+
+          <MyRemediationPlans plans={myPlans.data ?? []} />
 
           {evidence ? (
             <RiskScorePanel

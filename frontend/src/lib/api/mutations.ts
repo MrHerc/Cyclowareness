@@ -17,6 +17,7 @@ import { api, ApiError } from './client'
 import { endpoints } from './endpoints'
 import { qk } from './queries'
 import type {
+  RemediationPlan,
   ApprovalDecision,
   IncidentRisk,
   IntelRefreshResult,
@@ -511,6 +512,45 @@ export function useResetDemo(opts?: Opts<unknown, void>) {
   return useMutation<unknown, ApiError, void>({
     mutationFn: () => api.post(endpoints.admin.resetDemo()),
     onSuccess: () => qc.invalidateQueries(),
+    ...opts,
+  })
+}
+
+/* ============================================================================
+   Remediation — the human gate
+   ========================================================================== */
+
+/**
+ * Approve or reject one remediation plan.
+ *
+ * NO OPTIMISTIC UPDATE, deliberately — the same rule the loop's own approval
+ * gate follows. This is the moment something reaches a named person; showing it
+ * as done before the server agrees would let a failed request look like a
+ * delivery.
+ *
+ * A BLOCKED plan cannot be approved out of its rejection: the server answers
+ * 409, and that is correct. An approval button that can override the output
+ * firewall is the same as not having a firewall.
+ */
+export interface RemediationDecisionInput {
+  id: number
+  decision: 'approve' | 'reject'
+  note?: string
+}
+
+export function useRemediationDecision(opts?: Opts<RemediationPlan, RemediationDecisionInput>) {
+  const qc = useQueryClient()
+  return useMutation<RemediationPlan, ApiError, RemediationDecisionInput>({
+    mutationFn: ({ id, decision, note }) =>
+      api.post<RemediationPlan>(endpoints.remediation.decision(id), {
+        decision,
+        note: note ?? '',
+      }),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: qk.remediation.all })
+      qc.invalidateQueries({ queryKey: qk.remediation.plan(vars.id) })
+      qc.invalidateQueries({ queryKey: qk.audit.all })
+    },
     ...opts,
   })
 }

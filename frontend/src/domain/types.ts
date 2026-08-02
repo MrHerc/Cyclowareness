@@ -1107,6 +1107,91 @@ export interface MyIncidentRisk {
 }
 
 /* ============================================================================
+   Remediation
+   ========================================================================== */
+
+export type RemediationStatus = 'proposed' | 'approved' | 'rejected' | 'blocked' | 'delivered'
+export type RemediationSource = 'internal' | 'external' | 'generated' | 'none'
+
+export interface RemediationPlan {
+  id: number
+  trigger_kind: string
+  trigger_ref: string
+  employee_id: number
+  employee_name: string | null
+  status: RemediationStatus
+  source_kind: RemediationSource
+  asset_id: number | null
+  framing: {
+    headline?: string
+    why_you?: string
+    what_to_do?: string[]
+    takeaway?: string
+  }
+  assessment: Record<string, unknown>
+  decision: {
+    selected_candidate?: string | null
+    source_kind?: string
+    rationale?: string
+    runner_up?: string | null
+    rejected?: { candidate: string; why: string }[]
+  }
+  urgency: 'routine' | 'prompt' | 'immediate' | string
+  /** FALSE means no model was involved — retrieval alone chose this. The UI must
+   *  say so rather than letting a library match read as AI. */
+  ai_ran: boolean
+  /** Why nothing was attached. Populated for every outcome that is not a
+   *  delivered plan, empty otherwise. */
+  not_attached_reason: string
+  /** Every clamp the output firewall applied, and the rule that applied it. */
+  validator_adjustments: { rule: string; field: string; was: string; now: string }[]
+  /** Set when the firewall REFUSED. This is the security metric — a spike in one
+   *  code means somebody is probing what the product will write. */
+  rejection_code: string
+  confidence: number | null
+  manager_visible: boolean
+  learner_disclosure: string
+  approved_by: string
+  approved_at: string | null
+  created_at: string
+}
+
+/** Nothing in the catalogue covered this behaviour. A RESULT, not a failure —
+ *  accumulated, these are the content roadmap. */
+export interface RemediationCoverageGap {
+  id: number
+  behaviour: string
+  trigger_kind: string
+  detail: string
+  times_hit: number
+  first_seen_at: string
+  last_seen_at: string
+}
+
+/** The person is not the vulnerability here; the control is missing. */
+export interface RemediationControlGap {
+  id: number
+  trigger_kind: string
+  trigger_ref: string
+  recommended_control: string
+  rationale: string
+  department_id: number | null
+  status: string
+  created_at: string
+}
+
+export interface RemediationStats {
+  total: number
+  by_status: Record<string, number>
+  /** Counted per firewall rejection code. */
+  rejections_by_code: Record<string, number>
+  built_with_a_model: number
+  built_from_the_library: number
+  coverage_gaps: number
+  control_gaps: number
+}
+
+/* ============================================================================
    Integrations
    ========================================================================== */
 

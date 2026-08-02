@@ -29,6 +29,8 @@ export type Permission =
   | 'departments.view'
   | 'risk.view'
   // governance
+  | 'remediation.view'
+  | 'remediation.decide'
   | 'incident_risks.view'
   | 'incident_risks.manage'
   | 'policy.view'
@@ -63,6 +65,8 @@ const ANALYST: Permission[] = [
   'employees.view',
   'departments.view',
   'risk.view',
+  'remediation.view',
+  'remediation.decide',
   'incident_risks.view',
   'incident_risks.manage',
   'policy.view',

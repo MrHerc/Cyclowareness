@@ -25,6 +25,7 @@ import {
   Radar,
   ScrollText,
   Send,
+  LifeBuoy,
   ShieldAlert,
   Users,
   type LucideIcon,
@@ -152,6 +153,14 @@ export const NAV_SECTIONS: NavSection[] = [
         icon: GaugeCircle,
         permission: 'risk.view',
         hint: 'How every score was actually derived',
+      },
+      {
+        id: 'remediation',
+        label: 'Remediation',
+        to: '/remediation',
+        icon: LifeBuoy,
+        permission: 'remediation.view',
+        hint: 'What gets attached to a person, and what deliberately does not',
       },
       {
         id: 'incident-risks',
