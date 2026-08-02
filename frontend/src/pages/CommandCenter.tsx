@@ -64,6 +64,9 @@ import {
   useSimulations,
   useThreats,
 } from '../lib/api/queries'
+import { isUnresolvedIncident } from '../features/incident-risks/useRiskFilters'
+import { isOpenFinding } from '../features/policy/data'
+import { adaptQueue } from '../features/approvals/contract'
 import { useAuth } from '../lib/auth/AuthProvider'
 import { backingFor } from '../lib/demo/registry'
 import { useLoopStream } from '../lib/hooks/useLoopStream'
@@ -87,12 +90,21 @@ export default function CommandCenter() {
   const queue = useApprovalQueue()
   const capabilities = useCapabilities()
   const sandbox = useSandboxCapabilities()
-  const incidents = useIncidentRisks({ status: 'open' })
-  const findings = usePolicyFindings({ status: 'open' })
+  // NOT `{ status: 'open' }`. On both of these, `open` is one state out of
+  // several that all mean unresolved, so the literal filter under-counted:
+  // incident risks reported 0 while three were live, and policy findings
+  // reported 3 of 6, hiding two high-severity ones. The predicates below are
+  // the product's own definitions of open, shared with the pages these tiles
+  // link to — so the number and its destination agree.
+  const incidents = useIncidentRisks()
+  const findings = usePolicyFindings()
   const threats = useThreats()
   const simulations = useSimulations()
   const integrations = useIntegrations()
   const audit = useAuditLog({ limit: AUDIT_LIMIT })
+
+  const openFindings = findings.data?.filter(isOpenFinding)
+  const openIncidents = incidents.data?.filter(isUnresolvedIncident)
 
   const selectedStage = parsePosition(params.get('stage'))
   const queueScope: QueueScope = params.get('queue') === 'mine' ? 'mine' : 'all'
@@ -131,7 +143,12 @@ export default function CommandCenter() {
     [dashboard.data],
   )
 
-  const queueItems = useMemo(() => queue.data ?? [], [queue.data])
+  // Adapted, not raw. The server names four of these fields differently from
+  // the frozen type, so reading the payload straight gave `undefined` for the
+  // audience size the approval dialog states out loud. `adaptQueue` is the
+  // one place that reconciliation lives; the Approvals page already used it.
+  const queuePage = useMemo(() => adaptQueue(queue.data), [queue.data])
+  const queueItems = queuePage.rows
   const myQueueItems = useMemo(
     () => assignedTo(queueItems, { email: session?.email, name: session?.employee_name }),
     [queueItems, session],
@@ -227,13 +244,13 @@ export default function CommandCenter() {
         </h2>
         <HeroStrip
           activeRuns={dashboard.data ? dashboard.data.counts.active_runs : null}
-          awaitingApproval={queue.data ? queue.data.length : null}
+          awaitingApproval={queue.data ? (queuePage.total ?? queueItems.length) : null}
           assignedToMe={queue.data ? myQueueItems.length : null}
           newReports={dashboard.data ? dashboard.data.counts.new_reports : null}
           activeSimulations={dashboard.data ? dashboard.data.counts.active_simulations : null}
-          highRiskFindings={findings.data ? highRiskCount(findings.data) : null}
-          openFindings={findings.data ? findings.data.length : null}
-          openIncidentRisks={incidents.data ? incidents.data.length : null}
+          highRiskFindings={openFindings ? highRiskCount(openFindings) : null}
+          openFindings={openFindings ? openFindings.length : null}
+          openIncidentRisks={openIncidents ? openIncidents.length : null}
           sandbox={sandbox.data}
         />
       </section>
@@ -284,14 +301,14 @@ export default function CommandCenter() {
           />
 
           <PolicyExposurePanel
-            findings={findings.data ?? []}
+            findings={openFindings ?? []}
             isLoading={findings.isLoading}
             error={findings.data ? null : findings.error}
             onRetry={() => void findings.refetch()}
           />
 
           <IncidentRiskPanel
-            risks={incidents.data ?? []}
+            risks={openIncidents ?? []}
             isLoading={incidents.isLoading}
             error={incidents.data ? null : incidents.error}
             onRetry={() => void incidents.refetch()}

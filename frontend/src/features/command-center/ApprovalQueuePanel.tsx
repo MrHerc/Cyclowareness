@@ -35,17 +35,27 @@ import {
   TabsList,
   TabsTrigger,
 } from '../../components/ui'
-import { provenanceOf, type ApprovalDecision, type ApprovalQueueItem } from '../../domain/types'
+import { type QueueRow } from '../approvals/contract'
+import { provenanceOf, type ApprovalDecision } from '../../domain/types'
 import { duration, formatDateTime, humanise } from '../../lib/format'
 import { sortByWait } from './derive'
 
 export type QueueScope = 'all' | 'mine'
 
 export interface ApprovalQueuePanelProps {
-  /** The whole queue, unsorted — this component owns the ordering. */
-  items: ApprovalQueueItem[]
+  /** The whole queue, unsorted — this component owns the ordering.
+   *
+   * `QueueRow`, not the raw payload. The server names the verdict
+   * `threat_verdict`, dates the wait from `created_at` and counts the
+   * audience in `proposed_target_count`; reading the frozen type's names
+   * straight off the response gave `undefined` for four of them, and the
+   * approval dialog — whose entire job is to state the blast radius —
+   * read "assigned to the undefined people in the proposed audience".
+   * `adaptQueue` already resolves this and the Approvals page already uses
+   * it; this panel was the one consumer that did not. */
+  items: QueueRow[]
   /** The subset naming the signed-in analyst. */
-  mine: ApprovalQueueItem[]
+  mine: QueueRow[]
   scope: QueueScope
   onScopeChange: (scope: QueueScope) => void
   isLoading: boolean
@@ -60,28 +70,32 @@ export interface ApprovalQueuePanelProps {
 }
 
 interface PendingDecision {
-  item: ApprovalQueueItem
+  item: QueueRow
   decision: Extract<ApprovalDecision, 'approve' | 'reject'>
 }
 
-function audience(count: number): string {
+function audience(count: number | null): string {
+  // `null` is "the server did not report an audience size", which is not zero
+  // and must never be rendered as a number on the screen where someone signs
+  // off on who is about to be contacted.
+  if (count === null) return 'audience size not reported'
   return `${count} ${count === 1 ? 'person' : 'people'} proposed`
 }
 
-function QueueRow({
+function QueueEntry({
   item,
   modelConnected,
   canDecide,
   busy,
   onRequest,
 }: {
-  item: ApprovalQueueItem
+  item: QueueRow
   modelConnected: boolean | undefined
   canDecide: boolean
   busy: boolean
   onRequest: (pending: PendingDecision) => void
 }) {
-  const provenance = provenanceOf(item.generation_source)
+  const provenance = provenanceOf(item.generationSource)
 
   return (
     <li className="rounded-control border border-line-subtle bg-elevated p-4">
@@ -90,23 +104,23 @@ function QueueRow({
           <div className="flex flex-wrap items-center gap-2">
             {item.severity ? <Badge status={item.severity} size="sm" /> : null}
             <h3 className="text-h text-fg">
-              {item.module_title ?? 'Training content not generated yet'}
+              {item.moduleTitle ?? 'Training content not generated yet'}
             </h3>
           </div>
 
           <p className="text-sm text-fg-muted">
             Converted from{' '}
-            {item.threat_id !== null ? (
+            {item.threatId !== null ? (
               <Link
-                to={`/threats/${item.threat_id}`}
+                to={`/threats/${item.threatId}`}
                 className="text-brand-fg underline-offset-4 hover:underline"
               >
-                {item.threat_title}
+                {item.threatTitle}
               </Link>
             ) : (
-              <span className="text-fg">{item.threat_title}</span>
+              <span className="text-fg">{item.threatTitle}</span>
             )}
-            {[item.threat_source, item.threat_type, item.verdict]
+            {[item.severityBasis, item.threatType, item.verdict]
               .filter((part): part is string => Boolean(part))
               .map((part) => ` · ${humanise(part)}`)
               .join('')}
@@ -114,36 +128,40 @@ function QueueRow({
         </div>
 
         <div className="shrink-0 text-right">
-          <p className="text-lead tabular-nums text-fg">{duration(item.waiting_seconds * 1000)}</p>
-          <p className="text-xs text-fg-faint">waiting since {formatDateTime(item.waiting_since)}</p>
+          <p className="text-lead tabular-nums text-fg">{duration(item.waitingSeconds * 1000)}</p>
+          {item.waitingSince ? (
+            <p className="text-xs text-fg-faint">
+              waiting since {formatDateTime(item.waitingSince)}
+            </p>
+          ) : null}
         </div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         <AIProvenanceBadge
           provenance={provenance}
-          generationSource={item.generation_source}
+          generationSource={item.generationSource}
           modelConnected={modelConnected}
         />
 
-        {item.sanitization_status ? (
-          <Badge status={item.sanitization_status} size="sm" />
+        {item.sanitizationStatus ? (
+          <Badge status={item.sanitizationStatus} size="sm" />
         ) : (
           <span className="rounded-chip border border-dashed border-line px-2 py-0.5 text-xs text-fg-faint">
             Sanitisation not recorded
           </span>
         )}
 
-        <span className="text-sm text-fg-muted">{audience(item.proposed_targets)}</span>
+        <span className="text-sm text-fg-muted">{audience(item.proposedTargets)}</span>
 
         <span className="text-sm text-fg-subtle">
-          {item.assigned_analyst ? `Assigned to ${item.assigned_analyst}` : 'Unassigned'}
+          {item.assignedAnalyst ? `Assigned to ${item.assignedAnalyst}` : 'Unassigned'}
         </span>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <Button size="sm" variant="secondary" asChild>
-          <Link to={`/approvals/${item.run_id}`}>Review run #{item.run_id}</Link>
+          <Link to={`/approvals/${item.runId}`}>Review run #{item.runId}</Link>
         </Button>
         <Button
           size="sm"
@@ -180,7 +198,7 @@ function QueueList({
   busy,
   onRequest,
 }: {
-  items: ApprovalQueueItem[]
+  items: QueueRow[]
   emptyHeadline: string
   emptyDescription: string
   modelConnected: boolean | undefined
@@ -197,8 +215,8 @@ function QueueList({
   return (
     <ul className="space-y-3">
       {sortByWait(items).map((item) => (
-        <QueueRow
-          key={item.run_id}
+        <QueueEntry
+          key={item.runId}
           item={item}
           modelConnected={modelConnected}
           canDecide={canDecide}
@@ -212,13 +230,17 @@ function QueueList({
 
 function describe(pending: PendingDecision): string {
   const { item, decision } = pending
-  const title = item.module_title ?? 'the generated content'
-  const people = `${item.proposed_targets} ${item.proposed_targets === 1 ? 'person' : 'people'}`
+  const title = item.moduleTitle ?? 'the generated content'
+  // `null` means the server did not say, which must never render as a number.
+  const people =
+    item.proposedTargets === null
+      ? 'the proposed audience, whose size the server did not report'
+      : `${item.proposedTargets} ${item.proposedTargets === 1 ? 'person' : 'people'}`
   const audited = 'The decision is written to the audit log against your account.'
   if (decision === 'approve') {
-    return `Run #${item.run_id} moves past the human gate and "${title}" is assigned to the ${people} in the proposed audience. ${audited}`
+    return `Run #${item.runId} moves past the human gate and "${title}" is assigned to ${people}. ${audited}`
   }
-  return `Run #${item.run_id} stops at the gate. "${title}" is not assigned and nothing reaches an employee. ${audited}`
+  return `Run #${item.runId} stops at the gate. "${title}" is not assigned and nothing reaches an employee. ${audited}`
 }
 
 export function ApprovalQueuePanel({
@@ -239,7 +261,7 @@ export function ApprovalQueuePanel({
   const confirm = async () => {
     if (!pending) return
     try {
-      await onDecide(pending.item.run_id, pending.decision)
+      await onDecide(pending.item.runId, pending.decision)
       setPending(null)
     } catch {
       // The page raises a toast from the mutation's own error handler. Leaving

@@ -231,20 +231,46 @@ def test_capabilities_states_what_is_missing_rather_than_implying_it_is_present(
     assert body["dynamic_unavailable_reason"]
 
 
-def test_capabilities_does_not_claim_static_only_once_ingest_is_open(
+def test_a_worker_token_alone_does_not_claim_a_detonation_tier(
     client, analyst_headers, worker_headers
 ):
-    """The two dynamic switches must not be able to contradict each other.
+    """A credential is not hardware.
 
-    Reading only the engine's `SANDBOX_DYNAMIC_WORKER` flag made this endpoint
-    report "static analysis only" on a deployment whose ingest seam was open and
-    had already accepted a detonation report — so the capability strip told an
-    analyst the sample was never run while the report page showed its behaviour.
+    This assertion is the REVERSE of what it used to be, because what it used to
+    assert was the bug. With only a token set, `/capabilities` answered
+    `dynamic_worker: true`, the UI drew "Samples are parsed and also executed
+    under supervision", and the same deployment's only job recorded "the sample
+    was not run - only statically analysed". An analyst read a verdict believing
+    a behavioural tier stood behind it. Nothing had been detonated.
+
+    Both switches are required, and when one is missing the reason says which.
     """
-    assert worker_headers  # the fixture is what opens the seam
+    assert worker_headers  # the fixture is what sets the token
     body = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
-    assert body["dynamic_worker"] is True
-    assert body["dynamic_unavailable_reason"] is None
+    assert body["dynamic_worker"] is False
+    reason = body["dynamic_unavailable_reason"]
+    assert "SANDBOX_DYNAMIC_WORKER is not set" in reason
+    assert "Nothing has been detonated" in reason
+
+
+def test_the_capability_and_the_job_never_disagree(client, analyst_headers, worker_headers):
+    """The property behind the finding, stated once.
+
+    If `/capabilities` claims a detonation tier, a completed job must not be
+    reporting that it was never run. Two screens of one deployment contradicting
+    each other about whether hostile code executed is the failure; either answer
+    on its own would have been fine.
+    """
+    job = submit_and_settle(client, analyst_headers, "thing3.exe", b"MZ" + b"\x00" * 200)
+    capability = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
+    ran = (job.get("tiers", {}).get("dynamic") or {}).get("ran", False)
+    if capability["dynamic_worker"]:
+        assert ran, (
+            "capabilities claims a detonation worker is attached, but this job "
+            "records that it was never run"
+        )
+    else:
+        assert not ran
 
 
 # --- the detonation seam ------------------------------------------------------

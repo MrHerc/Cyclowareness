@@ -1,3 +1,26 @@
+/** The statuses that mean "still someone's problem".
+ *
+ * `open` is ONE of seven states an incident risk can hold, not the name of the
+ * set — the others are draft, assigned, in_progress, awaiting_review, closed and
+ * reopened. Asking the API for `?status=open` therefore returned 0 while two
+ * high-severity records were live, one of them due in two days, and the Command
+ * Center rendered "Nothing is open" over them.
+ *
+ * Mirrors `OPEN_FINDING_STATUSES` in features/policy/data.ts, which encodes the
+ * same idea for the other half of the governance surface.
+ */
+export const UNRESOLVED_INCIDENT_STATUSES = [
+  'open',
+  'assigned',
+  'in_progress',
+  'awaiting_review',
+  'reopened',
+] as const
+
+export function isUnresolvedIncident(risk: { status: string }): boolean {
+  return (UNRESOLVED_INCIDENT_STATUSES as readonly string[]).includes(risk.status)
+}
+
 /**
  * The list's filter state, kept in the URL.
  *

@@ -20,8 +20,8 @@
 
 import { SEVERITY_ORDER, type SeverityCount } from '../../components/charts'
 import { summariseRuns } from '../../components/loop'
+import type { QueueRow } from '../approvals/contract'
 import type {
-  ApprovalQueueItem,
   Capabilities,
   Integration,
   PolicyFinding,
@@ -85,8 +85,8 @@ export function parsePosition(raw: string | null): RunPosition {
    ========================================================================== */
 
 /** Longest wait first. The thing that has waited longest is the thing to do next. */
-export function sortByWait(queue: readonly ApprovalQueueItem[]): ApprovalQueueItem[] {
-  return [...queue].sort((a, b) => b.waiting_seconds - a.waiting_seconds)
+export function sortByWait(queue: readonly QueueRow[]): QueueRow[] {
+  return [...queue].sort((a, b) => b.waitingSeconds - a.waitingSeconds)
 }
 
 /**
@@ -98,15 +98,15 @@ export function sortByWait(queue: readonly ApprovalQueueItem[]): ApprovalQueueIt
  * did not assign would make the count meaningless.
  */
 export function assignedTo(
-  queue: readonly ApprovalQueueItem[],
+  queue: readonly QueueRow[],
   actor: { email?: string | null; name?: string | null },
-): ApprovalQueueItem[] {
+): QueueRow[] {
   const names = [actor.email, actor.name]
     .filter((value): value is string => typeof value === 'string' && value.trim() !== '')
     .map((value) => value.trim().toLowerCase())
   if (names.length === 0) return []
   return queue.filter((item) => {
-    const assigned = item.assigned_analyst?.trim().toLowerCase()
+    const assigned = item.assignedAnalyst?.trim().toLowerCase()
     return assigned !== undefined && assigned !== '' && names.includes(assigned)
   })
 }

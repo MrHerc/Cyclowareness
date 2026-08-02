@@ -416,6 +416,12 @@ def test_the_ladder_has_a_rung_for_every_revision_that_adds_a_column():
                 current = match.group(1)
             if "add_column(" in line and current:
                 tables.add(current)
+            # A revision that only CREATES tables needs a rung too. Missing this
+            # is how 0004 shipped and died with "table ... already exists" on
+            # every database `create_all()` had built.
+            created = re.search(r"op\.create_table\(\s*[\"']([a-z_]+)[\"']", line)
+            if created:
+                tables.add(created.group(1))
         if tables:
             adding[revision] = tables
 

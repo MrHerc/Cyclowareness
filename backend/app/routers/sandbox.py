@@ -162,7 +162,24 @@ def _dynamic_state(settings: Settings) -> tuple[bool, str | None]:
             "Nothing has been detonated."
         )
     if ingest_open and not declared:
-        return True, None
+        # A TOKEN IS A CREDENTIAL, NOT HARDWARE. This branch used to return True,
+        # and the docstring three lines above it says both switches are required
+        # — so the code contradicted its own comment in the flattering direction.
+        #
+        # What that produced, live: `/api/sandbox/capabilities` answered
+        # `dynamic_worker: true`, the UI drew the green panel reading "Samples
+        # are parsed and also executed under supervision", and the one job on
+        # the estate said in its own tier record "the sample was not run - only
+        # statically analysed". Two screens of the same deployment making
+        # opposite claims about whether hostile code had been executed, with the
+        # analyst reading a verdict as though a behavioural tier stood behind it.
+        return False, (
+            "A DYNAMIC_WORKER_TOKEN is configured, but SANDBOX_DYNAMIC_WORKER is "
+            "not set, so no worker has been declared for this deployment and none "
+            "has claimed a job. Nothing has been detonated. Set both to open the "
+            "tier — the token lets a worker post its findings back, the flag is "
+            "the operator's statement that the isolated hardware really exists."
+        )
     return False, native.unavailable_reason()
 
 

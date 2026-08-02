@@ -74,6 +74,9 @@ SANDBOX_ENGINE_REVISION = "0002_sandbox_engine"
 #: The revision that split behaviour_risk out of the composite score.
 BEHAVIOUR_SPLIT_REVISION = "0003_behaviour_split"
 
+#: The revision that added the Remediation Engine's three tables.
+REMEDIATION_REVISION = "0004_remediation"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -87,9 +90,21 @@ BEHAVIOUR_SPLIT_REVISION = "0003_behaviour_split"
 #:     sqlite3.OperationalError: duplicate column name: behaviour_risk
 #:     [SQL: ALTER TABLE employees ADD COLUMN behaviour_risk FLOAT]
 #:
-#: So a rung names TABLES, not one table. **Every revision that adds a column to
-#: any table adds a rung here, naming that table and the columns it added.**
+#: It happened a SECOND time, one rung lower, when 0004 added tables rather than
+#: columns and the coverage test only looked for `add_column`:
+#:
+#:     sqlite3.OperationalError: table remediation_coverage_gaps already exists
+#:
+#: So a rung names TABLES, not one table, and a marker with an EMPTY column set
+#: means "this table must exist" — which is how a revision that only creates
+#: tables is dated. **Every revision that adds a table or a column adds a rung
+#: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (
+        REMEDIATION_REVISION,
+        {"remediation_plans": set(), "remediation_coverage_gaps": set(),
+         "remediation_control_gaps": set()},
+    ),
     (BEHAVIOUR_SPLIT_REVISION, {"employees": {"behaviour_risk", "training_credit"}}),
     (
         SANDBOX_ENGINE_REVISION,

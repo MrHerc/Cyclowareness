@@ -23,6 +23,7 @@ from app.database import Base
 # Imported for the side effect of registering tables, not for a name.
 import app.models  # noqa: F401
 import app.platform.models  # noqa: F401
+import app.remediation.models  # noqa: F401
 import app.sandbox.links  # noqa: F401
 from app.sandbox.engine import models as _sandbox_engine_models  # noqa: F401
 

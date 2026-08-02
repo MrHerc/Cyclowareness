@@ -20,6 +20,7 @@ from .routers import (
     intel,
     loop_runs,
     policy,
+    remediation,
     reports,
     sandbox,
     sandbox_dynamic,
@@ -141,6 +142,10 @@ app.include_router(intel.router)
 app.include_router(integrations.router)
 # Obligations charged to named people, the human approval gate as a queue, and
 # the trail every one of them writes to.
+# The Remediation Engine: a service the loop calls, not an eighth stage. Its
+# output firewall is what stands between an attacker's instructions inside a
+# lure and a learner's screen.
+app.include_router(remediation.router)
 app.include_router(incident_risks.router)
 app.include_router(approvals.router)
 app.include_router(audit.router)
