@@ -52,6 +52,49 @@ WEIGHTS: dict[str, float] = {
     "training_ignored": 4.0,
 }
 
+#: WHICH SIGNALS ARE EVIDENCE ABOUT THE PERSON, AND WHICH ARE EVIDENCE ABOUT THE
+#: PROGRAMME. The split exists because conflating them made the product's central
+#: claim circular.
+#:
+#: Completing assigned training subtracts 10 points between `training_completed`
+#: and `training_comprehension`. That is the same number the dashboard charts as
+#: proof the training worked. So assigning more training lowered the score,
+#: the line went down, and the product reported improvement with no behaviour
+#: change anywhere — a self-fulfilling metric, and the kind a buyer's analyst
+#: finds in the first hour.
+#:
+#: `behaviour_risk` moves only on what the person DID when a threat reached them.
+#: `training_credit` moves on engagement with the programme. The composite is
+#: still shown, because "this person is behind on training" is worth seeing —
+#: but efficacy is reported from `behaviour_risk` alone.
+BEHAVIOUR_EVENTS = frozenset({
+    "simulated_phish_click",
+    "simulated_phish_report",
+    "real_threat_report",
+    "real_threat_exposure",
+})
+
+#: Engagement with the training programme. Real, worth tracking, and NOT evidence
+#: that anyone is safer — `training_ignored` belongs here too: not doing your
+#: e-learning is a fact about compliance, not about whether you click a lure.
+ENGAGEMENT_EVENTS = frozenset({
+    "training_completed",
+    "training_comprehension",
+    "training_failed",
+    "training_ignored",
+})
+
+
+def component_of(event_type: str) -> str:
+    """"behaviour" or "engagement" — which half of the score this signal moves.
+
+    An unknown type counts as engagement, deliberately. A new signal nobody has
+    classified must not be able to move the number the product stakes its
+    efficacy claim on until someone decides it should.
+    """
+    return "behaviour" if event_type in BEHAVIOUR_EVENTS else "engagement"
+
+
 HIGH_RISK_THRESHOLD = 60.0
 
 # How far back a simulated-phish click still counts as "recent" behaviour when
@@ -124,6 +167,16 @@ def apply_event(
     )
     db.add(event)
     employee.current_risk_score = after
+
+    # The same delta, also booked to whichever half of the score it is evidence
+    # for. Each half is clamped on its own: the composite rails at 0 and 100, and
+    # a component allowed past them would make `behaviour + engagement` stop
+    # reconciling with the number beside it.
+    if component_of(event_type) == "behaviour":
+        employee.behaviour_risk = clamp(employee.behaviour_risk + applied)
+    else:
+        employee.training_credit = round(employee.training_credit + applied, 2)
+
     db.add(employee)
     return event
 
@@ -137,13 +190,25 @@ def recompute_score(db: Session, employee: Employee) -> float:
     poisoned batch is permanent — there is no sequence of API calls that undoes
     it — and a number nobody can withdraw is a number nobody should trust.
     """
-    total = db.execute(
-        select(func.sum(RiskEvent.delta)).where(
+    rows = db.execute(
+        select(RiskEvent.type, func.sum(RiskEvent.delta)).where(
             RiskEvent.employee_id == employee.id,
             RiskEvent.revoked_at.is_(None),
-        )
-    ).scalar()
-    employee.current_risk_score = clamp(baseline_for(employee) + float(total or 0.0))
+        ).group_by(RiskEvent.type)
+    ).all()
+
+    behaviour = sum(float(total or 0.0) for kind, total in rows if component_of(kind) == "behaviour")
+    engagement = sum(float(total or 0.0) for kind, total in rows if component_of(kind) != "behaviour")
+
+    baseline = baseline_for(employee)
+    employee.current_risk_score = clamp(baseline + behaviour + engagement)
+    # The baseline is a statement about the ROLE — how much damage this person is
+    # positioned to do — so it belongs to behaviour, not to engagement. Putting
+    # it in engagement would mean a new hire with no training on record started
+    # with a negative training credit, which reads as a penalty for having just
+    # arrived.
+    employee.behaviour_risk = clamp(baseline + behaviour)
+    employee.training_credit = round(engagement, 2)
     db.add(employee)
     return employee.current_risk_score
 

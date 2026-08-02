@@ -151,7 +151,19 @@ class Employee(Base):
     role_title: Mapped[str] = mapped_column(String(120), default="")
     # 0.0–1.0: how sensitive this role is (finance approver > intern)
     role_sensitivity: Mapped[float] = mapped_column(Float, default=0.3)
+    #: The composite, and what most screens show: behaviour + engagement, railed
+    #: to 0-100. Still the number used to select targets and rank a heatmap.
     current_risk_score: Mapped[float] = mapped_column(Float, default=30.0)
+    #: THE HALF THAT MAY BE USED AS EVIDENCE OF EFFICACY. Moves only on what the
+    #: person did when a threat reached them — clicked, reported, ignored it.
+    #: Kept separate because completing training subtracts 10 points from the
+    #: composite, which is the same number the dashboard charts as proof the
+    #: training worked; charting the composite let the product claim improvement
+    #: it had manufactured. See core/risk_engine.BEHAVIOUR_EVENTS.
+    behaviour_risk: Mapped[float] = mapped_column(Float, default=30.0)
+    #: Engagement with the programme, signed the same way as the composite:
+    #: negative means credit earned. Real and worth showing, never efficacy.
+    training_credit: Mapped[float] = mapped_column(Float, default=0.0)
     # Lifecycle. Without it, someone who left in March is still assigned training
     # in July and still averages into their old department's heatmap — and
     # "on_leave" is the difference between a missed deadline that means something
@@ -403,4 +415,8 @@ class MetricSnapshot(Base):
     phishing_click_rate: Mapped[float | None] = mapped_column(Float, nullable=True)   # 0–1
     report_rate: Mapped[float | None] = mapped_column(Float, nullable=True)           # 0–1 human-sensor strength
     avg_risk_score: Mapped[float | None] = mapped_column(Float, nullable=True)        # 0–100
+    # The composite above includes training credit, so it falls when training is
+    # merely ASSIGNED AND COMPLETED. This one moves only on what people did with
+    # a threat, and is the only one an efficacy claim may be built on.
+    avg_behaviour_risk: Mapped[float | None] = mapped_column(Float, nullable=True)    # 0–100
     training_completion_rate: Mapped[float | None] = mapped_column(Float, nullable=True)  # 0–1

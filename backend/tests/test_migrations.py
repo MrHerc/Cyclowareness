@@ -12,6 +12,7 @@ query raised `no such column: sandbox_jobs.tenant_id`.
 """
 from __future__ import annotations
 
+import ast
 import os
 import pathlib
 import re
@@ -25,6 +26,7 @@ from alembic.config import Config
 from sqlalchemy import create_engine, inspect, text
 
 from app.database import (
+    _ADOPTION_LADDER,
     BASELINE_REVISION,
     SANDBOX_ENGINE_REVISION,
     UnadoptableDatabase,
@@ -162,6 +164,72 @@ def test_no_table_references_one_that_does_not_exist_yet(tmp_path):
     assert not problems, "; ".join(problems)
 
 
+#: SQL that means different things on SQLite and PostgreSQL. Each entry is a
+#: mistake this chain has actually made, or the direct sibling of one.
+_DIALECT_TRAPS = (
+    (
+        r"\bMAX\s*\([^)]*,",
+        "two-argument MAX is scalar on SQLite and an AGGREGATE on PostgreSQL — use CASE",
+    ),
+    (
+        r"\bMIN\s*\([^)]*,",
+        "two-argument MIN is scalar on SQLite and an AGGREGATE on PostgreSQL — use CASE",
+    ),
+    (
+        r"\bGREATEST\s*\(|\bLEAST\s*\(",
+        "GREATEST/LEAST do not exist on SQLite — use CASE",
+    ),
+    (
+        r"server_default\s*=\s*[\"']\s*[\[{]",
+        "a text server_default on a JSON column is refused by PostgreSQL — "
+        "add nullable, backfill, then SET NOT NULL",
+    ),
+    (
+        r"\bIFNULL\s*\(",
+        "IFNULL is SQLite-only — use COALESCE",
+    ),
+    (
+        r"\bdatetime\s*\(\s*'now'",
+        "datetime('now') is SQLite-only — use CURRENT_TIMESTAMP or pass the value in",
+    ),
+)
+
+
+def test_no_migration_uses_sql_that_means_something_different_on_postgresql():
+    """The suite runs on SQLite; production runs on PostgreSQL.
+
+    Every trap listed here has cost this chain a red build or would have: SQLite
+    accepts the statement, PostgreSQL rejects it or — worse — reads it
+    differently. Rendering the DDL is not enough to catch them, because
+    `--sql` renders happily and only execution fails, so this reads the
+    migration source instead.
+    """
+    versions = pathlib.Path(__file__).resolve().parents[1] / "migrations" / "versions"
+    files = sorted(versions.glob("*.py"))
+    assert files, "no migrations found — the check would pass vacuously"
+
+    problems = []
+    for path in files:
+        source = path.read_text(encoding="utf-8")
+
+        # Strip the MODULE DOCSTRING AND COMMENTS ONLY — never every triple-quoted
+        # string. These traps are discussed in the very migrations that avoid
+        # them, so an explanation must not read as an occurrence; but the SQL
+        # lives inside `op.execute("""...""")`, so a blanket `"""..."""` strip
+        # deletes exactly what this test exists to read. It did, and the test
+        # passed on an injected `MAX(0.0, ...)` — vacuous and worse than absent.
+        tree = ast.parse(source)
+        body = source
+        if (doc := ast.get_docstring(tree, clean=False)) is not None:
+            body = body.replace(f'"""{doc}"""', "", 1)
+        body = re.sub(r"^\s*#.*$", "", body, flags=re.MULTILINE)
+        for pattern, why in _DIALECT_TRAPS:
+            for match in re.finditer(pattern, body, re.IGNORECASE):
+                line = body[: match.start()].count("\n") + 1
+                problems.append(f"{path.name}:~{line}: {match.group(0)!r} — {why}")
+    assert not problems, "\n".join(problems)
+
+
 def test_the_downgrade_is_the_exact_reverse_of_the_upgrade(tmp_path):
     """Dropping a table still referenced by another fails on PostgreSQL.
 
@@ -266,13 +334,19 @@ def test_a_create_all_database_is_stamped_at_the_revision_it_matches(scratch):
         assert _legacy_stamp_target(conn) == BASELINE_REVISION
 
 
-def test_a_database_already_carrying_the_integration_is_stamped_at_that_revision(scratch):
-    """Stamping it at the baseline would re-run 0002 and re-add existing columns."""
+def test_a_database_at_head_is_stamped_at_head(scratch):
+    """Stamping it lower would re-run a migration and re-add existing columns.
+
+    Asserted against the NEWEST rung, not a fixed revision: as the ladder grows,
+    a database carrying every marker is at the top of it. Pinning this to
+    `0002_sandbox_engine` was already wrong the day 0003 landed.
+    """
     scratch.upgrade("head")
     with scratch.begin() as conn:
         conn.execute(text("DROP TABLE alembic_version"))
+    newest = _ADOPTION_LADDER[0][0]
     with scratch.connect() as conn:
-        assert _legacy_stamp_target(conn) == SANDBOX_ENGINE_REVISION
+        assert _legacy_stamp_target(conn) == newest
 
 
 def test_an_empty_database_is_not_adopted(scratch):
@@ -303,31 +377,60 @@ def test_an_undatable_database_is_refused_rather_than_guessed_at(scratch):
     assert "something_else" in str(caught.value)
 
 
-def test_the_ladder_covers_every_revision_that_touches_sandbox_jobs():
+def test_the_ladder_has_a_rung_for_every_revision_that_adds_a_column():
     """A migration that adds a column without adding a rung is a boot failure.
 
-    The pre-Alembic database gets stamped too low, the next upgrade re-adds a
+    A pre-Alembic database gets stamped too low, the next upgrade re-adds a
     column that already exists, and the service does not come up. Nothing else
-    catches this, because a fresh database never walks that path.
+    catches it, because a fresh database never walks that path.
+
+    THIS TEST USED TO CHECK `sandbox_jobs` ONLY, and that is exactly how 0003
+    shipped broken: it adds columns to `employees`, the ladder was keyed on
+    `sandbox_jobs`, so every database was dated at 0002 and the boot died with
+    `duplicate column name: behaviour_risk`. A narrow guard reads as a guard.
     """
     from app.database import _ADOPTION_LADDER
 
-    revisions = {rev for rev, _markers in _ADOPTION_LADDER}
-    versions_dir = alembic_config().get_main_option("script_location")
-    assert versions_dir  # sanity: config resolved
+    rungs = {rev for rev, _markers in _ADOPTION_LADDER}
+    versions = pathlib.Path(__file__).resolve().parents[1] / "migrations" / "versions"
+    files = sorted(versions.glob("*.py"))
+    assert files, "no migrations found — the check would pass vacuously"
 
-    files = list((pathlib.Path(versions_dir) / "versions").glob("*.py"))
-    touching = set()
+    adding = {}
     for path in files:
-        text_ = path.read_text(encoding="utf-8")
-        rev = None
-        for line in text_.splitlines():
+        source = path.read_text(encoding="utf-8")
+        revision = None
+        for line in source.splitlines():
             if line.startswith("revision = "):
-                rev = line.split("=", 1)[1].strip().strip('"\'')
+                revision = line.split("=", 1)[1].strip().strip("\"'")
                 break
-        if rev and rev != BASELINE_REVISION and "sandbox_jobs" in text_ and "add_column" in text_:
-            touching.add(rev)
-    missing = touching - revisions
+        if not revision or revision == BASELINE_REVISION:
+            continue
+        # Which tables this revision adds columns to: the table named by the
+        # enclosing batch_alter_table for each add_column call.
+        tables = set()
+        current = None
+        for line in source.splitlines():
+            match = re.search(r"batch_alter_table\(\s*[\"']([a-z_]+)[\"']", line)
+            if match:
+                current = match.group(1)
+            if "add_column(" in line and current:
+                tables.add(current)
+        if tables:
+            adding[revision] = tables
+
+    assert adding, "parsed no column-adding revisions — the check would pass vacuously"
+    missing = {rev: sorted(t) for rev, t in adding.items() if rev not in rungs}
     assert not missing, (
-        f"revisions add columns to sandbox_jobs but have no rung in _ADOPTION_LADDER: {missing}"
+        "these revisions add columns but have no rung in _ADOPTION_LADDER, so a "
+        f"pre-Alembic database will be stamped too low and fail to boot: {missing}"
     )
+
+    # And each rung must name a table that revision actually touched, or the
+    # marker can never match and the rung is decoration.
+    for revision, markers in _ADOPTION_LADDER:
+        if revision in adding:
+            unmatched = set(markers) - adding[revision]
+            assert not unmatched, (
+                f"{revision} has rung markers for tables it does not add columns to: {unmatched}"
+            )

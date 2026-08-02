@@ -20,6 +20,7 @@ import {
 } from './chartTheme'
 
 const RISK_COLOR = SERIES[2]
+const BEHAVIOUR_COLOR = SERIES[0]
 
 /** The thresholds `riskBand()` uses. Drawn so a reader can place the line. */
 const ELEVATED_AT = 40
@@ -35,13 +36,22 @@ export interface RiskTrendChartProps {
 }
 
 /**
- * Organisation-wide average risk score over time.
+ * Organisation-wide risk over time — as TWO lines, deliberately.
  *
- * The line is a neutral series hue, not a risk hue: the score's own colour
- * changes as it crosses a band, and a line that recoloured itself mid-flight
- * would read as two different measurements. The band thresholds are drawn as
- * reference lines instead, which is what actually lets someone say "we are
- * still in elevated" without reading the axis.
+ * The composite score falls when training is merely completed: finishing an
+ * assigned module subtracts ten points. So a chart of the composite, captioned
+ * as proof the programme works, is proving only that modules were assigned.
+ * Behaviour risk moves on what people did when a threat reached them, and is
+ * the only one of the two an efficacy claim may rest on.
+ *
+ * Both are drawn because the gap between them is itself the finding: composite
+ * falling while behaviour is flat means engagement went up and exposure did not.
+ * A single line cannot say that, and the single line it used to be said the
+ * opposite.
+ *
+ * Neutral series hues, not risk hues: the score's own colour changes as it
+ * crosses a band, and a line that recoloured itself mid-flight would read as two
+ * different measurements. The thresholds are reference lines instead.
  */
 export function RiskTrendChart({
   points,
@@ -51,19 +61,21 @@ export function RiskTrendChart({
   error = null,
   className,
 }: RiskTrendChartProps) {
-  const scores = points.map((p) => p.avg_risk_score)
-  const hasData = hasEnoughPoints(scores)
+  // Gated on the BEHAVIOUR series: the chart's claim is about behaviour, so
+  // a window with a composite but no behaviour measurement has nothing to say.
+  const hasData = hasEnoughPoints(points.map((p) => p.avg_behaviour_risk))
 
   return (
     <ChartFrame
-      title="Average risk over time"
+      title="Risk over time"
       caption={
         windowDays
-          ? `Last ${windowDays} days · 0–100, lower is better`
-          : '0–100, lower is better'
+          ? `Last ${windowDays} days · 0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.`
+          : '0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.'
       }
       legend={[
-        { label: 'Average risk', color: RISK_COLOR },
+        { label: 'Behaviour risk', color: BEHAVIOUR_COLOR },
+        { label: 'Composite score', color: RISK_COLOR },
         { label: `Elevated at ${ELEVATED_AT}`, color: BAND_COLOR.elevated },
         { label: `High at ${HIGH_AT}`, color: BAND_COLOR.high },
       ]}
@@ -71,8 +83,8 @@ export function RiskTrendChart({
       hasData={hasData}
       loading={loading}
       error={error}
-      emptyMessage="Risk has been scored on fewer than two days in this window."
-      description="Organisation-wide average risk score per day, on a 0 to 100 scale, with the elevated and high band thresholds marked."
+      emptyMessage="Behaviour risk has been measured on fewer than two days in this window."
+      description="Two lines per day on a 0 to 100 scale: behaviour risk, which moves only on what people did when a threat reached them, and the composite score, which also includes training engagement. Elevated and high band thresholds are marked."
       className={className}
     >
       <LineChart data={points} margin={PLOT_MARGIN} accessibilityLayer>
@@ -112,13 +124,19 @@ export function RiskTrendChart({
             const point = points.find((p) => p.date === props.label)
             if (!point) return null
             const score = point.avg_risk_score
+            const behaviour = point.avg_behaviour_risk
             return (
               <ChartTooltip
                 title={formatDayFull(point.date)}
-                note={score === null ? undefined : riskBandLabel(score)}
+                note={behaviour === null ? undefined : riskBandLabel(behaviour)}
                 rows={[
                   {
-                    label: 'Average risk',
+                    label: 'Behaviour risk',
+                    color: BEHAVIOUR_COLOR,
+                    value: behaviour === null ? null : num(behaviour, 1),
+                  },
+                  {
+                    label: 'Composite score',
                     color: RISK_COLOR,
                     value: score === null ? null : num(score, 1),
                   },
@@ -127,14 +145,28 @@ export function RiskTrendChart({
             )
           }}
         />
+        {/* The composite is drawn thinner and dashed: it is context, not the
+            claim. The solid line is the one a reader may quote. */}
         <Line
           type="monotone"
           dataKey="avg_risk_score"
-          name="Average risk"
+          name="Composite score"
           stroke={RISK_COLOR}
-          strokeWidth={2}
+          strokeWidth={1.5}
+          strokeDasharray="5 3"
           connectNulls={false}
           dot={{ r: DOT_RADIUS, fill: RISK_COLOR, strokeWidth: 0 }}
+          activeDot={{ r: ACTIVE_DOT_RADIUS, strokeWidth: 0 }}
+          isAnimationActive={false}
+        />
+        <Line
+          type="monotone"
+          dataKey="avg_behaviour_risk"
+          name="Behaviour risk"
+          stroke={BEHAVIOUR_COLOR}
+          strokeWidth={2}
+          connectNulls={false}
+          dot={{ r: DOT_RADIUS, fill: BEHAVIOUR_COLOR, strokeWidth: 0 }}
           activeDot={{ r: ACTIVE_DOT_RADIUS, strokeWidth: 0 }}
           isAnimationActive={false}
         />

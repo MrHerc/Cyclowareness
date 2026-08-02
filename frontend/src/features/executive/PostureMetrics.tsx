@@ -104,33 +104,39 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
 
       <Panel>
         <HonestMetric
-          label="Average employee risk score"
-          value={metrics.avg_risk_score}
+          label="Average behaviour risk"
+          value={metrics.avg_behaviour_risk}
           format="score"
           digits={1}
           sample={headcount}
           sampleNoun="people on a scored roster"
           source="live"
-          sourceDetail="Risk engine"
+          sourceDetail="Risk engine — behaviour only"
           lastUpdated={updatedAt}
           tone={
-            metrics.avg_risk_score === null
+            metrics.avg_behaviour_risk === null
               ? 'neutral'
-              : metrics.avg_risk_score >= 60
+              : metrics.avg_behaviour_risk >= 60
                 ? 'critical'
-                : metrics.avg_risk_score >= 40
+                : metrics.avg_behaviour_risk >= 40
                   ? 'medium'
                   : 'safe'
           }
-          comparison={previousPeriod(trend, 'avg_risk_score', window, 'down')}
+          comparison={previousPeriod(trend, 'avg_behaviour_risk', window, 'down')}
           hint="Zero to 100. Lower is safer. A point-in-time property of the roster, not a windowed rate."
           unmeasuredReason="no employee currently carries a score"
           unmeasuredRemedy="Scores appear once the risk engine has recorded at least one event against a person."
           definition={{
-            calculation: 'The mean current risk score across every employee on the roster.',
-            includes: ['Simulation outcomes, reports, completed training, incident findings'],
-            excludes: ['Any trailing window — this is the score as it stands now'],
-            caveat: 'Movement in this figure lags behaviour by however long the risk engine takes to record an event.',
+            calculation:
+              'The mean behaviour-risk score across active employees: role baseline plus what each person did when a threat reached them.',
+            includes: ['Simulation clicks and reports, real-threat reports, incident findings'],
+            excludes: [
+              'Training completion and quiz scores — those move training credit, not this',
+              'Employees who have left',
+              'Any trailing window — this is the score as it stands now',
+            ],
+            caveat:
+              'This is the only risk figure that may be read as evidence the programme works. The composite score also falls when training is merely completed, so a fall in the composite can mean nothing more than that modules were assigned.',
           }}
         />
       </Panel>

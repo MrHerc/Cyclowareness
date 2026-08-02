@@ -5,7 +5,10 @@ the dashboard can chart before/after trends:
 
 * phishing click-rate   — clicks / targets across simulations (last 30 days)
 * report rate           — reported / targets ("human sensor" strength)
-* average risk score    — org-wide mean of employee scores
+* average risk score    — org-wide mean of the composite score
+* average behaviour risk — the same mean over behaviour only; the ONLY one of
+                          these an efficacy claim may rest on, because the
+                          composite falls when training is merely completed
 * training completion   — completed / assigned (last 30 days)
 """
 from datetime import datetime, timedelta, timezone
@@ -16,6 +19,7 @@ from sqlalchemy.orm import Session
 from ..models import (
     AssignmentStatus,
     Employee,
+    EmployeeStatus,
     MetricSnapshot,
     SimOutcome,
     SimulationTarget,
@@ -63,7 +67,17 @@ def compute_current_metrics(db: Session) -> dict:
     reports = int(reports or 0)
     sim_ok = sim_n >= MIN_SAMPLE
 
-    avg_risk = db.execute(select(func.avg(Employee.current_risk_score))).scalar()
+    # ACTIVE EMPLOYEES ONLY. Someone who left in March should not still be
+    # averaging into the organisation's score in July — that is the reason
+    # `Employee.status` exists, and `select_targets` and `department_rollups`
+    # already filter on it. This one did not, so a leaver's frozen score kept
+    # pulling the org number for as long as the row stayed.
+    avg_risk, avg_behaviour = db.execute(
+        select(
+            func.avg(Employee.current_risk_score),
+            func.avg(Employee.behaviour_risk),
+        ).where(Employee.status == EmployeeStatus.ACTIVE)
+    ).one()
 
     train_n, completed = db.execute(
         select(
@@ -84,6 +98,11 @@ def compute_current_metrics(db: Session) -> dict:
         # Risk is a point-in-time property of the roster, not a windowed rate —
         # it is always well-defined as long as employees exist.
         "avg_risk_score": round(float(avg_risk), 1) if avg_risk is not None else None,
+        # THE LINE THAT MAY CARRY AN EFFICACY CLAIM. `avg_risk_score` includes
+        # training credit, so assigning training moves it down on its own; a
+        # chart of it "proving" the training worked is proving only that the
+        # training was assigned. This one moves only on what people did.
+        "avg_behaviour_risk": round(float(avg_behaviour), 1) if avg_behaviour is not None else None,
         "training_completion_rate": round(completed / train_n, 3) if train_ok else None,
         "training_sample": train_n,
     }
@@ -95,6 +114,7 @@ _SNAPSHOT_FIELDS = (
     "phishing_click_rate",
     "report_rate",
     "avg_risk_score",
+    "avg_behaviour_risk",
     "training_completion_rate",
 )
 
@@ -131,6 +151,7 @@ def trend(db: Session, days: int = 180) -> list[dict]:
             "phishing_click_rate": s.phishing_click_rate,
             "report_rate": s.report_rate,
             "avg_risk_score": s.avg_risk_score,
+            "avg_behaviour_risk": s.avg_behaviour_risk,
             "training_completion_rate": s.training_completion_rate,
         }
         for s in snapshots

@@ -414,6 +414,10 @@ export interface Metrics {
   report_rate: number | null
   simulation_sample: number
   avg_risk_score: number | null
+  /** Moves only on what people DID when a threat reached them. The composite
+   *  above also falls when training is merely completed, so this is the only
+   *  one of the two an efficacy claim may rest on. */
+  avg_behaviour_risk: number | null
   training_completion_rate: number | null
   training_sample: number
 }
@@ -423,6 +427,10 @@ export interface TrendPoint {
   phishing_click_rate: number | null
   report_rate: number | null
   avg_risk_score: number | null
+  /** Moves only on what people DID when a threat reached them. The composite
+   *  above also falls when training is merely completed, so this is the only
+   *  one of the two an efficacy claim may rest on. */
+  avg_behaviour_risk: number | null
   training_completion_rate: number | null
 }
 

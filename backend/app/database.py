@@ -68,22 +68,33 @@ def session_scope() -> Session:
 #: exactly, which is what makes adopting one by stamping it safe.
 BASELINE_REVISION = "0001_baseline"
 
-#: The revision that swapped in the vendored sandbox engine. Its marker columns
-#: are what date a pre-Alembic database: present means the database already has
-#: the new engine's schema, absent means it stopped at the baseline.
+#: The revision that swapped in the vendored sandbox engine.
 SANDBOX_ENGINE_REVISION = "0002_sandbox_engine"
-_SANDBOX_ENGINE_COLUMNS = {"tenant_id", "impact", "verdict", "mitre", "dynamic"}
+
+#: The revision that split behaviour_risk out of the composite score.
+BEHAVIOUR_SPLIT_REVISION = "0003_behaviour_split"
 
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
-#: whose marker columns are all present, then upgraded from there.
+#: whose marker columns are ALL present, then upgraded from there.
 #:
 #: A ladder rather than a chain of ifs because it has to be EXTENDED, not
-#: rewritten, and forgetting to extend it is not a cosmetic miss: a database
-#: built before Alembic gets stamped too low, the next migration re-adds a
-#: column that already exists, and the service fails to boot. **Every migration
-#: that adds a column to sandbox_jobs adds a rung here.**
-_ADOPTION_LADDER: tuple[tuple[str, set[str]], ...] = (
-    (SANDBOX_ENGINE_REVISION, _SANDBOX_ENGINE_COLUMNS),
+#: rewritten, and forgetting to extend it is not a cosmetic miss: the database
+#: gets stamped too low, the next migration re-adds a column that already
+#: exists, and the service fails to boot. That is not hypothetical — it happened
+#: the moment 0003 landed, because this ladder was keyed on `sandbox_jobs`
+#: alone and 0003 touches `employees`:
+#:
+#:     sqlite3.OperationalError: duplicate column name: behaviour_risk
+#:     [SQL: ALTER TABLE employees ADD COLUMN behaviour_risk FLOAT]
+#:
+#: So a rung names TABLES, not one table. **Every revision that adds a column to
+#: any table adds a rung here, naming that table and the columns it added.**
+_ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (BEHAVIOUR_SPLIT_REVISION, {"employees": {"behaviour_risk", "training_credit"}}),
+    (
+        SANDBOX_ENGINE_REVISION,
+        {"sandbox_jobs": {"tenant_id", "impact", "verdict", "mitre", "dynamic"}},
+    ),
 )
 
 
@@ -132,9 +143,12 @@ def _legacy_stamp_target(connection: Connection) -> str | None:
             f"Tables found: {', '.join(sorted(tables))}"
         )
 
-    columns = {c["name"] for c in inspect(connection).get_columns("sandbox_jobs")}
+    inspector = inspect(connection)
     for revision, markers in _ADOPTION_LADDER:
-        if markers <= columns:
+        if all(
+            table in tables and columns <= {c["name"] for c in inspector.get_columns(table)}
+            for table, columns in markers.items()
+        ):
             return revision
     return BASELINE_REVISION
 

@@ -41,11 +41,12 @@ import { formatDate, pct, riskBand } from '../../lib/format'
    The trend series
    ========================================================================== */
 
-/** The four series a snapshot actually stores. Nothing else is chartable. */
+/** The five series a snapshot actually stores. Nothing else is chartable. */
 export type TrendKey =
   | 'phishing_click_rate'
   | 'report_rate'
   | 'avg_risk_score'
+  | 'avg_behaviour_risk'
   | 'training_completion_rate'
 
 /** Snapshot dates are `YYYY-MM-DD`, so a string comparison is a date comparison. */
