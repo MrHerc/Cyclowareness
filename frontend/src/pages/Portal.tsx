@@ -67,14 +67,17 @@ export default function Portal() {
 
   const incidentList = useMemo(() => incidents.data ?? [], [incidents.data])
 
-  /** Assignment id -> the incident risk that forced it, for deadline and pass mark. */
-  const incidentByAssignment = useMemo(() => {
-    const map = new Map<number, (typeof incidentList)[number]>()
-    for (const item of incidentList) {
-      if (item.assignment_id !== null) map.set(item.assignment_id, item)
-    }
-    return map
-  }, [incidentList])
+  /** Assignment id -> the incident risk that forced it, for deadline and pass mark.
+   *
+   * EMPTY, and honestly so. `/api/incident-risks/my` does not carry an
+   * assignment id, so there is nothing to key on. The previous version read
+   * `item.assignment_id`, which was always `undefined`, so every entry was
+   * skipped — the map was already empty, it just looked like it was not.
+   * Kept as the seam for when the endpoint does carry one. */
+  const incidentByAssignment = useMemo(
+    () => new Map<number, (typeof incidentList)[number]>(),
+    [incidentList],
+  )
 
   const { open, finished } = useMemo(() => {
     const all = assignments.data ?? []

@@ -432,6 +432,11 @@ export interface TrendPoint {
    *  one of the two an efficacy claim may rest on. */
   avg_behaviour_risk: number | null
   training_completion_rate: number | null
+  /** 'measured' | 'seeded'. A point the demo seed drew and a point the loop
+   *  measured are both floats; without this the executive page charted a
+   *  hand-written curve under "measured from this deployment's own records"
+   *  while a live tile above it told the opposite story about the same metric. */
+  source?: string
 }
 
 export interface AnalystDashboard {
@@ -1057,22 +1062,42 @@ export interface IncidentRiskDetail extends IncidentRisk {
 }
 
 /** The employee's own view — redacted by confidentiality. */
+/** One obligation charged to the signed-in employee.
+ *
+ * THESE ARE THE SERVER'S FIELD NAMES, not a tidier set. The previous shape
+ * declared `subject_id`, `incident_risk_id`, `what_happened`, `why_assigned`,
+ * `assignment_id`, `redaction_reason` and `created_at` — the server sends none
+ * of them. What the employee saw: "Raised —", the generic redaction sentence
+ * instead of the one naming who to ask, and an "Open the training" button
+ * pointing at `/portal/training/undefined`.
+ *
+ * Note the two statuses. `status` is the INVESTIGATION's lifecycle; `my_status`
+ * is this person's own progress. Rendering the first as though it were the
+ * second told someone who had finished that they were still assigned.
+ */
 export interface MyIncidentRisk {
-  subject_id: number
-  incident_risk_id: number
+  id: number
   title: string
-  what_happened: string
-  why_assigned: string
+  severity: Severity
+  /** The investigation's state — not the employee's. */
+  status: string
+  /** THIS person's progress against their obligation. */
+  my_status: IncidentRiskSubject['status']
+  my_score: number | null
+  my_completed_at: string | null
+  /** Withheld when `redacted`; `redaction_note` names who can explain it. */
+  description: string | null
+  evidence: string[] | null
+  redacted: boolean
+  redaction_note: string | null
   required_action: string | null
   deadline: string | null
   min_score: number | null
-  status: IncidentRiskSubject['status']
-  assignment_id: number | null
-  /** True when incident detail was withheld; `redaction_reason` says why. */
-  redacted: boolean
-  redaction_reason: string | null
-  severity: Severity
-  created_at: string
+  requires_training: boolean
+  requires_quiz: boolean
+  requires_sandbox: boolean
+  /** Who signed the obligation off, so the employee knows who to ask. */
+  approver_name: string | null
 }
 
 /* ============================================================================

@@ -45,6 +45,12 @@ export function BehaviourCharts({
   )
   const risk = measuredDays(points, 'avg_risk_score')
   const completion = measuredDays(points, 'training_completion_rate')
+  // How many of these points the loop actually measured, versus how many the
+  // demo seed drew. Both are floats on the wire, so without saying it the
+  // chart reads as measurement — which is how a hand-written curve came to
+  // sit under "measured from this deployment's own records", telling the
+  // opposite story to the live tile directly above it.
+  const seeded = points.filter((point) => point.source === 'seeded').length
 
   return (
     <div className="space-y-4">
@@ -67,6 +73,15 @@ export function BehaviourCharts({
         gaps, never joined. The figures above this section are fixed to the server&rsquo;s trailing{' '}
         {metricWindowDays}-day window and are not affected by this control.
       </p>
+
+      {seeded > 0 ? (
+        <p className="text-xs text-fg-faint">
+          {seeded} of {points.length} points in this range were written by the
+          demonstration seed rather than measured from this deployment&rsquo;s own
+          events. They are drawn so the chart has a shape to show, and they may
+          disagree with the figures above, which are computed from real rows only.
+        </p>
+      ) : null}
     </div>
   )
 }

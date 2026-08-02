@@ -33,11 +33,18 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="text-h text-fg">{item.title}</h3>
-          <p className="mt-1 text-xs text-fg-faint">Raised {formatDate(item.created_at)}</p>
+          {item.approver_name ? (
+            <p className="mt-1 text-xs text-fg-faint">
+              Signed off by {item.approver_name}
+            </p>
+          ) : null}
         </div>
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           <Badge status={item.severity} size="sm" />
-          <Badge status={item.status} size="sm" dot />
+          {/* `my_status`, not `status`. The latter is the investigation's
+              lifecycle; showing it here told someone who had finished and
+              been accepted that they were still assigned. */}
+          <Badge status={item.my_status} size="sm" dot />
         </div>
       </div>
 
@@ -45,20 +52,23 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
         <div className="mt-3 flex items-start gap-2.5 rounded-control border border-line-subtle bg-base px-3 py-2.5">
           <EyeOff className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
           <p className="text-sm text-fg-muted">
-            {item.redaction_reason ??
+            {item.redaction_note ??
               'The detail of this incident is restricted and is not shown in this view.'}
           </p>
         </div>
       ) : (
         <div className="mt-3 space-y-2">
-          {item.what_happened ? (
-            <p className="text-body text-fg-muted">{item.what_happened}</p>
+          {item.description ? (
+            <p className="text-body text-fg-muted">{item.description}</p>
           ) : null}
-          {item.why_assigned ? (
-            <p className="text-body text-fg-muted">
-              <span className="text-fg-subtle">Why you: </span>
-              {item.why_assigned}
-            </p>
+          {item.evidence && item.evidence.length > 0 ? (
+            <ul className="space-y-1">
+              {item.evidence.map((line) => (
+                <li key={line} className="text-sm text-fg-muted">
+                  {line}
+                </li>
+              ))}
+            </ul>
           ) : null}
         </div>
       )}
@@ -89,9 +99,19 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
             <span className="text-fg">{num(item.min_score, 0)}%</span>
           )}
         </span>
-        {item.assignment_id !== null && open ? (
+        {item.my_score !== null ? (
+          <span className="text-fg-muted">
+            <span className="text-fg-subtle">You scored: </span>
+            <span className="text-fg">{num(item.my_score, 0)}%</span>
+          </span>
+        ) : null}
+        {/* This payload carries no assignment id, so there is nothing to
+            deep-link to. It used to build `/portal/training/${undefined}`,
+            which rendered an error page. The training list is reachable and
+            true; a broken deep link is neither. */}
+        {item.requires_training && open ? (
           <Button asChild size="sm" variant="outline" className="ml-auto">
-            <Link to={`/portal/training/${item.assignment_id}`}>Open the training</Link>
+            <Link to="/portal">Go to your training</Link>
           </Button>
         ) : null}
       </div>
@@ -116,7 +136,7 @@ export function IncidentObligations({ items }: IncidentObligationsProps) {
       ) : (
         <ul className="space-y-3">
           {items.map((item) => (
-            <Obligation key={item.subject_id} item={item} />
+            <Obligation key={item.id} item={item} />
           ))}
         </ul>
       )}

@@ -178,6 +178,11 @@ def seed_if_empty(db: Session) -> None:
                 report_rate=round(min(0.60, 0.08 + 0.28 * progress + rng.uniform(-0.02, 0.02)), 3),
                 avg_risk_score=round(59.0 - 16.0 * progress + rng.uniform(-1.5, 1.5), 1),
                 training_completion_rate=round(min(0.97, 0.42 + 0.45 * progress + rng.uniform(-0.03, 0.03)), 3),
+                # Drawn, not measured. Labelled so the chart can say so —
+                # this curve used to render under "measured from this
+                # deployment's own records" beside a live tile telling the
+                # opposite story about the same metric.
+                source="seeded",
             )
         )
 
@@ -284,7 +289,7 @@ def seed_if_empty(db: Session) -> None:
         stage_history=_fabricated_history(days_ago(21), [
             "Artifact reported by an employee (human sensor)",
             "Verdict: malicious (phishing), confidence 93%, 3 IOCs extracted",
-            'AI generated module "Spotting the credential trap: the fake telecom suspension" (3 quiz questions)',
+            'offline generator generated module "Spotting the credential trap: the fake telecom suspension" (3 quiz questions)',
             "4 at-risk employees selected (targeted, not blasted)",
             "Micro-training assigned to 4 employees; awaiting completion",
             "4/4 completed, avg quiz score 83%, net risk change -13.6",
@@ -383,7 +388,7 @@ def seed_if_empty(db: Session) -> None:
         stage_history=_fabricated_history(days_ago(9), [
             "Artifact pushed from the threat intel feed",
             "Verdict: malicious (bec), confidence 91%, 2 IOCs extracted",
-            'AI generated module "The fake executive: recognising payment-fraud email" (3 quiz questions)',
+            'offline generator generated module "The fake executive: recognising payment-fraud email" (3 quiz questions)',
             "5 at-risk employees selected (targeted, not blasted)",
             "Micro-training assigned to 5 employees; awaiting completion",
             "4/5 completed, avg quiz score 91%, net risk change -1.9",
@@ -686,7 +691,7 @@ def seed_if_empty(db: Session) -> None:
         stage_history=[
             {"stage": 1, "name": "ingest", "status": "completed", "started_at": run3_start.isoformat(), "completed_at": run3_start.isoformat(), "detail": "Artifact reported by an employee (human sensor)", "error": None},
             {"stage": 2, "name": "analyze", "status": "completed", "started_at": (run3_start + timedelta(seconds=4)).isoformat(), "completed_at": (run3_start + timedelta(seconds=11)).isoformat(), "detail": "Verdict: malicious (phishing), confidence 94%, 3 IOCs extracted", "error": None},
-            {"stage": 3, "name": "convert", "status": "completed", "started_at": (run3_start + timedelta(seconds=11)).isoformat(), "completed_at": (run3_start + timedelta(seconds=19)).isoformat(), "detail": 'AI generated module "The full-mailbox trick: fake Microsoft 365 quota alerts" (4 quiz questions)', "error": None},
+            {"stage": 3, "name": "convert", "status": "completed", "started_at": (run3_start + timedelta(seconds=11)).isoformat(), "completed_at": (run3_start + timedelta(seconds=19)).isoformat(), "detail": 'offline generator generated module "The full-mailbox trick: fake Microsoft 365 quota alerts" (4 quiz questions)', "error": None},
         ],
         created_at=run3_start,
     )

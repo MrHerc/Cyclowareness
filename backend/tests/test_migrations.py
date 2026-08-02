@@ -164,6 +164,17 @@ def test_no_table_references_one_that_does_not_exist_yet(tmp_path):
     assert not problems, "; ".join(problems)
 
 
+#: `revision = "x"` and `revision: str = "x"`. Autogenerate emits the annotated
+#: form, and a parser that only knew the first silently skipped three of five
+#: migrations — so the coverage test below passed while checking two of them.
+_REVISION_RE = re.compile(r"^revision(?:\s*:\s*str)?\s*=\s*[\"']([^\"']+)[\"']", re.MULTILINE)
+
+
+def _revision_id(source: str) -> str | None:
+    match = _REVISION_RE.search(source)
+    return match.group(1) if match else None
+
+
 #: SQL that means different things on SQLite and PostgreSQL. Each entry is a
 #: mistake this chain has actually made, or the direct sibling of one.
 _DIALECT_TRAPS = (
@@ -399,12 +410,9 @@ def test_the_ladder_has_a_rung_for_every_revision_that_adds_a_column():
     adding = {}
     for path in files:
         source = path.read_text(encoding="utf-8")
-        revision = None
-        for line in source.splitlines():
-            if line.startswith("revision = "):
-                revision = line.split("=", 1)[1].strip().strip("\"'")
-                break
-        if not revision or revision == BASELINE_REVISION:
+        revision = _revision_id(source)
+        assert revision, f"{path.name} declares no revision id — the parser would skip it"
+        if revision == BASELINE_REVISION:
             continue
         # Which tables this revision adds columns to: the table named by the
         # enclosing batch_alter_table for each add_column call.

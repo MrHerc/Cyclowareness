@@ -15,5 +15,12 @@ import type { MyIncidentRisk } from '../../domain/types'
  * are done when an analyst is about to say otherwise.
  */
 export function isIncidentWorkOpen(item: MyIncidentRisk): boolean {
-  return item.status !== 'completed' && item.status !== 'reviewed' && item.status !== 'waived'
+  // `my_status`, NOT `status`. The latter is the investigation's lifecycle,
+  // so a person who had finished and been accepted still counted as owing
+  // work for as long as the investigation stayed open.
+  return (
+    item.my_status !== 'completed' &&
+    item.my_status !== 'reviewed' &&
+    item.my_status !== 'waived'
+  )
 }

@@ -420,3 +420,14 @@ class MetricSnapshot(Base):
     # a threat, and is the only one an efficacy claim may be built on.
     avg_behaviour_risk: Mapped[float | None] = mapped_column(Float, nullable=True)    # 0–100
     training_completion_rate: Mapped[float | None] = mapped_column(Float, nullable=True)  # 0–1
+    #: WHERE THIS ROW CAME FROM. "measured" means the loop's FEEDBACK stage
+    #: computed it from this deployment's own events; "seeded" means the demo
+    #: seed drew it.
+    #:
+    #: Without this the executive page charted a hand-written 26-week curve
+    #: under the label "Live API — measured from this deployment's own
+    #: records", directly below a tile computing the same metric from real
+    #: rows. Click rate read 29% and rising in the tile and 10.8% and falling
+    #: in the chart: same metric, same page, opposite stories, both claiming
+    #: to be measured.
+    source: Mapped[str] = mapped_column(String(16), default="measured", index=True)

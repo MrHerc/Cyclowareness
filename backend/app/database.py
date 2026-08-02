@@ -77,6 +77,9 @@ BEHAVIOUR_SPLIT_REVISION = "0003_behaviour_split"
 #: The revision that added the Remediation Engine's three tables.
 REMEDIATION_REVISION = "0004_remediation"
 
+#: The revision that made a metric snapshot say whether it was measured or seeded.
+SNAPSHOT_SOURCE_REVISION = "0005_snapshot_source"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -100,6 +103,7 @@ REMEDIATION_REVISION = "0004_remediation"
 #: tables is dated. **Every revision that adds a table or a column adds a rung
 #: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (SNAPSHOT_SOURCE_REVISION, {"metric_snapshots": {"source"}}),
     (
         REMEDIATION_REVISION,
         {"remediation_plans": set(), "remediation_coverage_gaps": set(),

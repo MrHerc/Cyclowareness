@@ -132,10 +132,12 @@ def upsert_today_snapshot(db: Session) -> MetricSnapshot:
     metrics = compute_current_metrics(db)
     values = {k: metrics[k] for k in _SNAPSHOT_FIELDS}
     if snapshot is None:
-        snapshot = MetricSnapshot(date=datetime.now(timezone.utc), **values)
+        snapshot = MetricSnapshot(date=datetime.now(timezone.utc), source="measured", **values)
     else:
         for key, value in values.items():
             setattr(snapshot, key, value)
+        # Recomputing a day makes it measured, whatever it was before.
+        snapshot.source = "measured"
     db.add(snapshot)
     return snapshot
 
@@ -153,6 +155,9 @@ def trend(db: Session, days: int = 180) -> list[dict]:
             "avg_risk_score": s.avg_risk_score,
             "avg_behaviour_risk": s.avg_behaviour_risk,
             "training_completion_rate": s.training_completion_rate,
+            # Never inferred: a point the seed drew and a point the loop
+            # measured look identical once they are both floats.
+            "source": s.source,
         }
         for s in snapshots
         if _aware(s.date) >= since
