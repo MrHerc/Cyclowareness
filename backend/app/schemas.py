@@ -178,6 +178,15 @@ class ReportOut(ORMModel):
     linked_threat_id: int | None
     linked_loop_run_id: int | None
     created_at: datetime
+    #: WHETHER THIS REPORT ACTUALLY MOVED THE SCORE. Credit is capped at three
+    #: reports per 24 hours so the score cannot be farmed, and the cap was
+    #: invisible: the confirmation told every reporter their score had gone down,
+    #: including the fourth time in a day, when no risk event was written at all.
+    #: The person doing the single behaviour the product most wants was told a
+    #: falsehood at exactly the moment they did it most.
+    risk_credited: bool = True
+    #: Says why, when it was not. Empty when it was.
+    risk_credit_note: str = ""
 
 
 class ReportDetail(ReportOut):

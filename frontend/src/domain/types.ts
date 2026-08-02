@@ -328,6 +328,12 @@ export interface Report {
   created_at: string
   employee_name?: string
   department_name?: string
+  /** False when the daily credit cap meant this report did not move the score.
+   *  `risk_credit_note` says why. The cap used to be invisible, so the fourth
+   *  report in a day still told the reporter their score had gone down —
+   *  a falsehood aimed at the one behaviour the product most wants. */
+  risk_credited?: boolean
+  risk_credit_note?: string
 }
 
 /* ============================================================================

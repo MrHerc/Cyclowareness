@@ -52,9 +52,15 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
     <div className="space-y-4" aria-live="polite">
       <div className="rounded-control border border-safe/30 bg-safe/10 px-4 py-3">
         <p className="text-body text-fg">
-          Report received. Your security team can now see it, and the report itself lowered your
-          risk score.
+          Report received. Your security team can now see it
+          {report.risk_credited === false ? '.' : ', and the report itself lowered your risk score.'}
         </p>
+        {/* Score credit is capped so it cannot be farmed. Saying "your score went
+            down" on the fourth report of a day, when no risk event was written,
+            is a falsehood aimed at the one behaviour the product most wants. */}
+        {report.risk_credited === false && report.risk_credit_note ? (
+          <p className="mt-1.5 text-sm text-fg-muted">{report.risk_credit_note}</p>
+        ) : null}
       </div>
 
       {triage === null ? (
@@ -167,7 +173,7 @@ export function ReportSuspiciousDialog({
       open={open}
       onOpenChange={handleClose}
       title="Report something suspicious"
-      description="If it looks wrong, send it. Reporting is never the wrong call, and it lowers your risk score."
+      description="If it looks wrong, send it. Reporting is never the wrong call."
       size="md"
       footer={
         result ? (

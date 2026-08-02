@@ -74,8 +74,17 @@ const ANALYST: Permission[] = [
   'audit.view',
   'reports.view',
   'executive.view',
-  'portal.view',
-  'portal.report',
+  // NOT `portal.view` / `portal.report`. The employee portal is scoped to the
+  // session's `employee_id`, and an analyst account has none — every query
+  // behind it answers 403. Holding the permission put "My Security" in the
+  // command palette and let the route guard pass, so selecting it rendered a
+  // page header over a full-width error.
+  //
+  // This file's own docstring says it "exists to stop the UI *offering* an
+  // action that would come back 403". This was the one entry doing the opposite.
+  //
+  // An analyst who is ALSO an employee is a real case, and the fix for it is a
+  // session that carries an employee_id — not a permission granted to the role.
   'demo.reset',
 ]
 

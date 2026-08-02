@@ -20,6 +20,10 @@ from ..models import (
 from ..schemas import ReportDetail, ReportOut, ReportSubmit
 from ..security import get_current_user, require_analyst
 
+#: Reports per 24 hours that still earn score credit. Beyond it the report
+#: is stored and triaged as normal; only the score stops moving.
+REPORT_CREDIT_CAP = 3
+
 router = APIRouter(prefix="/api/reports", tags=["human-sensor"])
 
 
@@ -52,8 +56,9 @@ async def submit_report(
     )
     db.add(report)
 
-    # Reward the sensor behaviour, but cap the credit at 3 reports per 24h so
-    # the score can't be farmed by spamming reports.
+    # Reward the sensor behaviour, but cap the credit so the score cannot be
+    # farmed by spamming reports. The cap is REPORTED to the person — see
+    # `risk_credited` below.
     employee = db.get(Employee, user.employee_id)
     since = datetime.now(timezone.utc) - timedelta(hours=24)
     recent_credits = db.execute(
@@ -62,13 +67,32 @@ async def submit_report(
             PhishingReport.created_at >= since,
         )
     ).scalar() or 0
-    if recent_credits < 3:
+    credited = recent_credits < REPORT_CREDIT_CAP
+    if credited:
         risk_engine.apply_event(
             db, employee, "real_threat_report",
             reason="Reported a suspicious artifact (human sensor)",
         )
     db.commit()
-    return report
+    db.refresh(report)
+
+    # The cap is reported, not hidden. Telling someone their score improved when
+    # no event was written is a small lie aimed at the one behaviour the product
+    # most wants to encourage — and the reporter is the person least deserving
+    # of it.
+    out = ReportOut.model_validate(report)
+    out.risk_credited = credited
+    out.risk_credit_note = (
+        ""
+        if credited
+        else (
+            f"This is report {recent_credits + 1} in 24 hours, and score credit is "
+            f"capped at {REPORT_CREDIT_CAP} a day so it cannot be farmed. The report "
+            "still reaches the security team and is still worth sending — it just "
+            "did not move your score."
+        )
+    )
+    return out
 
 
 @router.get("/my", response_model=list[ReportOut])
