@@ -24,7 +24,7 @@ import re
 from typing import Any
 
 from ..config import get_settings
-from .briefing_guard import validate_briefing
+from .briefing_guard import ground_figures, validate_briefing
 from .providers import AnthropicProvider, MockAIProvider
 
 logger = logging.getLogger("cyclowareness.ai")
@@ -215,6 +215,9 @@ async def executive_briefing(
         if not text:
             raise ValueError("Empty briefing")
         briefing, adjustments = validate_briefing(text)
+        # Rule two, on the KEPT text: a figure in the discarded draft is already
+        # gone, and flagging it would name a number the reader cannot see.
+        adjustments = adjustments + ground_figures(briefing, metrics)
         if adjustments:
             logger.warning(
                 "Executive briefing adjusted: %s",

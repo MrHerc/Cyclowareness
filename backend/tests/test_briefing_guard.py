@@ -114,3 +114,98 @@ def test_the_guard_does_not_claim_to_check_numbers():
     kept, adjustments = validate_briefing(wrong)
     assert kept == wrong
     assert adjustments == []
+
+
+# --- rule two: every figure must trace to the measurements --------------------
+from app.ai.briefing_guard import ground_figures  # noqa: E402
+
+#: The real payload shape from GET /api/dashboard/executive on 2026-08-03.
+PAYLOAD = {
+    "current": {
+        "window_days": 30,
+        "min_sample": 5,
+        "phishing_click_rate": 0.294,
+        "report_rate": 0.471,
+        "simulation_sample": 17,
+        "avg_risk_score": 43.3,
+        "avg_behaviour_risk": 30.0,
+        "training_completion_rate": 0.889,
+        "training_sample": 9,
+    },
+    "trend": [
+        {"date": "2026-07-27", "phishing_click_rate": 0.137, "avg_risk_score": 44.0},
+        {"date": "2026-08-03", "phishing_click_rate": 0.113, "avg_risk_score": 44.3},
+    ],
+    "departments": [{"name": "Finance", "avg_risk": 54.6, "employee_count": 5, "high_risk_count": 2}],
+}
+
+
+def test_a_fabricated_figure_is_flagged():
+    """The failure the first rule cannot catch: a wrong number stated confidently.
+
+    Nothing in the payload is near 15%, so a briefing claiming it is asserting a
+    measurement that was never taken — to a board.
+    """
+    text = "Click rates fell to 15% this month, a strong result."
+    adjustments = ground_figures(text, PAYLOAD)
+    assert len(adjustments) == 1
+    assert adjustments[0]["rule"] == "figure_not_in_measurements"
+    assert "15%" in adjustments[0]["figures"]
+
+
+def test_figures_that_trace_back_are_not_flagged():
+    """Every one of these is in the payload, in decimal or percentage form."""
+    text = (
+        "The click rate is 29.4% against a report rate of 47.1%. Average risk is "
+        "43.3 and completion has reached 88.9%. Finance sits at 54.6."
+    )
+    assert ground_figures(text, PAYLOAD) == []
+
+
+def test_a_figure_from_the_trend_series_counts_as_grounded():
+    """The model is given twelve trend points and may legitimately quote any."""
+    text = "The click rate touched 13.7% in late July before easing to 11.3%."
+    assert ground_figures(text, PAYLOAD) == []
+
+
+def test_rounding_is_allowed_but_invention_is_not():
+    assert ground_figures("Click rate is about 29%.", PAYLOAD) == []
+    assert ground_figures("Average risk is roughly 43.", PAYLOAD) == []
+    flagged = ground_figures("Average risk is 61.8.", PAYLOAD)
+    assert flagged and "61.8" in flagged[0]["figures"]
+
+
+def test_bare_integers_are_not_treated_as_measurements():
+    """"Two high-risk employees", "the next 30 days", "over twelve weeks" — every
+    one of these is a bare integer, and flagging them would bury the real finding
+    under noise the reader learns to ignore."""
+    text = (
+        "Over the next 90 days, focus on the 3 highest-risk departments and the "
+        "7 employees who clicked. Reassess in 45 days."
+    )
+    assert ground_figures(text, PAYLOAD) == []
+
+
+def test_the_live_briefing_produces_no_false_positives():
+    """Measured against real output, not a fixture invented to pass.
+
+    The corrected half of the live briefing quotes eleven figures. If this guard
+    flagged any of them it would cry wolf on every real briefing and be switched
+    off within a week.
+    """
+    live = (
+        "Since mid-May, average risk score has dropped steadily from 49.8 to a low "
+        "of 43.3. However, this week's phishing click rate ticked up to 29.4%. "
+        "Finance remains our weakest link with the highest average risk score "
+        "(54.6). The completion rate climbed to 88.9%."
+    )
+    payload = dict(PAYLOAD)
+    payload["trend"] = list(PAYLOAD["trend"]) + [{"avg_risk_score": 49.8}]
+    assert ground_figures(live, payload) == []
+
+
+def test_an_empty_payload_flags_nothing():
+    """No measurements means nothing to check against — silence, not a blanket
+    accusation that every figure is invented."""
+    assert ground_figures("Click rate is 29.4%.", {}) == []
+    assert ground_figures("Click rate is 29.4%.", None) == []

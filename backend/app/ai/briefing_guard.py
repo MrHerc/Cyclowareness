@@ -35,11 +35,21 @@ Rejecting instead would be worse: the corrected briefing is accurate and useful,
 and refusing it would fall back to the offline template, which is a downgrade
 for a defect the model had already fixed itself.
 
-WHAT THIS DOES NOT DO. It does not check the numbers. A briefing that states a
-figure found nowhere in the metrics, or misreads a direction of change without
-announcing a correction, passes this guard untouched. Cross-checking prose
-against the metric payload is a real piece of work and pretending a marker scan
-achieves it would be the kind of claim this product exists not to make.
+THE SECOND RULE, added after the first shipped. Every FIGURE the briefing states
+must trace back to a number in the payload the model was given. The abandoned
+draft above was caught only because the model announced its own mistake; a model
+that states "click rates fell to 15%" confidently and never corrects itself
+would have sailed through. `ground_figures` closes that: it collects every
+number in the metrics payload — the current values, the trend series and the
+department rollups, in both decimal and percentage form — and flags any
+percentage or decimal in the prose that matches none of them.
+
+WHAT IT STILL DOES NOT DO, stated plainly so nobody mistakes its scope. It
+checks FIGURES, not CLAIMS. "Click rates roughly halved", with no number
+attached, is unfalsifiable by this and passes untouched. Directional words are
+not verified against the trend. And it flags rather than rewrites: editing a
+model's prose to fit the data would produce a briefing nobody wrote and the
+reader could not audit, so the flag goes to the reader instead.
 """
 from __future__ import annotations
 
@@ -110,5 +120,108 @@ def validate_briefing(text: str) -> tuple[str, list[dict[str, Any]]]:
                 "own final version, unedited."
             ),
             "removed": discarded,
+        }
+    ]
+
+
+# --- rule two: every figure must trace to the measurements ---------------------
+
+#: A percentage ("29.4%", "30 %") or a decimal ("43.3"). Bare integers are
+#: DELIBERATELY not matched: "two high-risk employees", "the next 30 days" and
+#: "over twelve weeks" are all bare integers, and flagging them would bury the
+#: real finding under noise the reader learns to ignore.
+#:
+#: The trailing guard is `(?!\.?\d)`, NOT `(?![\w.])`. The stricter form refused
+#: to match any decimal followed by a full stop — which is to say, every figure
+#: that ends a sentence, the commonest position in the whole briefing. Caught by
+#: its own test asserting a fabricated "61.8." was flagged; it was not, because
+#: it was never read. `(?!\.?\d)` still rejects "1.2.3" and version strings.
+_FIGURE = re.compile(
+    r"(?<![\w.])(\d+(?:\.\d+)?)\s*%|(?<![\w.])(\d+\.\d+)(?!\.?\d)"
+)
+
+
+def _payload_figures(metrics: Any) -> set[float]:
+    """Every number the model was given, in both decimal and percentage form.
+
+    Walked recursively so the current values, the 26-point trend series and the
+    per-department rollups are all covered by one pass — a figure quoted from
+    any of them is legitimately grounded, and hard-coding which keys to read
+    would silently un-ground a payload that later grows a section.
+    """
+    found: set[float] = set()
+
+    def walk(node: Any) -> None:
+        if isinstance(node, bool):
+            return
+        if isinstance(node, (int, float)):
+            value = float(node)
+            found.add(value)
+            # A rate is handed over as 0.294 and read aloud as 29.4%. Both are
+            # the same measurement and both must count as grounded.
+            if 0.0 <= value <= 1.0:
+                found.add(round(value * 100, 4))
+            return
+        if isinstance(node, dict):
+            for item in node.values():
+                walk(item)
+        elif isinstance(node, (list, tuple)):
+            for item in node:
+                walk(item)
+
+    walk(metrics)
+    return found
+
+
+def _grounded(claim: float, payload: set[float]) -> bool:
+    """Rounding is legitimate; invention is not.
+
+    A model writing "29%" for 0.294, or "43" for 43.3, is doing its job. The
+    tolerance is whichever is more generous of half a point absolute or 2%
+    relative, so a restated figure passes and a fabricated one does not.
+    """
+    for value in payload:
+        if abs(claim - value) <= max(0.5, abs(value) * 0.02):
+            return True
+    return False
+
+
+def ground_figures(text: str, metrics: Any) -> list[dict[str, Any]]:
+    """Figures in the prose that match nothing the model was given.
+
+    Returns adjustment entries, empty when every figure traces back. Flags
+    rather than edits — see the module docstring.
+    """
+    payload = _payload_figures(metrics)
+    if not payload:
+        return []
+
+    ungrounded: list[str] = []
+    for match in _FIGURE.finditer(text):
+        raw = match.group(1) or match.group(2)
+        try:
+            claim = float(raw)
+        except ValueError:
+            continue
+        if _grounded(claim, payload):
+            continue
+        rendered = f"{raw}%" if match.group(1) else raw
+        if rendered not in ungrounded:
+            ungrounded.append(rendered)
+
+    if not ungrounded:
+        return []
+
+    return [
+        {
+            "rule": "figure_not_in_measurements",
+            "why": (
+                "These figures appear in the briefing but match nothing in the "
+                "measurements it was given, so they cannot be verified: "
+                + ", ".join(ungrounded)
+                + "."
+            ),
+            "removed": "",
+            "figures": ungrounded,
         }
     ]
