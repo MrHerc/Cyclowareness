@@ -63,6 +63,49 @@ def _recover_orphaned_runs() -> None:
         db.close()
 
 
+def _check_quarantine_is_writable() -> None:
+    """Refuse to start if samples cannot be stored, and say why.
+
+    Without this the portal boots, reports healthy, serves the whole UI, and
+    answers every file upload and every URL submission with a bare
+    `500 Internal Server Error`. `routers/sandbox.py` catches `SampleTooLarge`
+    and `EmptySample`; a `PermissionError` from `storage.store_stream` is
+    uncaught, no job row is created, nothing reaches the queue, and the real
+    cause is visible only in the container log. The analyst sees a sandbox that
+    silently swallows submissions.
+
+    In the shipped configuration this cannot happen — the image runs as root
+    against container-local `/tmp`. The live route in is DEPLOY.md, which tells
+    an operator to attach a Render disk and point `SANDBOX_QUARANTINE` at its
+    mount path: a mistyped, unattached or read-only mount lands here.
+
+    A deployment fault should be fatal at startup and legible, not a mystery on
+    every request.
+
+    Adapted from the standalone's check, minus its `chown -R 10001:10001` hint —
+    that image declares a `USER`, this one does not, so the advice would send an
+    operator chasing a uid this image never runs as.
+    """
+    import os
+    import tempfile
+
+    from .sandbox.engine.storage import quarantine_root
+
+    try:
+        root = quarantine_root()
+        with tempfile.NamedTemporaryFile(dir=root, prefix=".writecheck-"):
+            pass
+    except OSError as exc:
+        configured = os.environ.get("SANDBOX_QUARANTINE", "(unset — a temp directory is used)")
+        raise RuntimeError(
+            f"Quarantine directory is not usable: {exc}\n"
+            f"  SANDBOX_QUARANTINE: {configured}\n"
+            "Every sandbox submission would fail with a 500 and no job would be "
+            "created. If this is a mounted disk, check that it is attached and "
+            "that the path matches the mount point."
+        ) from exc
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # ALEMBIC OWNS THE SCHEMA, not `create_all()`. See app/database.py for the
@@ -73,6 +116,9 @@ async def lifespan(app: FastAPI):
     # so it is stamped at the revision its columns actually match and upgraded
     # from there — the two steps an operator would otherwise run by hand.
     run_migrations()
+    # Before anything can be submitted, not on the first submission. See the
+    # function: without it the service is healthy and every upload is a 500.
+    _check_quarantine_is_writable()
     # Seeding is a demo affordance, never automatic in production: an empty
     # customer database must stay empty, not fill itself with a fictional
     # Azerbaijani energy company. Run `python -m app.seed` for the demo world.
