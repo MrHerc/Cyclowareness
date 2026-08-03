@@ -98,6 +98,29 @@ export function previousPeriod(
     }
   }
 
+  // A SEEDED BASELINE IS NOT A PREVIOUS PERIOD. `source` was added to the
+  // snapshot precisely so a point the demo seed drew could be told from one the
+  // loop measured — and the chart was taught to read it while this function was
+  // not. So the current value, computed live from the roster, was differenced
+  // against a hand-written curve and the result was captioned "an improvement".
+  //
+  // Measured live on the deployment: every one of the 26 snapshots carried
+  // `source: "seeded"`, and `Average behaviour risk` therefore read
+  // "30.0, -23.7 — an improvement" against a fabricated 53.7. That number is the
+  // most quotable one on the page and the whole claim under it was arithmetic
+  // over demo data.
+  //
+  // `valid: false` is what this field is for — its own type says "the two
+  // periods cannot be compared at all". Losing the arrow on a demo deployment
+  // is the correct outcome, not a regression: there is nothing there to compare.
+  if (baseline.source === 'seeded') {
+    return {
+      previous: null,
+      valid: false,
+      reason: `the reading from ${formatDate(baseline.date)} is seeded demo data, not a measurement`,
+    }
+  }
+
   return {
     previous: baseline[key],
     valid: true,

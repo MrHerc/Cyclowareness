@@ -202,3 +202,29 @@ def test_a_campaign_rate_is_withheld_below_the_platforms_own_floor(
     for person in people:
         db.query(Employee).filter(Employee.id == person.id).delete()
     db.commit()
+
+
+def test_the_trend_says_which_points_were_seeded(client, analyst_headers):
+    """The executive view differences the live current value against a snapshot.
+
+    A snapshot the demo seed drew and one the loop measured are both floats, so
+    without `source` the page cannot tell them apart — and it differenced a live
+    reading against a hand-written curve and captioned the result "an
+    improvement". `avg_behaviour_risk` read "30.0, -23.7 — an improvement"
+    against a fabricated 53.7 on the deployment, which is the most quotable
+    number on the page.
+
+    The client refuses the comparison when the baseline is seeded. That refusal
+    is only possible while every point carries its provenance, so this asserts
+    the field never quietly disappears from the payload.
+    """
+    body = client.get("/api/dashboard/executive", headers=analyst_headers).json()
+    trend = body["trend"]
+    assert trend, "no snapshots at all — the assertion below would be vacuous"
+
+    for point in trend:
+        assert "source" in point, (
+            f"snapshot {point.get('date')} carries no source, so the executive "
+            f"view cannot tell a measurement from seeded demo data"
+        )
+        assert point["source"] in ("measured", "seeded"), point["source"]
