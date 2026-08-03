@@ -116,10 +116,10 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
     ).scalars().all()
     completed = [a for a in assignments if a.status == AssignmentStatus.COMPLETED]
 
-    # Gamification (spec §6.4): points, streak, leaderboard, badges, team standings
+    # Gamification (spec §6.4): points, streak, own standing, badges, team standings
     points = sum(50 + int((a.score or 0) / 2) for a in completed)
     streak = _streak(completed)
-    leaderboard = _leaderboard(db)
+    rank, ranked_of = _standing(db, employee.id)
 
     reports = db.execute(
         select(PhishingReport).where(PhishingReport.employee_id == employee.id)
@@ -165,8 +165,10 @@ def employee_dashboard(db: Session = Depends(get_db), user: User = Depends(get_c
             "points": points,
             "streak": streak,
             "reports_submitted": len(reports),
-            "leaderboard": leaderboard,
-            "rank": next((i + 1 for i, row in enumerate(leaderboard) if row["employee_id"] == employee.id), None),
+            # No `leaderboard`. See `_standing` for why a list of named
+            # colleagues and their points must not be on this response.
+            "rank": rank,
+            "ranked_of": ranked_of,
             "badges": badges,
             "team_leaderboard": _team_leaderboard(db, employee.department_id),
         },
@@ -212,16 +214,34 @@ def _streak(completed: list[TrainingAssignment]) -> int:
     return streak
 
 
-def _leaderboard(db: Session) -> list[dict]:
+def _standing(db: Session, employee_id: int) -> tuple[int | None, int]:
+    """This employee's rank, and how many people are ranked — NO NAMES.
+
+    This used to return the top eight colleagues by name and points, on every
+    employee's own dashboard. The portal never rendered them, which made it feel
+    harmless; it is not. The rows were on the wire, so anyone who opened the
+    network tab read a named ranking of their colleagues' security performance —
+    derived from their training scores and their behaviour under simulated
+    attack.
+
+    That contradicts the product's own position everywhere else: manager
+    visibility on a remediation plan defaults OFF because a plan is evidence a
+    named person failed a security test. The same fact does not become shareable
+    because it is expressed as points.
+
+    Rank is kept. Knowing where you stand is self-knowledge; knowing where
+    Nigar stands is somebody else's business.
+    """
     employees = db.execute(select(Employee)).scalars().all()
-    rows = []
+    scored = []
     for emp in employees:
         completed = [a for a in emp.assignments if a.status == AssignmentStatus.COMPLETED]
         points = sum(50 + int((a.score or 0) / 2) for a in completed)
         if points:
-            rows.append({"employee_id": emp.id, "name": emp.name, "points": points})
-    rows.sort(key=lambda r: -r["points"])
-    return rows[:8]
+            scored.append((emp.id, points))
+    scored.sort(key=lambda row: -row[1])
+    rank = next((i + 1 for i, (eid, _) in enumerate(scored) if eid == employee_id), None)
+    return rank, len(scored)
 
 
 # Badge catalogue — each has a threshold and a progress fraction so the UI

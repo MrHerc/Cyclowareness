@@ -499,7 +499,11 @@ export interface EmployeeDashboard {
     points: number
     streak: number
     reports_submitted: number
-    leaderboard: { employee_id: number; name: string; points: number }[]
+    /** This person's position, and how many people are ranked. NO NAMES —
+     *  a list of colleagues and their points is somebody else's business,
+     *  and it was on this response for a while even though the portal never
+     *  drew it. See `_standing` in routers/dashboard.py. */
+    ranked_of: number
     rank: number | null
     badges: Badge[]
     team_leaderboard: TeamStanding[]
