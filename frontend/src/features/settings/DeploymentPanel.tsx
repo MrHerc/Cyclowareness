@@ -132,20 +132,37 @@ export function DeploymentPanel() {
               {num(sandbox.data?.yara?.loaded ?? 0)} compiled
             </SettingRow>
 
+            {/* ABSENCE IS NOT AN ANSWER OF "NONE". With `integrations` missing —
+                an older server, or the optional layer failing to import — this
+                read "0 of 0" under "No external engine is configured to receive
+                a sample", which states as fact the one thing the deployment had
+                just failed to report. The panel exists to answer where samples
+                go; saying "nowhere" when it does not know is worse than saying
+                nothing. */}
             <SettingRow
               term="Sample destinations"
               detail={
-                (sandbox.data?.integrations ?? []).some((i) => i.configured && i.sends_data_off_host)
-                  ? 'At least one configured engine receives the sample itself, not only a hash. Each is named below.'
-                  : 'No external engine is configured to receive a sample from this deployment.'
+                sandbox.data?.integrations === undefined
+                  ? 'This deployment did not report its integration matrix, so where a sample would go cannot be answered here.'
+                  : sandbox.data.integrations.length === 0
+                    ? 'The integrations layer did not load on this host, so the destinations it would describe are unknown rather than absent.'
+                    : sandbox.data.integrations.some((i) => i.configured && i.sends_data_off_host)
+                      ? 'At least one configured engine receives data from this deployment. What each one receives is named below.'
+                      : 'No external engine is configured to receive anything from this deployment.'
               }
             >
-              {num(
-                (sandbox.data?.integrations ?? []).filter(
-                  (i) => i.configured && i.sends_data_off_host,
-                ).length,
-              )}{' '}
-              of {num((sandbox.data?.integrations ?? []).length)} send data off-host
+              {sandbox.data?.integrations === undefined || sandbox.data.integrations.length === 0 ? (
+                <span className="text-fg-subtle">Not reported</span>
+              ) : (
+                <>
+                  {num(
+                    sandbox.data.integrations.filter(
+                      (i) => i.configured && i.sends_data_off_host,
+                    ).length,
+                  )}{' '}
+                  of {num(sandbox.data.integrations.length)} send data off-host
+                </>
+              )}
             </SettingRow>
 
             <SettingRow
