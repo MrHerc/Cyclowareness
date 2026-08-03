@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..config import get_settings
-from ..core import risk_engine
+from ..core import metrics, risk_engine
 from ..remediation import service as remediation_service, triggers
 from ..core.sim_templates import SIM_TEMPLATES, get_template
 from ..database import get_db
@@ -249,12 +249,23 @@ def _detail(db: Session, simulation: PhishingSimulation) -> SimulationDetail:
     clicked = sum(1 for t in simulation.targets if t.outcome == SimOutcome.CLICKED)
     reported = sum(1 for t in simulation.targets if t.outcome == SimOutcome.REPORTED)
     resolved = sum(1 for t in simulation.targets if t.outcome != SimOutcome.PENDING)
+    # WITHHELD BELOW THE PLATFORM'S OWN FLOOR. `metrics.MIN_SAMPLE` is 5, and the
+    # command centre says so out loud — "a rate is withheld below 5 resolved
+    # events". This screen computed one from any non-zero sample, so a campaign
+    # with three outcomes reported "33% click rate" a few pixels from the
+    # sentence promising it would not. One click in three is not a third of the
+    # organisation; it is three people.
+    #
+    # `None` rather than 0.0: the UI's HonestMetric renders the reason instead of
+    # a number, which is the whole point of the discipline.
+    measurable = resolved >= metrics.MIN_SAMPLE
     detail.stats = {
         "targets": total,
         "resolved": resolved,
         "clicked": clicked,
         "reported": reported,
-        "click_rate": round(clicked / resolved, 2) if resolved else None,
-        "report_rate": round(reported / resolved, 2) if resolved else None,
+        "min_sample": metrics.MIN_SAMPLE,
+        "click_rate": round(clicked / resolved, 2) if measurable else None,
+        "report_rate": round(reported / resolved, 2) if measurable else None,
     }
     return detail

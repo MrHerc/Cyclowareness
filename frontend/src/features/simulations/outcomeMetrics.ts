@@ -40,3 +40,24 @@ export function unmeasuredRemedy(status: string): string {
   if (status === 'completed') return 'This campaign closed without a single recorded outcome.'
   return 'Record an outcome against at least one target to start measuring.'
 }
+
+/**
+ * Why a campaign has no rate — and it is not always "nobody responded".
+ *
+ * The server withholds a rate below `min_sample` resolved targets, the same
+ * floor the trailing-window metrics use. Saying "no target has a recorded
+ * outcome" when three of them do is a small lie that undermines the discipline
+ * it exists to serve: an analyst who can see three outcomes on the same screen
+ * learns that the honesty language is decorative.
+ */
+export function withheldReason(stats: {
+  resolved: number
+  min_sample: number
+}): string {
+  if (stats.resolved === 0) return 'No target in this campaign has a recorded outcome'
+  return (
+    `Only ${stats.resolved} of the targets have a recorded outcome. A rate is ` +
+    `withheld below ${stats.min_sample}, because a percentage of ${stats.resolved} ` +
+    `describes ${stats.resolved} people rather than the organisation.`
+  )
+}

@@ -130,3 +130,75 @@ def test_trend_preserves_nulls(db):
         for key in ("phishing_click_rate", "report_rate", "avg_risk_score"):
             value = point[key]
             assert value is None or isinstance(value, (int, float))
+
+
+# --- the floor applies on every screen, not only the command centre -----------
+def test_a_campaign_rate_is_withheld_below_the_platforms_own_floor(
+    client, analyst_headers, db
+):
+    """A percentage of three people is not a percentage of the organisation.
+
+    `metrics.MIN_SAMPLE` is 5 and the command centre says so in words — "a rate
+    is withheld below 5 resolved events". The simulation screen computed one
+    from any non-zero sample, so a campaign with three outcomes showed a click
+    rate a few pixels from the sentence promising it would not. An analyst who
+    can see both learns that the honesty language is decorative.
+    """
+    from app.core import metrics
+    from app.models import Department, Employee
+
+    # ITS OWN PEOPLE, not the seed's. Recording an outcome for a seeded employee
+    # writes risk events and a remediation plan against a row other tests assert
+    # on, and the `db` fixture does not reset between tests — borrowing
+    # employees 1-6 here made a policy-router assertion fail three files later.
+    department = db.query(Department).first()
+    people = [
+        Employee(
+            name=f"Sample Floor {n}",
+            email=f"sample.floor.{n}@example.test",
+            department_id=department.id,
+            role_title="Tester",
+            role_sensitivity=0.4,
+        )
+        for n in range(metrics.MIN_SAMPLE + 1)
+    ]
+    db.add_all(people)
+    db.commit()
+
+    created = client.post(
+        "/api/simulations",
+        json={"name": "Sample floor", "target_employee_ids": [p.id for p in people]},
+        headers=analyst_headers,
+    ).json()
+    client.post(f"/api/simulations/{created['id']}/launch", headers=analyst_headers)
+    detail = client.get(f"/api/simulations/{created['id']}", headers=analyst_headers).json()
+
+    # Below the floor: resolve one fewer than MIN_SAMPLE.
+    for target in detail["targets"][: metrics.MIN_SAMPLE - 1]:
+        client.post(
+            f"/api/simulations/{created['id']}/targets/{target['id']}/outcome",
+            json={"outcome": "clicked"},
+            headers=analyst_headers,
+        )
+    below = client.get(f"/api/simulations/{created['id']}", headers=analyst_headers).json()
+    assert below["stats"]["resolved"] == metrics.MIN_SAMPLE - 1
+    assert below["stats"]["click_rate"] is None, (
+        f"a rate was published from {below['stats']['resolved']} resolved targets, "
+        f"below the platform's own floor of {metrics.MIN_SAMPLE}"
+    )
+    assert below["stats"]["clicked"] == metrics.MIN_SAMPLE - 1, "the COUNT is still reported"
+
+    # One more crosses it, so the floor is a floor and not a mute button.
+    client.post(
+        f"/api/simulations/{created['id']}/targets/{detail['targets'][metrics.MIN_SAMPLE - 1]['id']}/outcome",
+        json={"outcome": "reported"},
+        headers=analyst_headers,
+    )
+    at = client.get(f"/api/simulations/{created['id']}", headers=analyst_headers).json()
+    assert at["stats"]["resolved"] == metrics.MIN_SAMPLE
+    assert at["stats"]["click_rate"] is not None
+    assert at["stats"]["min_sample"] == metrics.MIN_SAMPLE
+
+    for person in people:
+        db.query(Employee).filter(Employee.id == person.id).delete()
+    db.commit()

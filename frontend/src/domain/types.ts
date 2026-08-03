@@ -371,6 +371,9 @@ export interface SimulationDetail extends Simulation {
     resolved: number
     clicked: number
     reported: number
+    /** The server's own floor. A rate below this many resolved targets is
+     *  withheld, matching the trailing-window metrics on the command centre. */
+    min_sample: number
     click_rate: number | null
     report_rate: number | null
   }

@@ -26,6 +26,7 @@ import {
   CLICK_RATE_DEFINITION,
   REPORT_RATE_DEFINITION,
   unmeasuredRemedy,
+  withheldReason,
 } from './outcomeMetrics'
 
 export interface CampaignCardProps {
@@ -105,7 +106,7 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
               sampleNoun="resolved targets"
               source="live"
               definition={CLICK_RATE_DEFINITION}
-              unmeasuredReason="No target in this campaign has a recorded outcome"
+              unmeasuredReason={withheldReason(stats)}
               unmeasuredRemedy={unmeasuredRemedy(simulation.status)}
             />
             <HonestMetric
@@ -116,7 +117,7 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
               sampleNoun="resolved targets"
               source="live"
               definition={REPORT_RATE_DEFINITION}
-              unmeasuredReason="No target in this campaign has a recorded outcome"
+              unmeasuredReason={withheldReason(stats)}
               unmeasuredRemedy={unmeasuredRemedy(simulation.status)}
             />
           </>
