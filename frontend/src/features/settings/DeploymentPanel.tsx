@@ -7,6 +7,13 @@
  * template output and is labelled as such everywhere), and whether anything is
  * ever executed (it is not — detonation runs off-host and is reported as not
  * run). Both are stated in words rather than left to a chip.
+ *
+ * The third fact, added last and the one a buyer asks first: WHERE DO OUR
+ * SAMPLES GO. The engine has always been able to answer — it describes every
+ * external sandbox it can hand a file to — and the portal never asked, so a
+ * deployment uploading every detonatable sample to a CAPEv2 or Cuckoo cluster
+ * said only `dynamic_worker: true` and named neither the engine nor the
+ * destination.
  */
 
 import { AsyncBoundary, SkeletonText } from '../../components/states'
@@ -126,6 +133,22 @@ export function DeploymentPanel() {
             </SettingRow>
 
             <SettingRow
+              term="Sample destinations"
+              detail={
+                (sandbox.data?.integrations ?? []).some((i) => i.configured && i.sends_data_off_host)
+                  ? 'At least one configured engine receives the sample itself, not only a hash. Each is named below.'
+                  : 'No external engine is configured to receive a sample from this deployment.'
+              }
+            >
+              {num(
+                (sandbox.data?.integrations ?? []).filter(
+                  (i) => i.configured && i.sends_data_off_host,
+                ).length,
+              )}{' '}
+              of {num((sandbox.data?.integrations ?? []).length)} send data off-host
+            </SettingRow>
+
+            <SettingRow
               term="Dynamic detonation"
               detail={
                 sandbox.data?.dynamic_worker
@@ -138,6 +161,42 @@ export function DeploymentPanel() {
               </Badge>
             </SettingRow>
           </dl>
+
+          {(sandbox.data?.integrations ?? []).length > 0 ? (
+            <ul className="mt-4 space-y-2">
+              {(sandbox.data?.integrations ?? []).map((engine) => (
+                <li
+                  key={engine.key}
+                  className="rounded-panel border border-line-subtle bg-surface p-3"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-fg">{engine.name}</span>
+                    <Badge tone={engine.configured ? 'safe' : 'neutral'} size="sm">
+                      {engine.configured ? 'Configured' : 'Not configured'}
+                    </Badge>
+                    {engine.sends_data_off_host ? (
+                      <Badge tone={engine.blocked_by_sovereign_mode ? 'neutral' : 'medium'} size="sm">
+                        {engine.blocked_by_sovereign_mode
+                          ? 'Blocked by sovereign mode'
+                          : 'Receives the sample'}
+                      </Badge>
+                    ) : null}
+                  </div>
+                  <p className="mt-1 text-xs text-fg-subtle">{engine.requires}</p>
+                  {/* NEVER DROP THIS TO TIDY THE PANEL. `configured` is read from
+                      THIS process's environment while the engine runs on the
+                      off-host worker, so on a split deployment — the shape this
+                      product actually has — the flag can be false while the
+                      attached worker has the variable set. Without the caveat
+                      the row answers a procurement question with the wrong
+                      machine's configuration, and reads as authoritative. */}
+                  {engine.configuration_caveat ? (
+                    <p className="mt-1 text-xs text-fg-faint">{engine.configuration_caveat}</p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </AsyncBoundary>
       </div>
     </Panel>

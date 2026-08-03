@@ -206,7 +206,26 @@ def sandbox_capabilities(settings: Settings = Depends(get_settings)):
         yara_status = {"loaded": 0, "error": f"{type(exc).__name__}"}
 
     dynamic_ready, dynamic_reason = _dynamic_state(settings)
+
+    # WHERE THIS DEPLOYMENT'S SAMPLES GO. The engine has always been able to say
+    # — `integrations.capability_report()` describes every open-source sandbox it
+    # can hand a file to — and the portal never asked. So a deployment with
+    # CAPEV2_URL or CUCKOO_URL set uploads every detonatable sample to a third
+    # party, and no screen and no API response named the engine or the
+    # destination: `dynamic_worker: true` and nothing more.
+    #
+    # It publishes no secrets. `Engine.describe()` emits `configured` as a bool
+    # and never the credential; the variable NAMES appear only inside the
+    # human-readable `requires` line, which is documentation.
+    try:
+        from ..sandbox.engine.integrations import capability_report
+
+        integrations = capability_report()
+    except Exception:  # noqa: BLE001 — the integrations layer is optional
+        integrations = []
+
     return {
+        "integrations": integrations,
         "static_analyzers": sorted(analyzers.all_names()),
         "unavailable_analyzers": analyzers.unavailable_analyzers(),
         "yara": yara_status,

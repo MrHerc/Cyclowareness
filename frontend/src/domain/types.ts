@@ -705,7 +705,36 @@ export interface SandboxJobStats {
   top_risk: SandboxJobSummary[]
 }
 
+/** One external engine this deployment can hand a sample to.
+ *
+ *  Carries no credential — `configured` is a bool and the variable names appear
+ *  only inside the human-readable `requires` line. */
+export interface SandboxIntegration {
+  key: string
+  name: string
+  vendor: string
+  kind: string
+  tier: string
+  configured: boolean
+  sends_data_off_host: boolean
+  blocked_by_sovereign_mode: boolean
+  requires: string
+  notes: string
+  docs_url?: string
+  /** True when the engine runs in the off-host worker, not in this process. */
+  configured_on_worker?: boolean
+  /** MUST BE RENDERED WHEREVER `configured` IS. On a split deployment — which is
+   *  this product's shape — `configured` reflects the WEB SERVICE's environment
+   *  while the engine runs on the worker, so the flag can be false while the
+   *  attached worker has the variable set. Dropping this line to tidy the panel
+   *  makes it answer a procurement question with the wrong machine's config. */
+  configuration_caveat?: string
+}
+
 export interface SandboxCapabilities {
+  /** Where this deployment's samples can go. Empty when the engine's
+   *  integrations layer is absent. */
+  integrations?: SandboxIntegration[]
   static_analyzers: string[]
   unavailable_analyzers: Record<string, string>
   yara: { loaded: number; files?: number; failed?: Record<string, string> | null; error?: string }
