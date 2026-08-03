@@ -17,6 +17,8 @@ from __future__ import annotations
 import ast
 import pathlib
 
+import pytest
+
 from app.routers import sandbox_dynamic
 from app.sandbox.engine import native
 
@@ -120,4 +122,64 @@ def test_the_engine_package_holds_no_portal_only_module():
     assert not unexpected, (
         f"portal-authored modules inside the vendored engine: {sorted(unexpected)}. "
         f"They will be lost on the next re-vendor; put them in app/sandbox/ instead."
+    )
+
+# --- the drift itself, when the other repository is on this machine ------------
+#: The standalone checkout, if the developer has one beside the portal. CI does
+#: not, which is why every other test in this file checks the portal alone.
+_STANDALONE = pathlib.Path(
+    "C:/Users/Safar/Desktop/Cyclowareness/cyclowareness-sandbox/backend/app/engine"
+)
+
+
+@pytest.mark.skipif(
+    not _STANDALONE.is_dir(),
+    reason=(
+        "the standalone checkout is not on this machine — CI runs one repository "
+        "at a time, so the byte-identity check can only run for a developer who "
+        "has both"
+    ),
+)
+def test_the_vendored_engine_is_byte_identical_to_the_standalone():
+    """The check nobody remembers to run by hand.
+
+    Drift is invisible: the portal keeps working, its tests keep passing, and the
+    fixes the standalone gains simply never arrive. It went unnoticed until ten
+    files and 553 lines had accumulated — and then happened AGAIN the same day,
+    when a commit in the other repository touched `report.py` and `verdict.py`
+    within hours of the re-vendor.
+
+    FAILING HERE IS USUALLY NOT A DEFECT IN THE PORTAL. It means the standalone
+    has moved. What to do about that depends on the standalone, so the message
+    says to check it rather than to copy blindly: the drift that prompted this
+    test was against a commit whose own CI was RED, and copying it would have
+    imported somebody else's broken work-in-progress into this repository.
+
+    Skipped in CI, where only one repository is checked out. That makes it a
+    developer's check, not a gate — which is the honest scope for it, because
+    nothing in CI can see the other repository at all.
+    """
+    engine = pathlib.Path(native.__file__).parent
+    drifted: list[str] = []
+    missing: list[str] = []
+
+    for theirs in sorted(_STANDALONE.rglob("*.py")):
+        if "__pycache__" in theirs.parts:
+            continue
+        ours = engine / theirs.relative_to(_STANDALONE)
+        if not ours.exists():
+            missing.append(str(theirs.relative_to(_STANDALONE)))
+        elif ours.read_bytes() != theirs.read_bytes():
+            drifted.append(str(theirs.relative_to(_STANDALONE)))
+
+    assert not missing, f"present in the standalone, absent here: {missing}"
+    assert not drifted, (
+        "the vendored engine has drifted from the standalone: "
+        + ", ".join(drifted)
+        + ". Before copying: check the standalone's own CI is green on the "
+        "commit that changed these. A red standalone means the drift is somebody "
+        "else's work in progress and must NOT be pulled in. When it is green, "
+        "copy its bytes over — it is the source of truth — and then re-check what "
+        "the portal DOES with what arrived. The last re-vendor needed four "
+        "separate rewirings after the files landed; the files are half of it."
     )
