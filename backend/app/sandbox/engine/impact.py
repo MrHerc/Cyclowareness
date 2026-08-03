@@ -206,6 +206,7 @@ def assess(
     iocs: IOCs | None = None,
     *,
     from_url: bool = False,
+    attributable: bool = True,
 ) -> ImpactRating:
     """Derive a CIR vector from a sample's family, signals and IOCs.
 
@@ -231,9 +232,15 @@ def assess(
     # NOT among them there and is not here — it is demoted for scoring only, and
     # routing it into the capability engine was measured at a cost of 16 fixture
     # detections.
-    from .scoring import family_ambient, uncorroborated
+    from .scoring import capability_exclusions
 
-    excluded = uncorroborated(signals) | family_ambient(family)
+    # The same function `verdict.classify` uses, rather than the same two terms
+    # written out again. Writing them out again is exactly how this drifted: the
+    # verdict gained a third exclusion for uncalibrated platforms and this did
+    # not, so a Linux detonation took the rating from 0.0/none to 5.3/medium and
+    # added Network / C2 and Carries an executable payload — inside the signed
+    # evidence bundle, beside a score that had deliberately ignored it.
+    excluded = capability_exclusions(family, signals, attributable=attributable)
     caps = detect_capabilities(
         [s for s in signals if s.id not in excluded] if excluded else signals,
         iocs,

@@ -43,7 +43,7 @@ from sqlalchemy.orm import Session
 from ..config import Settings, get_settings
 from ..database import get_db
 from ..platform import models as platform_models
-from ..sandbox.engine import identify, scoring
+from ..sandbox.engine import identify, native, scoring
 from ..sandbox.engine.contracts import IOCs, AnalyzerResult, Signal
 from ..sandbox.engine.models import JobSource, JobStatus, SandboxJob
 from ..sandbox.engine.storage import quarantine_root
@@ -56,7 +56,12 @@ router = APIRouter(prefix="/api/dynamic", tags=["sandbox"])
 
 #: Families a dynamic worker can meaningfully detonate or emulate. An RTF
 #: exploit and a LNK command line are exactly what a detonation shows.
-_DYNAMIC_FAMILIES = {"pe", "elf", "script", "office", "pdf", "rtf", "lnk"}
+#: THE ENGINE'S SET, NOT A COPY OF IT. This was a literal duplicate of
+#: `native.DETONABLE_FAMILIES`, which is how the two drifted before: the engine
+#: gained a family and the queue kept offering the old list, so a job the report
+#: promised would be detonated was never handed to a worker. One definition,
+#: read from the engine that owns it.
+_DYNAMIC_FAMILIES = native.DETONABLE_FAMILIES
 
 
 class _WorkerActor:
@@ -490,7 +495,14 @@ def ingest_report(
     attributable = _dynamic_is_attributable(job)
     assessment = scoring.assess(
         results,
-        ioc_total=merged.total(),
+        # NOT `merged.total()`, and this is the path where it matters most:
+        # this function only runs once a report has landed, so `merged` always
+        # carries the trace's indicators. Counting them into ioc_density while
+        # the rest of the score is deliberately excluding that tier charges the
+        # sample for behaviour the score has already refused to attribute.
+        ioc_total=scoring.scorable_ioc_total(
+            results, job.family, attributable=attributable
+        ),
         tiers=tiers,
         family=job.family,
         dynamic_attributable=attributable,
@@ -549,11 +561,19 @@ def ingest_report(
     # fetched from the internet. Omitting it here would mean detonating a
     # URL-delivered sample LOWERED its impact rating, because this recomputation
     # replaces the pipeline's rating with one that forgot where the file came from.
+    #
+    # `attributable` reaches BOTH of these, and that is the point. It was
+    # computed for the score and then dropped here, so the score refused the
+    # guest's behaviour while the verdict, the threat name and the impact rating
+    # printed beside it accepted the same evidence. One report, two answers about
+    # the same trace, and the two most quotable fields were the wrong ones.
     impact_res = impact_mod.assess(
-        job.family, all_signals, merged, from_url=(job.source == JobSource.URL)
+        job.family, all_signals, merged,
+        from_url=(job.source == JobSource.URL), attributable=attributable,
     )
     verdict_res = verdict_mod.classify(
-        job.family, job.mime, results, merged, assessment.final_score
+        job.family, job.mime, results, merged, assessment.final_score,
+        attributable=attributable,
     )
     # The same rule the pipeline applies: a clean verdict rates nothing.
     if verdict_res.verdict == "clean":
@@ -563,7 +583,17 @@ def ingest_report(
         )
     job.impact = impact_res.to_dict()
     job.verdict = verdict_res.to_dict()
-    job.mitre = mitre_mod.map_techniques(all_signals)
+    job.mitre = mitre_mod.map_techniques(
+        all_signals,
+        # An uncalibrated platform may not assert an ATT&CK technique either.
+        # A technique in that panel is an accusation with a reference number,
+        # and this path was asserting them from ids the score had already
+        # discarded — the same signal excluded from the number and printed in
+        # the panel beside it.
+        exclude=scoring.inadmissible_dynamic_ids(
+            job.family, all_signals, attributable=attributable
+        ),
+    )
 
     # And the container above it. `pipeline.run` enforces "a container carries
     # the verdict of the worst thing found in it" once, at static time. Re-scoring

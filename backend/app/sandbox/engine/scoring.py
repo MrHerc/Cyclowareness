@@ -31,7 +31,7 @@ import math
 from dataclasses import dataclass, field
 from typing import Any, Iterable
 
-from .contracts import SEVERITY_ORDER, AnalyzerResult, Signal, risk_level
+from .contracts import SEVERITY_ORDER, IOCs, AnalyzerResult, Signal, risk_level
 
 # --- rule component -----------------------------------------------------------
 
@@ -363,6 +363,244 @@ def family_ambient(family: str | None) -> frozenset[str]:
     return FAMILY_AMBIENT_SIGNALS.get((family or "").lower(), frozenset())
 
 
+#: Families whose DYNAMIC signals are recorded, timelined and shown — and never
+#: scored, and never allowed to name a capability.
+#:
+#: `FAMILY_AMBIENT_SIGNALS` above lists ids, which works when the signals are
+#: known and only some of them are noise. This is the other case: a platform
+#: whose whole dynamic signal set is uncalibrated, where enumerating ids would
+#: be guessing at a list that upstream changes.
+#:
+#: `elf` is here because Linux detonation was measured before it was enabled:
+#:
+#:   * CAPE loads `modules/signatures/all/` for a Linux task as well as the four
+#:     in `linux/`, and `all/stealth_network.py` fires whenever the report has
+#:     network hosts and no `network`-category call was seen. The strace
+#:     processor emits category `net`, never `network`, so it is a GUARANTEED
+#:     false positive on any Linux task with a PCAP.
+#:   * `capev2.deletes_files` arrives at CAPE severity 3, which this engine maps
+#:     to `high`, on any `unlink` or `O_TRUNC`.
+#:   * Not one Linux id appears in `AMBIENT_SIGNALS`, `STRUCTURAL_SIGNALS` or
+#:     `FAMILY_AMBIENT_SIGNALS`, and there is no benign Linux corpus to build
+#:     those lists from the way the 50-sample Windows corpus built them.
+#:
+#: Together that means the first flagged Linux sample would most likely read
+#: `Linux.Backdoor.DeletesFiles` because it truncated a file, pushed over the
+#: threshold by the guest's own DNS traffic. That is the exact false-positive
+#: disease this engine spent a corpus curing on PDF and on static ELF, and
+#: shipping it on a platform with no fixture would be doing it deliberately.
+#:
+#: So the detonation runs, the syscall trace is captured, the timeline and every
+#: signal are in the report and in the signed evidence — and none of it moves
+#: the number. A trace is a document until it is calibrated.
+#:
+#: TO REMOVE A FAMILY FROM HERE: build a benign corpus for that platform, run
+#: it, and populate the demotion lists from what fires on software that is not
+#: malware. That is the same bar every other platform cleared.
+DYNAMIC_UNCALIBRATED_FAMILIES = frozenset({"elf"})
+
+
+def uncalibrated_dynamic_ids(family: str | None, signals: "Iterable[Signal]") -> frozenset[str]:
+    """Dynamic signal ids that may not assert anything, because the platform
+    they came from has never been measured against benign software.
+
+    Empty for every calibrated family, so a caller can apply it unconditionally.
+
+    Its own function because it has three consumers that want DIFFERENT things
+    around it: `capability_exclusions` adds `uncorroborated` and
+    `family_ambient`, while the two `mitre.map_techniques` callers want this
+    term alone — a blanket severity gate on ATT&CK was measured and rejected at
+    a cost of 362 techniques, 28 of them on malicious samples. Written out
+    inline it was already four copies, and copies of this exact decision have
+    drifted twice.
+    """
+    if not dynamic_uncalibrated(family):
+        return frozenset()
+    return frozenset(s.id for s in signals if _dynamic(s.id))
+
+
+def capability_exclusions(
+    family: str | None,
+    signals: "Iterable[Signal]",
+    *,
+    attributable: bool = True,
+) -> frozenset[str]:
+    """Signal ids that must never reach `detect_capabilities`.
+
+    ONE DEFINITION, BECAUSE THIS HAS DRIFTED ONCE ALREADY. `verdict.classify`
+    and `impact.assess` both build a capability set, and `impact.assess` said in
+    its own comment that its exclusions were "verdict.py's, deliberately and
+    exactly". They were, until `verdict.classify` gained a third term for
+    uncalibrated platforms and `impact.assess` did not.
+
+    Measured on the deployed image, same static findings, once alone and once
+    with the first real Linux detonation folded in:
+
+        family elf   impact 0.0 / none   ->   5.3 / medium
+                     capabilities +Network / C2, +Carries an executable payload
+        family pe    identical numbers, i.e. the guard had NO effect at all
+
+    `detect_capabilities` reads `signal.severity`, not `effective_severity`, so
+    forcing an uncalibrated platform's signals to `info` does nothing here — and
+    the impact rating travels inside the Ed25519-signed evidence bundle at
+    `report.reproducible.impact`.
+
+    The four terms:
+
+    * `uncorroborated` — a lone high-consequence signal is a lead, not a finding;
+    * `family_ambient` — the interpreter is not the sample;
+    * every dynamic id when the platform is uncalibrated — a syscall trace from
+      a platform nobody has measured against benign software is a document;
+    * every dynamic id when the detonation is NOT ATTRIBUTABLE — see below.
+
+    THE SECOND AXIS. There are two unrelated reasons a detonation may be shown
+    and may not accuse, and the guard was built for only one of them:
+
+      calibration      the platform's signatures were never measured (`elf`);
+      attributability  Windows cannot execute this file at all, so whatever the
+                       guest did, this sample did not do it.
+
+    `scoring.assess` has taken `dynamic_attributable` since the 226 inert files
+    were detonated, and honours it: measured on the live image, a `script` with
+    three `capev2` signals scores `rule=7.0` not-attributable against `98.0`
+    attributable. Every OTHER consumer took the calibration axis and stopped.
+    So the same trace that the score refuses to count still reached the verdict
+    through the identification branch:
+
+        script / text/html, README.html, three capev2 signals + capev2.detection
+        -> verdict MALICIOUS, threat Script.Malware.Ryuk, SandboxID
+           detected=True severity=critical, at a final_score of 5.9
+
+    A man page came out `T1055 Process Injection` by the same route. The score
+    breakdown says "Windows has no way to run a file of this type… excluded from
+    the score" three keys away from the verdict that used it.
+
+    Why a symmetry test could not catch it: `test_a_second_path_forgot_the_rule`
+    asserts the pipeline and the report handler pass the SAME arguments to
+    `impact.assess` and `verdict.classify`. They did. Both were equally wrong.
+
+    `AMBIENT_SIGNALS` is deliberately NOT among them: it is demoted for scoring
+    only, and routing it into the capability engine was measured at a cost of 16
+    fixture detections.
+    """
+    signals = list(signals)
+    inadmissible = uncalibrated_dynamic_ids(family, signals)
+    if not attributable:
+        inadmissible |= frozenset(s.id for s in signals if _dynamic(s.id))
+    return frozenset(uncorroborated(signals) | family_ambient(family) | inadmissible)
+
+
+def uncalibrated_note(family: str | None, signals: "Iterable[Signal]") -> dict | None:
+    """The sentence a report owes an analyst when a trace is shown but not believed.
+
+    Nothing said so anywhere. Every guard in this module is invisible outside it:
+    on the nine ELF jobs that have really detonated, no surface — the JSON API,
+    the React UI, the PDF case file, the STIX bundle, the DORA/NIS2 record or the
+    Ed25519-signed evidence — contains a word about calibration.
+
+    AND THE ROWS DO NOT LOOK DEMOTED. `effective_severity` is a scoring function;
+    it does not rewrite the stored signal, and it must not — CAPE reported
+    `deletes_files` at severity 3 and a signed artifact has to keep saying so.
+    The consequence is that the PDF prints `[high] Deletes files from disk` in
+    the exported case file while that same row contributes 0.0 to the score,
+    names no capability, sets no verdict and maps to no technique. A reader has
+    no way to tell those two facts apart, and the report never mentions that
+    there is anything to tell apart.
+
+    The regulatory record was worse than silent. `incident._evidence` fell back
+    to the literal "All configured analysis tiers ran." — every tier HAD run, so
+    the sentence was true and the impression it left was not.
+
+    Deliberately NOT a severity rewrite. The fix is to explain the row, not to
+    edit the evidence.
+
+    Lives in `scoring` because the guard test forbids `capev2.` from appearing in
+    pipeline.py, api/dynamic.py, verdict.py and impact.py — one definition of
+    what an uncalibrated platform may assert, in one module.
+    """
+    ids = uncalibrated_dynamic_ids(family, signals)
+    if not ids:
+        return None
+    return {
+        "family": (family or "").lower(),
+        "signal_count": len(ids),
+        "reason": (
+            "The behavioural findings in this report were observed on a platform "
+            "whose signature set this deployment has not yet measured against "
+            "benign software. They are recorded in full, and excluded from the "
+            "score, the capability list, the threat name and the ATT&CK mapping "
+            "— including any row shown below at medium or high severity. The "
+            "severities are the sandbox's own and have been left untouched."
+        ),
+    }
+
+
+def inadmissible_dynamic_ids(
+    family: str | None,
+    signals: "Iterable[Signal]",
+    *,
+    attributable: bool = True,
+) -> frozenset[str]:
+    """Dynamic ids that may not be concluded from — on EITHER axis.
+
+    Narrower than `capability_exclusions` on purpose, and the difference matters.
+    The ATT&CK mapping wants only this: `capability_exclusions` also carries
+    `uncorroborated` and `family_ambient`, and routing those into technique
+    mapping would quietly drop techniques from real malware that this change has
+    no business touching.
+    """
+    signals = list(signals)
+    ids = uncalibrated_dynamic_ids(family, signals)
+    if not attributable:
+        ids |= frozenset(s.id for s in signals if _dynamic(s.id))
+    return ids
+
+
+def dynamic_uncalibrated(family: str | None) -> bool:
+    """Is this family's dynamic tier observed but not yet believed?"""
+    return (family or "").lower() in DYNAMIC_UNCALIBRATED_FAMILIES
+
+
+def scorable_ioc_total(
+    results: "Iterable[AnalyzerResult]",
+    family: str | None,
+    *,
+    attributable: bool = True,
+) -> int:
+    """How many indicators the SCORE is allowed to count.
+
+    Not the same number as the report shows. `job.iocs` keeps every indicator
+    the analysis produced, including the trace's, because a Linux detonation
+    that resolved a domain is evidence worth reading even when nothing may be
+    concluded from it — this only decides what reaches `ioc_density`.
+
+    It exists because the guard leaked a fifth way. `assess` takes `ioc_total`,
+    feeds it to the `ioc_density` term (model weight 0.9) and so into `ai_score`
+    and `final_score`, and both callers computed it by merging every analyzer's
+    indicators, dynamic tier included. Measured on the live image: an ELF whose
+    trace contributed 25 indicators scored 26.2 against the same sample's 24.0
+    static-only — 2.2 points, from a tier every other consumer ignores. It
+    survived the guard's tests because `rule_score` never moves (37.0 in both),
+    and those tests asserted on `rule_score`.
+
+    Shared rather than fixed twice on purpose: the same duplication between
+    `verdict.classify` and `impact.assess` is what let the rating leak into the
+    signed evidence after the score had already been fixed.
+    """
+    merged = IOCs()
+    #: Both axes, for the same reason `capability_exclusions` carries both: a C2
+    #: address the guest reached while "running" an HTML readme is the guest's,
+    #: not the sample's, and 12 such indicators were still reaching `ioc_density`.
+    skip_dynamic = dynamic_uncalibrated(family) or not attributable
+    for result in results:
+        if not result.ran:
+            continue
+        if skip_dynamic and result.analyzer.startswith("dynamic."):
+            continue
+        merged = merged.merge(result.iocs)
+    return merged.total()
+
+
 #: Prefixes of the signals a detonation produces.
 _DYNAMIC_PREFIX = "capev2."
 
@@ -408,6 +646,26 @@ def effective_severity(
     `STRUCTURAL_SIGNALS` (`verified_publisher` from `publisher_verified()`) and
     `FAMILY_AMBIENT_SIGNALS` (`family` — the interpreter is not the script).
     """
+    # A detonation on a platform whose signal set has never been measured
+    # against benign software observed something real and cannot yet say what it
+    # means. See DYNAMIC_UNCALIBRATED_FAMILIES for the measurements behind this.
+    #
+    # `info`, NOT `low`: `info` weighs 0.0, which is what "recorded, not counted
+    # against the file" already means elsewhere here (`pdf.open_action`,
+    # `pdf.embedded_file`). Deliberately stricter than the `dynamic_attributable`
+    # rule below, which stops at `low` — that one is about ONE sample that could
+    # not execute, this is about a whole platform nobody has calibrated.
+    #
+    # And it sits BEFORE the early return below, because that return is what a
+    # `low` signal hits first and `low` weighs 4, not 0.
+    #
+    # Measured twice on the same sample. Demoting only medium/high/critical took
+    # it from 31.4 to 31.1 against a static-only 29.5 — the two signals CAPE
+    # itself reported at `low` (`stealth_network`, `reads_files`) never reached
+    # the rule at all and kept contributing. An uncalibrated platform has to
+    # contribute nothing whatever severity it arrives at.
+    if _dynamic(signal.id) and dynamic_uncalibrated(family):
+        return "info"
     if signal.severity not in ("medium", "high", "critical"):
         return signal.severity
     if signal.id in AMBIENT_SIGNALS or signal.id in alone:
