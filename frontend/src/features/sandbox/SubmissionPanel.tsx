@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link2, Upload } from 'lucide-react'
 import { ApiError } from '../../lib/api/client'
 import { useSandboxUpload, useSandboxUrl } from '../../lib/api/mutations'
+import { useSandboxCapabilities } from '../../lib/api/queries'
 import { cn } from '../../lib/format'
 import {
   Button,
@@ -58,6 +59,9 @@ export function SubmissionPanel() {
   const [file, setFile] = useState<File | null>(null)
   const [password, setPassword] = useState('')
   const [url, setUrl] = useState('')
+  // The server's own ceiling, never a constant here: a number hardcoded in the
+  // browser is wrong the moment a deployment sets MAX_SAMPLE_MB.
+  const maxMb = useSandboxCapabilities().data?.max_sample_mb
 
   const upload = useSandboxUpload({
     onSuccess: (job) => navigate(`/sandbox/${job.public_id}`),
@@ -96,7 +100,17 @@ export function SubmissionPanel() {
             <div className="grid gap-4 md:grid-cols-2">
               <Field
                 label="File"
-                hint="Up to the engine's size limit. Content is identified by its bytes, not by its name."
+                hint={
+                  // NAMED BEFORE THE UPLOAD, not only in the 413 afterwards.
+                  // `SampleTooLarge` has always stated the ceiling, but only to
+                  // somebody who had already sent a file and waited for it to be
+                  // refused. Falls back to the old wording when the server has
+                  // not answered yet — a number invented client-side would be
+                  // wrong the moment a deployment changes it.
+                  maxMb
+                    ? `Up to ${maxMb} MB. Content is identified by its bytes, not by its name.`
+                    : "Up to the engine's size limit. Content is identified by its bytes, not by its name."
+                }
                 required
               >
                 {(aria) => (

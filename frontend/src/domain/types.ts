@@ -735,6 +735,10 @@ export interface SandboxCapabilities {
   /** Where this deployment's samples can go. Empty when the engine's
    *  integrations layer is absent. */
   integrations?: SandboxIntegration[]
+  /** The largest sample this deployment accepts, in megabytes. Published so the
+   *  limit can be stated BEFORE an upload rather than only in the 413 that
+   *  follows one. */
+  max_sample_mb?: number
   static_analyzers: string[]
   unavailable_analyzers: Record<string, string>
   yara: { loaded: number; files?: number; failed?: Record<string, string> | null; error?: string }

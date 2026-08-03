@@ -100,3 +100,44 @@ def test_the_matrix_survives_an_absent_integrations_layer(client, analyst_header
 def test_the_published_matrix_is_json_serialisable_without_surprises(client, analyst_headers):
     body = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
     json.dumps(body["integrations"])  # raises if anything exotic slipped in
+
+
+# --- the size ceiling ---------------------------------------------------------
+def test_the_sample_ceiling_is_published_so_it_can_be_stated_before_an_upload(
+    client, analyst_headers
+):
+    """`SampleTooLarge` has always named the limit — to somebody who had already
+    sent a file and waited for it to be refused. Publishing it lets the form say
+    so first."""
+    body = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
+    assert isinstance(body.get("max_sample_mb"), int)
+    assert body["max_sample_mb"] > 0
+
+
+def test_the_configured_ceiling_is_the_one_actually_enforced(client, analyst_headers, monkeypatch):
+    """Publishing a number the routers do not pass to the engine would be worse
+    than publishing none: the form would state a limit that is not the limit.
+
+    Lowered to 1 MB and checked against a 2 MB submission, so this fails if the
+    setting stops reaching `store_stream`.
+    """
+    from app.config import get_settings
+
+    monkeypatch.setenv("MAX_SAMPLE_MB", "1")
+    get_settings.cache_clear()
+    try:
+        published = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
+        assert published["max_sample_mb"] == 1
+
+        oversized = client.post(
+            "/api/sandbox/upload",
+            files={"file": ("big.bin", b"\x00" * (2 * 1024 * 1024), "application/octet-stream")},
+            headers=analyst_headers,
+        )
+        assert oversized.status_code == 413, (
+            f"a 2 MB sample was accepted under a published 1 MB ceiling "
+            f"({oversized.status_code}) — the setting is not reaching the engine"
+        )
+        assert "1 MB" in oversized.json()["detail"]
+    finally:
+        get_settings.cache_clear()

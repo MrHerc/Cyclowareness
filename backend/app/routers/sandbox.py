@@ -226,6 +226,10 @@ def sandbox_capabilities(settings: Settings = Depends(get_settings)):
 
     return {
         "integrations": integrations,
+        # PUBLISHED SO THE LIMIT CAN BE STATED BEFORE THE UPLOAD, not after it.
+        # `SampleTooLarge` already names the ceiling, but only once somebody has
+        # sent a file and waited for it to be refused.
+        "max_sample_mb": settings.max_sample_mb,
         "static_analyzers": sorted(analyzers.all_names()),
         "unavailable_analyzers": analyzers.unavailable_analyzers(),
         "yara": yara_status,
@@ -250,10 +254,11 @@ async def upload(
     password: str | None = Form(default=None),
     db: Session = Depends(get_db),
     user: User = Depends(require_analyst),
+    settings: Settings = Depends(get_settings),
 ):
     """Submit a file. The bytes are streamed straight into quarantine."""
     try:
-        stored = store_stream(file.file)
+        stored = store_stream(file.file, max_bytes=settings.max_sample_mb * 1024 * 1024)
     except SampleTooLarge as exc:
         raise HTTPException(status_code=413, detail=str(exc)) from exc
     except EmptySample as exc:
@@ -282,11 +287,12 @@ def submit_url(
     payload: SubmitURLRequest,
     db: Session = Depends(get_db),
     user: User = Depends(require_analyst),
+    settings: Settings = Depends(get_settings),
 ):
     """Submit a URL. The server downloads it — after refusing to fetch anything
     that resolves to a private, loopback or cloud-metadata address."""
     try:
-        fetched = fetch(payload.url)
+        fetched = fetch(payload.url, max_bytes=settings.max_sample_mb * 1024 * 1024)
     except UnsafeURL as exc:
         raise HTTPException(status_code=422, detail=f"Refusing to fetch: {exc}") from exc
     except SampleTooLarge as exc:

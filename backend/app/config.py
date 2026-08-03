@@ -49,6 +49,12 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     ai_model: str = "claude-sonnet-5"
 
+    #: The largest sample this deployment accepts, in megabytes. The engine's
+    #: own default is 32 MB and the routers previously took it implicitly, so the
+    #: ceiling could not be lowered for a constrained host or raised for a
+    #: forensics one without editing vendored code.
+    max_sample_mb: int = 32
+
     # Sandbox analyzer: "mock" | "real"
     sandbox_analyzer: str = "mock"
     real_analyzer_backend: str = "virustotal"  # virustotal | cape | hybrid_analysis
