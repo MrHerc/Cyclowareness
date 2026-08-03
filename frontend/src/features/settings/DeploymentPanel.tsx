@@ -175,13 +175,25 @@ export function DeploymentPanel() {
                       {engine.configured ? 'Configured' : 'Not configured'}
                     </Badge>
                     {engine.sends_data_off_host ? (
+                      // "Sends data off-host", NOT "receives the sample". The flag
+                      // is true for both, and they are not the same disclosure:
+                      // Cuckoo, CAPEv2 and Joe upload the FILE, VirusTotal sends
+                      // only a SHA-256 and "uploads nothing" in the engine's own
+                      // words. Labelling every row with the stronger claim would
+                      // overstate exposure on the one engine most deployments
+                      // have — in the panel built to stop overstatement. What
+                      // actually leaves is in `notes`, rendered below.
                       <Badge tone={engine.blocked_by_sovereign_mode ? 'neutral' : 'medium'} size="sm">
                         {engine.blocked_by_sovereign_mode
                           ? 'Blocked by sovereign mode'
-                          : 'Receives the sample'}
+                          : 'Sends data off-host'}
                       </Badge>
                     ) : null}
                   </div>
+                  {/* The engine's own description of WHAT leaves. Without it the
+                      panel says data goes somewhere and never says what, which
+                      is the question the reader opened it for. */}
+                  <p className="mt-1 text-xs text-fg-muted">{engine.notes}</p>
                   <p className="mt-1 text-xs text-fg-subtle">{engine.requires}</p>
                   {/* NEVER DROP THIS TO TIDY THE PANEL. `configured` is read from
                       THIS process's environment while the engine runs on the

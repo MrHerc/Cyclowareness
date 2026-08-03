@@ -141,3 +141,34 @@ def test_the_configured_ceiling_is_the_one_actually_enforced(client, analyst_hea
         assert "1 MB" in oversized.json()["detail"]
     finally:
         get_settings.cache_clear()
+
+
+def test_the_matrix_distinguishes_uploading_a_file_from_sending_a_hash(
+    client, analyst_headers
+):
+    """`sends_data_off_host` is true for both, and they are not the same claim.
+
+    Cuckoo, CAPEv2 and Joe upload the FILE. VirusTotal sends a SHA-256 and, in
+    the engine's own words, "uploads nothing". A panel that labels every
+    off-host engine as receiving the sample overstates exposure on the one
+    engine most deployments actually have — in the section built to stop
+    overstatement.
+
+    The distinction lives in `notes`, so `notes` must carry it and the UI must
+    render it. This asserts the data supports the claim the screen makes.
+    """
+    body = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
+    rows = {r["key"]: r for r in body["integrations"]}
+
+    vt = rows["virustotal"]
+    assert vt["sends_data_off_host"] is True, "a hash lookup still leaves the host"
+    assert "uploads nothing" in vt["notes"].lower(), (
+        "the only place the panel can say VirusTotal does not receive the file "
+        "is `notes`, and it no longer says so"
+    )
+
+    for key in ("cuckoo", "capev2"):
+        assert rows[key]["sends_data_off_host"] is True
+        assert "submitted to" in rows[key]["notes"].lower(), (
+            f"{key} uploads the sample and its notes no longer say so"
+        )
