@@ -96,18 +96,31 @@ function buildTiles(props: HeroStripProps): Tile[] {
   const unavailable = sandbox ? Object.keys(sandbox.unavailable_analyzers).length : 0
 
   return [
-    {
-      id: 'assigned',
-      label: 'Assigned to you',
-      value: assignedToMe,
-      caption:
-        awaitingApproval === null
-          ? 'Approval items naming you'
-          : `${awaitingApproval} ${plural(awaitingApproval, 'item is', 'items are')} at the gate in total`,
-      to: '/approvals',
-      icon: BadgeCheck,
-      tone: pressing(assignedToMe, 'medium'),
-    },
+    // THE SAME RULE THE QUEUE TAB FOLLOWS. Nothing in this product assigns a run
+    // to an analyst — the server never emits `assigned_analyst` — so this tile
+    // read a permanent 0 in the leading position of the attention strip, which
+    // is where the eye goes first. The tab beside it was retired for exactly
+    // this and the tile was left behind; `assignedToMe` is null until the queue
+    // answers, and 0 thereafter, for ever.
+    //
+    // It reappears the moment a deployment populates the field, which is why
+    // this reads the data rather than a flag.
+    ...(assignedToMe !== null && assignedToMe > 0
+      ? [
+          {
+            id: 'assigned',
+            label: 'Assigned to you',
+            value: assignedToMe,
+            caption:
+              awaitingApproval === null
+                ? 'Approval items naming you'
+                : `${awaitingApproval} ${plural(awaitingApproval, 'item is', 'items are')} at the gate in total`,
+            to: '/approvals',
+            icon: BadgeCheck,
+            tone: pressing(assignedToMe, 'medium'),
+          },
+        ]
+      : []),
     {
       id: 'gate',
       label: 'Waiting at the gate',
