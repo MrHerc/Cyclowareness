@@ -54,6 +54,15 @@ export interface ApprovalQueuePanelProps {
    * `adaptQueue` already resolves this and the Approvals page already uses
    * it; this panel was the one consumer that did not. */
   items: QueueRow[]
+  /** How many runs are waiting IN TOTAL, from the server's own SQL count.
+   *
+   *  `items` is one page — 25 by default — so labelling the tab with
+   *  `items.length` reported 25 when 60 were waiting, and an analyst who
+   *  cleared the page believed they had cleared the gate. Null when the server
+   *  did not say, in which case the label falls back to what is on screen. */
+  total: number | null
+  /** True when the server says more runs exist than were returned. */
+  truncated: boolean
   /** The subset naming the signed-in analyst. */
   mine: QueueRow[]
   scope: QueueScope
@@ -154,9 +163,14 @@ function QueueEntry({
 
         <span className="text-sm text-fg-muted">{audience(item.proposedTargets)}</span>
 
-        <span className="text-sm text-fg-subtle">
-          {item.assignedAnalyst ? `Assigned to ${item.assignedAnalyst}` : 'Unassigned'}
-        </span>
+        {/* "Unassigned" is only true where assignment exists. This deployment
+            has no assignment concept — nothing ever writes `assigned_analyst` —
+            so printing it on every card states a status the product cannot
+            hold, and implies a queue somebody could claim from. Shown only
+            when the field carries something. */}
+        {item.assignedAnalyst ? (
+          <span className="text-sm text-fg-subtle">Assigned to {item.assignedAnalyst}</span>
+        ) : null}
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -245,6 +259,8 @@ function describe(pending: PendingDecision): string {
 
 export function ApprovalQueuePanel({
   items,
+  total,
+  truncated,
   mine,
   scope,
   onScopeChange,
@@ -257,6 +273,11 @@ export function ApprovalQueuePanel({
   busy,
 }: ApprovalQueuePanelProps) {
   const [pending, setPending] = useState<PendingDecision | null>(null)
+
+  // Does assignment mean anything here? Read from the data rather than from a
+  // flag, so a deployment that starts populating `assigned_analyst` gets the
+  // tab back without a release.
+  const assignmentInUse = items.some((item) => item.assignedAnalyst !== null)
 
   const confirm = async () => {
     if (!pending) return
@@ -289,14 +310,29 @@ export function ApprovalQueuePanel({
           </div>
         }
       >
+        {/* THE TAB IS OFFERED ONLY WHEN IT CAN ANSWER. Nothing in this product
+            assigns a run to an analyst, so "Assigned to you" was permanently
+            (0) — a filter that looks like a queue somebody forgot to work,
+            beside a real one. It appears the moment a deployment does populate
+            `assigned_analyst`, which is the same rule QueueTable already
+            applies to its analyst column. */}
         <Tabs
-          value={scope}
+          value={assignmentInUse ? scope : 'all'}
           onValueChange={(value) => onScopeChange(value === 'mine' ? 'mine' : 'all')}
         >
           <TabsList>
-            <TabsTrigger value="all">Whole queue ({items.length})</TabsTrigger>
-            <TabsTrigger value="mine">Assigned to you ({mine.length})</TabsTrigger>
+            <TabsTrigger value="all">Whole queue ({total ?? items.length})</TabsTrigger>
+            {assignmentInUse ? (
+              <TabsTrigger value="mine">Assigned to you ({mine.length})</TabsTrigger>
+            ) : null}
           </TabsList>
+
+          {truncated ? (
+            <p className="mt-2 text-xs text-fg-faint">
+              Showing the {items.length} that have waited longest. Open the approvals queue to
+              work the rest.
+            </p>
+          ) : null}
 
           <TabsContent value="all">
             <QueueList

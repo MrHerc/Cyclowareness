@@ -48,12 +48,31 @@ def _loops_closed(db: Session) -> int:
 
 @router.get("/analyst")
 def analyst_dashboard(db: Session = Depends(get_db), user: User = Depends(require_analyst)):
+    #: The statuses that make a run "active". Named once because the list below
+    #: and the two counts must never drift apart.
+    _ACTIVE = [LoopStatus.RUNNING, LoopStatus.AWAITING_APPROVAL, LoopStatus.AWAITING_TRAINING]
+
+    # The DISPLAY list, capped. The counts below are NOT derived from it.
     active_runs = db.execute(
         select(LoopRun)
-        .where(LoopRun.status.in_([LoopStatus.RUNNING, LoopStatus.AWAITING_APPROVAL, LoopStatus.AWAITING_TRAINING]))
+        .where(LoopRun.status.in_(_ACTIVE))
         .order_by(LoopRun.created_at.desc())
         .limit(20)
     ).scalars().all()
+
+    # Counted in SQL over every row, for the same reason `loops_closed` already
+    # is: deriving them from the capped list above made both saturate at 20. An
+    # estate with 35 runs waiting at the gate reported 20, the analyst worked
+    # twenty and believed the queue was clear, and fifteen people stayed
+    # untrained behind a number that could not go higher.
+    active_run_total = db.execute(
+        select(func.count()).select_from(LoopRun).where(LoopRun.status.in_(_ACTIVE))
+    ).scalar_one()
+    awaiting_approval_total = db.execute(
+        select(func.count())
+        .select_from(LoopRun)
+        .where(LoopRun.status == LoopStatus.AWAITING_APPROVAL)
+    ).scalar_one()
     recent_completed = db.execute(
         select(LoopRun)
         .where(LoopRun.status.in_([LoopStatus.COMPLETED, LoopStatus.FAILED]))
@@ -80,9 +99,9 @@ def analyst_dashboard(db: Session = Depends(get_db), user: User = Depends(requir
         "recent_runs": [_run_summary(db, r) for r in recent_completed],
         "counts": {
             "new_reports": len(new_reports),
-            "awaiting_approval": sum(1 for r in active_runs if r.status == LoopStatus.AWAITING_APPROVAL),
+            "awaiting_approval": int(awaiting_approval_total or 0),
             "active_simulations": len(active_sims),
-            "active_runs": len(active_runs),
+            "active_runs": int(active_run_total or 0),
             # Counted in SQL, not from the truncated recent_runs list — that
             # list is capped at 10, so deriving the total from it silently
             # saturated and contradicted the executive view.

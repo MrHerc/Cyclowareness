@@ -257,6 +257,8 @@ export default function CommandCenter() {
 
       <ApprovalQueuePanel
         items={queueItems}
+        total={queuePage.total}
+        truncated={queuePage.truncated}
         mine={myQueueItems}
         scope={queueScope}
         onScopeChange={selectScope}
