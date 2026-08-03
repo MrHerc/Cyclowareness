@@ -1,11 +1,18 @@
 /**
- * An assignment that is already done, reopened.
+ * An assignment that can no longer be taken, reopened.
  *
- * The lesson is still worth reading, so it is all here. The per-question
- * breakdown is not: the platform returns it once, when it grades, and does not
- * store the answers that were given. Saying so plainly is the only honest
- * option — a review screen that silently omits the questions reads as though
- * they were never asked.
+ * TWO STATES REACH THIS SCREEN AND THEY ARE NOT THE SAME. `completed` means the
+ * person finished it. `expired` means the window closed and they did not — and
+ * this screen used to greet them both with "You have already completed this",
+ * telling someone they had finished training they never took, above a score
+ * panel that then said no measurement was recorded. It is the one claim on the
+ * learner portal that the audit trail can flatly contradict.
+ *
+ * The lesson is still worth reading in both states, so it is all here either
+ * way. The per-question breakdown is not: the platform returns it once, when it
+ * grades, and does not store the answers that were given. Saying so plainly is
+ * the only honest option — a review screen that silently omits the questions
+ * reads as though they were never asked.
  */
 
 import { Link } from 'react-router-dom'
@@ -20,15 +27,18 @@ export interface CompletedReviewProps {
 
 export function CompletedReview({ assignment }: CompletedReviewProps) {
   const { module } = assignment
+  const expired = assignment.status === 'expired'
 
   return (
     <div className="space-y-6">
       <Panel
-        title="You have already completed this"
+        title={expired ? 'This expired before it was finished' : 'You have already completed this'}
         subtitle={
-          assignment.completed_at
-            ? `Finished ${formatDateTime(assignment.completed_at)}`
-            : 'The completion time was not recorded.'
+          expired
+            ? 'The window for taking it closed. The lesson is below and still worth reading; if you need it reassigned, ask the security team.'
+            : assignment.completed_at
+              ? `Finished ${formatDateTime(assignment.completed_at)}`
+              : 'The completion time was not recorded.'
         }
         actions={<Badge status={assignment.status} dot />}
         headingLevel={2}
@@ -38,7 +48,13 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
             <span className="label text-fg-subtle">Score recorded</span>
             <p className="mt-1.5 text-title text-fg tabular-nums">
               {assignment.score === null ? (
-                <NoMeasurement reason="No quiz score was recorded against this assignment." />
+                <NoMeasurement
+                  reason={
+                    expired
+                      ? 'This assignment expired before the quiz was taken, so there is no score.'
+                      : 'No quiz score was recorded against this assignment.'
+                  }
+                />
               ) : (
                 `${num(assignment.score, 0)}%`
               )}
@@ -60,10 +76,15 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
           </div>
         </div>
 
-        <p className="mt-5 border-t border-line-subtle pt-4 text-sm text-fg-subtle">
-          Your individual answers were graded and then discarded — only the score was kept, so this
-          screen cannot show you which questions you got wrong.
-        </p>
+        {/* Only true of an assignment that was actually graded. Telling someone
+            their answers were discarded when they never gave any invents a
+            history for them. */}
+        {expired ? null : (
+          <p className="mt-5 border-t border-line-subtle pt-4 text-sm text-fg-subtle">
+            Your individual answers were graded and then discarded — only the score was kept, so
+            this screen cannot show you which questions you got wrong.
+          </p>
+        )}
       </Panel>
 
       <Panel title={module.title} subtitle={module.description} headingLevel={2}>
