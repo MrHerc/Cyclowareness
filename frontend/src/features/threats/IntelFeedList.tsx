@@ -20,7 +20,7 @@ import { AsyncBoundary, EmptyState, SkeletonCard } from '../../components/states
 import { Badge, Button, Panel, Select, useToast } from '../../components/ui'
 import type { FeedItem } from '../../domain/types'
 import { useFeed } from '../../lib/api/queries'
-import { usePermission } from '../../lib/auth/AuthProvider'
+import { usePermission } from '../../lib/auth/useAuth'
 import { defang, formatDate, humanise } from '../../lib/format'
 import { ALL, matchesQuery, matchesValue, SEVERITY_OPTIONS, useUrlParam } from './filters'
 import { usePushFeedItemToLoop } from './hooks'

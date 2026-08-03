@@ -9,38 +9,20 @@
  */
 
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { AuthContext, type AuthValue } from './context'
 import { api, getSession, onSessionCleared, setSession } from '../api/client'
 import { endpoints } from '../api/endpoints'
-import type { RoleName, Session } from '../../domain/types'
+import type { Session } from '../../domain/types'
 import { can, permissionsFor, type Permission } from './permissions'
 
-interface AuthValue {
-  session: Session | null
-  role: RoleName | undefined
-  isAuthenticated: boolean
-  permissions: Set<Permission>
-  can: (permission: Permission) => boolean
-  login: (email: string, password: string) => Promise<Session>
-  logout: () => void
-  /**
-   * Demo-only. Signs in as one of the seeded accounts so a presenter can move
-   * between the three role experiences without typing credentials on stage.
-   * It is a real sign-in, not a client-side role fake — the server still issues
-   * the token and still enforces every permission.
-   */
-  switchRole: (email: string, password: string) => Promise<Session>
-}
 
-const AuthContext = createContext<AuthValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSessionState] = useState<Session | null>(() => getSession())
@@ -88,15 +70,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session, login, logout])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth(): AuthValue {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used inside <AuthProvider>')
-  return context
-}
-
-/** Convenience for the common `can(...)` call in a component. */
-export function usePermission(permission: Permission): boolean {
-  return useAuth().can(permission)
 }

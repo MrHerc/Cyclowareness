@@ -18,7 +18,7 @@ import { AsyncBoundary, ConfirmationDialog, EmptyState, SkeletonCard } from '../
 import { Panel, Select, useToast } from '../../components/ui'
 import { useCapabilities, useReports } from '../../lib/api/queries'
 import { useDismissReport, usePushReportToLoop } from '../../lib/api/mutations'
-import { usePermission } from '../../lib/auth/AuthProvider'
+import { usePermission } from '../../lib/auth/useAuth'
 import type { Report } from '../../domain/types'
 import { ALL, matchesQuery, matchesValue, REPORT_STATUS_OPTIONS, SUSPICION_OPTIONS, useUrlParam } from './filters'
 import { ReportCard } from './ReportCard'

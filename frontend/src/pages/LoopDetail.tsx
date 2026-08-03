@@ -28,7 +28,7 @@ import {
   useLoop,
 } from '../lib/api/queries'
 import { useLoopStream } from '../lib/hooks/useLoopStream'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { RunHeader } from '../features/loops/detail/RunHeader'
 import { ApprovalGatePanel } from '../features/loops/detail/ApprovalGatePanel'
 import { IntakePanel } from '../features/loops/detail/IntakePanel'

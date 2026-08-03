@@ -8,7 +8,7 @@
 
 import type { ReactElement } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { useAuth } from './AuthProvider'
+import { useAuth } from './useAuth'
 import { homeFor, type Permission } from './permissions'
 
 export function RequireAuth({ children }: { children: ReactElement }) {

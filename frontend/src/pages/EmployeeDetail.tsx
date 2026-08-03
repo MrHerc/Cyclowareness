@@ -27,7 +27,7 @@ import { RiskEventTrail } from '../features/people/RiskEventTrail'
 import { RiskScore } from '../features/people/RiskScore'
 import { baselineFor, behaviourOf, scoreTrail } from '../features/people/riskModel'
 import { useDepartments, useEmployee, useReports } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { num, signed } from '../lib/format'
 
 export default function EmployeeDetail() {

@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui'
 import { cn } from '../../lib/format'
-import { useAuth, usePermission } from '../../lib/auth/AuthProvider'
+import { useAuth, usePermission } from '../../lib/auth/useAuth'
 import { ROLE_LABEL } from '../../lib/auth/permissions'
 
 export interface UserMenuProps {

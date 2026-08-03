@@ -25,7 +25,7 @@ import {
   useThreat,
   useTrainingModule,
 } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 
 export default function TrainingDetail() {
   const { id } = useParams<{ id: string }>()

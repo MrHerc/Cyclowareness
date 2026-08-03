@@ -20,7 +20,7 @@ import { Button, Panel } from '../components/ui'
 import { LoopPrimer } from '../features/onboarding/LoopPrimer'
 import { RoleSurfaces } from '../features/onboarding/RoleSurfaces'
 import { markOnboardingSeen } from '../features/onboarding/seen'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { homeFor, ROLE_LABEL } from '../lib/auth/permissions'
 import { PRODUCT_NAME } from '../lib/demo/registry'
 

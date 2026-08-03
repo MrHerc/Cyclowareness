@@ -29,7 +29,7 @@ import { rememberedEmail, setRememberedEmail } from '../features/auth/remembered
 import { SignInForm, type SignInCredentials } from '../features/auth/SignInForm'
 import { hasSeenOnboarding } from '../features/onboarding/seen'
 import { useCapabilities } from '../lib/api/queries'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { homeFor } from '../lib/auth/permissions'
 
 export default function Login() {

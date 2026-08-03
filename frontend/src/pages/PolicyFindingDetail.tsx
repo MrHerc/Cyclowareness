@@ -32,7 +32,7 @@ import {
   TERMINAL_FINDING_STATUSES,
 } from '../features/policy/vocabulary'
 import { usePolicyFinding } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { deadlineIn, formatDate, formatDateTime, timeAgo } from '../lib/format'
 
 export default function PolicyFindingDetail() {

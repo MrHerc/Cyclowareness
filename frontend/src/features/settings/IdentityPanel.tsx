@@ -11,7 +11,7 @@
 import { Link } from 'react-router-dom'
 import { Avatar, Badge, Button, Panel } from '../../components/ui'
 import { visibleSections } from '../../app/navigation'
-import { useAuth, usePermission } from '../../lib/auth/AuthProvider'
+import { useAuth, usePermission } from '../../lib/auth/useAuth'
 import { ROLE_LABEL } from '../../lib/auth/permissions'
 import { num } from '../../lib/format'
 import { SettingRow } from './SettingRow'

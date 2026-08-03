@@ -23,7 +23,7 @@ import { SubmitArtifactDialog } from '../features/threats/SubmitArtifactDialog'
 import { ThreatList } from '../features/threats/ThreatList'
 import { ALL, artifactTypeOptions, useUrlParam } from '../features/threats/filters'
 import { useFeed, useReports, useThreats } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
 export default function Threats() {

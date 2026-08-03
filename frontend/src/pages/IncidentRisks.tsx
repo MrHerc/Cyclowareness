@@ -21,7 +21,7 @@ import { IncidentRiskTable } from '../features/incident-risks/IncidentRiskTable'
 import { useRiskFilters } from '../features/incident-risks/useRiskFilters'
 import { incidentRiskPageOf } from '../features/incident-risks/wire'
 import { useIncidentRisks } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
 export default function IncidentRisks() {

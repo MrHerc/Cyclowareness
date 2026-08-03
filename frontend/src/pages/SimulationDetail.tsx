@@ -21,7 +21,7 @@ import {
 } from '../features/simulations/outcomeMetrics'
 import { TargetTable } from '../features/simulations/TargetTable'
 import { useSimulation } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { channelLabel, formatDateTime, num } from '../lib/format'
 import type { SimulationDetail as SimulationDetailModel } from '../domain/types'
 

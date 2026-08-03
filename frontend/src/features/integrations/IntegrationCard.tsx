@@ -18,7 +18,7 @@ import { LastUpdated } from '../../components/data'
 import { Badge, Button, Panel, useToast } from '../../components/ui'
 import type { Integration } from '../../domain/types'
 import { useIntegrationAction } from '../../lib/api/mutations'
-import { usePermission } from '../../lib/auth/AuthProvider'
+import { usePermission } from '../../lib/auth/useAuth'
 import { humanise, num } from '../../lib/format'
 import {
   STATUS_MEANING,

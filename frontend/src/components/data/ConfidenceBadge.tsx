@@ -12,16 +12,7 @@
 
 import { cn } from '../../lib/format'
 import { Tip } from './Tip'
-
-export type ConfidenceBand = 'high' | 'moderate' | 'low' | 'very_low'
-
-/** The thresholds, in one place, so a chart and a badge never disagree. */
-export function confidenceBand(value: number): ConfidenceBand {
-  if (value >= 0.85) return 'high'
-  if (value >= 0.6) return 'moderate'
-  if (value >= 0.35) return 'low'
-  return 'very_low'
-}
+import { confidenceBand, type ConfidenceBand } from './confidence'
 
 const BANDS: Record<ConfidenceBand, { label: string; tone: string }> = {
   high: { label: 'High confidence', tone: 'text-fg border-line-strong' },

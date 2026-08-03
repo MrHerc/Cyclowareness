@@ -38,7 +38,7 @@ import { cn } from '../../lib/format'
 import { allNavItems, type NavItem } from '../../app/navigation'
 import { useCapabilities } from '../../lib/api/queries'
 import { useResetDemo } from '../../lib/api/mutations'
-import { useAuth } from '../../lib/auth/AuthProvider'
+import { useAuth } from '../../lib/auth/useAuth'
 import { useRouteMemory } from './recentRoutes'
 
 export interface CommandPaletteProps {

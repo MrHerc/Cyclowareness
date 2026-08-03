@@ -38,7 +38,8 @@ import {
   useThreats,
 } from '../../lib/api/queries'
 import { channelLabel, humanise, truncate } from '../../lib/format'
-import { AudienceSelector, resolveAudience } from './AudienceSelector'
+import { AudienceSelector } from './AudienceSelector'
+import { resolveAudience } from './audience'
 import { LurePreview } from './LurePreview'
 
 type SourceKind = 'template' | 'threat'

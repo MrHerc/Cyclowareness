@@ -31,7 +31,7 @@ import {
   useToast,
 } from '../ui'
 import { ApiError } from '../../lib/api/client'
-import { useAuth } from '../../lib/auth/AuthProvider'
+import { useAuth } from '../../lib/auth/useAuth'
 import { homeFor } from '../../lib/auth/permissions'
 import { DEMO_ACCOUNTS } from '../../lib/demo/registry'
 

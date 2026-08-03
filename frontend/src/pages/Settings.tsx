@@ -14,7 +14,7 @@
  */
 
 import { useCapabilities } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { AppearancePanel } from '../features/settings/AppearancePanel'
 import { DemoControls } from '../features/settings/DemoControls'
 import { DeploymentPanel } from '../features/settings/DeploymentPanel'

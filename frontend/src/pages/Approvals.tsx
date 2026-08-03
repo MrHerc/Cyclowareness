@@ -13,14 +13,14 @@ import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel, Tooltip, TONE_TEXT } from '../components/ui'
 import { adaptQueue, type QueueRow } from '../features/approvals/contract'
 import { waitLabel, waitTone, WAIT_THRESHOLDS } from '../features/approvals/wait'
+import { QueueFilters } from '../features/approvals/QueueFilters'
 import {
   filterRows,
   filtersFromParams,
   isFiltered,
   paramsFromFilters,
-  QueueFilters,
   type QueueFilterState,
-} from '../features/approvals/QueueFilters'
+} from '../features/approvals/filterState'
 import { QueueTable } from '../features/approvals/QueueTable'
 import { useApprovalQueue, useCapabilities } from '../lib/api/queries'
 import { cn, num } from '../lib/format'

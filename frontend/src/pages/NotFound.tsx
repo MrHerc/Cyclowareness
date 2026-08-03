@@ -12,7 +12,7 @@ import { Compass } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { EmptyState } from '../components/states'
 import { Button } from '../components/ui'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { homeFor } from '../lib/auth/permissions'
 
 export default function NotFound() {

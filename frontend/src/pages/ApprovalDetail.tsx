@@ -32,7 +32,7 @@ import { provenanceOf, type LoopStatus } from '../domain/types'
 import { ApiError } from '../lib/api/client'
 import { useApprovalDecision, useUpdateModule } from '../lib/api/mutations'
 import { useApproval, useCapabilities } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { cn, formatDateTime } from '../lib/format'
 
 const LOOP_STATUSES: readonly string[] = [

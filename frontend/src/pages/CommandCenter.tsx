@@ -67,7 +67,7 @@ import {
 import { isUnresolvedIncident } from '../features/incident-risks/useRiskFilters'
 import { isOpenFinding } from '../features/policy/data'
 import { adaptQueue } from '../features/approvals/contract'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 import { useLoopStream } from '../lib/hooks/useLoopStream'
 

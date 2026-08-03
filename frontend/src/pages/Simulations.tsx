@@ -29,7 +29,7 @@ import {
 import { CampaignCard } from '../features/simulations/CampaignCard'
 import { CreateCampaignDialog } from '../features/simulations/CreateCampaignDialog'
 import { useSimulations } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { channelLabel, num } from '../lib/format'
 import type { Simulation, SimulationStatus } from '../domain/types'
 

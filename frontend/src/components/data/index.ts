@@ -26,8 +26,10 @@ export type { DataSource, DataSourceLabelProps } from './DataSourceLabel'
 export { LastUpdated } from './LastUpdated'
 export type { LastUpdatedProps } from './LastUpdated'
 
-export { ConfidenceBadge, confidenceBand } from './ConfidenceBadge'
-export type { ConfidenceBadgeProps, ConfidenceBand } from './ConfidenceBadge'
+export { ConfidenceBadge } from './ConfidenceBadge'
+export type { ConfidenceBadgeProps } from './ConfidenceBadge'
+export { confidenceBand } from './confidence'
+export type { ConfidenceBand } from './confidence'
 
 export { AIProvenanceBadge } from './AIProvenanceBadge'
 export type { AIProvenanceBadgeProps } from './AIProvenanceBadge'

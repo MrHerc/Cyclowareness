@@ -25,7 +25,7 @@ import { SubjectsPanel } from '../features/incident-risks/SubjectsPanel'
 import { rollUpSubjects } from '../features/incident-risks/vocabulary'
 import { timelineOf } from '../features/incident-risks/wire'
 import { useIncidentRisk } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import type { IncidentRiskDetail as IncidentRiskDetailModel } from '../domain/types'
 
 export default function IncidentRiskDetail() {

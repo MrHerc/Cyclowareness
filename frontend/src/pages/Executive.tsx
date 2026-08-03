@@ -76,7 +76,7 @@ import {
   useLoops,
   usePolicyFindings,
 } from '../lib/api/queries'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
 /**

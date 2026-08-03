@@ -22,7 +22,7 @@ import { Separator, Tooltip } from '../ui'
 import { cn } from '../../lib/format'
 import { EMPLOYEE_NAV, visibleSections, type NavItem, type NavSection } from '../../app/navigation'
 import { useAnalystDashboard } from '../../lib/api/queries'
-import { useAuth } from '../../lib/auth/AuthProvider'
+import { useAuth } from '../../lib/auth/useAuth'
 
 export interface SideNavigationProps {
   /** Icon rail instead of the full list. Ignored inside the mobile sheet. */

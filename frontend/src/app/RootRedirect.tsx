@@ -9,7 +9,7 @@
  */
 
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../lib/auth/AuthProvider'
+import { useAuth } from '../lib/auth/useAuth'
 import { homeFor } from '../lib/auth/permissions'
 
 export function RootRedirect() {

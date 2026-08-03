@@ -26,7 +26,7 @@ import {
 } from '../../components/ui'
 import type { DepartmentRisk, PolicyFinding } from '../../domain/types'
 import { useCapabilities, useDepartments, usePolicy, usePolicyFindings } from '../../lib/api/queries'
-import { usePermission } from '../../lib/auth/AuthProvider'
+import { usePermission } from '../../lib/auth/useAuth'
 import { deadlineIn, formatDate } from '../../lib/format'
 import {
   departmentNames,

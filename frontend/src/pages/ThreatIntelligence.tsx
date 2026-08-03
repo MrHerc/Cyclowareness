@@ -31,7 +31,7 @@ import { IntelSourceCoverage } from '../features/intel/IntelSourceCoverage'
 import { IntelViewCounts } from '../features/intel/IntelViewCounts'
 import { readPage } from '../features/intel/vocabulary'
 import { useIntelItems, useIntelMatches } from '../lib/api/queries'
-import { usePermission } from '../lib/auth/AuthProvider'
+import { usePermission } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 import { num } from '../lib/format'
 
