@@ -1,4 +1,4 @@
-# Cyclowareness + ZORBOX — single-image build for Render (one service, one URL).
+# Cyclowareness — single-image build for Render (one service, one URL).
 #
 # Stage 1 compiles the React frontend. Stage 2 is the Python API, which serves
 # that compiled frontend itself (see app/main.py), so there is no second service
@@ -33,9 +33,19 @@ COPY backend/app ./app
 COPY --from=frontend /fe/dist ./frontend_dist
 
 # Quarantine lives on the container's ephemeral disk by default. Mount a Render
-# disk here and set ZORBOX_QUARANTINE to it if samples must survive a redeploy —
-# for a demo, ephemeral is fine (and means uploaded malware never persists).
-ENV ZORBOX_QUARANTINE=/tmp/zorbox-quarantine
+# disk here and point SANDBOX_QUARANTINE at it if samples must survive a
+# redeploy — for a demo, ephemeral is fine (and means uploaded malware never
+# persists).
+#
+# THE NAME IS THE WHOLE POINT. This baked `ZORBOX_QUARANTINE`, a variable no
+# code reads: `engine/storage.py::quarantine_root` reads `SANDBOX_QUARANTINE`
+# and nothing else. The live deployment escaped only because render.yaml sets
+# the right one — but the comment above told an operator to mount a disk and set
+# the wrong one, so anybody following this file to persist samples got a
+# quarantine still on ephemeral /tmp and lost every sample on redeploy, with
+# nothing reporting a fault. The rename that produced this was supposed to reach
+# everywhere; this file was the one place it did not.
+ENV SANDBOX_QUARANTINE=/tmp/cyclowareness-quarantine
 
 EXPOSE 8000
 # Render supplies $PORT; default to 8000 for local `docker run`.
