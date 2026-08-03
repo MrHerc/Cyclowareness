@@ -53,6 +53,11 @@ export interface NavSection {
   items: NavItem[]
 }
 
+// Sentence case, matching each destination's own <h1>. The sidebar said
+// "Approval Gate" while the page it opens says "Approval gate" — the same item
+// in two casings, a few hundred pixels apart. "Command Center" and "Training
+// Studio" keep their capitals because their pages do: they read as names of
+// surfaces rather than as descriptions of them.
 export const NAV_SECTIONS: NavSection[] = [
   {
     id: 'operate',
@@ -69,7 +74,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'loops',
-        label: 'Closed Loops',
+        label: 'Closed loops',
         to: '/loops',
         icon: Radar,
         permission: 'loops.view',
@@ -78,7 +83,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'threats',
-        label: 'Threat Intake',
+        label: 'Threat intake',
         to: '/threats',
         icon: Inbox,
         permission: 'threats.view',
@@ -87,7 +92,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'approvals',
-        label: 'Approval Gate',
+        label: 'Approval gate',
         to: '/approvals',
         icon: BadgeCheck,
         permission: 'approvals.view',
@@ -148,7 +153,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'risk-profiles',
-        label: 'Risk Profiles',
+        label: 'Risk profiles',
         to: '/risk-profiles',
         icon: GaugeCircle,
         permission: 'risk.view',
@@ -164,7 +169,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'incident-risks',
-        label: 'Incident Risks',
+        label: 'Incident risks',
         to: '/incident-risks',
         icon: ShieldAlert,
         permission: 'incident_risks.view',
@@ -179,7 +184,7 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       {
         id: 'policy',
-        label: 'Policy Intelligence',
+        label: 'Policy intelligence',
         to: '/policy-intelligence',
         icon: Landmark,
         permission: 'policy.view',
@@ -187,7 +192,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'intel',
-        label: 'Threat Intelligence',
+        label: 'Threat intelligence',
         to: '/threat-intelligence',
         icon: Activity,
         permission: 'intel.view',
@@ -203,7 +208,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'executive',
-        label: 'Executive View',
+        label: 'Executive view',
         to: '/executive',
         icon: FileSearch,
         permission: 'executive.view',
@@ -225,7 +230,7 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         id: 'audit',
-        label: 'Audit Log',
+        label: 'Audit log',
         to: '/audit-log',
         icon: ScrollText,
         permission: 'audit.view',
@@ -239,7 +244,7 @@ export const NAV_SECTIONS: NavSection[] = [
 export const EMPLOYEE_NAV: NavItem[] = [
   {
     id: 'portal',
-    label: 'My Security',
+    label: 'My security',
     to: '/portal',
     icon: GraduationCap,
     permission: 'portal.view',

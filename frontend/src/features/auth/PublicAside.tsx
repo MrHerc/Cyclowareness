@@ -11,8 +11,13 @@ import { LoopSignature } from './LoopSignature'
 
 export const HEADLINE = 'Turn real threats into measurable human resilience.'
 
+// British spelling, like the other 223 occurrences in this frontend
+// ("organisation", "behaviour", "sanitisation"). This sentence is the first
+// prose a visitor reads and it was the only American one, which reads as copy
+// pasted in from somewhere else. `analyzer` stays American where it names the
+// server's own `static_analyzers` field — that is an identifier, not prose.
 export const SUPPORTING =
-  'Analyze real organizational risks, generate safe targeted training, validate every campaign through human approval, and continuously measure behavioral change.'
+  'Analyse real organisational risks, generate safe targeted training, validate every campaign through human approval, and continuously measure behavioural change.'
 
 export function PublicAside() {
   return (

@@ -485,3 +485,87 @@ def test_the_ladder_has_a_rung_for_every_revision_that_adds_a_column():
             assert not unmatched, (
                 f"{revision} has rung markers for tables it does not add columns to: {unmatched}"
             )
+
+
+def test_no_migration_adds_a_not_null_column_without_a_default():
+    """The trap `alembic revision --autogenerate` reintroduces every single time.
+
+    Autogenerate emits a new non-nullable column as
+
+        op.add_column(sa.Column("x", sa.Text(), nullable=False))
+
+    with no default. SQLite accepts that on a populated table. PostgreSQL does
+    not::
+
+        column "dispute_note" of relation "remediation_plans" contains null values
+
+    So the failure is invisible to this suite and only appears in the PostgreSQL
+    CI job — or, if that job is not reached, in production. The fix is always the
+    same: add WITH a `server_default`, then drop the default in a second
+    `alter_column` so the schema still matches the model and `alembic check`
+    stays clean.
+
+    Parsed with `ast` rather than grepped, because the argument order varies and
+    a regex over the source cannot tell an `add_column` from a `create_table`
+    column that happens to sit near one.
+    """
+    versions = pathlib.Path(__file__).resolve().parents[1] / "migrations" / "versions"
+    files = sorted(versions.glob("*.py"))
+    assert files, "no migrations found — the check would pass vacuously"
+
+    def keyword(call: ast.Call, name: str):
+        for kw in call.keywords:
+            if kw.arg == name:
+                return kw.value
+        return None
+
+    problems = []
+    for path in files:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            func = node.func
+            name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
+            if name != "add_column":
+                continue
+            # The sa.Column(...) being added — positional in every form Alembic
+            # emits, whether via op.add_column or batch_op.add_column.
+            column = next(
+                (
+                    arg
+                    for arg in node.args
+                    if isinstance(arg, ast.Call)
+                    and (
+                        getattr(arg.func, "attr", "") == "Column"
+                        or getattr(arg.func, "id", "") == "Column"
+                    )
+                ),
+                None,
+            )
+            if column is None:
+                continue
+            nullable = keyword(column, "nullable")
+            is_not_null = isinstance(nullable, ast.Constant) and nullable.value is False
+            has_default = (
+                keyword(column, "server_default") is not None
+                or keyword(column, "server_onupdate") is not None
+            )
+            if is_not_null and not has_default:
+                # The name may be a literal OR a variable — this chain builds
+                # columns from a tuple of (name, type), so `args[0]` is an
+                # ast.Name there. Reporting must not crash on the very shape it
+                # is meant to describe.
+                first = column.args[0] if column.args else None
+                if isinstance(first, ast.Constant):
+                    col_name = repr(first.value)
+                elif isinstance(first, ast.Name):
+                    col_name = f"<{first.id}>"
+                else:
+                    col_name = "<computed>"
+                problems.append(
+                    f"{path.name}:{node.lineno} adds NOT NULL column {col_name} with no "
+                    f"server_default — PostgreSQL rejects this on a populated table"
+                )
+
+    assert not problems, "\n".join(problems)

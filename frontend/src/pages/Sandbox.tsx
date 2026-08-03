@@ -50,9 +50,19 @@ export default function Sandbox() {
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="space-y-2">
         <h1 className="text-display text-fg">Sandbox</h1>
+        {/* THE LEAD MUST NOT CONTRADICT THE PANEL BELOW IT. This said "Static
+            forensic analysis" unconditionally, while CapabilityStrip a few
+            hundred pixels down reported "Static and dynamic analysis" whenever
+            a detonation worker was connected. Both were on screen at once, and
+            the one a visitor reads first was the wrong one.
+
+            What stays true in every configuration is the sentence that matters
+            most: this application never runs the sample. Detonation happens on
+            an isolated off-host worker or not at all. */}
         <p className="text-lead text-fg-muted">
-          Static forensic analysis of a file or a URL, with the reasoning behind every point of the
-          score.
+          {capabilities.data?.dynamic_worker
+            ? 'Forensic analysis of a file or a URL — static here, detonation on an isolated worker — with the reasoning behind every point of the score.'
+            : 'Static forensic analysis of a file or a URL, with the reasoning behind every point of the score.'}
         </p>
         <DataSourceLabel source="sandbox" detail={backing.note} />
       </header>
