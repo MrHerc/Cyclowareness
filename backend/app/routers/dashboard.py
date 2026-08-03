@@ -201,7 +201,7 @@ async def executive_dashboard(
     current = metrics.compute_current_metrics(db)
     trend = metrics.trend(db, days=180)
     departments = risk_engine.department_rollups(db)
-    briefing, briefing_source = await executive_briefing(
+    briefing, briefing_source, briefing_adjustments = await executive_briefing(
         {"current": current, "trend": trend[-12:], "departments": departments}
     )
     return {
@@ -213,6 +213,12 @@ async def executive_dashboard(
         # Which engine wrote the paragraph above. The executive is the reader
         # least equipped to tell a model's analysis from a template's.
         "briefing_source": briefing_source,
+        # What the guard changed, and what it removed. Empty means the model's
+        # words are on the screen exactly as written. Reported rather than
+        # applied silently, for the same reason the remediation firewall records
+        # its clamps: repaired output presented as clean output is still the
+        # product deciding what the reader may know about its own model.
+        "briefing_adjustments": briefing_adjustments,
     }
 
 

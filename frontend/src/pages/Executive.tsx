@@ -246,6 +246,7 @@ export default function Executive() {
             <SituationBriefing
               briefing={dash.briefing}
               briefingSource={dash.briefing_source}
+              briefingAdjustments={dash.briefing_adjustments}
               metrics={dash.metrics}
               modelConnected={modelConnected}
             />

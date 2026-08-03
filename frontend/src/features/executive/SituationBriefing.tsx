@@ -10,6 +10,14 @@
  * When the metrics behind the paragraph are unmeasured, the paragraph is not
  * shown at all — a generated sentence about a period nobody measured is a
  * confident summary of nothing.
+ *
+ * `briefingAdjustments` is the third disclosure and the newest. On the live
+ * deployment the model opened with a draft it then abandoned — asserting click
+ * rates had "roughly halved" when they had risen 47% — and both the wrong draft
+ * and its own correction were shown to the board. The server now removes the
+ * abandoned half and REPORTS that it did. Repairing the output and presenting
+ * it as clean would be the product deciding what the reader may know about its
+ * own model, which is the same failure as mislabelling who wrote it.
  */
 
 import { provenanceOf } from '../../domain/types'
@@ -21,6 +29,8 @@ export interface SituationBriefingProps {
   briefing: string | undefined
   /** The backend's raw value: 'anthropic' | 'mock'. Never inferred. */
   briefingSource: string | undefined
+  /** What the server's guard removed before this paragraph was shown. */
+  briefingAdjustments?: { rule: string; why: string; removed: string }[]
   metrics: Metrics | undefined
   /** `Capabilities.ai_provider === 'anthropic'`, or undefined before it answers. */
   modelConnected?: boolean
@@ -40,6 +50,7 @@ function hasSomethingToSay(metrics: Metrics | undefined): boolean {
 export function SituationBriefing({
   briefing,
   briefingSource,
+  briefingAdjustments,
   metrics,
   modelConnected,
 }: SituationBriefingProps) {
@@ -61,7 +72,14 @@ export function SituationBriefing({
       }
     >
       {text && measured ? (
-        <p className="max-w-4xl text-lead text-fg-muted">{text}</p>
+        <>
+          <p className="max-w-4xl text-lead text-fg-muted">{text}</p>
+          {briefingAdjustments && briefingAdjustments.length > 0 ? (
+            <p className="mt-3 max-w-4xl border-t border-line-subtle pt-3 text-sm text-fg-subtle">
+              {briefingAdjustments.map((a) => a.why).join(' ')}
+            </p>
+          ) : null}
+        </>
       ) : (
         <div className="max-w-3xl space-y-2">
           <p className="text-lead text-fg-muted">

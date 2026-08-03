@@ -521,6 +521,9 @@ export interface ExecutiveDashboard {
   briefing: string
   /** Which engine wrote `briefing`: 'anthropic' | 'mock'. */
   briefing_source: string
+  /** What the server's guard changed before showing the paragraph. Empty means
+   *  the model's words are on screen exactly as written. */
+  briefing_adjustments?: { rule: string; why: string; removed: string }[]
 }
 
 /* ============================================================================

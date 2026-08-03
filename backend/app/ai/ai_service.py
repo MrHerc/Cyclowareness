@@ -24,6 +24,7 @@ import re
 from typing import Any
 
 from ..config import get_settings
+from .briefing_guard import validate_briefing
 from .providers import AnthropicProvider, MockAIProvider
 
 logger = logging.getLogger("cyclowareness.ai")
@@ -192,12 +193,20 @@ async def triage_assist(report: dict[str, Any]) -> dict[str, Any]:
         return data
 
 
-async def executive_briefing(metrics: dict[str, Any]) -> tuple[str, str]:
+async def executive_briefing(
+    metrics: dict[str, Any],
+) -> tuple[str, str, list[dict[str, Any]]]:
     """Org risk posture → natural-language executive summary.
 
-    Returns ``(text, source)``. The executive view heads this paragraph "AI
-    briefing"; when the offline generator wrote it, the reader — the one person
-    least able to tell the difference — is entitled to know.
+    Returns ``(text, source, adjustments)``. The executive view heads this
+    paragraph "AI briefing"; when the offline generator wrote it, the reader —
+    the one person least able to tell the difference — is entitled to know.
+
+    `adjustments` is the third element for the same reason: this was the only
+    model path in the file with no validator, and on the live deployment it
+    shipped an abandoned first draft that asserted click rates had "roughly
+    halved" when they had risen 47%. See `briefing_guard`. Empty means the
+    model's output was used exactly as written.
     """
     provider = get_provider()
     is_live = provider is not _mock
@@ -205,9 +214,16 @@ async def executive_briefing(metrics: dict[str, Any]) -> tuple[str, str]:
         text = (await provider.complete("executive_briefing", metrics)).strip()
         if not text:
             raise ValueError("Empty briefing")
-        return text, (SOURCE_ANTHROPIC if is_live else SOURCE_MOCK)
+        briefing, adjustments = validate_briefing(text)
+        if adjustments:
+            logger.warning(
+                "Executive briefing adjusted: %s",
+                ", ".join(a["rule"] for a in adjustments),
+            )
+        return briefing, (SOURCE_ANTHROPIC if is_live else SOURCE_MOCK), adjustments
     except Exception:
         if not is_live:
             raise
         logger.exception("Live AI briefing failed; falling back to mock")
-        return (await _mock.complete("executive_briefing", metrics)).strip(), SOURCE_MOCK
+        fallback = (await _mock.complete("executive_briefing", metrics)).strip()
+        return fallback, SOURCE_MOCK, []
