@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from ..config import get_settings
 from ..core import risk_engine
+from ..remediation import service as remediation_service, triggers
 from ..core.sim_templates import SIM_TEMPLATES, get_template
 from ..database import get_db
 from ..models import (
@@ -188,6 +189,14 @@ def complete(sim_id: int, db: Session = Depends(get_db), user: User = Depends(re
 
 
 def _apply_outcome(db: Session, simulation, target: SimulationTarget, outcome: str) -> None:
+    """The one place a simulation outcome becomes a record — of both kinds.
+
+    Risk first, remediation second. They answer different questions: risk says
+    what changed about this person's exposure, remediation says what, if
+    anything, should be done about it. Keeping both here means neither can be
+    reached without the other, and a new outcome source gets both by calling
+    this function rather than by remembering to.
+    """
     target.outcome = outcome
     target.outcome_at = datetime.now(timezone.utc)
     db.add(target)
@@ -204,6 +213,21 @@ def _apply_outcome(db: Session, simulation, target: SimulationTarget, outcome: s
             db, employee, "simulated_phish_report",
             reason=f'Reported lure in simulation "{simulation.name}"',
         )
+
+    # The Remediation Engine, called as a service rather than run as a stage.
+    #
+    # `model_output=None` on purpose: retrieval alone decides here, which makes
+    # this call deterministic and free of any network dependency. Recording that
+    # somebody clicked a lure must not be able to fail because a model provider
+    # is down, and `ai_ran=False` then makes the row say honestly that no model
+    # was involved. Consulting one is a later, explicit step.
+    #
+    # `ignored` yields no signal and therefore no plan — not opening a simulated
+    # phish is the correct outcome, and remediating it would teach people that
+    # the safe action still earns homework.
+    signal = triggers.from_simulation_target(target)
+    if signal is not None:
+        remediation_service.plan_for(db, signal)
 
 
 def _detail(db: Session, simulation: PhishingSimulation) -> SimulationDetail:

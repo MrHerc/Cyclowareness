@@ -13,11 +13,17 @@
  * a firewall, and the server answers 409 if one is ever wired.
  *
  * A plan that reached nobody says why, in the words the server wrote.
+ *
+ * And a DISPUTED plan is surfaced as a queue of its own. Someone contested a
+ * decision a machine made about them and is waiting on a human; if that state
+ * were only a column in the database, the appeal route would exist on paper and
+ * nowhere else. The analyst can answer it, and can withdraw the plan — an appeal
+ * whose only possible answer is "upheld" is theatre.
  */
 
 import { useState } from 'react'
-import { Check, ShieldX, X } from 'lucide-react'
-import { provenanceOf, type RemediationPlan } from '../../domain/types'
+import { Check, MessageSquareWarning, ShieldX, X } from 'lucide-react'
+import { disputeState, provenanceOf, type RemediationPlan } from '../../domain/types'
 import { AIProvenanceBadge } from '../../components/data'
 import { ConfirmationDialog } from '../../components/states'
 import {
@@ -32,7 +38,8 @@ import {
   useToast,
 } from '../../components/ui'
 import { formatDateTime, humanise } from '../../lib/format'
-import { useRemediationDecision } from '../../lib/api/mutations'
+import { useRemediationDecision, useRemediationDisputeResolution } from '../../lib/api/mutations'
+import { DisputeResolutionDialog } from './DisputeResolutionDialog'
 
 export interface PlanQueueProps {
   plans: RemediationPlan[]
@@ -50,6 +57,20 @@ export function PlanQueue({ plans }: PlanQueueProps) {
     plan: RemediationPlan
     decision: 'approve' | 'reject'
   } | null>(null)
+  const [answering, setAnswering] = useState<RemediationPlan | null>(null)
+
+  const resolve = useRemediationDisputeResolution({
+    onSuccess: (_data, vars) =>
+      toast.show({
+        title: vars.withdraw ? 'Plan withdrawn' : 'Dispute answered',
+        description: vars.withdraw
+          ? 'It is no longer assigned, and they are told why.'
+          : 'They can read your answer on their own screen.',
+        tone: 'success',
+      }),
+    onError: (error) =>
+      toast.show({ title: 'The answer did not save', description: error.message, tone: 'error' }),
+  })
 
   const decide = useRemediationDecision({
     onSuccess: (_data, vars) =>
@@ -81,6 +102,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
         <TableBody>
           {plans.map((plan) => {
             const blocked = plan.status === 'blocked'
+            const dispute = disputeState(plan)
             return (
               <TableRow key={plan.id}>
                 <TableCell className="max-w-[18rem]">
@@ -145,6 +167,18 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                       {plan.rejection_code}
                     </p>
                   ) : null}
+                  {dispute === 'open' ? (
+                    <p className="mt-1 inline-flex items-center gap-1 text-xs text-high">
+                      <MessageSquareWarning
+                        className="size-3.5 shrink-0"
+                        aria-hidden="true"
+                        strokeWidth={1.75}
+                      />
+                      Disputed
+                    </p>
+                  ) : dispute === 'resolved' ? (
+                    <p className="mt-1 text-xs text-fg-faint">Dispute answered</p>
+                  ) : null}
                 </TableCell>
 
                 <TableCell numeric>
@@ -152,7 +186,18 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                 </TableCell>
 
                 <TableCell>
-                  {plan.status === 'proposed' ? (
+                  {/* An open dispute is the work. A person is waiting on a
+                      human, and that outranks approving the next plan. */}
+                  {dispute === 'open' ? (
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      icon={<MessageSquareWarning className="size-4" aria-hidden="true" />}
+                      onClick={() => setAnswering(plan)}
+                    >
+                      Answer the dispute
+                    </Button>
+                  ) : plan.status === 'proposed' ? (
                     <span className="flex gap-1.5">
                       <Button
                         size="sm"
@@ -209,6 +254,17 @@ export function PlanQueue({ plans }: PlanQueueProps) {
           if (!pending) return
           await decide.mutateAsync({ id: pending.plan.id, decision: pending.decision })
           setPending(null)
+        }}
+      />
+
+      <DisputeResolutionDialog
+        plan={answering}
+        busy={resolve.isPending}
+        onOpenChange={(next) => (next ? null : setAnswering(null))}
+        onSubmit={async (resolution, withdraw) => {
+          if (!answering) return
+          await resolve.mutateAsync({ id: answering.id, resolution, withdraw })
+          setAnswering(null)
         }}
       />
     </>

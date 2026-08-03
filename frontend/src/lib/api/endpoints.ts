@@ -141,6 +141,9 @@ export const endpoints = {
     plan: (id: number | string) => `/api/remediation/plans/${id}`,
     mine: () => '/api/remediation/plans/mine',
     decision: (id: number | string) => `/api/remediation/plans/${id}/decision`,
+    dispute: (id: number | string) => `/api/remediation/plans/${id}/dispute`,
+    disputeResolution: (id: number | string) =>
+      `/api/remediation/plans/${id}/dispute/resolution`,
     coverageGaps: () => '/api/remediation/coverage-gaps',
     controlGaps: () => '/api/remediation/control-gaps',
     stats: () => '/api/remediation/stats',

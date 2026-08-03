@@ -1155,9 +1155,22 @@ export interface RemediationPlan {
   confidence: number | null
   manager_visible: boolean
   learner_disclosure: string
+  /** The right of appeal the disclosure promises. `disputed_at` set with an
+   *  empty `dispute_resolution` is an OPEN dispute: a person waiting on a human. */
+  disputed_at: string | null
+  dispute_note: string
+  dispute_resolution: string
+  dispute_resolved_by: string
+  dispute_resolved_at: string | null
   approved_by: string
   approved_at: string | null
   created_at: string
+}
+
+/** Open means somebody contested a decision and no human has answered yet. */
+export function disputeState(plan: RemediationPlan): 'none' | 'open' | 'resolved' {
+  if (!plan.disputed_at) return 'none'
+  return plan.dispute_resolution ? 'resolved' : 'open'
 }
 
 /** Nothing in the catalogue covered this behaviour. A RESULT, not a failure —
@@ -1193,6 +1206,10 @@ export interface RemediationStats {
   built_from_the_library: number
   coverage_gaps: number
   control_gaps: number
+  /** People waiting on a human to answer an appeal. The one number here that
+   *  should stay at zero because it was worked, not because nobody can file. */
+  disputes_open: number
+  disputes_total: number
 }
 
 /* ============================================================================

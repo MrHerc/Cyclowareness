@@ -115,6 +115,28 @@ class RemediationPlan(Base):
     #: remains recoverable after the template changes.
     learner_disclosure: Mapped[str] = mapped_column(Text, default="")
 
+    # --- the right of appeal -------------------------------------------------
+    #: THE LEARNER DISCLOSURE PROMISES THIS. It says "use Dispute — that goes to
+    #: a person, not to a system", and for a while it said that with nothing
+    #: behind it: no endpoint, no button, no route. A product that tells someone
+    #: they may contest an automated decision about them, and then provides no
+    #: way to, has told them something worse than nothing.
+    #:
+    #: It is also the answer to the obvious question from a works council, and to
+    #: GDPR Article 22's right to contest a decision taken about you by a machine.
+    disputed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+    #: The learner's own words. Shown to the analyst verbatim.
+    dispute_note: Mapped[str] = mapped_column(Text, default="")
+    #: What a human decided, and who. Empty while the dispute is open — which is
+    #: itself the state the queue must surface.
+    dispute_resolution: Mapped[str] = mapped_column(Text, default="")
+    dispute_resolved_by: Mapped[str] = mapped_column(String(255), default="")
+    dispute_resolved_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+
     approved_by: Mapped[str] = mapped_column(String(255), default="")
     approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)

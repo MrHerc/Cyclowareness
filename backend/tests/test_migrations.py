@@ -372,6 +372,43 @@ def test_a_database_alembic_already_manages_is_not_re_stamped(scratch):
         assert _legacy_stamp_target(conn) is None
 
 
+def test_an_empty_alembic_version_table_is_adopted_not_mistaken_for_managed(scratch):
+    """The ROW is what makes a database managed, not the table.
+
+    Alembic creates `alembic_version` before it writes the revision into it, so a
+    boot killed between those two steps leaves the table there and empty. Reading
+    that as "Alembic owns this" produced a permanent boot loop: nothing to adopt,
+    run the whole chain from zero against a database that already has the tables,
+    die on `table audit_events already exists`, restart, repeat.
+
+    Found on a real database, not by inspection — the dev instance had exactly
+    this shape and would not start.
+    """
+    scratch.upgrade("head")
+    with scratch.begin() as conn:
+        # Precisely the interrupted state: the table survives, the row does not.
+        conn.execute(text("DELETE FROM alembic_version"))
+    newest = _ADOPTION_LADDER[0][0]
+    with scratch.connect() as conn:
+        assert _legacy_stamp_target(conn) == newest, (
+            "an empty alembic_version was read as 'already managed'; the next "
+            "boot will try to create tables that already exist, for ever"
+        )
+
+
+def test_a_database_holding_only_an_empty_alembic_version_is_still_empty(scratch):
+    """One table, no data, nothing to date it by — the migrations build it.
+
+    The counterpart to the test above: having decided an empty
+    `alembic_version` means un-versioned, a database that has NOTHING ELSE must
+    not then be refused as undatable. It is simply new.
+    """
+    with scratch.begin() as conn:
+        conn.execute(text("CREATE TABLE alembic_version (version_num VARCHAR(32) NOT NULL)"))
+    with scratch.connect() as conn:
+        assert _legacy_stamp_target(conn) is None
+
+
 def test_an_undatable_database_is_refused_rather_than_guessed_at(scratch):
     """Tables, but nothing to date them by.
 

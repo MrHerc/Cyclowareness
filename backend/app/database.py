@@ -80,6 +80,9 @@ REMEDIATION_REVISION = "0004_remediation"
 #: The revision that made a metric snapshot say whether it was measured or seeded.
 SNAPSHOT_SOURCE_REVISION = "0005_snapshot_source"
 
+#: The revision that gave the learner the appeal the disclosure already promised.
+DISPUTE_REVISION = "0006_dispute"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -103,6 +106,7 @@ SNAPSHOT_SOURCE_REVISION = "0005_snapshot_source"
 #: tables is dated. **Every revision that adds a table or a column adds a rung
 #: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (DISPUTE_REVISION, {"remediation_plans": {"disputed_at", "dispute_resolution"}}),
     (SNAPSHOT_SOURCE_REVISION, {"metric_snapshots": {"source"}}),
     (
         REMEDIATION_REVISION,
@@ -133,6 +137,23 @@ def alembic_config():
     return Config(str(BACKEND_DIR / "alembic.ini"))
 
 
+def _stamped_revision(connection: Connection) -> str | None:
+    """The revision Alembic has recorded, or None if it has recorded none.
+
+    Separate from "does the table exist" on purpose — see the note in
+    `_legacy_stamp_target`. A malformed or unreadable table is treated as no
+    revision, because that is the state it leaves the schema in.
+    """
+    from sqlalchemy import text
+
+    try:
+        return connection.execute(
+            text("SELECT version_num FROM alembic_version")
+        ).scalar()
+    except Exception:
+        return None
+
+
 def _legacy_stamp_target(connection: Connection) -> str | None:
     """Which revision an un-versioned database already satisfies, if any.
 
@@ -144,11 +165,26 @@ def _legacy_stamp_target(connection: Connection) -> str | None:
 
     Returns ``None`` when there is nothing to adopt: an empty database (the
     migrations build it) or one Alembic already manages.
+
+    WHAT MAKES A DATABASE "MANAGED" IS THE ROW, NOT THE TABLE. Alembic creates
+    `alembic_version` before it writes the revision into it, so a boot that dies
+    between those two steps — a crash, a Ctrl-C, a container killed mid-deploy —
+    leaves the table there and empty. Reading that as "Alembic owns this" is a
+    boot loop: every restart decides there is nothing to adopt, runs the whole
+    chain from zero against a database that already has the tables, and fails on
+
+        sqlite3.OperationalError: table audit_events already exists
+
+    for ever, looking like a migration bug when it is an adoption one. An empty
+    `alembic_version` means exactly what no `alembic_version` means.
     """
-    tables = set(inspect(connection).get_table_names())
-    if "alembic_version" in tables:
+    inspector = inspect(connection)
+    tables = set(inspector.get_table_names())
+    if "alembic_version" in tables and _stamped_revision(connection) is not None:
         return None
-    if not tables:
+    # A database holding nothing but an empty `alembic_version` is empty: the
+    # migrations build it from the start, and adopting it would be a guess.
+    if not (tables - {"alembic_version"}):
         return None
     if "sandbox_jobs" not in tables:
         # Tables, but not the one every revision in the ladder is dated by. This
@@ -162,7 +198,6 @@ def _legacy_stamp_target(connection: Connection) -> str | None:
             f"Tables found: {', '.join(sorted(tables))}"
         )
 
-    inspector = inspect(connection)
     for revision, markers in _ADOPTION_LADDER:
         if all(
             table in tables and columns <= {c["name"] for c in inspector.get_columns(table)}

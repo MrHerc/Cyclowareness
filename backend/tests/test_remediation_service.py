@@ -249,3 +249,93 @@ def test_the_lure_text_never_enters_the_signal():
     serialised = str(produced.evidence)
     assert "+994" not in serialised
     assert "ATTENTION" not in serialised
+
+
+# --- the engine has a caller ---------------------------------------------------
+# For a while it did not. Three tables, seven endpoints, a full screen, an output
+# firewall with thirty-two tests attacking it — and `plan_for` was called from
+# nowhere in the application. Every test here passed, because they all called the
+# service directly. Nothing asserted that the PRODUCT ever reaches it.
+def test_recording_a_simulation_click_raises_a_remediation_outcome(
+    client, analyst_headers, db
+):
+    """A click must reach the engine through the API, not just through a test.
+
+    Asserted on the count across all three outcome types, because which one is
+    correct depends on the catalogue: a covered behaviour yields a plan, an
+    uncovered one yields a coverage gap, and a control-answerable one yields a
+    control gap. All three are the engine working. Zero is the engine unwired.
+    """
+    from app.remediation.models import ControlGapFinding, CoverageGap, RemediationPlan
+
+    def totals():
+        return (
+            db.query(RemediationPlan).count(),
+            db.query(CoverageGap).count(),
+            db.query(ControlGapFinding).count(),
+        )
+
+    person = db.query(Employee).first()
+    created = client.post(
+        "/api/simulations",
+        json={"name": "Wiring check", "target_employee_ids": [person.id]},
+        headers=analyst_headers,
+    )
+    assert created.status_code in (200, 201), created.text
+    sim = created.json()
+    client.post(f"/api/simulations/{sim['id']}/launch", headers=analyst_headers)
+
+    detail = client.get(f"/api/simulations/{sim['id']}", headers=analyst_headers).json()
+    target = detail["targets"][0]
+
+    db.expire_all()
+    before = totals()
+    recorded = client.post(
+        f"/api/simulations/{sim['id']}/targets/{target['id']}/outcome",
+        json={"outcome": "clicked"},
+        headers=analyst_headers,
+    )
+    assert recorded.status_code == 200, recorded.text
+
+    db.expire_all()
+    after = totals()
+    assert sum(after) > sum(before), (
+        "a simulated click produced no plan, no coverage gap and no control gap. "
+        "The Remediation Engine is not wired to anything."
+    )
+
+
+def test_ignoring_a_simulated_phish_produces_no_remediation(client, analyst_headers, db):
+    """The correct behaviour must not earn homework.
+
+    The counterpart to the test above: wiring the engine in must not mean
+    everything that happens produces work for somebody.
+    """
+    from app.remediation.models import ControlGapFinding, CoverageGap, RemediationPlan
+
+    def totals():
+        return (
+            db.query(RemediationPlan).count(),
+            db.query(CoverageGap).count(),
+            db.query(ControlGapFinding).count(),
+        )
+
+    person = db.query(Employee).first()
+    created = client.post(
+        "/api/simulations",
+        json={"name": "Ignore check", "target_employee_ids": [person.id]},
+        headers=analyst_headers,
+    ).json()
+    client.post(f"/api/simulations/{created['id']}/launch", headers=analyst_headers)
+    detail = client.get(f"/api/simulations/{created['id']}", headers=analyst_headers).json()
+    target = detail["targets"][0]
+
+    db.expire_all()
+    before = totals()
+    client.post(
+        f"/api/simulations/{created['id']}/targets/{target['id']}/outcome",
+        json={"outcome": "ignored"},
+        headers=analyst_headers,
+    )
+    db.expire_all()
+    assert totals() == before

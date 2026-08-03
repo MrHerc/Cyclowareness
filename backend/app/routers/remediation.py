@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -57,6 +57,16 @@ class PlanOut(BaseModel):
     confidence: float | None
     manager_visible: bool
     learner_disclosure: str
+
+    #: The right of appeal, as state the UI can render. `disputed_at` set with an
+    #: empty `dispute_resolution` is an OPEN dispute — the state both the learner
+    #: and the analyst queue must be able to see.
+    disputed_at: datetime | None
+    dispute_note: str
+    dispute_resolution: str
+    dispute_resolved_by: str
+    dispute_resolved_at: datetime | None
+
     approved_by: str
     approved_at: datetime | None
     created_at: datetime
@@ -83,6 +93,11 @@ class PlanOut(BaseModel):
             confidence=plan.confidence,
             manager_visible=plan.manager_visible,
             learner_disclosure=plan.learner_disclosure or "",
+            disputed_at=plan.disputed_at,
+            dispute_note=plan.dispute_note or "",
+            dispute_resolution=plan.dispute_resolution or "",
+            dispute_resolved_by=plan.dispute_resolved_by or "",
+            dispute_resolved_at=plan.dispute_resolved_at,
             approved_by=plan.approved_by or "",
             approved_at=plan.approved_at,
             created_at=plan.created_at,
@@ -99,6 +114,26 @@ class PlanPage(BaseModel):
 class DecisionIn(BaseModel):
     decision: str = Field(pattern="^(approve|reject)$")
     note: str = ""
+
+
+class DisputeIn(BaseModel):
+    """The learner's own words, and nothing else.
+
+    No status field: a person contesting a decision about them does not get to
+    set the outcome, and the endpoint does not let them try. Length-capped
+    because it is stored and re-rendered, not because anyone expects abuse.
+    """
+
+    note: str = Field(min_length=1, max_length=2000)
+
+
+class DisputeResolutionIn(BaseModel):
+    """A human's answer to a dispute. Analyst-only."""
+
+    resolution: str = Field(min_length=1, max_length=2000)
+    #: Withdrawing the plan is the outcome that must be reachable. A dispute
+    #: process that can only ever say "upheld" is not one.
+    withdraw: bool = False
 
 
 @router.get("/plans", response_model=PlanPage)
@@ -139,6 +174,11 @@ def my_plans(db: Session = Depends(get_db), user: User = Depends(get_current_use
     sends. Blocked plans are withheld: a plan that was refused was never
     delivered, and showing someone a remediation that does not exist for them
     would be alarming and untrue.
+
+    One exception, and it is the point of the appeal route: a plan the learner
+    DISPUTED stays visible after it is withdrawn. Otherwise winning an appeal
+    looks identical to the row silently disappearing, and the person is never
+    told what a human decided about the thing they contested.
     """
     if user.employee_id is None:
         return []
@@ -146,7 +186,13 @@ def my_plans(db: Session = Depends(get_db), user: User = Depends(get_current_use
         select(RemediationPlan)
         .where(
             RemediationPlan.employee_id == user.employee_id,
-            RemediationPlan.status.in_((PlanStatus.APPROVED, PlanStatus.DELIVERED)),
+            or_(
+                RemediationPlan.status.in_((PlanStatus.APPROVED, PlanStatus.DELIVERED)),
+                RemediationPlan.disputed_at.is_not(None),
+            ),
+            # A blocked plan was never delivered to anyone and stays withheld
+            # even if the column somehow carries a dispute.
+            RemediationPlan.status != PlanStatus.BLOCKED,
         )
         .order_by(RemediationPlan.created_at.desc())
     ).scalars().all()
@@ -164,6 +210,120 @@ def get_plan(
     # An employee may read their own; anyone else must be an analyst.
     if user.role != Role.ANALYST and plan.employee_id != user.employee_id:
         raise HTTPException(status_code=403, detail="This plan belongs to someone else")
+    employee = db.get(Employee, plan.employee_id)
+    return PlanOut.of(plan, employee.name if employee else None)
+
+
+@router.post("/plans/{plan_id}/dispute", response_model=PlanOut)
+def dispute(
+    plan_id: int,
+    payload: DisputeIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """The learner contests a decision that a machine made about them.
+
+    This endpoint exists because `learner_disclosure` promises it. The stored
+    sentence tells every person "if you think this was assigned in error, use
+    Dispute — that goes to a person, not to a system", and a promise of appeal
+    with nothing behind it is worse than no promise at all. It is also the plain
+    answer to a works council, and to the right to contest a decision taken
+    about you by automated means.
+
+    Three things it deliberately does NOT do.
+
+    It does not change the plan's status. A dispute is a request for a human to
+    look, not a self-service withdrawal — otherwise "dispute" becomes the button
+    everyone presses to make training go away, and the signal is worthless.
+
+    It does not accept an employee id. The plan is found by the session's own
+    `employee_id`, so one person cannot dispute another's plan, or discover that
+    someone else has one by probing ids: a plan belonging to somebody else
+    answers 404 rather than 403, because 403 confirms the row exists.
+
+    It does not let the learner dispute twice and overwrite the first note. What
+    they said the first time is what the analyst must answer.
+    """
+    if user.employee_id is None:
+        raise HTTPException(
+            status_code=403, detail="Only the person a plan names can dispute it"
+        )
+    plan = db.get(RemediationPlan, plan_id)
+    # 404, NOT 403: a wrong-owner 403 confirms the plan exists, which tells the
+    # asker that a named colleague has a remediation plan. That is precisely the
+    # disclosure `manager_visible=False` exists to prevent.
+    if plan is None or plan.employee_id != user.employee_id:
+        raise HTTPException(status_code=404, detail="Remediation plan not found")
+    if plan.status not in (PlanStatus.APPROVED, PlanStatus.DELIVERED):
+        raise HTTPException(
+            status_code=409,
+            detail="Nothing was assigned to you from this plan, so there is nothing to dispute",
+        )
+    if plan.disputed_at is not None:
+        raise HTTPException(
+            status_code=409,
+            detail="You have already disputed this. Someone is reviewing it.",
+        )
+
+    plan.disputed_at = datetime.now(timezone.utc)
+    plan.dispute_note = payload.note.strip()
+    platform_models.record(
+        db,
+        actor=user,
+        action="remediation.disputed",
+        object_type="remediation_plan",
+        object_id=plan.id,
+        object_label=plan.trigger_ref,
+        # The learner's words are stored on the row and in the trail. What a
+        # person said when contesting a decision about them has to survive the
+        # plan being withdrawn.
+        summary=plan.dispute_note[:500],
+        after={"status": plan.status, "disputed": True},
+    )
+    db.commit()
+    db.refresh(plan)
+    employee = db.get(Employee, plan.employee_id)
+    return PlanOut.of(plan, employee.name if employee else None)
+
+
+@router.post("/plans/{plan_id}/dispute/resolution", response_model=PlanOut)
+def resolve_dispute(
+    plan_id: int,
+    payload: DisputeResolutionIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+):
+    """A named human answers the dispute — and may withdraw the plan.
+
+    `withdraw` is the outcome that makes this real. An appeal route whose only
+    possible answer is "upheld" is theatre, so the analyst can rescind the
+    assignment, and the learner's screen then says so.
+    """
+    plan = db.get(RemediationPlan, plan_id)
+    if plan is None:
+        raise HTTPException(status_code=404, detail="Remediation plan not found")
+    if plan.disputed_at is None:
+        raise HTTPException(status_code=409, detail="This plan was not disputed")
+    if plan.dispute_resolution:
+        raise HTTPException(status_code=409, detail="This dispute is already resolved")
+
+    plan.dispute_resolution = payload.resolution.strip()
+    plan.dispute_resolved_by = user.email
+    plan.dispute_resolved_at = datetime.now(timezone.utc)
+    if payload.withdraw:
+        plan.status = PlanStatus.REJECTED
+    platform_models.record(
+        db,
+        actor=user,
+        action="remediation.dispute_resolved",
+        object_type="remediation_plan",
+        object_id=plan.id,
+        object_label=plan.trigger_ref,
+        summary=plan.dispute_resolution[:500],
+        after={"status": plan.status, "withdrawn": payload.withdraw},
+    )
+    db.commit()
+    db.refresh(plan)
     employee = db.get(Employee, plan.employee_id)
     return PlanOut.of(plan, employee.name if employee else None)
 
@@ -306,8 +466,26 @@ def stats(db: Session = Depends(get_db), user: User = Depends(require_analyst)):
         select(func.count()).select_from(RemediationPlan).where(RemediationPlan.ai_ran.is_(True))
     ).scalar_one()
     total = sum(by_status.values())
+    # An OPEN dispute is disputed with nothing decided yet. It is a person
+    # waiting on a human, which is a queue an analyst must be able to see —
+    # and the one number that shames the product if it grows.
+    disputes_open = db.execute(
+        select(func.count())
+        .select_from(RemediationPlan)
+        .where(
+            RemediationPlan.disputed_at.is_not(None),
+            RemediationPlan.dispute_resolution == "",
+        )
+    ).scalar_one()
+    disputes_total = db.execute(
+        select(func.count())
+        .select_from(RemediationPlan)
+        .where(RemediationPlan.disputed_at.is_not(None))
+    ).scalar_one()
     return {
         "total": total,
+        "disputes_open": int(disputes_open or 0),
+        "disputes_total": int(disputes_total or 0),
         "by_status": {s: int(n) for s, n in by_status.items()},
         "rejections_by_code": {c: int(n) for c, n in by_code.items()},
         "built_with_a_model": int(ai_ran or 0),

@@ -1,23 +1,131 @@
 /**
- * The learner's own remediation plans, in their own words.
+ * The learner's own remediation plans, in their own words — and the appeal.
  *
  * The disclosure is rendered VERBATIM from the server, not from a template
  * here. What a person was told about why something was assigned, who can see
  * it, and how to dispute it has to stay recoverable after the wording changes —
  * so it is stored on the plan and read back, never regenerated.
  *
- * Only approved and delivered plans reach this list; the server withholds the
- * rest. Showing someone a plan a human has not yet cleared, or one the output
- * firewall refused, would be alarming and untrue.
+ * THE DISPUTE CONTROL IS NOT DECORATION. The stored disclosure ends "if you
+ * think this was assigned in error, use Dispute — that goes to a person, not to
+ * a system." For a while it said that with nothing behind it. A product that
+ * tells someone they may contest an automated decision about them, and then
+ * gives them no way to, has told them something worse than nothing — so the
+ * button is here, next to the sentence that promises it, and it reaches a named
+ * human rather than changing anything by itself.
+ *
+ * Only approved and delivered plans reach this list, plus any the person has
+ * disputed. The last part matters: a withdrawn plan stays visible with the
+ * outcome on it, because winning an appeal must not look identical to the row
+ * quietly disappearing.
  */
 
-import { ClipboardCheck } from 'lucide-react'
-import type { RemediationPlan } from '../../domain/types'
-import { Panel } from '../../components/ui'
+import { useState } from 'react'
+import { ClipboardCheck, MessageSquareWarning } from 'lucide-react'
+import { disputeState, type RemediationPlan } from '../../domain/types'
+import { Button, Panel, Textarea, useToast } from '../../components/ui'
 import { formatDate, humanise } from '../../lib/format'
+import { useRemediationDispute } from '../../lib/api/mutations'
 
 export interface MyRemediationPlansProps {
   plans: RemediationPlan[]
+}
+
+function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => void }) {
+  const toast = useToast()
+  const [note, setNote] = useState('')
+  const dispute = useRemediationDispute({
+    onSuccess: () => {
+      toast.show({
+        title: 'Sent to a person',
+        description: 'Someone will read what you wrote and answer it here.',
+        tone: 'success',
+      })
+      onDone()
+    },
+    onError: (error) =>
+      toast.show({ title: 'That did not send', description: error.message, tone: 'error' }),
+  })
+
+  return (
+    <form
+      className="mt-3"
+      onSubmit={(event) => {
+        event.preventDefault()
+        if (!note.trim()) return
+        dispute.mutate({ id: plan.id, note: note.trim() })
+      }}
+    >
+      <Textarea
+        id={`dispute-${plan.id}`}
+        label="Why do you think this was assigned in error?"
+        hint="This is sent to a person as you wrote it."
+        rows={3}
+        maxLength={2000}
+        value={note}
+        onChange={(event) => setNote(event.target.value)}
+        required
+      />
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <Button
+          type="submit"
+          size="sm"
+          variant="primary"
+          disabled={!note.trim()}
+          loading={dispute.isPending}
+        >
+          Send to a person
+        </Button>
+        <Button type="button" size="sm" variant="ghost" onClick={onDone}>
+          Cancel
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function Dispute({ plan }: { plan: RemediationPlan }) {
+  const [open, setOpen] = useState(false)
+  const state = disputeState(plan)
+
+  if (state === 'open') {
+    return (
+      <p className="mt-3 rounded-panel border border-line-subtle bg-surface p-3 text-xs text-fg-subtle">
+        <span className="text-fg-muted">You disputed this.</span> Nobody has answered yet. What you
+        wrote: &ldquo;{plan.dispute_note}&rdquo;
+      </p>
+    )
+  }
+
+  if (state === 'resolved') {
+    return (
+      <div className="mt-3 rounded-panel border border-line-subtle bg-surface p-3 text-xs">
+        <p className="text-fg-subtle">
+          <span className="text-fg-muted">You disputed this, and a person answered.</span>{' '}
+          {plan.dispute_resolution}
+        </p>
+        {/* The status is the server's, not a client guess: `rejected` after a
+            dispute is the analyst having withdrawn it. */}
+        {plan.status === 'rejected' ? (
+          <p className="mt-1 text-fg-muted">This is no longer assigned to you.</p>
+        ) : null}
+      </div>
+    )
+  }
+
+  if (open) return <DisputeForm plan={plan} onDone={() => setOpen(false)} />
+
+  return (
+    <Button
+      className="mt-3"
+      size="sm"
+      variant="outline"
+      icon={<MessageSquareWarning className="size-4" aria-hidden="true" />}
+      onClick={() => setOpen(true)}
+    >
+      Dispute
+    </Button>
+  )
 }
 
 export function MyRemediationPlans({ plans }: MyRemediationPlansProps) {
@@ -76,6 +184,8 @@ export function MyRemediationPlans({ plans }: MyRemediationPlansProps) {
                 {plan.learner_disclosure}
               </p>
             ) : null}
+
+            <Dispute plan={plan} />
           </li>
         ))}
       </ul>

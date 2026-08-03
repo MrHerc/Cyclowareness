@@ -5,6 +5,10 @@
  * that tried to put a destination, an invented key or an unsafe "correct"
  * answer in front of an employee and was stopped. A spike in it means somebody
  * has found the product and is probing what it will write.
+ *
+ * `Disputes waiting` is the tile that should read zero because the queue was
+ * worked, never because nobody can file one. It is shown even at zero for that
+ * reason — a count that only appears when it is non-zero cannot be audited.
  */
 
 import type { RemediationStats } from '../../domain/types'
@@ -41,7 +45,7 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
 
   return (
     <Panel>
-      <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-7">
         <Tile label="Plans" value={num(stats.total, 0)} />
         <Tile
           label="Waiting"
@@ -67,6 +71,16 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
           label="Control gaps"
           value={num(stats.control_gaps, 0)}
           caption="a control, not a module"
+        />
+        <Tile
+          label="Disputes waiting"
+          value={num(stats.disputes_open, 0)}
+          tone={stats.disputes_open > 0 ? 'text-high' : undefined}
+          caption={
+            stats.disputes_total > 0
+              ? `${stats.disputes_total} filed in total`
+              : 'nobody has contested one'
+          }
         />
       </div>
 
