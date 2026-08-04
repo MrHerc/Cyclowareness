@@ -67,7 +67,12 @@ export function AuthScaffold({
         </header>
 
         <main className="flex flex-1 items-center py-10">
-          <div className="mx-auto w-full max-w-sm lg:mx-0">
+          {/* The form floats as one elevated card on the lit background, the way
+              the internals' panels rest on the surface — so the first screen and
+              every screen after it share a language. `bg-elevated/80` with a
+              backdrop blur lets the pointer light read THROUGH the card without
+              washing the fields out. */}
+          <div className="mx-auto w-full max-w-sm rounded-panel border border-line-subtle bg-elevated/80 p-7 shadow-float backdrop-blur-xl sm:p-8 lg:mx-0">
             {mobileIntro ? <div className="mb-8 lg:hidden">{mobileIntro}</div> : null}
 
             <h1 className="text-display text-fg">{title}</h1>
@@ -78,14 +83,14 @@ export function AuthScaffold({
         </main>
 
         {footer ? (
-          <footer className="mx-auto w-full max-w-sm text-sm text-fg-subtle lg:mx-0">
+          <footer className="mx-auto w-full max-w-sm px-1 text-sm text-fg-subtle lg:mx-0">
             {footer}
           </footer>
         ) : null}
       </div>
 
       {aside ? (
-        <aside className="relative hidden border-l border-line-subtle bg-base/50 lg:flex lg:items-center lg:justify-center lg:px-12 lg:py-16">
+        <aside className="relative hidden lg:flex lg:items-center lg:justify-center lg:px-12 lg:py-16">
           {aside}
         </aside>
       ) : null}
