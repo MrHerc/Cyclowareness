@@ -73,6 +73,10 @@ export interface RiskFactor {
   label: string
   contribution: number
   events: number
+  /** `starting_point` for where the score began, `behaviour` for what moved it.
+   *  Classified by the server so every consumer groups it the same way. Optional
+   *  because an older deployment does not send it. */
+  kind?: 'starting_point' | 'behaviour'
 }
 
 export interface RiskEvent {

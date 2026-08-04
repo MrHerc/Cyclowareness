@@ -22,6 +22,12 @@ export interface RiskEvidence {
   bandLabel: string
   /** The role-sensitivity starting point. Absent on a breakdown that omits it. */
   baseline: RiskFactor | null
+  /** EVERY starting position, including the role baseline — where the score
+   *  began, before anything the person did. Shown so the arithmetic still
+   *  reconciles on screen: removing these from the behaviour columns without
+   *  displaying them would leave the total unexplained, which is the one thing
+   *  this panel exists not to do. */
+  startingPoints: RiskFactor[]
   /** Behaviour that pushed the score up, heaviest first. */
   increasing: RiskFactor[]
   /** Behaviour that pulled it down, heaviest first. */
@@ -49,7 +55,21 @@ export function buildRiskEvidence(
   events: RiskEvent[] | null | undefined,
 ): RiskEvidence {
   const factors = breakdown ?? []
-  const behaviour = factors.filter((factor) => factor.factor !== BASELINE_FACTOR)
+  // A STARTING POSITION IS NOT SOMETHING THEY DID. The columns below are headed
+  // "What is raising it" / "What is lowering it", and the empty state of the
+  // first reads "No BEHAVIOUR has pushed your score up" — so anything that is
+  // not behaviour must not appear there. `baseline_assessment`, the figure
+  // carried over from before the platform, did: on the demo roster it is
+  // present for all 26 people, reaches 43 points of 100, and was the largest
+  // single entry for several of them, on the one screen where a named person is
+  // told why they are considered a risk.
+  //
+  // Grouped on the server's `kind` when it sends one, falling back to the old
+  // name check so a deployment that predates the field still separates the
+  // role-sensitivity baseline.
+  const isStartingPoint = (factor: RiskFactor) =>
+    factor.kind ? factor.kind === 'starting_point' : factor.factor === BASELINE_FACTOR
+  const behaviour = factors.filter((factor) => !isStartingPoint(factor))
   const recorded = events ?? []
   const lastEvent = recorded[0] ?? null
 
@@ -58,6 +78,7 @@ export function buildRiskEvidence(
     band: riskBand(current),
     bandLabel: riskBandLabel(current),
     baseline: factors.find((factor) => factor.factor === BASELINE_FACTOR) ?? null,
+    startingPoints: factors.filter(isStartingPoint),
     increasing: behaviour
       .filter((factor) => factor.contribution > 0)
       .sort((a, b) => b.contribution - a.contribution),
@@ -101,9 +122,21 @@ export function riskSentence(evidence: RiskEvidence): string | null {
   }
   if (clauses.length === 0) return null
 
-  const start = evidence.baseline
-    ? `Your score starts at ${num(evidence.baseline.contribution, 1)} for the sensitivity of your role, then `
-    : 'Your score '
+  // THE SENTENCE HAS TO RECONCILE TOO. It opened with the role-sensitivity
+  // baseline alone while the behaviour clauses used to include the figure
+  // carried over from before the platform. Excluding that from behaviour without
+  // adding it here would leave the arithmetic short by up to 43 points and the
+  // person reading it unable to add up their own score.
+  const startTotal = total(evidence.startingPoints)
+  const carried = evidence.startingPoints.filter(
+    (factor) => factor !== evidence.baseline,
+  )
+  const start =
+    evidence.startingPoints.length === 0
+      ? 'Your score '
+      : carried.length > 0
+        ? `Your score starts at ${num(startTotal, 1)} — the sensitivity of your role plus a figure carried over from before this platform — then `
+        : `Your score starts at ${num(startTotal, 1)} for the sensitivity of your role, then `
   return `${start}${clauses.join(', and ')}.`
 }
 

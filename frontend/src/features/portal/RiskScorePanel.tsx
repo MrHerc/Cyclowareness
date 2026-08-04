@@ -125,6 +125,37 @@ export function RiskScorePanel({
           </p>
         )}
 
+        {/* WHERE THE SCORE STARTED, kept out of the two columns below.
+            Those are headed "What is raising it" / "What is lowering it" and
+            describe BEHAVIOUR — their own empty state says so. A role-sensitivity
+            baseline and a figure carried over from before the platform are
+            neither, and showing them there told a named person that a starting
+            position was something they had done. They are still shown, because
+            removing them from the columns without displaying them anywhere would
+            leave the total unexplained. */}
+        {evidence.startingPoints.length > 0 ? (
+          <div className="border-t border-line-subtle pt-5">
+            <h3 className="label text-fg-subtle">Where your score started</h3>
+            <p className="mt-1 text-sm text-fg-faint">
+              Set before anything you did, and not a judgement about you.
+            </p>
+            <ul className="mt-2">
+              {evidence.startingPoints.map((factor) => (
+                <li
+                  key={factor.factor}
+                  className="flex items-baseline justify-between gap-3 py-1.5"
+                >
+                  <span className="truncate text-body text-fg-muted">{factor.label}</span>
+                  <span className="shrink-0 text-body tabular-nums text-fg">
+                    {factor.contribution > 0 ? '+' : ''}
+                    {num(factor.contribution, 1)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         <div className="grid gap-6 border-t border-line-subtle pt-5 sm:grid-cols-2">
           <FactorColumn
             heading="What is raising it"

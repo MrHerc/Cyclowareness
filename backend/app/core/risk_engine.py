@@ -251,8 +251,40 @@ def revoke_events(db: Session, *, source_id: str, reason: str) -> list[Employee]
     return affected
 
 
+#: Factors that describe where a score STARTED, not what the person did.
+#:
+#: `baseline_role_sensitivity` is the role's opening position. `baseline_assessment`
+#: is the figure an organisation arrives with — the seed writes one so a demo
+#: employee's score reconciles with their own audit trail, and no production path
+#: creates it (it is absent from `WEIGHTS`, so `apply_event` would move nothing).
+#:
+#: BOTH WERE BEING RENDERED AS BEHAVIOUR. The employee portal shows a column
+#: headed "What is raising it" whose empty state reads "No BEHAVIOUR has pushed
+#: your score up", and `baseline_assessment` sat inside it — on the one screen
+#: where a named person is told why they are considered a risk. Measured on the
+#: demo roster it was not a rounding artefact either: it is present for all 26
+#: employees, reaches 43.0 of a 0-100 score, and is the single largest entry for
+#: several of them, so most of the roster's leading "reason" for their standing
+#: was a starting position mislabelled as something they had done.
+#:
+#: Classified here rather than in the client so a future non-behavioural factor
+#: is grouped correctly by every consumer, not by whichever one remembers.
+STARTING_POINT_FACTORS = frozenset({"baseline_role_sensitivity", "baseline_assessment"})
+
+#: Labels that say what a factor IS. `type.replace("_", " ").capitalize()` turned
+#: `baseline_assessment` into "Baseline assessment", which reads like a test the
+#: person sat.
+FACTOR_LABELS = {
+    "baseline_assessment": "Carried over from before this platform",
+}
+
+
 def risk_breakdown(db: Session, employee: Employee, limit_events: int = 200) -> list[dict]:
-    """Explainable factor breakdown: baseline + net contribution per signal type."""
+    """Explainable factor breakdown: baseline + net contribution per signal type.
+
+    Each entry carries a `kind`: `starting_point` for where the score began,
+    `behaviour` for what moved it. See `STARTING_POINT_FACTORS`.
+    """
     rows = db.execute(
         select(RiskEvent.type, func.sum(RiskEvent.delta), func.count(RiskEvent.id))
         .where(RiskEvent.employee_id == employee.id, RiskEvent.revoked_at.is_(None))
@@ -264,15 +296,19 @@ def risk_breakdown(db: Session, employee: Employee, limit_events: int = 200) -> 
             "label": "Role sensitivity baseline",
             "contribution": round(baseline_for(employee), 1),
             "events": 0,
+            "kind": "starting_point",
         }
     ]
     for type_, total, count in rows:
         breakdown.append(
             {
                 "factor": type_,
-                "label": type_.replace("_", " ").capitalize(),
+                "label": FACTOR_LABELS.get(type_, type_.replace("_", " ").capitalize()),
                 "contribution": round(total or 0.0, 1),
                 "events": count,
+                "kind": (
+                    "starting_point" if type_ in STARTING_POINT_FACTORS else "behaviour"
+                ),
             }
         )
     breakdown.sort(key=lambda item: -abs(item["contribution"]))
