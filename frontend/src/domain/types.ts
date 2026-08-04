@@ -756,6 +756,10 @@ export interface SandboxCapabilities {
   unavailable_analyzers: Record<string, string>
   yara: { loaded: number; files?: number; failed?: Record<string, string> | null; error?: string }
   /** Dynamic detonation runs off-host; false here is the honest default. */
+  /** Would the kernel refuse to execute a file in the quarantine? True/False
+   *  read from the host's mounts, null where that cannot be determined. A
+   *  security posture the deployment reports rather than asserts. */
+  quarantine_noexec?: boolean | null
   dynamic_worker: boolean
   /** Why no worker is attached. Present exactly when `dynamic_worker` is false,
    *  so the UI can say what is missing instead of showing a bare "no". */

@@ -132,6 +132,37 @@ export function DeploymentPanel() {
               {num(sandbox.data?.yara?.loaded ?? 0)} compiled
             </SettingRow>
 
+            {/* Reported, not asserted. `null` is "this host cannot tell" — a
+                Windows dev box, or a kernel with no /proc/mounts — which is a
+                third answer, never folded into "not hardened". */}
+            <SettingRow
+              term="Quarantine execution"
+              detail={
+                sandbox.data?.quarantine_noexec === true
+                  ? 'The kernel would refuse to execute a file in the quarantine. Read from the host mounts, not assumed.'
+                  : sandbox.data?.quarantine_noexec === false
+                    ? 'The quarantine is NOT mounted noexec on this host. Samples are never executed by the analysis, but the mount does not enforce it.'
+                    : 'This host cannot report whether the quarantine is mounted noexec.'
+              }
+            >
+              <Badge
+                tone={
+                  sandbox.data?.quarantine_noexec === true
+                    ? 'safe'
+                    : sandbox.data?.quarantine_noexec === false
+                      ? 'medium'
+                      : 'neutral'
+                }
+                size="sm"
+              >
+                {sandbox.data?.quarantine_noexec === true
+                  ? 'noexec enforced'
+                  : sandbox.data?.quarantine_noexec === false
+                    ? 'not enforced'
+                    : 'Not reported'}
+              </Badge>
+            </SettingRow>
+
             {/* ABSENCE IS NOT AN ANSWER OF "NONE". With `integrations` missing —
                 an older server, or the optional layer failing to import — this
                 read "0 of 0" under "No external engine is configured to receive

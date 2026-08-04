@@ -191,7 +191,7 @@ def sandbox_capabilities(settings: Settings = Depends(get_settings)):
     this host — how many YARA rules loaded, whether behaviour can be observed at
     all — instead of implying a capability that is not present.
     """
-    from ..sandbox.engine import analyzers, yara_engine
+    from ..sandbox.engine import analyzers, storage, yara_engine
 
     yara_status: dict = {"loaded": 0}
     try:
@@ -233,6 +233,14 @@ def sandbox_capabilities(settings: Settings = Depends(get_settings)):
         "static_analyzers": sorted(analyzers.all_names()),
         "unavailable_analyzers": analyzers.unavailable_analyzers(),
         "yara": yara_status,
+        # WOULD THE KERNEL REFUSE TO RUN A FILE IN THE QUARANTINE. Arrived with
+        # the re-vendor and published nowhere until now — the same half-applied
+        # shape the engine drift keeps producing. It is a real security fact:
+        # True/False read from /proc/mounts, None where that cannot be read.
+        # The docs asserted `noexec`; the standalone measured a live host that
+        # did not have it and 1,362 samples on a plain rw mount, so the product
+        # reports the fact rather than repeating the claim.
+        "quarantine_noexec": storage.quarantine_is_noexec(),
         # Detonation needs an isolated worker the web host does not provide.
         # The UI states this rather than pretending otherwise.
         "dynamic_worker": dynamic_ready,

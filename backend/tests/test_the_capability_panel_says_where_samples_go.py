@@ -172,3 +172,20 @@ def test_the_matrix_distinguishes_uploading_a_file_from_sending_a_hash(
         assert "submitted to" in rows[key]["notes"].lower(), (
             f"{key} uploads the sample and its notes no longer say so"
         )
+
+
+def test_the_quarantine_noexec_posture_is_published(client, analyst_headers):
+    """Arrived with the re-vendor and published nowhere until it was wired.
+
+    `quarantine_is_noexec()` is a real security fact — would the kernel refuse to
+    run a file in the quarantine — and the standalone publishes it. A True/False
+    or an explicit null (this host cannot tell) must reach the operator; the one
+    thing that must not is silence, because the docs used to assert `noexec` on a
+    host that did not have it.
+    """
+    body = client.get("/api/sandbox/capabilities", headers=analyst_headers).json()
+    assert "quarantine_noexec" in body, (
+        "the noexec posture arrived in the engine and is published nowhere — the "
+        "same half-applied shape the drift check exists to catch"
+    )
+    assert body["quarantine_noexec"] in (True, False, None)
