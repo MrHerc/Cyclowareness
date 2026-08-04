@@ -9,7 +9,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import { SeverityBarChart } from '../../components/charts'
+import { SeverityRadial } from '../../components/charts'
 import { AsyncBoundary, SkeletonChart } from '../../components/states'
 import type { PolicyFinding } from '../../domain/types'
 import { highRiskCount, severityCounts } from './derive'
@@ -43,12 +43,42 @@ export function PolicyExposurePanel({
       }
     >
       <div className="space-y-2">
-        <SeverityBarChart
-          data={counts}
-          title="Policy exposure by severity"
-          caption={`${findings.length} open ${findings.length === 1 ? 'finding' : 'findings'} · ${pressing} at critical or high`}
-          height={200}
-        />
+        {/* The radial carries the whole and the shape at a glance; the bars carry
+            the exact counts. Two encodings of one dataset, never disagreeing,
+            because both read the same `counts` filtered the same way. */}
+        <div className="rounded-panel border border-line-subtle bg-surface p-4 shadow-panel">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-h text-fg">Policy exposure by severity</h3>
+            <span className="text-xs text-fg-faint">
+              {pressing} at critical or high
+            </span>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-6">
+            <SeverityRadial data={counts} size={168} className="shrink-0" />
+            <ul className="min-w-[9rem] flex-1 space-y-1.5">
+              {counts.length === 0 ? (
+                <li className="text-sm text-fg-faint">No open findings.</li>
+              ) : (
+                counts.map((row) => (
+                  <li
+                    key={row.severity}
+                    className="flex items-center justify-between gap-3 text-sm"
+                  >
+                    <span className="flex items-center gap-2 text-fg-muted">
+                      <span
+                        aria-hidden="true"
+                        className="size-2.5 rounded-full"
+                        style={{ background: `var(--color-${row.severity === 'info' ? 'fg-faint' : row.severity})` }}
+                      />
+                      {row.severity === 'info' ? 'Info' : row.severity[0].toUpperCase() + row.severity.slice(1)}
+                    </span>
+                    <span className="tabular-nums text-fg">{row.count}</span>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+        </div>
         <p className="text-xs text-fg-subtle">
           <Link
             to="/policy-intelligence/findings"

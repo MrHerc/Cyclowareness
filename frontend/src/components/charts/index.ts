@@ -31,6 +31,8 @@ export type { DepartmentRiskHeatmapProps } from './DepartmentRiskHeatmap'
 
 export { SeverityBarChart } from './SeverityBarChart'
 export type { SeverityBarChartProps, SeverityCount } from './SeverityBarChart'
+export { SeverityRadial } from './SeverityRadial'
+export type { SeverityRadialProps } from './SeverityRadial'
 
 export { LoopOutcomeChart } from './LoopOutcomeChart'
 export type { LoopOutcomeChartProps } from './LoopOutcomeChart'
