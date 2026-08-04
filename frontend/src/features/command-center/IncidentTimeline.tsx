@@ -16,6 +16,7 @@
 import { Link } from 'react-router-dom'
 import type { AuditEvent } from '../../domain/types'
 import { cn, formatTime, humanise } from '../../lib/format'
+import { useT } from '../../lib/i18n'
 
 export interface IncidentTimelineProps {
   events: AuditEvent[]
@@ -40,6 +41,7 @@ function actionPhrase(action: string): string {
 }
 
 export function IncidentTimeline({ events, limit = 6 }: IncidentTimelineProps) {
+  const t = useT()
   // Oldest-to-newest across the rail, capped, with the newest kept.
   const nodes = [...events].slice(0, limit).reverse()
 
@@ -50,13 +52,13 @@ export function IncidentTimeline({ events, limit = 6 }: IncidentTimelineProps) {
     >
       <div className="flex items-center justify-between gap-3">
         <h2 id="timeline-heading" className="text-h text-fg">
-          Incident timeline
+          {t('cc.timeline')}
         </h2>
         <Link
           to="/audit-log"
           className="label text-fg-faint underline-offset-4 hover:text-fg-subtle hover:underline"
         >
-          Full audit log
+          {t('cc.fullAudit')}
         </Link>
       </div>
 

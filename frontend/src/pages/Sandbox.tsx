@@ -13,6 +13,7 @@ import { CapabilityStrip } from '../features/sandbox/CapabilityStrip'
 import { JobsTable } from '../features/sandbox/JobsTable'
 import { QueueSummary } from '../features/sandbox/QueueSummary'
 import { SubmissionPanel } from '../features/sandbox/SubmissionPanel'
+import { useT } from '../lib/i18n'
 import { DataSourceLabel } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel, Select } from '../components/ui'
@@ -29,6 +30,7 @@ const STATUS_OPTIONS = [
 ]
 
 export default function Sandbox() {
+  const t = useT()
   const [params, setParams] = useSearchParams()
   const status = params.get('status') ?? 'all'
   const backing = backingFor('sandbox')
@@ -49,7 +51,7 @@ export default function Sandbox() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="space-y-2">
-        <h1 className="text-display text-fg">Sandbox</h1>
+        <h1 className="text-display text-fg">{t('page.sandbox.title')}</h1>
         {/* THE LEAD MUST NOT CONTRADICT THE PANEL BELOW IT. This said "Static
             forensic analysis" unconditionally, while CapabilityStrip a few
             hundred pixels down reported "Static and dynamic analysis" whenever

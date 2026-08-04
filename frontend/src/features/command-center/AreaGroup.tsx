@@ -18,25 +18,30 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT, type MessageKey } from '../../lib/i18n'
 
 export interface AreaGroupProps {
-  /** Must match a `NAV_SECTIONS` label exactly — the mirroring is the feature. */
-  label: string
+  /** The SAME key the sidebar renders for this section — the mirroring is the
+   *  feature, and sharing the key is what stops the two drifting apart. */
+  labelKey: MessageKey
   /** Where the full depth for this band lives. */
   to: string
-  /** Link text. Names the destination, never "see more". */
-  linkLabel: string
+  /** Link text key. Names the destination, never "see more". */
+  linkKey: MessageKey
+  /** Stable id for the heading, independent of the rendered language. */
+  id: string
   children: React.ReactNode
 }
 
-export function AreaGroup({ label, to, linkLabel, children }: AreaGroupProps) {
-  const id = `area-${label.toLowerCase().replace(/[^a-z]+/g, '-')}`
+export function AreaGroup({ labelKey, to, linkKey, id: bandId, children }: AreaGroupProps) {
+  const t = useT()
+  const id = `area-${bandId}`
 
   return (
     <section aria-labelledby={id} className="space-y-3">
       <div className="flex items-baseline gap-3">
         <h3 id={id} className="label shrink-0 text-fg-subtle">
-          {label}
+          {t(labelKey)}
         </h3>
         {/* The rule carries the eye from the name to the way out. */}
         <span aria-hidden="true" className="h-px flex-1 bg-line" />
@@ -44,7 +49,7 @@ export function AreaGroup({ label, to, linkLabel, children }: AreaGroupProps) {
           to={to}
           className="label shrink-0 text-fg-faint underline-offset-4 hover:text-brand-fg hover:underline"
         >
-          {linkLabel}
+          {t(linkKey)}
         </Link>
       </div>
       <div className="grid gap-4 xl:grid-cols-2">{children}</div>

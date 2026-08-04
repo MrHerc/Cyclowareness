@@ -14,6 +14,7 @@
 
 import { TriangleAlert } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import type { SystemWarning, WarningTone } from './derive'
 
@@ -34,12 +35,13 @@ const TONE_ICON: Record<WarningTone, string> = {
 }
 
 export function SystemWarnings({ warnings }: SystemWarningsProps) {
+  const t = useT()
   if (warnings.length === 0) return null
 
   return (
     <section aria-labelledby="system-warnings-heading" className="space-y-2">
       <h2 id="system-warnings-heading" className="label text-fg-subtle">
-        Degraded capability
+        {t('cc.degraded')}
       </h2>
 
       <ul className="grid gap-2 lg:grid-cols-2">

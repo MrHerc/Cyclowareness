@@ -28,6 +28,7 @@
 import { useCallback, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { DepartmentRiskHeatmap } from '../components/charts'
+import { useT } from '../lib/i18n'
 import { DataSourceLabel, DemoDataBadge, LastUpdated } from '../components/data'
 import { useToast } from '../components/ui'
 import type { ApprovalDecision, AuditEvent } from '../domain/types'
@@ -77,6 +78,7 @@ import { useLoopStream } from '../lib/hooks/useLoopStream'
 const AUDIT_LIMIT = 8
 
 export default function CommandCenter() {
+  const t = useT()
   // Loop transitions arrive over the socket and invalidate the loop, dashboard
   // and approval caches. Polling underneath it means a dropped socket costs a
   // few seconds of freshness rather than a frozen screen.
@@ -219,7 +221,7 @@ export default function CommandCenter() {
       <header className="space-y-2">
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
           <div className="min-w-0">
-            <h1 className="text-title text-fg">Command Center</h1>
+            <h1 className="text-title text-fg">{t('page.command-center.title')}</h1>
             <p className="mt-1 text-body text-fg-muted">
               Where the loop is right now, and what is waiting on a person.
             </p>
@@ -242,7 +244,7 @@ export default function CommandCenter() {
 
       <section aria-labelledby="attention-heading">
         <h2 id="attention-heading" className="sr-only">
-          What needs attention now
+          {t('cc.attention')}
         </h2>
         <HeroStrip
           activeRuns={dashboard.data ? dashboard.data.counts.active_runs : null}
@@ -288,14 +290,14 @@ export default function CommandCenter() {
 
       <section aria-labelledby="operations-heading" className="space-y-7">
         <h2 id="operations-heading" className="text-h text-fg">
-          Operational areas
+          {t('cc.operationalAreas')}
         </h2>
 
         {/* The bands below carry the sidebar's own section names, in the
             sidebar's own order. Eight panels in one undifferentiated grid was a
             second copy of the navigation with the labels taken off. */}
 
-        <AreaGroup label="Operate" to="/threats" linkLabel="Open threat intake">
+        <AreaGroup labelKey="nav.section.operate" to="/threats" linkKey="cc.open.threats" id="operate">
           <ThreatIntakePanel
             threats={threats.data ?? []}
             isLoading={threats.isLoading}
@@ -305,7 +307,7 @@ export default function CommandCenter() {
 
         </AreaGroup>
 
-        <AreaGroup label="Programme" to="/simulations" linkLabel="Open simulations">
+        <AreaGroup labelKey="nav.section.programme" to="/simulations" linkKey="cc.open.simulations" id="programme">
           <SimulationsPanel
             simulations={simulations.data ?? []}
             isLoading={simulations.isLoading}
@@ -315,7 +317,7 @@ export default function CommandCenter() {
 
         </AreaGroup>
 
-        <AreaGroup label="People & risk" to="/incident-risks" linkLabel="Open incident risks">
+        <AreaGroup labelKey="nav.section.people" to="/incident-risks" linkKey="cc.open.incidents" id="people">
           <IncidentRiskPanel
             risks={openIncidents ?? []}
             isLoading={incidents.isLoading}
@@ -350,7 +352,7 @@ export default function CommandCenter() {
 
         </AreaGroup>
 
-        <AreaGroup label="Governance" to="/policy-intelligence" linkLabel="Open policy intelligence">
+        <AreaGroup labelKey="nav.section.governance" to="/policy-intelligence" linkKey="cc.open.policy" id="governance">
           <PolicyExposurePanel
             findings={openFindings ?? []}
             isLoading={findings.isLoading}
@@ -368,7 +370,7 @@ export default function CommandCenter() {
 
         </AreaGroup>
 
-        <AreaGroup label="System" to="/integrations" linkLabel="Open integrations">
+        <AreaGroup labelKey="nav.section.system" to="/integrations" linkKey="cc.open.integrations" id="system">
           <IntegrationHealthPanel
             integrations={integrations.data ?? []}
             isLoading={integrations.isLoading}

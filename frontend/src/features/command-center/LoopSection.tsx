@@ -14,6 +14,7 @@
 
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { ClosedLoopFlow, LoopStatusBadge, summariseRuns } from '../../components/loop'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../../components/states'
 import {
@@ -57,12 +58,13 @@ export function LoopSection({
   error,
   onRetry,
 }: LoopSectionProps) {
+  const t = useT()
   const activity = useMemo(() => summariseRuns(runs), [runs])
   const visible = useMemo(() => runsAt(runs, selected), [runs, selected])
 
   return (
     <Panel
-      title="The closed loop"
+      title={t('cc.closedLoop')}
       subtitle="Select a stage or the gate to filter the runs below"
       actions={
         selected !== null ? (

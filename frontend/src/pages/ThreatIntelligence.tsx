@@ -20,6 +20,7 @@
 import { Radar } from 'lucide-react'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useT } from '../lib/i18n'
 import { DemoDataBadge } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonTable, StateAction } from '../components/states'
 import { Panel } from '../components/ui'
@@ -38,6 +39,7 @@ import { num } from '../lib/format'
 const FILTER_KEYS = ['source', 'type', 'severity', 'relevance', 'q'] as const
 
 export default function ThreatIntelligence() {
+  const t = useT()
   const [searchParams, setSearchParams] = useSearchParams()
   const canManage = usePermission('intel.manage')
   const backing = backingFor('threat-intelligence')
@@ -127,7 +129,7 @@ export default function ThreatIntelligence() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-display text-fg">Threat intelligence</h1>
+          <h1 className="text-display text-fg">{t('page.intel.title')}</h1>
           <p className="mt-2 max-w-2xl text-lead text-fg-muted">
             External advisories, compared against what this organisation runs and what it has
             approved. An advisory earns attention here when it matches something of ours.

@@ -12,6 +12,7 @@
 
 import { Plus, ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
+import { useT } from '../lib/i18n'
 import { DataSourceLabel } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonTable, StateAction } from '../components/states'
 import { Button, Panel } from '../components/ui'
@@ -25,6 +26,7 @@ import { usePermission } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
 export default function IncidentRisks() {
+  const t = useT()
   const [creating, setCreating] = useState(false)
   const filterState = useRiskFilters()
   const canManage = usePermission('incident_risks.manage')
@@ -38,7 +40,7 @@ export default function IncidentRisks() {
     <div className="flex flex-col gap-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-title text-fg">Incident risks</h1>
+          <h1 className="text-title text-fg">{t('page.incident-risks.title')}</h1>
           <p className="mt-1 max-w-2xl text-body text-fg-muted">
             Risk that incident response raised against named people, and the work required to
             discharge it. A risk opens as a draft — nobody is on the hook until it is assigned.

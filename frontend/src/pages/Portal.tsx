@@ -15,6 +15,7 @@
 import { useMemo, useState } from 'react'
 import { CircleCheck, Flag } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useT } from '../lib/i18n'
 import { DemoDataBadge } from '../components/data'
 import { AsyncBoundary, EmptyState, ErrorState, SkeletonCard } from '../components/states'
 import { Badge, Button, Panel } from '../components/ui'
@@ -55,6 +56,7 @@ function PortalSkeleton() {
 }
 
 export default function Portal() {
+  const t = useT()
   const dashboard = useEmployeeDashboard()
   const assignments = useMyAssignments()
   const profile = useMyProfile()
@@ -123,7 +125,7 @@ export default function Portal() {
     <div className="mx-auto max-w-5xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-display text-fg">My security</h1>
+          <h1 className="text-display text-fg">{t('nav.portal')}</h1>
           <p className="mt-1 text-lead text-fg-muted">
             {employee
               ? `${employee.name} · ${employee.role_title}${employee.department ? ` · ${employee.department}` : ''}`

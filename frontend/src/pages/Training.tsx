@@ -14,6 +14,7 @@
 import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { GraduationCap } from 'lucide-react'
+import { useT } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Button, Input, Panel, Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui'
 import { ModuleTable } from '../features/training/ModuleTable'
@@ -40,6 +41,7 @@ function matches(module: TrainingModule, status: string, query: string): boolean
 }
 
 export default function Training() {
+  const t = useT()
   const [params, setParams] = useSearchParams()
   // The whole list is fetched once so the tab counts are real rather than
   // "however many the current filter returned".
@@ -83,7 +85,7 @@ export default function Training() {
   return (
     <div className="space-y-6">
       <header className="max-w-3xl">
-        <h1 className="text-display text-fg">Training Studio</h1>
+        <h1 className="text-display text-fg">{t('page.training.title')}</h1>
         <p className="mt-2 text-lead text-fg-muted">
           Every module the platform has produced, with how it was written on the face of each row.
           Content that came from a fixed template is never labelled as AI — the distinction is the

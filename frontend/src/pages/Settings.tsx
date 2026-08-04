@@ -13,6 +13,7 @@
  * routes behind them exist.
  */
 
+import { useT } from '../lib/i18n'
 import { useCapabilities } from '../lib/api/queries'
 import { usePermission } from '../lib/auth/useAuth'
 import { AppearancePanel } from '../features/settings/AppearancePanel'
@@ -21,6 +22,7 @@ import { DeploymentPanel } from '../features/settings/DeploymentPanel'
 import { IdentityPanel } from '../features/settings/IdentityPanel'
 
 export default function Settings() {
+  const t = useT()
   const capabilities = useCapabilities()
   const canReset = usePermission('demo.reset')
 
@@ -32,7 +34,7 @@ export default function Settings() {
     <div className="space-y-6">
       <header className="min-w-0 max-w-3xl space-y-2">
         <p className="label text-brand">System</p>
-        <h1 className="text-display text-fg">Settings</h1>
+        <h1 className="text-display text-fg">{t('page.settings.title')}</h1>
         <p className="text-body text-fg-muted">
           What this deployment is, what it can do, and the two preferences this browser remembers.
           Anything the platform cannot store is not offered here — a settings page of switches that

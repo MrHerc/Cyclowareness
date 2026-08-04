@@ -25,6 +25,7 @@ import {
   type DateRangeValue,
   type DateRangePreset,
 } from '../components/data'
+import { useT } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
 import { AuditFilters } from '../features/audit/AuditFilters'
@@ -48,6 +49,7 @@ const PRESETS: DateRangePreset[] = ['7d', '30d', '90d', 'quarter', 'custom']
 const CATALOGUE_QUERY = { limit: 500 } as const
 
 export default function AuditLog() {
+  const t = useT()
   const [params, setParams] = useSearchParams()
   const filters = useUrlFilters<AuditFilterKey>(AUDIT_FILTER_KEYS)
   const backing = backingFor('audit')
@@ -118,7 +120,7 @@ export default function AuditLog() {
           <p className="label text-brand">System</p>
           <DataSourceLabel source="live" detail={backing.note} />
         </div>
-        <h1 className="text-display text-fg">Audit log</h1>
+        <h1 className="text-display text-fg">{t('page.audit.title')}</h1>
         <p className="text-body text-fg-muted">
           Every material change the platform made, who made it, and the state of the record on both
           sides of it. The trail is written by the API in the same transaction as the change, and

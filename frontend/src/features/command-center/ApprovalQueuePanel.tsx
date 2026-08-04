@@ -24,6 +24,7 @@
 import { useState } from 'react'
 import { ShieldCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { AIProvenanceBadge } from '../../components/data'
 import { AsyncBoundary, ConfirmationDialog, EmptyState, SkeletonRow } from '../../components/states'
 import {
@@ -272,6 +273,7 @@ export function ApprovalQueuePanel({
   onDecide,
   busy,
 }: ApprovalQueuePanelProps) {
+  const t = useT()
   const [pending, setPending] = useState<PendingDecision | null>(null)
 
   // Does assignment mean anything here? Read from the data rather than from a
@@ -294,7 +296,7 @@ export function ApprovalQueuePanel({
   return (
     <Panel
       tone="feature"
-      title="Awaiting human approval"
+      title={t('cc.awaitingApproval')}
       subtitle="Sorted by how long each item has waited. Nothing below has reached an employee."
     >
       <AsyncBoundary

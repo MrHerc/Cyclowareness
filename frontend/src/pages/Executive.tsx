@@ -76,6 +76,7 @@ import {
   useLoops,
   usePolicyFindings,
 } from '../lib/api/queries'
+import { useT } from '../lib/i18n'
 import { useAuth } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
@@ -109,6 +110,7 @@ function readRange(params: URLSearchParams): DateRangeValue {
 }
 
 export default function Executive() {
+  const t = useT()
   const navigate = useNavigate()
   const { can } = useAuth()
   const [params, setParams] = useSearchParams()
@@ -191,7 +193,7 @@ export default function Executive() {
       <header className="space-y-2">
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
           <div className="min-w-0 max-w-3xl">
-            <h1 className="text-display text-fg">Executive view</h1>
+            <h1 className="text-display text-fg">{t('page.executive.title')}</h1>
             <p className="mt-2 text-lead text-fg-muted">
               Whether real threats are changing how people behave, and what is still open. Every
               figure states the period and the sample it came from; anything that was not measured

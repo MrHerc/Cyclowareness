@@ -136,6 +136,9 @@ const en = {
 
   // --- command centre bands ------------------------------------------------
   'cc.operationalAreas': 'Operational areas',
+  'cc.awaitingApproval': 'Awaiting human approval',
+  'cc.closedLoop': 'The closed loop',
+  'cc.degraded': 'Degraded capability',
   'cc.attention': 'What needs attention now',
   'cc.timeline': 'Incident timeline',
   'cc.fullAudit': 'Full audit log',
@@ -249,6 +252,9 @@ const az: Record<MessageKey, string> = {
   'page.settings.title': 'Tənzimləmələr',
 
   'cc.operationalAreas': 'Əməliyyat sahələri',
+  'cc.awaitingApproval': 'İnsan təsdiqi gözləyir',
+  'cc.closedLoop': 'Qapalı dövrə',
+  'cc.degraded': 'Zəifləmiş imkan',
   'cc.attention': 'İndi nəyə diqqət lazımdır',
   'cc.timeline': 'İnsident vaxt xətti',
   'cc.fullAudit': 'Tam audit jurnalı',

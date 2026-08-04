@@ -15,6 +15,7 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Plus, Send } from 'lucide-react'
+import { useT } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonCard } from '../components/states'
 import {
   Button,
@@ -48,6 +49,7 @@ function matches(simulation: Simulation, status: string, channel: string, query:
 }
 
 export default function Simulations() {
+  const t = useT()
   const [params, setParams] = useSearchParams()
   const [dialogOpen, setDialogOpen] = useState(false)
   const canManage = usePermission('simulations.manage')
@@ -92,7 +94,7 @@ export default function Simulations() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-display text-fg">Simulations</h1>
+          <h1 className="text-display text-fg">{t('page.simulations.title')}</h1>
           <p className="mt-2 max-w-2xl text-lead text-fg-muted">
             Safe campaigns built from prebuilt lures or from a real threat the sandbox has already
             analyzed. Delivery is not wired to a gateway here — outcomes are recorded against
