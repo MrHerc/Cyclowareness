@@ -339,6 +339,30 @@ class RiskEvent(Base):
     # the employee the first one.
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     revoked_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # --- the employee's right to say "that was not me" -----------------------
+    #: An analyst could already withdraw a bad batch (`revoke_events`), and the
+    #: comment above records why revoking beats deleting. What was missing was
+    #: the route in the other direction: the person these events are ABOUT had
+    #: no way to say one is wrong.
+    #:
+    #: These are the events that put "HIGH RISK" beside their name on their own
+    #: screen. A machine recorded that they clicked a lure; if the machine is
+    #: wrong — a shared workstation, a mis-attributed target, a simulation that
+    #: recorded the wrong person — the score stands and the label stays, and the
+    #: only recourse was to know an analyst personally.
+    contested_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+    #: Their own words, shown to the analyst verbatim.
+    contest_note: Mapped[str] = mapped_column(Text, default="")
+    #: What a human decided, and who. Empty while the contest is open.
+    contest_resolution: Mapped[str] = mapped_column(Text, default="")
+    contest_resolved_by: Mapped[str] = mapped_column(String(255), default="")
+    contest_resolved_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     employee: Mapped[Employee] = relationship(back_populates="risk_events")

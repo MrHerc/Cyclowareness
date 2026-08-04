@@ -83,6 +83,9 @@ SNAPSHOT_SOURCE_REVISION = "0005_snapshot_source"
 #: The revision that gave the learner the appeal the disclosure already promised.
 DISPUTE_REVISION = "0006_dispute"
 
+#: The revision that let an employee contest a single risk event about them.
+CONTEST_REVISION = "0007_contest"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -106,6 +109,7 @@ DISPUTE_REVISION = "0006_dispute"
 #: tables is dated. **Every revision that adds a table or a column adds a rung
 #: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (CONTEST_REVISION, {"risk_events": {"contested_at", "contest_resolution"}}),
     (DISPUTE_REVISION, {"remediation_plans": {"disputed_at", "dispute_resolution"}}),
     (SNAPSHOT_SOURCE_REVISION, {"metric_snapshots": {"source"}}),
     (
