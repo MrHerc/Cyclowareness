@@ -9,8 +9,14 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `a5a38c8` on `master` | green through `2069563`; the last two are design-only | 349 backend tests |
-| Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` **another session's WIP** | **RED** on their WIP | not mine — do not "fix" it |
+| Portal | `MrHerc/Cyclowareness` | `791eec4` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
+
+**Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
+the standalone went green, and `quarantine_is_noexec()` (which arrived with them)
+is now published on `/api/sandbox/capabilities` and shown in the deployment
+panel. All 37 engine files byte-identical again. If `test_engine_seam_holds` ever
+fails again, follow §2 — but right now it passes.
 
 **Live:** <https://cyclowareness.onrender.com> — auto-deploys from `master`.
 `/api/health` reports `analyzer: real`, `ai_provider: anthropic`. Both keys are
@@ -164,7 +170,22 @@ The user supplied a reference: dark near-black dashboard, lime accent, one
 filled KPI card, timeline strip, petal severity chart, narrow icon rail. And:
 *"login — an interactive design like mercury.com, internals like this image."*
 
-### Done
+### Done — six commits, all verified in the browser by reading structure (the
+pane does not composite frames, so no screenshots and no rAF — see §4.8)
+
+* **Incident timeline** (`1c2e6c7`) — the reference's centrepiece. Horizontal
+  dotted rail, a node per real audit event, time chip below, action phrase above.
+  Adverse actions (reject/block/revoke/dispute/contest/fail) tint red; the rest
+  stay neutral. `IncidentTimeline.tsx`, on the command centre under the hero.
+* **Severity radial** (`38ca21d`) — the reference's petal figure, as an honest
+  donut. One segment per severity that has findings, total in the hole, exact
+  legend beside. `info` stays grey; ordered critical-first. `SeverityRadial.tsx`,
+  replaced the bar chart in `PolicyExposurePanel`.
+* **Login floating card** (`791eec4`) — the sign-in form floats as one elevated
+  blurred card on the lit background, matching the internals' panel language.
+  The pointer light reads through it.
+
+### Done earlier this session
 
 * **Palette repainted** (`5a6438b`). Navy+cyan → neutral near-black + lime.
   Measured, not eyeballed: worst body ratio **4.88** (AA floor 4.5), text on the
@@ -189,11 +210,27 @@ filled KPI card, timeline strip, petal severity chart, narrow icon rail. And:
 
 ### Not done — pick up here
 
-* The **timeline strip** from the reference (dots on a rail with time chips).
-* The **petal / hexagonal severity breakdown**.
-* The **narrow icon rail** sidebar.
+* The **narrow icon rail** sidebar was DELIBERATELY not copied. The reference has
+  ~4 destinations; this product has ~20 across four nav groups. Twenty unlabelled
+  icons is the same cargo-cult mistake as copying the palette blind. If you do
+  touch the sidebar, keep labels — an "ideal design for THIS product" is not the
+  reference's nav pattern. There was a "frozen foundation" rebuild noted in
+  memory; read it before touching the shell.
+* The **KPI trend pills** from the reference (`+15%`, `−5%` chips on each card).
+  The hero tiles have the filled-card move but not per-card deltas. These would
+  need a real prior-period number per count, which the dashboard payload does not
+  currently carry — do NOT fake them, that is the seeded-baseline defect again.
 * `LoopSignature` on the login was deliberately left untouched — it is the
   considered figure there and refuses to carry invented quantities.
+* The **login pointer-light MOTION is still unverified** — rAF does not run in
+  this pane. Ask the user to confirm it visually.
+
+### The design rule that held through all six commits, and must keep holding
+
+**No colour literal outside `frontend/src/design/tokens.css`.** Every new
+component reads `var(--color-*)` or a Tailwind token. `frontend/tools/measure_palette.py`
+is how a palette question gets settled — contrast + OKLCH hue separation — rather
+than argued.
 
 **Rule for any of it:** no colour literal may exist outside
 `frontend/src/design/tokens.css`. That held through the repaint; keep it.
