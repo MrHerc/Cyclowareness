@@ -17,6 +17,7 @@
 
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { PointerLight } from './PointerLight'
 // Directly, not through the shell barrel: that barrel reaches AppShell and the
 // command palette, and none of it belongs in the first chunk a visitor loads.
 import { ProductMark } from '../../components/shell/ProductMark'
@@ -46,6 +47,10 @@ export function AuthScaffold({
 }: AuthScaffoldProps) {
   return (
     <div className="min-h-dvh w-full lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+      {/* Behind everything, pointer-events-none, and carrying no information —
+          see the component. The first screen anyone sees should feel like a
+          surface rather than a form on a flat colour. */}
+      <PointerLight />
       <div className="flex min-h-dvh flex-col px-6 py-8 sm:px-10 lg:px-14">
         <header>
           <Link
