@@ -43,6 +43,14 @@ export interface RiskEvidence {
   change: number | null
   /** When the score last moved. Null when it never has. */
   lastRecalculated: string | null
+  /** True when the newest record is a WITHDRAWN one.
+   *
+   *  A revocation changes the score and is not itself an event, so "since your
+   *  last recorded change" cannot describe it: after a contest was upheld the
+   *  score had fallen 86 to 74 while the delta beside it read "+12.0, worse
+   *  than the previous period" — the movement that had just been taken back.
+   *  The panel shows no delta at all in that state rather than a wrong one. */
+  lastMovementUnexplained: boolean
 }
 
 function total(factors: RiskFactor[]): number {
@@ -71,7 +79,16 @@ export function buildRiskEvidence(
     factor.kind ? factor.kind === 'starting_point' : factor.factor === BASELINE_FACTOR
   const behaviour = factors.filter((factor) => !isStartingPoint(factor))
   const recorded = events ?? []
-  const lastEvent = recorded[0] ?? null
+  // A WITHDRAWN CLAIM IS NOT THE LAST CHANGE. `previous` and `change` are
+  // derived from the newest event, and after a contest was upheld the newest
+  // event was the revoked one — so a score that had just fallen 86 to 74
+  // reported "+12.0, worse than the previous period", describing the movement
+  // that had been taken back rather than the one that happened.
+  //
+  // The row stays visible, struck through and explained; it simply stops being
+  // treated as evidence of a movement.
+  const lastEvent = recorded.find((event) => !event.revoked_at) ?? null
+  const lastMovementUnexplained = Boolean(recorded[0]?.revoked_at)
 
   return {
     current,
@@ -91,6 +108,7 @@ export function buildRiskEvidence(
     previous: lastEvent ? Number((current - lastEvent.delta).toFixed(1)) : null,
     change: lastEvent ? lastEvent.delta : null,
     lastRecalculated: lastEvent ? lastEvent.created_at : null,
+    lastMovementUnexplained,
   }
 }
 

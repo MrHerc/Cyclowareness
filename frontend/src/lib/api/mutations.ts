@@ -17,6 +17,7 @@ import { api, ApiError } from './client'
 import { endpoints } from './endpoints'
 import { qk } from './queries'
 import type {
+  EmployeeDetail,
   RemediationPlan,
   ApprovalDecision,
   IncidentRisk,
@@ -547,6 +548,28 @@ export interface RemediationDecisionInput {
   id: number
   decision: 'approve' | 'reject'
   note?: string
+}
+
+export interface ContestRiskEventInput {
+  eventId: number
+  note: string
+}
+
+/** The person a risk event is about says it is wrong.
+ *
+ *  Does not touch the score client-side: a contest asks a human to look, and
+ *  the server is the only thing that decides whether the event is withdrawn. */
+export function useContestRiskEvent(opts?: Opts<EmployeeDetail, ContestRiskEventInput>) {
+  const qc = useQueryClient()
+  return useMutation<EmployeeDetail, ApiError, ContestRiskEventInput>({
+    mutationFn: ({ eventId, note }) =>
+      api.post<EmployeeDetail>(endpoints.employees.contestRiskEvent(eventId), { note }),
+    ...merge(() => {
+      qc.invalidateQueries({ queryKey: qk.people.me() })
+      qc.invalidateQueries({ queryKey: qk.dashboard.employee })
+      qc.invalidateQueries({ queryKey: qk.audit.all })
+    }, opts),
+  })
 }
 
 export interface RemediationDisputeInput {

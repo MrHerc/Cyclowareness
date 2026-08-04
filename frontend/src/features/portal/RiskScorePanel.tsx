@@ -9,10 +9,12 @@
  * are the engine's own audit trail.
  */
 
-import { ArrowDownRight, ArrowUpRight, Info } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowDownRight, ArrowUpRight, Info, MessageSquareWarning } from 'lucide-react'
 import { HonestMetric, type MetricTone } from '../../components/data'
-import { Panel } from '../../components/ui'
-import type { RiskFactor } from '../../domain/types'
+import { Button, Panel, Textarea, useToast } from '../../components/ui'
+import { useContestRiskEvent } from '../../lib/api/mutations'
+import type { RiskEvent, RiskFactor } from '../../domain/types'
 import { cn, formatDateTime, num, signed, timeAgo } from '../../lib/format'
 import { recommendedAction, riskSentence, type RiskEvidence } from './riskNarrative'
 
@@ -27,6 +29,97 @@ const BAND_TONE: Record<RiskEvidence['band'], MetricTone> = {
   elevated: 'medium',
   high: 'critical',
 }
+
+function ContestControl({ event }: { event: RiskEvent }) {
+  const toast = useToast()
+  const [open, setOpen] = useState(false)
+  const [note, setNote] = useState('')
+  const contest = useContestRiskEvent({
+    onSuccess: () => {
+      toast.show({
+        title: 'Sent to a person',
+        description: 'Someone will read what you wrote and answer it here.',
+        tone: 'success',
+      })
+      setOpen(false)
+    },
+    onError: (error) =>
+      toast.show({ title: 'That did not send', description: error.message, tone: 'error' }),
+  })
+
+  if (event.revoked_at) {
+    return (
+      <p className="mt-1 text-xs text-safe">
+        Withdrawn after review — this no longer counts towards your score.
+        {event.contest_resolution ? ` ${event.contest_resolution}` : ''}
+      </p>
+    )
+  }
+  if (event.contested_at && event.contest_resolution) {
+    return (
+      <p className="mt-1 text-xs text-fg-subtle">
+        You contested this, and a person answered: {event.contest_resolution}
+      </p>
+    )
+  }
+  if (event.contested_at) {
+    return (
+      <p className="mt-1 text-xs text-fg-subtle">
+        You contested this. Nobody has answered yet.
+      </p>
+    )
+  }
+  // ONLY WHERE THE RECORD COUNTS AGAINST THEM. The control was offered on every
+  // event, including "Completed training -4.0" and "Quiz comprehension -6.0".
+  // Nobody contests a credit: putting "This was not me" under something that
+  // helped them is noise at best, and at worst invites arguing away the
+  // evidence that they did the right thing. An event that never moved the score
+  // is not worth a person's time either.
+  if (event.delta <= 0) return null
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="mt-1 inline-flex items-center gap-1 text-xs text-fg-faint underline-offset-4 hover:text-fg-subtle hover:underline"
+      >
+        <MessageSquareWarning className="size-3.5" aria-hidden="true" strokeWidth={1.75} />
+        This was not me
+      </button>
+    )
+  }
+  return (
+    <form
+      className="mt-2"
+      onSubmit={(submitted) => {
+        submitted.preventDefault()
+        if (!note.trim()) return
+        contest.mutate({ eventId: event.id, note: note.trim() })
+      }}
+    >
+      <Textarea
+        id={`contest-${event.id}`}
+        label="What happened?"
+        hint="Sent to a person as you wrote it. Your score does not change until someone answers."
+        rows={2}
+        maxLength={2000}
+        value={note}
+        onChange={(changed) => setNote(changed.target.value)}
+        required
+      />
+      <div className="mt-2 flex flex-wrap gap-2">
+        <Button type="submit" size="sm" variant="primary" disabled={!note.trim()} loading={contest.isPending}>
+          Send to a person
+        </Button>
+        <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
+          Cancel
+        </Button>
+      </div>
+    </form>
+  )
+}
+
 
 function FactorRow({ factor, direction }: { factor: RiskFactor; direction: 'up' | 'down' }) {
   const Icon = direction === 'up' ? ArrowUpRight : ArrowDownRight
@@ -107,9 +200,11 @@ export function RiskScorePanel({
             sourceDetail="risk engine"
             lastUpdated={evidence.lastRecalculated}
             comparison={{
-              previous: evidence.previous,
-              valid: evidence.previous !== null,
-              reason: 'nothing has moved your score yet',
+              previous: evidence.lastMovementUnexplained ? null : evidence.previous,
+              valid: !evidence.lastMovementUnexplained && evidence.previous !== null,
+              reason: evidence.lastMovementUnexplained
+                ? 'a record was withdrawn after review, and your score was recalculated without it'
+                : 'nothing has moved your score yet',
               label: 'since your last recorded change',
               improvement: 'down',
             }}
@@ -182,8 +277,15 @@ export function RiskScorePanel({
               {evidence.events.map((event) => (
                 <li key={event.id} className="flex items-baseline justify-between gap-4 py-2">
                   <span className="min-w-0">
-                    <span className="text-body text-fg-muted">{event.reason}</span>
+                    <span className={cn('text-body', event.revoked_at ? 'text-fg-faint line-through' : 'text-fg-muted')}>
+                      {event.reason}
+                    </span>
                     <span className="ml-2 text-xs text-fg-faint">{timeAgo(event.created_at)}</span>
+                    {/* THE ROUTE, BESIDE THE RECORD IT IS ABOUT. These are the
+                        events that put HIGH RISK beside this person's name; an
+                        analyst could already withdraw a bad batch, and until now
+                        the person the events are about could not even ask. */}
+                    <ContestControl event={event} />
                   </span>
                   <span
                     className={cn(

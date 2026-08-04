@@ -86,6 +86,15 @@ export interface RiskEvent {
   reason: string
   loop_run_id: number | null
   created_at: string
+  /** The employee's route to say this record is wrong. `contested_at` set with
+   *  an empty `contest_resolution` is an OPEN contest: somebody waiting on a
+   *  human. Optional so a deployment that predates the field still renders. */
+  contested_at?: string | null
+  contest_note?: string
+  contest_resolution?: string
+  /** Withdrawn, never deleted — "a claim was made and later withdrawn" is a
+   *  different fact from "the claim never existed". */
+  revoked_at?: string | null
 }
 
 export interface EmployeeDetail extends Employee {

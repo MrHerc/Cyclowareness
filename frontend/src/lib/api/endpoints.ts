@@ -100,6 +100,8 @@ export const endpoints = {
     list: (params: { department_id?: number; q?: string } = {}) => `/api/employees${qs(params)}`,
     detail: (id: number | string) => `/api/employees/${id}`,
     me: () => '/api/employees/me',
+    contestRiskEvent: (eventId: number | string) =>
+      `/api/employees/me/risk-events/${eventId}/contest`,
   },
   departments: {
     list: () => '/api/departments',
