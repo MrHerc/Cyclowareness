@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `791eec4` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `db81a56` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -224,6 +224,41 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
   considered figure there and refuses to carry invented quantities.
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
+
+## 6. Structure and the Azerbaijani locale (2026-08-04)
+
+**The complaint** was that the portal holds a great deal and none of it says
+what it is. Measured, that was exactly right: the command centre carried 8,066
+characters over 12 sections and 26 panels while the pages meant to hold that
+depth were nearly empty (Closed loops 1,169; Approval gate 1,320). Eight panels
+sat in one flat grid, each a miniature of a page that already exists — a second
+copy of the sidebar with the labels removed.
+
+**The fix was naming, not deleting.** Those eight are now five bands carrying
+the sidebar's OWN section names in its own order (Operate, Programme, People &
+risk, Governance, System), each naming where its depth lives. The dashboard
+teaches the navigation instead of competing with it. Heading levels were
+inverted underneath — `Panel` and `ChartFrame` both accept `headingLevel` and
+nobody passed it — so the outline is now h1>h2>h3>h4 with zero skips.
+
+**The audit found one real defect and it was mine**: `IncidentTimeline` linked
+to `/audit` against a router registering `/audit-log`, so its own "Full audit
+log" opened the 404 page. `frontend/tools/check-links.mjs` now fails CI on any
+static internal link that cannot land — proven by reintroducing the exact typo.
+Everything else came back clean: 19 pages, zero runtime errors, zero colour
+literals outside tokens, zero unnamed controls.
+
+**The locale** is `src/lib/i18n/` — no dependency, a typed catalogue where
+`MessageKey` derives from English so a gap is a compile error. Translated: the
+whole shell, all sixteen static page titles, the five bands, the command
+centre's six headings. NOT translated, and deliberately: the analytical prose
+inside panels. Untranslated is not the same as missing, and machine-shaped
+Azerbaijani in this product would be the worse failure. The switch is in the
+account menu; the choice persists and sets `<html lang>`.
+
+**Where to continue**: page standfirsts and panel bodies, locale-aware
+date/number formatting (`Intl` is already used but always with the default
+locale), and the employee portal, which was not swept this session.
 
 ### The design rule that held through all six commits, and must keep holding
 
