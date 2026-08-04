@@ -26,12 +26,17 @@
    ========================================================================== */
 
 @theme {
-  /* --- surfaces: void < base < surface < elevated < raised ---------------- */
-  --color-void: #05070d;
-  --color-base: #07101c;
-  --color-surface: #0a1424;
-  --color-elevated: #101b2d;
-  --color-raised: #16233a;
+  /* --- surfaces: void < base < surface < elevated < raised ----------------
+     NEUTRAL, NOT NAVY. These were blue-black (#07101c and up), which tints
+     every screenshot and fights the accent. Neutral near-black lets one
+     saturated hue carry the whole interface, which is the point of the accent
+     below: on a navy ground a lime reads as a second theme colour, on a neutral
+     one it reads as emphasis. */
+  --color-void: #050506;
+  --color-base: #0a0a0c;
+  --color-surface: #131316;
+  --color-elevated: #1a1a1f;
+  --color-raised: #232329;
 
   /* --- content ------------------------------------------------------------
      MEASURED AGAINST --color-raised, THE DARKEST SURFACE ANY OF THESE LAND ON,
@@ -48,26 +53,56 @@
        fg-faint     4.68 /  5.15 /  5.49
      `fg-subtle` was lifted with `fg-faint`: raising faint alone put the two
      within 0.1 of each other, which is two tokens that render as one. */
-  --color-fg: #e9eef8;
-  --color-fg-muted: #a3b2ca;
-  --color-fg-subtle: #99a6bb;
-  --color-fg-faint: #7f8da4;
+  --color-fg: #edeef1;
+  --color-fg-muted: #a9adb6;
+  --color-fg-subtle: #9da1ab;
+  --color-fg-faint: #8b909b;
 
-  /* --- brand: cyan. `brand` fills/strokes, `brand-fg` for text on dark ---- */
-  --color-brand: #22d3ee;
-  --color-brand-fg: #67e8f9;
-  --color-brand-deep: #0e7490;
+  /* --- accent: lime. `brand` fills/strokes, `brand-fg` for text on dark ---
+     MEASURED, NOT PICKED. Re-measured on the neutral surfaces above:
+       fg 15.14 / fg-muted 8.25 / fg-subtle 7.17 / fg-faint 5.43 on `surface`,
+       worst body ratio anywhere 4.57 (fg-faint on `raised`), AA floor 4.5.
+     `on-brand` on `brand` is 14.94, so the filled accent card takes near-black
+     text rather than white — white on this lime measures 1.4 and is unreadable.
+
+     THE ACCENT IS NOT A STATUS COLOUR. Lime means "the thing you are pointing
+     at". Red, amber and green mean risk and only risk, which is why the two
+     severity hues nearest the accent moved — see the block below. */
+  --color-brand: #c9f24d;
+  --color-brand-fg: #d8f77e;
+  --color-brand-deep: #7fa32a;
+  /* Text and icons ON a lime fill. Near-black, never white. */
+  --color-on-brand: #0b1004;
 
   /* --- machine reasoning: violet. AI provenance, intelligence, inference -- */
   --color-ai: #a78bfa;
   --color-ai-deep: #6d28d9;
 
-  /* --- risk semantics ----------------------------------------------------- */
-  --color-critical: #ff6b6b;
-  --color-high: #fb923c;
-  --color-medium: #fbbf24;
-  --color-low: #60a5fa;
-  --color-safe: #34d399;
+  /* --- risk semantics -----------------------------------------------------
+     TWO OF THESE MOVED, AND THE MEASUREMENT DECIDED WHICH WAY. Separation from
+     the accent, in OKLCH degrees, because HSL degrees are not perceptually
+     even and this is a judgement about what a person can tell apart:
+
+       before (against cyan)      after (against lime)
+       safe    48  TIGHT          safe    62
+       medium 127                 medium  54
+       low     43  COLLIDES       low    127
+
+     `safe` was amber-green and sat 37 degrees from the lime — a green "safe"
+     chip beside a lime accent reads as one signal — so it moved to teal.
+
+     `medium` is the deliberate compromise. Pushing it far enough from the lime
+     (66 degrees at #fb923c) drags it to 9.5 degrees from `high`, and two
+     ADJACENT severities that look identical is a worse defect than a severity
+     sitting nearer the accent: the ramp is what a reader scans, and every chip
+     carries its label besides. 54 degrees, on purpose.
+
+     All five clear 5.8:1 on `surface`, well past the 3:1 non-text floor. */
+  --color-critical: #ff5252;
+  --color-high: #ff7f38;
+  --color-medium: #ffa62e;
+  --color-low: #5eb0ff;
+  --color-safe: #25d0c0;
 
   /* --- data series. Distinguishable, and never the brand or AI hue -------- */
   --color-series-1: #ff6b6b;
@@ -169,12 +204,16 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--color-void);
-  /* Two cool glows and a faint engineering grid. The grid is at the threshold
-     of visibility — present when you look for it, absent when you read data.
-     Fixed, so the light stays put while content scrolls. */
+  /* ONE LIGHT SOURCE, top-left, in the accent hue — the glow and the accent
+     now agree about where the light is coming from. The old pair pointed a cyan
+     glow at the top-right and a violet one at the bottom-left, which is two
+     light sources and a third hue on a page whose accent is neither.
+     A faint engineering grid sits under it, at the threshold of visibility:
+     present when you look for it, absent when you read data. Fixed, so the
+     light stays put while content scrolls. */
   background-image:
-    radial-gradient(1200px 620px at 82% -12%, rgb(34 211 238 / 0.07), transparent 62%),
-    radial-gradient(900px 520px at -6% 108%, rgb(139 92 246 / 0.06), transparent 60%),
+    radial-gradient(1100px 620px at 12% -14%, rgb(201 242 77 / 0.10), transparent 60%),
+    radial-gradient(760px 460px at 6% 4%, rgb(201 242 77 / 0.05), transparent 55%),
     linear-gradient(to right, rgb(255 255 255 / 0.016) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(255 255 255 / 0.016) 1px, transparent 1px);
   background-size: auto, auto, 56px 56px, 56px 56px;

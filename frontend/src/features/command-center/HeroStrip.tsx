@@ -200,41 +200,72 @@ function buildTiles(props: HeroStripProps): Tile[] {
 export function HeroStrip(props: HeroStripProps) {
   const tiles = buildTiles(props)
 
+  // ONE FILLED TILE, AND ONLY WHEN IT IS EARNED. The accent-on-dark design puts
+  // a single card in the accent colour and leaves the rest in greyscale, which
+  // is what makes the row scannable: the eye goes to the fill first. So the fill
+  // marks the most pressing count rather than the first tile — the leading
+  // position is a layout accident, and colouring it would point at whatever
+  // happens to be there.
+  //
+  // Nothing pressing means nothing filled. A row where one card is always lime
+  // teaches the reader to stop seeing it.
+  const filledId = tiles.find((tile) => tile.tone !== 'neutral' && (tile.value ?? 0) > 0)?.id
+
   return (
     <ul className="grid grid-cols-2 gap-3 md:grid-cols-4">
       {tiles.map((tile) => {
         const Icon = tile.icon
         const unavailable = tile.value === null
+        const filled = tile.id === filledId
 
         return (
           <li key={tile.id}>
             <Link
               to={tile.to}
               className={cn(
-                'block h-full rounded-panel border bg-elevated p-4 transition-colors duration-150',
-                'hover:border-line-strong hover:bg-raised',
-                tile.tone === 'neutral' ? 'border-line' : 'border-line-strong',
+                'block h-full rounded-panel border p-4 transition-colors duration-150',
+                filled
+                  ? 'border-brand bg-brand hover:bg-brand-fg'
+                  : cn(
+                      'bg-elevated hover:border-line-strong hover:bg-raised',
+                      tile.tone === 'neutral' ? 'border-line' : 'border-line-strong',
+                    ),
               )}
             >
               <span className="flex items-center gap-2">
                 <Icon
                   aria-hidden="true"
                   strokeWidth={1.75}
-                  className={cn('size-4 shrink-0', TONE_ICON[tile.tone])}
+                  className={cn(
+                    'size-4 shrink-0',
+                    // NEAR-BLACK ON THE FILL, NEVER WHITE. White on this lime
+                    // measures 1.4:1 — the token file records why `on-brand`
+                    // exists and what it is for.
+                    filled ? 'text-on-brand' : TONE_ICON[tile.tone],
+                  )}
                 />
-                <span className="label text-fg-subtle">{tile.label}</span>
+                <span className={cn('label', filled ? 'text-on-brand/70' : 'text-fg-subtle')}>
+                  {tile.label}
+                </span>
               </span>
 
               <span
                 className={cn(
                   'mt-3 block tabular-nums',
-                  unavailable ? 'text-lead text-fg-faint' : cn('text-display', TONE_TEXT[tile.tone]),
+                  unavailable
+                    ? 'text-lead text-fg-faint'
+                    : cn('text-display', filled ? 'text-on-brand' : TONE_TEXT[tile.tone]),
                 )}
               >
                 {unavailable ? 'Not available' : tile.value}
               </span>
 
-              <span className="mt-1 block text-xs text-fg-subtle">
+              <span
+                className={cn(
+                  'mt-1 block text-xs',
+                  filled ? 'text-on-brand/70' : 'text-fg-subtle',
+                )}
+              >
                 {unavailable ? 'This source has not answered yet' : tile.caption}
               </span>
             </Link>
