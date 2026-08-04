@@ -24,6 +24,7 @@ import { ErrorBoundary } from '../components/states'
 import { ToastProvider, TooltipProvider } from '../components/ui'
 import { ApiError } from '../lib/api/client'
 import { AuthProvider } from '../lib/auth/AuthProvider'
+import { LocaleProvider } from '../lib/i18n'
 
 /** Two attempts after the first. Beyond that the API is not coming back inside a click. */
 const MAX_RETRIES = 2
@@ -70,9 +71,11 @@ export function Providers({ children }: { children: ReactNode }) {
     <ErrorBoundary name="application root">
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <TooltipProvider delayDuration={250} skipDelayDuration={400}>
-            <ToastProvider>{children}</ToastProvider>
-          </TooltipProvider>
+          <LocaleProvider>
+            <TooltipProvider delayDuration={250} skipDelayDuration={400}>
+              <ToastProvider>{children}</ToastProvider>
+            </TooltipProvider>
+          </LocaleProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ErrorBoundary>

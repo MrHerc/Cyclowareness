@@ -11,7 +11,7 @@
  * guard fire against a session that still exists for one more render.
  */
 
-import { LogOut, User } from 'lucide-react'
+import { Globe, LogOut, User } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui'
+import { LOCALE_NAMES, LOCALES, useLocale } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { useAuth, usePermission } from '../../lib/auth/useAuth'
 import { ROLE_LABEL } from '../../lib/auth/permissions'
@@ -35,6 +36,7 @@ export function UserMenu({ className }: UserMenuProps) {
   // bounce them straight back off the guard, which reads as a broken menu.
   const hasPortal = usePermission('portal.view')
   const navigate = useNavigate()
+  const { locale, setLocale, t } = useLocale()
 
   if (!session) return null
 
@@ -80,11 +82,40 @@ export function UserMenu({ className }: UserMenuProps) {
           <>
             <DropdownMenuItem onSelect={() => navigate('/portal')}>
               <User className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-              My security
+              {t('nav.portal')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
         )}
+
+        {/* Language sits above sign-out because a reader who cannot read the
+            menu needs this item first. Each option is written in its OWN
+            language — "Azərbaycanca", never "Azerbaijani" — since the person
+            who needs it is by definition not reading the current one. */}
+        <div className="px-2 pb-1 pt-1.5">
+          <p className="label flex items-center gap-2 text-fg-faint">
+            <Globe className="size-3.5 shrink-0" aria-hidden="true" strokeWidth={1.75} />
+            {t('shell.language')}
+          </p>
+        </div>
+        {LOCALES.map((code) => (
+          <DropdownMenuItem
+            key={code}
+            onSelect={() => setLocale(code)}
+            aria-current={locale === code}
+          >
+            <span
+              aria-hidden="true"
+              className={cn(
+                'size-1.5 shrink-0 rounded-full',
+                locale === code ? 'bg-brand' : 'bg-transparent',
+              )}
+            />
+            {LOCALE_NAMES[code]}
+          </DropdownMenuItem>
+        ))}
+
+        <DropdownMenuSeparator />
 
         <DropdownMenuItem
           tone="danger"
@@ -94,7 +125,7 @@ export function UserMenu({ className }: UserMenuProps) {
           }}
         >
           <LogOut className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-          Sign out
+          {t('shell.signOut')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

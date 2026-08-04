@@ -19,6 +19,7 @@ import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { NavLink } from 'react-router-dom'
 import { Separator, Tooltip } from '../ui'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { EMPLOYEE_NAV, visibleSections, type NavItem, type NavSection } from '../../app/navigation'
 import { useAnalystDashboard } from '../../lib/api/queries'
@@ -65,10 +66,16 @@ export function SideNavigation({
     incidents: null,
   }
 
+  const t = useT()
   const sections: NavSection[] = visibleSections(can)
   const personal = EMPLOYEE_NAV.filter((item) => can(item.permission))
   if (personal.length > 0) {
-    sections.push({ id: 'personal', label: 'Personal', items: personal })
+    sections.push({
+      id: 'personal',
+      label: 'Personal',
+      labelKey: 'nav.section.personal',
+      items: personal,
+    })
   }
 
   return (
@@ -81,7 +88,7 @@ export function SideNavigation({
           {collapsed ? (
             index > 0 && <Separator className="my-2" />
           ) : (
-            <p className="label px-2 pb-1.5 pt-2 text-fg-faint">{section.label}</p>
+            <p className="label px-2 pb-1.5 pt-2 text-fg-faint">{t(section.labelKey)}</p>
           )}
 
           <ul className="space-y-0.5">
@@ -118,8 +125,8 @@ export function SideNavigation({
             ) : (
               <PanelLeftClose className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
             )}
-            {!collapsed && 'Collapse'}
-            {collapsed && <span className="sr-only">Expand navigation</span>}
+            {!collapsed && t('shell.collapse')}
+            {collapsed && <span className="sr-only">{t('shell.expand')}</span>}
           </button>
         </div>
       )}
@@ -142,6 +149,8 @@ function NavRow({
   reduceMotion: boolean
   onNavigate?: () => void
 }) {
+  const t = useT()
+  const label = t(item.labelKey)
   const Icon = item.icon
   const badged = count !== null && count > 0
 
@@ -153,7 +162,7 @@ function NavRow({
       // Collapsed, the only content is an aria-hidden icon. A tooltip supplies a
       // description, never a name — without this the rail is a column of links
       // announced as "link".
-      aria-label={collapsed ? item.label : undefined}
+      aria-label={collapsed ? label : undefined}
       className={({ isActive }) =>
         cn(
           'relative flex items-center gap-3 rounded-control px-2.5 py-2 text-body transition-colors',
@@ -181,7 +190,7 @@ function NavRow({
             strokeWidth={1.75}
           />
 
-          {!collapsed && <span className="min-w-0 flex-1 truncate">{item.label}</span>}
+          {!collapsed && <span className="min-w-0 flex-1 truncate">{label}</span>}
 
           {badged && !collapsed && (
             <span
@@ -217,8 +226,8 @@ function NavRow({
       side="right"
       content={
         <span className="block">
-          <span className="block text-fg">{item.label}</span>
-          {item.hint && <span className="block text-fg-subtle">{item.hint}</span>}
+          <span className="block text-fg">{label}</span>
+          {item.hintKey && <span className="block text-fg-subtle">{t(item.hintKey)}</span>}
           {badged && <span className="block text-fg-subtle">{count} waiting</span>}
         </span>
       }
