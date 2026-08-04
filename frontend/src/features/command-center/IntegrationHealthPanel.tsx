@@ -50,6 +50,7 @@ export function IntegrationHealthPanel({
   return (
     <Panel
       title="Integration health"
+      headingLevel={4}
       subtitle={
         dormant > 0
           ? `${dormant} further ${dormant === 1 ? 'provider is' : 'providers are'} not configured in this deployment`

@@ -33,6 +33,7 @@ import { useToast } from '../components/ui'
 import type { ApprovalDecision, AuditEvent } from '../domain/types'
 import {
   AnalystActivityPanel,
+  AreaGroup,
   ApprovalQueuePanel,
   HeroStrip,
   IncidentTimeline,
@@ -285,12 +286,16 @@ export default function CommandCenter() {
         onRetry={() => void dashboard.refetch()}
       />
 
-      <section aria-labelledby="operations-heading" className="space-y-3">
-        <h2 id="operations-heading" className="label text-fg-subtle">
+      <section aria-labelledby="operations-heading" className="space-y-7">
+        <h2 id="operations-heading" className="text-h text-fg">
           Operational areas
         </h2>
 
-        <div className="grid gap-4 xl:grid-cols-2">
+        {/* The bands below carry the sidebar's own section names, in the
+            sidebar's own order. Eight panels in one undifferentiated grid was a
+            second copy of the navigation with the labels taken off. */}
+
+        <AreaGroup label="Operate" to="/threats" linkLabel="Open threat intake">
           <ThreatIntakePanel
             threats={threats.data ?? []}
             isLoading={threats.isLoading}
@@ -298,6 +303,9 @@ export default function CommandCenter() {
             onRetry={() => void threats.refetch()}
           />
 
+        </AreaGroup>
+
+        <AreaGroup label="Programme" to="/simulations" linkLabel="Open simulations">
           <SimulationsPanel
             simulations={simulations.data ?? []}
             isLoading={simulations.isLoading}
@@ -305,13 +313,9 @@ export default function CommandCenter() {
             onRetry={() => void simulations.refetch()}
           />
 
-          <PolicyExposurePanel
-            findings={openFindings ?? []}
-            isLoading={findings.isLoading}
-            error={findings.data ? null : findings.error}
-            onRetry={() => void findings.refetch()}
-          />
+        </AreaGroup>
 
+        <AreaGroup label="People & risk" to="/incident-risks" linkLabel="Open incident risks">
           <IncidentRiskPanel
             risks={openIncidents ?? []}
             isLoading={incidents.isLoading}
@@ -322,6 +326,7 @@ export default function CommandCenter() {
           <div className="space-y-2">
             <DepartmentRiskHeatmap
               departments={departments}
+              headingLevel={4}
               height={240}
               loading={dashboard.isLoading}
               error={
@@ -343,6 +348,16 @@ export default function CommandCenter() {
             </p>
           </div>
 
+        </AreaGroup>
+
+        <AreaGroup label="Governance" to="/policy-intelligence" linkLabel="Open policy intelligence">
+          <PolicyExposurePanel
+            findings={openFindings ?? []}
+            isLoading={findings.isLoading}
+            error={findings.data ? null : findings.error}
+            onRetry={() => void findings.refetch()}
+          />
+
           <MeasuredOutcomes
             metrics={metrics}
             departments={departments}
@@ -351,6 +366,9 @@ export default function CommandCenter() {
             onRetry={() => void dashboard.refetch()}
           />
 
+        </AreaGroup>
+
+        <AreaGroup label="System" to="/integrations" linkLabel="Open integrations">
           <IntegrationHealthPanel
             integrations={integrations.data ?? []}
             isLoading={integrations.isLoading}
@@ -364,7 +382,7 @@ export default function CommandCenter() {
             error={audit.data ? null : audit.error}
             onRetry={() => void audit.refetch()}
           />
-        </div>
+        </AreaGroup>
       </section>
     </div>
   )

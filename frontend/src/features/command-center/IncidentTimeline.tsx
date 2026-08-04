@@ -53,7 +53,7 @@ export function IncidentTimeline({ events, limit = 6 }: IncidentTimelineProps) {
           Incident timeline
         </h2>
         <Link
-          to="/audit"
+          to="/audit-log"
           className="label text-fg-faint underline-offset-4 hover:text-fg-subtle hover:underline"
         >
           Full audit log

@@ -38,6 +38,7 @@ export function IncidentRiskPanel({ risks, isLoading, error, onRetry }: Incident
   return (
     <Panel
       title="Incident risk assignments"
+      headingLevel={4}
       subtitle={`${risks.length} open ${risks.length === 1 ? 'record' : 'records'} raised against people`}
       actions={
         <Button size="sm" variant="ghost" asChild>

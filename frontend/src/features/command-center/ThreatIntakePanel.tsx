@@ -32,6 +32,7 @@ export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: Threat
   return (
     <Panel
       title="Latest threat intake"
+      headingLevel={4}
       subtitle="The most recent artifacts the platform accepted"
       actions={
         <Button size="sm" variant="ghost" asChild>

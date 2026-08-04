@@ -35,6 +35,8 @@ export { IntegrationHealthPanel } from './IntegrationHealthPanel'
 export type { IntegrationHealthPanelProps } from './IntegrationHealthPanel'
 
 export { AnalystActivityPanel } from './AnalystActivityPanel'
+export { AreaGroup } from './AreaGroup'
+export type { AreaGroupProps } from './AreaGroup'
 export type { AnalystActivityPanelProps } from './AnalystActivityPanel'
 
 export { MeasuredOutcomes } from './MeasuredOutcomes'

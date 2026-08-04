@@ -63,6 +63,7 @@ export function MeasuredOutcomes({
   return (
     <Panel
       title="Measured behaviour"
+      headingLevel={4}
       subtitle={
         metrics
           ? `Trailing ${metrics.window_days} days · a rate is withheld below ${metrics.min_sample} resolved events`

@@ -30,6 +30,7 @@ export function AnalystActivityPanel({
   return (
     <Panel
       title="Recent analyst actions"
+      headingLevel={4}
       subtitle="Written by the API on every material change"
       actions={
         <Button size="sm" variant="ghost" asChild>

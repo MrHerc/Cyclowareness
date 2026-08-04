@@ -48,7 +48,7 @@ export function PolicyExposurePanel({
             because both read the same `counts` filtered the same way. */}
         <div className="rounded-panel border border-line-subtle bg-surface p-4 shadow-panel">
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-h text-fg">Policy exposure by severity</h3>
+            <h4 className="text-h text-fg">Policy exposure by severity</h4>
             <span className="text-xs text-fg-faint">
               {pressing} at critical or high
             </span>

@@ -34,6 +34,7 @@ export function SimulationsPanel({
   return (
     <Panel
       title="Active simulations"
+      headingLevel={4}
       subtitle={
         drafts > 0
           ? `${drafts} further ${drafts === 1 ? 'campaign is' : 'campaigns are'} in draft and not delivering`
