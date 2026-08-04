@@ -35,6 +35,7 @@ import {
   AnalystActivityPanel,
   ApprovalQueuePanel,
   HeroStrip,
+  IncidentTimeline,
   IncidentRiskPanel,
   IntegrationHealthPanel,
   LoopSection,
@@ -254,6 +255,8 @@ export default function CommandCenter() {
           sandbox={sandbox.data}
         />
       </section>
+
+      <IncidentTimeline events={auditEvents} />
 
       <ApprovalQueuePanel
         items={queueItems}

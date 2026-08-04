@@ -6,6 +6,8 @@
  */
 
 export { HeroStrip } from './HeroStrip'
+export { IncidentTimeline } from './IncidentTimeline'
+export type { IncidentTimelineProps } from './IncidentTimeline'
 export type { HeroStripProps } from './HeroStrip'
 
 export { SystemWarnings } from './SystemWarnings'
