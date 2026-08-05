@@ -116,6 +116,18 @@ class TrainingModuleOut(ORMModel):
     created_at: datetime
 
 
+class ModuleCreate(BaseModel):
+    """A hand-authored module. No AI fields on purpose — the server pins them."""
+
+    title: str = Field(min_length=3, max_length=255)
+    description: str = ""
+    content: list[Any] = Field(default_factory=list)
+    quiz: list[Any] = Field(default_factory=list)
+    takeaway: str = ""
+    channel: str = "email"
+    est_minutes: int = Field(default=3, ge=1, le=60)
+
+
 class ModuleEdit(BaseModel):
     title: str | None = None
     description: str | None = None

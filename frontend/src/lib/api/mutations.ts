@@ -17,6 +17,7 @@ import { api, ApiError } from './client'
 import { endpoints } from './endpoints'
 import { qk } from './queries'
 import type {
+  ResourceImportReport,
   EmployeeDetail,
   RemediationPlan,
   ApprovalDecision,
@@ -190,6 +191,46 @@ export function useDismissReport(opts?: Opts<unknown, number | string>) {
 /* ============================================================================
    Training
    ========================================================================== */
+
+export interface NewModuleBody {
+  title: string
+  description: string
+  channel: string
+  est_minutes: number
+  content: { heading: string; body: string }[]
+  quiz: unknown[]
+  takeaway: string
+}
+
+/** Author a module by hand. The server pins the AI fields to false/empty —
+ *  no request body can make a hand-written module claim a model wrote it. */
+export function useCreateModule(opts?: Opts<TrainingModule, NewModuleBody>) {
+  const qc = useQueryClient()
+  return useMutation<TrainingModule, ApiError, NewModuleBody>({
+    mutationFn: (body) => api.post<TrainingModule>(endpoints.training.createModule(), body),
+    ...merge(() => {
+      qc.invalidateQueries({ queryKey: qk.training.all })
+    }, opts),
+  })
+}
+
+export interface ResourceImportBody {
+  urls: string[]
+  topic: string
+  channel: string
+}
+
+/** Import external resource URLs. The report names every rejection — a silent
+ *  partial import is how a catalogue looks fuller than it is. */
+export function useImportResources(opts?: Opts<ResourceImportReport, ResourceImportBody>) {
+  const qc = useQueryClient()
+  return useMutation<ResourceImportReport, ApiError, ResourceImportBody>({
+    mutationFn: (body) => api.post<ResourceImportReport>(endpoints.training.importResources(), body),
+    ...merge(() => {
+      qc.invalidateQueries({ queryKey: qk.training.all })
+    }, opts),
+  })
+}
 
 export function useUpdateModule(
   opts?: Opts<TrainingModule, { id: number | string; body: Partial<TrainingModule> }>,

@@ -9,6 +9,7 @@ from ..core.orchestrator import on_assignment_completed
 from ..database import get_db
 from ..models import (
     AssignmentStatus,
+    ModuleStatus,
     Employee,
     TrainingAssignment,
     TrainingModule,
@@ -17,6 +18,7 @@ from ..models import (
 )
 from ..schemas import (
     AssignmentDetail,
+    ModuleCreate,
     AssignmentOut,
     ModuleEdit,
     QuizResult,
@@ -27,6 +29,7 @@ from ..schemas import (
     TrainingResourceOut,
     TrainingResourceTopic,
 )
+from ..platform import models as platform_models
 from ..training import resources as resource_service
 from ..security import get_current_user, require_analyst
 
@@ -63,6 +66,54 @@ def get_module(module_id: int, db: Session = Depends(get_db), user: User = Depen
     module = db.get(TrainingModule, module_id)
     if module is None:
         raise HTTPException(status_code=404, detail="Module not found")
+    return module
+
+
+@router.post("/modules", response_model=TrainingModuleOut, status_code=201)
+def create_module(
+    payload: ModuleCreate,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+):
+    """An analyst writes a module from scratch.
+
+    Everything AI-shaped is pinned to its honest value and not accepted from the
+    caller: `ai_generated=False`, `generation_source=""` — this module was
+    written by the person whose email lands in the audit row, and no request
+    body can claim otherwise. It opens in PENDING_REVIEW like every other
+    module: authoring a module and approving it stay two different acts, even
+    when the same person will do both.
+    """
+    if payload.quiz:
+        _validate_quiz_shape(payload.quiz)
+    for section in payload.content:
+        if not isinstance(section, dict) or "heading" not in section or "body" not in section:
+            raise HTTPException(status_code=422, detail="Each content section needs heading and body")
+
+    module = TrainingModule(
+        title=payload.title.strip(),
+        description=payload.description.strip(),
+        content=payload.content,
+        quiz=payload.quiz,
+        takeaway=payload.takeaway.strip(),
+        channel=payload.channel,
+        est_minutes=payload.est_minutes,
+        ai_generated=False,
+        generation_source="",
+        status=ModuleStatus.PENDING_REVIEW,
+    )
+    db.add(module)
+    db.flush()
+    platform_models.record(
+        db,
+        actor=user,
+        action="training.module.create",
+        object_type="training_module",
+        object_id=module.id,
+        object_label=module.title[:120],
+        summary="Module authored by hand from the studio.",
+    )
+    db.commit()
     return module
 
 

@@ -74,6 +74,7 @@ export const endpoints = {
   /* --- training ---------------------------------------------------------- */
   training: {
     modules: (params: { status?: string } = {}) => `/api/training/modules${qs(params)}`,
+    createModule: () => '/api/training/modules',
     module: (id: number | string) => `/api/training/modules/${id}`,
     updateModule: (id: number | string) => `/api/training/modules/${id}`,
     mine: () => '/api/training/my',

@@ -15,6 +15,9 @@ import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { GraduationCap } from 'lucide-react'
 import { useLocale } from '../lib/i18n'
+import { NewModuleDialog } from '../features/training/NewModuleDialog'
+import { ResourceImportPanel } from '../features/training/ResourceImportPanel'
+import { usePermission } from '../lib/auth/useAuth'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Button, Input, Panel, Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui'
 import { ModuleTable } from '../features/training/ModuleTable'
@@ -42,6 +45,7 @@ function matches(module: TrainingModule, status: string, query: string): boolean
 
 export default function Training() {
   const { locale, t } = useLocale()
+  const canAuthor = usePermission('training.author')
   const [params, setParams] = useSearchParams()
   // The whole list is fetched once so the tab counts are real rather than
   // "however many the current filter returned".
@@ -84,9 +88,12 @@ export default function Training() {
 
   return (
     <div className="space-y-6">
-      <header className="max-w-3xl">
-        <h1 className="text-display text-fg">{t('page.training.title')}</h1>
-        <p lang={locale} className="mt-2 text-lead text-fg-muted">{t('page.training.lead')}</p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div className="max-w-3xl">
+          <h1 className="text-display text-fg">{t('page.training.title')}</h1>
+          <p lang={locale} className="mt-2 text-lead text-fg-muted">{t('page.training.lead')}</p>
+        </div>
+        {canAuthor ? <NewModuleDialog /> : null}
       </header>
 
       {/* The review-state strip is a real tab list over the table below it. */}
@@ -169,6 +176,8 @@ export default function Training() {
       </Tabs>
 
       <GenerationNotice />
+
+      {canAuthor ? <ResourceImportPanel /> : null}
     </div>
   )
 }
