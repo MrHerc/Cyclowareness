@@ -15,6 +15,7 @@
 
 import { GaugeCircle } from 'lucide-react'
 import { useMemo } from 'react'
+import { useT } from '../lib/i18n'
 import { HonestMetric } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
@@ -28,6 +29,7 @@ import { useAnalystDashboard, useDepartments, useEmployees } from '../lib/api/qu
 import { num, signed } from '../lib/format'
 
 export default function RiskProfiles() {
+  const t = useT()
   const employees = useEmployees()
   const departments = useDepartments()
   const dashboard = useAnalystDashboard()
@@ -62,7 +64,7 @@ export default function RiskProfiles() {
   return (
     <div className="space-y-6">
       <PeopleHeader
-        title="Risk profiles"
+        title={t('page.risk-profiles.title')}
         lead="How every score on the people screens is computed, checked against this deployment's own numbers. Nothing on this page is an estimate: it is the definition, and then the roster arithmetic that follows from it."
         surfaceId="employees"
       />

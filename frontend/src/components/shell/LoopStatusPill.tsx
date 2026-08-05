@@ -14,6 +14,7 @@
 import { Radar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from '../ui'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { useAnalystDashboard } from '../../lib/api/queries'
 
@@ -25,6 +26,7 @@ const PILL =
   'inline-flex items-center gap-2 rounded-chip border border-line px-2 py-0.5 text-xs whitespace-nowrap transition-colors hover:border-line-strong hover:bg-raised'
 
 export function LoopStatusPill({ className }: LoopStatusPillProps) {
+  const t = useT()
   const { data, isPending, isError } = useAnalystDashboard()
 
   if (isPending || isError) {
@@ -79,7 +81,7 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
             className={cn('size-1.5 rounded-full bg-brand', running > 0 && 'pulse-soft')}
           />
           <span className="text-fg">{running}</span>
-          <span className="text-fg-faint">running</span>
+          <span className="text-fg-faint">{t('shell.running')}</span>
         </span>
         <span aria-hidden="true" className="text-fg-faint">
           ·
@@ -90,7 +92,7 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
             className={cn('size-1.5 rounded-full', waiting > 0 ? 'bg-medium' : 'bg-fg-subtle')}
           />
           <span className={waiting > 0 ? 'text-medium' : 'text-fg'}>{waiting}</span>
-          <span className="text-fg-faint">at gate</span>
+          <span className="text-fg-faint">{t('shell.atGate')}</span>
         </span>
       </Link>
     </Tooltip>

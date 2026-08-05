@@ -10,6 +10,7 @@
 
 import { Link } from 'react-router-dom'
 import { SeverityRadial } from '../../components/charts'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { AsyncBoundary, SkeletonChart } from '../../components/states'
 import type { PolicyFinding } from '../../domain/types'
 import { highRiskCount, severityCounts } from './derive'
@@ -27,6 +28,7 @@ export function PolicyExposurePanel({
   error,
   onRetry,
 }: PolicyExposurePanelProps) {
+  const t = useT()
   const counts = severityCounts(findings)
   const pressing = highRiskCount(findings)
 
@@ -70,7 +72,7 @@ export function PolicyExposurePanel({
                         className="size-2.5 rounded-full"
                         style={{ background: `var(--color-${row.severity === 'info' ? 'fg-faint' : row.severity})` }}
                       />
-                      {row.severity === 'info' ? 'Info' : row.severity[0].toUpperCase() + row.severity.slice(1)}
+                      {t(`severity.${row.severity}` as MessageKey)}
                     </span>
                     <span className="tabular-nums text-fg">{row.count}</span>
                   </li>

@@ -33,6 +33,7 @@ import {
   WifiOff,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { useT } from '../../lib/i18n'
 import { ApiError, type ApiErrorKind } from '../../lib/api/client'
 import { cn } from '../../lib/format'
 import { StateAction } from './StateAction'
@@ -181,12 +182,13 @@ export interface ErrorStateProps {
 export function ErrorState({
   error,
   onRetry,
-  retryLabel = 'Try again',
+  retryLabel,
   action,
   title,
   compact = false,
   className,
 }: ErrorStateProps) {
+  const t = useT()
   const copy = copyFor(error)
   const Icon = copy.icon
   const detail = detailOf(error)
@@ -204,7 +206,7 @@ export function ErrorState({
       <Icon aria-hidden="true" className={cn('size-7', TONE_CLASS[copy.tone])} strokeWidth={1.5} />
 
       <div className="max-w-md space-y-2">
-        <h2 className="text-h text-fg">{title ?? copy.headline}</h2>
+        <h2 className="text-h text-fg">{title ?? (copy.headline === 'Something went wrong' ? t('state.error') : copy.headline)}</h2>
         <p className="text-body text-fg-muted">{copy.sentence}</p>
       </div>
 
@@ -220,7 +222,7 @@ export function ErrorState({
               onClick={onRetry}
               icon={<RotateCw className="size-4" strokeWidth={1.75} />}
             >
-              {retryLabel}
+              {retryLabel ?? t('action.retry')}
             </StateAction>
           ) : null}
           {action}

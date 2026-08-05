@@ -22,6 +22,7 @@
 import { CircleCheck, PlugZap, RotateCw } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { useT } from '../../lib/i18n'
 import { ApiError, api } from '../../lib/api/client'
 import { endpoints } from '../../lib/api/endpoints'
 import { cn, timeAgo } from '../../lib/format'
@@ -43,6 +44,7 @@ export interface DisconnectedBannerProps {
  * Renders nothing at all while the API is answering.
  */
 export function DisconnectedBanner({ className }: DisconnectedBannerProps) {
+  const t = useT()
   const queryClient = useQueryClient()
   const [downSince, setDownSince] = useState<number | null>(null)
   const [probing, setProbing] = useState(false)
@@ -188,7 +190,7 @@ export function DisconnectedBanner({ className }: DisconnectedBannerProps) {
           )}
         >
           <RotateCw aria-hidden="true" className={cn('size-3.5', probing && 'pulse-soft')} strokeWidth={1.75} />
-          {probing ? 'Checking' : 'Check now'}
+          {probing ? t('action.checking') : t('action.checkNow')}
         </button>
       ) : null}
     </div>

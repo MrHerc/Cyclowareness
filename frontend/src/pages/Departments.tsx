@@ -13,6 +13,7 @@
 import { Building2 } from 'lucide-react'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useT } from '../lib/i18n'
 import { DepartmentRiskHeatmap, RiskMovementChart, RiskTrendChart } from '../components/charts'
 import { HonestMetric, InsufficientDataState } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonChart } from '../components/states'
@@ -24,6 +25,7 @@ import { mean } from '../features/people/riskModel'
 import { useAnalystDashboard, useDepartments, useEmployees } from '../lib/api/queries'
 
 export default function Departments() {
+  const t = useT()
   const navigate = useNavigate()
   const departments = useDepartments()
   const employees = useEmployees()
@@ -51,7 +53,7 @@ export default function Departments() {
   return (
     <div className="space-y-6">
       <PeopleHeader
-        title="Departments"
+        title={t('page.departments.title')}
         lead="The same risk model, rolled up to the teams that carry it. Departed staff are excluded from every average, so a department is not credited for people who left."
       />
 

@@ -12,6 +12,7 @@
 import { Users } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { useT } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Button, Panel } from '../components/ui'
 import type { Employee } from '../domain/types'
@@ -36,6 +37,7 @@ function readSort(value: string | null): EmployeeSortKey {
 }
 
 export default function Employees() {
+  const t = useT()
   const [params, setParams] = useSearchParams()
 
   const employees = useEmployees()
@@ -126,7 +128,7 @@ export default function Employees() {
   return (
     <div className="space-y-6">
       <PeopleHeader
-        title="Employees"
+        title={t('page.employees.title')}
         lead="Every person the risk engine scores, with the score it currently holds and the movement it has recorded. Open anyone to see the arithmetic behind their number."
         actions={
           <Button asChild variant="secondary">

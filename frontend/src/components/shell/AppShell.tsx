@@ -28,6 +28,7 @@ import { Suspense, useCallback, useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { DisconnectedBanner, ErrorBoundary } from '../states'
 import { Drawer } from '../ui'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { CommandPalette } from './CommandPalette'
 import { PageFallback } from './PageFallback'
@@ -50,6 +51,7 @@ function readCollapsed(): boolean {
  * scroll position and the collapse state intact between pages.
  */
 export function AppShell() {
+  const t = useT()
   const [collapsed, setCollapsed] = useState(readCollapsed)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
@@ -98,7 +100,7 @@ export function AppShell() {
           'focus:px-3 focus:py-2 focus:text-body focus:text-fg',
         )}
       >
-        Skip to content
+        {t('shell.skipToContent')}
       </a>
 
       <TopNavigation onOpenSearch={openPalette} onOpenNav={() => setSheetOpen(true)} />

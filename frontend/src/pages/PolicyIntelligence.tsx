@@ -17,6 +17,7 @@
 
 import { AlertTriangle, ListFilter, ScrollText } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useT } from '../lib/i18n'
 import { SeverityBarChart } from '../components/charts'
 import { HonestMetric } from '../components/data'
 import {
@@ -64,6 +65,7 @@ function byUrgency(a: Finding, b: Finding): number {
 }
 
 export default function PolicyIntelligence() {
+  const t = useT()
   const stats = usePolicyStats()
   const findings = usePolicyFindings(RANKING_PAGE)
   const policies = usePolicies()
@@ -90,7 +92,7 @@ export default function PolicyIntelligence() {
   return (
     <div className="space-y-6">
       <PolicyHeader
-        title="Policy drift and exposure"
+        title={t('page.policy.title')}
         description="Where the organisation's own documents no longer match the world they were written for — each finding tied to the rule it contradicts and the evidence behind it."
         actions={
           <>

@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "check:links": "node tools/check-links.mjs",
+    "check:i18n": "node tools/check-i18n.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

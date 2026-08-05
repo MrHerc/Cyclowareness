@@ -206,3 +206,5 @@ jobs:
         run: npm run build
       - name: Internal links resolve
         run: npm run check:links
+      - name: Message keys are rendered and complete
+        run: npm run check:i18n

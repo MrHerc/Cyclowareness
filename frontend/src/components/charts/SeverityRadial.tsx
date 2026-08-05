@@ -20,7 +20,8 @@
  * varies would.
  */
 
-import { humanise, num } from '../../lib/format'
+import { num } from '../../lib/format'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { SEVERITY_COLOR, SEVERITY_ORDER } from './chartTheme'
 import type { SeverityCount } from './SeverityBarChart'
 
@@ -38,6 +39,7 @@ const CIRC = 2 * Math.PI * R
 const GAP = 0.012
 
 export function SeverityRadial({ data, size = 176, className }: SeverityRadialProps) {
+  const t = useT()
   const ordered = SEVERITY_ORDER.map(
     (severity) => data.find((row) => row.severity === severity),
   ).filter((row): row is SeverityCount => Boolean(row && row.count > 0))
@@ -82,8 +84,14 @@ export function SeverityRadial({ data, size = 176, className }: SeverityRadialPr
     return seg
   })
 
+  // The same words the legend beside it renders. A sighted reader seeing
+  // "Kritik" while a screen reader says "Critical" is one chart described two
+  // ways.
   const label = ordered
-    .map((row) => `${humanise(row.severity)} ${num((row.count / total) * 100, 0)}%`)
+    .map(
+      (row) =>
+        `${t(`severity.${row.severity}` as MessageKey)} ${num((row.count / total) * 100, 0)}%`,
+    )
     .join(', ')
 
   return (

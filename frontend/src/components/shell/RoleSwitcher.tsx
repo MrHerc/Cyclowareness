@@ -30,6 +30,7 @@ import {
   Spinner,
   useToast,
 } from '../ui'
+import { useT } from '../../lib/i18n'
 import { ApiError } from '../../lib/api/client'
 import { useAuth } from '../../lib/auth/useAuth'
 import { homeFor } from '../../lib/auth/permissions'
@@ -40,6 +41,7 @@ export interface RoleSwitcherProps {
 }
 
 export function RoleSwitcher({ className }: RoleSwitcherProps) {
+  const t = useT()
   const { session, switchRole } = useAuth()
   const navigate = useNavigate()
   const toast = useToast()
@@ -82,7 +84,7 @@ export function RoleSwitcher({ className }: RoleSwitcherProps) {
           icon={<UserCog className="size-4" aria-hidden="true" strokeWidth={1.75} />}
           className={className}
         >
-          Switch account
+          {t('shell.switchAccount')}
         </Button>
       </DropdownMenuTrigger>
 

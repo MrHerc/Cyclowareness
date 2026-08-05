@@ -34,6 +34,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ConfirmationDialog } from '../states'
 import { Kbd, useToast } from '../ui'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { allNavItems, type NavItem } from '../../app/navigation'
 import { useCapabilities } from '../../lib/api/queries'
@@ -59,6 +60,7 @@ const ITEM_CLASS =
   'data-[selected=true]:bg-raised data-[selected=true]:text-fg'
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
   const { can } = useAuth()
@@ -185,7 +187,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   {permitted.map((item) => (
                     <Command.Item
                       key={item.id}
-                      value={`nav ${item.label} ${item.hint ?? ''} ${item.to}`}
+                      // Matched on BOTH spellings: a reader in Azerbaijani types
+                      // "təhdid", a reader who knows the product types "threat",
+                      // and the same row has to answer either.
+                      value={`nav ${t(item.labelKey)} ${item.label} ${
+                        item.hintKey ? t(item.hintKey) : ''
+                      } ${item.to}`}
                       onSelect={() => go(item.to)}
                       className={ITEM_CLASS}
                     >
@@ -194,10 +201,10 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                         aria-hidden="true"
                         strokeWidth={1.75}
                       />
-                      <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                      {item.hint && (
+                      <span className="min-w-0 flex-1 truncate">{t(item.labelKey)}</span>
+                      {item.hintKey && (
                         <span className="hidden shrink-0 text-xs text-fg-faint sm:block">
-                          {item.hint}
+                          {t(item.hintKey)}
                         </span>
                       )}
                     </Command.Item>
@@ -244,7 +251,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                           aria-hidden="true"
                           strokeWidth={1.75}
                         />
-                        <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                        <span className="min-w-0 flex-1 truncate">{t(item.labelKey)}</span>
                       </Command.Item>
                     ))}
                   </Command.Group>
