@@ -82,28 +82,29 @@ export default function Portal() {
   // rest, so a plan no human has cleared can never appear here.
   const myPlans = useMyRemediationPlans()
 
-  const incidentByAssignment = useMemo(
-    () => new Map<number, (typeof incidentList)[number]>(),
-    [],
-  )
+  // There is NO map from an incident obligation to a training assignment, and
+  // there cannot be one from this payload: `MyIncidentRisk` carries no
+  // `assignment_id` — its own type comment records that the server stopped
+  // sending one. An empty Map stood here instead, so `.get(id)` returned
+  // undefined forever: the sort below claimed to put deadlines first and never
+  // did, and the assignment card's incident callout, due-date and pass-mark
+  // branches were unreachable code that made the card assert "No due date" to
+  // every employee, including one working to an incident deadline.
+  //
+  // The deadline still reaches the reader — `IncidentObligations` renders it
+  // from the obligation itself, which is where it actually lives. What is gone
+  // is the pretence that the two could be joined here.
 
   const { open, finished } = useMemo(() => {
     const all = assignments.data ?? []
     const openItems = all.filter((item) => OPEN_STATUSES.has(item.status))
-    // An obligation with a deadline outranks one without; otherwise newest first.
-    openItems.sort((a, b) => {
-      const aDue = incidentByAssignment.get(a.id)?.deadline ?? null
-      const bDue = incidentByAssignment.get(b.id)?.deadline ?? null
-      if (aDue && bDue) return Date.parse(aDue) - Date.parse(bDue)
-      if (aDue) return -1
-      if (bDue) return 1
-      return Date.parse(b.assigned_at) - Date.parse(a.assigned_at)
-    })
+    // Newest first. Deadline ordering is not possible here — see above.
+    openItems.sort((a, b) => Date.parse(b.assigned_at) - Date.parse(a.assigned_at))
     return {
       open: openItems,
       finished: all.filter((item) => !OPEN_STATUSES.has(item.status)),
     }
-  }, [assignments.data, incidentByAssignment])
+  }, [assignments.data])
 
   const current: AssignmentDetail | null = open[0] ?? null
   const alsoOpen = open.slice(1)
@@ -167,7 +168,7 @@ export default function Portal() {
           ) : current ? (
             <CurrentAssignmentCard
               assignment={current}
-              incident={incidentByAssignment.get(current.id) ?? null}
+              incident={null}
               modelConnected={modelConnected}
             />
           ) : (
@@ -186,7 +187,6 @@ export default function Portal() {
             >
               <ul className="divide-line">
                 {alsoOpen.map((item) => {
-                  const incident = incidentByAssignment.get(item.id) ?? null
                   return (
                     <li
                       key={item.id}
@@ -200,9 +200,7 @@ export default function Portal() {
                           {item.module.title}
                         </Link>
                         <span className="ml-2 text-xs text-fg-faint">
-                          {incident?.deadline
-                            ? `due ${formatDate(incident.deadline)}`
-                            : `assigned ${formatDate(item.assigned_at)}`}
+                          {`assigned ${formatDate(item.assigned_at)}`}
                         </span>
                       </span>
                       <Badge status={item.status} size="sm" dot />
