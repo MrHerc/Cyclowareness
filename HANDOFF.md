@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `69c8f21` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `a56ff4a` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -295,9 +295,19 @@ inside panels. Untranslated is not the same as missing, and machine-shaped
 Azerbaijani in this product would be the worse failure. The switch is in the
 account menu; the choice persists and sets `<html lang>`.
 
-**Where to continue**: page standfirsts and panel bodies, locale-aware
-date/number formatting (`Intl` is already used but always with the default
-locale), and the employee portal, which was not swept this session.
+**Where to continue.** The standfirsts are done (16, with `lang={locale}` on
+each because they sit inside `<main lang="en">`). What remains, in order of
+value:
+
+1. **Panel bodies** — the analytical prose. Tens of thousands of words. When
+   this is done, `<main>` takes the locale and the `lang="en"` override plus the
+   per-element `lang={locale}` stamps all come out together. Do NOT machine-
+   translate it: read [[cyclowareness-structure-locale]] first.
+2. **Locale-aware formatting** — `Intl` is used throughout but always with the
+   default locale, so dates and numbers stay English-shaped under `az`.
+3. **`check-i18n` cannot judge quality.** Three real terminology defects were
+   found by READING the catalogue, not by any script. Have a native speaker read
+   the 110 strings aloud once.
 
 ### The design rule that held through all six commits, and must keep holding
 
