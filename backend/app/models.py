@@ -455,3 +455,63 @@ class MetricSnapshot(Base):
     #: in the chart: same metric, same page, opposite stories, both claiming
     #: to be measured.
     source: Mapped[str] = mapped_column(String(16), default="measured", index=True)
+
+
+class TrainingResource(Base):
+    """An external learning resource — a real video or course, on a real URL.
+
+    THE RULE THIS TABLE EXISTS TO ENFORCE: a resource is not shown to anyone
+    until something has actually fetched its URL and recorded what came back.
+    `verified_at` is nullable and starts NULL, and every read path filters on it.
+
+    That is not ceremony. A training module that links a learner to a deleted
+    video, a region-blocked video or somebody's reupload is worse than a module
+    with no link at all — it burns the one moment the person was willing to
+    learn, and it is indistinguishable from the product having made the URL up.
+    The generator is not allowed to invent these; they arrive from an importer
+    that dereferenced them, or they do not arrive.
+
+    `http_status` and `verify_error` keep the reason a check failed, so a
+    resource that goes dark is recorded as *unreachable* rather than silently
+    vanishing — an analyst can see that the catalogue used to hold something
+    here and what happened to it.
+    """
+
+    __tablename__ = "training_resources"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    #: youtube | coursera | udemy. Named rather than inferred from the URL:
+    #: a shortened or redirected link would otherwise be filed wrongly.
+    provider: Mapped[str] = mapped_column(String(20), index=True)
+    #: The provider's own id — a YouTube video id, a course slug. Lets the same
+    #: resource be recognised across two different URL spellings.
+    external_id: Mapped[str] = mapped_column(String(120), index=True)
+    url: Mapped[str] = mapped_column(String(500))
+
+    title: Mapped[str] = mapped_column(String(300))
+    author: Mapped[str] = mapped_column(String(200), default="")
+    duration_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    #: BCP-47. A resource in a language the learner does not read is not a
+    #: resource, so this is filterable rather than decorative.
+    language: Mapped[str] = mapped_column(String(12), default="en")
+
+    #: The attack this teaches: phishing | bec | ransomware | mfa_fatigue |
+    #: qr | vishing | credential_theft | insider | data_handling.
+    topic: Mapped[str] = mapped_column(String(40), index=True)
+    #: Channel it best matches, mirroring TrainingModule.channel.
+    channel: Mapped[str] = mapped_column(String(20), default="email")
+
+    #: NULL until a fetch actually happened. Nothing reaches a learner without it.
+    verified_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+    http_status: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    #: Why the last check failed, in the fetcher's words. Empty when it passed.
+    verify_error: Mapped[str] = mapped_column(String(300), default="")
+
+    #: Who put it in the catalogue. "importer:youtube" for an automated pull,
+    #: an analyst's email for a hand-added one — the distinction the rest of
+    #: this product makes everywhere between machine and human provenance.
+    added_by: Mapped[str] = mapped_column(String(255), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

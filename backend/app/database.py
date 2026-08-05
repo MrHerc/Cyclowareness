@@ -86,6 +86,9 @@ DISPUTE_REVISION = "0006_dispute"
 #: The revision that let an employee contest a single risk event about them.
 CONTEST_REVISION = "0007_contest"
 
+#: The revision that added the verified external-resource catalogue.
+RESOURCES_REVISION = "0008_resources"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -109,6 +112,11 @@ CONTEST_REVISION = "0007_contest"
 #: tables is dated. **Every revision that adds a table or a column adds a rung
 #: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    # A table-only revision: the empty set means "this table must exist".
+    # Forgetting this rung reproduced the documented failure a THIRD time —
+    # `table training_resources already exists`, 157 test errors — within
+    # minutes of adding 0008.
+    (RESOURCES_REVISION, {"training_resources": set()}),
     (CONTEST_REVISION, {"risk_events": {"contested_at", "contest_resolution"}}),
     (DISPUTE_REVISION, {"remediation_plans": {"disputed_at", "dispute_resolution"}}),
     (SNAPSHOT_SOURCE_REVISION, {"metric_snapshots": {"source"}}),
