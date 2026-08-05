@@ -2,11 +2,15 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "probe-static",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "frontend/dist", "-p", "4321", "-c-1"],
-      "port": 4321,
-      "url": "http://localhost:4321"
+      "name": "frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "frontend",
+      "port": 5180,
+      "env": {
+        "PORT": "5180",
+        "VITE_API_TARGET": "http://127.0.0.1:8100"
+      }
     }
   ]
 }
