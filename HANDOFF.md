@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `a56ff4a` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `4e01a0c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -224,6 +224,35 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
   considered figure there and refuses to carry invented quantities.
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
+
+## 8. The overnight run (2026-08-05 → 06): four owner asks
+
+1. **Resource catalogue — DONE.** 37 verified external resources across all nine
+   attack topics (YouTube + 4 Coursera courses). Every URL dereferenced before
+   storage; YouTube via oEmbed (the watch-page check passes fabricated ids —
+   measured), Coursera via page fetch (200 real / 404 fake — measured). Udemy is
+   deliberately absent: udemy.com answers 403 to every automated fetch, real and
+   fake alike, so it cannot be verified and unverifiable links do not ship. Four
+   API endpoints under /api/training/resources*, panel on the module detail with
+   "link checked <date>" per row. `revalidate()` demotes dead links.
+2. **Training creation — DONE.** POST /api/training/modules (analyst, provenance
+   pinned server-side: ai_generated=False, source empty, PENDING_REVIEW, audit
+   row). NewModuleDialog on Training → lands in the editor. ResourceImportPanel
+   pastes URLs, shows every refusal with its reason.
+3. **Portal split — DONE.** /admin (phone 0102210831 + stub OTP: server returns
+   `demo_otp` in demo mode only, five-minute single-use codes, constant-time
+   compare) and phone entry on /login (0557711253, no OTP by request). Numbers
+   are settings ADMIN_PHONE/USER_PHONE, committed defaults at the owner's
+   explicit request. Both resolve to SEEDED users — no second identity system.
+   Portal lead shows "Name · ID n · Role · Department".
+4. **Panel translation — IN FLIGHT at handoff time.** 366 title/subtitle/caption
+   sites extracted (353 distinct strings), translated by an 8-batch workflow
+   with a native-reader review lens, applied by
+   `scratchpad/apply_translations.py` (tsc repair loop inserts `const t =
+   useT()` into whichever enclosing component needs it). `Panel` and
+   `ChartFrame` stamp `lang={locale}` centrally so the translated headers are
+   announced correctly inside `<main lang="en">`. Body prose below the headers
+   remains English — that is the next layer down.
 
 ## 7. The six-lens audit (2026-08-05) — ALL 17 CLOSED
 
