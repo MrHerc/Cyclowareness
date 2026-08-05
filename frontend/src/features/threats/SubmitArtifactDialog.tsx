@@ -12,6 +12,7 @@
  * happily defaults is a field that exists to annoy people.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Dialog, Input, Select, Textarea, useToast } from '../../components/ui'
@@ -27,6 +28,7 @@ export interface SubmitArtifactDialogProps {
 }
 
 export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialogProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -91,8 +93,8 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
     <Dialog
       open={open}
       onOpenChange={(next) => (next ? onOpenChange(true) : close())}
-      title="Submit an artifact"
-      description="This starts a loop run immediately: analysis, conversion, then the human approval gate."
+      title={t('x.submit-an-artifact')}
+      description={t('x.this-starts-a-loop-run')}
       size="md"
       footer={
         <>

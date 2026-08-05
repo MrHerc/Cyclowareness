@@ -8,6 +8,7 @@
  * the snapshot itself is held server-side and is not editable from here.
  */
 
+import { useT } from '../../lib/i18n'
 import { History } from 'lucide-react'
 import { EmptyState } from '../../components/states'
 import type { PolicyVersion } from '../../domain/types'
@@ -43,13 +44,14 @@ export interface PolicyVersionsProps {
 }
 
 export function PolicyVersions({ versions, className }: PolicyVersionsProps) {
+  const t = useT()
   if (versions.length === 0) {
     return (
       <EmptyState
         compact
         icon={History}
         headline="No version snapshots yet"
-        description="A snapshot is written the first time a rule is activated or superseded on this policy. A document whose rules nobody has reviewed has no history to show."
+        description={t('x.a-snapshot-is-written-the')}
         className={className}
       />
     )

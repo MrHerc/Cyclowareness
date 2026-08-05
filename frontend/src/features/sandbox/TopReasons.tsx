@@ -9,6 +9,7 @@
  * claim, and the copy says so rather than congratulating the sample.
  */
 
+import { useT } from '../../lib/i18n'
 import type { ScoreBreakdown } from '../../domain/types'
 import { Badge, Panel } from '../../components/ui'
 
@@ -17,12 +18,13 @@ export interface TopReasonsProps {
 }
 
 export function TopReasons({ reasons }: TopReasonsProps) {
+  const t = useT()
   const items = reasons ?? []
 
   return (
     <Panel
-      title="Why this scored the way it did"
-      subtitle="The highest-severity observations, in the analyzers' own words."
+      title={t('x.why-this-scored-the-way')}
+      subtitle={t('x.the-highestseverity-observations-in-the')}
     >
       {items.length === 0 ? (
         <p className="text-body text-fg-muted">

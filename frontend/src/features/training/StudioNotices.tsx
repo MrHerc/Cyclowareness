@@ -12,13 +12,15 @@
  * is missing and points at the real path where one exists.
  */
 
+import { useT } from '../../lib/i18n'
 import { History, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Panel } from '../../components/ui'
 
 export function GenerationNotice() {
+  const t = useT()
   return (
-    <Panel title="Generating content" headingLevel={2}>
+    <Panel title={t('x.generating-content')} headingLevel={2}>
       <div className="flex gap-3">
         <Sparkles className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
         <div className="min-w-0 space-y-3">
@@ -47,8 +49,9 @@ export function GenerationNotice() {
 }
 
 export function VersionHistoryNotice() {
+  const t = useT()
   return (
-    <Panel title="Version history" headingLevel={2}>
+    <Panel title={t('x.version-history')} headingLevel={2}>
       <div className="flex gap-3">
         <History className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
         <p className="text-body text-fg-muted">

@@ -12,6 +12,7 @@
  * to be answerable by hand.
  */
 
+import { useT } from '../../lib/i18n'
 import type { ScoreBreakdown } from '../../domain/types'
 import { Badge, Panel, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui'
 import { num } from '../../lib/format'
@@ -41,13 +42,14 @@ export function ScoreBreakdownPanel({
   modelScore,
   finalScore,
 }: ScoreBreakdownPanelProps) {
+  const t = useT()
   const rule = breakdown.rule
   const model = breakdown.model
   const contributions = model?.contributions ?? []
   const maxContribution = contributions.reduce((max, c) => Math.max(max, Math.abs(c.contribution)), 0)
 
   return (
-    <Panel title="Score breakdown" subtitle="Every point, traced to the thing that produced it.">
+    <Panel title={t('x.score-breakdown')} subtitle={t('x.every-point-traced-to-the')}>
       <div className="rounded-panel border border-line-subtle bg-base p-4">
         {/* The weights come from the server's own formula string rather than
             being restated here — a UI that hardcodes 0.6 and 0.4 keeps printing

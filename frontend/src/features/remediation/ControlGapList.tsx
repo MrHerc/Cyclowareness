@@ -7,6 +7,7 @@
  * the control that would actually remove the exposure.
  */
 
+import { useT } from '../../lib/i18n'
 import { Wrench } from 'lucide-react'
 import type { RemediationControlGap } from '../../domain/types'
 import { EmptyState } from '../../components/states'
@@ -18,8 +19,9 @@ export interface ControlGapListProps {
 }
 
 export function ControlGapList({ data }: ControlGapListProps) {
+  const t = useT()
   return (
-    <Panel title="Control gaps" subtitle={data.note}>
+    <Panel title={t('x.control-gaps')} subtitle={data.note}>
       {data.items.length === 0 ? (
         <EmptyState
           icon={Wrench}

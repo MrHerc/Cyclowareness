@@ -8,6 +8,7 @@
  * claim as "nobody looked".
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { ErrorState } from '../../components/states'
 import { Button, Dialog, RadioGroup, Textarea, useToast } from '../../components/ui'
@@ -26,6 +27,7 @@ export interface AssessDialogProps {
  * keeps a second visit from inheriting the first attempt's text or its error.
  */
 export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
+  const t = useT()
   const toast = useToast()
   const assess = useAssessIntel()
   const [relevance, setRelevance] = useState<string>(
@@ -59,7 +61,7 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Assess relevance"
+      title={t('x.assess-relevance')}
       description={`How much does ${item.external_id?.trim() || 'this advisory'} matter to this organisation?`}
       size="md"
       footer={
@@ -107,7 +109,7 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
         ) : null}
 
         {assess.isError ? (
-          <ErrorState compact error={assess.error} title="The assessment was not recorded" />
+          <ErrorState compact error={assess.error} title={t('x.the-assessment-was-not-recorded')} />
         ) : null}
       </div>
     </Dialog>

@@ -10,6 +10,7 @@
  * so neither can be read as movement.
  */
 
+import { useT } from '../../lib/i18n'
 import { Building2 } from 'lucide-react'
 import { DepartmentRiskHeatmap } from '../../components/charts'
 import { InsufficientDataState } from '../../components/data'
@@ -56,6 +57,7 @@ export function DepartmentStandingPanels({
   error = null,
   onSelect,
 }: DepartmentStandingPanelsProps) {
+  const t = useT()
   const { attention, strongest } = departmentStanding(departments)
 
   if (!loading && !error && departments.length === 0) {
@@ -63,7 +65,7 @@ export function DepartmentStandingPanels({
       <EmptyState
         icon={Building2}
         headline="No department has a scored population"
-        description="Departments appear here once they contain at least one employee the risk engine has scored."
+        description={t('x.departments-appear-here-once-they')}
       />
     )
   }
@@ -80,8 +82,8 @@ export function DepartmentStandingPanels({
       />
 
       <Panel
-        title="Departments requiring attention"
-        subtitle="Standing today — an elevated or high average, or anyone in the high-risk band."
+        title={t('x.departments-requiring-attention')}
+        subtitle={t('x.standing-today-an-elevated-or')}
         headingLevel={3}
       >
         {attention.length > 0 ? (
@@ -98,8 +100,8 @@ export function DepartmentStandingPanels({
       </Panel>
 
       <Panel
-        title="Strongest departments today"
-        subtitle="Lowest averages with nobody in the high-risk band. Standing, not improvement."
+        title={t('x.strongest-departments-today')}
+        subtitle={t('x.lowest-averages-with-nobody-in')}
         headingLevel={3}
       >
         {strongest.length > 0 ? (
@@ -116,7 +118,7 @@ export function DepartmentStandingPanels({
       </Panel>
 
       <InsufficientDataState
-        title="Movement by department cannot be measured here"
+        title={t('x.movement-by-department-cannot-be')}
         reason="This view is served one figure per department — the average as it stands now — and one organisation-wide series. There is no stored per-department history to difference, so no department can honestly be called most improved."
         remedy="The organisation-wide risk trend above is measured and does answer whether risk is falling overall. Per-department movement becomes available when the platform snapshots department averages the way it snapshots the organisation."
         sample={departments.length}

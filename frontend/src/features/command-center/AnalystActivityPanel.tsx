@@ -7,6 +7,7 @@
  * is a log line, not an audit entry.
  */
 
+import { useT } from '../../lib/i18n'
 import { ScrollText } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AsyncBoundary, EmptyState, SkeletonRow } from '../../components/states'
@@ -27,11 +28,12 @@ export function AnalystActivityPanel({
   error,
   onRetry,
 }: AnalystActivityPanelProps) {
+  const t = useT()
   return (
     <Panel
-      title="Recent analyst actions"
+      title={t('x.recent-analyst-actions')}
       headingLevel={4}
-      subtitle="Written by the API on every material change"
+      subtitle={t('x.written-by-the-api-on')}
       actions={
         <Button size="sm" variant="ghost" asChild>
           <Link to="/audit-log">Full audit log</Link>
@@ -42,14 +44,14 @@ export function AnalystActivityPanel({
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading recent actions"
+        loadingLabel={t('x.loading-recent-actions')}
         isEmpty={events.length === 0}
         empty={
           <EmptyState
             compact
             icon={ScrollText}
             headline="Nothing has been changed yet"
-            description="Approvals, policy decisions, integration changes and demo resets are all recorded here as they happen."
+            description={t('x.approvals-policy-decisions-integration-chang')}
           />
         }
         skeleton={

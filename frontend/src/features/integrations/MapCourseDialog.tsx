@@ -9,6 +9,7 @@
  * a behaviour this platform measures are different claims.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import { Button, Checkbox, Dialog, Input, Textarea, useToast } from '../../components/ui'
 import type { ExternalCourse } from '../../domain/types'
@@ -36,6 +37,7 @@ export function MapCourseDialog({
   open,
   onOpenChange,
 }: MapCourseDialogProps) {
+  const t = useT()
   const toast = useToast()
   const [selected, setSelected] = useState<string[]>([])
   const [custom, setCustom] = useState('')
@@ -94,7 +96,7 @@ export function MapCourseDialog({
 
   return (
     <Dialog
-      title="Map course to behaviours"
+      title={t('x.map-course-to-behaviours')}
       description={course.title}
       open={open}
       onOpenChange={map.isPending ? undefined : onOpenChange}

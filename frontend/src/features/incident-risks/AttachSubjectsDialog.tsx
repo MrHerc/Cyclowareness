@@ -8,6 +8,7 @@
  * endpoint will not do.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Button, Dialog, Textarea } from '../../components/ui'
 import { ApiError } from '../../lib/api/client'
@@ -22,6 +23,7 @@ export interface AttachSubjectsDialogProps {
 }
 
 export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubjectsDialogProps) {
+  const t = useT()
   const attach = useAttachSubjects()
   const [employeeIds, setEmployeeIds] = useState<number[]>([])
   const [note, setNote] = useState('')
@@ -58,8 +60,8 @@ export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubject
       open={open}
       onOpenChange={dismiss}
       size="lg"
-      title="Attach people to this risk"
-      description="Attaching names somebody in the record. It does not yet ask anything of them — that happens when the required work is assigned."
+      title={t('x.attach-people-to-this-risk')}
+      description={t('x.attaching-names-somebody-in-the')}
       footer={
         <>
           <Button variant="ghost" onClick={() => dismiss(false)} disabled={attach.isPending}>

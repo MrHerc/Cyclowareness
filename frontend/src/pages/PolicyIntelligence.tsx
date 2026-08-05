@@ -93,7 +93,7 @@ export default function PolicyIntelligence() {
     <div className="space-y-6">
       <PolicyHeader
         title={t('page.policy.title')}
-        description="Where the organisation's own documents no longer match the world they were written for — each finding tied to the rule it contradicts and the evidence behind it."
+        description={t('x.where-the-organisations-own-documents')}
         actions={
           <>
             <Button asChild variant="secondary" icon={<ScrollText className="size-4" />}>
@@ -111,7 +111,7 @@ export default function PolicyIntelligence() {
         isLoading={stats.isLoading}
         error={summary ? null : stats.error}
         onRetry={() => void stats.refetch()}
-        loadingLabel="Loading policy finding counts"
+        loadingLabel={t('x.loading-policy-finding-counts')}
         skeleton={
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {[0, 1, 2, 3].map((key) => (
@@ -185,7 +185,7 @@ export default function PolicyIntelligence() {
           <EmptyState
             icon={AlertTriangle}
             headline="The finding counts are unavailable"
-            description="The stats endpoint answered, but not with the counts this screen needs. Nothing is shown rather than a row of zeros, because zero findings and no answer are different facts."
+            description={t('x.the-stats-endpoint-answered-but')}
           />
         )}
       </AsyncBoundary>
@@ -201,7 +201,7 @@ export default function PolicyIntelligence() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <SeverityBarChart
           data={severityData}
-          title="Findings by severity"
+          title={t('x.findings-by-severity')}
           caption={
             summary
               ? `Last ${summary.window_days} days · n=${summary.sample_size}`
@@ -212,7 +212,7 @@ export default function PolicyIntelligence() {
         />
 
         <Panel
-          title="Findings by status"
+          title={t('x.findings-by-status')}
           subtitle={
             summary
               ? `Every status the API knows, over the last ${summary.window_days} days. Zero is drawn, not hidden.`
@@ -223,7 +223,7 @@ export default function PolicyIntelligence() {
             isLoading={stats.isLoading}
             error={summary ? null : stats.error}
             onRetry={() => void stats.refetch()}
-            loadingLabel="Loading the status breakdown"
+            loadingLabel={t('x.loading-the-status-breakdown')}
             skeleton={<SkeletonText lines={7} />}
           >
             {summary ? (
@@ -237,7 +237,7 @@ export default function PolicyIntelligence() {
       {/* --- drift ranking and the queue ------------------------------------- */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
         <Panel
-          title="Policies most in drift"
+          title={t('x.policies-most-in-drift')}
           subtitle={`Ranked by open findings across the ${rows.length} finding${rows.length === 1 ? '' : 's'} loaded here.`}
           footer={
             rowsMeta.total !== null && rowsMeta.total > rows.length
@@ -249,7 +249,7 @@ export default function PolicyIntelligence() {
             isLoading={findings.isLoading || policies.isLoading}
             error={rows.length > 0 ? null : findings.error}
             onRetry={() => void findings.refetch()}
-            loadingLabel="Loading findings"
+            loadingLabel={t('x.loading-findings')}
             skeleton={<SkeletonText lines={5} />}
           >
             <DriftingPolicies findings={rows} policies={library} />
@@ -257,8 +257,8 @@ export default function PolicyIntelligence() {
         </Panel>
 
         <Panel
-          title="Highest-severity open findings"
-          subtitle="Ordered by severity, then by how soon they are due."
+          title={t('x.highestseverity-open-findings')}
+          subtitle={t('x.ordered-by-severity-then-by')}
           actions={
             <Button asChild variant="ghost" size="sm">
               <Link to="/policy-intelligence/findings?status=open">See all open</Link>
@@ -269,13 +269,13 @@ export default function PolicyIntelligence() {
             isLoading={findings.isLoading}
             error={rows.length > 0 ? null : findings.error}
             onRetry={() => void findings.refetch()}
-            loadingLabel="Loading open findings"
+            loadingLabel={t('x.loading-open-findings')}
             isEmpty={urgent.length === 0}
             empty={
               <EmptyState
                 compact
                 headline="Nothing is open"
-                description="Findings appear here while their status is open, in review, remediation planned or training assigned. Resolving, accepting or dismissing one takes it out."
+                description={t('x.findings-appear-here-while-their')}
               />
             }
             skeleton={

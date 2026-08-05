@@ -8,6 +8,7 @@
  * and still sitting in a queue.
  */
 
+import { useT } from '../../lib/i18n'
 import { Flag } from 'lucide-react'
 import { EmptyState } from '../../components/states'
 import { Accordion, AccordionItem, Badge, Panel } from '../../components/ui'
@@ -25,17 +26,18 @@ const STATUS_COPY: Record<string, string> = {
 }
 
 export function ReportHistory({ reports }: ReportHistoryProps) {
+  const t = useT()
   return (
     <Panel
-      title="What you have reported"
-      subtitle="Every report you have sent, and where it got to."
+      title={t('x.what-you-have-reported')}
+      subtitle={t('x.every-report-you-have-sent')}
     >
       {reports.length === 0 ? (
         <EmptyState
           compact
           icon={Flag}
           headline="You have not reported anything yet"
-          description="Use “Report something suspicious” at the top of this page. Anything you send appears here with the outcome your security team recorded."
+          description={t('x.use-report-something-suspicious-at')}
         />
       ) : (
         <Accordion type="multiple" className="-my-3">

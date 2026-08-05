@@ -14,6 +14,7 @@
  * choice would only produce that error.
  */
 
+import { useT } from '../../lib/i18n'
 import { CircleAlert, CircleCheck, GraduationCap } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -34,6 +35,7 @@ export interface AssignWorkDialogProps {
 }
 
 export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogProps) {
+  const t = useT()
   const modules = useTrainingModules('approved')
   const capabilities = useCapabilities()
   const assign = useIncidentRiskAction('assign')
@@ -106,8 +108,8 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
       open={open}
       onOpenChange={close}
       size="lg"
-      title="Assign the required work"
-      description="Creates real training assignments against the people attached to this risk."
+      title={t('x.assign-the-required-work')}
+      description={t('x.creates-real-training-assignments-against')}
       footer={
         result ? (
           <Button variant="primary" onClick={() => close(false)}>
@@ -147,7 +149,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
             compact
             icon={GraduationCap}
             headline="No approved module to assign"
-            description="Only a module that has passed the human approval gate may be put in front of a named person. Approve one first, then come back."
+            description={t('x.only-a-module-that-has')}
             action={
               <Button asChild variant="secondary" size="sm">
                 <Link to="/training">Go to training</Link>

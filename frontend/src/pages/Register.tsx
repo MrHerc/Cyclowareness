@@ -13,6 +13,7 @@
  * it produces a real artifact. Nothing pretends to reach a server.
  */
 
+import { useT } from '../lib/i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
@@ -53,6 +54,7 @@ function composeRequest(values: RegisterValues): string {
 }
 
 export default function Register() {
+  const t = useT()
   const [request, setRequest] = useState<string | null>(null)
   const {
     register,
@@ -65,7 +67,7 @@ export default function Register() {
 
   return (
     <AuthScaffold
-      title="Request an account"
+      title={t('x.request-an-account')}
       intro={`${PRODUCT_NAME} accounts are created by your security team. There is no self-service sign-up in this deployment.`}
       mobileIntro={<CompactIntro />}
       aside={<PublicAside />}
@@ -121,7 +123,7 @@ export default function Register() {
 
       {request ? (
         <RequestPanel
-          title="Account request"
+          title={t('x.account-request')}
           body={request}
           routing="Send this to whoever runs security in your organisation. They provision the account against your employee record and choose the role."
         />

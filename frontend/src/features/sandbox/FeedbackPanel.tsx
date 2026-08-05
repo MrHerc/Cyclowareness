@@ -8,6 +8,7 @@
  * expecting the report to rewrite itself.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import type { SandboxJobDetail } from '../../domain/types'
@@ -20,6 +21,7 @@ export interface FeedbackPanelProps {
 }
 
 export function FeedbackPanel({ job }: FeedbackPanelProps) {
+  const t = useT()
   const toast = useToast()
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState<string | null>(null)
@@ -47,8 +49,8 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
 
   return (
     <Panel
-      title="Analyst feedback"
-      subtitle="Was this verdict right? The answer is kept with the job, and it does not alter the score."
+      title={t('x.analyst-feedback')}
+      subtitle={t('x.was-this-verdict-right-the')}
       actions={
         job.feedback ? (
           <Badge status={job.feedback} size="sm">

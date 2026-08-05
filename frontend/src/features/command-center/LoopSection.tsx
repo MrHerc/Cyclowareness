@@ -65,7 +65,7 @@ export function LoopSection({
   return (
     <Panel
       title={t('cc.closedLoop')}
-      subtitle="Select a stage or the gate to filter the runs below"
+      subtitle={t('x.select-a-stage-or-the')}
       actions={
         selected !== null ? (
           <Button size="sm" variant="ghost" onClick={() => onSelect(null)}>
@@ -78,7 +78,7 @@ export function LoopSection({
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading the loop"
+        loadingLabel={t('x.loading-the-loop')}
         skeleton={
           <div className="space-y-6">
             <div className="shimmer h-64 rounded-panel bg-elevated" aria-hidden="true" />

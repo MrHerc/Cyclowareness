@@ -11,6 +11,7 @@
  * would be a dead end.
  */
 
+import { useT } from '../../lib/i18n'
 import { Plus, Trash2 } from 'lucide-react'
 import { Button, IconButton, Input, Panel, Select, Textarea } from '../../components/ui'
 import { truncate } from '../../lib/format'
@@ -30,6 +31,7 @@ export interface QuizEditorProps {
 const LETTERS = ['A', 'B', 'C', 'D']
 
 export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
+  const t = useT()
   function update(index: number, patch: Partial<DraftQuestion>) {
     onChange(quiz.map((question, i) => (i === index ? { ...question, ...patch } : question)))
   }
@@ -41,7 +43,7 @@ export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
 
   return (
     <Panel
-      title="Quiz"
+      title={t('x.quiz')}
       subtitle={`${MIN_QUESTIONS} to ${MAX_QUESTIONS} questions, ${OPTIONS_PER_QUESTION} options each. The server enforces both.`}
       headingLevel={2}
       actions={

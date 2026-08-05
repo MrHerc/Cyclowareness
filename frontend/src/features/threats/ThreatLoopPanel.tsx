@@ -14,6 +14,7 @@
  *    be the most flattering lie available on this screen.
  */
 
+import { useT } from '../../lib/i18n'
 import { FlaskConical, Route } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ErrorState, SkeletonText } from '../../components/states'
@@ -30,11 +31,12 @@ export interface ThreatLoopPanelProps {
 }
 
 export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) {
+  const t = useT()
   const run = useLoop(loopRunId ?? undefined)
   const stage = run.data ? STAGES.find((entry) => entry.n === run.data.current_stage) : undefined
 
   return (
-    <Panel title="The loop" subtitle="What this artifact set in motion.">
+    <Panel title={t('x.the-loop')} subtitle={t('x.what-this-artifact-set-in')}>
       {loopRunId === null ? (
         resolving ? (
           <div role="status" aria-busy="true">

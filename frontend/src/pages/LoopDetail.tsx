@@ -12,6 +12,7 @@
  * viewer has to scroll to find.
  */
 
+import { useT } from '../lib/i18n'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import type {
@@ -44,6 +45,7 @@ import { auditEvents, gateFrom } from '../features/loops/detail/gate'
 import { nextActionFor } from '../features/loops/detail/nextAction'
 
 export default function LoopDetail() {
+  const t = useT()
   const { id } = useParams()
   const numericId = Number(id)
   const hasId = id !== undefined && Number.isFinite(numericId)
@@ -104,7 +106,7 @@ export default function LoopDetail() {
       isLoading={runQuery.isLoading}
       error={run ? null : runQuery.error}
       onRetry={() => void runQuery.refetch()}
-      loadingLabel="Loading the loop run"
+      loadingLabel={t('x.loading-the-loop-run')}
       skeleton={
         <div className="space-y-6">
           <SkeletonCard lines={3} />
@@ -122,8 +124,8 @@ export default function LoopDetail() {
             {/* Pinned beside the story on a wide screen, and scrollable inside
                 itself so a seven-stage spine never outgrows the viewport. */}
             <Panel
-              title="Stage timeline"
-              subtitle="All seven stages, including the ones this run never reached."
+              title={t('x.stage-timeline')}
+              subtitle={t('x.all-seven-stages-including-the')}
               className="xl:sticky xl:top-20 xl:self-start"
               bodyClassName="xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto"
             >

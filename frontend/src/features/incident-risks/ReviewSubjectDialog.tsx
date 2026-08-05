@@ -12,6 +12,7 @@
  * programme turns into resentment.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Button, Dialog, RadioGroup, Textarea } from '../../components/ui'
 import { NoMeasurement } from '../../components/data'
@@ -33,6 +34,7 @@ export function ReviewSubjectDialog({
   minScore,
   onOpenChange,
 }: ReviewSubjectDialogProps) {
+  const t = useT()
   const review = useReviewSubject()
   const [decision, setDecision] = useState('accepted')
   const [note, setNote] = useState('')
@@ -82,7 +84,7 @@ export function ReviewSubjectDialog({
       open={subject !== null}
       onOpenChange={dismiss}
       title={`Review ${subject?.employee_name ?? 'this subject'}`}
-      description="Accepting discharges this person's obligation. Rejecting sends them back to it."
+      description={t('x.accepting-discharges-this-persons-obligation')}
       footer={
         <>
           <Button variant="ghost" onClick={() => dismiss(false)} disabled={review.isPending}>

@@ -11,6 +11,7 @@
  * claim about a sample, and it has to look like one.
  */
 
+import { useT } from '../../lib/i18n'
 import { FileWarning } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '../../components/states'
@@ -49,6 +50,7 @@ export function DriftingPolicies({
   limit = 5,
   className,
 }: DriftingPoliciesProps) {
+  const t = useT()
   const byPolicy = openFindingsByPolicy(findings)
   const lookup = new Map(policies.map((policy) => [policy.id, policy]))
 
@@ -75,7 +77,7 @@ export function DriftingPolicies({
         compact
         icon={FileWarning}
         headline="No policy has an open finding"
-        description="A policy appears here as soon as a finding is raised against one of its rules and has not yet been resolved, accepted or marked a false positive."
+        description={t('x.a-policy-appears-here-as')}
       />
     )
   }

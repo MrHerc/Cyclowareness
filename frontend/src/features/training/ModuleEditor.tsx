@@ -12,6 +12,7 @@
  * offered them would be inventing a capability the backend does not have.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Plus, TriangleAlert, Trash2 } from 'lucide-react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -35,6 +36,7 @@ export interface ModuleEditorProps {
 }
 
 export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
+  const t = useT()
   const toast = useToast()
   const original = draftFrom(module)
   const [draft, setDraft] = useState<ModuleDraft>(original)
@@ -72,10 +74,10 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
   return (
     <div className="space-y-6">
       <Panel
-        title="Editing this module"
+        title={t('x.editing-this-module')}
         tone="feature"
         headingLevel={2}
-        subtitle="Title, description, sections, quiz and takeaway are the fields the API accepts."
+        subtitle={t('x.title-description-sections-quiz-and')}
       >
         <div className="flex flex-wrap items-center gap-3">
           <AIProvenanceBadge provenance="analyst_edited" />
@@ -88,7 +90,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
         </div>
       </Panel>
 
-      <Panel title="Module" headingLevel={2}>
+      <Panel title={t('x.module')} headingLevel={2}>
         <div className="space-y-4">
           <Input
             label="Title"
@@ -116,9 +118,9 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
       </Panel>
 
       <Panel
-        title="Sections"
+        title={t('x.sections')}
         headingLevel={2}
-        subtitle="What the employee reads, in order."
+        subtitle={t('x.what-the-employee-reads-in')}
         actions={
           <Button
             size="sm"

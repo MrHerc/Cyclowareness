@@ -12,6 +12,7 @@
  * papered over with a guess.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink, ShieldCheck } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
@@ -49,12 +50,13 @@ export function ModuleMetaPanel({
   gateRunId,
   modelConnected,
 }: ModuleMetaPanelProps) {
+  const t = useT()
   const provenance = provenanceOf(module.generation_source, {
     approved: module.status === 'approved',
   })
 
   return (
-    <Panel title="Module record" headingLevel={2}>
+    <Panel title={t('x.module-record')} headingLevel={2}>
       <dl className="divide-y divide-line-subtle">
         <Row label="Review state">
           <div className="flex flex-wrap items-center gap-2">

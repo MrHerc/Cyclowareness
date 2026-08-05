@@ -11,6 +11,7 @@
  * a colleague.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft, Clock } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -77,6 +78,7 @@ export default function ApprovalDetail() {
 }
 
 function Workspace({ runId }: { runId: string }) {
+  const t = useT()
   const approval = useApproval(runId)
   const history = useApprovalHistory(runId)
   const capabilities = useCapabilities()
@@ -195,13 +197,13 @@ function Workspace({ runId }: { runId: string }) {
         isLoading={approval.isLoading}
         error={approval.data ? null : approval.error}
         onRetry={approval.error?.retryable ? () => void approval.refetch() : undefined}
-        loadingLabel="Loading the approval workspace"
+        loadingLabel={t('x.loading-the-approval-workspace')}
         skeleton={<WorkspaceSkeleton />}
       >
         {detail === null ? (
           <EmptyState
             headline="This run could not be loaded"
-            description="The approval workspace needs a loop run that exists. Return to the gate and open a run from the queue."
+            description={t('x.the-approval-workspace-needs-a')}
           />
         ) : (
           <div className="space-y-5">

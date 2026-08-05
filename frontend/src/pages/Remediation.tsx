@@ -70,8 +70,8 @@ export default function Remediation() {
       {stats.data ? <RemediationSummary stats={stats.data} /> : null}
 
       <Panel
-        title="Plans"
-        subtitle="Nothing reaches a person until a named human approves it."
+        title={t('x.plans')}
+        subtitle={t('x.nothing-reaches-a-person-until')}
         flush
         actions={
           <Select
@@ -88,7 +88,7 @@ export default function Remediation() {
           isLoading={plans.isLoading}
           error={plans.data ? null : plans.error}
           onRetry={() => void plans.refetch()}
-          loadingLabel="Loading remediation plans"
+          loadingLabel={t('x.loading-remediation-plans')}
           skeleton={
             <SkeletonTable rows={4} cols={5} header={false} className="rounded-none border-0" />
           }
@@ -117,7 +117,7 @@ export default function Remediation() {
         isLoading={coverage.isLoading}
         error={coverage.data ? null : coverage.error}
         onRetry={() => void coverage.refetch()}
-        loadingLabel="Loading coverage gaps"
+        loadingLabel={t('x.loading-coverage-gaps')}
         skeleton={<SkeletonCard lines={4} />}
       >
         {coverage.data ? <CoverageGapList data={coverage.data} /> : null}
@@ -127,7 +127,7 @@ export default function Remediation() {
         isLoading={control.isLoading}
         error={control.data ? null : control.error}
         onRetry={() => void control.refetch()}
-        loadingLabel="Loading control gaps"
+        loadingLabel={t('x.loading-control-gaps')}
         skeleton={<SkeletonCard lines={3} />}
       >
         {control.data ? <ControlGapList data={control.data} /> : null}

@@ -297,13 +297,13 @@ export function ApprovalQueuePanel({
     <Panel
       tone="feature"
       title={t('cc.awaitingApproval')}
-      subtitle="Sorted by how long each item has waited. Nothing below has reached an employee."
+      subtitle={t('x.sorted-by-how-long-each')}
     >
       <AsyncBoundary
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading the approval queue"
+        loadingLabel={t('x.loading-the-approval-queue')}
         skeleton={
           <div className="space-y-3">
             {[0, 1, 2].map((row) => (

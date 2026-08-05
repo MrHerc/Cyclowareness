@@ -12,6 +12,7 @@
  * precisely so the UI does not collapse them.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink } from 'lucide-react'
 import { Panel } from '../../components/ui'
 import { formatDate } from '../../lib/format'
@@ -27,8 +28,9 @@ export interface FindingOriginProps {
 }
 
 export function FindingOrigin({ finding }: FindingOriginProps) {
+  const t = useT()
   return (
-    <Panel title="Where this came from">
+    <Panel title={t('x.where-this-came-from')}>
       <dl className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
         <div>
           <dt className="label text-fg-faint">Source</dt>

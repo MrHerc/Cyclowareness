@@ -8,6 +8,7 @@
  * to a rule is an assertion.
  */
 
+import { useT } from '../../lib/i18n'
 import type { RankedSignal } from './shared'
 import { EvidenceList } from '../../components/data'
 import { Badge, Panel } from '../../components/ui'
@@ -20,11 +21,12 @@ export interface SignalListProps {
 const SEVERITY_DISPLAY_ORDER = ['critical', 'high', 'medium', 'low', 'info'] as const
 
 export function SignalList({ signals }: SignalListProps) {
+  const t = useT()
   const counts = severityCounts(signals)
 
   return (
     <Panel
-      title="Signals"
+      title={t('x.signals')}
       subtitle={`${signals.length} ${signals.length === 1 ? 'observation' : 'observations'} across every analyzer that ran, highest severity first.`}
       actions={
         <div className="flex flex-wrap items-center gap-1.5">

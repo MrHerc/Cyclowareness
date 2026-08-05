@@ -20,6 +20,7 @@
  *   the one thing a closed-loop product must not overstate.
  */
 
+import { useT } from '../../lib/i18n'
 import { GraduationCap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AsyncBoundary, SkeletonText } from '../../components/states'
@@ -48,6 +49,7 @@ export function AssignTrainingDialog({
   open,
   onOpenChange,
 }: AssignTrainingDialogProps) {
+  const t = useT()
   const modules = useTrainingModules('approved')
   const assign = useAssignFindingTraining()
   const toast = useToast()
@@ -123,8 +125,8 @@ export function AssignTrainingDialog({
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Assign training for this finding"
-      description="Attaches an already-approved module to the people this finding names. No lesson content is generated here."
+      title={t('x.assign-training-for-this-finding')}
+      description={t('x.attaches-an-alreadyapproved-module-to')}
       size="md"
       footer={
         result ? (
@@ -194,7 +196,7 @@ export function AssignTrainingDialog({
           isLoading={modules.isLoading}
           error={modules.error}
           onRetry={() => void modules.refetch()}
-          loadingLabel="Loading approved training modules"
+          loadingLabel={t('x.loading-approved-training-modules')}
           skeleton={<SkeletonText lines={5} />}
         >
           <div className="space-y-4">

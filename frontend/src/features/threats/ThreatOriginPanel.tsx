@@ -11,6 +11,7 @@
  * evidence rows, verbatim, with no key assumed present.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { EvidenceList, NoMeasurement } from '../../components/data'
@@ -36,6 +37,7 @@ interface CustodyStep {
 }
 
 export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: ThreatOriginPanelProps) {
+  const t = useT()
   const reach = reachOf(threat.artifact_meta)
   const meta = metaEntries(threat.artifact_meta)
 
@@ -70,7 +72,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
   }
 
   return (
-    <Panel title="Provenance" subtitle="Every fact this deployment records about the artifact’s origin.">
+    <Panel title={t('x.provenance')} subtitle={t('x.every-fact-this-deployment-records')}>
       <dl className="divide-line">
         <DetailRow label="Source">
           <SourceTag source={threat.source} />
@@ -146,7 +148,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
         items={meta}
         mono
         className="mt-1"
-        emptyMessage="No metadata was recorded with this artifact."
+        emptyMessage={t('x.no-metadata-was-recorded-with')}
       />
     </Panel>
   )

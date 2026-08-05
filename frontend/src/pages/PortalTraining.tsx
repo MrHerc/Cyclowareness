@@ -12,6 +12,7 @@
  * makes every completion-rate downstream slightly wrong.
  */
 
+import { useT } from '../lib/i18n'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
@@ -39,6 +40,7 @@ function TrainingSkeleton() {
 }
 
 export default function PortalTraining() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const assignment = useAssignment(id)
   const capabilities = useCapabilities()
@@ -136,7 +138,7 @@ export default function PortalTraining() {
         isLoading={assignment.isLoading}
         error={detail ? null : assignment.error}
         onRetry={() => void assignment.refetch()}
-        loadingLabel="Loading your training module"
+        loadingLabel={t('x.loading-your-training-module')}
         skeleton={<TrainingSkeleton />}
       >
         {detail ? (

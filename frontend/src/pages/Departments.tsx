@@ -61,7 +61,7 @@ export default function Departments() {
         isLoading={departments.isLoading}
         error={departments.data ? null : departments.error}
         onRetry={() => void departments.refetch()}
-        loadingLabel="Loading department risk"
+        loadingLabel={t('x.loading-department-risk')}
         skeleton={
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <SkeletonCard metric lines={1} />
@@ -74,7 +74,7 @@ export default function Departments() {
           <EmptyState
             icon={Building2}
             headline="No department has a scored population"
-            description="Departments appear here once they contain at least one employee who has not left. Import an organisation, or seed the demonstration one, and the roll-ups follow."
+            description={t('x.departments-appear-here-once-they-2')}
           />
         }
       >
@@ -148,7 +148,7 @@ export default function Departments() {
               </div>
             ) : (
               <InsufficientDataState
-                title="No department movement to show"
+                title={t('x.no-department-movement-to-show')}
                 reason="No per-department history is stored: the departments endpoint returns a current roll-up only, and no recent risk event could be attributed to a person in a department."
                 remedy="Movement appears as soon as the risk engine records events — a completed module, a simulation outcome, a report."
                 sample={attribution.attributed}
@@ -158,8 +158,8 @@ export default function Departments() {
           </div>
 
           <Panel
-            title="Every department"
-            subtitle="Worst first. Open a roster to see the individuals behind the average."
+            title={t('x.every-department')}
+            subtitle={t('x.worst-first-open-a-roster')}
             flush
           >
             <DepartmentTable
@@ -173,7 +173,7 @@ export default function Departments() {
             isLoading={dashboard.isLoading}
             error={dashboard.data ? null : dashboard.error}
             onRetry={() => void dashboard.refetch()}
-            loadingLabel="Loading the organisation trend"
+            loadingLabel={t('x.loading-the-organisation-trend')}
             skeleton={<SkeletonChart height={240} />}
           >
             <RiskTrendChart headingLevel={2}

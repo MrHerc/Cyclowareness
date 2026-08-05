@@ -125,8 +125,8 @@ export default function AuditLog() {
       </header>
 
       <Panel
-        title="Trail"
-        subtitle="Newest first. Expand an entry to see the before and after snapshot."
+        title={t('x.trail')}
+        subtitle={t('x.newest-first-expand-an-entry')}
         footer={footer}
         flush
       >
@@ -150,7 +150,7 @@ export default function AuditLog() {
           isLoading={log.isLoading}
           error={log.data ? null : log.error}
           onRetry={() => void log.refetch()}
-          loadingLabel="Loading the audit trail"
+          loadingLabel={t('x.loading-the-audit-trail')}
           skeleton={
             <div className="px-5 pb-5">
               <SkeletonTable rows={10} cols={6} />

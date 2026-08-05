@@ -12,6 +12,7 @@
  *   be configured now — the paragraph may predate the current configuration.
  */
 
+import { useT } from '../../lib/i18n'
 import { AIProvenanceBadge, ConfidenceBadge, InsufficientDataState } from '../../components/data'
 import { Badge, Panel } from '../../components/ui'
 import type { Threat } from '../../domain/types'
@@ -22,11 +23,12 @@ export interface ThreatVerdictPanelProps {
 }
 
 export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
+  const t = useT()
   if (!threat.verdict) {
     return (
-      <Panel title="Analysis">
+      <Panel title={t('x.analysis')}>
         <InsufficientDataState
-          title="No verdict has been recorded"
+          title={t('x.no-verdict-has-been-recorded')}
           reason="The loop's ANALYZE stage has not written a verdict for this artifact. That is not a clean result — nothing has been concluded about it."
           remedy="A verdict appears once stage 2 completes for the run this artifact started."
         />
@@ -36,7 +38,7 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
 
   return (
     <Panel
-      title="Analysis"
+      title={t('x.analysis')}
       actions={
         <div className="flex flex-wrap items-center gap-2">
           <Badge status={threat.verdict} dot />

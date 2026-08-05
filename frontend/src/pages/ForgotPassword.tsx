@@ -12,6 +12,7 @@
  * product is in.
  */
 
+import { useT } from '../lib/i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MailWarning } from 'lucide-react'
 import { useState } from 'react'
@@ -49,6 +50,7 @@ function composeRequest(values: ResetValues): string {
 }
 
 export default function ForgotPassword() {
+  const t = useT()
   const [request, setRequest] = useState<string | null>(null)
   const {
     register,
@@ -61,7 +63,7 @@ export default function ForgotPassword() {
 
   return (
     <AuthScaffold
-      title="Reset your password"
+      title={t('x.reset-your-password')}
       intro="Password resets go through your security team. This deployment has no self-service reset."
       mobileIntro={<CompactIntro />}
       aside={<PublicAside />}
@@ -108,7 +110,7 @@ export default function ForgotPassword() {
 
       {request ? (
         <RequestPanel
-          title="Password reset request"
+          title={t('x.password-reset-request')}
           body={request}
           routing="Send this to your security team through a channel you already trust — not by replying to an email that asked you to. They reset the credential directly against the account."
         />

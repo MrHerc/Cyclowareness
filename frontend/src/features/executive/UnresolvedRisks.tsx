@@ -15,6 +15,7 @@
  * network error. `openFindings` is nullable for exactly that case.
  */
 
+import { useT } from '../../lib/i18n'
 import { SeverityBarChart } from '../../components/charts'
 import { HonestMetric } from '../../components/data'
 import { Panel } from '../../components/ui'
@@ -47,6 +48,7 @@ export function UnresolvedRisks({
   loading = false,
   error = null,
 }: UnresolvedRisksProps) {
+  const t = useT()
   const remediation = incidentRisks ? remediationProgress(incidentRisks, minSample) : null
   const atLeast = truncated ? 'The server returned a full page, so every count here is a floor. ' : ''
   const noun = truncated ? 'open findings scanned' : 'open findings'
@@ -147,7 +149,7 @@ export function UnresolvedRisks({
 
       <SeverityBarChart
         data={openFindings ? severityCounts(openFindings) : []}
-        title="Open policy findings by severity"
+        title={t('x.open-policy-findings-by-severity')}
         caption={
           openFindings
             ? `${atLeast}Counted from the open findings this view can read.`

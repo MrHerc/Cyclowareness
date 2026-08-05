@@ -14,6 +14,7 @@
  * in one undifferentiated list is how a machine's guess becomes policy.
  */
 
+import { useT } from '../../lib/i18n'
 import { Check, FileQuestion, X } from 'lucide-react'
 import { useState } from 'react'
 import { AIProvenanceBadge, ConfidenceBadge } from '../../components/data'
@@ -159,6 +160,7 @@ export function PolicyRuleList({
   emptyDescription,
   className,
 }: PolicyRuleListProps) {
+  const t = useT()
   const [target, setTarget] = useState<{ rule: PolicyRule; decision: RuleDecision } | null>(null)
   const [open, setOpen] = useState(false)
 
@@ -217,7 +219,7 @@ export function PolicyRuleList({
           tone="quiet"
           headingLevel={4}
           title={`Other · ${other.length}`}
-          subtitle="Rules whose status this build does not have a heading for. Shown rather than hidden."
+          subtitle={t('x.rules-whose-status-this-build')}
         >
           <ul className="space-y-3">
             {other.map((rule) => (

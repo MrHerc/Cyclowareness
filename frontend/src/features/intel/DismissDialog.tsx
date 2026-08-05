@@ -9,6 +9,7 @@
  * does not apply to us" are different claims, and the copy says so.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { ErrorState } from '../../components/states'
 import { Button, Dialog, Textarea, useToast } from '../../components/ui'
@@ -22,6 +23,7 @@ export interface DismissDialogProps {
 }
 
 export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) {
+  const t = useT()
   const toast = useToast()
   const dismiss = useDismissIntel()
   const [reason, setReason] = useState('')
@@ -50,8 +52,8 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Dismiss this advisory"
-      description="It leaves the queue. Its relevance assessment is left exactly as it stands."
+      title={t('x.dismiss-this-advisory')}
+      description={t('x.it-leaves-the-queue-its')}
       size="sm"
       footer={
         <>
@@ -86,7 +88,7 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
         />
 
         {dismiss.isError ? (
-          <ErrorState compact error={dismiss.error} title="The advisory was not dismissed" />
+          <ErrorState compact error={dismiss.error} title={t('x.the-advisory-was-not-dismissed')} />
         ) : null}
       </div>
     </Dialog>

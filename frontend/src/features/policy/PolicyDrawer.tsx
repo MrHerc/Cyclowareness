@@ -11,6 +11,7 @@
  * currently broken because of it.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
@@ -65,6 +66,7 @@ export interface PolicyDrawerProps {
 }
 
 export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
+  const t = useT()
   const open = policyId !== null
   const query = usePolicy(policyId ?? undefined)
   const findings = usePolicyFindings(policyId !== null ? findingFilter(policyId) : {}, {
@@ -105,7 +107,7 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
         isLoading={query.isLoading}
         error={policy ? null : query.error}
         onRetry={() => void query.refetch()}
-        loadingLabel="Loading the policy"
+        loadingLabel={t('x.loading-the-policy')}
         skeleton={<SkeletonText lines={10} />}
       >
         {policy ? (
@@ -203,8 +205,8 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
               <TabsContent value="history">
                 <Panel
                   headingLevel={3}
-                  title="Version history"
-                  subtitle="Written whenever a rule is activated or superseded. Append-only."
+                  title={t('x.version-history')}
+                  subtitle={t('x.written-whenever-a-rule-is')}
                 >
                   <PolicyVersions versions={versions} />
                 </Panel>
@@ -215,13 +217,13 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                   isLoading={findings.isLoading}
                   error={findingRows.length > 0 ? null : findings.error}
                   onRetry={() => void findings.refetch()}
-                  loadingLabel="Loading findings against this policy"
+                  loadingLabel={t('x.loading-findings-against-this-policy')}
                   isEmpty={findingRows.length === 0}
                   empty={
                     <EmptyState
                       compact
                       headline="No findings against this policy"
-                      description="A finding appears here when intelligence, a policy review or an analyst raises something that contradicts one of these rules."
+                      description={t('x.a-finding-appears-here-when')}
                     />
                   }
                   skeleton={<SkeletonText lines={4} />}

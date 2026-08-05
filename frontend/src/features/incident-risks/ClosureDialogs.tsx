@@ -11,6 +11,7 @@
  * to read what they were without leaving the dialog to find out.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Button, Dialog, Textarea } from '../../components/ui'
 import { ApiError } from '../../lib/api/client'
@@ -33,6 +34,7 @@ export interface CloseRiskDialogProps extends DialogShellProps {
 }
 
 export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskDialogProps) {
+  const t = useT()
   const close = useIncidentRiskAction('close')
   const [note, setNote] = useState('')
   const [failure, setFailure] = useState<string | null>(null)
@@ -64,8 +66,8 @@ export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskD
     <Dialog
       open={open}
       onOpenChange={dismiss}
-      title="Close this incident risk"
-      description="The note is the record that the closure criteria were met. It cannot be left blank."
+      title={t('x.close-this-incident-risk')}
+      description={t('x.the-note-is-the-record')}
       footer={
         <>
           <Button variant="ghost" onClick={() => dismiss(false)} disabled={close.isPending}>
@@ -129,6 +131,7 @@ export interface ReopenRiskDialogProps extends DialogShellProps {
 }
 
 export function ReopenRiskDialog({ risk, open, onOpenChange }: ReopenRiskDialogProps) {
+  const t = useT()
   const reopen = useIncidentRiskAction('reopen')
   const [reason, setReason] = useState('')
   const [failure, setFailure] = useState<string | null>(null)
@@ -160,8 +163,8 @@ export function ReopenRiskDialog({ risk, open, onOpenChange }: ReopenRiskDialogP
     <Dialog
       open={open}
       onOpenChange={dismiss}
-      title="Reopen this incident risk"
-      description="Reopening clears the closure note and raises the reopened count. Both are kept in the audit trail."
+      title={t('x.reopen-this-incident-risk')}
+      description={t('x.reopening-clears-the-closure-note')}
       footer={
         <>
           <Button variant="ghost" onClick={() => dismiss(false)} disabled={reopen.isPending}>

@@ -9,6 +9,7 @@
  * comment shown here can be relied on to be the comment that was recorded.
  */
 
+import { useT } from '../../lib/i18n'
 import { Check, MessageSquare, MessageSquareWarning, UserPlus, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Panel } from '../../components/ui'
@@ -34,8 +35,9 @@ export interface HistoryTimelineProps {
 }
 
 export function HistoryTimeline({ entries, loading }: HistoryTimelineProps) {
+  const t = useT()
   return (
-    <Panel title="Approval history" headingLevel={2} bodyClassName="space-y-0">
+    <Panel title={t('x.approval-history')} headingLevel={2} bodyClassName="space-y-0">
       {loading ? (
         <p className="text-sm text-fg-subtle">Loading the thread…</p>
       ) : entries.length === 0 ? (

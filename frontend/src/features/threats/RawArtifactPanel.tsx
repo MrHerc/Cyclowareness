@@ -8,6 +8,7 @@
  * into something that reads as safe.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { Button, CodeBlock, Panel } from '../../components/ui'
@@ -19,12 +20,13 @@ export interface RawArtifactPanelProps {
 }
 
 export function RawArtifactPanel({ value, artifactType }: RawArtifactPanelProps) {
+  const t = useT()
   const [shown, setShown] = useState(false)
   const size = new TextEncoder().encode(value).length
 
   return (
     <Panel
-      title="Raw artifact"
+      title={t('x.raw-artifact')}
       subtitle={`${bytes(size)} of ${artifactType} content, stored as inert text.`}
       actions={
         <Button

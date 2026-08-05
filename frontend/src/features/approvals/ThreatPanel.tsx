@@ -11,6 +11,7 @@
  * says so, because saying it here as well would read as a check somebody ran.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink, FileWarning, FlaskConical, Radar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ConfidenceBadge, EvidenceList, type EvidenceItem } from '../../components/data'
@@ -189,13 +190,14 @@ export interface ThreatPanelProps {
 }
 
 export function ThreatPanel({ detail }: ThreatPanelProps) {
+  const t = useT()
   const { threat, analysis, sandboxJob } = detail
   const techniques = mitreTechniques(threat?.artifact_meta)
   const evidence = metaEvidence(threat?.artifact_meta)
 
   if (!threat) {
     return (
-      <Panel title="The original threat" headingLevel={2}>
+      <Panel title={t('x.the-original-threat')} headingLevel={2}>
         <p className="text-body text-medium" role="note">
           This run has no threat attached, so there is no artifact to review. Approving it would
           advance a loop with nothing behind it.
@@ -206,7 +208,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
 
   return (
     <Panel
-      title="The original threat"
+      title={t('x.the-original-threat')}
       subtitle={threat.title}
       headingLevel={2}
       actions={

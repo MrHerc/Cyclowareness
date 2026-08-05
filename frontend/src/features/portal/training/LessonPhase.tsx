@@ -11,6 +11,7 @@
  * were sent last week, and making them leave the page to say so loses it.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Flag, MessageSquareWarning } from 'lucide-react'
 import { Button, Panel } from '../../../components/ui'
 import type { TrainingModule } from '../../../domain/types'
@@ -29,6 +30,7 @@ export function LessonPhase({
   onContinue,
   questionCount,
 }: LessonPhaseProps) {
+  const t = useT()
   return (
     <div className="space-y-6">
       <Panel title={module.title} subtitle={module.description} headingLevel={2}>
@@ -50,7 +52,7 @@ export function LessonPhase({
       </Panel>
 
       {module.takeaway ? (
-        <Panel tone="quiet" headingLevel={2} title="The one thing to remember">
+        <Panel tone="quiet" headingLevel={2} title={t('x.the-one-thing-to-remember')}>
           <p className="text-lead text-fg">{module.takeaway}</p>
         </Panel>
       ) : null}

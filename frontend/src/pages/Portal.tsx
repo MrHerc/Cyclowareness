@@ -154,7 +154,7 @@ export default function Portal() {
           void dashboard.refetch()
           void assignments.refetch()
         }}
-        loadingLabel="Loading your security portal"
+        loadingLabel={t('x.loading-your-security-portal')}
         skeleton={<PortalSkeleton />}
       >
         <div className="space-y-6">
@@ -162,7 +162,7 @@ export default function Portal() {
             <ErrorState
               compact
               error={assignments.error}
-              title="Your assigned training could not be loaded"
+              title={t('x.your-assigned-training-could-not')}
               onRetry={() => void assignments.refetch()}
             />
           ) : current ? (
@@ -175,14 +175,14 @@ export default function Portal() {
             <EmptyState
               icon={CircleCheck}
               headline="No training is waiting on you"
-              description="A module lands here when a real threat reaches your organisation, an analyst approves the training built from it, and the risk engine selects you as someone it actually affects."
+              description={t('x.a-module-lands-here-when')}
             />
           )}
 
           {alsoOpen.length > 0 ? (
             <Panel
-              title="Also assigned to you"
-              subtitle="Take these after the one above."
+              title={t('x.also-assigned-to-you')}
+              subtitle={t('x.take-these-after-the-one')}
               headingLevel={2}
             >
               <ul className="divide-line">
@@ -215,7 +215,7 @@ export default function Portal() {
             <ErrorState
               compact
               error={incidents.error}
-              title="Incident-response work could not be loaded"
+              title={t('x.incidentresponse-work-could-not-be')}
               onRetry={() => void incidents.refetch()}
             />
           ) : (
@@ -234,7 +234,7 @@ export default function Portal() {
             <ErrorState
               compact
               error={myPlans.error}
-              title="Plans assigned to you could not be loaded"
+              title={t('x.plans-assigned-to-you-could')}
               onRetry={() => void myPlans.refetch()}
             />
           ) : (
@@ -253,7 +253,7 @@ export default function Portal() {
             <ErrorState
               compact
               error={profile.error}
-              title="Your recorded events could not be loaded"
+              title={t('x.your-recorded-events-could-not')}
               onRetry={() => void profile.refetch()}
             />
           ) : evidence ? (
@@ -270,7 +270,7 @@ export default function Portal() {
             <ErrorState
               compact
               error={reports.error}
-              title="Your reports could not be loaded"
+              title={t('x.your-reports-could-not-be')}
               onRetry={() => void reports.refetch()}
             />
           ) : (

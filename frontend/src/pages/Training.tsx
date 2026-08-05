@@ -131,7 +131,7 @@ export default function Training() {
             isLoading={modules.isLoading}
             error={modules.data ? null : modules.error}
             onRetry={() => void modules.refetch()}
-            loadingLabel="Loading training modules"
+            loadingLabel={t('x.loading-training-modules')}
             skeleton={<SkeletonTable rows={8} cols={6} />}
             isEmpty={visible.length === 0}
             empty={
@@ -139,7 +139,7 @@ export default function Training() {
                 <EmptyState
                   icon={GraduationCap}
                   headline="No training module exists yet"
-                  description="A module appears here when a loop run reaches its conversion stage and turns an analyzed threat into training. Put an artifact into Threat Intake to start one."
+                  description={t('x.a-module-appears-here-when')}
                   action={
                     <Button variant="secondary" asChild>
                       <Link to="/threats">Open Threat Intake</Link>
@@ -150,7 +150,7 @@ export default function Training() {
                 <EmptyState
                   icon={GraduationCap}
                   headline="No module matches this view"
-                  description="Change the review state or clear the search to see the modules that do exist."
+                  description={t('x.change-the-review-state-or')}
                   action={
                     <Button variant="secondary" onClick={() => setParams(new URLSearchParams())}>
                       Clear filters

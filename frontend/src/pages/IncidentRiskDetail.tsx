@@ -11,6 +11,7 @@
  * component that owns its dialog.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { EvidenceList } from '../components/data'
@@ -29,6 +30,7 @@ import { usePermission } from '../lib/auth/useAuth'
 import type { IncidentRiskDetail as IncidentRiskDetailModel } from '../domain/types'
 
 export default function IncidentRiskDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const canManage = usePermission('incident_risks.manage')
   const query = useIncidentRisk(id)
@@ -46,7 +48,7 @@ export default function IncidentRiskDetail() {
         isLoading={query.isLoading}
         error={risk ? null : query.error}
         onRetry={() => void query.refetch()}
-        loadingLabel="Loading the incident risk"
+        loadingLabel={t('x.loading-the-incident-risk')}
         skeleton={
           <div className="flex flex-col gap-6">
             <SkeletonCard metric lines={3} />
@@ -70,6 +72,7 @@ function RiskBody({
   risk: IncidentRiskDetailModel
   canManage: boolean
 }) {
+  const t = useT()
   const subjects = risk.subjects ?? []
   const rollup = rollUpSubjects(subjects, risk.min_score)
   const timeline = timelineOf(risk)
@@ -81,7 +84,7 @@ function RiskBody({
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         <div className="flex min-w-0 flex-col gap-6">
-          <Panel headingLevel={2} title="The record">
+          <Panel headingLevel={2} title={t('x.the-record')}>
             <dl className="flex flex-col gap-5">
               <div>
                 <dt className="label text-fg-subtle">What happened</dt>
@@ -107,8 +110,8 @@ function RiskBody({
 
           <Panel
             headingLevel={2}
-            title="Evidence"
-            subtitle="What the incident found. A risk without it is an assertion."
+            title={t('x.evidence')}
+            subtitle={t('x.what-the-incident-found-a')}
             actions={
               evidence.length > 0 ? (
                 <span className="text-sm text-fg-subtle">
@@ -119,7 +122,7 @@ function RiskBody({
           >
             <EvidenceList
               items={evidence}
-              emptyMessage="No evidence was recorded for this risk. Nobody reviewing it later will be able to check it."
+              emptyMessage={t('x.no-evidence-was-recorded-for')}
             />
           </Panel>
 

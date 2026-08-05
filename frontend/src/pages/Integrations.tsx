@@ -147,7 +147,7 @@ export default function Integrations() {
         isLoading={integrations.isLoading}
         error={integrations.data ? null : integrations.error}
         onRetry={() => void integrations.refetch()}
-        loadingLabel="Loading integrations"
+        loadingLabel={t('x.loading-integrations')}
         skeleton={
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <SkeletonCard lines={4} />

@@ -153,7 +153,7 @@ export default function Simulations() {
             isLoading={simulations.isLoading}
             error={simulations.data ? null : simulations.error}
             onRetry={() => void simulations.refetch()}
-            loadingLabel="Loading simulation campaigns"
+            loadingLabel={t('x.loading-simulation-campaigns')}
             skeleton={
               <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <SkeletonCard metric lines={2} />
@@ -168,7 +168,7 @@ export default function Simulations() {
                 <EmptyState
                   icon={Send}
                   headline="No campaigns have been created"
-                  description="A campaign appears here once you build one from a lure template or from a threat the sandbox has analyzed. Campaigns start as drafts and deliver nothing until launched."
+                  description={t('x.a-campaign-appears-here-once')}
                   action={
                     canManage ? (
                       <Button variant="primary" onClick={() => setDialogOpen(true)}>
@@ -181,7 +181,7 @@ export default function Simulations() {
                 <EmptyState
                   icon={Send}
                   headline="No campaign matches these filters"
-                  description="Widen the status, channel or search filter to see the campaigns that do exist."
+                  description={t('x.widen-the-status-channel-or')}
                   action={
                     <Button variant="secondary" onClick={() => setParams(new URLSearchParams())}>
                       Clear filters

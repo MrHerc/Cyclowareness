@@ -19,6 +19,7 @@
  * that would leave them looking for a risk they think was never created.
  */
 
+import { useT } from '../../lib/i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
@@ -63,6 +64,7 @@ export interface CreateIncidentRiskDialogProps {
 }
 
 export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentRiskDialogProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
   const departments = useDepartments()
@@ -147,8 +149,8 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
       open={open}
       onOpenChange={close}
       size="lg"
-      title="Open an incident risk"
-      description="A risk charged to named people. It starts as a draft — nobody is asked for anything until the required work is assigned."
+      title={t('x.open-an-incident-risk')}
+      description={t('x.a-risk-charged-to-named')}
       footer={
         <>
           <Button variant="ghost" onClick={() => close(false)} disabled={busy}>

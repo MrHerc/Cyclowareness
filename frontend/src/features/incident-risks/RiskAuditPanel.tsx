@@ -13,6 +13,7 @@
  * quieter history.
  */
 
+import { useT } from '../../lib/i18n'
 import { ScrollText } from 'lucide-react'
 import { AsyncBoundary, EmptyState, SkeletonText } from '../../components/states'
 import { Accordion, AccordionItem, CodeBlock, Panel } from '../../components/ui'
@@ -25,13 +26,14 @@ export interface RiskAuditPanelProps {
 }
 
 export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
+  const t = useT()
   const audit = useAuditLog({ object_type: 'incident_risk', object_id: riskId, limit: 50 })
   const slice = auditSliceOf(audit.data)
 
   return (
     <Panel
       headingLevel={2}
-      title="Audit entries"
+      title={t('x.audit-entries')}
       subtitle={
         slice.total !== null
           ? `${slice.events.length} of ${slice.total} entries recorded against this risk`
@@ -42,7 +44,7 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
         isLoading={audit.isLoading}
         error={audit.data ? null : audit.error}
         onRetry={() => void audit.refetch()}
-        loadingLabel="Loading the audit trail"
+        loadingLabel={t('x.loading-the-audit-trail')}
         skeleton={<SkeletonText lines={4} />}
         isEmpty={slice.events.length === 0}
         empty={
@@ -50,7 +52,7 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
             compact
             icon={ScrollText}
             headline="No audit entry for this risk"
-            description="The API writes an entry on every material change to a risk. An empty list here means nothing has changed since it was opened — or that the trail was not readable."
+            description={t('x.the-api-writes-an-entry')}
           />
         }
       >

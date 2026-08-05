@@ -12,6 +12,7 @@
  * product rather than as a missing feature.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { RotateCcw } from 'lucide-react'
 import { ConfirmationDialog } from '../../components/states'
@@ -21,6 +22,7 @@ import { useResetDemo } from '../../lib/api/mutations'
 const CONFIRM_PHRASE = 'RESET'
 
 export function DemoControls() {
+  const t = useT()
   const toast = useToast()
   const [open, setOpen] = useState(false)
 
@@ -41,8 +43,8 @@ export function DemoControls() {
   return (
     <Panel
       tone="danger"
-      title="Demonstration controls"
-      subtitle="Available because this deployment reports demo mode. These routes do not exist in a production build."
+      title={t('x.demonstration-controls')}
+      subtitle={t('x.available-because-this-deployment-reports')}
     >
       <div className="space-y-4">
         <p className="text-body text-fg-muted">
@@ -64,8 +66,8 @@ export function DemoControls() {
       <ConfirmationDialog
         open={open}
         onOpenChange={setOpen}
-        title="Reset the demonstration world"
-        description="Every loop run, approval, assignment, sandbox job and audit entry is deleted and the seeded organisation is rebuilt. This cannot be undone."
+        title={t('x.reset-the-demonstration-world')}
+        description={t('x.every-loop-run-approval-assignment')}
         confirmLabel="Reset everything"
         tone="danger"
         requireTyped={CONFIRM_PHRASE}

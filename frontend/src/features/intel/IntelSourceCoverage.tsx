@@ -15,6 +15,7 @@
  *    the copy says exactly that.
  */
 
+import { useT } from '../../lib/i18n'
 import { RefreshCw, SatelliteDish } from 'lucide-react'
 import { useState } from 'react'
 import { ErrorState } from '../../components/states'
@@ -98,14 +99,15 @@ export interface IntelSourceCoverageProps {
 }
 
 export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSourceCoverageProps) {
+  const t = useT()
   const refresh = useRefreshIntel()
   const [view, setView] = useState<RefreshView | null>(null)
 
   return (
     <Panel
       tone="feature"
-      title="Source coverage"
-      subtitle="What this deployment can fetch, and what it last fetched."
+      title={t('x.source-coverage')}
+      subtitle={t('x.what-this-deployment-can-fetch')}
       headingLevel={2}
     >
       <div className="space-y-4">
@@ -148,7 +150,7 @@ export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSour
           <ErrorState
             compact
             error={refresh.error}
-            title="The source check could not be requested"
+            title={t('x.the-source-check-could-not')}
           />
         ) : null}
 

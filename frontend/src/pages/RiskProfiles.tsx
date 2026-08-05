@@ -74,7 +74,7 @@ export default function RiskProfiles() {
         surfaceId="employees"
       />
 
-      <Panel tone="feature" title="The model" subtitle="Two lines, and the four rules that keep them honest.">
+      <Panel tone="feature" title={t('x.the-model')} subtitle={t('x.two-lines-and-the-four')}>
         <RiskFormula />
       </Panel>
 
@@ -82,7 +82,7 @@ export default function RiskProfiles() {
         isLoading={employees.isLoading}
         error={employees.data ? null : employees.error}
         onRetry={() => void employees.refetch()}
-        loadingLabel="Loading the roster"
+        loadingLabel={t('x.loading-the-roster')}
         skeleton={
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -98,7 +98,7 @@ export default function RiskProfiles() {
           <EmptyState
             icon={GaugeCircle}
             headline="No one is scored yet"
-            description="The model above is still exactly what this deployment runs — there is simply nobody for it to run on. Import an organisation, or seed the demonstration one, and every figure on this page fills in."
+            description={t('x.the-model-above-is-still')}
           />
         }
       >
@@ -174,8 +174,8 @@ export default function RiskProfiles() {
           </div>
 
           <Panel
-            title="Baseline or behaviour"
-            subtitle="Which half of the model the organisation's risk is actually coming from."
+            title={t('x.baseline-or-behaviour')}
+            subtitle={t('x.which-half-of-the-model')}
           >
             {/* All three figures are PER PERSON. They were not: the middle one
                 was a roster-wide sum sitting between two means, so the sentence
@@ -202,15 +202,15 @@ export default function RiskProfiles() {
           </Panel>
 
           <Panel
-            title="Distribution across the organisation"
-            subtitle="Every current score, on the scale the model actually uses."
+            title={t('x.distribution-across-the-organisation')}
+            subtitle={t('x.every-current-score-on-the')}
           >
             <ScoreDistribution scores={scores} />
           </Panel>
 
           <Panel
-            title="The signals"
-            subtitle="What each one means, what it is worth, and what the engine has recorded lately."
+            title={t('x.the-signals')}
+            subtitle={t('x.what-each-one-means-what')}
             flush
           >
             <SignalWeightsTable
@@ -220,8 +220,8 @@ export default function RiskProfiles() {
           </Panel>
 
           <Panel
-            title="Highest current scores"
-            subtitle="And whether the score comes from the seat or from the behaviour."
+            title={t('x.highest-current-scores')}
+            subtitle={t('x.and-whether-the-score-comes')}
             flush
           >
             <TopRiskTable employees={roster} departmentNames={departmentNames} />

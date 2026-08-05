@@ -11,6 +11,7 @@
  * nothing to break.
  */
 
+import { useT } from '../../lib/i18n'
 import { Fingerprint } from 'lucide-react'
 import { EmptyState } from '../../components/states'
 import { CopyButton, Panel } from '../../components/ui'
@@ -30,6 +31,7 @@ interface Group {
 }
 
 export function IndicatorPanel({ iocs }: IndicatorPanelProps) {
+  const t = useT()
   const groups: Group[] = [
     { key: 'urls', label: 'URLs', values: iocs?.urls ?? [], defanged: true },
     { key: 'domains', label: 'Domains', values: iocs?.domains ?? [], defanged: true },
@@ -41,7 +43,7 @@ export function IndicatorPanel({ iocs }: IndicatorPanelProps) {
 
   return (
     <Panel
-      title="Indicators"
+      title={t('x.indicators')}
       subtitle={total > 0 ? `${total} extracted by the analyzer. Defanged, and never clickable.` : undefined}
     >
       {groups.length === 0 ? (
@@ -49,7 +51,7 @@ export function IndicatorPanel({ iocs }: IndicatorPanelProps) {
           compact
           icon={Fingerprint}
           headline="No indicators were extracted"
-          description="The analyzer found nothing it recognised as a URL, domain, sender pattern or hash in this artifact. That is a result, not a gap — an SMS lure with no link produces none."
+          description={t('x.the-analyzer-found-nothing-it')}
         />
       ) : (
         <div className="space-y-5">

@@ -7,6 +7,7 @@
  * last, because it is the appendix to that argument rather than the argument.
  */
 
+import { useT } from '../../lib/i18n'
 import { CalendarClock } from 'lucide-react'
 import { DataSourceLabel, NoMeasurement } from '../../components/data'
 import { AsyncBoundary, Skeleton } from '../../components/states'
@@ -25,6 +26,7 @@ export interface IntelItemDrawerProps {
 }
 
 export function IntelItemDrawer({ itemId, onClose, canManage }: IntelItemDrawerProps) {
+  const t = useT()
   const open = itemId !== null
   const query = useIntelItem(itemId ?? undefined)
   // The roster is only needed to name the people a match already identified.
@@ -49,7 +51,7 @@ export function IntelItemDrawer({ itemId, onClose, canManage }: IntelItemDrawerP
         isLoading={query.isLoading}
         error={item ? null : query.error}
         onRetry={() => void query.refetch()}
-        loadingLabel="Loading the advisory"
+        loadingLabel={t('x.loading-the-advisory')}
         skeleton={
           <div className="space-y-4">
             <Skeleton className="h-4 w-3/4" />

@@ -11,6 +11,7 @@
  * exactly as it did a moment ago.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Inbox, ListFilter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -31,6 +32,7 @@ export interface ReportQueueProps {
 }
 
 export function ReportQueue({ query, artifactType }: ReportQueueProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
   const canAct = usePermission('threats.submit')
@@ -96,7 +98,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
   return (
     <Panel
       tone="feature"
-      title="Awaiting triage"
+      title={t('x.awaiting-triage')}
       subtitle={
         newCount === 0
           ? 'Nothing in the human-sensor queue is waiting for a decision.'
@@ -129,7 +131,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
         isLoading={reports.isLoading}
         error={reports.data ? null : reports.error}
         onRetry={() => void reports.refetch()}
-        loadingLabel="Loading the human-sensor queue"
+        loadingLabel={t('x.loading-the-humansensor-queue')}
         skeleton={
           <div className="space-y-3">
             <SkeletonCard lines={3} />
@@ -143,7 +145,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
               compact
               icon={Inbox}
               headline="No employee has reported anything yet"
-              description="Reports arrive here the moment somebody uses the report control in the employee portal. Each one is triaged automatically and then waits for an analyst."
+              description={t('x.reports-arrive-here-the-moment')}
             />
           ) : (
             <EmptyState
@@ -177,8 +179,8 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
         onOpenChange={(open) => {
           if (!open) setDismissTarget(null)
         }}
-        title="Dismiss this report?"
-        description="The report is closed without starting a loop run. Nothing is deleted, and the employee keeps the credit their risk score already received for reporting."
+        title={t('x.dismiss-this-report')}
+        description={t('x.the-report-is-closed-without')}
         confirmLabel="Dismiss report"
         busy={dismiss.isPending}
         onConfirm={() => {

@@ -15,6 +15,7 @@
  * reads as though they were never asked.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { NoMeasurement } from '../../../components/data'
 import { Badge, Button, Panel } from '../../../components/ui'
@@ -26,6 +27,7 @@ export interface CompletedReviewProps {
 }
 
 export function CompletedReview({ assignment }: CompletedReviewProps) {
+  const t = useT()
   const { module } = assignment
   const expired = assignment.status === 'expired'
 
@@ -103,7 +105,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
       </Panel>
 
       {module.takeaway ? (
-        <Panel tone="quiet" title="The one thing to remember" headingLevel={2}>
+        <Panel tone="quiet" title={t('x.the-one-thing-to-remember')} headingLevel={2}>
           <p className="text-lead text-fg">{module.takeaway}</p>
         </Panel>
       ) : null}

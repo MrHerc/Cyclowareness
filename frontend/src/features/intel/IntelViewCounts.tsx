@@ -7,6 +7,7 @@
  * produces a very calm-looking set of numbers.
  */
 
+import { useT } from '../../lib/i18n'
 import type { IntelItem } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { num } from '../../lib/format'
@@ -29,6 +30,7 @@ function Row({ label, value, tone }: { label: string; value: string; tone?: stri
 }
 
 export function IntelViewCounts({ items, total, matched }: IntelViewCountsProps) {
+  const t = useT()
   const unassessed = items.filter(
     (item) => item.relevance === 'unassessed' && !item.dismissed_by,
   ).length
@@ -36,7 +38,7 @@ export function IntelViewCounts({ items, total, matched }: IntelViewCountsProps)
   const dismissed = items.filter((item) => item.dismissed_by).length
 
   return (
-    <Panel title="What is on this screen" headingLevel={2}>
+    <Panel title={t('x.what-is-on-this-screen')} headingLevel={2}>
       <div className="space-y-1.5">
         <Row
           label="Matching these filters"

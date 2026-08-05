@@ -13,6 +13,7 @@
  * would read as "no threats drove training".
  */
 
+import { useT } from '../../lib/i18n'
 import { ShieldCheck } from 'lucide-react'
 import { LoopOutcomeChart } from '../../components/charts'
 import { HonestMetric } from '../../components/data'
@@ -66,6 +67,7 @@ export function ThreatsToTraining({
   loading = false,
   error = null,
 }: ThreatsToTrainingProps) {
+  const t = useT()
   const outcomes = runs ? loopOutcomes(runs) : null
   const drivers = runs ? trainingDrivers(runs) : []
 
@@ -112,8 +114,8 @@ export function ThreatsToTraining({
       )}
 
       <Panel
-        title="Real threats that put people into training"
-        subtitle="Most recent first. Each one was approved by a person before anybody was targeted."
+        title={t('x.real-threats-that-put-people')}
+        subtitle={t('x.most-recent-first-each-one')}
         headingLevel={3}
         className="xl:col-span-2"
       >
@@ -133,7 +135,7 @@ export function ThreatsToTraining({
             icon={ShieldCheck}
             compact
             headline="No threat has reached targeting yet"
-            description="A row appears here once a real artifact has been analysed, converted into training and approved at the gate. Runs that were analysed and closed without targeting anybody are deliberately not listed."
+            description={t('x.a-row-appears-here-once')}
           />
         )}
       </Panel>

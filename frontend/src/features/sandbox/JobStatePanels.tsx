@@ -8,6 +8,7 @@
  * finished looking at.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState, type FormEvent } from 'react'
 import { KeyRound, RotateCw, TriangleAlert } from 'lucide-react'
 import type { SandboxJobDetail } from '../../domain/types'
@@ -20,8 +21,9 @@ import { humanise } from '../../lib/format'
    ========================================================================== */
 
 export function ProgressPanel({ job }: { job: SandboxJobDetail }) {
+  const t = useT()
   return (
-    <Panel title="Analysis in progress" tone="feature">
+    <Panel title={t('x.analysis-in-progress')} tone="feature">
       <p className="text-body text-fg-muted">
         {job.status === 'queued'
           ? 'The sample is quarantined and waiting for a worker.'
@@ -48,6 +50,7 @@ export function ProgressPanel({ job }: { job: SandboxJobDetail }) {
    ========================================================================== */
 
 export function PasswordPrompt({ job }: { job: SandboxJobDetail }) {
+  const t = useT()
   const [password, setPassword] = useState('')
   const supply = useSandboxPassword()
 
@@ -58,7 +61,7 @@ export function PasswordPrompt({ job }: { job: SandboxJobDetail }) {
   }
 
   return (
-    <Panel title="This archive is encrypted" tone="feature">
+    <Panel title={t('x.this-archive-is-encrypted')} tone="feature">
       <div className="flex items-start gap-3">
         <KeyRound className="mt-0.5 size-5 shrink-0 text-medium" aria-hidden="true" strokeWidth={1.75} />
         <div className="min-w-0 flex-1 space-y-4">
@@ -110,10 +113,11 @@ export function PasswordPrompt({ job }: { job: SandboxJobDetail }) {
    ========================================================================== */
 
 export function FailurePanel({ job }: { job: SandboxJobDetail }) {
+  const t = useT()
   const reanalyze = useSandboxReanalyze()
 
   return (
-    <Panel title="Analysis failed" tone="danger">
+    <Panel title={t('x.analysis-failed')} tone="danger">
       <div className="flex items-start gap-3">
         <TriangleAlert
           className="mt-0.5 size-5 shrink-0 text-critical"

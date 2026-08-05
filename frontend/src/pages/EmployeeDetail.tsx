@@ -7,6 +7,7 @@
  * check the arithmetic, then read the events that produced it.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Sparkline } from '../components/charts'
@@ -31,6 +32,7 @@ import { usePermission } from '../lib/auth/useAuth'
 import { num, signed } from '../lib/format'
 
 export default function EmployeeDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const employee = useEmployee(id)
   const departments = useDepartments()
@@ -66,7 +68,7 @@ export default function EmployeeDetail() {
         isLoading={employee.isLoading}
         error={employee.data ? null : employee.error}
         onRetry={() => void employee.refetch()}
-        loadingLabel="Loading this person's risk profile"
+        loadingLabel={t('x.loading-this-persons-risk-profile')}
         skeleton={
           <div className="space-y-4">
             <SkeletonCard metric lines={2} />
@@ -89,7 +91,7 @@ export default function EmployeeDetail() {
 
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
               <div className="space-y-4">
-                <Panel title="Current risk score">
+                <Panel title={t('x.current-risk-score')}>
                   <RiskScore score={person.current_risk_score} bar size="lg" />
 
                   <dl className="mt-4 space-y-2 text-sm">
@@ -131,7 +133,7 @@ export default function EmployeeDetail() {
                   </div>
                 </Panel>
 
-                <Panel title="Department context">
+                <Panel title={t('x.department-context')}>
                   <EmployeeDepartmentContext
                     departmentName={person.department_name}
                     department={(departments.data ?? []).find(
@@ -144,8 +146,8 @@ export default function EmployeeDetail() {
 
               <Panel
                 tone="feature"
-                title="How this score is derived"
-                subtitle="Baseline plus every recorded signal. Check it by hand."
+                title={t('x.how-this-score-is-derived')}
+                subtitle={t('x.baseline-plus-every-recorded-signal')}
                 className="xl:col-span-2"
               >
                 <RiskDerivation employee={person} />
@@ -161,8 +163,8 @@ export default function EmployeeDetail() {
 
               <TabsContent value="trail">
                 <Panel
-                  title="Every recorded event"
-                  subtitle="Newest first, with the delta the engine applied and the loop run that caused it."
+                  title={t('x.every-recorded-event')}
+                  subtitle={t('x.newest-first-with-the-delta')}
                   flush
                 >
                   <RiskEventTrail events={events} canOpenLoops={canOpenLoops} />
@@ -170,19 +172,19 @@ export default function EmployeeDetail() {
               </TabsContent>
 
               <TabsContent value="activity">
-                <Panel title="Training and simulation history">
+                <Panel title={t('x.training-and-simulation-history')}>
                   <EmployeeActivity events={events} />
                 </Panel>
               </TabsContent>
 
               <TabsContent value="reports">
-                <Panel title="Reports submitted">
+                <Panel title={t('x.reports-submitted')}>
                   {canReadReports ? (
                     <AsyncBoundary
                       isLoading={reports.isLoading}
                       error={reports.data ? null : reports.error}
                       onRetry={() => void reports.refetch()}
-                      loadingLabel="Loading reports"
+                      loadingLabel={t('x.loading-reports')}
                       skeleton={<SkeletonTable rows={3} cols={2} header={false} />}
                     >
                       <EmployeeReports

@@ -12,6 +12,7 @@
  * missing list would be the easier screen and a false one.
  */
 
+import { useT } from '../../lib/i18n'
 import { GraduationCap, Target } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { RiskEvent } from '../../domain/types'
@@ -81,6 +82,7 @@ function Group({
 }
 
 export function EmployeeActivity({ events }: EmployeeActivityProps) {
+  const t = useT()
   const training = events.filter((event) => TRAINING_SIGNALS.has(event.type))
   const simulations = events.filter((event) => SIMULATION_SIGNALS.has(event.type))
 
@@ -88,14 +90,14 @@ export function EmployeeActivity({ events }: EmployeeActivityProps) {
     <div className="space-y-6">
       <Group
         icon={GraduationCap}
-        title="Training recorded"
+        title={t('x.training-recorded')}
         events={training}
         emptyLine="No completion, comprehension, failure or expiry has been recorded for this person in the events the API returns."
       />
 
       <Group
         icon={Target}
-        title="Simulation outcomes"
+        title={t('x.simulation-outcomes')}
         events={simulations}
         emptyLine="No simulated-phishing click or report has been recorded for this person in the events the API returns."
       />

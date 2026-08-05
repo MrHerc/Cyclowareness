@@ -80,15 +80,15 @@ export default function Sandbox() {
         isLoading={capabilities.isLoading}
         error={capabilities.data ? null : capabilities.error}
         onRetry={() => void capabilities.refetch()}
-        loadingLabel="Asking the sandbox what it can do"
+        loadingLabel={t('x.asking-the-sandbox-what-it')}
         skeleton={<SkeletonCard lines={4} />}
       >
         {capabilities.data ? <CapabilityStrip capabilities={capabilities.data} /> : null}
       </AsyncBoundary>
 
       <Panel
-        title="Submissions"
-        subtitle="Refreshes while a job is moving."
+        title={t('x.submissions')}
+        subtitle={t('x.refreshes-while-a-job-is')}
         flush
         actions={
           <Select
@@ -105,7 +105,7 @@ export default function Sandbox() {
           isLoading={jobs.isLoading}
           error={jobs.data ? null : jobs.error}
           onRetry={() => void jobs.refetch()}
-          loadingLabel="Loading submissions"
+          loadingLabel={t('x.loading-submissions')}
           skeleton={<SkeletonTable rows={5} cols={6} header={false} className="rounded-none border-0" />}
           isEmpty={rows.length === 0}
           empty={

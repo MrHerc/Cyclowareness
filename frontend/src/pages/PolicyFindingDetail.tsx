@@ -13,6 +13,7 @@
  * timeline it does not have.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft, GraduationCap, ScrollText, ShieldCheck, SquarePen } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -36,6 +37,7 @@ import { usePermission } from '../lib/auth/useAuth'
 import { deadlineIn, formatDate, formatDateTime, timeAgo } from '../lib/format'
 
 export default function PolicyFindingDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const query = usePolicyFinding(id)
   const canManage = usePermission('policy.manage')
@@ -57,8 +59,8 @@ export default function PolicyFindingDetail() {
   return (
     <div className="space-y-6">
       <PolicyHeader
-        title="Finding"
-        description="A single claim about the gap between a policy and the world, with the evidence behind it."
+        title={t('x.finding')}
+        description={t('x.a-single-claim-about-the')}
         actions={
           <Button asChild variant="ghost" icon={<ArrowLeft className="size-4" />}>
             <Link to="/policy-intelligence/findings">Back to the queue</Link>
@@ -70,7 +72,7 @@ export default function PolicyFindingDetail() {
         isLoading={query.isLoading}
         error={finding ? null : query.error}
         onRetry={() => void query.refetch()}
-        loadingLabel="Loading the finding"
+        loadingLabel={t('x.loading-the-finding')}
         skeleton={<SkeletonText lines={12} />}
       >
         {finding ? (
@@ -160,7 +162,7 @@ export default function PolicyFindingDetail() {
 
                 {/* --- the rule it contradicts ------------------------------- */}
                 <Panel
-                  title="The policy and the rule"
+                  title={t('x.the-policy-and-the-rule')}
                   actions={
                     finding.policy_id !== null ? (
                       <Button asChild variant="ghost" size="sm" icon={<ScrollText className="size-4" />}>
@@ -228,19 +230,19 @@ export default function PolicyFindingDetail() {
 
                 {/* --- evidence --------------------------------------------- */}
                 <Panel
-                  title="Evidence"
-                  subtitle="Without these, a finding is an assertion. Each row is something a reader can go and check."
+                  title={t('x.evidence')}
+                  subtitle={t('x.without-these-a-finding-is')}
                 >
                   <EvidenceList
                     items={finding.evidence}
-                    emptyMessage="No evidence rows were recorded for this finding. Treat it as unverified until they are."
+                    emptyMessage={t('x.no-evidence-rows-were-recorded')}
                   />
                 </Panel>
               </div>
 
               <div className="space-y-4">
                 {/* --- what to do ------------------------------------------- */}
-                <Panel title="What to do">
+                <Panel title={t('x.what-to-do')}>
                   <dl className="space-y-4">
                     <div>
                       <dt className="label text-fg-faint">Suggested remediation</dt>
@@ -266,8 +268,8 @@ export default function PolicyFindingDetail() {
 
                 {/* --- who it touches --------------------------------------- */}
                 <Panel
-                  title="Who is affected"
-                  subtitle="Ids the server could not resolve are shown, not dropped."
+                  title={t('x.who-is-affected')}
+                  subtitle={t('x.ids-the-server-could-not')}
                 >
                   <AffectedPeople
                     departments={finding.affected_departments ?? []}
@@ -277,8 +279,8 @@ export default function PolicyFindingDetail() {
 
                 {/* --- history ---------------------------------------------- */}
                 <Panel
-                  title="Review history"
-                  subtitle="What this build records on the finding itself."
+                  title={t('x.review-history')}
+                  subtitle={t('x.what-this-build-records-on')}
                 >
                   {finding.resolution_note || finding.resolved_by ? (
                     <div className="space-y-2">
@@ -333,7 +335,7 @@ export default function PolicyFindingDetail() {
         ) : (
           <EmptyState
             headline="This finding could not be loaded"
-            description="The record may have been removed, or the link may point at a different deployment."
+            description={t('x.the-record-may-have-been')}
           />
         )}
       </AsyncBoundary>

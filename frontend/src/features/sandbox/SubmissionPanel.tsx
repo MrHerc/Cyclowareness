@@ -14,6 +14,7 @@
  *   tells the analyst what to do next.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link2, Upload } from 'lucide-react'
@@ -55,6 +56,7 @@ function SubmissionError({ error }: { error: unknown }) {
 }
 
 export function SubmissionPanel() {
+  const t = useT()
   const navigate = useNavigate()
   const [file, setFile] = useState<File | null>(null)
   const [password, setPassword] = useState('')
@@ -86,8 +88,8 @@ export function SubmissionPanel() {
   return (
     <Panel
       tone="feature"
-      title="Submit a sample"
-      subtitle="The file is quarantined on arrival and parsed. It is never executed."
+      title={t('x.submit-a-sample')}
+      subtitle={t('x.the-file-is-quarantined-on')}
     >
       <Tabs defaultValue="file">
         <TabsList>

@@ -12,6 +12,7 @@
  * cannot work.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { CheckCircle2, ListFilter, Rss } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -39,6 +40,7 @@ function indicatorPreview(iocs: Record<string, string[]>): { label: string; valu
 }
 
 export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
   const canAct = usePermission('threats.submit')
@@ -76,8 +78,8 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
 
   return (
     <Panel
-      title="Curated intel feed"
-      subtitle="Real-world items an analyst can push into stage 1 of the loop."
+      title={t('x.curated-intel-feed')}
+      subtitle={t('x.realworld-items-an-analyst-can')}
       actions={
         <Select
           label="Severity"
@@ -93,7 +95,7 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
         isLoading={feed.isLoading}
         error={feed.data ? null : feed.error}
         onRetry={() => void feed.refetch()}
-        loadingLabel="Loading the curated feed"
+        loadingLabel={t('x.loading-the-curated-feed')}
         skeleton={
           <div className="space-y-3">
             <SkeletonCard lines={2} />
@@ -107,7 +109,7 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
               compact
               icon={Rss}
               headline="The curated feed is empty"
-              description="This feed is filled by the platform, not by an external subscription. When it holds items, an analyst can push any of them into the loop from here."
+              description={t('x.this-feed-is-filled-by')}
             />
           ) : (
             <EmptyState

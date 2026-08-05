@@ -8,6 +8,7 @@
  * of most attention, rather than inferred or quietly omitted.
  */
 
+import { useT } from '../../lib/i18n'
 import { Boxes, FileCode2, ShieldAlert, ShieldCheck } from 'lucide-react'
 import type { SandboxCapabilities } from '../../domain/types'
 import { Panel, Tooltip } from '../../components/ui'
@@ -26,6 +27,7 @@ function Chip({ children }: { children: string }) {
 }
 
 export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
+  const t = useT()
   const analyzers = capabilities.static_analyzers ?? []
   const gaps = Object.entries(capabilities.unavailable_analyzers ?? {})
   const yaraLoaded = capabilities.yara?.loaded ?? 0
@@ -36,8 +38,8 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
 
   return (
     <Panel
-      title="Analysis capability on this host"
-      subtitle="Read from the engine at request time, not from configuration."
+      title={t('x.analysis-capability-on-this-host')}
+      subtitle={t('x.read-from-the-engine-at')}
       headingLevel={2}
     >
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">

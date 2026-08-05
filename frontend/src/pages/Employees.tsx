@@ -148,8 +148,8 @@ export default function Employees() {
       ) : null}
 
       <Panel
-        title="Roster"
-        subtitle="Sorted by risk score by default. Every column header sorts, and every filter is in the URL."
+        title={t('x.roster')}
+        subtitle={t('x.sorted-by-risk-score-by')}
         flush
       >
         <div className="border-b border-line-subtle p-4">
@@ -177,7 +177,7 @@ export default function Employees() {
           isLoading={employees.isLoading}
           error={employees.data ? null : employees.error}
           onRetry={() => void employees.refetch()}
-          loadingLabel="Loading the roster"
+          loadingLabel={t('x.loading-the-roster')}
           skeleton={<SkeletonTable rows={8} cols={6} header={false} className="border-0" />}
           isEmpty={sorted.length === 0}
           empty={

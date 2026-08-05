@@ -8,20 +8,22 @@
  * the first is not a preference, it is a bug waiting to be filed.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { PanelLeftClose, Waves } from 'lucide-react'
 import { Panel, Switch } from '../../components/ui'
 import { readNavCollapsed, useReducedMotion, writeNavCollapsed } from './preferences'
 
 export function AppearancePanel() {
+  const t = useT()
   const [collapsed, setCollapsed] = useState(readNavCollapsed)
   const [storageFailed, setStorageFailed] = useState(false)
   const reducedMotion = useReducedMotion()
 
   return (
     <Panel
-      title="Appearance"
-      subtitle="Stored in this browser, for this browser. Nothing here leaves the device or reaches the platform."
+      title={t('x.appearance')}
+      subtitle={t('x.stored-in-this-browser-for')}
     >
       <div className="space-y-5">
         <div className="flex gap-3">

@@ -76,7 +76,7 @@ export default function Loops() {
         // A failed background poll must not replace a list that is still on screen.
         error={runs.data ? null : runs.error}
         onRetry={() => void runs.refetch()}
-        loadingLabel="Loading loop runs"
+        loadingLabel={t('x.loading-loop-runs')}
         skeleton={<SkeletonTable rows={8} cols={8} />}
         isEmpty={visible.length === 0}
         empty={
@@ -84,7 +84,7 @@ export default function Loops() {
             <EmptyState
               icon={Radar}
               headline="No loop runs yet"
-              description="A run appears here the moment a threat is submitted, pushed from the curated feed, or promoted from an employee report. Each one then carries its own record of the seven stages."
+              description={t('x.a-run-appears-here-the')}
               action={
                 <Button asChild variant="primary">
                   <Link to="/threats">Go to threat intake</Link>

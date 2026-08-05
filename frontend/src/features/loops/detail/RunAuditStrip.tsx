@@ -7,6 +7,7 @@
  * the database actually did.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { ScrollText } from 'lucide-react'
 import type { AuditEvent } from '../../../domain/types'
@@ -34,9 +35,10 @@ export function RunAuditStrip({
   truncated,
   total,
 }: RunAuditStripProps) {
+  const t = useT()
   return (
     <Panel
-      title="Audit trail"
+      title={t('x.audit-trail')}
       subtitle={
         total === undefined
           ? 'Every material change recorded against this run.'
@@ -57,7 +59,7 @@ export function RunAuditStrip({
         isLoading={isLoading}
         error={events.length > 0 ? null : error}
         onRetry={onRetry}
-        loadingLabel="Loading the audit trail"
+        loadingLabel={t('x.loading-the-audit-trail')}
         skeleton={
           <div className="divide-line">
             <SkeletonRow leading={false} />
@@ -71,7 +73,7 @@ export function RunAuditStrip({
             compact
             icon={ScrollText}
             headline="No audit entries for this run"
-            description="Entries appear when a person acts on the run — an approval, a rejection, a forced measurement. Stage transitions performed by the orchestrator are recorded in the timeline above rather than here."
+            description={t('x.entries-appear-when-a-person')}
           />
         }
       >

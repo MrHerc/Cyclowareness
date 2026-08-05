@@ -11,6 +11,7 @@
  * dialog stays open, and busy, until the server answers.
  */
 
+import { useT } from '../../../lib/i18n'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ShieldCheck } from 'lucide-react'
@@ -50,6 +51,7 @@ export function ApprovalGatePanel({
   proposedTargets,
   canDecide,
 }: ApprovalGatePanelProps) {
+  const t = useT()
   const [comment, setComment] = useState('')
   const [pending, setPending] = useState<'approve' | 'reject' | null>(null)
   const toast = useToast()
@@ -178,7 +180,7 @@ export function ApprovalGatePanel({
             Approval gate
           </span>
         }
-        subtitle="Between conversion and targeting. The one step no machine performs."
+        subtitle={t('x.between-conversion-and-targeting-the')}
       >
         {body}
       </Panel>
@@ -200,7 +202,7 @@ export function ApprovalGatePanel({
         onOpenChange={(open) => setPending(open ? 'reject' : null)}
         tone="danger"
         title={`Reject run ${runId}`}
-        description="Rejecting marks the module rejected and closes the run as failed by review. Nobody is assigned anything, and the run cannot be resumed from here."
+        description={t('x.rejecting-marks-the-module-rejected')}
         confirmLabel="Reject the module"
         busy={decide.isPending}
         onConfirm={() => submit('reject')}

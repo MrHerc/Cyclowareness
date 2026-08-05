@@ -8,6 +8,7 @@
  * count. Two courses out of eleven is not a catalogue.
  */
 
+import { useT } from '../../lib/i18n'
 import { useMemo, useState } from 'react'
 import { BookOpen, Tag } from 'lucide-react'
 import { AsyncBoundary, EmptyState, SkeletonRow } from '../../components/states'
@@ -26,6 +27,7 @@ export interface CoursesDrawerProps {
 }
 
 export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawerProps) {
+  const t = useT()
   const canManage = usePermission('integrations.manage')
   const [query, setQuery] = useState('')
   const [editing, setEditing] = useState<ExternalCourse | null>(null)
@@ -56,7 +58,7 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
     <>
       <Drawer
         title={integration ? `${integration.display_name} courses` : 'Courses'}
-        description="What this connection has mirrored, and which of our behaviours each course is claimed to move."
+        description={t('x.what-this-connection-has-mirrored')}
         open={open}
         onOpenChange={onOpenChange}
         side="right"
@@ -89,7 +91,7 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
             isLoading={courses.isLoading}
             error={courses.data ? null : courses.error}
             onRetry={() => void courses.refetch()}
-            loadingLabel="Loading imported courses"
+            loadingLabel={t('x.loading-imported-courses')}
             skeleton={
               <div className="space-y-2">
                 <SkeletonRow leading={false} />

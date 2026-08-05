@@ -215,7 +215,7 @@ export default function Executive() {
         isLoading={dashboard.isLoading}
         error={dash ? null : dashboard.error}
         onRetry={() => void dashboard.refetch()}
-        loadingLabel="Loading the organisation posture"
+        loadingLabel={t('x.loading-the-organisation-posture')}
         skeleton={
           <div className="space-y-6">
             <SkeletonCard lines={3} />
@@ -235,7 +235,7 @@ export default function Executive() {
           <EmptyState
             icon={BarChart3}
             headline="The dashboard returned nothing"
-            description="The executive endpoint answered without a posture payload. Nothing is inferred in its place — reload once the platform is serving again."
+            description={t('x.the-executive-endpoint-answered-without')}
           />
         }
       >

@@ -12,6 +12,7 @@
  * wrong place.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AsyncBoundary, EmptyState, SkeletonRow } from '../../components/states'
@@ -42,6 +43,7 @@ export function IntegrationHealthPanel({
   error,
   onRetry,
 }: IntegrationHealthPanelProps) {
+  const t = useT()
   const attention = integrations
     .filter((integration) => RANK[integration.status] <= RANK.connected)
     .sort((a, b) => RANK[a.status] - RANK[b.status])
@@ -49,7 +51,7 @@ export function IntegrationHealthPanel({
 
   return (
     <Panel
-      title="Integration health"
+      title={t('x.integration-health')}
       headingLevel={4}
       subtitle={
         dormant > 0
@@ -66,14 +68,14 @@ export function IntegrationHealthPanel({
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading integrations"
+        loadingLabel={t('x.loading-integrations')}
         isEmpty={attention.length === 0}
         empty={
           <EmptyState
             compact
             icon={Link2}
             headline="No provider is connected"
-            description="Training is delivered inside Cyclowareness. Connect an LMS or identity provider to sync courses and people."
+            description={t('x.training-is-delivered-inside-cyclowareness')}
             action={
               <Button size="sm" variant="secondary" asChild>
                 <Link to="/integrations">Open integrations</Link>

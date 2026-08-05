@@ -12,6 +12,7 @@
  * reads it.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import type { RemediationPlan } from '../../domain/types'
 import { Button, Checkbox, Dialog, Textarea } from '../../components/ui'
@@ -31,6 +32,7 @@ export function DisputeResolutionDialog({
   onOpenChange,
   onSubmit,
 }: DisputeResolutionDialogProps) {
+  const t = useT()
   const [resolution, setResolution] = useState('')
   const [withdraw, setWithdraw] = useState(false)
 
@@ -45,7 +47,7 @@ export function DisputeResolutionDialog({
     <Dialog
       open={plan !== null}
       onOpenChange={onOpenChange}
-      title="Answer this dispute"
+      title={t('x.answer-this-dispute')}
       description={
         plan
           ? `${plan.employee_name ?? 'This person'} contested the plan raised by ${humanise(

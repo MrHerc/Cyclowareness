@@ -11,6 +11,7 @@
  * it is not. An empty verdict is rendered as "no verdict yet", never as clean.
  */
 
+import { useT } from '../../lib/i18n'
 import { ListFilter, Radar } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ConfidenceBadge, NoMeasurement } from '../../components/data'
@@ -53,6 +54,7 @@ function matchesVerdict(selected: string, threat: Threat): boolean {
 }
 
 export function ThreatList({ query, artifactType }: ThreatListProps) {
+  const t = useT()
   const navigate = useNavigate()
   const [source, setSource] = useUrlParam('src', ALL)
   const [verdict, setVerdict] = useUrlParam('verdict', ALL)
@@ -76,8 +78,8 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
 
   return (
     <Panel
-      title="Artifacts in the platform"
-      subtitle="Every threat record, whatever route it arrived by."
+      title={t('x.artifacts-in-the-platform')}
+      subtitle={t('x.every-threat-record-whatever-route')}
       flush
       footer={
         <>
@@ -111,7 +113,7 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
         isLoading={threats.isLoading}
         error={threats.data ? null : threats.error}
         onRetry={() => void threats.refetch()}
-        loadingLabel="Loading threat records"
+        loadingLabel={t('x.loading-threat-records')}
         skeleton={<SkeletonTable rows={6} cols={6} className="rounded-none border-0" />}
         isEmpty={visible.length === 0}
         empty={
@@ -121,7 +123,7 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
                 compact
                 icon={Radar}
                 headline="No artifact has entered the platform yet"
-                description="A threat record is written when an analyst pushes a report into the loop, pushes a curated feed item, or submits an artifact directly."
+                description={t('x.a-threat-record-is-written')}
               />
             ) : (
               <EmptyState

@@ -9,6 +9,7 @@
  * signature.
  */
 
+import { useT } from '../../lib/i18n'
 import { CircleSlash, ShieldAlert, ShieldCheck, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -40,11 +41,12 @@ export function SafetyPanel({
   modelConnected,
   secondApproval,
 }: SafetyPanelProps) {
+  const t = useT()
   const clean = safety.failed === 0 && safety.notRun === 0 && safety.passed > 0
 
   return (
     <Panel
-      title="Safety and provenance"
+      title={t('x.safety-and-provenance')}
       headingLevel={2}
       tone={safety.failed > 0 ? 'danger' : 'default'}
       subtitle={

@@ -17,6 +17,7 @@
  * words its errors differently per input is an enumeration oracle.
  */
 
+import { useT } from '../lib/i18n'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ShieldCheck } from 'lucide-react'
@@ -34,6 +35,7 @@ interface StartResponse {
 }
 
 export default function AdminLogin() {
+  const t = useT()
   const navigate = useNavigate()
   const { adoptSession } = useAuth()
   const [phone, setPhone] = useState('')
@@ -87,7 +89,7 @@ export default function AdminLogin() {
 
   return (
     <AuthScaffold
-      title="Admin portal"
+      title={t('x.admin-portal')}
       intro="The operational console. A registered admin number, then a one-time code."
       aside={<LoopSignature />}
       footer={

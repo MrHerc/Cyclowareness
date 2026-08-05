@@ -13,6 +13,7 @@
  * that actually had one — the form has no control that could assert them.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import { KeyRound } from 'lucide-react'
 import { Button, Dialog, Input, useToast } from '../../components/ui'
@@ -32,6 +33,7 @@ function stringField(summary: Record<string, unknown>, key: string): string {
 }
 
 export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDialogProps) {
+  const t = useT()
   const toast = useToast()
   const summary = integration.config_summary ?? {}
 
@@ -78,7 +80,7 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
   return (
     <Dialog
       title={`Configure ${integration.display_name}`}
-      description="Non-sensitive connection settings. Stored locally and audited; nothing is sent to the provider."
+      description={t('x.nonsensitive-connection-settings-stored-loca')}
       open={open}
       onOpenChange={configure.isPending ? undefined : onOpenChange}
       size="md"

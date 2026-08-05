@@ -7,6 +7,7 @@
  * extracted from — the part a human can check.
  */
 
+import { useT } from '../../lib/i18n'
 import { AsyncBoundary, Skeleton } from '../../components/states'
 import { Badge } from '../../components/ui'
 import { usePolicy } from '../../lib/api/queries'
@@ -18,6 +19,7 @@ export interface MatchedPolicyProps {
 }
 
 export function MatchedPolicy({ policyId, ruleId }: MatchedPolicyProps) {
+  const t = useT()
   const query = usePolicy(policyId)
   const policy = query.data
   const rule = ruleId === null ? null : policy?.rules.find((candidate) => candidate.id === ruleId)
@@ -27,7 +29,7 @@ export function MatchedPolicy({ policyId, ruleId }: MatchedPolicyProps) {
       isLoading={query.isLoading}
       error={policy ? null : query.error}
       onRetry={() => void query.refetch()}
-      loadingLabel="Loading the matched policy"
+      loadingLabel={t('x.loading-the-matched-policy')}
       skeleton={
         <div className="space-y-2">
           <Skeleton className="h-3 w-40" />

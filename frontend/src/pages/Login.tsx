@@ -18,6 +18,7 @@
  * this page that has to work.
  */
 
+import { useT } from '../lib/i18n'
 import { useCallback, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { Session } from '../domain/types'
@@ -34,6 +35,7 @@ import { useAuth } from '../lib/auth/useAuth'
 import { homeFor } from '../lib/auth/permissions'
 
 export default function Login() {
+  const t = useT()
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -86,7 +88,7 @@ export default function Login() {
 
   return (
     <AuthScaffold
-      title="Sign in"
+      title={t('x.sign-in')}
       intro="Your role decides what the platform shows you, and what it lets you approve."
       mobileIntro={<CompactIntro />}
       aside={<PublicAside />}

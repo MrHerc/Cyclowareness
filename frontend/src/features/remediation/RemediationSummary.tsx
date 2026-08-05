@@ -11,6 +11,7 @@
  * reason — a count that only appears when it is non-zero cannot be audited.
  */
 
+import { useT } from '../../lib/i18n'
 import type { RemediationStats } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { cn, num } from '../../lib/format'
@@ -40,6 +41,7 @@ function Tile({
 }
 
 export function RemediationSummary({ stats }: RemediationSummaryProps) {
+  const t = useT()
   const refusals = Object.values(stats.rejections_by_code).reduce((a, b) => a + b, 0)
   const codes = Object.entries(stats.rejections_by_code).sort((a, b) => b[1] - a[1])
 
@@ -50,12 +52,12 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
         <Tile
           label="Waiting"
           value={num(stats.by_status.proposed ?? 0, 0)}
-          caption="for a human decision"
+          caption={t('x.for-a-human-decision')}
         />
         <Tile
           label="From the library"
           value={num(stats.built_from_the_library, 0)}
-          caption="no model involved"
+          caption={t('x.no-model-involved')}
         />
         <Tile
           label="With a model"
@@ -65,12 +67,12 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
         <Tile
           label="Coverage gaps"
           value={num(stats.coverage_gaps, 0)}
-          caption="nothing covered it"
+          caption={t('x.nothing-covered-it')}
         />
         <Tile
           label="Control gaps"
           value={num(stats.control_gaps, 0)}
-          caption="a control, not a module"
+          caption={t('x.a-control-not-a-module')}
         />
         <Tile
           label="Disputes waiting"

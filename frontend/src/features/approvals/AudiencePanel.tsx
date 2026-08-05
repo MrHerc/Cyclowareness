@@ -10,6 +10,7 @@
  * empty sections that read like a configured zero.
  */
 
+import { useT } from '../../lib/i18n'
 import { CalendarClock, UserMinus, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Avatar, Badge, Panel, Progress, ScrollArea, Separator, Tooltip } from '../../components/ui'
@@ -128,11 +129,12 @@ export interface AudiencePanelProps {
 }
 
 export function AudiencePanel({ members, targetingNote }: AudiencePanelProps) {
+  const t = useT()
   const exposed = members.filter((member) => member.exposed).length
 
   return (
     <Panel
-      title="Proposed audience"
+      title={t('x.proposed-audience')}
       headingLevel={2}
       subtitle={
         members.length === 0

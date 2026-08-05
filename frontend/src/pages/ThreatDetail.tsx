@@ -10,6 +10,7 @@
  * resolve the record, resolve its origin, and lay the pieces out.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { AsyncBoundary, SkeletonCard } from '../components/states'
@@ -26,6 +27,7 @@ import { useEmployee, useThreat } from '../lib/api/queries'
 import { formatDateTime, timeAgo } from '../lib/format'
 
 export default function ThreatDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const threat = useThreat(id)
   const origin = useReportForThreat(threat.data?.id)
@@ -50,7 +52,7 @@ export default function ThreatDetail() {
         isLoading={threat.isLoading}
         error={threat.data ? null : threat.error}
         onRetry={() => void threat.refetch()}
-        loadingLabel="Loading the artifact"
+        loadingLabel={t('x.loading-the-artifact')}
         skeleton={
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <div className="space-y-5 lg:col-span-2">

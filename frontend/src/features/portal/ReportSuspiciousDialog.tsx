@@ -11,6 +11,7 @@
  * Presenting the two identically is the exact claim this product cannot make.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Send, ShieldQuestion } from 'lucide-react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -138,6 +139,7 @@ export function ReportSuspiciousDialog({
   onOpenChange,
   modelConnected,
 }: ReportSuspiciousDialogProps) {
+  const t = useT()
   const [artifactType, setArtifactType] = useState('email')
   const [artifactRef, setArtifactRef] = useState('')
   const [note, setNote] = useState('')
@@ -172,8 +174,8 @@ export function ReportSuspiciousDialog({
     <Dialog
       open={open}
       onOpenChange={handleClose}
-      title="Report something suspicious"
-      description="If it looks wrong, send it. Reporting is never the wrong call."
+      title={t('x.report-something-suspicious')}
+      description={t('x.if-it-looks-wrong-send')}
       size="md"
       footer={
         result ? (
@@ -236,7 +238,7 @@ export function ReportSuspiciousDialog({
             <ErrorState
               compact
               error={submit.error}
-              title="Your report was not sent"
+              title={t('x.your-report-was-not-sent')}
               onRetry={handleSubmit}
             />
           ) : (

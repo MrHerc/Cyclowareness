@@ -12,6 +12,7 @@
  * hear nothing happen.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Check, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Badge, Button, Panel } from '../../../components/ui'
@@ -28,6 +29,7 @@ export interface ResultPhaseProps {
 }
 
 export function ResultPhase({ result, module, questions, answers }: ResultPhaseProps) {
+  const t = useT()
   return (
     <div className="space-y-6">
       <Panel tone={result.passed ? 'feature' : 'danger'} headingLevel={2}>
@@ -51,12 +53,12 @@ export function ResultPhase({ result, module, questions, answers }: ResultPhaseP
       </Panel>
 
       {module.takeaway ? (
-        <Panel tone="quiet" title="The one thing to remember" headingLevel={2}>
+        <Panel tone="quiet" title={t('x.the-one-thing-to-remember')} headingLevel={2}>
           <p className="text-lead text-fg">{module.takeaway}</p>
         </Panel>
       ) : null}
 
-      <Panel title="Every question, and why" headingLevel={2}>
+      <Panel title={t('x.every-question-and-why')} headingLevel={2}>
         <ol className="space-y-6">
           {result.per_question.map((outcome) => {
             const question = questions[outcome.index]

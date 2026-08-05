@@ -7,6 +7,7 @@
  * fastest.
  */
 
+import { useT } from '../../lib/i18n'
 import { Inbox } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ConfidenceBadge } from '../../components/data'
@@ -25,15 +26,16 @@ export interface ThreatIntakePanelProps {
 }
 
 export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: ThreatIntakePanelProps) {
+  const t = useT()
   const latest = [...threats]
     .sort((a, b) => b.created_at.localeCompare(a.created_at))
     .slice(0, SHOWN)
 
   return (
     <Panel
-      title="Latest threat intake"
+      title={t('x.latest-threat-intake')}
       headingLevel={4}
-      subtitle="The most recent artifacts the platform accepted"
+      subtitle={t('x.the-most-recent-artifacts-the')}
       actions={
         <Button size="sm" variant="ghost" asChild>
           <Link to="/threats">All threats</Link>
@@ -44,14 +46,14 @@ export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: Threat
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading threat intake"
+        loadingLabel={t('x.loading-threat-intake')}
         isEmpty={latest.length === 0}
         empty={
           <EmptyState
             compact
             icon={Inbox}
             headline="Nothing has been submitted"
-            description="Threats appear here when an employee reports one, an analyst submits one, or an item is pushed from the intelligence feed."
+            description={t('x.threats-appear-here-when-an')}
           />
         }
         skeleton={

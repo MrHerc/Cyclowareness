@@ -9,6 +9,7 @@
  * somebody needs when deciding whether to turn it back on.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import { Button, Dialog, Textarea, useToast } from '../../components/ui'
 import type { Integration } from '../../domain/types'
@@ -21,6 +22,7 @@ export interface DisableDialogProps {
 }
 
 export function DisableDialog({ integration, open, onOpenChange }: DisableDialogProps) {
+  const t = useT()
   const toast = useToast()
   const [reason, setReason] = useState('')
   const [failure, setFailure] = useState<string | null>(null)
@@ -48,7 +50,7 @@ export function DisableDialog({ integration, open, onOpenChange }: DisableDialog
   return (
     <Dialog
       title={`Disable ${integration.display_name}`}
-      description="Course imports and completion sync stop. The connection settings and the last sync result are kept."
+      description={t('x.course-imports-and-completion-sync')}
       open={open}
       onOpenChange={disable.isPending ? undefined : onOpenChange}
       size="sm"

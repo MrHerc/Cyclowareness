@@ -7,6 +7,7 @@
  * was needed, because that is the order they are worth writing in.
  */
 
+import { useT } from '../../lib/i18n'
 import { LibraryBig } from 'lucide-react'
 import type { RemediationCoverageGap } from '../../domain/types'
 import { EmptyState } from '../../components/states'
@@ -23,8 +24,9 @@ export interface CoverageGapListProps {
 }
 
 export function CoverageGapList({ data }: CoverageGapListProps) {
+  const t = useT()
   return (
-    <Panel title="Coverage gaps" subtitle={data.note}>
+    <Panel title={t('x.coverage-gaps')} subtitle={data.note}>
       {data.items.length === 0 ? (
         <EmptyState
           icon={LibraryBig}

@@ -15,6 +15,7 @@
  *   and says where the value comes from.
  */
 
+import { useT } from '../../lib/i18n'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TriangleAlert } from 'lucide-react'
@@ -61,6 +62,7 @@ function threatOf(threats: Threat[] | undefined, id: string): Threat | null {
 }
 
 export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialogProps) {
+  const t = useT()
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -158,8 +160,8 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
       open={open}
       onOpenChange={handleOpenChange}
       size="lg"
-      title="New simulation campaign"
-      description="Pick a lure, name the campaign, and choose who receives it. It is created as a draft."
+      title={t('x.new-simulation-campaign')}
+      description={t('x.pick-a-lure-name-the')}
       footer={
         <>
           <Button variant="ghost" onClick={() => handleOpenChange(false)}>
@@ -261,7 +263,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
               channel={lure.channel}
               sourceLabel={lure.label || 'Nothing selected'}
               sourceHref={sourceKind === 'threat' && threat ? `/threats/${threat.id}` : undefined}
-              emptyMessage="Choose a lure source above to see exactly what will be stored on this campaign."
+              emptyMessage={t('x.choose-a-lure-source-above')}
             />
           </div>
           {lureError ? (

@@ -14,6 +14,7 @@
  * drift from the backend, and labelled as such on the screen.
  */
 
+import { useT } from '../../lib/i18n'
 import { EyeOff, Eye } from 'lucide-react'
 import { EvidenceList } from '../../components/data'
 import { Badge, Panel, Separator } from '../../components/ui'
@@ -26,6 +27,7 @@ export interface EmployeeViewPanelProps {
 }
 
 export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
+  const t = useT()
   const redacted = hidesIncidentDetail(risk.confidentiality)
   const due = deadlineIn(risk.deadline)
   const requirements = [
@@ -37,7 +39,7 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
   return (
     <Panel
       headingLevel={2}
-      title="What the affected employee sees"
+      title={t('x.what-the-affected-employee-sees')}
       subtitle={`Classified ${confidentialityLabel(risk.confidentiality).toLowerCase()}`}
       actions={
         <Badge tone={redacted ? 'medium' : 'neutral'} dot>
@@ -118,7 +120,7 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
               ) : (
                 <EvidenceList
                   items={risk.evidence}
-                  emptyMessage="No evidence was recorded for this."
+                  emptyMessage={t('x.no-evidence-was-recorded-for-2')}
                 />
               )}
             </dd>

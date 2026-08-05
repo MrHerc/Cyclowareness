@@ -8,6 +8,7 @@
  * number moved", and it is the whole argument of the product.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowUpRight, History } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '../../components/states'
@@ -33,13 +34,14 @@ export interface RiskEventTrailProps {
 }
 
 export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
+  const t = useT()
   if (events.length === 0) {
     return (
       <EmptyState
         icon={History}
         compact
         headline="No risk events recorded"
-        description="This person's score is still exactly their role baseline. Events appear the moment the engine records a simulation outcome, a completed module, a report or an analyst adjustment."
+        description={t('x.this-persons-score-is-still')}
       />
     )
   }

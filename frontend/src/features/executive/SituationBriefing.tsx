@@ -20,6 +20,7 @@
  * own model, which is the same failure as mislabelling who wrote it.
  */
 
+import { useT } from '../../lib/i18n'
 import { provenanceOf } from '../../domain/types'
 import type { Metrics } from '../../domain/types'
 import { AIProvenanceBadge } from '../../components/data'
@@ -54,13 +55,14 @@ export function SituationBriefing({
   metrics,
   modelConnected,
 }: SituationBriefingProps) {
+  const t = useT()
   const provenance = provenanceOf(briefingSource)
   const text = briefing?.trim() ?? ''
   const measured = hasSomethingToSay(metrics)
 
   return (
     <Panel
-      title="Where the organisation stands"
+      title={t('x.where-the-organisation-stands')}
       actions={
         text ? (
           <AIProvenanceBadge

@@ -113,8 +113,8 @@ export default function Reports() {
 
       <Panel
         tone="feature"
-        title="Sandbox analysis exports"
-        subtitle="The only packs this deployment generates. Each one is produced by the API from the stored analysis, in the format named on the button."
+        title={t('x.sandbox-analysis-exports')}
+        subtitle={t('x.the-only-packs-this-deployment')}
         actions={
           canReadSandbox ? (
             <SampleSizeLabel sample={exportable.length} noun="settled analyses in the window" />
@@ -142,7 +142,7 @@ export default function Reports() {
             isLoading={sandbox.isLoading}
             error={sandbox.data ? null : sandbox.error}
             onRetry={() => void sandbox.refetch()}
-            loadingLabel="Loading sandbox analyses"
+            loadingLabel={t('x.loading-sandbox-analyses')}
             skeleton={
               <div className="p-5 pt-0">
                 <SkeletonTable rows={5} cols={5} />
@@ -154,7 +154,7 @@ export default function Reports() {
                 <EmptyState
                   icon={FlaskConical}
                   headline="No settled analysis in this window"
-                  description="An export becomes available once a sandbox job finishes. Widen the reporting window, or submit a file or URL to the sandbox to produce one."
+                  description={t('x.an-export-becomes-available-once')}
                 />
               </div>
             }
@@ -184,7 +184,7 @@ export default function Reports() {
             loops.isLoading || departments.isLoading || findings.isLoading || incidents.isLoading
           }
           error={null}
-          loadingLabel="Counting the records behind each pack"
+          loadingLabel={t('x.counting-the-records-behind-each')}
           skeleton={
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
               <SkeletonCard lines={5} />

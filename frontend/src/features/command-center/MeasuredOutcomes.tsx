@@ -20,6 +20,7 @@
  *     population, not a measurement over a trailing period.
  */
 
+import { useT } from '../../lib/i18n'
 import { HonestMetric, type MetricTone } from '../../components/data'
 import { AsyncBoundary, SkeletonCard } from '../../components/states'
 import { Panel } from '../../components/ui'
@@ -54,6 +55,7 @@ export function MeasuredOutcomes({
   error,
   onRetry,
 }: MeasuredOutcomesProps) {
+  const t = useT()
   const scored = departments.reduce((total, department) => total + department.employee_count, 0)
   const riskTone: MetricTone =
     metrics?.avg_risk_score !== null && metrics?.avg_risk_score !== undefined
@@ -62,7 +64,7 @@ export function MeasuredOutcomes({
 
   return (
     <Panel
-      title="Measured behaviour"
+      title={t('x.measured-behaviour')}
       headingLevel={4}
       subtitle={
         metrics
@@ -74,7 +76,7 @@ export function MeasuredOutcomes({
         isLoading={isLoading || !metrics}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading measured behaviour"
+        loadingLabel={t('x.loading-measured-behaviour')}
         skeleton={
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[0, 1, 2, 3].map((card) => (

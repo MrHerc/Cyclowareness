@@ -13,6 +13,7 @@
  * until it is written rather than letting the API say no.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import { Button, Dialog, Select, Textarea, useToast } from '../../components/ui'
 import type { PolicyFinding } from '../../domain/types'
@@ -33,6 +34,7 @@ export function FindingStatusDialog({
   onOpenChange,
   preset,
 }: FindingStatusDialogProps) {
+  const t = useT()
   const moves = legalMoves(finding.status)
   const [status, setStatus] = useState(preset ?? moves[0] ?? '')
   const [note, setNote] = useState('')
@@ -82,7 +84,7 @@ export function FindingStatusDialog({
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Change the status of this finding"
+      title={t('x.change-the-status-of-this')}
       description={`Currently ${FINDING_STATUS_LABELS[finding.status] ?? finding.status}. Only the moves the API accepts from here are listed.`}
       size="md"
       footer={

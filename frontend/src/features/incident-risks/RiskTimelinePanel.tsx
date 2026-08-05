@@ -11,6 +11,7 @@
  * decision does not read as something that happened to the risk as a whole.
  */
 
+import { useT } from '../../lib/i18n'
 import { History } from 'lucide-react'
 import { EmptyState } from '../../components/states'
 import { Panel, Tooltip } from '../../components/ui'
@@ -23,18 +24,19 @@ export interface RiskTimelinePanelProps {
 }
 
 export function RiskTimelinePanel({ entries }: RiskTimelinePanelProps) {
+  const t = useT()
   return (
     <Panel
       headingLevel={2}
-      title="Timeline"
-      subtitle="Every audited move on this risk, oldest first"
+      title={t('x.timeline')}
+      subtitle={t('x.every-audited-move-on-this')}
     >
       {entries.length === 0 ? (
         <EmptyState
           compact
           icon={History}
           headline="Nothing has happened yet"
-          description="An entry appears here the moment this risk is edited, assigned, reviewed, closed or reopened. Opening it should already have written one, so an empty timeline means the audit trail did not answer."
+          description={t('x.an-entry-appears-here-the')}
         />
       ) : (
         <ol className="flex flex-col">

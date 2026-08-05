@@ -12,6 +12,7 @@
  * outcome is an error is not a button.
  */
 
+import { useT } from '../../lib/i18n'
 import { UserPlus, Users } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -43,6 +44,7 @@ export interface SubjectsPanelProps {
 }
 
 export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
+  const t = useT()
   const [attaching, setAttaching] = useState(false)
   const [reviewing, setReviewing] = useState<IncidentRiskSubject | null>(null)
 
@@ -52,7 +54,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
     <Panel
       flush
       headingLevel={2}
-      title="Subjects"
+      title={t('x.subjects')}
       subtitle={`${risk.subjects.length} ${risk.subjects.length === 1 ? 'person is' : 'people are'} named by this risk`}
       actions={
         canManage ? (
@@ -74,7 +76,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
             compact
             icon={Users}
             headline="Nobody is attached yet"
-            description="A risk with no subjects asks nothing of anyone. Attach the people the incident named, then assign the required work."
+            description={t('x.a-risk-with-no-subjects')}
             action={
               canManage && !closed ? (
                 <Button size="sm" onClick={() => setAttaching(true)}>

@@ -16,6 +16,7 @@
  * destination.
  */
 
+import { useT } from '../../lib/i18n'
 import { AsyncBoundary, SkeletonText } from '../../components/states'
 import { Badge, Panel } from '../../components/ui'
 import { useCapabilities, useSandboxCapabilities } from '../../lib/api/queries'
@@ -25,19 +26,20 @@ import { num } from '../../lib/format'
 import { SettingRow } from './SettingRow'
 
 export function DeploymentPanel() {
+  const t = useT()
   const capabilities = useCapabilities()
   const sandbox = useSandboxCapabilities()
 
   return (
     <Panel
-      title="This deployment"
-      subtitle="Read from the platform at runtime. Nothing on this panel is configurable from the browser."
+      title={t('x.this-deployment')}
+      subtitle={t('x.read-from-the-platform-at')}
     >
       <AsyncBoundary
         isLoading={capabilities.isLoading}
         error={capabilities.data ? null : capabilities.error}
         onRetry={() => void capabilities.refetch()}
-        loadingLabel="Asking the platform what it can do"
+        loadingLabel={t('x.asking-the-platform-what-it')}
         skeleton={<SkeletonText lines={6} />}
       >
         <dl>
@@ -106,7 +108,7 @@ export function DeploymentPanel() {
           isLoading={sandbox.isLoading}
           error={sandbox.data ? null : sandbox.error}
           onRetry={() => void sandbox.refetch()}
-          loadingLabel="Asking the sandbox what it can do"
+          loadingLabel={t('x.asking-the-sandbox-what-it')}
           skeleton={<SkeletonText lines={4} className="mt-3" />}
         >
           <dl className="mt-1">

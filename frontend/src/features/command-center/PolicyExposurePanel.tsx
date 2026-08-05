@@ -37,7 +37,7 @@ export function PolicyExposurePanel({
       isLoading={isLoading}
       error={error}
       onRetry={onRetry}
-      loadingLabel="Loading policy exposure"
+      loadingLabel={t('x.loading-policy-exposure')}
       skeleton={
         <div className="rounded-panel border border-line-subtle bg-surface p-4 shadow-panel">
           <SkeletonChart height={200} />

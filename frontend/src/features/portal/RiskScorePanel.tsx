@@ -9,6 +9,7 @@
  * are the engine's own audit trail.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowDownRight, ArrowUpRight, Info, MessageSquareWarning } from 'lucide-react'
 import { HonestMetric, type MetricTone } from '../../components/data'
@@ -193,12 +194,13 @@ export function RiskScorePanel({
   openAssignments,
   openIncidentWork,
 }: RiskScorePanelProps) {
+  const t = useT()
   const sentence = riskSentence(evidence)
 
   return (
     <Panel
-      title="Your risk score"
-      subtitle="Between 0 and 100. Lower is safer. Every movement below was recorded by the risk engine when it happened."
+      title={t('x.your-risk-score')}
+      subtitle={t('x.between-0-and-100-lower')}
     >
       <div className="space-y-6">
         <div className="flex flex-wrap items-start justify-between gap-4">

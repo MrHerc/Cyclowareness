@@ -10,6 +10,7 @@
  * The `detail` string is the engine's own sentence and is rendered verbatim.
  */
 
+import { useT } from '../../lib/i18n'
 import { CircleSlash, ScanSearch } from 'lucide-react'
 import type { ScoreBreakdown } from '../../domain/types'
 import { Panel } from '../../components/ui'
@@ -32,10 +33,11 @@ const TIER_TITLES: Record<string, { ran: string; missing: string }> = {
 }
 
 export function TierStatement({ tiers }: TierStatementProps) {
+  const t = useT()
   const entries = Object.entries(tiers ?? {})
   if (entries.length === 0) {
     return (
-      <Panel title="Analysis tiers">
+      <Panel title={t('x.analysis-tiers')}>
         <p className="text-body text-fg-muted">
           This job did not record which tiers ran. Treat the findings below as incomplete rather
           than as a full picture.
@@ -46,8 +48,8 @@ export function TierStatement({ tiers }: TierStatementProps) {
 
   return (
     <Panel
-      title="What ran, and what did not"
-      subtitle="Read every finding below against this."
+      title={t('x.what-ran-and-what-did')}
+      subtitle={t('x.read-every-finding-below-against')}
       headingLevel={2}
     >
       <ul className="space-y-3">

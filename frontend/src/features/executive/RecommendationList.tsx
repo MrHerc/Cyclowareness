@@ -8,6 +8,7 @@
  * a dashboard's authority.
  */
 
+import { useT } from '../../lib/i18n'
 import { CheckCircle2 } from 'lucide-react'
 import { AIProvenanceBadge } from '../../components/data'
 import { Panel } from '../../components/ui'
@@ -18,10 +19,11 @@ export interface RecommendationListProps {
 }
 
 export function RecommendationList({ items }: RecommendationListProps) {
+  const t = useT()
   return (
     <Panel
-      title="Recommended next steps"
-      subtitle="Derived from the figures on this page by a fixed rule set. Each one names the measurement it came from."
+      title={t('x.recommended-next-steps')}
+      subtitle={t('x.derived-from-the-figures-on')}
       actions={<AIProvenanceBadge provenance="template" generationSource="mock" />}
     >
       {items.length > 0 ? (

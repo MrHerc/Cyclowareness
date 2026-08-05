@@ -11,6 +11,7 @@
  * this library is a link.
  */
 
+import { useT } from '../lib/i18n'
 import { FileText } from 'lucide-react'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
@@ -33,6 +34,7 @@ import { useSearchParams } from 'react-router-dom'
 const FILTER_KEYS = ['q', 'type', 'status', 'department'] as const satisfies readonly PolicyFilterKey[]
 
 export default function Policies() {
+  const t = useT()
   const filters = useUrlFilters<PolicyFilterKey>(FILTER_KEYS)
   const [params, setParams] = useSearchParams()
 
@@ -77,12 +79,12 @@ export default function Policies() {
   return (
     <div className="space-y-6">
       <PolicyHeader
-        title="Policy library"
-        description="The documents the organisation is measured against, the rules extracted from them, and the passage behind every rule."
+        title={t('x.policy-library')}
+        description={t('x.the-documents-the-organisation-is')}
       />
 
       <Panel
-        title="Registered policies"
+        title={t('x.registered-policies')}
         subtitle={showingLabel(rows.length, meta, 'policy', 'policies')}
         actions={
           filters.activeCount > 0 ? (
@@ -100,7 +102,7 @@ export default function Policies() {
             isLoading={policies.isLoading}
             error={rows.length > 0 ? null : policies.error}
             onRetry={() => void policies.refetch()}
-            loadingLabel="Loading the policy library"
+            loadingLabel={t('x.loading-the-policy-library')}
             isEmpty={rows.length === 0}
             empty={
               <EmptyState

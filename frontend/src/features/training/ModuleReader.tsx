@@ -8,6 +8,7 @@
  * module that punishes the right answer.
  */
 
+import { useT } from '../../lib/i18n'
 import { Check } from 'lucide-react'
 import { Badge, Panel } from '../../components/ui'
 import type { TrainingModule } from '../../domain/types'
@@ -19,12 +20,13 @@ export interface ModuleReaderProps {
 }
 
 export function ModuleReader({ module }: ModuleReaderProps) {
+  const t = useT()
   const sections = module.content ?? []
   const quiz = module.quiz ?? []
 
   return (
     <div className="space-y-6">
-      <Panel title="What the employee reads" headingLevel={2}>
+      <Panel title={t('x.what-the-employee-reads')} headingLevel={2}>
         <p className="text-lead text-fg">{module.description}</p>
 
         {sections.length === 0 ? (
@@ -51,7 +53,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
       </Panel>
 
       <Panel
-        title="Quiz and answer key"
+        title={t('x.quiz-and-answer-key')}
         subtitle={`${num(quiz.length)} ${quiz.length === 1 ? 'question' : 'questions'} · graded against a fixed platform pass mark of ${PLATFORM_PASS_MARK}%`}
         headingLevel={2}
       >

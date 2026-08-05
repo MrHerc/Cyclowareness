@@ -13,6 +13,7 @@
  * not add up to the fourth — a reader can see the arithmetic here.
  */
 
+import { useT } from '../../lib/i18n'
 import type { SandboxJobStats } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { cn, num } from '../../lib/format'
@@ -42,6 +43,7 @@ function Tile({
 }
 
 export function QueueSummary({ stats }: QueueSummaryProps) {
+  const t = useT()
   const { verdicts } = stats
 
   return (
@@ -60,7 +62,7 @@ export function QueueSummary({ stats }: QueueSummaryProps) {
           label="Unclassified"
           value={num(verdicts.unclassified, 0)}
           tone="text-fg-muted"
-          caption="Finished without a verdict"
+          caption={t('x.finished-without-a-verdict')}
         />
       </div>
 

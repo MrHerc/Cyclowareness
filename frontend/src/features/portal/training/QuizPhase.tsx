@@ -17,6 +17,7 @@
  * way to reach question four directly and "button" is not a name.
  */
 
+import { useT } from '../../../lib/i18n'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ConfirmationDialog, ErrorState } from '../../../components/states'
 import { Button, Panel, Progress, RadioGroup } from '../../../components/ui'
@@ -52,6 +53,7 @@ export function QuizPhase({
   confirmOpen,
   onConfirmOpenChange,
 }: QuizPhaseProps) {
+  const t = useT()
   const question = questions[index]
   const answered = answers.filter((answer) => answer !== null).length
   const unanswered = answers
@@ -62,7 +64,7 @@ export function QuizPhase({
 
   if (!question) {
     return (
-      <Panel title="This module has no questions">
+      <Panel title={t('x.this-module-has-no-questions')}>
         <p className="text-body text-fg-muted">
           No quiz was recorded against this module, so there is nothing to answer. Your security
           team can tell you whether that is intended.
@@ -75,7 +77,7 @@ export function QuizPhase({
     <div className="space-y-6">
       <Panel
         title={`Question ${index + 1} of ${questions.length}`}
-        subtitle="Answer every question, then submit. Nothing is graded until you do."
+        subtitle={t('x.answer-every-question-then-submit')}
         headingLevel={2}
       >
         <div className="space-y-6">
@@ -131,7 +133,7 @@ export function QuizPhase({
         <ErrorState
           compact
           error={error}
-          title="Your answers were not graded"
+          title={t('x.your-answers-were-not-graded')}
           onRetry={onSubmit}
         />
       ) : null}
@@ -176,8 +178,8 @@ export function QuizPhase({
       <ConfirmationDialog
         open={confirmOpen}
         onOpenChange={onConfirmOpenChange}
-        title="Submit your answers"
-        description="Your answers are graded now and the result is recorded against you, including the change to your risk score. This cannot be undone or retaken."
+        title={t('x.submit-your-answers')}
+        description={t('x.your-answers-are-graded-now')}
         confirmLabel="Submit and grade"
         cancelLabel="Keep checking"
         onConfirm={onSubmit}

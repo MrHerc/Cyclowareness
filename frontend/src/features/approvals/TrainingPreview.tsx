@@ -11,6 +11,7 @@
  * edits" shows the thing being approved rather than the thing on the server.
  */
 
+import { useT } from '../../lib/i18n'
 import { CheckCircle2, Monitor, Smartphone } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -196,12 +197,13 @@ export function TrainingPreview({
   onEdit,
   dirty,
 }: TrainingPreviewProps) {
+  const t = useT()
   const [device, setDevice] = useState<Device>('desktop')
   const [tab, setTab] = useState('module')
 
   if (!module || !edits) {
     return (
-      <Panel title="The generated training" headingLevel={2}>
+      <Panel title={t('x.the-generated-training')} headingLevel={2}>
         <p className="text-body text-medium" role="note">
           No training module was generated for this run. There is nothing here to review, and
           approving would advance the loop with nothing to assign.
@@ -212,7 +214,7 @@ export function TrainingPreview({
 
   return (
     <Panel
-      title="The generated training"
+      title={t('x.the-generated-training')}
       subtitle={generationLabel ?? 'Rendered exactly as the employee will see it.'}
       headingLevel={2}
       actions={

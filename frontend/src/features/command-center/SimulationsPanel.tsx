@@ -8,6 +8,7 @@
  * its sample size is available to print beside it.
  */
 
+import { useT } from '../../lib/i18n'
 import { Send } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AsyncBoundary, EmptyState, SkeletonRow } from '../../components/states'
@@ -28,12 +29,13 @@ export function SimulationsPanel({
   error,
   onRetry,
 }: SimulationsPanelProps) {
+  const t = useT()
   const active = simulations.filter((simulation) => simulation.status === 'active')
   const drafts = simulations.filter((simulation) => simulation.status === 'draft').length
 
   return (
     <Panel
-      title="Active simulations"
+      title={t('x.active-simulations')}
       headingLevel={4}
       subtitle={
         drafts > 0
@@ -50,14 +52,14 @@ export function SimulationsPanel({
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading simulations"
+        loadingLabel={t('x.loading-simulations')}
         isEmpty={active.length === 0}
         empty={
           <EmptyState
             compact
             icon={Send}
             headline="No campaign is running"
-            description="A simulation appears here once it is launched. Draft campaigns are not delivering to anyone."
+            description={t('x.a-simulation-appears-here-once')}
             action={
               <Button size="sm" variant="secondary" asChild>
                 <Link to="/simulations">Open simulations</Link>

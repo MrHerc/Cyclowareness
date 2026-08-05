@@ -20,6 +20,7 @@
  * quietly disappearing.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useRef, useState } from 'react'
 import { ClipboardCheck, MessageSquareWarning } from 'lucide-react'
 import { disputeState, type RemediationPlan } from '../../domain/types'
@@ -143,12 +144,13 @@ function Dispute({ plan }: { plan: RemediationPlan }) {
 }
 
 export function MyRemediationPlans({ plans }: MyRemediationPlansProps) {
+  const t = useT()
   if (plans.length === 0) return null
 
   return (
     <Panel
-      title="Assigned to you after an event"
-      subtitle="Each of these was triggered by something specific, which is named."
+      title={t('x.assigned-to-you-after-an')}
+      subtitle={t('x.each-of-these-was-triggered')}
     >
       <ul className="space-y-3">
         {plans.map((plan) => (

@@ -146,8 +146,8 @@ export default function ThreatIntelligence() {
 
         <div className="min-w-0 lg:order-1">
           <Panel
-            title="Advisory feed"
-            subtitle="Newest publication first. Open one to see what of ours it touches."
+            title={t('x.advisory-feed')}
+            subtitle={t('x.newest-publication-first-open-one')}
             flush
           >
             <div className="border-b border-line-subtle p-5">
@@ -163,7 +163,7 @@ export default function ThreatIntelligence() {
               isLoading={itemsQuery.isLoading}
               error={page.items.length > 0 ? null : itemsQuery.error}
               onRetry={() => void itemsQuery.refetch()}
-              loadingLabel="Loading advisories"
+              loadingLabel={t('x.loading-advisories')}
               skeleton={
                 <SkeletonTable rows={8} cols={5} header={false} className="rounded-none border-0" />
               }

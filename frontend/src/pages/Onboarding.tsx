@@ -13,6 +13,7 @@
  * Both ways out are on screen the whole time, so there is nothing to trap.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowRight, RefreshCw } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -31,6 +32,7 @@ const HOME_LABEL: Record<string, string> = {
 }
 
 export default function Onboarding() {
+  const t = useT()
   const { session, role, can } = useAuth()
   const navigate = useNavigate()
 
@@ -61,20 +63,20 @@ export default function Onboarding() {
 
       <Panel
         tone="feature"
-        title="The loop, in order"
-        subtitle="Seven stages. Stage 7 feeds stage 1 — the evidence from one cycle decides the next."
+        title={t('x.the-loop-in-order')}
+        subtitle={t('x.seven-stages-stage-7-feeds')}
       >
         <LoopPrimer />
       </Panel>
 
       <Panel
         title={role ? `What ${ROLE_LABEL[role]} covers` : 'What your role covers'}
-        subtitle="Every screen below is one this account can open. Anything not listed is enforced by the server as well as hidden here."
+        subtitle={t('x.every-screen-below-is-one')}
       >
         <RoleSurfaces can={can} onNavigate={markOnboardingSeen} />
       </Panel>
 
-      <Panel title="Two things worth knowing before you start">
+      <Panel title={t('x.two-things-worth-knowing-before')}>
         <ul className="flex flex-col gap-3">
           <li className="flex gap-3">
             <RefreshCw

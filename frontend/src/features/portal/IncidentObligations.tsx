@@ -12,6 +12,7 @@
  * who to ask. An employee held to a deadline they cannot see is not a control.
  */
 
+import { useT } from '../../lib/i18n'
 import { EyeOff, ShieldAlert } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Badge, Button, Panel } from '../../components/ui'
@@ -120,10 +121,11 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
 }
 
 export function IncidentObligations({ items }: IncidentObligationsProps) {
+  const t = useT()
   return (
     <Panel
-      title="Assigned by incident response"
-      subtitle="Raised by an analyst against a specific incident, and reviewed by one when you finish."
+      title={t('x.assigned-by-incident-response')}
+      subtitle={t('x.raised-by-an-analyst-against')}
       headingLevel={2}
     >
       {items.length === 0 ? (
@@ -131,7 +133,7 @@ export function IncidentObligations({ items }: IncidentObligationsProps) {
           compact
           icon={ShieldAlert}
           headline="Nothing has been raised against you"
-          description="Work appears here when an analyst attaches you to an incident — for example after a real threat reached your inbox and needed a documented response."
+          description={t('x.work-appears-here-when-an')}
         />
       ) : (
         <ul className="space-y-3">

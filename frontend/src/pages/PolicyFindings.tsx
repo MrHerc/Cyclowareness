@@ -13,6 +13,7 @@
  * cannot offer a value that would return nothing.
  */
 
+import { useT } from '../lib/i18n'
 import { SearchX } from 'lucide-react'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
@@ -41,6 +42,7 @@ function distinct(values: (string | null | undefined)[]): string[] {
 }
 
 export default function PolicyFindings() {
+  const t = useT()
   const filters = useUrlFilters<FindingFilterKey>(FINDING_FILTER_KEYS)
 
   // `due` is a readable preset in the URL; the API wants a date. `policy` is
@@ -70,12 +72,12 @@ export default function PolicyFindings() {
   return (
     <div className="space-y-6">
       <PolicyHeader
-        title="Findings"
-        description="Every place the world has moved away from a rule this organisation wrote down — with the evidence, the people affected, and what to do about it."
+        title={t('x.findings')}
+        description={t('x.every-place-the-world-has')}
       />
 
       <Panel
-        title="Findings queue"
+        title={t('x.findings-queue')}
         subtitle={showingLabel(rows.length, meta, 'finding', 'findings')}
         footer={meta.truncated && meta.note ? meta.note : undefined}
       >
@@ -93,7 +95,7 @@ export default function PolicyFindings() {
             isLoading={findings.isLoading}
             error={rows.length > 0 ? null : findings.error}
             onRetry={() => void findings.refetch()}
-            loadingLabel="Loading findings"
+            loadingLabel={t('x.loading-findings')}
             isEmpty={rows.length === 0}
             empty={
               <EmptyState

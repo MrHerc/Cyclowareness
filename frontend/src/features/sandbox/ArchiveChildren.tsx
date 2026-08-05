@@ -7,6 +7,7 @@
  * exactly as dangerous as the worst thing it carries.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import type { SandboxJobSummary } from '../../domain/types'
 import { NoMeasurement } from '../../components/data'
@@ -30,9 +31,10 @@ export interface ArchiveChildrenProps {
 }
 
 export function ArchiveChildren({ members }: ArchiveChildrenProps) {
+  const t = useT()
   return (
     <Panel
-      title="Files inside this archive"
+      title={t('x.files-inside-this-archive')}
       subtitle={`${members.length} ${members.length === 1 ? 'member was' : 'members were'} extracted and analysed separately.`}
       flush
     >

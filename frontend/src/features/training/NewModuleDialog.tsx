@@ -14,6 +14,7 @@
  * approving stay two different acts even when one person will do both.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
@@ -30,6 +31,7 @@ const CHANNELS = [
 ]
 
 export function NewModuleDialog() {
+  const t = useT()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
@@ -56,8 +58,8 @@ export function NewModuleDialog() {
         setOpen(next)
         if (!next) create.reset()
       }}
-      title="New training module"
-      description="Named here, written in the editor it opens into. It starts in pending review."
+      title={t('x.new-training-module')}
+      description={t('x.named-here-written-in-the')}
       trigger={
         <Button icon={<Plus className="size-4" aria-hidden="true" />}>New module</Button>
       }

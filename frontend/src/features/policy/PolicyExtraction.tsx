@@ -13,6 +13,7 @@
  * a toast. That reason is rendered verbatim and stays on the page.
  */
 
+import { useT } from '../../lib/i18n'
 import { FileScan, Info } from 'lucide-react'
 import { useState } from 'react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -34,6 +35,7 @@ export interface PolicyExtractionProps {
 }
 
 export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyExtractionProps) {
+  const t = useT()
   const [outcome, setOutcome] = useState<ExtractionResult | null>(null)
   const extract = useExtractPolicyRules()
   const toast = useToast()
@@ -67,8 +69,8 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
   return (
     <Panel
       headingLevel={3}
-      title="Source document and extraction"
-      subtitle="Where the rules came from, or why there are none."
+      title={t('x.source-document-and-extraction')}
+      subtitle={t('x.where-the-rules-came-from')}
       actions={
         canManage ? (
           <Button

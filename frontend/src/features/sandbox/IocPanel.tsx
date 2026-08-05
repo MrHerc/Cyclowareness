@@ -8,6 +8,7 @@
  * only way it should leave this page.
  */
 
+import { useT } from '../../lib/i18n'
 import type { SandboxJobDetail } from '../../domain/types'
 import { CopyButton, Panel } from '../../components/ui'
 import { defang } from '../../lib/format'
@@ -18,6 +19,7 @@ export interface IocPanelProps {
 }
 
 export function IocPanel({ iocs }: IocPanelProps) {
+  const t = useT()
   const groups = IOC_CATEGORIES.map((category) => ({
     ...category,
     values: iocs?.[category.key] ?? [],
@@ -27,8 +29,8 @@ export function IocPanel({ iocs }: IocPanelProps) {
 
   return (
     <Panel
-      title="Indicators"
-      subtitle="De-duplicated across every analyzer. Network indicators are defanged and not clickable."
+      title={t('x.indicators')}
+      subtitle={t('x.deduplicated-across-every-analyzer-network')}
       actions={
         total > 0 ? (
           <CopyButton

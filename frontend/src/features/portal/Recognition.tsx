@@ -10,6 +10,7 @@
  * from the same signals as the score. Nothing here is invented for effect.
  */
 
+import { useT } from '../../lib/i18n'
 import {
   Award,
   Eye,
@@ -101,11 +102,12 @@ export function Recognition({
   badges,
   teams,
 }: RecognitionProps) {
+  const t = useT()
   return (
     <Panel
       tone="quiet"
-      title="Recognition"
-      subtitle="A record of what you have done. It does not affect your risk score."
+      title={t('x.recognition')}
+      subtitle={t('x.a-record-of-what-you')}
       headingLevel={2}
     >
       <div className="space-y-6">

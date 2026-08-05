@@ -10,6 +10,7 @@
  * discovered on the finding afterwards.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ErrorState } from '../../components/states'
@@ -28,6 +29,7 @@ export interface CreateFindingDialogProps {
 }
 
 export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingDialogProps) {
+  const t = useT()
   const toast = useToast()
   const navigate = useNavigate()
   const create = useCreateFindingFromIntel()
@@ -93,8 +95,8 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Raise a policy finding"
-      description="A finding is owned, dated and worked. This one keeps the advisory as its evidence."
+      title={t('x.raise-a-policy-finding')}
+      description={t('x.a-finding-is-owned-dated')}
       size="lg"
       footer={
         <>
@@ -181,7 +183,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
         />
 
         {create.isError ? (
-          <ErrorState compact error={create.error} title="The finding was not raised" />
+          <ErrorState compact error={create.error} title={t('x.the-finding-was-not-raised')} />
         ) : null}
       </div>
     </Dialog>

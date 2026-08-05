@@ -10,6 +10,7 @@
  * that joins a module to the run waiting on it.
  */
 
+import { useT } from '../lib/i18n'
 import { useMemo, useState } from 'react'
 import { ArrowLeft, PenLine } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
@@ -30,6 +31,7 @@ import {
 import { usePermission } from '../lib/auth/useAuth'
 
 export default function TrainingDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const [editing, setEditing] = useState(false)
   const canAuthor = usePermission('training.author')
@@ -67,7 +69,7 @@ export default function TrainingDetail() {
         isLoading={module.isLoading}
         error={data ? null : module.error}
         onRetry={() => void module.refetch()}
-        loadingLabel="Loading training module"
+        loadingLabel={t('x.loading-training-module')}
         skeleton={
           <div className="space-y-6">
             <SkeletonText lines={2} />
@@ -135,7 +137,7 @@ export default function TrainingDetail() {
                   />
                   <VersionHistoryNotice />
                   {!canAuthor ? (
-                    <Panel title="Editing" headingLevel={2}>
+                    <Panel title={t('x.editing')} headingLevel={2}>
                       <p className="text-body text-fg-muted">
                         Your role can read this module but not change it. Editing training content
                         requires the authoring permission.

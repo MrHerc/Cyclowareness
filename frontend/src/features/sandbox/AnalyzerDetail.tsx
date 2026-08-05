@@ -11,6 +11,7 @@
  * how a field ends up silently dropped.
  */
 
+import { useT } from '../../lib/i18n'
 import type { AnalyzerResultView } from '../../domain/types'
 import { Accordion, AccordionItem, Badge, CodeBlock, Panel } from '../../components/ui'
 import { duration } from '../../lib/format'
@@ -25,12 +26,13 @@ function iocCount(result: AnalyzerResultView): number {
 }
 
 export function AnalyzerDetail({ analysis }: AnalyzerDetailProps) {
+  const t = useT()
   const entries = Object.entries(analysis ?? {})
   const ran = entries.filter(([, result]) => result.ran).length
 
   return (
     <Panel
-      title="Per-analyzer detail"
+      title={t('x.peranalyzer-detail')}
       subtitle={`${ran} of ${entries.length} analyzers produced a result on this sample.`}
       flush
       bodyClassName="px-5"

@@ -63,7 +63,7 @@ export default function IncidentRisks() {
 
       <Panel
         flush
-        title="Open and closed risks"
+        title={t('x.open-and-closed-risks')}
         subtitle={
           page.total !== null
             ? `${page.items.length} shown of ${page.total} matching${
@@ -80,7 +80,7 @@ export default function IncidentRisks() {
           isLoading={risks.isLoading}
           error={risks.data ? null : risks.error}
           onRetry={() => void risks.refetch()}
-          loadingLabel="Loading incident risks"
+          loadingLabel={t('x.loading-incident-risks')}
           skeleton={
             <SkeletonTable rows={6} cols={7} header={false} className="rounded-none border-0" />
           }

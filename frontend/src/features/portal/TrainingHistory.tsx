@@ -7,6 +7,7 @@
  * that cell would accuse someone of failing a quiz they never saw.
  */
 
+import { useT } from '../../lib/i18n'
 import { GraduationCap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { NoMeasurement } from '../../components/data'
@@ -30,10 +31,11 @@ export interface TrainingHistoryProps {
 }
 
 export function TrainingHistory({ assignments }: TrainingHistoryProps) {
+  const t = useT()
   return (
     <Panel
-      title="Training you have finished"
-      subtitle="Your record. Scores are the ones the platform graded at the time."
+      title={t('x.training-you-have-finished')}
+      subtitle={t('x.your-record-scores-are-the')}
       flush={assignments.length > 0}
       bodyClassName={assignments.length > 0 ? undefined : 'p-5'}
     >
@@ -42,7 +44,7 @@ export function TrainingHistory({ assignments }: TrainingHistoryProps) {
           compact
           icon={GraduationCap}
           headline="You have not finished any training yet"
-          description="Modules appear here once you complete them, with the score you achieved and how long it took."
+          description={t('x.modules-appear-here-once-you')}
         />
       ) : (
         <Table>

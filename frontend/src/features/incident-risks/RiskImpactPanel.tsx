@@ -14,6 +14,7 @@
  * mark, rolled up from the same subject rows the table above renders.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { HonestMetric } from '../../components/data'
@@ -27,12 +28,13 @@ export interface RiskImpactPanelProps {
 }
 
 export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
+  const t = useT()
   const discharged = rollup.accepted
   // `percent` multiplies by 100 on the way out, so this is a fraction.
   const completionValue = rollup.total > 0 ? discharged / rollup.total : null
 
   return (
-    <Panel headingLevel={2} title="Where this stands">
+    <Panel headingLevel={2} title={t('x.where-this-stands')}>
       <div className="flex flex-col gap-5">
         <HonestMetric
           label="Obligation discharged"

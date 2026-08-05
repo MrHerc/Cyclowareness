@@ -8,6 +8,7 @@
  * permissions independently; this panel reports them, it does not grant them.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { Avatar, Badge, Button, Panel } from '../../components/ui'
 import { visibleSections } from '../../app/navigation'
@@ -17,6 +18,7 @@ import { num } from '../../lib/format'
 import { SettingRow } from './SettingRow'
 
 export function IdentityPanel() {
+  const t = useT()
   const { session, role, can } = useAuth()
   const canSeeEmployees = usePermission('employees.view')
 
@@ -27,7 +29,7 @@ export function IdentityPanel() {
   const surfaceCount = sections.reduce((total, section) => total + section.items.length, 0)
 
   return (
-    <Panel title="Signed in" subtitle="Issued by the platform when you authenticated.">
+    <Panel title={t('x.signed-in')} subtitle={t('x.issued-by-the-platform-when')}>
       <div className="mb-4 flex items-center gap-3">
         <Avatar name={name} size="md" />
         <div className="min-w-0">

@@ -17,6 +17,7 @@
  *   "Escalate" has no backing at all, so it is disabled and says so.
  */
 
+import { useT } from '../../lib/i18n'
 import { AlertTriangle, Check, MessageSquareWarning, Save, SendHorizontal, UserPlus, X } from 'lucide-react'
 import { useState } from 'react'
 import { ConfirmationDialog } from '../../components/states'
@@ -75,6 +76,7 @@ export function DecisionPanel({
   onDiscardDraft,
   draftSavedAt,
 }: DecisionPanelProps) {
+  const t = useT()
   const [pending, setPending] = useState<PendingAction | null>(null)
 
   const commented = comment.trim().length > 0
@@ -112,7 +114,7 @@ export function DecisionPanel({
   return (
     <>
       <Panel
-        title="Decision"
+        title={t('x.decision')}
         headingLevel={2}
         tone="feature"
         subtitle={

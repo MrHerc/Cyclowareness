@@ -13,6 +13,7 @@
  * putting their name to this content is also taking authorship of it.
  */
 
+import { useT } from '../../lib/i18n'
 import { PenLine } from 'lucide-react'
 import { Button, Input, RadioGroup, Panel, Separator, Textarea } from '../../components/ui'
 import type { ModuleEdits } from './draft'
@@ -37,6 +38,7 @@ export function ModuleEditor({
   error,
   dirty,
 }: ModuleEditorProps) {
+  const t = useT()
   const setField = <K extends keyof ModuleEdits>(key: K, next: ModuleEdits[K]) =>
     onChange({ ...value, [key]: next })
 
@@ -63,8 +65,8 @@ export function ModuleEditor({
 
   return (
     <Panel
-      title="Edit the generated content"
-      subtitle="Saved to the module before any decision is recorded."
+      title={t('x.edit-the-generated-content')}
+      subtitle={t('x.saved-to-the-module-before')}
       headingLevel={2}
       bodyClassName="space-y-6"
       footer={

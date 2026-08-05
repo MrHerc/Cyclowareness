@@ -13,6 +13,7 @@
  * something it is not.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Link2 } from 'lucide-react'
 import type { TrainingResourceTopic } from '../../domain/types'
@@ -22,6 +23,7 @@ import { useTrainingResourceTopics } from '../../lib/api/queries'
 import { Button, Panel, Select, Textarea } from '../../components/ui'
 
 export function ResourceImportPanel() {
+  const t = useT()
   const topics = useTrainingResourceTopics()
   const [urls, setUrls] = useState('')
   const [topic, setTopic] = useState('phishing')
@@ -41,8 +43,8 @@ export function ResourceImportPanel() {
 
   return (
     <Panel
-      title="Add external material"
-      subtitle="Paste video or course URLs. Each is fetched before it is stored; whatever cannot be reached is refused with the reason."
+      title={t('x.add-external-material')}
+      subtitle={t('x.paste-video-or-course-urls')}
       headingLevel={2}
     >
       <form

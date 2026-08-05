@@ -17,6 +17,7 @@
  * reachable through `window.opener`.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink } from 'lucide-react'
 import type { TrainingResource } from '../../domain/types'
 import { formatDate } from '../../lib/format'
@@ -49,10 +50,11 @@ export function ResourcePanel({
   emptyNote,
   headingLevel = 3,
 }: ResourcePanelProps) {
+  const t = useT()
   return (
     <Panel
-      title="Where to learn more"
-      subtitle="External material, each link checked against the provider before it was listed."
+      title={t('x.where-to-learn-more')}
+      subtitle={t('x.external-material-each-link-checked')}
       headingLevel={headingLevel}
     >
       {isLoading ? (

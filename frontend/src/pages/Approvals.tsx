@@ -9,7 +9,7 @@
 import { BadgeCheck, ShieldCheck } from 'lucide-react'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useLocale } from '../lib/i18n'
+import { useLocale, useT } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel, Tooltip, TONE_TEXT } from '../components/ui'
 import { adaptQueue, type QueueRow } from '../features/approvals/contract'
@@ -47,6 +47,7 @@ function Stat({
 }
 
 function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
+  const t = useT()
   const oldest = rows.reduce((max, row) => Math.max(max, row.waitingSeconds), 0)
   const held = rows.filter((row) => row.awaitingSecondApproval).length
   const unattributed = rows.filter((row) => row.generationSource === '').length
@@ -72,7 +73,7 @@ function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
       <Stat
         label="No engine recorded"
         value={num(unattributed)}
-        caption="Modules whose author was never written down"
+        caption={t('x.modules-whose-author-was-never')}
         className={unattributed > 0 ? 'text-medium' : undefined}
       />
     </div>
@@ -115,7 +116,7 @@ export default function Approvals() {
         isLoading={queue.isLoading}
         error={queue.data ? null : queue.error}
         onRetry={queue.error?.retryable ? () => void queue.refetch() : undefined}
-        loadingLabel="Loading the approval queue"
+        loadingLabel={t('x.loading-the-approval-queue')}
         skeleton={<SkeletonTable rows={5} cols={6} />}
         isEmpty={rows.length === 0}
         empty={
@@ -136,7 +137,7 @@ export default function Approvals() {
       >
         <Panel
           flush
-          title="Runs awaiting a decision"
+          title={t('x.runs-awaiting-a-decision')}
           subtitle={
             page.truncated
               ? `Showing ${rows.length} of ${page.total ?? '—'} waiting. The server returned one page; narrow the filters or clear them to see different runs.`

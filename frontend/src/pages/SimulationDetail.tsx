@@ -7,6 +7,7 @@
  * says so instead of drawing a reassuring 0%.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft, ListChecks } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { HonestMetric } from '../components/data'
@@ -37,14 +38,15 @@ function CountStat({ label, value, hint }: { label: string; value: number; hint?
 }
 
 function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
+  const t = useT()
   const { stats, targets } = simulation
   const ignored = targets.filter((target) => target.outcome === 'ignored').length
   const pending = targets.filter((target) => target.outcome === 'pending').length
 
   return (
     <Panel
-      title="Outcomes"
-      subtitle="Rates are divided by the targets that have a recorded outcome, not by everyone targeted."
+      title={t('x.outcomes')}
+      subtitle={t('x.rates-are-divided-by-the')}
       tone="feature"
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -86,6 +88,7 @@ function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
 }
 
 export default function SimulationDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const simulation = useSimulation(id)
   const canManage = usePermission('simulations.manage')
@@ -105,7 +108,7 @@ export default function SimulationDetail() {
         isLoading={simulation.isLoading}
         error={data ? null : simulation.error}
         onRetry={() => void simulation.refetch()}
-        loadingLabel="Loading campaign"
+        loadingLabel={t('x.loading-campaign')}
         skeleton={
           <div className="space-y-6">
             <SkeletonCard metric lines={2} />
@@ -133,8 +136,8 @@ export default function SimulationDetail() {
             <Outcomes simulation={data} />
 
             <Panel
-              title="Lure"
-              subtitle="Exactly what this campaign stored. It is never rendered as a live link."
+              title={t('x.lure')}
+              subtitle={t('x.exactly-what-this-campaign-stored')}
             >
               <LurePreview
                 value={data.lure_preview}
@@ -153,7 +156,7 @@ export default function SimulationDetail() {
             </Panel>
 
             <Panel
-              title="Targets"
+              title={t('x.targets')}
               subtitle={`${num(data.targets.length)} ${data.targets.length === 1 ? 'person was' : 'people were'} selected when this campaign was created. The target set is fixed at creation.`}
               flush
             >
@@ -163,7 +166,7 @@ export default function SimulationDetail() {
                     compact
                     icon={ListChecks}
                     headline="This campaign has no targets"
-                    description="Targets are chosen when the campaign is created, from departments and risk bands. A campaign with none cannot be measured."
+                    description={t('x.targets-are-chosen-when-the')}
                   />
                 </div>
               ) : (

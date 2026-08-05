@@ -10,6 +10,7 @@
  * indistinguishable from a measurement.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { CheckCheck, Dices, Send } from 'lucide-react'
 import { ConfirmationDialog } from '../../components/states'
@@ -24,6 +25,7 @@ export interface CampaignActionsProps {
 }
 
 export function CampaignActions({ simulation }: CampaignActionsProps) {
+  const t = useT()
   const toast = useToast()
   const capabilities = useCapabilities()
   const [confirming, setConfirming] = useState<'complete' | 'synthetic' | null>(null)
@@ -108,7 +110,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
         onOpenChange={(open) => {
           if (!open) setConfirming(null)
         }}
-        title="Close this campaign"
+        title={t('x.close-this-campaign')}
         description={`${num(pending)} ${pending === 1 ? 'target is' : 'targets are'} still pending. Closing the campaign stops any further outcome from being recorded, and those targets stay unresolved — they will not count toward the click or report rate.`}
         confirmLabel="Close campaign"
         onConfirm={() => complete.mutate(simulation.id)}
@@ -121,7 +123,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
           if (!open) setConfirming(null)
         }}
         tone="danger"
-        title="Generate synthetic outcomes"
+        title={t('x.generate-synthetic-outcomes')}
         description={`This invents behaviour for ${num(pending)} pending ${pending === 1 ? 'target' : 'targets'} by rolling against each person's risk score, and writes the result into the real risk trail. Nothing was observed. Use it only to demonstrate the loop — the click and report rates afterwards are not measurements.`}
         confirmLabel="Write synthetic outcomes"
         requireTyped="synthetic"

@@ -7,6 +7,7 @@
  * deadline sort last, and say so instead of being given an implied one.
  */
 
+import { useT } from '../../lib/i18n'
 import { ShieldAlert } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AsyncBoundary, EmptyState, SkeletonRow } from '../../components/states'
@@ -32,12 +33,13 @@ function byDeadline(a: IncidentRisk, b: IncidentRisk): number {
 }
 
 export function IncidentRiskPanel({ risks, isLoading, error, onRetry }: IncidentRiskPanelProps) {
+  const t = useT()
   const ordered = [...risks].sort(byDeadline)
   const shown = ordered.slice(0, SHOWN)
 
   return (
     <Panel
-      title="Incident risk assignments"
+      title={t('x.incident-risk-assignments')}
       headingLevel={4}
       subtitle={`${risks.length} open ${risks.length === 1 ? 'record' : 'records'} raised against people`}
       actions={
@@ -50,14 +52,14 @@ export function IncidentRiskPanel({ risks, isLoading, error, onRetry }: Incident
         isLoading={isLoading}
         error={error}
         onRetry={onRetry}
-        loadingLabel="Loading incident risks"
+        loadingLabel={t('x.loading-incident-risks')}
         isEmpty={shown.length === 0}
         empty={
           <EmptyState
             compact
             icon={ShieldAlert}
             headline="Nothing is open"
-            description="Incident response raises a record here when an investigation identifies a person-level risk that needs a remedial action."
+            description={t('x.incident-response-raises-a-record')}
           />
         }
         skeleton={

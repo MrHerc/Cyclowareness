@@ -10,6 +10,7 @@
  * `features/sandbox/`.
  */
 
+import { useT } from '../lib/i18n'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import type { SandboxJobDetail } from '../domain/types'
@@ -33,6 +34,7 @@ import { AsyncBoundary, SkeletonCard } from '../components/states'
 import { useSandboxCapabilities, useSandboxJob } from '../lib/api/queries'
 
 export default function SandboxDetail() {
+  const t = useT()
   const { id } = useParams<{ id: string }>()
   const query = useSandboxJob(id)
   const job = query.data
@@ -51,7 +53,7 @@ export default function SandboxDetail() {
         isLoading={query.isLoading}
         error={job ? null : query.error}
         onRetry={() => void query.refetch()}
-        loadingLabel="Loading the analysis report"
+        loadingLabel={t('x.loading-the-analysis-report')}
         skeleton={
           <div className="space-y-6">
             <SkeletonCard metric lines={5} />
