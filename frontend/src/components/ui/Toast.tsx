@@ -89,10 +89,31 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={api}>
       {children}
+      {/* TWO regions, both mounted for the whole life of the application, and
+          the message inserted INTO one of them. They used to carry no live
+          attributes at all — those sat on the card, which is created at the
+          moment of the announcement, and a live region that does not exist
+          before its content changes is unreliably announced. `SandboxDetail`
+          states this rule about itself in a comment: "A region that unmounts at
+          the moment of the announcement announces nothing."
+
+          Split by urgency because one region cannot be both: an error must
+          interrupt (`assertive`), and a confirmation must not (`polite`). */}
       <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-2">
-        {toasts.map((toast) => (
-          <ToastCard key={toast.id} toast={toast} onDismiss={dismiss} />
-        ))}
+        <div role="alert" aria-live="assertive" className="flex flex-col gap-2">
+          {toasts
+            .filter((toast) => toast.tone === 'error')
+            .map((toast) => (
+              <ToastCard key={toast.id} toast={toast} onDismiss={dismiss} />
+            ))}
+        </div>
+        <div role="status" aria-live="polite" className="flex flex-col gap-2">
+          {toasts
+            .filter((toast) => toast.tone !== 'error')
+            .map((toast) => (
+              <ToastCard key={toast.id} toast={toast} onDismiss={dismiss} />
+            ))}
+        </div>
       </div>
     </ToastContext.Provider>
   )
@@ -107,8 +128,6 @@ function ToastCard({
 }) {
   return (
     <div
-      role={toast.tone === 'error' ? 'alert' : 'status'}
-      aria-live={toast.tone === 'error' ? 'assertive' : 'polite'}
       className={cn(
         'rise glass pointer-events-auto flex items-start gap-3 rounded-panel border border-line',
         'px-4 py-3 shadow-float',

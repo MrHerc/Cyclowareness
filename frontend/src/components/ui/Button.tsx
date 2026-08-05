@@ -13,7 +13,7 @@
  *   dark enough to clear AA on brand and critical fills.
  */
 
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import { cn } from '../../lib/format'
 import { Slot } from './Slot'
 import { Spinner } from './Spinner'
@@ -47,6 +47,11 @@ const BASE =
   'aria-disabled:pointer-events-none aria-disabled:opacity-45'
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  /** Declared explicitly, as `Textarea` does: React 19 passes `ref` as an
+   *  ordinary prop, but it is not part of `ButtonHTMLAttributes`, so without
+   *  this a caller cannot hold the element — which is what focus management
+   *  after an unmount requires. */
+  ref?: Ref<HTMLButtonElement>
   variant?: ButtonVariant
   size?: ButtonSize
   /** Disables the button and shows a spinner without changing its width. */
@@ -64,6 +69,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 }
 
 export function Button({
+  ref,
   variant = 'secondary',
   size = 'md',
   loading = false,
@@ -88,6 +94,7 @@ export function Button({
 
   return (
     <button
+      ref={ref}
       type={type}
       className={classes}
       disabled={disabled || loading}

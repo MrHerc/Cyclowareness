@@ -9,7 +9,7 @@
  * are the engine's own audit trail.
  */
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowDownRight, ArrowUpRight, Info, MessageSquareWarning } from 'lucide-react'
 import { HonestMetric, type MetricTone } from '../../components/data'
 import { Button, Panel, Textarea, useToast } from '../../components/ui'
@@ -33,6 +33,15 @@ const BAND_TONE: Record<RiskEvidence['band'], MetricTone> = {
 function ContestControl({ event }: { event: RiskEvent }) {
   const toast = useToast()
   const [open, setOpen] = useState(false)
+
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  // Cancelling or sending unmounts the form; put focus back on the control
+  // that opened it rather than dropping it to <body>.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (wasOpen.current && !open) triggerRef.current?.focus()
+    wasOpen.current = open
+  }, [open])
   const [note, setNote] = useState('')
   const contest = useContestRiskEvent({
     onSuccess: () => {
@@ -80,6 +89,7 @@ function ContestControl({ event }: { event: RiskEvent }) {
   if (!open) {
     return (
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className="mt-1 inline-flex items-center gap-1 text-xs text-fg-faint underline-offset-4 hover:text-fg-subtle hover:underline"
@@ -99,6 +109,10 @@ function ContestControl({ event }: { event: RiskEvent }) {
       }}
     >
       <Textarea
+        // The trigger unmounted when this form replaced it, so without this
+        // focus lands on <body> and the person contesting a risk event has to
+        // tab back from the top of the page.
+        autoFocus
         id={`contest-${event.id}`}
         label="What happened?"
         hint="Sent to a person as you wrote it. Your score does not change until someone answers."

@@ -20,7 +20,7 @@
  * quietly disappearing.
  */
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ClipboardCheck, MessageSquareWarning } from 'lucide-react'
 import { disputeState, type RemediationPlan } from '../../domain/types'
 import { Button, Panel, Textarea, useToast } from '../../components/ui'
@@ -57,6 +57,10 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
       }}
     >
       <Textarea
+        // The trigger that opened this form unmounted when it did, so without
+        // this focus lands on <body> and a keyboard user has to tab back in
+        // from the top of the page to lodge an appeal.
+        autoFocus
         id={`dispute-${plan.id}`}
         label="Why do you think this was assigned in error?"
         hint="This is sent to a person as you wrote it."
@@ -86,6 +90,15 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
 
 function Dispute({ plan }: { plan: RemediationPlan }) {
   const [open, setOpen] = useState(false)
+
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  // Cancelling, or a successful send, unmounts the form. Put focus back on
+  // the control that opened it rather than dropping it to <body>.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (wasOpen.current && !open) triggerRef.current?.focus()
+    wasOpen.current = open
+  }, [open])
   const state = disputeState(plan)
 
   if (state === 'open') {
@@ -117,6 +130,7 @@ function Dispute({ plan }: { plan: RemediationPlan }) {
 
   return (
     <Button
+      ref={triggerRef}
       className="mt-3"
       size="sm"
       variant="outline"
