@@ -65,10 +65,14 @@ export function Panel({
         />
       )}
 
+      {/* `flex-wrap` and a wrapping title: the row could not wrap and `actions`
+          was pinned `shrink-0`, so a wide action clipped the heading on a narrow
+          viewport — a panel whose title reads "Latest threat int…" is a panel
+          nobody can identify. */}
       {hasHeader && (
-        <header className="flex items-start justify-between gap-4 border-b border-line-subtle px-5 py-4">
-          <div className="min-w-0">
-            {title && <Heading className="text-h text-fg truncate">{title}</Heading>}
+        <header className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 border-b border-line-subtle px-5 py-4">
+          <div className="min-w-0 flex-1">
+            {title && <Heading className="text-h text-fg">{title}</Heading>}
             {subtitle && <p className="text-sm text-fg-subtle mt-1">{subtitle}</p>}
           </div>
           {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}

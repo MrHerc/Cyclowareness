@@ -209,6 +209,22 @@ export function DecisionPanel({
           </Tooltip>
         </div>
 
+        {/* Both controls above are blocked by the same condition, and the only
+            statement of it was a tooltip on a non-focusable span wrapping a
+            disabled button — a disabled button cannot take focus, so there was
+            no keyboard path to the explanation at all, and a mouse user had to
+            hover a dead control to discover why it was dead.
+
+            Said once, in text, where it costs nobody a hover. The tooltips stay
+            for the enabled state, where they describe what the action DOES. */}
+        {!commented && !locked ? (
+          <p className="text-sm text-fg-subtle">
+            Rejecting or requesting a revision needs a comment first — the server
+            refuses either without a reason, and a decision with nothing to act on
+            helps no one.
+          </p>
+        ) : null}
+
         <div aria-live="polite" className="empty:hidden">
           {result && (
             <p className="rounded-control border border-safe/35 bg-safe/8 px-3 py-2 text-sm text-fg">

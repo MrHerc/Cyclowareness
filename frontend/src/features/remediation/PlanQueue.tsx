@@ -25,6 +25,7 @@ import { useState } from 'react'
 import { Check, MessageSquareWarning, ShieldX, X } from 'lucide-react'
 import { disputeState, provenanceOf, type RemediationPlan } from '../../domain/types'
 import { AIProvenanceBadge } from '../../components/data'
+import { useCapabilities } from '../../lib/api/queries'
 import { ConfirmationDialog } from '../../components/states'
 import {
   Badge,
@@ -52,6 +53,13 @@ const URGENCY_TONE: Record<string, string> = {
 }
 
 export function PlanQueue({ plans }: PlanQueueProps) {
+  // The provider was written in as the literal 'anthropic', twice, so a
+  // deployment running anything else had a badge naming a vendor it does not
+  // use — the provenance badge exists precisely to stop that kind of claim.
+  // `RemediationPlan` carries only `ai_ran`, so the name has to come from the
+  // deployment's own capabilities.
+  const capabilities = useCapabilities()
+  const provider = capabilities.data?.ai_provider ?? null
   const toast = useToast()
   const [pending, setPending] = useState<{
     plan: RemediationPlan
@@ -136,10 +144,10 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                             that is what it says. */}
                         {plan.ai_ran ? (
                           <AIProvenanceBadge
-                            provenance={provenanceOf('anthropic', {
+                            provenance={provenanceOf(provider, {
                               approved: plan.status === 'approved' || plan.status === 'delivered',
                             })}
-                            generationSource="anthropic"
+                            generationSource={provider}
                           />
                         ) : (
                           <span className="rounded-chip border border-line-subtle px-2 py-0.5 text-xs text-fg-subtle">

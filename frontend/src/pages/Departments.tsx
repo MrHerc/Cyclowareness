@@ -134,7 +134,9 @@ export default function Departments() {
 
             {movementRows.length > 0 ? (
               <div className="space-y-2">
-                <RiskMovementChart data={movementRows} />
+                {/* Same level as the heatmap beside it. At h3 against the
+                    heatmap's h2 it read as a child of it. */}
+                <RiskMovementChart headingLevel={2} data={movementRows} />
                 <p className="text-xs text-fg-subtle">
                   Derived from the {attribution.attributed} most recent risk events the platform could
                   attribute to a named person, divided by each department’s headcount. It is not a

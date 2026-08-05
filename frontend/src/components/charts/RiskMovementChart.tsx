@@ -18,6 +18,9 @@ export interface RiskMovement {
 
 export interface RiskMovementChartProps {
   data: RiskMovement[]
+  /** Forwarded to `ChartFrame`. A chart sitting beside another must be able to
+   *  match its level, or one reads as a child of the other. */
+  headingLevel?: 2 | 3 | 4
   windowDays?: number
   height?: number
   loading?: boolean
@@ -35,6 +38,7 @@ export interface RiskMovementChartProps {
  * auto domain would silently make a small improvement look like a large one.
  */
 export function RiskMovementChart({
+  headingLevel,
   data,
   windowDays,
   height = 260,
@@ -58,6 +62,7 @@ export function RiskMovementChart({
 
   return (
     <ChartFrame
+      headingLevel={headingLevel}
       title="Risk movement by department"
       caption={
         windowDays
