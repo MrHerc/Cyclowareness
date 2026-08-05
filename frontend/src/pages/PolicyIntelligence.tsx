@@ -191,6 +191,13 @@ export default function PolicyIntelligence() {
       </AsyncBoundary>
 
       {/* --- severity and status -------------------------------------------- */}
+      {/* The two charts below carry h3 titles of their own, and the page's only
+          other heading is its h1 — so a reader navigating by heading heard h1
+          then h3 and was told a level had been skipped. This names the pair. */}
+      <section aria-labelledby="policy-distribution" className="space-y-3">
+      <h2 id="policy-distribution" className="text-h text-fg">
+        How the open findings are distributed
+      </h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <SeverityBarChart
           data={severityData}
@@ -225,6 +232,7 @@ export default function PolicyIntelligence() {
           </AsyncBoundary>
         </Panel>
       </div>
+      </section>
 
       {/* --- drift ranking and the queue ------------------------------------- */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">

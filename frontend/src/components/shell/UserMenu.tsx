@@ -11,7 +11,7 @@
  * guard fire against a session that still exists for one more render.
  */
 
-import { Globe, LogOut, User } from 'lucide-react'
+import { Globe, LogOut, SlidersHorizontal, User } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -87,6 +87,19 @@ export function UserMenu({ className }: UserMenuProps) {
             <DropdownMenuSeparator />
           </>
         )}
+
+        {/* `/settings` is a registered route with a full page behind it and
+            NOTHING in the product linked to it — reachable only by typing the
+            URL. It goes here rather than as a nineteenth sidebar entry: it is
+            account-shaped, not a destination in the operational hierarchy, and
+            the sidebar's five bands are the structure the dashboard now
+            mirrors. */}
+        <DropdownMenuItem onSelect={() => navigate('/settings')}>
+          <SlidersHorizontal className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
+          {t('shell.settings')}
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
 
         {/* Language sits above sign-out because a reader who cannot read the
             menu needs this item first. Each option is written in its OWN

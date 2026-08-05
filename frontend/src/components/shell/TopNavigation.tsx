@@ -60,7 +60,17 @@ export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigat
         className,
       )}
     >
-      <IconButton label="Open navigation" variant="ghost" size="sm" onClick={onOpenNav} className="lg:hidden">
+      {/* `size="sm"` is 32x32. Below `lg` this is the ONLY control that opens
+          navigation, and it is the one every touch user hits first — so it is
+          widened to 44px here, the size a thumb actually lands on, rather than
+          changing `sm` for every icon button in the product. */}
+      <IconButton
+        label="Open navigation"
+        variant="ghost"
+        size="sm"
+        onClick={onOpenNav}
+        className="size-11 shrink-0 lg:hidden"
+      >
         <Menu className="size-4" aria-hidden="true" strokeWidth={1.75} />
       </IconButton>
 
