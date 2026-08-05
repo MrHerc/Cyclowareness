@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..core import risk_engine
@@ -12,6 +12,7 @@ from ..models import (
     Employee,
     TrainingAssignment,
     TrainingModule,
+    TrainingResource,
     User,
 )
 from ..schemas import (
@@ -20,8 +21,13 @@ from ..schemas import (
     ModuleEdit,
     QuizResult,
     QuizSubmission,
+    ResourceImportReport,
+    ResourceImportRequest,
     TrainingModuleOut,
+    TrainingResourceOut,
+    TrainingResourceTopic,
 )
+from ..training import resources as resource_service
 from ..security import get_current_user, require_analyst
 
 router = APIRouter(prefix="/api/training", tags=["training"])
@@ -242,3 +248,122 @@ def _assignment_detail(assignment: TrainingAssignment) -> AssignmentDetail:
     detail.module = module
     detail.employee_name = assignment.employee.name if assignment.employee else ""
     return detail
+
+
+# --- External resources -----------------------------------------------------
+#
+# One rule governs every read below: `verified_at IS NOT NULL`. A row without it
+# has never been dereferenced by anything, and a link nobody has opened is
+# indistinguishable — to the person who clicks it — from a link that was made up.
+# The filter is repeated at each site rather than hidden in a helper, because it
+# is the property that makes this catalogue worth having and it should be
+# visible in the code that serves it.
+
+
+@router.get("/resources/topics", response_model=list[TrainingResourceTopic])
+def resource_topics(
+    db: Session = Depends(get_db),
+    _: User = Depends(get_current_user),
+) -> list[TrainingResourceTopic]:
+    """Every attack the catalogue knows, with how many VERIFIED resources it holds.
+
+    Topics with nothing in them are still listed, with zero. "We have no
+    material for quishing" is a fact worth surfacing — hiding the empty row
+    turns a gap into an absence nobody notices.
+    """
+    counts = dict(
+        db.execute(
+            select(TrainingResource.topic, func.count())
+            .where(TrainingResource.verified_at.is_not(None))
+            .group_by(TrainingResource.topic)
+        ).all()
+    )
+    return [
+        TrainingResourceTopic(key=key, label=label, count=int(counts.get(key, 0)))
+        for key, label in resource_service.TOPICS.items()
+    ]
+
+
+@router.get("/resources", response_model=list[TrainingResourceOut])
+def list_resources(
+    topic: str | None = None,
+    channel: str | None = None,
+    limit: int = 40,
+    db: Session = Depends(get_db),
+    _: User = Depends(get_current_user),
+) -> list[TrainingResource]:
+    """Verified resources, newest verification first."""
+    query = select(TrainingResource).where(TrainingResource.verified_at.is_not(None))
+    if topic:
+        query = query.where(TrainingResource.topic == topic)
+    if channel:
+        query = query.where(TrainingResource.channel == channel)
+    query = query.order_by(TrainingResource.verified_at.desc()).limit(min(limit, 100))
+    return list(db.scalars(query).all())
+
+
+@router.get("/modules/{module_id}/resources", response_model=list[TrainingResourceOut])
+def resources_for_module(
+    module_id: int,
+    db: Session = Depends(get_db),
+    _: User = Depends(get_current_user),
+) -> list[TrainingResource]:
+    """What a learner can watch after finishing this module.
+
+    Matched on the module's CHANNEL, which the loop already sets from the real
+    threat the module was built out of — so somebody who fell for a QR lure is
+    offered material about QR lures. There is no attempt to infer a topic from
+    the module's prose: a wrong match here sends a person to a video about the
+    wrong attack, and a confident wrong answer is worse than a short list.
+    """
+    module = db.get(TrainingModule, module_id)
+    if module is None:
+        raise HTTPException(status_code=404, detail="Module not found")
+
+    return list(
+        db.scalars(
+            select(TrainingResource)
+            .where(
+                TrainingResource.verified_at.is_not(None),
+                TrainingResource.channel == module.channel,
+            )
+            .order_by(TrainingResource.verified_at.desc())
+            .limit(6)
+        ).all()
+    )
+
+
+@router.post("/resources/import", response_model=ResourceImportReport)
+def import_resources(
+    payload: ResourceImportRequest,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+) -> ResourceImportReport:
+    """Add candidate URLs. Each is fetched; only the ones that answer are stored.
+
+    Analyst-only, and `added_by` records WHICH analyst. Verification proves the
+    link resolves; it says nothing about whether the content is any good or
+    teaches what it was filed under. A person vouches for that, and the
+    catalogue records who.
+    """
+    if payload.topic not in resource_service.TOPICS:
+        raise HTTPException(status_code=400, detail=f"Unknown topic {payload.topic!r}")
+
+    candidates = [
+        resource_service.Candidate(
+            provider="youtube" if "youtu" in url else ("coursera" if "coursera" in url else "udemy"),
+            url=url.strip(),
+            # A placeholder: verification replaces it with the provider's own
+            # title, and a candidate that cannot be verified is never stored.
+            title="(pending verification)",
+            topic=payload.topic,
+            channel=payload.channel,
+        )
+        for url in payload.urls
+    ]
+
+    report = resource_service.store_verified(
+        db, candidates, added_by=f"analyst:{user.email}"
+    )
+    db.commit()
+    return ResourceImportReport(**report)

@@ -80,6 +80,11 @@ export const endpoints = {
     assignment: (id: number | string) => `/api/training/assignments/${id}`,
     start: (id: number | string) => `/api/training/assignments/${id}/start`,
     complete: (id: number | string) => `/api/training/assignments/${id}/complete`,
+    resources: (params: { topic?: string; channel?: string } = {}) =>
+      `/api/training/resources${qs(params)}`,
+    resourceTopics: () => '/api/training/resources/topics',
+    moduleResources: (id: number | string) => `/api/training/modules/${id}/resources`,
+    importResources: () => '/api/training/resources/import',
   },
 
   /* --- simulations ------------------------------------------------------- */

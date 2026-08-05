@@ -18,6 +18,8 @@ import { api, ApiError } from './client'
 import { endpoints } from './endpoints'
 import { itemsOf } from '../../domain/types'
 import type {
+  TrainingResource,
+  TrainingResourceTopic,
   AnalystDashboard,
   Paginated,
   Assignment,
@@ -104,6 +106,10 @@ export const qk = {
     module: (id: number | string) => ['training', 'module', String(id)] as const,
     mine: () => ['training', 'mine'] as const,
     assignment: (id: number | string) => ['training', 'assignment', String(id)] as const,
+    resources: (topic?: string) => ['training', 'resources', topic ?? 'all'] as const,
+    resourceTopics: () => ['training', 'resource-topics'] as const,
+    moduleResources: (id: number | string) =>
+      ['training', 'module-resources', String(id)] as const,
   },
   simulations: {
     all: ['simulations'] as const,
@@ -796,3 +802,36 @@ export function useAuditActions(options?: Opts<string[]>) {
 
 /** Assignments for the current employee, used by the portal's next-action strip. */
 export type { Assignment }
+
+
+/** Verified external resources, optionally narrowed to one attack type. */
+export function useTrainingResources(topic?: string, options?: Opts<TrainingResource[]>) {
+  return useQuery<TrainingResource[], ApiError>({
+    queryKey: qk.training.resources(topic),
+    queryFn: () =>
+      api.get<TrainingResource[]>(endpoints.training.resources(topic ? { topic } : {})),
+    ...options,
+  })
+}
+
+/** Every attack the catalogue knows, including the ones it has nothing for. */
+export function useTrainingResourceTopics(options?: Opts<TrainingResourceTopic[]>) {
+  return useQuery<TrainingResourceTopic[], ApiError>({
+    queryKey: qk.training.resourceTopics(),
+    queryFn: () => api.get<TrainingResourceTopic[]>(endpoints.training.resourceTopics()),
+    ...options,
+  })
+}
+
+/** What a learner can watch after this module, matched on its channel. */
+export function useModuleResources(
+  id: number | string | undefined,
+  options?: Opts<TrainingResource[]>,
+) {
+  return useQuery<TrainingResource[], ApiError>({
+    queryKey: qk.training.moduleResources(id ?? 0),
+    queryFn: () => api.get<TrainingResource[]>(endpoints.training.moduleResources(id!)),
+    enabled: id !== undefined,
+    ...options,
+  })
+}

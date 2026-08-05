@@ -485,3 +485,64 @@ class RiskEventOut(ORMModel):
     reason: str
     loop_run_id: int | None
     created_at: datetime
+
+
+# --- External training resources -------------------------------------------
+
+
+class TrainingResourceOut(ORMModel):
+    """A resource the API is willing to show a learner.
+
+    `verified_at` is on the wire deliberately. The client does not have to trust
+    that the server filtered correctly — it can see the date the link was last
+    confirmed to exist, and say so beside the link. A resource panel that shows
+    a URL without saying when anyone last checked it is asking the reader to
+    take it on faith, which is the thing this catalogue exists to avoid.
+    """
+
+    id: int
+    provider: str
+    url: str
+    title: str
+    author: str
+    duration_seconds: int | None
+    language: str
+    topic: str
+    channel: str
+    verified_at: datetime | None
+
+
+class TrainingResourceTopic(BaseModel):
+    """One attack the catalogue can teach, with how much of it there is."""
+
+    key: str
+    label: str
+    #: Verified resources only. A topic with zero is reported as zero rather
+    #: than hidden — "we have nothing for quishing" is useful to know.
+    count: int
+
+
+class ResourceImportRequest(BaseModel):
+    """Candidate URLs an analyst wants added.
+
+    No title field: the provider supplies it during verification. Letting the
+    caller name the resource is how a catalogue ends up describing a video as
+    something it is not.
+    """
+
+    urls: list[str] = Field(min_length=1, max_length=25)
+    topic: str
+    channel: str = "email"
+
+
+class ResourceImportReport(BaseModel):
+    """What happened to every candidate, including the ones refused.
+
+    Rejections are returned rather than counted. An importer that reports "3 of
+    8 added" and stops leaves the operator guessing which five and why; the
+    reason a link was refused is usually the thing they need to act on.
+    """
+
+    stored: list[str]
+    updated: list[str]
+    rejected: list[str]

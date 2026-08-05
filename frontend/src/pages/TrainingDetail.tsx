@@ -18,10 +18,12 @@ import { Badge, Button, Panel } from '../components/ui'
 import { ModuleEditor } from '../features/training/ModuleEditor'
 import { ModuleMetaPanel } from '../features/training/ModuleMetaPanel'
 import { ModuleReader } from '../features/training/ModuleReader'
+import { ResourcePanel } from '../features/training/ResourcePanel'
 import { GenerationNotice, VersionHistoryNotice } from '../features/training/StudioNotices'
 import {
   useApprovalQueue,
   useCapabilities,
+  useModuleResources,
   useThreat,
   useTrainingModule,
 } from '../lib/api/queries'
@@ -38,6 +40,7 @@ export default function TrainingDetail() {
 
   // The module record has no run pointer; the queue is where the join lives.
   const queue = useApprovalQueue()
+  const moduleResources = useModuleResources(id)
   const threat = useThreat(data?.threat_id ?? undefined)
 
   const gateRunId = useMemo(() => {
@@ -108,6 +111,18 @@ export default function TrainingDetail() {
               <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
                 <div className="min-w-0 space-y-6">
                   <ModuleReader module={data} />
+
+                  {/* Matched on the module's CHANNEL — the one the loop set from
+                      the real threat this was built from — so a person who fell
+                      for a QR lure is offered material about QR lures. Nothing
+                      here is inferred from the module's prose: a confident wrong
+                      match sends somebody to a video about a different attack. */}
+                  <ResourcePanel
+                    resources={moduleResources.data ?? []}
+                    isLoading={moduleResources.isLoading}
+                    error={moduleResources.data ? null : moduleResources.error}
+                    headingLevel={2}
+                  />
                 </div>
 
                 <div className="min-w-0 space-y-6">

@@ -1415,3 +1415,43 @@ export function totalOf<T>(payload: Paginated<T> | T[] | undefined | null): numb
   if (!payload) return 0
   return Array.isArray(payload) ? payload.length : payload.total
 }
+
+
+/* ============================================================================
+   External training resources
+   ========================================================================== */
+
+/**
+ * A video or course the catalogue holds, and the date somebody last confirmed
+ * it exists.
+ *
+ * `verified_at` is on the wire on purpose. The server only serves verified rows,
+ * but the client shows the date anyway — a link presented without saying when it
+ * was last checked asks the reader to take it on faith, and the whole point of
+ * this catalogue is that nothing here is taken on faith.
+ */
+export interface TrainingResource {
+  id: number
+  provider: 'youtube' | 'coursera' | 'udemy'
+  url: string
+  title: string
+  author: string
+  duration_seconds: number | null
+  language: string
+  topic: string
+  channel: string
+  verified_at: string | null
+}
+
+/** One attack the catalogue can teach. `count` is verified resources only. */
+export interface TrainingResourceTopic {
+  key: string
+  label: string
+  count: number
+}
+
+export interface ResourceImportReport {
+  stored: string[]
+  updated: string[]
+  rejected: string[]
+}
