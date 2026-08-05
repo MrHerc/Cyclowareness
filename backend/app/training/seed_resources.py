@@ -77,4 +77,80 @@ CANDIDATES: list[Candidate] = [
               "Ransomware staff awareness course", "ransomware", channel="email"),
     Candidate("youtube", "https://www.youtube.com/watch?v=rgLjNQFun-M",
               "The first sixty minutes after a breach", "ransomware", channel="email"),
+
+    # --- vishing ----------------------------------------------------------
+    Candidate("youtube", "https://www.youtube.com/watch?v=-XQ5GrpWiqk",
+              "How to spot voice-based phishing", "vishing", channel="sms"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=XbMx6D7fNSs",
+              "Vishing scams explained", "vishing", channel="sms"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=DGlthoSCr_w",
+              "Identifying and avoiding vishing scams", "vishing", channel="sms"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=ffLlgEpfDCg",
+              "What vishing is, and how to avoid it", "vishing", channel="sms"),
+
+    # --- credential theft -------------------------------------------------
+    Candidate("youtube", "https://www.youtube.com/watch?v=lRldR0JCb6U",
+              "Credential stuffing: how reused passwords are exploited",
+              "credential_theft", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=70laPBopWIo",
+              "Password reuse and credential stuffing risks",
+              "credential_theft", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=monuthoz3Bk",
+              "Credential stuffing and password cracking explained",
+              "credential_theft", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=FwwLTI5Q0Fg",
+              "The dangers of reusing passwords online",
+              "credential_theft", channel="web"),
+
+    # --- insider risk -----------------------------------------------------
+    Candidate("youtube", "https://www.youtube.com/watch?v=RgtbmxX90nM",
+              "The unintentional insider threat", "insider", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=tjIM8SL3YbQ",
+              "Insider threats and corporate data exfiltration", "insider",
+              channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=XI832Apu_0o",
+              "Insider threats explained", "insider", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=_6m-LACmYVc",
+              "Insider risk: education, awareness and training", "insider",
+              channel="web"),
+
+    # --- handling sensitive data -----------------------------------------
+    Candidate("youtube", "https://www.youtube.com/watch?v=dGRhSCdCCQQ",
+              "Data protection and privacy training requirements",
+              "data_handling", channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=aZdsiLTdaT0",
+              "Data protection and privacy, lesson one", "data_handling",
+              channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=BGMG7AIKNRg",
+              "Protecting company data and reputation", "data_handling",
+              channel="web"),
+    Candidate("youtube", "https://www.youtube.com/watch?v=sQBSVa4FicI",
+              "Data privacy awareness for employees", "data_handling",
+              channel="web"),
+
+    # --- Coursera ---------------------------------------------------------
+    # No oEmbed here, so the stored title is the one written below — these are
+    # the courses' own names as their pages state them. Verification is a page
+    # fetch: a real course answers 200, a fabricated slug answers 404, which
+    # was measured before this list was written.
+    Candidate("coursera", "https://www.coursera.org/learn/cybersecurity-for-everyone",
+              "Cybersecurity for Everyone (University of Maryland)",
+              "data_handling", channel="web", author="University of Maryland"),
+    Candidate("coursera",
+              "https://www.coursera.org/learn/cybersecurity-protecting-your-information-on-the-go",
+              "Cybersecurity: Protecting your Information on the Go",
+              "data_handling", channel="web"),
+    Candidate("coursera",
+              "https://www.coursera.org/learn/csafe-protecting-your-information-at-home",
+              "Cybersecurity: Protecting your Information at Home",
+              "data_handling", channel="web"),
+    Candidate("coursera", "https://www.coursera.org/learn/cybersecurity",
+              "Cybersecurity Awareness and Innovation",
+              "credential_theft", channel="web"),
 ]
+
+# Udemy is DELIBERATELY absent. Measured on 2026-08-05: udemy.com answers 403
+# to every automated fetch — a real course and a fabricated slug are
+# indistinguishable — so this deployment cannot verify a Udemy link today, and
+# an unverifiable link does not enter the catalogue. The host stays allowed so
+# an analyst import fails with the real reason rather than "unknown provider".
