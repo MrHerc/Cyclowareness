@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `031af63` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `69c8f21` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -225,7 +225,7 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
 
-## 7. The six-lens audit (2026-08-05) — 13 of 17 closed
+## 7. The six-lens audit (2026-08-05) — ALL 17 CLOSED
 
 Six finder agents (employee portal + detail pages, accessibility, responsive,
 data honesty, i18n correctness, IA of the other 18 pages); every finding then
@@ -246,18 +246,11 @@ instead of on the series; a roster-wide sum sitting between two per-person
 means; both appeal controls dropping focus to `<body>`; toast live regions
 created at announcement time.
 
-**Still open (4)** — all confirmed, none started:
-1. `features/approvals/DecisionPanel.tsx:191` — the only explanation for the
-   disabled Reject / Request-revision buttons is in a Radix tooltip on a
-   non-focusable span wrapping a disabled button. No keyboard path to it at all.
-   `components/data/Tip.tsx:39` already solves this with a `tabIndex` escape
-   hatch, and `GuardedAction` exists for exactly this case — use one of them.
-2. `components/ui/Panel.tsx:69` — the header cannot wrap and pins `actions` at
-   `shrink-0`, so a wide action clips the title on a narrow viewport.
-3. `pages/Departments.tsx:135` — two side-by-side panels sit at different
-   heading levels, so one reads as a child of the other.
-4. `features/remediation/PlanQueue.tsx:139` — hardcodes the AI vendor string
-   that the provenance badge derives, so the two can disagree.
+**Nothing from this audit is left open.** The last four closed were: the
+`DecisionPanel` tooltip (no keyboard path to the reason two buttons were
+disabled — now said in text), `Panel`'s non-wrapping header (a wide action
+clipped the title), Departments' mismatched sibling heading levels, and
+`PlanQueue`'s hardcoded AI vendor (now read from `/api/capabilities`).
 
 **Two new CI gates**, both of which found real defects the moment they ran:
 `npm run check:links` (a `<Link to>` is just a string — `/audit` shipped against
