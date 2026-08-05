@@ -109,7 +109,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
 
       <Separator className="my-4" />
 
-      <h3 className="label text-fg-faint">Sandbox</h3>
+      <h3 className="label text-fg-faint">{t('y.sandbox')}</h3>
       <p className="mt-2 text-sm text-fg-muted">
         The loop’s ANALYZE stage runs the platform analyzer over this artifact’s text. It does not
         raise a sandbox job, and this deployment records no link from a threat record to one — so no

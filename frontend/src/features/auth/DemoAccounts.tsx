@@ -10,6 +10,7 @@
  * permission afterwards; nothing here fakes a role client-side.
  */
 
+import { useT } from '../../lib/i18n'
 import { ChevronRight } from 'lucide-react'
 import { DemoDataBadge } from '../../components/data'
 import { Spinner } from '../../components/ui'
@@ -23,10 +24,11 @@ export interface DemoAccountsProps {
 }
 
 export function DemoAccounts({ onUse, pending, disabled = false }: DemoAccountsProps) {
+  const t = useT()
   return (
     <section className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface/60 p-4">
       <header className="flex items-center justify-between gap-3">
-        <h2 className="label text-fg-subtle">DEMONSTRATION ACCOUNTS</h2>
+        <h2 className="label text-fg-subtle">{t('y.demonstration-accounts')}</h2>
         <DemoDataBadge detail="Seeded credentials for the fictional Caspian Dynamics organisation." />
       </header>
 

@@ -11,6 +11,7 @@
  * drives several queries at once. The date maths lives in `dateRange.ts`.
  */
 
+import { useT } from '../../lib/i18n'
 import { useId } from 'react'
 import { Calendar, ChevronDown } from 'lucide-react'
 import * as Popover from '@radix-ui/react-popover'
@@ -44,6 +45,7 @@ export function DateRangeSelector({
   label = 'Measurement window',
   className,
 }: DateRangeSelectorProps) {
+  const t = useT()
   // Two selectors can share a page (a dashboard and a drawer); hardcoded ids
   // would point both <label>s at the first pair of inputs.
   const fieldId = useId()
@@ -120,9 +122,7 @@ export function DateRangeSelector({
             <legend className="label text-fg-faint">Custom</legend>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label htmlFor={`${fieldId}-from`} className="text-xs text-fg-subtle">
-                  From
-                </label>
+                <label htmlFor={`${fieldId}-from`} className="text-xs text-fg-subtle">{t('y.from')}</label>
                 <input
                   id={`${fieldId}-from`}
                   type="date"

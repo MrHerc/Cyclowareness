@@ -118,7 +118,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
 
       <Separator className="my-4" />
 
-      <h3 className="label text-fg-faint">Chain of custody</h3>
+      <h3 className="label text-fg-faint">{t('y.chain-of-custody')}</h3>
       <ol className="mt-3 space-y-3">
         {custody.map((step, index) => (
           <li key={step.label} className="flex gap-3">
@@ -143,7 +143,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
 
       <Separator className="my-4" />
 
-      <h3 className="label text-fg-faint">Recorded metadata</h3>
+      <h3 className="label text-fg-faint">{t('y.recorded-metadata')}</h3>
       <EvidenceList
         items={meta}
         mono

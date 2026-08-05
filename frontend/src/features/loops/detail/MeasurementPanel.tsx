@@ -13,6 +13,7 @@
  *   people this run touched, never as a measurement of this run's effect.
  */
 
+import { useT } from '../../../lib/i18n'
 import type { DepartmentRisk, MeasureSummary, StageEntry, Target } from '../../../domain/types'
 import { STAGES } from '../../../domain/types'
 import { cn, num, signed } from '../../../lib/format'
@@ -55,6 +56,7 @@ export function MeasurementPanel({
   departments,
   nextAction,
 }: MeasurementPanelProps) {
+  const t = useT()
   const assigned = summary?.assigned ?? 0
   const completed = summary?.completed ?? 0
   const scored = summary?.per_employee.filter((row) => row.score !== null).length ?? 0
@@ -117,7 +119,7 @@ export function MeasurementPanel({
 
             <div className="mt-6 border-t border-line-subtle pt-4">
               <div className="flex flex-wrap items-baseline gap-3">
-                <h3 className="text-h text-fg">Net risk movement</h3>
+                <h3 className="text-h text-fg">{t('y.net-risk-movement')}</h3>
                 <span className={cn('text-display', deltaClass(summary.risk_delta_total))}>
                   {signed(summary.risk_delta_total, 1)}
                 </span>
@@ -185,7 +187,7 @@ export function MeasurementPanel({
         source="live"
         sourceDetail="Risk engine roll-ups and the daily metric snapshot"
       >
-        <h3 className="text-h text-fg">Departments this run touched</h3>
+        <h3 className="text-h text-fg">{t('y.departments-this-run-touched')}</h3>
         {touchedDepartments.length === 0 ? (
           <p className="mt-1.5 text-sm text-fg-faint">
             {targets.length === 0
@@ -223,7 +225,7 @@ export function MeasurementPanel({
         )}
 
         <div className="mt-5 border-t border-line-subtle pt-4">
-          <h3 className="text-h text-fg">What this run leaves open</h3>
+          <h3 className="text-h text-fg">{t('y.what-this-run-leaves-open')}</h3>
           <p className="mt-1.5 text-body text-fg-muted">{nextAction}</p>
           <p className="mt-1.5 text-xs text-fg-subtle">
             Derived from this run&apos;s own status and assignment records. It is not a

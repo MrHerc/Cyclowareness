@@ -7,6 +7,7 @@
  * job, and no MITRE mapping is carried on the threat record the UI is given.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import type { StageEntry, Threat } from '../../../domain/types'
 import { STAGES } from '../../../domain/types'
@@ -32,6 +33,7 @@ const IOC_GROUPS: { key: 'urls' | 'domains' | 'hashes' | 'sender_patterns'; labe
 ]
 
 export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
+  const t = useT()
   const iocs = threat?.iocs ?? null
   const groups = IOC_GROUPS.map((group) => ({
     ...group,
@@ -68,7 +70,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
 
       <div className="mt-5 space-y-4 border-t border-line-subtle pt-4">
         <div>
-          <h3 className="text-h text-fg">Behaviour summary</h3>
+          <h3 className="text-h text-fg">{t('y.behaviour-summary')}</h3>
           <p className="mt-1.5 text-body text-fg-muted">
             {threat?.behavior_summary?.trim() ||
               'The analyzer recorded no behaviour summary for this artifact.'}
@@ -77,7 +79,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
 
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-h text-fg">Plain-language explanation</h3>
+            <h3 className="text-h text-fg">{t('y.plainlanguage-explanation')}</h3>
             <AIProvenanceBadge provenance="unknown" />
           </div>
           <p className="mt-1.5 text-body text-fg-muted">
@@ -91,7 +93,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
         </div>
 
         <div>
-          <h3 className="text-h text-fg">Indicators of compromise</h3>
+          <h3 className="text-h text-fg">{t('y.indicators-of-compromise')}</h3>
           {groups.length === 0 ? (
             <p className="mt-1.5 text-sm text-fg-faint">
               No indicators were extracted. On a social-engineering artifact with no payload and no
@@ -119,7 +121,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
         </div>
 
         <div>
-          <h3 className="text-h text-fg">MITRE ATT&amp;CK mapping</h3>
+          <h3 className="text-h text-fg">{t('y.mitre-attampck-mapping')}</h3>
           <p className="mt-1.5 text-sm text-fg-muted">
             Not available. The threat record served to this screen carries a verdict, a threat type,
             a behaviour summary and indicators — it carries no technique mapping, so none is shown.
@@ -127,7 +129,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
         </div>
 
         <div>
-          <h3 className="text-h text-fg">Sandbox report</h3>
+          <h3 className="text-h text-fg">{t('y.sandbox-report')}</h3>
           <p className="mt-1.5 text-sm text-fg-muted">
             No sandbox job is linked to this run. The loop&apos;s analysis stage runs the platform
             analyzer against the artifact reference; it does not create a sandbox job, and the

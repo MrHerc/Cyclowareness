@@ -155,7 +155,7 @@ export function AudiencePanel({ members, targetingNote }: AudiencePanelProps) {
           <Separator fade />
 
           <div className="space-y-1">
-            <h3 className="label text-fg-faint">Why each person</h3>
+            <h3 className="label text-fg-faint">{t('y.why-each-person')}</h3>
             <ScrollArea viewportClassName="max-h-96">
               <ul className="divide-line pr-3">
                 {members.map((member) => (

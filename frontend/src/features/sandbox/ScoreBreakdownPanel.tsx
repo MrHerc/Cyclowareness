@@ -63,7 +63,7 @@ export function ScoreBreakdownPanel({
       <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* --- rule component ------------------------------------------------ */}
         <section>
-          <h3 className="text-h text-fg">Rule component</h3>
+          <h3 className="text-h text-fg">{t('y.rule-component')}</h3>
           <p className="mt-1 text-sm text-fg-subtle">
             Severity-weighted, and saturating on purpose: twenty low-severity observations must not
             add up to one critical one, because they are not the same evidence.
@@ -105,7 +105,7 @@ export function ScoreBreakdownPanel({
 
         {/* --- model component ----------------------------------------------- */}
         <section>
-          <h3 className="text-h text-fg">Model component</h3>
+          <h3 className="text-h text-fg">{t('y.model-component')}</h3>
 
           <div className="mt-2 rounded-panel border border-ai/30 bg-ai/5 p-3">
             <p className="label text-ai">How this model was built</p>

@@ -10,6 +10,7 @@
  * quietly implying someone approved it.
  */
 
+import { useT } from '../../lib/i18n'
 import type { ReactNode } from 'react'
 import { ShieldCheck } from 'lucide-react'
 import { APPROVAL_GATE_AFTER_STAGE, STAGES } from '../../domain/types'
@@ -89,6 +90,7 @@ export function LoopTimeline({
   gateActions,
   className,
 }: LoopTimelineProps) {
+  const t = useT()
   const entryFor = (n: number) => history.find((e) => e.stage === n)
 
   const gateState: GateState = gate?.decision
@@ -183,7 +185,7 @@ export function LoopTimeline({
                     aria-label="Approval gate"
                   >
                     <header className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                      <h3 className="text-h text-fg">Approval gate</h3>
+                      <h3 className="text-h text-fg">{t('y.approval-gate')}</h3>
                       <span
                         className={cn(
                           'rounded-chip border px-2 py-0.5 text-xs',

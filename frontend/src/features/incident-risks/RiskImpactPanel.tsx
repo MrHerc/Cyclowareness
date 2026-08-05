@@ -114,7 +114,7 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
         <Separator fade />
 
         <section>
-          <h3 className="label text-fg-subtle">Risk-score impact</h3>
+          <h3 className="label text-fg-subtle">{t('y.riskscore-impact')}</h3>
           <p className="mt-1.5 text-sm text-fg-muted">
             The platform does not attribute a risk-score change to an incident risk. Risk events
             record the loop run that caused them and carry no incident reference, so no honest

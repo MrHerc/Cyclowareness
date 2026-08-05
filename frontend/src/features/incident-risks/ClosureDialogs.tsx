@@ -95,7 +95,7 @@ export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskD
         )}
 
         <section className="rounded-control border border-line-subtle bg-base px-3 py-2.5">
-          <h3 className="label text-fg-subtle">Closure criteria, as written when this was opened</h3>
+          <h3 className="label text-fg-subtle">{t('y.closure-criteria-as-written-when')}</h3>
           <p className="mt-1.5 text-sm text-fg">
             {risk.closure_criteria?.trim() ||
               'No closure criteria were recorded, so there is nothing to check this note against.'}
@@ -201,7 +201,7 @@ export function ReopenRiskDialog({ risk, open, onOpenChange }: ReopenRiskDialogP
 
         {risk.closure_note && (
           <section className="rounded-control border border-line-subtle bg-base px-3 py-2.5">
-            <h3 className="label text-fg-subtle">The closure note that did not hold</h3>
+            <h3 className="label text-fg-subtle">{t('y.the-closure-note-that-did')}</h3>
             <p className="mt-1.5 text-sm text-fg">{risk.closure_note}</p>
           </section>
         )}

@@ -11,6 +11,7 @@
  * submitted as invoice.pdf" is the finding.
  */
 
+import { useT } from '../../lib/i18n'
 import { FileWarning } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { SandboxJobDetail } from '../../domain/types'
@@ -41,6 +42,7 @@ function Hash({ label, value }: { label: string; value: string }) {
 }
 
 export function VerdictHeader({ job }: VerdictHeaderProps) {
+  const t = useT()
   const scored = isScored(job)
   const tone = statusTone(job.risk_level)
   const name = job.original_name || 'Unnamed sample'
@@ -134,7 +136,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
             strokeWidth={1.75}
           />
           <div className="min-w-0">
-            <h3 className="text-h text-fg">The content contradicts the name it was given</h3>
+            <h3 className="text-h text-fg">{t('y.the-content-contradicts-the-name')}</h3>
             <p className="mt-1 text-body text-fg-muted">
               What is actually inside this file{' '}
               {job.magic ? (

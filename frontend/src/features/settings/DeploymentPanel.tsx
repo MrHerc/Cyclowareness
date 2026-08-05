@@ -103,7 +103,7 @@ export function DeploymentPanel() {
       </AsyncBoundary>
 
       <div className="mt-6 border-t border-line-subtle pt-4">
-        <h3 className="text-h text-fg">Analysis capability</h3>
+        <h3 className="text-h text-fg">{t('y.analysis-capability')}</h3>
         <AsyncBoundary
           isLoading={sandbox.isLoading}
           error={sandbox.data ? null : sandbox.error}

@@ -28,7 +28,7 @@ import {
 import { useLocale } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
-import { REPORT_TYPES, inRange } from '../features/reports/catalogue'
+import { reportTypes, inRange } from '../features/reports/catalogue'
 import { ReportTypeCard } from '../features/reports/ReportTypeCard'
 import { SandboxExportTable } from '../features/reports/SandboxExportTable'
 import {
@@ -171,7 +171,7 @@ export default function Reports() {
 
       <section className="space-y-4">
         <div className="max-w-3xl">
-          <h2 className="text-title text-fg">Packs this deployment cannot yet generate</h2>
+          <h2 className="text-title text-fg">{t('y.packs-this-deployment-cannot-yet')}</h2>
           <p className="mt-1.5 text-body text-fg-muted">
             The records for each of these exist and are served by the API. What is missing is the
             route that renders them into a document. Each card names the gap rather than hiding it
@@ -195,7 +195,7 @@ export default function Reports() {
           }
         >
           <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
-            {REPORT_TYPES.map((type) => (
+            {reportTypes(t).map((type) => (
               <ReportTypeCard
                 key={type.id}
                 type={type}

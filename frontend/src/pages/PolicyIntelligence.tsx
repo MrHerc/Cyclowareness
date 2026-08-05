@@ -195,9 +195,7 @@ export default function PolicyIntelligence() {
           other heading is its h1 — so a reader navigating by heading heard h1
           then h3 and was told a level had been skipped. This names the pair. */}
       <section aria-labelledby="policy-distribution" className="space-y-3">
-      <h2 id="policy-distribution" className="text-h text-fg">
-        How the open findings are distributed
-      </h2>
+      <h2 id="policy-distribution" className="text-h text-fg">{t('y.how-the-open-findings-are')}</h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <SeverityBarChart
           data={severityData}

@@ -97,7 +97,7 @@ export function SafetyPanel({
       <Separator fade />
 
       <div className="space-y-2">
-        <h3 className="label text-fg-faint">Content provenance</h3>
+        <h3 className="label text-fg-faint">{t('y.content-provenance')}</h3>
         <AIProvenanceBadge
           provenance={provenance}
           generationSource={generationSource}
@@ -109,7 +109,7 @@ export function SafetyPanel({
       <Separator fade />
 
       <div className="space-y-2">
-        <h3 className="label text-fg-faint">Required approvals</h3>
+        <h3 className="label text-fg-faint">{t('y.required-approvals')}</h3>
         {secondApproval.held ? (
           <div className="space-y-1.5">
             <Badge status="awaiting_review" dot>

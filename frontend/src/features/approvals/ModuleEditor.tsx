@@ -120,7 +120,7 @@ export function ModuleEditor({
       <Separator fade />
 
       <div className="space-y-5">
-        <h3 className="label text-fg-faint">Lesson sections</h3>
+        <h3 className="label text-fg-faint">{t('y.lesson-sections')}</h3>
         {value.content.length === 0 ? (
           <p className="text-sm text-fg-subtle">This module has no sections to edit.</p>
         ) : (
@@ -145,7 +145,7 @@ export function ModuleEditor({
       <Separator fade />
 
       <div className="space-y-5">
-        <h3 className="label text-fg-faint">Quiz</h3>
+        <h3 className="label text-fg-faint">{t('y.quiz')}</h3>
         {value.quiz.length === 0 ? (
           <p className="text-sm text-critical">
             This module has no quiz. It cannot be completed by an employee.

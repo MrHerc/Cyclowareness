@@ -232,6 +232,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
 
 /** The server's answer, in full — including the parts that did not happen. */
 function AssignOutcome({ result }: { result: AssignResult }) {
+  const t = useT()
   return (
     <div className="flex flex-col gap-5">
       <p className="text-body text-fg" role="status" aria-live="polite">
@@ -240,7 +241,7 @@ function AssignOutcome({ result }: { result: AssignResult }) {
 
       {result.assigned.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h3 className="label text-fg-subtle">Assigned</h3>
+          <h3 className="label text-fg-subtle">{t('y.assigned')}</h3>
           <ul className="flex flex-col gap-1.5">
             {result.assigned.map((row) => (
               <li key={row.subject_id} className="flex items-start gap-2 text-sm text-fg-muted">
@@ -258,7 +259,7 @@ function AssignOutcome({ result }: { result: AssignResult }) {
 
       {result.skipped.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h3 className="label text-fg-subtle">Skipped, and why</h3>
+          <h3 className="label text-fg-subtle">{t('y.skipped-and-why')}</h3>
           <ul className="flex flex-col gap-2">
             {result.skipped.map((row) => (
               <li
@@ -275,7 +276,7 @@ function AssignOutcome({ result }: { result: AssignResult }) {
 
       {result.requirements.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h3 className="label text-fg-subtle">What carries each requirement</h3>
+          <h3 className="label text-fg-subtle">{t('y.what-carries-each-requirement')}</h3>
           <ul className="flex flex-col gap-2">
             {result.requirements.map((requirement) => (
               <li

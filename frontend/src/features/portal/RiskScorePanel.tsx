@@ -246,7 +246,7 @@ export function RiskScorePanel({
             leave the total unexplained. */}
         {evidence.startingPoints.length > 0 ? (
           <div className="border-t border-line-subtle pt-5">
-            <h3 className="label text-fg-subtle">Where your score started</h3>
+            <h3 className="label text-fg-subtle">{t('y.where-your-score-started')}</h3>
             <p className="mt-1 text-sm text-fg-faint">
               Set before anything you did, and not a judgement about you.
             </p>
@@ -283,7 +283,7 @@ export function RiskScorePanel({
         </div>
 
         <div className="border-t border-line-subtle pt-5">
-          <h3 className="label text-fg-subtle">Recent changes</h3>
+          <h3 className="label text-fg-subtle">{t('y.recent-changes')}</h3>
           {evidence.events.length === 0 ? (
             <p className="mt-2 text-sm text-fg-faint">
               No individual events have been recorded against you.

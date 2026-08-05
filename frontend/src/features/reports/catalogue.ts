@@ -14,6 +14,7 @@
  * missing — rather than offering a button that would produce nothing.
  */
 
+import type { MessageKey } from '../../lib/i18n'
 import { Building2, Landmark, Radar, ShieldAlert, type LucideIcon } from 'lucide-react'
 import type { Permission } from '../../lib/auth/permissions'
 
@@ -45,14 +46,18 @@ export interface ReportType {
   missing: string
 }
 
-export const REPORT_TYPES: ReportType[] = [
+/** A FUNCTION of the translator, not a module constant: the titles and
+ *  purposes are user-facing text and must follow the reader's language.
+ *  Callers pass `useT()`'s result. */
+export function reportTypes(t: (key: MessageKey) => string): ReportType[] {
+  return [
   {
     id: 'closed-loop-evidence',
-    title: 'Closed-loop evidence pack',
+    title: t('z.closedloop-evidence-pack'),
     icon: Radar,
     permission: 'loops.view',
     purpose:
-      'The document a regulator or an insurer asks for: proof that a real threat reached a real person and that something measurable happened afterwards.',
+      t('z.the-document-a-regulator-or'),
     contains: [
       'Every stage of each run with its start and completion time',
       'The originating threat, its sandbox verdict and the extracted indicators',
@@ -70,11 +75,11 @@ export const REPORT_TYPES: ReportType[] = [
   },
   {
     id: 'department-risk',
-    title: 'Department risk report',
+    title: t('z.department-risk-report'),
     icon: Building2,
     permission: 'departments.view',
     purpose:
-      'Where the human risk concentrates, for a leadership review — the rollup an executive is asked to act on quarterly.',
+      t('z.where-the-human-risk-concentrates'),
     contains: [
       'Average risk score per department with its headcount',
       'How many people in each sit in the high band',
@@ -91,11 +96,11 @@ export const REPORT_TYPES: ReportType[] = [
   },
   {
     id: 'policy-exposure',
-    title: 'Policy exposure report',
+    title: t('z.policy-exposure-report'),
     icon: Landmark,
     permission: 'policy.view',
     purpose:
-      'Every place the world has moved away from a rule this organisation wrote down, with the passage each rule came from.',
+      t('z.every-place-the-world-has'),
     contains: [
       'Each finding with its severity, status and the technology it concerns',
       'The policy and the extracted rule it contradicts, quoted',
@@ -112,11 +117,11 @@ export const REPORT_TYPES: ReportType[] = [
   },
   {
     id: 'incident-remediation',
-    title: 'Incident-risk remediation report',
+    title: t('z.incidentrisk-remediation-report'),
     icon: ShieldAlert,
     permission: 'incident_risks.view',
     purpose:
-      'What incident response asked of named people, and whether it was completed to the standard that was set.',
+      t('z.what-incident-response-asked-of'),
     contains: [
       'Each incident risk with its reference, type, severity and closure criteria',
       'The people it was raised against, redacted by confidentiality where required',
@@ -131,7 +136,8 @@ export const REPORT_TYPES: ReportType[] = [
     missing:
       'No export route exists under /api/incident-risks. This pack would also need a redaction projection — the subject records carry restricted detail that must not leave the platform unfiltered.',
   },
-]
+  ]
+}
 
 /* ============================================================================
    Windowing

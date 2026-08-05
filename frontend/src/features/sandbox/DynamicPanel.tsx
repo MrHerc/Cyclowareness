@@ -17,6 +17,7 @@
  * absent at all.
  */
 
+import { useT } from '../../lib/i18n'
 import { Radiation } from 'lucide-react'
 import type { SandboxDynamicReport, SandboxSignal } from '../../domain/types'
 import { Panel } from '../../components/ui'
@@ -80,6 +81,7 @@ export function DynamicPanel({
   workerAttached,
   workerUnavailableReason,
 }: DynamicPanelProps) {
+  const t = useT()
   const signals = worstFirst((dynamic.signals ?? []) as (SandboxSignal & { severity: string })[])
   const ran = dynamic.ran === true
   const refused = dynamic.refused === true
@@ -93,7 +95,7 @@ export function DynamicPanel({
           strokeWidth={1.75}
         />
         <div className="min-w-0 flex-1">
-          <h2 className="text-h text-fg">Behavioural analysis</h2>
+          <h2 className="text-h text-fg">{t('y.behavioural-analysis')}</h2>
 
           {refused ? (
             <p className="mt-1 text-body text-fg-muted">

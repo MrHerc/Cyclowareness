@@ -143,10 +143,11 @@ function QuizBody({ edits }: { edits: ModuleEdits }) {
 }
 
 function FeedbackBody({ edits }: { edits: ModuleEdits }) {
+  const t = useT()
   return (
     <div className="space-y-4">
       <div className="space-y-1">
-        <h3 className="text-title text-fg">Module complete</h3>
+        <h3 className="text-title text-fg">{t('y.module-complete')}</h3>
         <p className="text-body text-fg-muted">
           The employee sees their score, which questions they got wrong, and the explanation for
           each.

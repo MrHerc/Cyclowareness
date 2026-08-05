@@ -11,6 +11,7 @@
  * copyable text anyone can paste into their own reference.
  */
 
+import { useT } from '../../lib/i18n'
 import type { MitreTechnique } from '../../domain/types'
 import { Panel } from '../../components/ui'
 
@@ -19,6 +20,7 @@ export interface MitrePanelProps {
 }
 
 export function MitrePanel({ techniques }: MitrePanelProps) {
+  const t = useT()
   if (techniques.length === 0) return null
 
   // One group per tactic, in the order the techniques arrived — the engine
@@ -31,7 +33,7 @@ export function MitrePanel({ techniques }: MitrePanelProps) {
 
   return (
     <Panel>
-      <h2 className="text-h text-fg">MITRE ATT&amp;CK</h2>
+      <h2 className="text-h text-fg">{t('y.mitre-attampck')}</h2>
       <p className="mt-1 text-sm text-fg-muted">
         Techniques mapped from findings this analysis produced. Each row names the signals it was
         derived from, so the mapping can be checked rather than taken on trust.

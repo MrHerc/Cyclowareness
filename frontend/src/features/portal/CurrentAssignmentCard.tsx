@@ -11,6 +11,7 @@
  * the analyst saw at the approval gate.
  */
 
+import { useT } from '../../lib/i18n'
 import { CalendarClock, Clock, ShieldCheck, Target, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
@@ -52,6 +53,7 @@ export function CurrentAssignmentCard({
   incident,
   modelConnected,
 }: CurrentAssignmentCardProps) {
+  const t = useT()
   const { module } = assignment
   const started = assignment.status === 'in_progress'
   const due = deadlineIn(incident?.deadline ?? null)
@@ -72,7 +74,7 @@ export function CurrentAssignmentCard({
         <p className="text-lead text-fg-muted">{module.description}</p>
 
         <div>
-          <h3 className="text-h text-fg">Why you received this</h3>
+          <h3 className="text-h text-fg">{t('y.why-you-received-this')}</h3>
           {assignment.targeting_reasons.length > 0 ? (
             <ul className="mt-2 space-y-2">
               {assignment.targeting_reasons.map((reason) => (

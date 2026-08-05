@@ -11,6 +11,7 @@
  *   browser should not tell them which deployment sent the analyst.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink } from 'lucide-react'
 import { CodeBlock } from '../../components/ui'
 import type { IntelItemDetail } from '../../domain/types'
@@ -21,6 +22,7 @@ export interface IntelAdvisoryContentProps {
 }
 
 export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
+  const t = useT()
   const techniques = item.mitre_techniques ?? []
   const references = item.reference_urls ?? []
   const iocGroups = Object.entries(item.iocs ?? {}).filter(
@@ -29,7 +31,7 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
 
   return (
     <section className="space-y-5 border-t border-line-subtle pt-5">
-      <h3 className="text-h text-fg">As published</h3>
+      <h3 className="text-h text-fg">{t('y.as-published')}</h3>
 
       <div>
         <p className="label text-fg-faint">MITRE ATT&amp;CK techniques</p>

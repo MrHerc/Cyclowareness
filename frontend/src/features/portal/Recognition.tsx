@@ -120,7 +120,7 @@ export function Recognition({
 
         {badges.length > 0 ? (
           <div>
-            <h3 className="label text-fg-subtle">Badges</h3>
+            <h3 className="label text-fg-subtle">{t('y.badges')}</h3>
             <ul className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {badges.map((badge) => (
                 <BadgeTile key={badge.id} badge={badge} />
@@ -131,7 +131,7 @@ export function Recognition({
 
         {teams.length > 0 ? (
           <div>
-            <h3 className="label text-fg-subtle">Teams, safest first</h3>
+            <h3 className="label text-fg-subtle">{t('y.teams-safest-first')}</h3>
             <ul className="mt-2 divide-line">
               {teams.map((team) => (
                 <li

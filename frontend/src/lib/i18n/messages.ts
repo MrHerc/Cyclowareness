@@ -881,6 +881,110 @@ const en = {
     'Your reports could not be loaded',
   'x.your-risk-score':
     'Your risk score',
+
+  // --- inline headings and labels ---------------------------------------
+  'y.analysis-capability':
+    'Analysis capability',
+  'y.approval-gate':
+    'Approval gate',
+  'y.as-published':
+    'As published',
+  'y.assigned':
+    'Assigned',
+  'y.badges':
+    'Badges',
+  'y.behaviour-summary':
+    'Behaviour summary',
+  'y.behavioural-analysis':
+    'Behavioural analysis',
+  'y.chain-of-custody':
+    'Chain of custody',
+  'y.closure-criteria-as-written-when':
+    'Closure criteria, as written when this was opened',
+  'y.content-provenance':
+    'Content provenance',
+  'y.demonstration-accounts':
+    'DEMONSTRATION ACCOUNTS',
+  'y.departments-this-run-touched':
+    'Departments this run touched',
+  'y.from':
+    'From',
+  'y.how-the-open-findings-are':
+    'How the open findings are distributed',
+  'y.impact':
+    'Impact',
+  'y.indicators-of-compromise':
+    'Indicators of compromise',
+  'y.lesson-sections':
+    'Lesson sections',
+  'y.mitre-attampck':
+    'MITRE ATT&amp;CK',
+  'y.mitre-attampck-mapping':
+    'MITRE ATT&amp;CK mapping',
+  'y.model-component':
+    'Model component',
+  'y.module-complete':
+    'Module complete',
+  'y.net-risk-movement':
+    'Net risk movement',
+  'y.packs-this-deployment-cannot-yet':
+    'Packs this deployment cannot yet generate',
+  'y.plainlanguage-explanation':
+    'Plain-language explanation',
+  'y.policy-exposure-by-severity':
+    'Policy exposure by severity',
+  'y.quiz':
+    'Quiz',
+  'y.recent-changes':
+    'Recent changes',
+  'y.recorded-metadata':
+    'Recorded metadata',
+  'y.required-approvals':
+    'Required approvals',
+  'y.riskscore-impact':
+    'Risk-score impact',
+  'y.rule-component':
+    'Rule component',
+  'y.sandbox':
+    'Sandbox',
+  'y.sandbox-report':
+    'Sandbox report',
+  'y.skipped-and-why':
+    'Skipped, and why',
+  'y.teams-safest-first':
+    'Teams, safest first',
+  'y.the-closure-note-that-did':
+    'The closure note that did not hold',
+  'y.the-content-contradicts-the-name':
+    'The content contradicts the name it was given',
+  'y.what-carries-each-requirement':
+    'What carries each requirement',
+  'y.what-this-run-leaves-open':
+    'What this run leaves open',
+  'y.where-your-score-started':
+    'Where your score started',
+  'y.why-each-person':
+    'Why each person',
+  'y.why-you-received-this':
+    'Why you received this',
+
+  // --- report catalogue -------------------------------------------------
+  'z.closedloop-evidence-pack':
+    'Closed-loop evidence pack',
+  'z.department-risk-report':
+    'Department risk report',
+  'z.policy-exposure-report':
+    'Policy exposure report',
+  'z.incidentrisk-remediation-report':
+    'Incident-risk remediation report',
+  'z.the-document-a-regulator-or':
+    'The document a regulator or an insurer asks for: proof that a real threat reached a real person and that something measurable happened afterwards.',
+  'z.where-the-human-risk-concentrates':
+    'Where the human risk concentrates, for a leadership review — the rollup an executive is asked to act on quarterly.',
+  'z.every-place-the-world-has':
+    'Every place the world has moved away from a rule this organisation wrote down, with the passage each rule came from.',
+  'z.what-incident-response-asked-of':
+    'What incident response asked of named people, and whether it was completed to the standard that was set.',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -1727,6 +1831,106 @@ const az: Record<MessageKey, string> = {
     'Hesabatlarınız yüklənə bilmədi',
   'x.your-risk-score':
     'Risk balınız',
+  'y.analysis-capability':
+    'Təhlil imkanı',
+  'y.approval-gate':
+    'Təsdiq qapısı',
+  'y.as-published':
+    'Dərc olunduğu kimi',
+  'y.assigned':
+    'Tapşırılıb',
+  'y.badges':
+    'Nişanlar',
+  'y.behaviour-summary':
+    'Davranış xülasəsi',
+  'y.behavioural-analysis':
+    'Davranış təhlili',
+  'y.chain-of-custody':
+    'Saxlama zənciri',
+  'y.closure-criteria-as-written-when':
+    'Bağlanma meyarları — açılarkən yazıldığı kimi',
+  'y.content-provenance':
+    'Məzmunun mənşəyi',
+  'y.demonstration-accounts':
+    'NÜMAYİŞ HESABLARI',
+  'y.departments-this-run-touched':
+    'Bu axının toxunduğu şöbələr',
+  'y.from':
+    'Başlanğıc',
+  'y.how-the-open-findings-are':
+    'Açıq tapıntıların paylanması',
+  'y.impact':
+    'Təsir',
+  'y.indicators-of-compromise':
+    'Kompromis göstəriciləri',
+  'y.lesson-sections':
+    'Dərs bölmələri',
+  'y.mitre-attampck':
+    'MITRE ATT&amp;CK',
+  'y.mitre-attampck-mapping':
+    'MITRE ATT&amp;CK uyğunlaşdırması',
+  'y.model-component':
+    'Model komponenti',
+  'y.module-complete':
+    'Modul tamamlandı',
+  'y.net-risk-movement':
+    'Xalis risk hərəkəti',
+  'y.packs-this-deployment-cannot-yet':
+    'Bu quraşdırmanın hələ yarada bilmədiyi paketlər',
+  'y.plainlanguage-explanation':
+    'Sadə dildə izah',
+  'y.policy-exposure-by-severity':
+    'Ciddiliyə görə siyasət üzrə məruz qalma',
+  'y.quiz':
+    'Test',
+  'y.recent-changes':
+    'Son dəyişikliklər',
+  'y.recorded-metadata':
+    'Qeydə alınmış metadata',
+  'y.required-approvals':
+    'Tələb olunan təsdiqlər',
+  'y.riskscore-impact':
+    'Risk balına təsir',
+  'y.rule-component':
+    'Qayda komponenti',
+  'y.sandbox':
+    'Sandbox',
+  'y.sandbox-report':
+    'Sandbox hesabatı',
+  'y.skipped-and-why':
+    'Atlananlar və səbəbi',
+  'y.teams-safest-first':
+    'Komandalar — ən təhlükəsizdən başlayaraq',
+  'y.the-closure-note-that-did':
+    'Doğrulanmayan bağlanma qeydi',
+  'y.the-content-contradicts-the-name':
+    'Məzmun ona verilmiş adla ziddiyyət təşkil edir',
+  'y.what-carries-each-requirement':
+    'Hər tələbi nəyin daşıdığı',
+  'y.what-this-run-leaves-open':
+    'Bu axının açıq qoyduqları',
+  'y.where-your-score-started':
+    'Balınızın başlanğıc nöqtəsi',
+  'y.why-each-person':
+    'Hər şəxsin niyə seçildiyi',
+  'y.why-you-received-this':
+    'Bunu niyə aldığınız',
+  'z.closedloop-evidence-pack':
+    'Qapalı dövrə sübut paketi',
+  'z.department-risk-report':
+    'Şöbə üzrə risk hesabatı',
+  'z.policy-exposure-report':
+    'Siyasət üzrə məruz qalma hesabatı',
+  'z.incidentrisk-remediation-report':
+    'İnsident riski üzrə korrektiv tədbir hesabatı',
+  'z.the-document-a-regulator-or':
+    'Tənzimləyicinin və ya sığortaçının tələb etdiyi sənəd: real təhdidin real şəxsə çatdığının və sonrasında ölçülə bilən nəyinsə baş verdiyinin sübutu.',
+  'z.where-the-human-risk-concentrates':
+    'İnsan riskinin harada cəmləndiyi — rəhbərlik baxışı üçün; rəhbərin rüblük əsasda tədbir görməsi istənilən ümumiləşdirmə.',
+  'z.every-place-the-world-has':
+    'Dünyanın bu təşkilatın yazıya aldığı qaydadan uzaqlaşdığı hər yer — hər qaydanın götürüldüyü mətn parçası ilə birlikdə.',
+  'z.what-incident-response-asked-of':
+    'İnsidentə cavabın adı çəkilən şəxslərdən nə tələb etdiyi və bunun təyin olunmuş standarta uyğun tamamlanıb-tamamlanmadığı.',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

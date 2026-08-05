@@ -11,6 +11,7 @@
  * sentence rather than as a number a reader has to interpret.
  */
 
+import { useT } from '../../lib/i18n'
 import type { SandboxImpact } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { cn, humanise, num } from '../../lib/format'
@@ -28,6 +29,7 @@ const SEVERITY_TONE: Record<string, string> = {
 }
 
 export function ImpactPanel({ impact }: ImpactPanelProps) {
+  const t = useT()
   const rated = 'vector' in impact ? (impact as SandboxImpact) : null
   if (!rated) return null
 
@@ -35,7 +37,7 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
 
   return (
     <Panel>
-      <h2 className="text-h text-fg">Impact</h2>
+      <h2 className="text-h text-fg">{t('y.impact')}</h2>
 
       {nothingDemonstrated ? (
         <p className="mt-2 text-body text-fg-muted">
