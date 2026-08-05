@@ -62,6 +62,14 @@ class Settings(BaseSettings):
     real_analyzer_url: str = ""
 
     # Task queue: "inprocess" | "celery"
+    # --- phone-entry portals ------------------------------------------------
+    # The two numbers the portal split keys on. Env-overridable because they are
+    # personal data with defaults committed at the owner's explicit request —
+    # a deployment for anyone else sets ADMIN_PHONE / USER_PHONE instead of
+    # editing source.
+    admin_phone: str = "0102210831"
+    user_phone: str = "0557711253"
+
     task_runner: str = "inprocess"
     redis_url: str = "redis://localhost:6379/0"
 
