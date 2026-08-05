@@ -985,6 +985,16 @@ const en = {
     'Every place the world has moved away from a rule this organisation wrote down, with the passage each rule came from.',
   'z.what-incident-response-asked-of':
     'What incident response asked of named people, and whether it was completed to the standard that was set.',
+
+  // --- late literals (helpers and inline ternaries) ---------------------
+  'w.every-active-and-recently-closed':
+    'Every active and recently closed run',
+  'w.static-and-dynamic-analysis':
+    'Static and dynamic analysis',
+  'w.static-analysis-only':
+    'Static analysis only',
+  'w.worker-attached':
+    'Worker attached',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -1931,6 +1941,14 @@ const az: Record<MessageKey, string> = {
     'Dünyanın bu təşkilatın yazıya aldığı qaydadan uzaqlaşdığı hər yer — hər qaydanın götürüldüyü mətn parçası ilə birlikdə.',
   'z.what-incident-response-asked-of':
     'İnsidentə cavabın adı çəkilən şəxslərdən nə tələb etdiyi və bunun təyin olunmuş standarta uyğun tamamlanıb-tamamlanmadığı.',
+  'w.every-active-and-recently-closed':
+    'Bütün aktiv və yaxınlarda bağlanmış axınlar',
+  'w.static-and-dynamic-analysis':
+    'Statik və dinamik təhlil',
+  'w.static-analysis-only':
+    'Yalnız statik təhlil',
+  'w.worker-attached':
+    'İşçi qoşulub',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

@@ -12,6 +12,7 @@
  * three rows. Any other arrangement drifts.
  */
 
+import type { MessageKey } from '../../lib/i18n'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useT } from '../../lib/i18n'
@@ -44,8 +45,10 @@ function stageLabel(stage: number): string {
   return STAGES.find((entry) => entry.n === stage)?.label ?? `Stage ${stage}`
 }
 
-function selectionLabel(selected: RunPosition): string {
-  if (selected === null) return 'Every active and recently closed run'
+/** Takes the translator rather than reaching for one: this is a module-level
+ *  helper, and a hook cannot be called outside a component. */
+function selectionLabel(selected: RunPosition, t: (key: MessageKey) => string): string {
+  if (selected === null) return t('w.every-active-and-recently-closed')
   if (selected === 'gate') return 'Runs waiting at the human approval gate'
   return `Runs held at ${stageLabel(selected)}`
 }
@@ -98,7 +101,7 @@ export function LoopSection({
 
         <div className="mt-6 border-t border-line-subtle pt-4">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h3 className="text-h text-fg">{selectionLabel(selected)}</h3>
+            <h3 className="text-h text-fg">{selectionLabel(selected, t)}</h3>
             <p className="text-xs text-fg-faint">
               {visible.length} of {runs.length} {runs.length === 1 ? 'run' : 'runs'}
             </p>

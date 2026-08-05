@@ -120,7 +120,7 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
             )}
             <div className="min-w-0 space-y-2">
               <h3 className="text-h text-fg">
-                {dynamic ? 'Static and dynamic analysis' : 'Static analysis only'}
+                {dynamic ? t('w.static-and-dynamic-analysis') : t('w.static-analysis-only')}
               </h3>
               {dynamic ? (
                 <p className="text-body text-fg-muted">

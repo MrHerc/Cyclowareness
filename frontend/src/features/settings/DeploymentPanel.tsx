@@ -207,7 +207,7 @@ export function DeploymentPanel() {
               }
             >
               <Badge tone={sandbox.data?.dynamic_worker ? 'safe' : 'medium'} size="sm">
-                {sandbox.data?.dynamic_worker ? 'Worker attached' : 'Static analysis only'}
+                {sandbox.data?.dynamic_worker ? t('w.worker-attached') : t('w.static-analysis-only')}
               </Badge>
             </SettingRow>
           </dl>
