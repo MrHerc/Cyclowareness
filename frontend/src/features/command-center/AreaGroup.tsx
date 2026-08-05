@@ -18,7 +18,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import { useT, type MessageKey } from '../../lib/i18n'
+import { useLocale, type MessageKey } from '../../lib/i18n'
 
 export interface AreaGroupProps {
   /** The SAME key the sidebar renders for this section — the mirroring is the
@@ -34,12 +34,16 @@ export interface AreaGroupProps {
 }
 
 export function AreaGroup({ labelKey, to, linkKey, id: bandId, children }: AreaGroupProps) {
-  const t = useT()
+  const { locale, t } = useLocale()
   const id = `area-${bandId}`
 
   return (
     <section aria-labelledby={id} className="space-y-3">
-      <div className="flex items-baseline gap-3">
+      {/* These two strings ARE translated, and they sit inside a `<main lang="en">`
+          that declares the surrounding prose is not. Both are `.label`, so they
+          are uppercased by the browser using the element's language — without
+          this, "Sistem" would render "SISTEM" instead of "SİSTEM". */}
+      <div lang={locale} className="flex items-baseline gap-3">
         <h3 id={id} className="label shrink-0 text-fg-subtle">
           {t(labelKey)}
         </h3>

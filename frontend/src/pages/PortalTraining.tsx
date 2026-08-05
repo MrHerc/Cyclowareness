@@ -98,6 +98,17 @@ export default function PortalTraining() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      {/* This page had NO h1 at all — it opened on a back link and its first
+          heading was an h2. A reader navigating by heading landed with nothing
+          telling them where they were, on the one surface a non-technical
+          employee actually uses.
+
+          Visually hidden rather than drawn, because the module's own title is
+          already the largest thing on the page; a second copy would be noise for
+          everyone who can see it and the fix is for everyone who cannot. It
+          names the module once loaded, and says what the page is before then. */}
+      <h1 className="sr-only">{detail ? detail.module.title : 'Your training module'}</h1>
+
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           to="/portal"

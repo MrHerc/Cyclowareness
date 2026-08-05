@@ -118,9 +118,23 @@ export function AppShell() {
           />
         </aside>
 
+        {/* This region declares the language it is actually written in, which
+            today is English: the shell is translated, the analytical prose
+            inside the panels deliberately is not.
+
+            It is not cosmetic. `text-transform: uppercase` follows the element's
+            language, and Azerbaijani casing maps `i` to `İ` — correct for
+            Azerbaijani words, and wrong for the 56 English labels that were
+            rendering as "TİME SPENT" and "DELİVERED AS" the moment the document
+            claimed to be Azerbaijani. A screen reader picks its voice the same
+            way, so the attribute was mis-describing this text twice over.
+
+            When the panel prose is translated, this becomes `locale` and the
+            override below goes away. */}
         <main
           id="main-content"
           tabIndex={-1}
+          lang="en"
           className="min-w-0 flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8"
         >
           <ErrorBoundary name="page">
