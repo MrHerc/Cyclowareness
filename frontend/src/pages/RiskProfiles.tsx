@@ -60,6 +60,11 @@ export default function RiskProfiles() {
     roster.length === 0
       ? null
       : Math.round(roster.reduce((sum, person) => sum + behaviourOf(person), 0) * 10) / 10
+  // The per-person figure the sentence below needs. `totalBehaviour` is a sum
+  // across the roster; putting it between two means made the arithmetic fail for
+  // anyone who checked it, which this product invites people to do.
+  const behaviourPerPerson =
+    roster.length > 0 && totalBehaviour !== null ? totalBehaviour / roster.length : 0
 
   return (
     <div className="space-y-6">
@@ -172,11 +177,17 @@ export default function RiskProfiles() {
             title="Baseline or behaviour"
             subtitle="Which half of the model the organisation's risk is actually coming from."
           >
+            {/* All three figures are PER PERSON. They were not: the middle one
+                was a roster-wide sum sitting between two means, so the sentence
+                read "an average of 34.6 … moved by +150 … lands the average at
+                40.4" and presented that as a derivation. The sum is still worth
+                stating — it is the size of the effect across the organisation —
+                but it is named as a total, separately, on its own denominator. */}
             <p className="text-body text-fg-muted">
               Across {roster.length} {roster.length === 1 ? 'person' : 'people'}, role baselines put
-              the organisation at an average of {num(averageBaseline, 1)}. Recorded behaviour has
-              moved the total by {signed(totalBehaviour, 1)} points, which lands the average at{' '}
-              {num(averageScore, 1)}.{' '}
+              the organisation at an average of {num(averageBaseline, 1)}. Recorded behaviour moves
+              that by {signed(behaviourPerPerson, 1)} per person — {signed(totalBehaviour, 1)} points
+              in total across the roster — which lands the average at {num(averageScore, 1)}.{' '}
               {totalBehaviour === null || totalBehaviour === 0
                 ? 'Recorded behaviour has cancelled out exactly, so the organisation currently sits on its role baselines.'
                 : totalBehaviour > 0

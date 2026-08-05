@@ -69,14 +69,24 @@ export function RiskTrendChart({
   // a window with a composite but no behaviour measurement has nothing to say.
   const hasData = hasEnoughPoints(points.map((p) => p.avg_behaviour_risk))
 
+  // The caveat belongs to the SERIES, not to one page that remembers to print
+  // it. Executive read `source` and disclosed the seeded points; Departments
+  // drew the identical series and said nothing, so the same data was measurement
+  // on one screen and demonstration on another. Counting it here means every
+  // consumer inherits the disclosure, including the next one.
+  const seeded = points.filter((point) => point.source === 'seeded').length
+
   return (
     <ChartFrame
       headingLevel={headingLevel}
       title="Risk over time"
       caption={
-        windowDays
+        (windowDays
           ? `Last ${windowDays} days · 0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.`
-          : '0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.'
+          : '0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.') +
+        (seeded > 0
+          ? ` ${seeded} of ${points.length} points here were written by the demonstration seed rather than measured from this deployment's own events.`
+          : '')
       }
       legend={[
         { label: 'Behaviour risk', color: BEHAVIOUR_COLOR },
