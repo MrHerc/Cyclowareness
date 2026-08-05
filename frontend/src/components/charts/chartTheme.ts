@@ -13,6 +13,7 @@
  * "this is Cyclowareness", never "this is the good line".
  */
 
+import { activeLocale, monthStyle } from '../../lib/format'
 import type { Severity } from '../../domain/types'
 
 /* ============================================================================
@@ -139,7 +140,11 @@ export function formatDayShort(iso: string | null | undefined): string {
   if (!iso) return '—'
   const date = utcDay(iso)
   if (!date) return iso
-  return date.toLocaleDateString(undefined, { day: 'numeric', month: 'short', timeZone: 'UTC' })
+  return date.toLocaleDateString(activeLocale(), {
+    day: 'numeric',
+    month: monthStyle(),
+    timeZone: 'UTC',
+  })
 }
 
 /** Tooltip titles: "1 Jul 2026". */

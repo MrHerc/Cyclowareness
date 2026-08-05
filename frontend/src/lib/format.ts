@@ -92,18 +92,90 @@ export function deadlineIn(iso: string | null | undefined): { text: string; over
   return { text: `in ${days}d`, overdue: false }
 }
 
+/**
+ * The locale these functions format in.
+ *
+ * Read from `<html lang>` rather than plumbed through as a parameter or a hook.
+ * The provider already writes that attribute — it has to, because a screen
+ * reader picks its voice from it — so it is the DOM's own statement of what
+ * language the page is in, and reading it back keeps these plain functions
+ * plain. Call sites number in the hundreds; none of them should have to know.
+ *
+ * `undefined` means "use the browser's own", which is the correct answer before
+ * React has mounted and during a server-side render.
+ */
+export function activeLocale(): string | undefined {
+  if (typeof document === 'undefined') return undefined
+  const lang = document.documentElement.lang
+  return lang || undefined
+}
+
+/**
+ * Does this locale actually have month NAMES, or only a placeholder?
+ *
+ * Measured, not assumed: in this browser's ICU data,
+ * `toLocaleDateString('az', { month: 'short' })` returns "2026 M08 5" — `M08`
+ * is a fallback token, not a month, and it is worse to read than the English it
+ * replaced. The numeric form for the same locale is "2026-08-05", which is both
+ * correct and unambiguous.
+ *
+ * So the format is chosen by asking the browser rather than by hardcoding a
+ * list of locales: if the short month for a known date contains no letters, use
+ * numbers. If a future ICU ships real Azerbaijani month names, this starts
+ * using them with no change here.
+ */
+const SAMPLE = new Date(Date.UTC(2026, 7, 5))
+let namesUsable: boolean | null = null
+
+function monthNamesUsable(locale: string | undefined): boolean {
+  if (namesUsable === null) {
+    try {
+      // Isolate the MONTH part — testing the whole formatted string does not
+      // work, and this is the mistake the first attempt made: "2026 M08 5"
+      // contains the letter M, so "does it have letters" answered yes and the
+      // placeholder shipped anyway. A real name is not `M08`, `08` or `8`.
+      const part = new Intl.DateTimeFormat(locale, { month: 'short' })
+        .formatToParts(SAMPLE)
+        .find((piece) => piece.type === 'month')
+      namesUsable = part ? !/^M?\d+$/.test(part.value) : true
+    } catch {
+      namesUsable = true
+    }
+  }
+  return namesUsable
+}
+
+/** Reset when the language changes — the answer depends on the locale. */
+/** `'short'` where the locale has real month names, `'numeric'` where it does
+ *  not. Every date in the product must ask this — three call sites outside this
+ *  file did not, so one page showed "2026-08-04" and "7 Jul – 5 Aug 2026" at the
+ *  same time, which is two systems in one screenshot. */
+export function monthStyle(): 'short' | 'numeric' {
+  return monthNamesUsable(activeLocale()) ? 'short' : 'numeric'
+}
+
+export function resetDateFormatCache(): void {
+  namesUsable = null
+}
+
 export function formatDate(iso: string | null | undefined): string {
   const date = parse(iso)
   if (!date) return '—'
-  return date.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
+  const locale = activeLocale()
+  return date.toLocaleDateString(locale, {
+    day: 'numeric',
+    month: monthNamesUsable(locale) ? 'short' : 'numeric',
+    year: 'numeric',
+  })
 }
 
 export function formatDateTime(iso: string | null | undefined): string {
   const date = parse(iso)
   if (!date) return '—'
-  return date.toLocaleString(undefined, {
+  const locale = activeLocale()
+  return date.toLocaleString(locale, {
     day: 'numeric',
-    month: 'short',
+    month: monthNamesUsable(locale) ? 'short' : 'numeric',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
@@ -113,7 +185,11 @@ export function formatDateTime(iso: string | null | undefined): string {
 export function formatTime(iso: string | null | undefined): string {
   const date = parse(iso)
   if (!date) return '—'
-  return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  return date.toLocaleTimeString(activeLocale(), {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
 }
 
 /* ============================================================================

@@ -16,6 +16,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { LocaleContext, STORAGE_KEY, initialLocale } from './context'
+import { resetDateFormatCache } from '../format'
 import { MESSAGES, type Locale, type MessageKey } from './messages'
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
@@ -23,6 +24,10 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale
+    // `formatDate` reads the language off this attribute and caches whether the
+    // locale has usable month names. Setting the attribute is what invalidates
+    // that answer, so the reset belongs here and nowhere else.
+    resetDateFormatCache()
   }, [locale])
 
   const setLocale = useCallback((next: Locale) => {

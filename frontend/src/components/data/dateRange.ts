@@ -1,3 +1,4 @@
+import { activeLocale, monthStyle } from '../../lib/format'
 /**
  * Measurement windows, as plain data.
  *
@@ -72,7 +73,7 @@ export function formatRangeLabel(from: string, to: string): string {
   const end = fromISODate(to)
   if (!start || !end) return 'Range not set'
 
-  const month = (date: Date) => date.toLocaleDateString(undefined, { month: 'short' })
+  const month = (date: Date) => date.toLocaleDateString(activeLocale(), { month: monthStyle() })
   const sameYear = start.getFullYear() === end.getFullYear()
 
   if (sameYear && start.getMonth() === end.getMonth()) {
