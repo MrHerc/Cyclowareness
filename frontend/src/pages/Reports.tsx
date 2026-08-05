@@ -25,7 +25,7 @@ import {
   defaultDateRange,
   type DateRangeValue,
 } from '../components/data'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel } from '../components/ui'
 import { REPORT_TYPES, inRange } from '../features/reports/catalogue'
@@ -48,7 +48,7 @@ function countOf<T>(rows: T[] | undefined, predicate: (row: T) => boolean): numb
 }
 
 export default function Reports() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [range, setRange] = useState<DateRangeValue>(() => defaultDateRange('30d'))
   const backing = backingFor('reports')
   const { can } = useAuth()
@@ -101,11 +101,7 @@ export default function Reports() {
             <DataSourceLabel source="live" detail={backing.note} />
           </div>
           <h1 className="text-display text-fg">{t('page.reports.title')}</h1>
-          <p className="text-body text-fg-muted">
-            Evidence packs are built from the same records the operational screens read. The window
-            below scopes every count on this page, and each pack says whether this deployment can
-            actually produce it.
-          </p>
+          <p lang={locale} className="text-body text-fg-muted">{t('page.reports.lead')}</p>
         </div>
         <DateRangeSelector
           value={range}

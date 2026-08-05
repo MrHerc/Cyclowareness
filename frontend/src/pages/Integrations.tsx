@@ -14,7 +14,7 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Link2, ShieldOff } from 'lucide-react'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { DemoDataBadge } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard } from '../components/states'
 import { Badge, Panel, Select } from '../components/ui'
@@ -44,7 +44,7 @@ const GROUPS: { key: 'learning' | 'identity'; title: string; blurb: string }[] =
 ]
 
 export default function Integrations() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [params, setParams] = useSearchParams()
   const backing = backingFor('integrations')
 
@@ -95,10 +95,7 @@ export default function Integrations() {
             <DemoDataBadge detail={backing.note} />
           </div>
           <h1 className="text-display text-fg">{t('page.integrations.title')}</h1>
-          <p className="text-body text-fg-muted">
-            Connections to the learning platforms training would be delivered through, and to the
-            identity providers people would sign in with.
-          </p>
+          <p lang={locale} className="text-body text-fg-muted">{t('page.integrations.lead')}</p>
         </div>
 
         {/* The capability statement, above everything it qualifies. Neutral

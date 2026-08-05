@@ -21,7 +21,7 @@ import { ControlGapList } from '../features/remediation/ControlGapList'
 import { CoverageGapList } from '../features/remediation/CoverageGapList'
 import { PlanQueue } from '../features/remediation/PlanQueue'
 import { RemediationSummary } from '../features/remediation/RemediationSummary'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel, Select } from '../components/ui'
 import {
@@ -41,7 +41,7 @@ const STATUS_OPTIONS = [
 ]
 
 export default function Remediation() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [params, setParams] = useSearchParams()
   const status = params.get('status') ?? 'all'
 
@@ -63,10 +63,7 @@ export default function Remediation() {
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="space-y-2">
         <h1 className="text-display text-fg">{t('page.remediation.title')}</h1>
-        <p className="text-lead text-fg-muted">
-          What gets attached to a named person after something happened to them — and, just as
-          often, the reasoned decision to attach nothing.
-        </p>
+        <p lang={locale} className="text-lead text-fg-muted">{t('page.remediation.lead')}</p>
       </header>
 
       {/* Counted in SQL over every plan, never from the page below. */}

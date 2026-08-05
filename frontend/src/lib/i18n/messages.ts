@@ -126,6 +126,39 @@ const en = {
   'page.audit.title': 'Audit log',
   'page.settings.title': 'Settings',
 
+  'page.approvals.lead':
+    'Nothing generated from a real threat reaches a named employee until a person approves it here. Every row is a loop run stopped between conversion and targeting, waiting on a decision.',
+  'page.audit.lead':
+    'Every material change the platform made, who made it, and the state of the record on both sides of it. The trail is written by the API in the same transaction as the change, and there is no route that can append to it — which is what makes it worth reading.',
+  'page.command-center.lead':
+    'Where the loop is right now, and what is waiting on a person.',
+  'page.departments.lead':
+    'The same risk model, rolled up to the teams that carry it. Departed staff are excluded from every average, so a department is not credited for people who left.',
+  'page.employees.lead':
+    'Every person the risk engine scores, with the score it currently holds and the movement it has recorded. Open anyone to see the arithmetic behind their number.',
+  'page.executive.lead':
+    'Whether real threats are changing how people behave, and what is still open. Every figure states the period and the sample it came from; anything that was not measured says so rather than showing a zero.',
+  'page.incident-risks.lead':
+    'Risk that incident response raised against named people, and the work required to discharge it. A risk opens as a draft — nobody is on the hook until it is assigned.',
+  'page.integrations.lead':
+    'Connections to the learning platforms training would be delivered through, and to the identity providers people would sign in with.',
+  'page.loops.lead':
+    'Every threat that entered Cyclowareness, and exactly how far around the seven stages it has travelled. Nothing here advances past stage three without a human decision.',
+  'page.remediation.lead':
+    'What gets attached to a named person after something happened to them — and, just as often, the reasoned decision to attach nothing.',
+  'page.reports.lead':
+    'Evidence packs are built from the same records the operational screens read. The window below scopes every count on this page, and each pack says whether this deployment can actually produce it.',
+  'page.settings.lead':
+    'What this deployment is, what it can do, and the two preferences this browser remembers. Anything the platform cannot store is not offered here — a settings page of switches that do nothing is worse than a short one that is accurate.',
+  'page.simulations.lead':
+    'Safe campaigns built from prebuilt lures or from a real threat the sandbox has already analyzed. Delivery is not wired to a gateway here — outcomes are recorded against targets by an analyst, and every rate on this page says how many that was.',
+  'page.intel.lead':
+    'External advisories, compared against what this organisation runs and what it has approved. An advisory earns attention here when it matches something of ours.',
+  'page.threats.lead':
+    'Stage 1 of the loop. Employees report what reaches them, analysts push what matters from the curated feed, and anything submitted here starts a run immediately.',
+  'page.training.lead':
+    'Every module the platform has produced, with how it was written on the face of each row. Content that came from a fixed template is never labelled as AI — the distinction is the reason this screen can be trusted.',
+
   // --- command centre bands ------------------------------------------------
   'cc.operationalAreas': 'Operational areas',
   'cc.awaitingApproval': 'Awaiting human approval',
@@ -233,6 +266,39 @@ const az: Record<MessageKey, string> = {
   'page.integrations.title': 'İnteqrasiyalar',
   'page.audit.title': 'Audit jurnalı',
   'page.settings.title': 'Tənzimləmələr',
+
+  'page.approvals.lead':
+    'Real təhdiddən yaradılan heç nə insan burada təsdiqləməyincə adı çəkilən işçiyə çatmır. Hər sətir çevrilmə ilə hədəfləmə arasında dayandırılmış, qərar gözləyən dövrə axınıdır.',
+  'page.audit.lead':
+    'Platformanın etdiyi hər əhəmiyyətli dəyişiklik, onu edən şəxs və qeydin hər iki tərəfdəki vəziyyəti. İz API tərəfindən dəyişikliklə eyni tranzaksiyada yazılır və ona sonradan əlavə edə biləcək marşrut yoxdur — oxunmağa dəyər olmasının səbəbi budur.',
+  'page.command-center.lead':
+    'Dövrənin hazırkı yeri və insan qərarını gözləyənlər.',
+  'page.departments.lead':
+    'Eyni risk modeli, onu daşıyan komandalara görə ümumiləşdirilib. İşdən çıxmış əməkdaşlar bütün ortalamalardan çıxarılır, ona görə departament getmiş insanlara görə qiymətləndirilmir.',
+  'page.employees.lead':
+    'Risk mühərrikinin qiymətləndirdiyi hər şəxs, hazırkı balı və qeydə alınmış hərəkəti ilə. Rəqəmin arxasındakı hesablamanı görmək üçün istənilən şəxsi açın.',
+  'page.executive.lead':
+    'Real təhdidlərin insan davranışını dəyişib-dəyişmədiyi və hələ açıq qalanlar. Hər rəqəm dövrü və gəldiyi seçməni bildirir; ölçülməyən şey sıfır göstərmək əvəzinə bunu açıq deyir.',
+  'page.incident-risks.lead':
+    'İnsidentə cavabın adı çəkilən şəxslərə yazdığı risk və onu bağlamaq üçün tələb olunan iş. Risk qaralama kimi açılır — təyin olunanadək heç kim məsuliyyət daşımır.',
+  'page.integrations.lead':
+    'Təlimin çatdırılacağı öyrənmə platformalarına və insanların daxil olacağı kimlik provayderlərinə bağlantılar.',
+  'page.loops.lead':
+    'Cyclowareness-ə daxil olan hər təhdid və yeddi mərhələnin nə qədərini keçdiyi. Burada heç nə insan qərarı olmadan üçüncü mərhələdən irəli getmir.',
+  'page.remediation.lead':
+    'Bir şey baş verdikdən sonra adı çəkilən şəxsə nə əlavə olunur — və çox vaxt heç nə əlavə etməmək barədə əsaslandırılmış qərar.',
+  'page.reports.lead':
+    'Sübut paketləri əməliyyat ekranlarının oxuduğu eyni qeydlərdən qurulur. Aşağıdakı pəncərə bu səhifədəki hər sayı əhatələndirir və hər paket bu quraşdırmanın onu həqiqətən hazırlaya bilib-bilmədiyini bildirir.',
+  'page.settings.lead':
+    'Bu quraşdırmanın nə olduğu, nə edə bildiyi və bu brauzerin yadda saxladığı iki seçim. Platformanın saxlaya bilmədiyi heç nə burada təklif olunmur — heç nə etməyən açarlardan ibarət tənzimləmə səhifəsi qısa və doğru olandan pisdir.',
+  'page.simulations.lead':
+    'Hazır tələlərdən və ya sandbox-un artıq təhlil etdiyi real təhdiddən qurulan təhlükəsiz kampaniyalar. Çatdırılma burada şlüzə bağlanmayıb — nəticələr analitik tərəfindən hədəflərə qarşı qeyd olunur və bu səhifədəki hər nisbət bunun neçə nəfər olduğunu bildirir.',
+  'page.intel.lead':
+    'Xarici bildirişlər, bu təşkilatın işlətdiyi və təsdiqlədiyi ilə müqayisə olunub. Bildiriş bizimkilərdən biri ilə uyğunlaşanda burada diqqətə layiq olur.',
+  'page.threats.lead':
+    'Dövrənin 1-ci mərhələsi. İşçilər onlara çatanı bildirir, analitiklər seçilmiş axından vacib olanı irəli verir, və burada göndərilən hər şey dərhal bir axın başladır.',
+  'page.training.lead':
+    'Platformanın hazırladığı hər modul, hər sətrin üzərində necə yazıldığı ilə. Sabit şablondan gələn məzmun heç vaxt AI kimi etiketlənmir — bu fərq həmin ekrana etibar etməyin səbəbidir.',
 
   'cc.operationalAreas': 'Əməliyyat sahələri',
   'cc.awaitingApproval': 'İnsan təsdiqi gözləyir',

@@ -9,7 +9,7 @@
 import { BadgeCheck, ShieldCheck } from 'lucide-react'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Panel, Tooltip, TONE_TEXT } from '../components/ui'
 import { adaptQueue, type QueueRow } from '../features/approvals/contract'
@@ -80,7 +80,7 @@ function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
 }
 
 export default function Approvals() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [params, setParams] = useSearchParams()
   const filters = useMemo(() => filtersFromParams(params), [params])
 
@@ -102,11 +102,7 @@ export default function Approvals() {
     <div className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-display text-fg">{t('page.approvals.title')}</h1>
-        <p className="max-w-3xl text-lead text-fg-muted">
-          Nothing generated from a real threat reaches a named employee until a person approves it
-          here. Every row is a loop run stopped between conversion and targeting, waiting on a
-          decision.
-        </p>
+        <p lang={locale} className="max-w-3xl text-lead text-fg-muted">{t('page.approvals.lead')}</p>
       </header>
 
       <Panel tone="feature">

@@ -54,7 +54,7 @@ export default function Departments() {
     <div className="space-y-6">
       <PeopleHeader
         title={t('page.departments.title')}
-        lead="The same risk model, rolled up to the teams that carry it. Departed staff are excluded from every average, so a department is not credited for people who left."
+        lead={t('page.departments.lead')}
       />
 
       <AsyncBoundary

@@ -129,7 +129,7 @@ export default function Employees() {
     <div className="space-y-6">
       <PeopleHeader
         title={t('page.employees.title')}
-        lead="Every person the risk engine scores, with the score it currently holds and the movement it has recorded. Open anyone to see the arithmetic behind their number."
+        lead={t('page.employees.lead')}
         actions={
           <Button asChild variant="secondary">
             <Link to="/risk-profiles">How the score is computed</Link>

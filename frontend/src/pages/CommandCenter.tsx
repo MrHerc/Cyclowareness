@@ -28,7 +28,7 @@
 import { useCallback, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { DepartmentRiskHeatmap } from '../components/charts'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { DataSourceLabel, DemoDataBadge, LastUpdated } from '../components/data'
 import { useToast } from '../components/ui'
 import type { ApprovalDecision, AuditEvent } from '../domain/types'
@@ -78,7 +78,7 @@ import { useLoopStream } from '../lib/hooks/useLoopStream'
 const AUDIT_LIMIT = 8
 
 export default function CommandCenter() {
-  const t = useT()
+  const { locale, t } = useLocale()
   // Loop transitions arrive over the socket and invalidate the loop, dashboard
   // and approval caches. Polling underneath it means a dropped socket costs a
   // few seconds of freshness rather than a frozen screen.
@@ -222,9 +222,7 @@ export default function CommandCenter() {
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
           <div className="min-w-0">
             <h1 className="text-title text-fg">{t('page.command-center.title')}</h1>
-            <p className="mt-1 text-body text-fg-muted">
-              Where the loop is right now, and what is waiting on a person.
-            </p>
+            <p lang={locale} className="mt-1 text-body text-fg-muted">{t('page.command-center.lead')}</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <DataSourceLabel source="live" detail="Platform API" />

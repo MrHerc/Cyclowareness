@@ -10,7 +10,7 @@
 import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Radar } from 'lucide-react'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { DataSourceLabel, LastUpdated } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
 import { Button, Panel } from '../components/ui'
@@ -21,7 +21,7 @@ import type { StatusFilter } from '../features/loops/filters'
 import { useLoops } from '../lib/api/queries'
 
 export default function Loops() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [params, setParams] = useSearchParams()
 
   const statusParam = params.get('status')
@@ -51,10 +51,7 @@ export default function Loops() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-title text-fg">{t('page.loops.title')}</h1>
-          <p className="mt-1 max-w-2xl text-body text-fg-muted">
-            Every threat that entered Cyclowareness, and exactly how far around the seven stages it
-            has travelled. Nothing here advances past stage three without a human decision.
-          </p>
+          <p lang={locale} className="mt-1 max-w-2xl text-body text-fg-muted">{t('page.loops.lead')}</p>
         </div>
         <div className="flex flex-col items-end gap-1.5">
           <DataSourceLabel source="live" detail="Loop run records" />

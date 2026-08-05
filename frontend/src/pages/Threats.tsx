@@ -16,7 +16,7 @@
 import { useState } from 'react'
 import { ShieldQuestion, Plus } from 'lucide-react'
 import { DataSourceLabel, DemoDataBadge } from '../components/data'
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { Button, Input, Select } from '../components/ui'
 import { IntelFeedList } from '../features/threats/IntelFeedList'
 import { ReportQueue } from '../features/threats/ReportQueue'
@@ -28,7 +28,7 @@ import { usePermission } from '../lib/auth/useAuth'
 import { backingFor } from '../lib/demo/registry'
 
 export default function Threats() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const [query, setQuery] = useUrlParam('q', '')
   const [artifactType, setArtifactType] = useUrlParam('type', ALL)
   const [submitOpen, setSubmitOpen] = useState(false)
@@ -51,10 +51,7 @@ export default function Threats() {
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-display text-fg">{t('page.threats.title')}</h1>
-          <p className="mt-2 max-w-2xl text-body text-fg-muted">
-            Stage 1 of the loop. Employees report what reaches them, analysts push what matters from
-            the curated feed, and anything submitted here starts a run immediately.
-          </p>
+          <p lang={locale} className="mt-2 max-w-2xl text-body text-fg-muted">{t('page.threats.lead')}</p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             {backing.backing === 'live' ? (
               <DataSourceLabel source="live" />

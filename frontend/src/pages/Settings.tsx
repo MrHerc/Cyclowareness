@@ -13,7 +13,7 @@
  * routes behind them exist.
  */
 
-import { useT } from '../lib/i18n'
+import { useLocale } from '../lib/i18n'
 import { useCapabilities } from '../lib/api/queries'
 import { usePermission } from '../lib/auth/useAuth'
 import { AppearancePanel } from '../features/settings/AppearancePanel'
@@ -22,7 +22,7 @@ import { DeploymentPanel } from '../features/settings/DeploymentPanel'
 import { IdentityPanel } from '../features/settings/IdentityPanel'
 
 export default function Settings() {
-  const t = useT()
+  const { locale, t } = useLocale()
   const capabilities = useCapabilities()
   const canReset = usePermission('demo.reset')
 
@@ -35,11 +35,7 @@ export default function Settings() {
       <header className="min-w-0 max-w-3xl space-y-2">
         <p className="label text-brand">System</p>
         <h1 className="text-display text-fg">{t('page.settings.title')}</h1>
-        <p className="text-body text-fg-muted">
-          What this deployment is, what it can do, and the two preferences this browser remembers.
-          Anything the platform cannot store is not offered here — a settings page of switches that
-          do nothing is worse than a short one that is accurate.
-        </p>
+        <p lang={locale} className="text-body text-fg-muted">{t('page.settings.lead')}</p>
       </header>
 
       <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-2">
