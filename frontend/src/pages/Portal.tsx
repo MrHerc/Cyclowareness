@@ -224,9 +224,41 @@ export default function Portal() {
             <IncidentObligations items={incidentList} />
           )}
 
-          <MyRemediationPlans plans={myPlans.data ?? []} />
+          {/* `MyRemediationPlans` returns null on an empty list, so passing
+              `myPlans.data ?? []` after a failed request renders exactly what
+              "nothing was assigned to you" renders: nothing. That panel carries
+              the stored disclosure telling a person an automated decision was
+              made about them, and the Dispute button that backs it — so a failed
+              fetch silently removed the route of appeal. Every sibling panel on
+              this page already resolves its own failure; this was the one that
+              did not. */}
+          {myPlans.error && !myPlans.data ? (
+            <ErrorState
+              compact
+              error={myPlans.error}
+              title="Plans assigned to you could not be loaded"
+              onRetry={() => void myPlans.refetch()}
+            />
+          ) : (
+            <MyRemediationPlans plans={myPlans.data ?? []} />
+          )}
 
-          {evidence ? (
+          {/* `/employees/me` supplies the event history. When it fails, that
+              history arrives as `undefined`, the narrative turns it into an
+              empty list, and the panel prints three POSITIVE claims out of the
+              silence: "No individual events have been recorded against you",
+              "This score has never been recalculated". A person reads that as
+              being cleared. It is the exact substitution — could-not-load shown
+              as nothing-to-load — that the rest of this product refuses to make,
+              and it was being made on the screen where it matters most. */}
+          {profile.error && !profile.data ? (
+            <ErrorState
+              compact
+              error={profile.error}
+              title="Your recorded events could not be loaded"
+              onRetry={() => void profile.refetch()}
+            />
+          ) : evidence ? (
             <RiskScorePanel
               evidence={evidence}
               openAssignments={open.length}

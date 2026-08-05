@@ -40,7 +40,16 @@ export default function EmployeeDetail() {
 
   const person = employee.data
   const events = person?.recent_events ?? []
-  const trail = person ? scoreTrail(person.current_risk_score, events).map((point) => point.score) : []
+  // `scoreTrail` walks BACKWARDS from the current score, subtracting each delta
+  // to recover what the score was before it. A withdrawn event's delta is not in
+  // the current score — the engine recomputed without it — so unwinding it puts
+  // the line somewhere the person was never at, and the caption below would then
+  // claim the reconstruction came from the events listed underneath.
+  const countedEvents = events.filter((event) => !event.revoked_at)
+  const trail = person
+    ? scoreTrail(person.current_risk_score, countedEvents).map((point) => point.score)
+    : []
+  const withdrawnCount = events.length - countedEvents.length
   const theirReports = (reports.data ?? []).filter((report) => report.employee_id === person?.id)
 
   return (
@@ -112,7 +121,10 @@ export default function EmployeeDetail() {
                       />
                       <span className="text-xs text-fg-subtle">
                         {trail.length >= 2
-                          ? `Reconstructed from the ${trail.length} events below`
+                          ? `Reconstructed from the ${trail.length} events below` +
+                            (withdrawnCount > 0
+                              ? `, excluding ${withdrawnCount} withdrawn`
+                              : '')
                           : 'Two or more events are needed to draw a line'}
                       </span>
                     </div>

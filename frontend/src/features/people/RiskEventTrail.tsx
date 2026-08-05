@@ -48,8 +48,8 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
     <Table containerClassName="max-h-[36rem]">
       <TableCaption>
         The {events.length} most recent events the API returns for this person. The breakdown above
-        sums every event that has not been withdrawn, so a withdrawn event can still appear here
-        without contributing to the score.
+        sums every event that has not been withdrawn; a withdrawn event stays listed here, struck
+        through and marked, because the record of the accusation and of its withdrawal both matter.
       </TableCaption>
 
       <TableHeader>
@@ -65,8 +65,16 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
       <TableBody>
         {events.map((event) => {
           const spec = signalFor(event.type)
+          // A withdrawn event is still returned by the API and still belongs in
+          // the trail — the record of the accusation and of its withdrawal is
+          // the point. What it must NOT do is look live. The caption below
+          // admitted a withdrawn row could be here and gave the reader no way
+          // to tell which one; an analyst reading "Clicked a simulated phish
+          // +12.0" in red has no idea the organisation formally revoked it.
+          const withdrawn = Boolean(event.revoked_at)
+
           return (
-            <TableRow key={event.id}>
+            <TableRow key={event.id} className={cn(withdrawn && 'opacity-60')}>
               <TableCell className="whitespace-nowrap">
                 <Tooltip content={formatDateTime(event.created_at)}>
                   <span>{timeAgo(event.created_at)}</span>
@@ -76,7 +84,15 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
               <TableCell>
                 <Badge
                   size="sm"
-                  tone={event.delta > 0 ? 'critical' : event.delta < 0 ? 'safe' : 'neutral'}
+                  tone={
+                    withdrawn
+                      ? 'neutral'
+                      : event.delta > 0
+                        ? 'critical'
+                        : event.delta < 0
+                          ? 'safe'
+                          : 'neutral'
+                  }
                 >
                   {spec?.label ?? event.type}
                 </Badge>
@@ -85,14 +101,27 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
               <TableCell
                 numeric
                 className={cn(
-                  event.delta > 0 ? 'text-critical' : event.delta < 0 ? 'text-safe' : 'text-fg-muted',
+                  withdrawn
+                    ? 'text-fg-faint line-through'
+                    : event.delta > 0
+                      ? 'text-critical'
+                      : event.delta < 0
+                        ? 'text-safe'
+                        : 'text-fg-muted',
                 )}
               >
                 {event.delta === 0 ? '0.0' : signed(event.delta, 1)}
               </TableCell>
 
               <TableCell className="max-w-96">
-                <span className="block break-words">{event.reason}</span>
+                <span className={cn('block break-words', withdrawn && 'line-through')}>
+                  {event.reason}
+                </span>
+                {withdrawn ? (
+                  <span className="mt-0.5 block text-xs text-fg-faint">
+                    Withdrawn after review — not counted in the score
+                  </span>
+                ) : null}
               </TableCell>
 
               <TableCell>
