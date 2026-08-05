@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `4e01a0c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `40e156c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -245,14 +245,23 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
    are settings ADMIN_PHONE/USER_PHONE, committed defaults at the owner's
    explicit request. Both resolve to SEEDED users — no second identity system.
    Portal lead shows "Name · ID n · Role · Department".
-4. **Panel translation — IN FLIGHT at handoff time.** 366 title/subtitle/caption
-   sites extracted (353 distinct strings), translated by an 8-batch workflow
-   with a native-reader review lens, applied by
-   `scratchpad/apply_translations.py` (tsc repair loop inserts `const t =
-   useT()` into whichever enclosing component needs it). `Panel` and
-   `ChartFrame` stamp `lang={locale}` centrally so the translated headers are
-   announced correctly inside `<main lang="en">`. Body prose below the headers
-   remains English — that is the next layer down.
+4. **Panel translation — DONE. 517 keys, both locales complete.** Three sweeps:
+   366 prop sites (title/subtitle/caption), 42 inline headings and labels, then
+   4 literals hiding in helpers and ternaries. Plus the report catalogue.
+   `Panel` and `ChartFrame` stamp `lang={locale}` centrally.
+
+   **Two applier failures worth not repeating.** (a) Inserting `const t =
+   useT()` reactively from tsc error lines walks into DESTRUCTURED PARAMETER
+   LISTS — 44 syntax errors, whole tree reverted. The working version walks
+   structurally: find each top-level `function`, balance the parameter parens to
+   find the real body brace, insert only where the body calls `t(`. (b) Module-
+   level constants and helpers cannot call hooks: `REPORT_TYPES` became
+   `reportTypes(t)`, `selectionLabel` took `t` as a parameter.
+
+   **DATA stays English** — seeded threat titles, campaign names, module titles
+   are records, not interface. Long prose paragraphs were excluded on purpose;
+   a screen speaking two languages mid-argument is worse than one speaking
+   English. That prose is the only layer left.
 
 ## 7. The six-lens audit (2026-08-05) — ALL 17 CLOSED
 
