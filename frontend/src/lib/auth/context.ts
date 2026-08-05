@@ -18,6 +18,8 @@ export interface AuthValue {
   permissions: Set<Permission>
   can: (permission: Permission) => boolean
   login: (email: string, password: string) => Promise<Session>
+
+  adoptSession: (session: Session) => void
   logout: () => void
   /**
    * Demo-only. Signs in as one of the seeded accounts so a presenter can move

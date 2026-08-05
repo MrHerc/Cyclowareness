@@ -129,7 +129,7 @@ export default function Portal() {
           <h1 className="text-display text-fg">{t('nav.portal')}</h1>
           <p className="mt-1 text-lead text-fg-muted">
             {employee
-              ? `${employee.name} · ${employee.role_title}${employee.department ? ` · ${employee.department}` : ''}`
+              ? `${employee.name} · ID ${employee.id} · ${employee.role_title}${employee.department ? ` · ${employee.department}` : ''}`
               : 'Your assigned training, the work raised against you, and how your risk score was calculated.'}
           </p>
         </div>

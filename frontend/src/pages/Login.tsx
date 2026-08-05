@@ -26,6 +26,7 @@ import { DemoAccounts } from '../features/auth/DemoAccounts'
 import { FederatedIdentity } from '../features/auth/FederatedIdentity'
 import { CompactIntro, PublicAside } from '../features/auth/PublicAside'
 import { rememberedEmail, setRememberedEmail } from '../features/auth/rememberedEmail'
+import { PhoneEntry } from '../features/auth/PhoneEntry'
 import { SignInForm, type SignInCredentials } from '../features/auth/SignInForm'
 import { hasSeenOnboarding } from '../features/onboarding/seen'
 import { useCapabilities } from '../lib/api/queries'
@@ -105,6 +106,8 @@ export default function Login() {
         defaultEmail={rememberedEmail() ?? ''}
         busyElsewhere={demoPending !== null}
       />
+
+      <PhoneEntry />
 
       <FederatedIdentity />
 

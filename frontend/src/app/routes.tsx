@@ -73,6 +73,17 @@ export const routes: RouteObject[] = [
         ),
       },
       {
+        // The admin portal's own door. Same building behind it — a verified
+        // admin phone resolves to the seeded analyst identity — but the entry
+        // is separate so the two audiences never share a first screen.
+        path: '/admin',
+        element: page(
+          <RedirectIfAuthenticated>
+            <Page.AdminLogin />
+          </RedirectIfAuthenticated>,
+        ),
+      },
+      {
         path: '/register',
         element: page(
           <RedirectIfAuthenticated>

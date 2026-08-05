@@ -218,7 +218,7 @@ def phone_start(payload: PhoneStartRequest, request: Request, db: Session = Depe
         return PhoneStartResponse(
             portal="admin",
             otp_required=True,
-            demo_otp=code if settings.demo_mode else None,
+            demo_otp=code if settings.app_env == "demo" else None,
         )
 
     if phone == _normalise_phone(settings.user_phone):

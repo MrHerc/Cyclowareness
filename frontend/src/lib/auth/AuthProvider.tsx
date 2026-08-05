@@ -48,6 +48,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [queryClient],
   )
 
+  // The phone-entry pages already hold a full token response; they hand it
+  // here so session storage and cache-clearing stay in ONE place. A second
+  // writer of `cyclo.session` is how the two flows would drift apart.
+  const adoptSession = useCallback(
+    (next: Session) => {
+      setSession(next)
+      setSessionState(next)
+      queryClient.clear()
+    },
+    [queryClient],
+  )
+
   const logout = useCallback(() => {
     setSession(null)
     setSessionState(null)
@@ -64,10 +76,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       permissions,
       can: (permission: Permission) => can(role, permission),
       login,
+      adoptSession,
       logout,
       switchRole: login,
     }
-  }, [session, login, logout])
+  }, [session, login, adoptSession, logout])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

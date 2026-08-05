@@ -72,6 +72,7 @@ export function UserMenu({ className }: UserMenuProps) {
             <p className="truncate text-xs text-fg-faint">{session.email}</p>
             <p className="mt-0.5 text-xs text-fg-subtle">
               {role ? ROLE_LABEL[role] : 'No role assigned'}
+              {session.employee_id ? ` · ID ${session.employee_id}` : ''}
             </p>
           </div>
         </div>
