@@ -58,7 +58,7 @@ export function ScoreBreakdownPanel({
         </p>
       </div>
 
-      <div className="mt-5 grid gap-6 lg:grid-cols-2">
+      <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* --- rule component ------------------------------------------------ */}
         <section>
           <h3 className="text-h text-fg">Rule component</h3>

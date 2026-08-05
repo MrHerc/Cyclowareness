@@ -152,7 +152,7 @@ export default function Integrations() {
         onRetry={() => void integrations.refetch()}
         loadingLabel="Loading integrations"
         skeleton={
-          <div className="grid gap-4 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <SkeletonCard lines={4} />
             <SkeletonCard lines={4} />
             <SkeletonCard lines={4} />
@@ -186,7 +186,7 @@ export default function Integrations() {
                   <h2 className="text-title text-fg">{group.title}</h2>
                   <p className="mt-1 text-body text-fg-muted">{group.blurb}</p>
                 </div>
-                <div className="grid items-stretch gap-4 xl:grid-cols-2">
+                <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
                   {members.map((integration) => (
                     <IntegrationCard
                       key={integration.id}

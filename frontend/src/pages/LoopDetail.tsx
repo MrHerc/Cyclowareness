@@ -118,7 +118,7 @@ export default function LoopDetail() {
 
           {waiting ? gatePanel : null}
 
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
             {/* Pinned beside the story on a wide screen, and scrollable inside
                 itself so a seven-stage spine never outgrows the viewport. */}
             <Panel

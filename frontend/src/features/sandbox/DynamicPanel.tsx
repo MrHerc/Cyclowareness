@@ -51,7 +51,7 @@ function Timeline({ events }: { events: NonNullable<SandboxDynamicReport['timeli
       <p className="label text-fg-subtle">Behaviour over time</p>
       <div className="mt-2 space-y-2">
         {Object.entries(lanes).map(([kind, lane]) => (
-          <div key={kind} className="grid gap-1 sm:grid-cols-[8rem_1fr] sm:items-center sm:gap-3">
+          <div key={kind} className="grid grid-cols-1 gap-1 sm:grid-cols-[8rem_1fr] sm:items-center sm:gap-3">
             <span className="truncate text-xs text-fg-muted" title={kind}>
               {humanise(kind)}
             </span>

@@ -45,7 +45,7 @@ export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
 
   return (
     <form
-      className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))_auto]"
+      className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))_auto]"
       onSubmit={(event) => {
         event.preventDefault()
         filters.set('q', term.trim())

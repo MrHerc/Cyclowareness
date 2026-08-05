@@ -76,7 +76,7 @@ export function MeasuredOutcomes({
         onRetry={onRetry}
         loadingLabel="Loading measured behaviour"
         skeleton={
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[0, 1, 2, 3].map((card) => (
               <SkeletonCard key={card} metric lines={1} />
             ))}
@@ -84,7 +84,7 @@ export function MeasuredOutcomes({
         }
       >
         {metrics ? (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <HonestMetric
               label="Phishing click rate"
               value={metrics.phishing_click_rate}

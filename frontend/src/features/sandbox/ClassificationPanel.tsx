@@ -55,7 +55,7 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
 
   return (
     <Panel>
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div className="min-w-0">
           <p className="label text-fg-subtle">Classification</p>
           <p className={cn('mt-2 text-display', tone)}>{humanise(answer.verdict)}</p>
@@ -87,7 +87,7 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
             </p>
 
             {engines.length > 0 ? (
-              <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
+              <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                 {engines.map((engine) => (
                   <li
                     key={engine.engine}

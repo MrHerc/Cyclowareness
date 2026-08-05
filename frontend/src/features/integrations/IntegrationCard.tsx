@@ -111,7 +111,7 @@ export function IntegrationCard({
       {entries.length ? (
         <div>
           <p className="label text-fg-faint">Stored configuration</p>
-          <dl className="mt-1.5 grid gap-x-4 gap-y-1 sm:grid-cols-[minmax(0,auto)_minmax(0,1fr)]">
+          <dl className="mt-1.5 grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-[minmax(0,auto)_minmax(0,1fr)]">
             {entries.map((entry) => (
               <div key={entry.key} className="contents">
                 <dt className="text-sm text-fg-subtle">{entry.label}</dt>

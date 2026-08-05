@@ -110,7 +110,7 @@ export function ReviewSubjectDialog({
             </p>
           )}
 
-          <dl className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
+          <dl className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
             <div>
               <dt className="label text-fg-subtle">Score</dt>
               <dd className="mt-1 text-lead text-fg">

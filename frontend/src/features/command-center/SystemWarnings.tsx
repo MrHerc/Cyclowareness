@@ -44,7 +44,7 @@ export function SystemWarnings({ warnings }: SystemWarningsProps) {
         {t('cc.degraded')}
       </h2>
 
-      <ul className="grid gap-2 lg:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-2 lg:grid-cols-2">
         {warnings.map((warning) => (
           <li
             key={warning.id}

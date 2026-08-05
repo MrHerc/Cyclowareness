@@ -44,7 +44,7 @@ export function MatchedPolicy({ policyId, ruleId }: MatchedPolicyProps) {
             <Badge status={policy.status} size="sm" />
           </div>
 
-          <dl className="grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[8rem_1fr]">
+          <dl className="grid grid-cols-1 gap-x-4 gap-y-1 text-sm sm:grid-cols-[8rem_1fr]">
             <dt className="text-fg-subtle">Owner</dt>
             <dd className="text-fg-muted">{policy.owner_name?.trim() || 'Not recorded'}</dd>
             <dt className="text-fg-subtle">Effective</dt>

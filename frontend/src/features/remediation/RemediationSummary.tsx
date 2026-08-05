@@ -45,7 +45,7 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
 
   return (
     <Panel>
-      <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-7">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-7">
         <Tile label="Plans" value={num(stats.total, 0)} />
         <Tile
           label="Waiting"

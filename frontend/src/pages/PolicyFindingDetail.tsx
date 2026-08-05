@@ -153,7 +153,7 @@ export default function PolicyFindingDetail() {
               </div>
             </Panel>
 
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
               <div className="space-y-4">
                 {/* --- where the claim came from ----------------------------- */}
                 <FindingOrigin finding={finding} />

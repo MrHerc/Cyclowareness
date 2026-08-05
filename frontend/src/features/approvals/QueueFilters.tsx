@@ -54,7 +54,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
     onChange({ ...value, [key]: next })
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
       <div className="relative sm:col-span-2 xl:col-span-1">
         <Search
           aria-hidden="true"

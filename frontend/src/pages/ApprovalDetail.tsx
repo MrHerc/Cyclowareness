@@ -55,7 +55,7 @@ function detailFrom(result: unknown, fallback: string): string {
 
 function WorkspaceSkeleton() {
   return (
-    <div className="grid gap-5 xl:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,22rem)]">
+    <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,22rem)]">
       <SkeletonCard lines={6} />
       <div className="space-y-4">
         <Skeleton className="h-9 w-64" />
@@ -273,7 +273,7 @@ function Workspace({ runId }: { runId: string }) {
               </Panel>
             </header>
 
-            <div className="grid gap-5 xl:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,22rem)]">
+            <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,22rem)]">
               <div className="min-w-0">
                 <ThreatPanel detail={detail} />
               </div>

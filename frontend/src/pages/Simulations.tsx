@@ -159,7 +159,7 @@ export default function Simulations() {
             onRetry={() => void simulations.refetch()}
             loadingLabel="Loading simulation campaigns"
             skeleton={
-              <div className="grid gap-4 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <SkeletonCard metric lines={2} />
                 <SkeletonCard metric lines={2} />
                 <SkeletonCard metric lines={2} />
@@ -195,7 +195,7 @@ export default function Simulations() {
               )
             }
           >
-            <div className="grid gap-4 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
               {visible.map((simulation) => (
                 <CampaignCard key={simulation.id} simulation={simulation} />
               ))}

@@ -61,7 +61,7 @@ export default function Departments() {
         onRetry={() => void departments.refetch()}
         loadingLabel="Loading department risk"
         skeleton={
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <SkeletonCard metric lines={1} />
             <SkeletonCard metric lines={1} />
             <SkeletonCard metric lines={1} />
@@ -77,7 +77,7 @@ export default function Departments() {
         }
       >
         <div className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Panel>
               <HonestMetric
                 label="Average risk across the organisation"
@@ -124,7 +124,7 @@ export default function Departments() {
             </Panel>
           </div>
 
-          <div className="grid gap-4 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <DepartmentRiskHeatmap headingLevel={2}
               departments={rows}
               onSelect={(department) => navigate(`/employees?department=${department.id}`)}

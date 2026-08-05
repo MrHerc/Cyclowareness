@@ -58,7 +58,7 @@ export function AudienceSelector({
         Pick departments, risk bands, or both. Anyone matching either is included once.
       </p>
 
-      <div className="mt-3 grid gap-5 sm:grid-cols-2">
+      <div className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <p className="label text-fg-faint">Departments</p>
           <div className="mt-2 space-y-2">

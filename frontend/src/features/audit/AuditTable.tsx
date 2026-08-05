@@ -102,7 +102,7 @@ export function AuditTable({ events }: AuditTableProps) {
                 <TableRow id={`audit-detail-${event.id}`}>
                   <TableCell colSpan={6} className="bg-base">
                     <div className="space-y-4 py-2">
-                      <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <CodeBlock
                           label="Before"
                           value={payloadText(event.before)}

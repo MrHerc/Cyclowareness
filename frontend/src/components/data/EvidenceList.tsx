@@ -46,7 +46,7 @@ export function EvidenceList({ items, mono = false, emptyMessage, className }: E
       {items.map((item, index) => (
         <div
           key={`${item.label}-${index}`}
-          className="grid gap-1 py-2.5 sm:grid-cols-[minmax(8rem,14rem)_1fr] sm:gap-4"
+          className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[minmax(8rem,14rem)_1fr] sm:gap-4"
         >
           <dt className="text-sm text-fg-subtle">{item.label}</dt>
           <dd className={cn('text-sm text-fg', mono && 'tech')}>

@@ -52,7 +52,7 @@ export default function ThreatDetail() {
         onRetry={() => void threat.refetch()}
         loadingLabel="Loading the artifact"
         skeleton={
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <div className="space-y-5 lg:col-span-2">
               <SkeletonCard lines={4} />
               <SkeletonCard lines={5} />
@@ -89,7 +89,7 @@ export default function ThreatDetail() {
               </div>
             </header>
 
-            <div className="grid gap-5 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
               <div className="space-y-5 lg:col-span-2">
                 <ThreatVerdictPanel threat={threat.data} />
                 <IndicatorPanel iocs={threat.data.iocs} />

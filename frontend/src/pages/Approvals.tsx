@@ -52,7 +52,7 @@ function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
   const unattributed = rows.filter((row) => row.generationSource === '').length
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <Stat
         label="Waiting"
         value={num(total ?? rows.length)}

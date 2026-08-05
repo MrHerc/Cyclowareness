@@ -74,7 +74,7 @@ export function VersionComparison({
           <span className="tech text-fg">{technology}</span>
         </p>
       ) : null}
-      <div className="grid gap-2 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <VersionCell label="In use" value={affected} tone="text-high" />
         <VersionCell label="Approved by policy" value={approved} />
         <VersionCell label="Recommended" value={recommended} tone="text-safe" />

@@ -17,7 +17,7 @@ export function RiskFormula() {
         them.
       </p>
 
-      <dl className="grid gap-3 sm:grid-cols-2">
+      <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-control border border-line-subtle bg-base p-4">
           <dt className="label text-fg-subtle">The baseline</dt>
           <dd className="tech mt-2 text-fg">baseline = 20 + role_sensitivity × 20</dd>

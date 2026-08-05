@@ -31,7 +31,7 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
   const window = metrics.window_days
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       <Panel>
         <HonestMetric
           label="Click rate"

@@ -78,7 +78,7 @@ export default function EmployeeDetail() {
               </div>
             </header>
 
-            <div className="grid gap-4 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
               <div className="space-y-4">
                 <Panel title="Current risk score">
                   <RiskScore score={person.current_risk_score} bar size="lg" />

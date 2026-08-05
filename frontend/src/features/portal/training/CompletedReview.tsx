@@ -43,7 +43,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
         actions={<Badge status={assignment.status} dot />}
         headingLevel={2}
       >
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
             <span className="label text-fg-subtle">Score recorded</span>
             <p className="mt-1.5 text-title text-fg tabular-nums">

@@ -83,7 +83,7 @@ export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
               onChange={(event) => update(index, { question: event.target.value })}
             />
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {question.options.map((option, optionIndex) => (
                 <Input
                   key={optionIndex}
@@ -94,7 +94,7 @@ export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
               ))}
             </div>
 
-            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
               <Select
                 label={`Correct answer for question ${index + 1}`}
                 value={String(question.correct_index)}

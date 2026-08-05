@@ -78,7 +78,7 @@ export default function RiskProfiles() {
         loadingLabel="Loading the roster"
         skeleton={
           <div className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <SkeletonCard metric lines={1} />
               <SkeletonCard metric lines={1} />
               <SkeletonCard metric lines={1} />
@@ -96,7 +96,7 @@ export default function RiskProfiles() {
         }
       >
         <div className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Panel>
               <HonestMetric
                 label="Average score"

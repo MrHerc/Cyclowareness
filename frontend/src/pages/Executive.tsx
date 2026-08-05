@@ -223,7 +223,7 @@ export default function Executive() {
         skeleton={
           <div className="space-y-6">
             <SkeletonCard lines={3} />
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               <SkeletonCard metric lines={1} />
               <SkeletonCard metric lines={1} />
               <SkeletonCard metric lines={1} />

@@ -138,7 +138,7 @@ export default function ThreatIntelligence() {
         {backing.backing === 'live' ? null : <DemoDataBadge detail={backing.note} />}
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
         <aside className="space-y-5 lg:order-2">
           <IntelSourceCoverage
             latestPublishedAt={page.items[0]?.published_at ?? null}

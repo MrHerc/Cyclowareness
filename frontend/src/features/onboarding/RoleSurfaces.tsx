@@ -40,7 +40,7 @@ export function RoleSurfaces({ can, onNavigate }: RoleSurfacesProps) {
       {groups.map((group) => (
         <section key={group.id}>
           <h3 className="label text-fg-faint">{group.label.toUpperCase()}</h3>
-          <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
+          <ul className="mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
             {group.items.map((item) => {
               const Icon = item.icon
               return (

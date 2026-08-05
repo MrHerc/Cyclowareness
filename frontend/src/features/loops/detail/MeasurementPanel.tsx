@@ -80,7 +80,7 @@ export function MeasurementPanel({
           </p>
         ) : (
           <>
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               <HonestMetric
                 label="Completion"
                 value={assigned > 0 ? summary.completion_rate : null}

@@ -46,7 +46,7 @@ export function QueueSummary({ stats }: QueueSummaryProps) {
 
   return (
     <Panel>
-      <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-6">
         <Tile label="Submitted" value={num(stats.total, 0)} />
         <Tile
           label="Analysed"

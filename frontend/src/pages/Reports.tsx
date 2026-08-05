@@ -190,7 +190,7 @@ export default function Reports() {
           error={null}
           loadingLabel="Counting the records behind each pack"
           skeleton={
-            <div className="grid gap-4 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
               <SkeletonCard lines={5} />
               <SkeletonCard lines={5} />
               <SkeletonCard lines={5} />
@@ -198,7 +198,7 @@ export default function Reports() {
             </div>
           }
         >
-          <div className="grid items-stretch gap-4 xl:grid-cols-2">
+          <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
             {REPORT_TYPES.map((type) => (
               <ReportTypeCard
                 key={type.id}

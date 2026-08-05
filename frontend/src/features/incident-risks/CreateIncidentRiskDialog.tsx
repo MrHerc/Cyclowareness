@@ -170,7 +170,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
           </p>
         )}
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
             label="Title"
             required
@@ -329,7 +329,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
           />
         </fieldset>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
             label="Minimum score"
             type="number"

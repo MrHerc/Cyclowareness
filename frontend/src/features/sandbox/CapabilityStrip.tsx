@@ -40,7 +40,7 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
       subtitle="Read from the engine at request time, not from configuration."
       headingLevel={2}
     >
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="space-y-4">
           <div>
             <div className="flex items-center gap-2">

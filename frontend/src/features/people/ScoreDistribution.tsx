@@ -64,7 +64,7 @@ export function ScoreDistribution({ scores }: ScoreDistributionProps) {
         </p>
       </div>
 
-      <dl className="grid gap-3 sm:grid-cols-3">
+      <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {BAND_ORDER.map((band) => (
           <div key={band} className="rounded-control border border-line-subtle bg-base p-3">
             <dt className="label text-fg-subtle">{BAND_LABEL[band]}</dt>

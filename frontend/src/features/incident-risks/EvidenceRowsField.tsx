@@ -44,7 +44,7 @@ export function EvidenceRowsField({ control, register, disabled }: EvidenceRowsF
         {fields.map((field, index) => (
           <li
             key={field.id}
-            className="grid gap-2 rounded-control border border-line-subtle bg-base p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:items-end"
+            className="grid grid-cols-1 gap-2 rounded-control border border-line-subtle bg-base p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:items-end"
           >
             <Input
               label="Label"

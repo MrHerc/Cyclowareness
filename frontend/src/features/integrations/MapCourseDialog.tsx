@@ -125,7 +125,7 @@ export function MapCourseDialog({
               Nothing in this catalogue is mapped yet. Add the first behaviour below.
             </p>
           ) : (
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {options.map((behaviour) => (
                 <Checkbox
                   key={behaviour}

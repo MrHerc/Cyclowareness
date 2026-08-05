@@ -47,7 +47,7 @@ function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
       subtitle="Rates are divided by the targets that have a recorded outcome, not by everyone targeted."
       tone="feature"
     >
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <HonestMetric
           label="Click rate"
           value={stats.click_rate}

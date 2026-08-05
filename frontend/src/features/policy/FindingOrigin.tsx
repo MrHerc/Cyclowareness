@@ -29,7 +29,7 @@ export interface FindingOriginProps {
 export function FindingOrigin({ finding }: FindingOriginProps) {
   return (
     <Panel title="Where this came from">
-      <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+      <dl className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
         <div>
           <dt className="label text-fg-faint">Source</dt>
           <dd className="mt-1 text-sm text-fg">{sourceLabel(finding.source)}</dd>

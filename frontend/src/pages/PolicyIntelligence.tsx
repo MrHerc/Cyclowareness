@@ -111,7 +111,7 @@ export default function PolicyIntelligence() {
         onRetry={() => void stats.refetch()}
         loadingLabel="Loading policy finding counts"
         skeleton={
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {[0, 1, 2, 3].map((key) => (
               <SkeletonCard key={key} metric lines={2} />
             ))}
@@ -120,7 +120,7 @@ export default function PolicyIntelligence() {
       >
         {summary ? (
           <div className="space-y-3">
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <Panel tone="quiet">
                 <HonestMetric
                   label="Findings detected"
@@ -189,7 +189,7 @@ export default function PolicyIntelligence() {
       </AsyncBoundary>
 
       {/* --- severity and status -------------------------------------------- */}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <SeverityBarChart
           data={severityData}
           title="Findings by severity"
@@ -225,7 +225,7 @@ export default function PolicyIntelligence() {
       </div>
 
       {/* --- drift ranking and the queue ------------------------------------- */}
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
         <Panel
           title="Policies most in drift"
           subtitle={`Ranked by open findings across the ${rows.length} finding${rows.length === 1 ? '' : 's'} loaded here.`}
@@ -269,14 +269,14 @@ export default function PolicyIntelligence() {
               />
             }
             skeleton={
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {[0, 1, 2, 3].map((key) => (
                   <SkeletonCard key={key} lines={3} />
                 ))}
               </div>
             }
           >
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {urgent.map((finding) => (
                 <FindingCard
                   key={finding.id}

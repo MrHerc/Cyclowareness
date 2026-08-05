@@ -50,7 +50,7 @@ export default function IncidentRiskDetail() {
         skeleton={
           <div className="flex flex-col gap-6">
             <SkeletonCard metric lines={3} />
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
               <SkeletonCard lines={5} />
               <SkeletonCard lines={5} />
             </div>
@@ -79,7 +79,7 @@ function RiskBody({
     <div className="flex flex-col gap-6">
       <RiskHeader risk={risk} rollup={rollup} canManage={canManage} />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         <div className="flex min-w-0 flex-col gap-6">
           <Panel headingLevel={2} title="The record">
             <dl className="flex flex-col gap-5">

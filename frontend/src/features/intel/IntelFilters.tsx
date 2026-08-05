@@ -52,7 +52,7 @@ export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFi
 
   return (
     <div className="space-y-3">
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Select
           label="Source"
           options={SOURCE_OPTIONS}

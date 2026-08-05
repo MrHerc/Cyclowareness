@@ -119,7 +119,7 @@ export function Recognition({
         {badges.length > 0 ? (
           <div>
             <h3 className="label text-fg-subtle">Badges</h3>
-            <ul className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {badges.map((badge) => (
                 <BadgeTile key={badge.id} badge={badge} />
               ))}

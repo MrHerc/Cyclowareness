@@ -112,7 +112,7 @@ export function CurrentAssignmentCard({
           </div>
         ) : null}
 
-        <div className="grid gap-5 border-t border-line-subtle pt-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 border-t border-line-subtle pt-5 sm:grid-cols-3">
           <Fact icon={CalendarClock} label="Due">
             {incident ? (
               <span className={due.overdue ? 'text-critical' : undefined}>

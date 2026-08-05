@@ -24,7 +24,7 @@ export interface VerdictHeaderProps {
 
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="grid gap-0.5 py-2 sm:grid-cols-[9rem_1fr] sm:gap-4">
+    <div className="grid grid-cols-1 gap-0.5 py-2 sm:grid-cols-[9rem_1fr] sm:gap-4">
       <dt className="text-sm text-fg-subtle">{label}</dt>
       <dd className="min-w-0 text-sm text-fg">{children}</dd>
     </div>
@@ -47,7 +47,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
 
   return (
     <Panel tone={job.extension_mismatch ? 'danger' : 'default'}>
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
         <div className="min-w-0">
           <p className="label text-fg-subtle">Verdict</p>
           {scored ? (

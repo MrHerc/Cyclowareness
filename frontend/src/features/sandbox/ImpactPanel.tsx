@@ -78,7 +78,7 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
                 {rated.rationale.map((row, index) => (
                   <div
                     key={`${row.metric}-${index}`}
-                    className="grid gap-0.5 py-2 sm:grid-cols-[7rem_1fr] sm:gap-4"
+                    className="grid grid-cols-1 gap-0.5 py-2 sm:grid-cols-[7rem_1fr] sm:gap-4"
                   >
                     <dt className="tech text-sm text-fg-subtle">
                       {row.metric}
