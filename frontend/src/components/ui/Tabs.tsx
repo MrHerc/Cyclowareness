@@ -19,7 +19,16 @@ export type TabsProps = ComponentProps<typeof RadixTabs.Root>
 export function TabsList({ className, ...rest }: ComponentProps<typeof RadixTabs.List>) {
   return (
     <RadixTabs.List
-      className={cn('flex items-center gap-1 border-b border-line-subtle', className)}
+      className={cn(
+        'flex items-center gap-1 border-b border-line-subtle',
+        // The strip scrolls itself rather than pushing the page. Four tabs with
+        // counts measure 430px, so on a 375px phone this was widening the whole
+        // document and every panel below it scrolled sideways with the tabs.
+        // `overflow-x-auto` keeps the overflow local; `min-w-0` is what lets the
+        // strip shrink below its content inside a flex or grid parent.
+        'min-w-0 overflow-x-auto',
+        className,
+      )}
       {...rest}
     />
   )
@@ -29,7 +38,9 @@ export function TabsTrigger({ className, ...rest }: ComponentProps<typeof RadixT
   return (
     <RadixTabs.Trigger
       className={cn(
-        'relative -mb-px whitespace-nowrap border-b-2 border-transparent px-3 py-2',
+        // `shrink-0` so a flex parent squeezes none of the labels into two lines
+        // once the strip above is allowed to scroll.
+        'relative -mb-px shrink-0 whitespace-nowrap border-b-2 border-transparent px-3 py-2',
         'text-body font-medium text-fg-subtle transition-colors duration-150',
         'hover:text-fg-muted',
         'data-[state=active]:border-brand data-[state=active]:text-fg',

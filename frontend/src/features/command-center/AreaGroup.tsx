@@ -52,7 +52,12 @@ export function AreaGroup({ labelKey, to, linkKey, id: bandId, children }: AreaG
           {t(linkKey)}
         </Link>
       </div>
-      <div className="grid gap-4 xl:grid-cols-2">{children}</div>
+      {/* `grid-cols-1` is not redundant with the default. A grid item's
+          `min-width` is `auto`, so a one-column grid with no explicit template
+          sizes its column to the widest child's MIN-CONTENT and pushes the page
+          sideways on a phone. Tailwind's `grid-cols-1` expands to
+          `repeat(1, minmax(0, 1fr))`, and that `0` is the whole fix. */}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{children}</div>
     </section>
   )
 }
