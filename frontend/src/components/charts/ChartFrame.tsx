@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from 'react'
+import { useLocale } from '../../lib/i18n'
 import { ResponsiveContainer } from 'recharts'
 import { cn } from '../../lib/format'
 import { ChartLegend, type LegendItem } from './ChartLegend'
@@ -75,10 +76,13 @@ export function ChartFrame({
   className,
   children,
 }: ChartFrameProps) {
+  // Same rule as Panel: the frame's own text follows the active language.
+  const { locale } = useLocale()
   const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
 
   return (
     <figure
+      lang={locale}
       className={cn(
         'rounded-panel border border-line-subtle bg-surface p-4 shadow-panel',
         className,
