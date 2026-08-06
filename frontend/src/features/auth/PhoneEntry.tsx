@@ -14,6 +14,7 @@
  * is an enumeration oracle.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Smartphone } from 'lucide-react'
@@ -29,6 +30,7 @@ interface StartResponse {
 }
 
 export function PhoneEntry() {
+  const t = useT()
   const navigate = useNavigate()
   const { adoptSession } = useAuth()
   const [phone, setPhone] = useState('')
@@ -58,10 +60,10 @@ export function PhoneEntry() {
     } catch (err) {
       setError(
         err instanceof ApiError && err.status === 404
-          ? 'This number is not registered.'
+          ? t('a.not-registered')
           : err instanceof ApiError
             ? err.message
-            : 'The server did not answer.',
+            : t('a.no-answer'),
       )
     } finally {
       setBusy(false)
@@ -78,12 +80,12 @@ export function PhoneEntry() {
     >
       <Input
         id="phone-entry"
-        label="Sign in with your phone number"
+        label={t('a.phone-entry-label')}
         inputMode="tel"
         autoComplete="tel"
         value={phone}
         onChange={(event) => setPhone(event.target.value)}
-        hint="The number your workplace registered for you."
+        hint={t('a.phone-entry-hint')}
       />
       {error ? <p className="text-sm text-critical">{error}</p> : null}
       <Button
@@ -93,9 +95,7 @@ export function PhoneEntry() {
         icon={<Smartphone className="size-4" aria-hidden="true" />}
         loading={busy}
         disabled={!phone.trim()}
-      >
-        Continue with phone
-      </Button>
+      >{t('a.continue-phone')}</Button>
     </form>
   )
 }

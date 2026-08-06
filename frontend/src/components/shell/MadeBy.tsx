@@ -15,6 +15,7 @@
  * an attribution line that flickers a placeholder is worse than one that waits.
  */
 
+import { useT } from '../../lib/i18n'
 import { useCapabilities } from '../../lib/api/queries'
 import { cn } from '../../lib/format'
 
@@ -25,6 +26,7 @@ export interface MadeByProps {
 }
 
 export function MadeBy({ className, variant = 'full' }: MadeByProps) {
+  const t = useT()
   const capabilities = useCapabilities()
   const vendor = capabilities.data?.vendor_name?.trim()
 
@@ -36,7 +38,7 @@ export function MadeBy({ className, variant = 'full' }: MadeByProps) {
 
   return (
     <p className={cn('text-xs text-fg-faint', className)}>
-      Built by <span className="text-fg-subtle">{vendor}</span>
+      {t('a.built-by')} <span className="text-fg-subtle">{vendor}</span>
     </p>
   )
 }

@@ -16,6 +16,7 @@
  */
 
 import type { ReactNode } from 'react'
+import { useLocale } from '../../lib/i18n'
 import { MadeBy } from '../../components/shell/MadeBy'
 import { AuroraField } from './AuroraField'
 import { Link } from 'react-router-dom'
@@ -47,6 +48,7 @@ export function AuthScaffold({
   footer,
   children,
 }: AuthScaffoldProps) {
+  const { locale, t } = useLocale()
   return (
     <div className="min-h-dvh w-full lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       {/* Behind everything, pointer-events-none, and carrying no information —
@@ -63,7 +65,9 @@ export function AuthScaffold({
             <ProductMark className="size-7" />
             <span className="flex flex-col leading-tight">
               <span className="text-h text-fg">{PRODUCT_NAME}</span>
-              <span className="label text-fg-faint">CLOSED-LOOP HUMAN CYBER RISK</span>
+              <span lang={locale} className="label text-fg-faint">
+                {t('a.tagline')}
+              </span>
             </span>
           </Link>
         </header>

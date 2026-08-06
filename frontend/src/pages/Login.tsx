@@ -89,15 +89,13 @@ export default function Login() {
   return (
     <AuthScaffold
       title={t('x.sign-in')}
-      intro="Your role decides what the platform shows you, and what it lets you approve."
+      intro={t('a.login-intro')}
       mobileIntro={<CompactIntro />}
       aside={<PublicAside />}
       footer={
         <p>
-          Accounts are provisioned by the security team.{' '}
-          <Link to="/register" className="text-brand-fg rounded-control hover:underline">
-            Request one
-          </Link>
+          {t('a.accounts-provisioned')}{' '}
+          <Link to="/register" className="text-brand-fg rounded-control hover:underline">{t('a.request-account')}</Link>
           .
         </p>
       }

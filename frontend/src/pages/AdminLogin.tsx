@@ -63,7 +63,7 @@ export default function AdminLogin() {
       setDemoOtp(res.demo_otp)
       setStage('otp')
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'The server did not answer.')
+      setError(err instanceof ApiError ? err.message : t('a.no-answer'))
     } finally {
       setBusy(false)
     }
@@ -81,7 +81,7 @@ export default function AdminLogin() {
       adoptSession(session)
       navigate('/command-center', { replace: true })
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'The server did not answer.')
+      setError(err instanceof ApiError ? err.message : t('a.no-answer'))
     } finally {
       setBusy(false)
     }
@@ -90,14 +90,12 @@ export default function AdminLogin() {
   return (
     <AuthScaffold
       title={t('x.admin-portal')}
-      intro="The operational console. A registered admin number, then a one-time code."
+      intro={t('a.admin-intro')}
       aside={<LoopSignature />}
       footer={
         <p>
-          Not an administrator?{' '}
-          <a href="/login" className="text-brand-fg underline-offset-4 hover:underline">
-            Employee sign-in
-          </a>
+          {t('a.not-admin')}{' '}
+          <a href="/login" className="text-brand-fg underline-offset-4 hover:underline">{t('a.employee-signin')}</a>
         </p>
       }
     >
@@ -111,17 +109,15 @@ export default function AdminLogin() {
         >
           <Input
             id="admin-phone"
-            label="Admin phone number"
+            label={t('a.admin-phone-label')}
             inputMode="tel"
             autoComplete="tel"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
-            hint="Digits only; spaces are ignored."
+            hint={t('a.digits-only')}
           />
           {error ? <p className="text-sm text-critical">{error}</p> : null}
-          <Button type="submit" block loading={busy} disabled={!phone.trim()}>
-            Continue
-          </Button>
+          <Button type="submit" block loading={busy} disabled={!phone.trim()}>{t('a.continue')}</Button>
         </form>
       ) : (
         <form
@@ -133,13 +129,13 @@ export default function AdminLogin() {
         >
           <Input
             id="admin-otp"
-            label="One-time code"
+            label={t('a.otp-label')}
             inputMode="numeric"
             autoComplete="one-time-code"
             maxLength={6}
             value={code}
             onChange={(event) => setCode(event.target.value)}
-            hint="Six digits. A code works once and expires in five minutes."
+            hint={t('a.otp-hint')}
           />
           {demoOtp ? (
             // The stub, stated as a stub. This block exists only while no SMS
@@ -153,9 +149,7 @@ export default function AdminLogin() {
             </p>
           ) : null}
           {error ? <p className="text-sm text-critical">{error}</p> : null}
-          <Button type="submit" block loading={busy} disabled={code.trim().length < 6}>
-            Enter the admin portal
-          </Button>
+          <Button type="submit" block loading={busy} disabled={code.trim().length < 6}>{t('a.enter-admin')}</Button>
           <Button
             type="button"
             variant="ghost"
@@ -166,9 +160,7 @@ export default function AdminLogin() {
               setDemoOtp(null)
               setError(null)
             }}
-          >
-            Different number
-          </Button>
+          >{t('a.different-number')}</Button>
         </form>
       )}
     </AuthScaffold>

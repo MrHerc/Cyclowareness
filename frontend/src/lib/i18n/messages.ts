@@ -995,6 +995,48 @@ const en = {
     'Static analysis only',
   'w.worker-attached':
     'Worker attached',
+
+  // --- the authentication screens ---------------------------------------
+  'a.admin-intro':
+    'The operational console. A registered admin number, then a one-time code.',
+  'a.admin-phone-label':
+    'Admin phone number',
+  'a.digits-only':
+    'Digits only; spaces are ignored.',
+  'a.otp-label':
+    'One-time code',
+  'a.otp-hint':
+    'Six digits. A code works once and expires in five minutes.',
+  'a.enter-admin':
+    'Enter the admin portal',
+  'a.different-number':
+    'Different number',
+  'a.continue':
+    'Continue',
+  'a.not-admin':
+    'Not an administrator?',
+  'a.employee-signin':
+    'Employee sign-in',
+  'a.phone-entry-label':
+    'Sign in with your phone number',
+  'a.phone-entry-hint':
+    'The number your workplace registered for you.',
+  'a.continue-phone':
+    'Continue with phone',
+  'a.not-registered':
+    'This number is not registered.',
+  'a.no-answer':
+    'The server did not answer.',
+  'a.login-intro':
+    'Your role decides what the platform shows you, and what it lets you approve.',
+  'a.accounts-provisioned':
+    'Accounts are provisioned by the security team.',
+  'a.request-account':
+    'Request one',
+  'a.built-by':
+    'Built by',
+  'a.tagline':
+    'CLOSED-LOOP HUMAN CYBER RISK',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -1949,6 +1991,46 @@ const az: Record<MessageKey, string> = {
     'Yalnız statik təhlil',
   'w.worker-attached':
     'İşçi qoşulub',
+  'a.admin-intro':
+    'Əməliyyat konsolu. Qeydiyyatdan keçmiş admin nömrəsi, sonra birdəfəlik kod.',
+  'a.admin-phone-label':
+    'Admin telefon nömrəsi',
+  'a.digits-only':
+    'Yalnız rəqəmlər; boşluqlar nəzərə alınmır.',
+  'a.otp-label':
+    'Birdəfəlik kod',
+  'a.otp-hint':
+    'Altı rəqəm. Kod bir dəfə işləyir və beş dəqiqədən sonra etibarını itirir.',
+  'a.enter-admin':
+    'Admin portalına daxil ol',
+  'a.different-number':
+    'Başqa nömrə',
+  'a.continue':
+    'Davam et',
+  'a.not-admin':
+    'Administrator deyilsiniz?',
+  'a.employee-signin':
+    'İşçi girişi',
+  'a.phone-entry-label':
+    'Telefon nömrənizlə daxil olun',
+  'a.phone-entry-hint':
+    'İş yerinizin sizin üçün qeydiyyata aldığı nömrə.',
+  'a.continue-phone':
+    'Telefonla davam et',
+  'a.not-registered':
+    'Bu nömrə qeydiyyatdan keçməyib.',
+  'a.no-answer':
+    'Server cavab vermədi.',
+  'a.login-intro':
+    'Rolunuz platformanın sizə nə göstərdiyini və nəyi təsdiqləməyə icazə verdiyini müəyyən edir.',
+  'a.accounts-provisioned':
+    'Hesablar təhlükəsizlik komandası tərəfindən yaradılır.',
+  'a.request-account':
+    'Hesab tələb edin',
+  'a.built-by':
+    'Hazırlayıb',
+  'a.tagline':
+    'QAPALI DÖVRƏ İNSAN KİBER RİSKİ',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }
