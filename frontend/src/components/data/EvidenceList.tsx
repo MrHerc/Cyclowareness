@@ -9,6 +9,7 @@
  * Matches `PolicyFinding.evidence` and `IncidentRisk.evidence` exactly.
  */
 
+import { useT } from '../../lib/i18n'
 import { ExternalLink } from 'lucide-react'
 import { cn } from '../../lib/format'
 
@@ -33,10 +34,11 @@ function isUrl(ref: string): boolean {
 }
 
 export function EvidenceList({ items, mono = false, emptyMessage, className }: EvidenceListProps) {
+  const t = useT()
   if (!items || items.length === 0) {
     return (
       <p className={cn('text-sm text-fg-faint', className)}>
-        {emptyMessage ?? 'No evidence was recorded for this.'}
+        {emptyMessage ?? t('p.no-evidence-was-recorded-for-this')}
       </p>
     )
   }

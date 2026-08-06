@@ -29,13 +29,10 @@ export function DemoAccounts({ onUse, pending, disabled = false }: DemoAccountsP
     <section className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface/60 p-4">
       <header className="flex items-center justify-between gap-3">
         <h2 className="label text-fg-subtle">{t('y.demonstration-accounts')}</h2>
-        <DemoDataBadge detail="Seeded credentials for the fictional Caspian Dynamics organisation." />
+        <DemoDataBadge detail={t('p.seeded-credentials-for-the-fictional-caspian')} />
       </header>
 
-      <p className="text-xs text-fg-faint mt-2">
-        This deployment reports demo mode, so the seeded accounts are offered directly. Each button
-        performs a real sign-in against the platform.
-      </p>
+      <p className="text-xs text-fg-faint mt-2">{t('p.this-deployment-reports-demo-mode-so')}</p>
 
       <ul className="mt-3 flex flex-col gap-1.5">
         {DEMO_ACCOUNTS.map((account) => {

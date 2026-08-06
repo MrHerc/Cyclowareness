@@ -61,19 +61,15 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
             </>
           ) : (
             <>
-              <p className="mt-2 text-title text-fg">No verdict yet</p>
+              <p className="mt-2 text-title text-fg">{t('p.no-verdict-yet')}</p>
               <div className="mt-2">
                 <StatusDot status={job.status} />
               </div>
-              <p className="mt-2 text-sm text-fg-subtle">
-                Nothing is scored until the analysis finishes. This job has no risk level to report.
-              </p>
+              <p className="mt-2 text-sm text-fg-subtle">{t('p.nothing-is-scored-until-the-analysis')}</p>
             </>
           )}
 
-          <p className="mt-4 text-xs text-fg-faint">
-            Bands are fixed: 0–29 low, 30–59 medium, 60–79 high, 80–100 critical.
-          </p>
+          <p className="mt-4 text-xs text-fg-faint">{t('p.bands-are-fixed-029-low-3059')}</p>
         </div>
 
         <div className="min-w-0">
@@ -85,23 +81,23 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
 
           <dl className="divide-line mt-3">
             {job.submitted_url ? (
-              <Fact label="Submitted URL">
+              <Fact label={t('p.submitted-url')}>
                 {/* Defanged and never a link. This is an address the engine
                     downloaded on purpose; the report must not offer to open it
                     again, and a stray click on a live malicious URL from inside
                     an analyst tool is a real incident. */}
                 <span className="tech break-all">{defang(job.submitted_url)}</span>
-                <CopyButton value={job.submitted_url} label="Copy the original URL" />
+                <CopyButton value={job.submitted_url} label={t('p.copy-the-original-url')} />
               </Fact>
             ) : null}
             <Fact label="SHA-256">
-              <Hash label="SHA-256 hash" value={job.sha256} />
+              <Hash label={t('p.sha256-hash')} value={job.sha256} />
             </Fact>
             <Fact label="MD5">
               <Hash label="MD5 hash" value={job.md5} />
             </Fact>
             <Fact label="Size">{bytes(job.size_bytes)}</Fact>
-            <Fact label="Content type">
+            <Fact label={t('p.content-type')}>
               <span className="tech break-words">{job.mime || 'unknown'}</span>
               {job.magic ? (
                 <span className="mt-0.5 block text-xs text-fg-subtle">{job.magic}</span>
@@ -109,7 +105,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
             </Fact>
             <Fact label="Family">{humanise(job.family)}</Fact>
             {job.archive_path ? (
-              <Fact label="Inside archive">
+              <Fact label={t('p.inside-archive')}>
                 <span className="tech break-all">{job.archive_path}</span>
               </Fact>
             ) : null}
@@ -117,7 +113,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
               {formatDateTime(job.created_at)}
               <span className="ml-2 text-fg-subtle">via {humanise(job.source)}</span>
             </Fact>
-            <Fact label="Analysis time">
+            <Fact label={t('p.analysis-time')}>
               {job.duration_ms === null ? (
                 <span className="text-fg-faint">Not recorded</span>
               ) : (

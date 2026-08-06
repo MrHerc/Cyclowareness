@@ -7,6 +7,7 @@
  * second is what everyone expects a search box to do.
  */
 
+import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button, Input, Select } from '../../components/ui'
@@ -23,6 +24,7 @@ export interface IncidentRiskFiltersProps {
 }
 
 export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
+  const t = useT()
   const { filters, set, reset, activeCount } = state
   const departments = useDepartments()
   const [search, setSearch] = useState(filters.q)
@@ -53,7 +55,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
         type="search"
         value={search}
         onChange={(event) => setSearch(event.target.value)}
-        placeholder="Search titles, references and descriptions"
+        placeholder={t('p.search-titles-references-and-descriptions')}
         className="min-w-56 flex-1"
         autoComplete="off"
       />

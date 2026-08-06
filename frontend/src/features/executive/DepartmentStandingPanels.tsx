@@ -93,9 +93,7 @@ export function DepartmentStandingPanels({
             ))}
           </ul>
         ) : (
-          <p className="text-body text-fg-muted">
-            No department is above the low band and none carries a person in the high-risk band.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.no-department-is-above-the-low')}</p>
         )}
       </Panel>
 
@@ -111,15 +109,13 @@ export function DepartmentStandingPanels({
             ))}
           </ul>
         ) : (
-          <p className="text-body text-fg-muted">
-            No department is currently in the low band with nobody in the high-risk band.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.no-department-is-currently-in-the')}</p>
         )}
       </Panel>
 
       <InsufficientDataState
         title={t('x.movement-by-department-cannot-be')}
-        reason="This view is served one figure per department — the average as it stands now — and one organisation-wide series. There is no stored per-department history to difference, so no department can honestly be called most improved."
+        reason={t('p.this-view-is-served-one-figure')}
         remedy="The organisation-wide risk trend above is measured and does answer whether risk is falling overall. Per-department movement becomes available when the platform snapshots department averages the way it snapshots the organisation."
         sample={departments.length}
         sampleNoun="departments with a current roll-up"

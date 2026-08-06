@@ -79,8 +79,8 @@ export function IntelItemDrawer({ itemId, onClose, canManage }: IntelItemDrawerP
                 <span className="text-sm text-fg-subtle">
                   {item.cvss_score === null || item.cvss_score === undefined ? (
                     <NoMeasurement
-                      label="CVSS not scored"
-                      reason="The publisher did not attach a CVSS score."
+                      label={t('p.cvss-not-scored')}
+                      reason={t('p.the-publisher-did-not-attach-a-2')}
                     />
                   ) : (
                     <>

@@ -49,12 +49,9 @@ export function RawArtifactPanel({ value, artifactType }: RawArtifactPanelProps)
     >
       <div id="raw-artifact-body">
         {shown ? (
-          <CodeBlock value={value} label="Artifact body" copyable wrap maxHeight="28rem" />
+          <CodeBlock value={value} label={t('p.artifact-body')} copyable wrap maxHeight="28rem" />
         ) : (
-          <p className="text-body text-fg-subtle">
-            Hidden by default. This is attacker-authored content; it is displayed verbatim as text and
-            is never fetched, executed or turned into a link.
-          </p>
+          <p className="text-body text-fg-subtle">{t('p.hidden-by-default-this-is-attackerauthored')}</p>
         )}
       </div>
     </Panel>

@@ -102,13 +102,13 @@ export default function PolicyFindings() {
                 icon={SearchX}
                 headline={
                   filters.activeCount > 0
-                    ? 'No finding matches these filters'
-                    : 'No findings have been raised'
+                    ? t('p.no-finding-matches-these-filters')
+                    : t('p.no-findings-have-been-raised')
                 }
                 description={
                   filters.activeCount > 0
-                    ? 'Clear one of the filters to widen the search. The department filter runs over a capped scan of the most recent findings, so an old one can fall outside it.'
-                    : 'A finding is raised when threat intelligence matches a policy rule, when a policy review turns something up, or when an analyst records one directly.'
+                    ? t('p.clear-one-of-the-filters-to')
+                    : t('p.a-finding-is-raised-when-threat')
                 }
               />
             }

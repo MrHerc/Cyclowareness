@@ -58,6 +58,7 @@ interface RuleRowProps {
 }
 
 function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }: RuleRowProps) {
+  const t = useT()
   const proposed = rule.status === 'proposed'
 
   return (
@@ -103,17 +104,14 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
           </footer>
         </blockquote>
       ) : (
-        <p className="mt-3 text-sm text-fg-faint">
-          No passage was recorded for this rule, so there is nothing a reader can check the
-          statement against.
-        </p>
+        <p className="mt-3 text-sm text-fg-faint">{t('p.no-passage-was-recorded-for-this')}</p>
       )}
 
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-fg-faint">
           {rule.reviewed_by
             ? `Reviewed by ${rule.reviewed_by} on ${formatDate(rule.reviewed_at)}`
-            : 'Not yet reviewed by anyone'}
+            : t('p.not-yet-reviewed-by-anyone')}
         </p>
 
         {proposed && canReview ? (

@@ -47,6 +47,7 @@ function EmployeeSurface({ device, children }: { device: Device; children: React
 }
 
 function ModuleBody({ edits }: { edits: ModuleEdits }) {
+  const t = useT()
   return (
     <>
       <div className="space-y-2">
@@ -55,9 +56,7 @@ function ModuleBody({ edits }: { edits: ModuleEdits }) {
       </div>
 
       {edits.content.length === 0 ? (
-        <p className="text-sm text-medium">
-          This module has no lesson sections. An employee would open it and find only the quiz.
-        </p>
+        <p className="text-sm text-medium">{t('p.this-module-has-no-lesson-sections-3')}</p>
       ) : (
         <div className="space-y-4">
           {edits.content.map((section, index) => (
@@ -83,11 +82,10 @@ function ModuleBody({ edits }: { edits: ModuleEdits }) {
 }
 
 function QuizBody({ edits }: { edits: ModuleEdits }) {
+  const t = useT()
   if (edits.quiz.length === 0) {
     return (
-      <p className="text-sm text-critical" role="note">
-        This module has no quiz. An assignment carrying it could not be completed.
-      </p>
+      <p className="text-sm text-critical" role="note">{t('p.this-module-has-no-quiz-an')}</p>
     )
   }
 
@@ -132,9 +130,7 @@ function QuizBody({ edits }: { edits: ModuleEdits }) {
             </p>
           )}
           {question.correct_index === undefined && (
-            <p className="text-sm text-critical" role="note">
-              No answer key was recorded for this question, so it cannot be scored.
-            </p>
+            <p className="text-sm text-critical" role="note">{t('p.no-answer-key-was-recorded-for')}</p>
           )}
         </section>
       ))}
@@ -148,18 +144,12 @@ function FeedbackBody({ edits }: { edits: ModuleEdits }) {
     <div className="space-y-4">
       <div className="space-y-1">
         <h3 className="text-title text-fg">{t('y.module-complete')}</h3>
-        <p className="text-body text-fg-muted">
-          The employee sees their score, which questions they got wrong, and the explanation for
-          each.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.the-employee-sees-their-score-which')}</p>
       </div>
 
       <div className="rounded-control border border-line-subtle bg-base p-4">
         <div className="label text-fg-faint">Score</div>
-        <p className="mt-1 text-body text-fg-subtle">
-          Computed when the employee completes the quiz. Nothing has been measured for this module
-          yet, so no number is shown here.
-        </p>
+        <p className="mt-1 text-body text-fg-subtle">{t('p.computed-when-the-employee-completes-the')}</p>
       </div>
 
       {edits.takeaway && (
@@ -169,10 +159,7 @@ function FeedbackBody({ edits }: { edits: ModuleEdits }) {
         </div>
       )}
 
-      <p className="text-xs text-fg-faint">
-        Completing this module moves the employee&apos;s risk score. The size of that move is
-        decided by the risk engine at completion time, not here.
-      </p>
+      <p className="text-xs text-fg-faint">{t('p.completing-this-module-moves-the-employeeaposs')}</p>
     </div>
   )
 }
@@ -205,10 +192,7 @@ export function TrainingPreview({
   if (!module || !edits) {
     return (
       <Panel title={t('x.the-generated-training')} headingLevel={2}>
-        <p className="text-body text-medium" role="note">
-          No training module was generated for this run. There is nothing here to review, and
-          approving would advance the loop with nothing to assign.
-        </p>
+        <p className="text-body text-medium" role="note">{t('p.no-training-module-was-generated-for')}</p>
       </Panel>
     )
   }
@@ -216,13 +200,13 @@ export function TrainingPreview({
   return (
     <Panel
       title={t('x.the-generated-training')}
-      subtitle={generationLabel ?? 'Rendered exactly as the employee will see it.'}
+      subtitle={generationLabel ?? t('p.rendered-exactly-as-the-employee-will')}
       headingLevel={2}
       actions={
         <div className="flex items-center gap-2">
           <div
             role="group"
-            aria-label="Preview width"
+            aria-label={t('p.preview-width')}
             className="flex rounded-control border border-line p-0.5"
           >
             {(['desktop', 'mobile'] as const).map((option) => {
@@ -270,10 +254,7 @@ export function TrainingPreview({
         )}
       </div>
 
-      <p className="text-xs text-fg-faint" role="note">
-        This run produces a training module. No simulation lure is attached to a loop run in this
-        deployment — simulated campaigns are built separately under Simulations.
-      </p>
+      <p className="text-xs text-fg-faint" role="note">{t('p.this-run-produces-a-training-module')}</p>
 
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList>

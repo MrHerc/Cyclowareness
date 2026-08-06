@@ -11,6 +11,7 @@
  * message nobody reads before typing the same wrong password again.
  */
 
+import { useT } from '../../lib/i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TriangleAlert } from 'lucide-react'
 import { useState } from 'react'
@@ -58,6 +59,7 @@ export function SignInForm({
   defaultEmail,
   busyElsewhere = false,
 }: SignInFormProps) {
+  const t = useT()
   const [remember, setRemember] = useState(defaultEmail !== '')
   const {
     register,
@@ -118,7 +120,7 @@ export function SignInForm({
         {/* The label says exactly what is stored. It is not a session-length
             control — that belongs to the token the server issues. */}
         <Checkbox
-          label="Remember my email on this device"
+          label={t('p.remember-my-email-on-this-device')}
           checked={remember}
           onCheckedChange={setRemember}
         />

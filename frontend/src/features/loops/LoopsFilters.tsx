@@ -6,6 +6,7 @@
  * click-through (`/loops?stage=4`) lands on a bar that already reflects it.
  */
 
+import { useT } from '../../lib/i18n'
 import { Search, X } from 'lucide-react'
 import { STAGES } from '../../domain/types'
 import { cn } from '../../lib/format'
@@ -38,6 +39,7 @@ export function LoopsFilters({
   total,
   onClear,
 }: LoopsFiltersProps) {
+  const t = useT()
   const filtered = status !== 'all' || stage !== null || query.trim() !== ''
 
   return (
@@ -45,7 +47,7 @@ export function LoopsFilters({
       <div className="flex flex-wrap items-end gap-3">
         <div
           role="group"
-          aria-label="Filter runs by status"
+          aria-label={t('p.filter-runs-by-status')}
           className="flex flex-wrap items-center gap-1 rounded-control border border-line bg-surface p-1"
         >
           {STATUS_FILTERS.map((option) => {
@@ -92,12 +94,12 @@ export function LoopsFilters({
             type="search"
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
-            placeholder="Search by run id, threat, type or verdict"
+            placeholder={t('p.search-by-run-id-threat-type')}
             inputClassName="pl-9"
           />
           {query ? (
             <div className="absolute right-1 top-1/2 -translate-y-1/2">
-              <IconButton size="sm" label="Clear the search" onClick={() => onQueryChange('')}>
+              <IconButton size="sm" label={t('p.clear-the-search')} onClick={() => onQueryChange('')}>
                 <X className="size-4" aria-hidden="true" />
               </IconButton>
             </div>

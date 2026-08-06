@@ -148,9 +148,7 @@ export default function PolicyFindingDetail() {
                     </div>
                   </>
                 ) : (
-                  <p className="text-xs text-fg-faint">
-                    Changing a finding requires the policy management permission.
-                  </p>
+                  <p className="text-xs text-fg-faint">{t('p.changing-a-finding-requires-the-policy')}</p>
                 )}
               </div>
             </Panel>
@@ -174,10 +172,7 @@ export default function PolicyFindingDetail() {
                   }
                 >
                   {finding.policy_id === null ? (
-                    <p className="text-sm text-fg-muted">
-                      This finding is not tied to a policy. It describes an exposure the platform
-                      found without a document to check it against.
-                    </p>
+                    <p className="text-sm text-fg-muted">{t('p.this-finding-is-not-tied-to')}</p>
                   ) : (
                     <div className="space-y-3">
                       <p className="text-body text-fg">
@@ -211,10 +206,7 @@ export default function PolicyFindingDetail() {
                           ) : null}
                         </div>
                       ) : (
-                        <p className="text-sm text-fg-muted">
-                          No individual rule is cited. The finding is against the policy as a
-                          whole — often because nothing was ever extracted from it.
-                        </p>
+                        <p className="text-sm text-fg-muted">{t('p.no-individual-rule-is-cited-the')}</p>
                       )}
                     </div>
                   )}
@@ -290,22 +282,15 @@ export default function PolicyFindingDetail() {
                       <p className="text-xs text-fg-faint">
                         {finding.resolved_by
                           ? `${finding.resolved_by} · ${formatDateTime(finding.resolved_at)}`
-                          : 'The note is not attributed — the finding is open again.'}
+                          : t('p.the-note-is-not-attributed-the')}
                       </p>
                     </div>
                   ) : (
-                    <p className="text-sm text-fg-muted">
-                      Nothing has been written on this finding yet. It has not been closed,
-                      accepted or dismissed.
-                    </p>
+                    <p className="text-sm text-fg-muted">{t('p.nothing-has-been-written-on-this')}</p>
                   )}
 
                   <Separator className="my-4" />
-                  <p className="text-xs text-fg-subtle">
-                    The finding record keeps only the most recent note. Every status change,
-                    owner change and training assignment is written to the audit trail as it
-                    happens.
-                  </p>
+                  <p className="text-xs text-fg-subtle">{t('p.the-finding-record-keeps-only-the')}</p>
                   <Button asChild variant="ghost" size="sm" className="mt-2 -ml-3">
                     <Link
                       to={`/audit-log?object_type=policy_finding&object_id=${finding.id}`}

@@ -52,7 +52,7 @@ export function SeverityRadial({ data, size = 176, className }: SeverityRadialPr
         className={className}
         style={{ width: size, height: size }}
         role="img"
-        aria-label="No open findings"
+        aria-label={t('p.no-open-findings')}
       >
         <svg viewBox="0 0 120 120" className="size-full">
           <circle

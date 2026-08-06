@@ -57,7 +57,7 @@ export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskD
       dismiss(false)
     } catch (error) {
       setFailure(
-        error instanceof ApiError ? error.message : 'The risk could not be closed. Nothing changed.',
+        error instanceof ApiError ? error.message : t('p.the-risk-could-not-be-closed'),
       )
     }
   }
@@ -110,12 +110,12 @@ export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskD
         )}
 
         <Textarea
-          label="Closure note"
+          label={t('p.closure-note')}
           required
           rows={4}
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          hint="State how the criteria above were met. This is what an auditor reads."
+          hint={t('p.state-how-the-criteria-above-were')}
         />
       </div>
     </Dialog>
@@ -154,7 +154,7 @@ export function ReopenRiskDialog({ risk, open, onOpenChange }: ReopenRiskDialogP
       setFailure(
         error instanceof ApiError
           ? error.message
-          : 'The risk could not be reopened. Nothing changed.',
+          : t('p.the-risk-could-not-be-reopened'),
       )
     }
   }
@@ -207,12 +207,12 @@ export function ReopenRiskDialog({ risk, open, onOpenChange }: ReopenRiskDialogP
         )}
 
         <Textarea
-          label="Reason for reopening"
+          label={t('p.reason-for-reopening')}
           required
           rows={4}
           value={reason}
           onChange={(event) => setReason(event.target.value)}
-          hint="Say why the closure did not hold. The people named by this risk may be asked for more work on the strength of it."
+          hint={t('p.say-why-the-closure-did-not')}
         />
       </div>
     </Dialog>

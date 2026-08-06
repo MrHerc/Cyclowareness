@@ -7,6 +7,7 @@
  * confirmation dialog has to state before, not after.
  */
 
+import { useT } from '../../../lib/i18n'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FastForward } from 'lucide-react'
@@ -43,6 +44,7 @@ export interface TrainingPanelProps {
 const OPEN_STATUSES = new Set(['assigned', 'in_progress'])
 
 export function TrainingPanel({ entry, runId, status, assignments, canForce }: TrainingPanelProps) {
+  const t = useT()
   const [confirming, setConfirming] = useState(false)
   const toast = useToast()
   // Per-call callbacks: options passed to the hook would replace the cache
@@ -67,7 +69,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
       onError: (error) => {
         setConfirming(false)
         toast.show({
-          title: 'Force-measure did not run',
+          title: t('p.forcemeasure-did-not-run'),
           description: error.message,
           tone: 'error',
         })
@@ -96,10 +98,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
       }
     >
       {assignments.length === 0 ? (
-        <p className="text-body text-fg-muted">
-          Nothing was assigned on this run. Either it has not passed the gate yet, or targeting
-          selected no one.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.nothing-was-assigned-on-this-run')}</p>
       ) : (
         <>
           <Table>
@@ -127,7 +126,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
                   </TableCell>
                   <TableCell numeric>
                     {assignment.score === null ? (
-                      <NoMeasurement reason="This assignment has not been completed, so there is no score." />
+                      <NoMeasurement reason={t('p.this-assignment-has-not-been-completed')} />
                     ) : (
                       `${num(assignment.score, 0)}%`
                     )}
@@ -140,11 +139,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
             </TableBody>
           </Table>
 
-          <p className="mt-3 text-xs text-fg-subtle">
-            An assignment is delivered by appearing in the assignee&apos;s portal. No mail gateway
-            is connected in this deployment, so nothing was emailed and no send or open event is
-            recorded.
-          </p>
+          <p className="mt-3 text-xs text-fg-subtle">{t('p.an-assignment-is-delivered-by-appearing')}</p>
         </>
       )}
 
@@ -163,7 +158,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
         description={`This expires ${open.length} open assignment${
           open.length === 1 ? '' : 's'
         } without them being completed. Each expiry is recorded against that person as ignored training, which RAISES their risk score, and the effect cannot be undone from this screen. Measurement then runs on whatever has been completed so far.`}
-        confirmLabel="Expire and measure"
+        confirmLabel={t('p.expire-and-measure')}
         busy={forceMeasure.isPending}
         onConfirm={run}
       />

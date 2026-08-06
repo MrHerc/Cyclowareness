@@ -7,6 +7,7 @@
  * incident rather than a styling detail.
  */
 
+import { useT } from '../../../lib/i18n'
 import { useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight } from 'lucide-react'
@@ -36,6 +37,7 @@ function describeMeta(value: unknown): string {
 }
 
 export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakePanelProps) {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const rawId = useId()
 
@@ -47,10 +49,7 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
         source="live"
         sourceDetail="Threat record"
       >
-        <p className="text-body text-fg-muted">
-          This run has no threat attached, so there is no artifact to show. That is a data fault
-          rather than an empty result — a run is created from a threat.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.this-run-has-no-threat-attached')}</p>
       </StageSection>
     )
   }
@@ -64,18 +63,18 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
     { label: 'Submitted', value: formatDateTime(threat.created_at) },
     {
       label: 'Reported by',
-      value: reporterName ?? (reporterId === null ? 'Not a human-sensor report' : `Employee ${reporterId}`),
+      value: reporterName ?? (reporterId === null ? t('p.not-a-humansensor-report') : `Employee ${reporterId}`),
       to: reporterId !== null ? `/employees/${reporterId}` : undefined,
     },
     { label: 'Artifact type', value: humanise(threat.artifact_type) },
     {
       label: 'Affected department',
-      value: departments === undefined ? 'Not stated on the artifact' : describeMeta(departments),
+      value: departments === undefined ? t('p.not-stated-on-the-artifact') : describeMeta(departments),
     },
     {
       label: 'Severity at intake',
       value: 'Not recorded',
-      hint: 'Nothing is graded on arrival. The verdict and confidence in stage 2 are the first assessment this artifact receives.',
+      hint: t('p.nothing-is-graded-on-arrival-the'),
     },
   ]
 
@@ -121,19 +120,19 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
             )
           }
         >
-          {open ? 'Hide the raw artifact' : 'Show the raw artifact'}
+          {open ? t('p.hide-the-raw-artifact') : t('p.show-the-raw-artifact')}
         </Button>
 
         <div id={rawId} hidden={!open} className="mt-3 space-y-3">
           <CodeBlock
-            label="Artifact reference — displayed verbatim, never linkified"
+            label={t('p.artifact-reference-displayed-verbatim-never-link')}
             value={threat.artifact_ref || '(empty)'}
             copyable
             wrap
           />
           {metaEntries.length > 0 ? (
             <CodeBlock
-              label="Artifact metadata"
+              label={t('p.artifact-metadata')}
               value={metaEntries
                 .map(([key, value]) => `${key}: ${describeMeta(value)}`)
                 .join('\n')}
@@ -141,7 +140,7 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
               wrap
             />
           ) : (
-            <p className="text-sm text-fg-faint">No metadata was recorded with this artifact.</p>
+            <p className="text-sm text-fg-faint">{t('p.no-metadata-was-recorded-with-this')}</p>
           )}
         </div>
       </div>

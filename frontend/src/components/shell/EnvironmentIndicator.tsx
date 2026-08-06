@@ -13,6 +13,7 @@
  * severity on the screen behind it.
  */
 
+import { useT } from '../../lib/i18n'
 import { FlaskConical, HelpCircle, ShieldCheck } from 'lucide-react'
 import { Tooltip } from '../ui'
 import { cn } from '../../lib/format'
@@ -26,6 +27,7 @@ const PILL =
   'inline-flex items-center gap-1.5 rounded-chip border px-2 py-0.5 text-xs whitespace-nowrap'
 
 export function EnvironmentIndicator({ className }: EnvironmentIndicatorProps) {
+  const t = useT()
   const { data, isPending, isError } = useCapabilities()
 
   if (isPending || isError) {
@@ -33,8 +35,8 @@ export function EnvironmentIndicator({ className }: EnvironmentIndicatorProps) {
       <Tooltip
         content={
           isError
-            ? 'The platform did not answer the capability request, so this build cannot tell you which environment it is talking to.'
-            : 'Asking the API which environment this is.'
+            ? t('p.the-platform-did-not-answer-the')
+            : t('p.asking-the-api-which-environment-this')
         }
       >
         <span className={cn(PILL, 'border-dashed border-line text-fg-faint', className)}>
@@ -54,13 +56,13 @@ export function EnvironmentIndicator({ className }: EnvironmentIndicatorProps) {
         <span className="block space-y-1">
           <span className="block">
             {demo
-              ? 'Demonstration deployment. The organisation is seeded; the engine operating on it is the real one.'
-              : 'Production deployment. Every record on screen belongs to this organisation.'}
+              ? t('p.demonstration-deployment-the-organisation-is-see')
+              : t('p.production-deployment-every-record-on-screen')}
           </span>
           <span className="block text-fg-subtle">
             {modelConnected
-              ? 'A language model is connected — generated content is labelled AI.'
-              : 'No language model is connected. Generated content is template output and is labelled as such.'}
+              ? t('p.a-language-model-is-connected-generated')
+              : t('p.no-language-model-is-connected-generated')}
           </span>
           <span className="block text-fg-subtle">Analyzer: {data.analyzer}</span>
         </span>

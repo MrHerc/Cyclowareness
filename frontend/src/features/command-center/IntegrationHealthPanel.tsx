@@ -56,7 +56,7 @@ export function IntegrationHealthPanel({
       subtitle={
         dormant > 0
           ? `${dormant} further ${dormant === 1 ? 'provider is' : 'providers are'} not configured in this deployment`
-          : 'External learning and identity systems'
+          : t('p.external-learning-and-identity-systems')
       }
       actions={
         <Button size="sm" variant="ghost" asChild>

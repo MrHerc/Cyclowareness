@@ -62,7 +62,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
             size="sm"
             variant="secondary"
             icon={<UserPlus size={14} aria-hidden="true" />}
-            reason={closed ? 'This risk is closed. Reopen it before attaching more people.' : null}
+            reason={closed ? t('p.this-risk-is-closed-reopen-it') : null}
             onClick={() => setAttaching(true)}
           >
             Attach people
@@ -140,7 +140,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
                     ) : (
                       <NoMeasurement
                         label="No score"
-                        reason="No score was recorded for this person. The required action may not carry a quiz."
+                        reason={t('p.no-score-was-recorded-for-this')}
                         className="justify-end text-xs"
                       />
                     )}

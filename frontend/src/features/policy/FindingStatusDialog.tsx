@@ -64,14 +64,14 @@ export function FindingStatusDialog({
         onSuccess: () => {
           toast.show({
             title: `Finding moved to ${FINDING_STATUS_LABELS[status] ?? status}`,
-            description: 'The change and its reason are in the audit trail.',
+            description: t('p.the-change-and-its-reason-are'),
             tone: 'success',
           })
           onOpenChange(false)
         },
         onError: (error) => {
           toast.show({
-            title: 'The server refused this change',
+            title: t('p.the-server-refused-this-change'),
             description: error.message,
             tone: 'error',
           })
@@ -104,9 +104,7 @@ export function FindingStatusDialog({
       }
     >
       {options.length === 0 ? (
-        <p role="alert" className="text-sm text-fg-muted">
-          This finding is in a state the API allows no move out of. Nothing can be changed here.
-        </p>
+        <p role="alert" className="text-sm text-fg-muted">{t('p.this-finding-is-in-a-state')}</p>
       ) : (
         <div className="space-y-4">
           <Select
@@ -124,8 +122,8 @@ export function FindingStatusDialog({
             onChange={(event) => setNote(event.target.value)}
             hint={
               noteRequired
-                ? 'Required. Resolving, accepting or reopening a finding is a claim the organisation may have to defend later.'
-                : 'Optional for this move, and kept on the record either way.'
+                ? t('p.required-resolving-accepting-or-reopening-a')
+                : t('p.optional-for-this-move-and-kept')
             }
           />
         </div>

@@ -11,6 +11,7 @@
  * decorated bell teaches people to ignore it.
  */
 
+import { useT } from '../../lib/i18n'
 import { BadgeCheck, Bell, Inbox } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -30,6 +31,7 @@ export interface NotificationsMenuProps {
 }
 
 export function NotificationsMenu({ className }: NotificationsMenuProps) {
+  const t = useT()
   const navigate = useNavigate()
   const { data, isPending, isError } = useAnalystDashboard()
 
@@ -61,14 +63,11 @@ export function NotificationsMenu({ className }: NotificationsMenuProps) {
         <DropdownMenuLabel>Waiting for you</DropdownMenuLabel>
 
         {isPending && (
-          <p className="px-2 py-3 text-sm text-fg-subtle">Reading the queues.</p>
+          <p className="px-2 py-3 text-sm text-fg-subtle">{t('p.reading-the-queues')}</p>
         )}
 
         {isError && (
-          <p className="px-2 py-3 text-sm text-fg-subtle">
-            The queues could not be read, so this list is empty for a reason that has nothing to do
-            with your workload.
-          </p>
+          <p className="px-2 py-3 text-sm text-fg-subtle">{t('p.the-queues-could-not-be-read')}</p>
         )}
 
         {data !== undefined && (
@@ -88,9 +87,7 @@ export function NotificationsMenu({ className }: NotificationsMenuProps) {
         )}
 
         <DropdownMenuSeparator />
-        <p className="px-2 pb-1.5 pt-1 text-xs text-fg-faint">
-          Derived from the live queues. This deployment sends no email or push notifications.
-        </p>
+        <p className="px-2 pb-1.5 pt-1 text-xs text-fg-faint">{t('p.derived-from-the-live-queues-this')}</p>
       </DropdownMenuContent>
     </DropdownMenu>
   )

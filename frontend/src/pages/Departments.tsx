@@ -82,7 +82,7 @@ export default function Departments() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Panel>
               <HonestMetric
-                label="Average risk across the organisation"
+                label={t('p.average-risk-across-the-organisation')}
                 value={orgAverage}
                 format="score"
                 sample={employees.data?.length ?? 0}
@@ -90,18 +90,18 @@ export default function Departments() {
                 source="live"
                 unmeasuredReason="no employee has a score yet"
                 definition={{
-                  calculation: 'The mean current risk score of every person on the roster.',
+                  calculation: t('p.the-mean-current-risk-score-of'),
                   includes: ['Everyone the employees endpoint returns'],
                   excludes: ['Nothing — this is the whole roster, not a trailing window'],
                   caveat:
-                    'Computed from the roster in the browser, so every person counts once. The department averages below come from the server and exclude people who have left.',
+                    t('p.computed-from-the-roster-in-the'),
                 }}
               />
             </Panel>
 
             <Panel>
               <HonestMetric
-                label="People in a scored department"
+                label={t('p.people-in-a-scored-department')}
                 value={headcount}
                 format="number"
                 sample={rows.length}
@@ -113,14 +113,14 @@ export default function Departments() {
 
             <Panel>
               <HonestMetric
-                label="People in the high-risk band"
+                label={t('p.people-in-the-highrisk-band')}
                 value={highRisk}
                 format="number"
                 sample={headcount}
                 sampleNoun="people in a scored department"
                 tone={highRisk > 0 ? 'critical' : 'neutral'}
                 source="live"
-                hint="High risk is a score of 60 or above."
+                hint={t('p.high-risk-is-a-score-of')}
                 unmeasuredReason="no department reported a high-risk count"
               />
             </Panel>
@@ -149,7 +149,7 @@ export default function Departments() {
             ) : (
               <InsufficientDataState
                 title={t('x.no-department-movement-to-show')}
-                reason="No per-department history is stored: the departments endpoint returns a current roll-up only, and no recent risk event could be attributed to a person in a department."
+                reason={t('p.no-perdepartment-history-is-stored-the')}
                 remedy="Movement appears as soon as the risk engine records events — a completed module, a simulation outcome, a report."
                 sample={attribution.attributed}
                 sampleNoun="attributed risk events"

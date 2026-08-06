@@ -41,26 +41,23 @@ export function IntelViewCounts({ items, total, matched }: IntelViewCountsProps)
     <Panel title={t('x.what-is-on-this-screen')} headingLevel={2}>
       <div className="space-y-1.5">
         <Row
-          label="Matching these filters"
+          label={t('p.matching-these-filters')}
           value={total === null ? `${num(items.length)} shown` : num(total)}
         />
         {total !== null && total !== items.length ? (
           <Row label="Shown here" value={num(items.length)} />
         ) : null}
         <Row
-          label="With a match against us"
+          label={t('p.with-a-match-against-us')}
           value={matched === null ? 'Not counted' : num(matched)}
           tone={matched === null ? 'text-sm text-fg-faint' : 'text-sm text-brand'}
         />
-        <Row label="Assessed as urgent" value={num(urgent)} />
-        <Row label="Not yet assessed" value={num(unassessed)} />
+        <Row label={t('p.assessed-as-urgent')} value={num(urgent)} />
+        <Row label={t('p.not-yet-assessed')} value={num(unassessed)} />
         <Row label="Dismissed" value={num(dismissed)} />
       </div>
 
-      <p className="mt-3 text-xs leading-relaxed text-fg-faint">
-        Counts describe the advisories stored in this deployment. They are not a count of what
-        has been published — no source is configured to fetch from.
-      </p>
+      <p className="mt-3 text-xs leading-relaxed text-fg-faint">{t('p.counts-describe-the-advisories-stored-in')}</p>
     </Panel>
   )
 }

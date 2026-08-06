@@ -46,7 +46,7 @@ export function DeploymentPanel() {
         <dl>
           <SettingRow
             term="Product name"
-            detail="Configurable per pilot so a deployment can be white-labelled."
+            detail={t('p.configurable-per-pilot-so-a-deployment')}
           >
             {PRODUCT_NAME}
           </SettingRow>
@@ -56,7 +56,7 @@ export function DeploymentPanel() {
               and whose name goes on a regulatory incident record. */}
           <SettingRow
             term="Built by"
-            detail="The vendor that produced the platform. The organisation running it is named separately on incident records."
+            detail={t('p.the-vendor-that-produced-the-platform')}
           >
             <MadeBy variant="inline" />
           </SettingRow>
@@ -65,8 +65,8 @@ export function DeploymentPanel() {
             term="Environment"
             detail={
               capabilities.data?.demo_mode
-                ? 'A fictional organisation is seeded for demonstration. The risk engine, the sandbox and the approval gate operating on it are the real ones.'
-                : 'Every record on screen belongs to this organisation.'
+                ? t('p.a-fictional-organisation-is-seeded-for')
+                : t('p.every-record-on-screen-belongs-to')
             }
           >
             <Badge tone={capabilities.data?.demo_mode ? 'neutral' : 'safe'} size="sm">
@@ -78,8 +78,8 @@ export function DeploymentPanel() {
             term="Language model"
             detail={
               capabilities.data?.ai_provider === 'anthropic'
-                ? 'A model is connected. Content it writes is labelled as AI-generated and still passes the human approval gate before anyone receives it.'
-                : 'No model is connected. Generated training and briefings are deterministic template output, and are labelled as template rather than as AI.'
+                ? t('p.a-model-is-connected-content-it')
+                : t('p.no-model-is-connected-generated-training')
             }
           >
             {capabilities.data?.ai_provider === 'anthropic' ? (
@@ -95,7 +95,7 @@ export function DeploymentPanel() {
 
           <SettingRow
             term="Configured analyzer"
-            detail="The sandbox pipeline this deployment runs submissions through."
+            detail={t('p.the-sandbox-pipeline-this-deployment-runs')}
           >
             <span className="tech">{capabilities.data?.analyzer ?? 'Not reported'}</span>
           </SettingRow>
@@ -104,8 +104,8 @@ export function DeploymentPanel() {
             term="API origin"
             detail={
               API_BASE_URL
-                ? 'This build talks to a separate API host.'
-                : 'The API and this interface are served from one origin, so there is no cross-origin request and the loop stream is same-origin.'
+                ? t('p.this-build-talks-to-a-separate')
+                : t('p.the-api-and-this-interface-are')
             }
           >
             <span className="tech">{API_BASE_URL || 'Same origin as this page'}</span>
@@ -128,7 +128,7 @@ export function DeploymentPanel() {
               detail={
                 Object.keys(sandbox.data?.unavailable_analyzers ?? {}).length > 0
                   ? `${num(Object.keys(sandbox.data?.unavailable_analyzers ?? {}).length)} analyzer(s) are not available on this host and are reported as not run rather than skipped silently.`
-                  : 'Every analyzer this build knows about loaded on this host.'
+                  : t('p.every-analyzer-this-build-knows-about')
               }
             >
               {num((sandbox.data?.static_analyzers ?? []).length)} loaded
@@ -139,7 +139,7 @@ export function DeploymentPanel() {
               detail={
                 sandbox.data?.yara?.error
                   ? `The YARA tier did not initialise: ${sandbox.data.yara.error}. Rule matches are absent from every report on this host.`
-                  : 'Compiled at startup and applied to every submission.'
+                  : t('p.compiled-at-startup-and-applied-to')
               }
             >
               {num(sandbox.data?.yara?.loaded ?? 0)} compiled
@@ -152,10 +152,10 @@ export function DeploymentPanel() {
               term="Quarantine execution"
               detail={
                 sandbox.data?.quarantine_noexec === true
-                  ? 'The kernel would refuse to execute a file in the quarantine. Read from the host mounts, not assumed.'
+                  ? t('p.the-kernel-would-refuse-to-execute')
                   : sandbox.data?.quarantine_noexec === false
-                    ? 'The quarantine is NOT mounted noexec on this host. Samples are never executed by the analysis, but the mount does not enforce it.'
-                    : 'This host cannot report whether the quarantine is mounted noexec.'
+                    ? t('p.the-quarantine-is-not-mounted-noexec')
+                    : t('p.this-host-cannot-report-whether-the')
               }
             >
               <Badge
@@ -187,12 +187,12 @@ export function DeploymentPanel() {
               term="Sample destinations"
               detail={
                 sandbox.data?.integrations === undefined
-                  ? 'This deployment did not report its integration matrix, so where a sample would go cannot be answered here.'
+                  ? t('p.this-deployment-did-not-report-its')
                   : sandbox.data.integrations.length === 0
-                    ? 'The integrations layer did not load on this host, so the destinations it would describe are unknown rather than absent.'
+                    ? t('p.the-integrations-layer-did-not-load')
                     : sandbox.data.integrations.some((i) => i.configured && i.sends_data_off_host)
-                      ? 'At least one configured engine receives data from this deployment. What each one receives is named below.'
-                      : 'No external engine is configured to receive anything from this deployment.'
+                      ? t('p.at-least-one-configured-engine-receives')
+                      : t('p.no-external-engine-is-configured-to')
               }
             >
               {sandbox.data?.integrations === undefined || sandbox.data.integrations.length === 0 ? (
@@ -213,8 +213,8 @@ export function DeploymentPanel() {
               term="Dynamic detonation"
               detail={
                 sandbox.data?.dynamic_worker
-                  ? 'A detonation worker is attached. Behavioural signals in a report were observed, not inferred.'
-                  : 'No detonation worker is attached, so nothing submitted here is executed. Reports say so per tier rather than leaving a viewer to assume a sample was run.'
+                  ? t('p.a-detonation-worker-is-attached-behavioural')
+                  : t('p.no-detonation-worker-is-attached-so')
               }
             >
               <Badge tone={sandbox.data?.dynamic_worker ? 'safe' : 'medium'} size="sm">
@@ -246,7 +246,7 @@ export function DeploymentPanel() {
                       // actually leaves is in `notes`, rendered below.
                       <Badge tone={engine.blocked_by_sovereign_mode ? 'neutral' : 'medium'} size="sm">
                         {engine.blocked_by_sovereign_mode
-                          ? 'Blocked by sovereign mode'
+                          ? t('p.blocked-by-sovereign-mode')
                           : 'Sends data off-host'}
                       </Badge>
                     ) : null}

@@ -9,6 +9,7 @@
  * Every control writes to the URL, so a filtered library is a link.
  */
 
+import { useT } from '../../lib/i18n'
 import { Search, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button, Input, Select } from '../../components/ui'
@@ -27,6 +28,7 @@ export interface PolicyFiltersProps {
 }
 
 export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
+  const t = useT()
   const [term, setTerm] = useState(filters.values.q)
 
   // Keep the box in step when the URL changes underneath it — a cleared filter
@@ -54,10 +56,10 @@ export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
       <div className="flex items-end gap-2">
         <Input
           label="Search"
-          hint="Name, owner or notes. Press Enter to search."
+          hint={t('p.name-owner-or-notes-press-enter')}
           value={term}
           onChange={(event) => setTerm(event.target.value)}
-          placeholder="Approved software…"
+          placeholder={t('p.approved-software')}
           className="flex-1"
         />
         <Button type="submit" variant="secondary" icon={<Search className="size-4" />}>

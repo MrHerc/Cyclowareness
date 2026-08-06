@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import type { TrendPoint } from '../../domain/types'
 import { pct } from '../../lib/format'
@@ -49,6 +50,7 @@ export function BehaviourTrendChart({
   error = null,
   className,
 }: BehaviourTrendChartProps) {
+  const t = useT()
   const clicks = points.map((p) => p.phishing_click_rate)
   const reports = points.map((p) => p.report_rate)
   // Either line on its own is worth drawing; both empty is not a trend.
@@ -56,7 +58,7 @@ export function BehaviourTrendChart({
 
   const caption = windowDays
     ? `Last ${windowDays} days · gaps are days with no resolved events`
-    : 'Gaps are days with no resolved events'
+    : t('p.gaps-are-days-with-no-resolved')
 
   return (
     <ChartFrame

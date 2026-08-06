@@ -116,11 +116,11 @@ export default function Training() {
             </TabsList>
 
             <Input
-              label="Search modules"
+              label={t('p.search-modules')}
               type="search"
               value={query}
               onChange={(event) => setParam('q', event.target.value)}
-              placeholder="Title or description"
+              placeholder={t('p.title-or-description')}
               className="w-64"
             />
           </div>

@@ -71,16 +71,11 @@ export function MatchedPolicy({ policyId, ruleId }: MatchedPolicyProps) {
                   ) : null}
                 </blockquote>
               ) : (
-                <p className="mt-2 text-xs text-fg-faint">
-                  No passage was recorded for this rule, so it cannot be checked against the
-                  document here.
-                </p>
+                <p className="mt-2 text-xs text-fg-faint">{t('p.no-passage-was-recorded-for-this')}</p>
               )}
             </div>
           ) : ruleId === null ? (
-            <p className="text-sm text-fg-subtle">
-              The match named this policy but no single rule inside it.
-            </p>
+            <p className="text-sm text-fg-subtle">{t('p.the-match-named-this-policy-but')}</p>
           ) : (
             <p className="text-sm text-fg-subtle">
               Rule #{ruleId} is no longer present on this policy — it may have been superseded

@@ -1037,6 +1037,1920 @@ const en = {
     'Built by',
   'a.tagline':
     'CLOSED-LOOP HUMAN CYBER RISK',
+
+  // --- explanatory prose ------------------------------------------------
+  'p.a-blank-measurement-is-a-blank':
+    'A blank measurement is a blank measurement. Where the platform has not measured something yet it prints an em dash and says how large the sample was, rather than a zero that looks like good news.',
+  'p.a-chat-or-messaging-app':
+    'A chat or messaging app',
+  'p.a-connection-record-appears-once-a':
+    'A connection record appears once a provider is registered with the platform. This deployment ships a set of them so the states can be demonstrated.',
+  'p.a-current-position-not-a-trend':
+    'A current position, not a trend. The trend lives on the department screen.',
+  'p.a-detonation-host-is-attached':
+    'A detonation host is attached.',
+  'p.a-detonation-worker-is-attached-behavioural':
+    'A detonation worker is attached. Behavioural signals in a report were observed, not inferred.',
+  'p.a-fictional-organisation-is-seeded-for':
+    'A fictional organisation is seeded for demonstration. The risk engine, the sandbox and the approval gate operating on it are the real ones.',
+  'p.a-finding-is-raised-when-threat':
+    'A finding is raised when threat intelligence matches a policy rule, when a policy review turns something up, or when an analyst records one directly.',
+  'p.a-floor-not-a-total-a':
+    'A floor, not a total. A finding scoped to a whole department contributes nobody to this head count.',
+  'p.a-high-completion-rate-is-not':
+    'A high completion rate is not evidence of changed behaviour. The click and report rates are.',
+  'p.a-language-model-is-connected-generated':
+    'A language model is connected — generated content is labelled AI.',
+  'p.a-mapping-is-your-assertion-that':
+    'A mapping is your assertion that finishing this course changes the behaviour named. It is recorded against your account, because targeting depends on it — an over-claimed mapping sends the wrong people to the wrong course, and the measurement afterwards reads as a training failure.',
+  'p.a-model-is-connected-content-it':
+    'A model is connected. Content it writes is labelled as AI-generated and still passes the human approval gate before anyone receives it.',
+  'p.a-named-person-approved-this-content':
+    'A named person approved this content at the gate before it was used.',
+  'p.a-persignal-rollup-across-the-whole':
+    'A per-signal roll-up across the whole organisation is not exposed by the API — the breakdown endpoint answers for one person at a time. The table below therefore counts real events from the recent tail rather than claiming an all-time total.',
+  'p.a-plan-is-raised-when-a':
+    'A plan is raised when a signal names a specific person — a simulation click, a credential submission, a malicious verdict on something they received. Nothing is raised on a schedule.',
+  'p.a-policy-appears-here-once-its':
+    'A policy appears here once its document — or just its metadata — has been registered through the platform API. Extraction is a separate, opt-in step.',
+  'p.a-reason-is-required-to-dismiss':
+    'A reason is required to dismiss an advisory.',
+  'p.a-reason-is-required-to-mark':
+    'A reason is required to mark an advisory not applicable.',
+  'p.a-reason-is-required':
+    'A reason is required.',
+  'p.a-refusal-is-a-security-metric':
+    'A refusal is a security metric, not an error. A rise in one code means somebody is probing what this product will write into an employee&rsquo;s screen.',
+  'p.a-rejected-rule-was-never-in':
+    'A rejected rule was never in force, so no version snapshot is written. The reason is recorded in the audit trail.',
+  'p.a-reviewer-discarded-these-they-were':
+    'A reviewer discarded these. They were never in force.',
+  'p.a-risk-appears-here-when-incident':
+    'A risk appears here when incident response charges an exposure to named people — a credential entered on a spoofed portal, a file sent to the wrong recipient, a procedure skipped under pressure.',
+  'p.a-risk-score-is-one-number':
+    'A risk score is one number between 0 and 100 describing how likely this person is to be the point where an attack succeeds. It is not a performance rating and it is not an opinion — it is a starting point set by their role, plus every signal the platform has recorded about them.',
+  'p.a-sync-against-a-connection-that':
+    'A sync against a connection that is not configured or is disabled is refused by the API. Configure it first, and the refusal will be shown here.',
+  'p.a-sync-asks-the-provider-for':
+    'A sync asks the provider for courses and completions. No provider client exists in this build, so it will report plainly that nothing was requested and leave the stored sync state alone.',
+  'p.a-threat-that-became-training-and':
+    'A threat that became training and was then measured. Runs that closed without measuring anything are not counted.',
+  'p.accepted-file-types':
+    'Accepted file types',
+  'p.account-name':
+    'Account name',
+  'p.activate-this-proposed-rule':
+    'Activate this proposed rule',
+  'p.activating-changes-the-set-of-rules':
+    'Activating changes the set of rules this organisation is checked against, so the API writes an immutable snapshot of the rule set at this moment.',
+  'p.add-a-behaviour':
+    'Add a behaviour',
+  'p.add-a-comment-first-a-revision':
+    'Add a comment first — a revision request without one leaves nothing to act on.',
+  'p.add-a-comment-first-the-server':
+    'Add a comment first — the server refuses a rejection without a reason.',
+  'p.admin-phone-number':
+    'Admin phone number',
+  'p.advisories-reach-this-module-by-being':
+    'Advisories reach this module by being seeded or entered by hand — no external source is configured, so nothing arrives on its own. Configure one and fetched advisories will appear here.',
+  'p.advisories-updated':
+    'Advisories updated',
+  'p.affected-department':
+    'Affected department',
+  'p.affected-products-as-published':
+    'Affected products, as published',
+  'p.all-named-subjects-accepted-at-or':
+    'All named subjects accepted at or above the pass mark, and the credential rotated.',
+  'p.already-raised-from-this-advisory':
+    'Already raised from this advisory',
+  'p.an-analyst-accepted-the-report-targeting':
+    'An analyst accepted the report; targeting keys from the reporter were stripped at this boundary.',
+  'p.an-analyst-pushed-a-curated-feed':
+    'An analyst pushed a curated feed item into the loop.',
+  'p.an-analyst-reviewed-it-and-decided':
+    'An analyst reviewed it and decided no action was needed. Reporting it was still right.',
+  'p.an-analyst-submitted-the-artifact-directly':
+    'An analyst submitted the artifact directly.',
+  'p.an-analyst-took-it-forward-it':
+    'An analyst took it forward. It became a real threat record and started a loop.',
+  'p.an-analyst-wrote-or-rewrote-this':
+    'An analyst wrote or rewrote this content.',
+  'p.an-assignment-is-delivered-by-appearing':
+    'An assignment is delivered by appearing in the assignee&apos;s portal. No mail gateway is connected in this deployment, so nothing was emailed and no send or open event is recorded.',
+  'p.an-employee-reported-this-and-an':
+    'An employee reported this and an analyst pushed it into the loop.',
+  'p.an-entry-is-written-whenever-an':
+    'An entry is written whenever an approval is decided, a policy rule is reviewed, an integration is changed, or an incident risk moves. Widen the window to reach older activity.',
+  'p.an-extraction-run-completed-and-wrote':
+    'An extraction run completed and wrote nothing. Check the document under the Document tab.',
+  'p.an-isolated-detonation-worker-is-attached':
+    'An isolated detonation worker is attached to this deployment. Samples are parsed and also executed under supervision, and both sets of findings appear in the report.',
+  'p.an-unexpected-error-stopped-this-view':
+    'An unexpected error stopped this view from loading. The details below are all the product knows.',
+  'p.analyse-a-file-or-a-url':
+    'Analyse a file or a URL',
+  'p.analysis-stopped-rather-than-continuing-on':
+    'Analysis stopped rather than continuing on a container it cannot open. The engine does not guess passwords and does not brute-force them — supplying one is a deliberate analyst action, and it is recorded as such.',
+  'p.analysis-time':
+    'Analysis time',
+  'p.analyst-comment':
+    'Analyst comment',
+  'p.analyzed-threat':
+    'Analyzed threat',
+  'p.analyzer-verdict':
+    'Analyzer verdict',
+  'p.analyzers-reported-ready-by-the-sandbox':
+    'Analyzers reported ready by the sandbox',
+  'p.anyone-already-attached-is-shown-as':
+    'Anyone already attached is shown as such and is left untouched.',
+  'p.anything-else-is-still-accepted-and':
+    'Anything else is still accepted and identified by content — the list is what the engine has a dedicated parser for.',
+  'p.anything-else-worth-knowing-optional':
+    'Anything else worth knowing (optional)',
+  'p.approval-gate':
+    'Approval gate',
+  'p.approval-items-naming-you':
+    'Approval items naming you',
+  'p.approve-and-release':
+    'Approve and release',
+  'p.approved-by-policy':
+    'Approved by policy',
+  'p.approved-module':
+    'Approved module',
+  'p.approved-software':
+    'Approved software…',
+  'p.archive-password':
+    'Archive password',
+  'p.archive-password-optional':
+    'Archive password (optional)',
+  'p.argument-this-finding-rests-on':
+    'Argument this finding rests on',
+  'p.arrival-time-not-recorded':
+    'Arrival time not recorded',
+  'p.artifact-body':
+    'Artifact body',
+  'p.artifact-metadata':
+    'Artifact metadata',
+  'p.artifact-reference-displayed-verbatim-never-link':
+    'Artifact reference — displayed verbatim, never linkified',
+  'p.artifact-type':
+    'Artifact type',
+  'p.asking-the-api-which-environment-this':
+    'Asking the API which environment this is.',
+  'p.asking-the-sandbox-what-it-can':
+    'Asking the sandbox what it can do.',
+  'p.assessed-as-urgent':
+    'Assessed as urgent',
+  'p.at-least-one-configured-engine-receives':
+    'At least one configured engine receives data from this deployment. What each one receives is named below.',
+  'p.at-least-three-characters-sentence-case':
+    'At least three characters. Sentence case, like the rest of the catalogue.',
+  'p.attendance-not-behaviour-change-read-it':
+    'Attendance, not behaviour change. Read it as the floor under the two rates above.',
+  'p.average-behaviour-risk':
+    'Average behaviour risk',
+  'p.average-quiz-score':
+    'Average quiz score',
+  'p.average-reporting-time':
+    'Average reporting time',
+  'p.average-risk-across-everyone-in-the':
+    'Average risk across everyone in the department. It is a team average, not anyone\'s individual score.',
+  'p.average-risk-across-the-organisation':
+    'Average risk across the organisation',
+  'p.average-risk-score':
+    'Average risk score',
+  'p.average-role-baseline':
+    'Average role baseline',
+  'p.average-score':
+    'Average score',
+  'p.average-time-spent':
+    'Average time spent',
+  'p.awaiting-review':
+    'Awaiting review',
+  'p.bands-are-fixed-029-low-3059':
+    'Bands are fixed: 0–29 low, 30–59 medium, 60–79 high, 80–100 critical.',
+  'p.behaviour-over-time':
+    'Behaviour over time',
+  'p.blocked-by-sovereign-mode':
+    'Blocked by sovereign mode',
+  'p.cve-id-title-or-summary':
+    'CVE id, title or summary',
+  'p.cvss-not-scored':
+    'CVSS not scored',
+  'p.campaign-created-as-a-draft':
+    'Campaign created as a draft',
+  'p.campaign-name':
+    'Campaign name',
+  'p.campaigns-launched-and-still-collecting-outcomes':
+    'Campaigns launched and still collecting outcomes',
+  'p.carried-by-a-real-training-assignment':
+    'Carried by a real training assignment against an approved module.',
+  'p.caspian-dynamics-has-been-reseeded-with':
+    'Caspian Dynamics has been re-seeded with six months of history re-anchored to now.',
+  'p.change-in-average-risk':
+    'Change in average risk',
+  'p.change-in-average-risk-negative-is':
+    'Change in average risk · negative is improvement',
+  'p.changed-saving-rewrites-the-module-and':
+    'Changed. Saving rewrites the module and marks it analyst-edited.',
+  'p.changing-a-finding-requires-the-policy':
+    'Changing a finding requires the policy management permission.',
+  'p.chart-unavailable':
+    'Chart unavailable',
+  'p.chart-window':
+    'Chart window',
+  'p.choose-a-lure-source':
+    'Choose a lure source.',
+  'p.choose-a-module':
+    'Choose a module…',
+  'p.choose-an-approved-module':
+    'Choose an approved module',
+  'p.choose-another-state-or-set-the':
+    'Choose another state, or set the filter back to every state.',
+  'p.chooses-how-the-analyzer-reads-the':
+    'Chooses how the analyzer reads the body below.',
+  'p.classification':
+    'Classification',
+  'p.clear-a-filter-or-widen-the':
+    'Clear a filter or widen the window. An action filter also matches every verb beneath it, so a family name is usually a better place to start than an exact one.',
+  'p.clear-a-filter-to-widen-the':
+    'Clear a filter to widen the search. The department filter runs over the most recently updated policies, so a very old document may sit outside it.',
+  'p.clear-one-of-the-filters-to':
+    'Clear one of the filters to widen the search. The department filter runs over a capped scan of the most recent findings, so an old one can fall outside it.',
+  'p.clear-the-filter-to-see-every':
+    'Clear the filter to see every plan the engine has produced.',
+  'p.clear-the-search':
+    'Clear the search',
+  'p.clear-the-search-to-see-the':
+    'Clear the search to see the courses this connection does hold.',
+  'p.click-rate-is-at-or-below':
+    'Click rate is at or below reporting rate, no department sits in the high band, no high-severity finding is open, and at least one loop has closed with a measurement. That is the absence of a warning, not a certificate.',
+  'p.clicked-targets-divided-by-every-simulation':
+    'Clicked targets divided by every simulation target that reached an outcome.',
+  'p.close-campaign':
+    'Close campaign',
+  'p.close-the-palette-a-dialog-or':
+    'Close the palette, a dialog or a side sheet',
+  'p.closed-loops':
+    'Closed loops',
+  'p.closes-the-run-as-failedbyreview-nothing':
+    'Closes the run as failed-by-review. Nothing is assigned.',
+  'p.closure-criteria':
+    'Closure criteria',
+  'p.closure-note':
+    'Closure note',
+  'p.command-palette':
+    'Command palette',
+  'p.compiled-at-startup-and-applied-to':
+    'Compiled at startup and applied to every submission.',
+  'p.complete-the-supplierimpersonation-module-and-ch':
+    'Complete the supplier-impersonation module and change the exposed credential.',
+  'p.completed-assignments-divided-by-assignments-mad':
+    'Completed assignments divided by assignments made in the window.',
+  'p.completing-this-module-moves-the-employeeaposs':
+    'Completing this module moves the employee&apos;s risk score. The size of that move is decided by the risk engine at completion time, not here.',
+  'p.completion-is-attendance-not-behaviour-change':
+    'Completion is attendance, not behaviour change',
+  'p.completion-is-not-the-same-as':
+    'Completion is not the same as competence. The score below is what evidences that.',
+  'p.computed-from-the-roster-in-the':
+    'Computed from the roster in the browser, so every person counts once. The department averages below come from the server and exclude people who have left.',
+  'p.computed-when-the-employee-completes-the':
+    'Computed when the employee completes the quiz. Nothing has been measured for this module yet, so no number is shown here.',
+  'p.confidentiality':
+    'Confidentiality',
+  'p.configurable-per-pilot-so-a-deployment':
+    'Configurable per pilot so a deployment can be white-labelled.',
+  'p.configured-sources':
+    'Configured sources',
+  'p.connected-generated-content-is-labelled-ai':
+    'Connected. Generated content is labelled AI.',
+  'p.connection-state':
+    'Connection state',
+  'p.content-author':
+    'Content author',
+  'p.content-type':
+    'Content type',
+  'p.content-written-by-a-model-is':
+    'Content written by a model is labelled as such, everywhere it appears. Template output is labelled as template output, never as AI.',
+  'p.continue-with-microsoft':
+    'Continue with Microsoft',
+  'p.control-gaps':
+    'Control gaps',
+  'p.copy-every-indicator':
+    'Copy every indicator',
+  'p.copy-failed-try-again':
+    'Copy failed — try again',
+  'p.copy-the-original-url':
+    'Copy the original URL',
+  'p.correct-answer':
+    'Correct answer',
+  'p.could-not-close-the-campaign':
+    'Could not close the campaign',
+  'p.could-not-generate-outcomes':
+    'Could not generate outcomes',
+  'p.could-not-record-the-feedback':
+    'Could not record the feedback',
+  'p.could-not-switch-account':
+    'Could not switch account',
+  'p.counted-from-the-returned-rows-not':
+    'Counted from the returned rows, not from a server-side total.',
+  'p.counted-over-every-finding-not-just':
+    'Counted over every finding, not just this window — being overdue is a fact about today.',
+  'p.counts-describe-the-advisories-stored-in':
+    'Counts describe the advisories stored in this deployment. They are not a count of what has been published — no source is configured to fetch from.',
+  'p.courses-appear-once-a-sync-imports':
+    'Courses appear once a sync imports them from the provider. No provider client exists in this build, so nothing can be fetched here.',
+  'p.coverage-gaps':
+    'Coverage gaps',
+  'p.creating-a-campaign-records-it-and':
+    'Creating a campaign records it and its targets. This deployment has no mail or SMS gateway wired in, so nothing is actually sent — outcomes are recorded against targets by an analyst.',
+  'p.credential-entered-on-a-spoofed-supplier':
+    'Credential entered on a spoofed supplier portal',
+  'p.critical-and-high':
+    'Critical and high',
+  'p.current-standing-of-the-scored-population':
+    'Current standing of the scored population, on a 0–100 scale.',
+  'p.cyclowareness-cannot-reach-its-backend-the':
+    'Cyclowareness cannot reach its backend. The service may still be starting, or the connection dropped. Nothing you did caused this, and nothing was lost.',
+  'p.decide-what-reaches-an-employee':
+    'Decide what reaches an employee',
+  'p.decision-comment':
+    'Decision comment',
+  'p.declared-capabilities':
+    'Declared capabilities',
+  'p.defanged-for-display-and-deliberately-not':
+    'Defanged for display and deliberately not clickable.',
+  'p.defanged-for-display-and-never-rendered':
+    'Defanged for display and never rendered as links. Copy them into a ticket or a block list rather than opening them here.',
+  'p.defaults-to-the-advisorys-own-title':
+    'Defaults to the advisory\'s own title.',
+  'p.defaults-to-the-advisorys-published-severity':
+    'Defaults to the advisory\'s published severity.',
+  'p.delivered-to-inbox-no-quarantine':
+    'Delivered to inbox, no quarantine',
+  'p.demonstration-data-nothing-here-was-measured':
+    'Demonstration data. Nothing here was measured from a live system.',
+  'p.demonstration-deployment-the-organisation-is-see':
+    'Demonstration deployment. The organisation is seeded; the engine operating on it is the real one.',
+  'p.demonstration-world-rebuilt':
+    'Demonstration world rebuilt',
+  'p.demonstration-world-reset':
+    'Demonstration world reset',
+  'p.demonstration-the-organisation-is-seeded':
+    'Demonstration — the organisation is seeded',
+  'p.department-average':
+    'Department average',
+  'p.department-names-could-not-be-loaded':
+    'Department names could not be loaded, so the roll-ups are not shown.',
+  'p.derived-by-the-server-from-the':
+    'Derived by the server from the lure source. It cannot be set independently.',
+  'p.derived-from-the-analyser-verdict':
+    'Derived from the analyser verdict.',
+  'p.derived-from-the-live-queues-this':
+    'Derived from the live queues. This deployment sends no email or push notifications.',
+  'p.derived-from-this-runaposs-own-status':
+    'Derived from this run&apos;s own status and assignment records. It is not a recommendation produced by a model.',
+  'p.describe-the-incident-how-it-was':
+    'Describe the incident, how it was found, and what the exposure was.',
+  'p.destroys-every-run-decision-and-result':
+    'Destroys every run, decision and result',
+  'p.digits-only-spaces-are-ignored':
+    'Digits only; spaces are ignored.',
+  'p.dismiss-report':
+    'Dismiss report',
+  'p.dismissed-by-an-analyst-no-loop':
+    'Dismissed by an analyst. No loop run was started and no risk score moved.',
+  'p.display-name':
+    'Display name',
+  'p.dispute-answered':
+    'Dispute answered',
+  'p.disputes-waiting':
+    'Disputes waiting',
+  'p.distinct-employees-named-individually-by-any':
+    'Distinct employees named individually by any open finding.',
+  'p.drafted-by-a-language-model-and':
+    'Drafted by a language model and finished by a person.',
+  'p.duration-not-measured':
+    'Duration not measured',
+  'p.dynamic-detonation-did-not-run':
+    'Dynamic detonation did not run',
+  'p.dynamic-detonation-is-not-available-on':
+    'Dynamic detonation is not available on this host. Nothing submitted here is executed — samples are parsed, scanned and scored, never run.',
+  'p.dynamic-detonation-ran':
+    'Dynamic detonation ran',
+  'p.each-entry-performs-a-real-signin':
+    'Each entry performs a real sign-in. The server issues the token and continues to enforce every permission — no role is faked in the browser.',
+  'p.effective-from':
+    'Effective from',
+  'p.employees-appear-here-once-the-organisation':
+    'Employees appear here once the organisation has been loaded into the platform.',
+  'p.employment-status-is-not-returned-by':
+    'Employment status is not returned by the employees endpoint, so no status column is shown.',
+  'p.endorsed-once-a-different-person-must':
+    'Endorsed once; a different person must approve',
+  'p.endorsed-held-for-a-second-approver':
+    'Endorsed, held for a second approver',
+  'p.estimated-duration':
+    'Estimated duration',
+  'p.estimated-minutes':
+    'Estimated minutes',
+  'p.estimated-time':
+    'Estimated time',
+  'p.every-account-is-bound-to-an':
+    'Every account is bound to an employee record, a department and a role. That binding is what makes targeting and risk history mean anything, and it is why an account cannot be created from this screen.',
+  'p.every-analyzer-this-build-knows-about':
+    'Every analyzer this build knows about loaded on this host.',
+  'p.every-cached-view-has-been-invalidated':
+    'Every cached view has been invalidated and is reloading.',
+  'p.every-incident-risk-is-excluded-by':
+    'Every incident risk is excluded by the current selection. Clear the filters to see the whole set.',
+  'p.every-material-change-recorded-against-this':
+    'Every material change recorded against this run.',
+  'p.every-named-person-was-skipped-the':
+    'Every named person was skipped. The reasons are on the dialog.',
+  'p.every-proposed-rule-sits-below-awaiting':
+    'Every proposed rule sits below awaiting a reviewer. None of them is checked against anything yet.',
+  'p.every-question-is-answered-submitting-grades':
+    'Every question is answered. Submitting grades them and cannot be undone.',
+  'p.every-record-on-screen-belongs-to':
+    'Every record on screen belongs to this organisation.',
+  'p.every-report-states-this-as-a':
+    'Every report states this as a blind spot rather than reporting a clean behavioural result that was never observed.',
+  'p.everyone-attached-to-this-risk-already':
+    'Everyone attached to this risk already holds an assignment. Assigning again would reset work somebody may have completed, so the server leaves them untouched.',
+  'p.expire-and-measure':
+    'Expire and measure',
+  'p.explanation-shown-after-answering':
+    'Explanation shown after answering',
+  'p.exposure-is-carried-by-the-match':
+    'Exposure is carried by the match: it comes from the departments a matched policy applies to and the people recorded as using a matched technology. Neither was recorded for this advisory.',
+  'p.exposure-not-recorded':
+    'Exposure not recorded',
+  'p.external-learning-and-identity-systems':
+    'External learning and identity systems',
+  'p.external-pages-opened-in-a-new':
+    'External pages, opened in a new tab. Cyclowareness does not fetch, parse or act on anything they contain.',
+  'p.extraction-was-not-attempted':
+    'Extraction was not attempted.',
+  'p.filter-runs-by-status':
+    'Filter runs by status',
+  'p.finding-type':
+    'Finding type',
+  'p.findings-detected':
+    'Findings detected',
+  'p.findings-that-matter-but-not-enough':
+    'Findings that matter, but not enough of them to call it malicious. An analyst decides.',
+  'p.forcemeasure-did-not-run':
+    'Force-measure did not run',
+  'p.forensic-analysis-of-a-file-or':
+    'Forensic analysis of a file or a URL — static here, detonation on an isolated worker — with the reasoning behind every point of the score.',
+  'p.from-the-library':
+    'From the library',
+  'p.gaps-are-days-with-no-resolved':
+    'Gaps are days with no resolved events',
+  'p.gating-a-loop-run':
+    'Gating a loop run',
+  'p.generated-by-the-configured-anthropic-model':
+    'Generated by the configured Anthropic model.',
+  'p.generated-from':
+    'Generated from',
+  'p.give-the-campaign-a-name':
+    'Give the campaign a name.',
+  'p.human-decision':
+    'HUMAN DECISION',
+  'p.has-a-recorded-outcome':
+    'Has a recorded outcome',
+  'p.has-this-happened-to-you':
+    'Has this happened to you?',
+  'p.head-of-security-operations':
+    'Head of Security Operations',
+  'p.held-for-a-second-approver':
+    'Held for a second approver',
+  'p.hidden-by-default-this-is-attackerauthored':
+    'Hidden by default. This is attacker-authored content; it is displayed verbatim as text and is never fetched, executed or turned into a link.',
+  'p.hide-the-raw-artifact':
+    'Hide the raw artifact',
+  'p.high-risk-is-a-score-of':
+    'High risk is a score of 60 or above.',
+  'p.highrisk-policy-findings':
+    'High-risk policy findings',
+  'p.how-each-metric-was-set':
+    'How each metric was set',
+  'p.how-this-campaign-appears-in-the':
+    'How this campaign appears in the programme list and in the audit trail.',
+  'p.how-this-content-was-produced-was':
+    'How this content was produced was not recorded.',
+  'p.how-this-model-was-built':
+    'How this model was built',
+  'p.inc20260184':
+    'INC-2026-0184',
+  'p.identity-federation-is-not-configured-for':
+    'Identity federation is not configured for this deployment. No SAML or OIDC provider is connected, so these are inactive rather than pretending to redirect.',
+  'p.if-anything-here-reminds-you-of':
+    'If anything here reminds you of a message you received, report it now. It does not interrupt this training.',
+  'p.imported-from-a-connected-learning-system':
+    'Imported from a connected learning system. Cyclowareness did not author it.',
+  'p.incident-remediation-completion':
+    'Incident remediation completion',
+  'p.incident-risks-in-the-closed-state':
+    'Incident risks in the closed state, divided by all incident risks.',
+  'p.incidentresponse-records-name-individuals-and-ar':
+    'Incident-response records name individuals and are held by the security team. This view cannot read them, which is not the same as there being none.',
+  'p.inside-archive':
+    'Inside archive',
+  'p.it-fell-short-a-note-saying':
+    'It fell short. A note saying what was short of the bar is required.',
+  'p.it-is-attached-to-this-job':
+    'It is attached to this job and visible in the export.',
+  'p.it-is-no-longer-assigned-and':
+    'It is no longer assigned, and they are told why.',
+  'p.it-is-now-cleared-to-reach':
+    'It is now cleared to reach the person it names.',
+  'p.it-may-still-be-queued':
+    'It may still be queued.',
+  'p.it-stops-being-assigned-to-them':
+    'It stops being assigned to them. Choose this when they were right.',
+  'p.json-carries-the-complete-analyzer-output':
+    'JSON carries the complete analyzer output, the score breakdown and every extracted indicator. STIX 2.1 carries the indicators as a bundle another tool can ingest. The PDF is the rendered report. All three are the stored analysis — re-running a sample is a separate action on the job itself.',
+  'p.keeps-your-comment-and-unsaved-edits':
+    'Keeps your comment and unsaved edits in this browser. There is no draft endpoint, so a draft never leaves this device.',
+  'p.kept-on-the-audit-entry-optional':
+    'Kept on the audit entry. Optional for an approval, and the reason a rejection can be reviewed later.',
+  'p.language-model':
+    'Language model',
+  'p.leave-blank-unless-the-archive-is':
+    'Leave blank unless the archive is encrypted. If it is, analysis pauses and asks — the engine does not guess or brute-force passwords.',
+  'p.live-data-has-resumed-open-views':
+    'Live data has resumed. Open views have been refreshed.',
+  'p.loading-approved-modules':
+    'Loading approved modules…',
+  'p.loading-resources':
+    'Loading resources…',
+  'p.loading-the-policy-record':
+    'Loading the policy record.',
+  'p.loading-the-thread':
+    'Loading the thread…',
+  'p.longest-wait':
+    'Longest wait',
+  'p.loop-run-record':
+    'Loop run record',
+  'p.loop-run-records':
+    'Loop run records',
+  'p.loop-run-records-are-analystscoped-so':
+    'Loop run records are analyst-scoped, so this view can show the closed count the dashboard reports but not the split between completed, in flight and failed.',
+  'p.loop-runs-could-not-be-read':
+    'Loop runs could not be read, so the outcome split is unavailable.',
+  'p.loop-status-unavailable':
+    'Loop status unavailable',
+  'p.lowers-the-risk-score':
+    'Lowers the risk score',
+  'p.lure-as-stored':
+    'Lure as stored',
+  'p.lure-preview':
+    'Lure preview',
+  'p.m101400-c34400-34108-101108':
+    'M101,400 C34,400 34,108 101,108',
+  'p.mitre-attampck-techniques':
+    'MITRE ATT&amp;CK techniques',
+  'p.mail-gateway-verdict':
+    'Mail gateway verdict',
+  'p.matching-these-filters':
+    'Matching these filters',
+  'p.measured-for-this-run-only-not':
+    'Measured for this run only, not over a rolling window.',
+  'p.measured-from-this-deployments-own-records':
+    'Measured from this deployment’s own records.',
+  'p.minimum-score':
+    'Minimum score',
+  'p.module-to-assign':
+    'Module to assign',
+  'p.more-entries-matched-than-are-shown':
+    'More entries matched than are shown here. Open the audit log to page through the rest.',
+  'p.more-risk-is-coming-from-what':
+    'More risk is coming from what people have done than the roles alone would explain.',
+  'p.move-through-palette-results':
+    'Move through palette results',
+  'p.move-to-the-next-control-the':
+    'Move to the next control; the skip link comes first',
+  'p.name-owner-or-notes-press-enter':
+    'Name, owner or notes. Press Enter to search.',
+  'p.names-the-behaviour-to-train-training':
+    'Names the behaviour to train. Training itself is assigned on the finding.',
+  'p.negative-is-the-good-direction-here':
+    'Negative is the good direction here: it means the organisation has earned more credit from reporting and training than it has lost to clicks and expiries.',
+  'p.never-sent-to-the-employee-it':
+    'Never sent to the employee. It is what the grader scores against.',
+  'p.new-advisories':
+    'New advisories',
+  'p.new-threat-submissions':
+    'New threat submissions',
+  'p.newest-advisory-in-view':
+    'Newest advisory in view',
+  'p.no-advisory-is-stored-in-this':
+    'No advisory is stored in this deployment',
+  'p.no-advisory-matches-these-filters':
+    'No advisory matches these filters',
+  'p.no-analyzed-threat-is-available':
+    'No analyzed threat is available',
+  'p.no-analyzer-raised-a-signal-on':
+    'No analyzer raised a signal on this sample. Read that alongside the tier statement above: it means nothing recognised fired, not that the sample was proven safe.',
+  'p.no-analyzer-result-was-recorded-for':
+    'No analyzer result was recorded for this job. That is a gap in the record, not a clean result.',
+  'p.no-answer-key-was-recorded-for':
+    'No answer key was recorded for this question, so it cannot be scored.',
+  'p.no-approved-training-module-exists-in':
+    'No approved training module exists in this deployment, so there is nothing to attach. The API deliberately will not write one here — generating a lesson at this point would push unreviewed content past the human approval gate. Approve a module in the Training Studio first.',
+  'p.no-artifact-body-was-stored-for':
+    'No artifact body was stored for this threat — only its metadata.',
+  'p.no-audit-events-yet-every-decision':
+    'No audit events yet. Every decision that crosses the human gate is recorded here.',
+  'p.no-automated-triage-was-recorded-against':
+    'No automated triage was recorded against this report.',
+  'p.no-automated-triage-was-recorded-for':
+    'No automated triage was recorded for this report. An analyst will read it.',
+  'p.no-capability-was-derived-from-the':
+    'No capability was derived from the evidence, so there is no impact to score.',
+  'p.no-checks-were-reported-for-this':
+    'No checks were reported for this run.',
+  'p.no-configuration-has-been-stored-for':
+    'No configuration has been stored for this connection.',
+  'p.no-connection-has-been-registered':
+    'No connection has been registered',
+  'p.no-connection-is-in-that-state':
+    'No connection is in that state',
+  'p.no-correct-answer-is-recorded-for':
+    'No correct answer is recorded for this question. It cannot be graded.',
+  'p.no-course-has-been-imported':
+    'No course has been imported',
+  'p.no-course-matches-this-search':
+    'No course matches this search',
+  'p.no-credential-field-exists-on-this':
+    'No credential field exists on this form. API keys, client secrets and tokens belong in the deployment’s secret store — the API rejects credential-shaped values outright rather than storing them where every backup and screenshot would carry them.',
+  'p.no-department-is-above-the-low':
+    'No department is above the low band and none carries a person in the high-risk band.',
+  'p.no-department-is-currently-in-the':
+    'No department is currently in the low band with nobody in the high-risk band.',
+  'p.no-department-or-employee-is-named':
+    'No department or employee is named on this finding. That is a gap in the record, not a statement that nobody is affected.',
+  'p.no-departments':
+    'No departments',
+  'p.no-departments-are-recorded':
+    'No departments are recorded.',
+  'p.no-detonation-host-files-are-analysed':
+    'No detonation host. Files are analysed statically and never executed.',
+  'p.no-detonation-worker-is-attached-so':
+    'No detonation worker is attached, so nothing submitted here is executed. Reports say so per tier rather than leaving a viewer to assume a sample was run.',
+  'p.no-employee-in-the-directory-matches':
+    'No employee in the directory matches that name, email or role title.',
+  'p.no-employee-is-currently-selected-so':
+    'No employee is currently selected, so approving advances the run with nothing to assign.',
+  'p.no-employee-matched-this-threats-targeting':
+    'No employee matched this threat’s targeting signals. That is not "nobody is at risk" — approving would advance the run with nothing to assign.',
+  'p.no-engine-recorded':
+    'No engine recorded',
+  'p.no-entry-matches-these-filters':
+    'No entry matches these filters',
+  'p.no-evidence-rows-yet-a-risk':
+    'No evidence rows yet. A risk with no evidence can still be opened, but nobody reviewing it later will be able to check it.',
+  'p.no-evidence-was-recorded-for-this':
+    'No evidence was recorded for this.',
+  'p.no-explanation-is-recorded-the-employee':
+    'No explanation is recorded — the employee sees only whether they were right.',
+  'p.no-explanation-was-recorded-for-this':
+    'No explanation was recorded for this question.',
+  'p.no-external-engine-is-configured-to':
+    'No external engine is configured to receive anything from this deployment.',
+  'p.no-external-provider-is-connected-in':
+    'No external provider is connected in this deployment.',
+  'p.no-extracted-rule-an-approved-version':
+    'No extracted rule — an approved version, a whitelist entry, an exception — was touched by this advisory. Rules can only be matched once a policy document has been uploaded and its rules extracted.',
+  'p.no-feature-was-present-in-this':
+    'No feature was present in this sample, so the score is the model\'s base rate alone.',
+  'p.no-filter-applied-beyond-the-window':
+    'No filter applied beyond the window',
+  'p.no-filters-applied-every-finding-this':
+    'No filters applied — every finding this deployment holds.',
+  'p.no-finding-matches-these-filters':
+    'No finding matches these filters',
+  'p.no-findings-could-be-read':
+    'No findings could be read.',
+  'p.no-findings-have-been-raised':
+    'No findings have been raised',
+  'p.no-incident-risk-has-been-opened':
+    'No incident risk has been opened',
+  'p.no-indicators-were-extracted-for-a':
+    'No indicators were extracted. For a sample with no network or filesystem behaviour to describe that is expected — it is not evidence that the sample is harmless.',
+  'p.no-indicators-were-extracted-on-a':
+    'No indicators were extracted. On a social-engineering artifact with no payload and no link, that is the expected result rather than a gap.',
+  'p.no-individual-events-have-been-recorded':
+    'No individual events have been recorded against you.',
+  'p.no-individual-rule-is-cited-the':
+    'No individual rule is cited. The finding is against the policy as a whole — often because nothing was ever extracted from it.',
+  'p.no-individual-was-named-the-exposure':
+    'No individual was named — the exposure was recorded at department level.',
+  'p.no-jobs-in-this-state':
+    'No jobs in this state',
+  'p.no-language-model-is-connected-generated':
+    'No language model is connected. Generated content is template output and is labelled as such.',
+  'p.no-loop-runs-are-executing-right':
+    'No loop runs are executing right now.',
+  'p.no-loops-yet':
+    'No loops yet',
+  'p.no-lure-source-recorded':
+    'No lure source recorded',
+  'p.no-match-named-a-technology-from':
+    'No match named a technology from the approved-software list or from the recorded inventory. Anything below is the publisher\'s claim, not ours.',
+  'p.no-match-my-own-claim':
+    'No match — my own claim',
+  'p.no-metadata-was-recorded-with-this':
+    'No metadata was recorded with this artifact.',
+  'p.no-model-connected-in-this-deployment':
+    'No model connected in this deployment — template output.',
+  'p.no-model-is-connected-generated-training':
+    'No model is connected. Generated training and briefings are deterministic template output, and are labelled as template rather than as AI.',
+  'p.no-module-was-generated-for-this':
+    'No module was generated for this run',
+  'p.no-movement-to-show':
+    'No movement to show',
+  'p.no-one-matches-these-filters':
+    'No one matches these filters',
+  'p.no-one-was-selected-that-is':
+    'No one was selected. That is not “nobody is at risk” — it means nothing in the artifact, the exposed departments or the recent-behaviour signals matched a person. A run approved in this state advances with nothing to assign.',
+  'p.no-one-was-targeted-so-no':
+    'No one was targeted, so no department was touched.',
+  'p.no-open-findings':
+    'No open findings',
+  'p.no-pass-mark-was-set-on':
+    'No pass mark was set on this incident.',
+  'p.no-passage-was-recorded-for-this':
+    'No passage was recorded for this rule, so it cannot be checked against the document here.',
+  'p.no-passage-was-recorded-for-this-2':
+    'No passage was recorded for this rule, so there is nothing a reader can check the statement against.',
+  'p.no-passage-was-recorded-for-this-3':
+    'No passage was recorded for this rule, so there is nothing to check the statement against. Consider rejecting it and entering the control by hand.',
+  'p.no-people-have-been-loaded':
+    'No people have been loaded',
+  'p.no-perdepartment-history-is-stored-the':
+    'No per-department history is stored: the departments endpoint returns a current roll-up only, and no recent risk event could be attributed to a person in a department.',
+  'p.no-plainlanguage-explanation-was-written-for':
+    'No plain-language explanation was written for this artifact.',
+  'p.no-plan-has-been-raised-yet':
+    'No plan has been raised yet',
+  'p.no-plan-holds-this-status':
+    'No plan holds this status',
+  'p.no-policies-have-been-registered':
+    'No policies have been registered',
+  'p.no-policy-matches-these-filters':
+    'No policy matches these filters',
+  'p.no-provider-client-exists-in-this':
+    'No provider client exists in this build. The stored sync state is unchanged.',
+  'p.no-questions-are-attached-so-nothing':
+    'No questions are attached, so nothing about this module can be measured.',
+  'p.no-quiz-score-was-recorded-against':
+    'No quiz score was recorded against this assignment.',
+  'p.no-quiz-was-recorded-against-this':
+    'No quiz was recorded against this module, so there is nothing to answer. Your security team can tell you whether that is intended.',
+  'p.no-recent-risk-event-could-be':
+    'No recent risk event could be attributed to a named person, so no movement is shown.',
+  'p.no-recent-risk-event-could-be-2':
+    'No recent risk event could be attributed to a person, so no movement is shown.',
+  'p.no-record-on-this-deployment-links':
+    'No record on this deployment links this artifact to a loop run. The threats API does not index runs by threat, and only a human-sensor report carries both ids.',
+  'p.no-risk-matches-these-filters':
+    'No risk matches these filters',
+  'p.no-risk-score-is-recorded-for':
+    'No risk score is recorded for anyone in this audience, so no distribution can be shown.',
+  'p.no-rollup-available':
+    'No roll-up available',
+  'p.no-rule-on-this-page-fired':
+    'No rule on this page fired.',
+  'p.no-rules-exist-yet-so-nothing':
+    'No rules exist yet, so nothing names a technology',
+  'p.no-sandbox-job-is-linked-to':
+    'No sandbox job is linked to this run. Anything shown above came from the analysis stage, not from detonation.',
+  'p.no-score-was-recorded-for-this':
+    'No score was recorded for this person. The required action may not carry a quiz.',
+  'p.no-selection-reasons-were-recorded-against':
+    'No selection reasons were recorded against this assignment, so this screen cannot tell you why you were chosen. Your security team can.',
+  'p.no-severity-band-contributed-no-signal':
+    'No severity band contributed — no signal above informational fired.',
+  'p.no-severity-was-derived-for-this':
+    'No severity was derived for this run, because the analysis stage recorded no verdict.',
+  'p.no-signal-fired-on-this-sample':
+    'No signal fired on this sample. That is not a clean bill of health — it means the analyzers that ran found nothing they recognise, and anything they could not run is listed above.',
+  'p.no-source-check-has-been-requested':
+    'No source check has been requested in this session. An unchanged list is not evidence that no new advisory exists — it is evidence that nobody looked.',
+  'p.no-submission-currently-holds-this-status':
+    'No submission currently holds this status. Clear the filter to see everything the engine has analysed.',
+  'p.no-sync-was-attempted':
+    'No sync was attempted',
+  'p.no-training-module-exists-on-this':
+    'No training module exists on this run. A benign verdict closes the loop at this stage without generating one, and a run that failed earlier never reached it.',
+  'p.no-training-module-was-generated-for':
+    'No training module was generated for this run. There is nothing here to review, and approving would advance the loop with nothing to assign.',
+  'p.no-verdict-was-recorded-that-is':
+    'No verdict was recorded. That is not a clean result — nothing has been concluded about this artifact.',
+  'p.no-verdict-yet':
+    'No verdict yet',
+  'p.nobody-is-attached-yet-so-nobody':
+    'Nobody is attached yet, so nobody is on the hook.',
+  'p.nobody-is-selected-yet':
+    'Nobody is selected yet.',
+  'p.nobody-was-attached-the-risk-is':
+    'Nobody was attached. The risk is unchanged.',
+  'p.none-endorsed-and-held':
+    'None endorsed and held',
+  'p.none-of-its-rules-names-a':
+    'None of its rules names a technology',
+  'p.none-every-plan-built-so-far':
+    'None. Every plan built so far passed the firewall — no destination, invented key or unsafe answer has reached it.',
+  'p.none-this-deployment-has-no-threatintelligence':
+    'None. This deployment has no threat-intelligence source to contact.',
+  'p.not-a-humansensor-report':
+    'Not a human-sensor report',
+  'p.not-available-the-threat-record-served':
+    'Not available. The threat record served to this screen carries a verdict, a threat type, a behaviour summary and indicators — it carries no technique mapping, so none is shown.',
+  'p.not-classified':
+    'Not classified',
+  'p.not-completed-so-no-score-was':
+    'Not completed, so no score was recorded.',
+  'p.not-connected-content-is-template-output':
+    'Not connected. Content is template output and is never labelled AI.',
+  'p.not-derived-from-the-perassignment-scores':
+    'Not derived from the per-assignment scores in the browser, because this view cannot see all of them.',
+  'p.not-exposed-selected-on-risk-signals':
+    'Not exposed — selected on risk signals',
+  'p.not-reached-nothing-has-been-proposed':
+    'Not reached. Nothing has been proposed for review on this run yet.',
+  'p.not-reached-nothing-has-been-proposed-2':
+    'Not reached. Nothing has been proposed for review on this run.',
+  'p.not-recorded':
+    'Not recorded',
+  'p.not-stated-on-the-artifact':
+    'Not stated on the artifact',
+  'p.not-yet-assessed':
+    'Not yet assessed',
+  'p.not-yet-reviewed-by-anyone':
+    'Not yet reviewed by anyone',
+  'p.note-optional':
+    'Note (optional)',
+  'p.note-for-the-assignment-optional':
+    'Note for the assignment (optional)',
+  'p.nothing-assigned':
+    'Nothing assigned',
+  'p.nothing-found-reached-the-threshold-to':
+    'Nothing found reached the threshold to flag this sample.',
+  'p.nothing-has-been-recorded-against-this':
+    'Nothing has been recorded against this run yet. The first decision, endorsement or revision request will appear here.',
+  'p.nothing-has-been-submitted-yet':
+    'Nothing has been submitted yet',
+  'p.nothing-has-been-written-on-this':
+    'Nothing has been written on this finding yet. It has not been closed, accepted or dismissed.',
+  'p.nothing-has-moved-your-score-yet':
+    'Nothing has moved your score yet. It is still the starting point set by how sensitive your role is.',
+  'p.nothing-has-produced-rules-for-this':
+    'Nothing has produced rules for this policy yet. The Document tab says what stands in the way, and rules can also be entered by hand through the API.',
+  'p.nothing-in-the-humansensor-queue-is':
+    'Nothing in the human-sensor queue is waiting for a decision.',
+  'p.nothing-in-this-catalogue-is-mapped':
+    'Nothing in this catalogue is mapped yet. Add the first behaviour below.',
+  'p.nothing-in-this-deployment-can-assign':
+    'Nothing in this deployment can assign one — sandbox submission is analyst-only. Recording it is a manual step.',
+  'p.nothing-is-checked-against-them-until':
+    'Nothing is checked against them until a reviewer activates each one.',
+  'p.nothing-is-checked-against-these-a':
+    'Nothing is checked against these. A machine may propose; only a person may activate, and activating writes a version snapshot.',
+  'p.nothing-is-delivered-until-you-launch':
+    'Nothing is delivered until you launch it.',
+  'p.nothing-is-graded-on-arrival-the':
+    'Nothing is graded on arrival. The verdict and confidence in stage 2 are the first assessment this artifact receives.',
+  'p.nothing-is-held-at-this-point':
+    'Nothing is held at this point of the loop right now. Clear the filter to see every run.',
+  'p.nothing-is-scored-until-the-analysis':
+    'Nothing is scored until the analysis finishes. This job has no risk level to report.',
+  'p.nothing-is-waiting-at-the-approval':
+    'Nothing is waiting at the approval gate.',
+  'p.nothing-reaches-an-employee-until-a':
+    'Nothing reaches an employee until a human decides',
+  'p.nothing-stored-here-matches-the-source':
+    'Nothing stored here matches the source, type, severity, assessment and search you have set. Clearing them shows everything this deployment holds.',
+  'p.nothing-to-show':
+    'Nothing to show',
+  'p.nothing-verified-for-this-channel-yet':
+    'Nothing verified for this channel yet. An analyst adds material from the training screen, and a link is only listed once the provider has confirmed it.',
+  'p.nothing-was-assigned-on-this-run':
+    'Nothing was assigned on this run. Either it has not passed the gate yet, or targeting selected no one.',
+  'p.nothing-was-assigned-the-decision-is':
+    'Nothing was assigned. The decision is in the audit log.',
+  'p.nothing-was-delivered':
+    'Nothing was delivered.',
+  'p.nothing-was-recorded-in-this-window':
+    'Nothing was recorded in this window',
+  'p.nothing-was-sent-cyclowareness-has-no':
+    'Nothing was sent. Cyclowareness has no endpoint for this — copy the text below and send it yourself.',
+  'p.obligation-discharged':
+    'Obligation discharged',
+  'p.one-approval-releases-this-run-use':
+    'One approval releases this run. Use "Require a second approval" below to hold it for a co-signer instead.',
+  'p.one-behavioural-finding-was-observed-and':
+    'One behavioural finding was observed, and scored alongside the static evidence.',
+  'p.oneline-description':
+    'One-line description',
+  'p.onetime-code':
+    'One-time code',
+  'p.only-approved-modules-appear-here-choosing':
+    'Only approved modules appear here. Choosing none still records the attempt and reports what went unfulfilled.',
+  'p.only-modules-a-human-has-approved':
+    'Only modules a human has approved can be assigned.',
+  'p.only-satisfied-if-the-module-you':
+    'Only satisfied if the module you assign actually carries questions.',
+  'p.open-findings-at-critical-or-high':
+    'Open findings at critical or high severity',
+  'p.open-findings-whose-severity-is-critical':
+    'Open findings whose severity is critical or high.',
+  'p.open-highrisk-findings':
+    'Open high-risk findings',
+  'p.open-navigation':
+    'Open navigation',
+  'p.open-the-approval-gate':
+    'Open the approval gate',
+  'p.open-the-command-palette':
+    'Open the command palette',
+  'p.open-in-review-remediation-planned-or':
+    'Open, in review, remediation planned or training assigned.',
+  'p.opening-it-now-training-is-assigned':
+    'Opening it now. Training is assigned from the finding.',
+  'p.optional-for-this-move-and-kept':
+    'Optional for this move, and kept on the record either way.',
+  'p.optional-url-log-id-ticket':
+    'Optional — URL, log id, ticket',
+  'p.optional-and-worth-writing-it-is':
+    'Optional, and worth writing: it is what the next analyst reads.',
+  'p.optional-appended-to-the-audit-entry':
+    'Optional. Appended to the audit entry for this change.',
+  'p.optional-interpreted-as-the-end-of':
+    'Optional. Interpreted as the end of that day, UTC.',
+  'p.optional-it-helps-whoever-provisions-the':
+    'Optional. It helps whoever provisions the account pick the right role.',
+  'p.optional-left-blank-the-platform-names':
+    'Optional. Left blank, the platform names it after the artifact type.',
+  'p.optional-recorded-on-the-audit-entry':
+    'Optional. Recorded on the audit entry.',
+  'p.optional-use-it-when-the-exposure':
+    'Optional. Use it when the exposure is a team\'s, not one person\'s.',
+  'p.optional-what-would-resolve-it':
+    'Optional. What would resolve it.',
+  'p.outcomes-for-this-campaign-could-not':
+    'Outcomes for this campaign could not be loaded. Open the campaign to try again.',
+  'p.outcomes-the-loop-is-meant-to':
+    'Outcomes the loop is meant to move',
+  'p.overdue-and-open':
+    'Overdue and open',
+  'p.part-of-an-email-address':
+    'Part of an email address',
+  'p.pass-criteria':
+    'Pass criteria',
+  'p.passing-streak':
+    'Passing streak',
+  'p.paste-at-least-part-of-what':
+    'Paste at least part of what you saw.',
+  'p.paste-it-here':
+    'Paste it here',
+  'p.people-in-a-scored-department':
+    'People in a scored department',
+  'p.people-in-the-highrisk-band':
+    'People in the high-risk band',
+  'p.people-to-attach':
+    'People to attach',
+  'p.phishing-click-rate':
+    'Phishing click rate',
+  'p.pick-departments-risk-bands-or-both':
+    'Pick departments, risk bands, or both. Anyone matching either is included once.',
+  'p.platform-api':
+    'Platform API',
+  'p.point-in-time-todays-stored-scores':
+    'Point in time — today’s stored scores',
+  'p.points-count-completed-training-only-50':
+    'Points count completed training only — 50 for each module you finish, plus half your quiz score. They are a record of what you did, not a measurement of how safe you are.',
+  'p.policy-exposure':
+    'Policy exposure',
+  'p.policy-findings-could-not-be-read':
+    'Policy findings could not be read, so nothing is counted here.',
+  'p.policy-intelligence':
+    'Policy intelligence',
+  'p.policy-intelligence-sections':
+    'Policy intelligence sections',
+  'p.preview-width':
+    'Preview width',
+  'p.produced-by-a-fixed-template-no':
+    'Produced by a fixed template. No language model wrote any of it.',
+  'p.produced-by-the-analysis-sandbox-from':
+    'Produced by the analysis sandbox from a real artifact.',
+  'p.production-deployment-every-record-on-screen':
+    'Production deployment. Every record on screen belongs to this organisation.',
+  'p.proposed-awaiting-a-human':
+    'Proposed — awaiting a human',
+  'p.provider-topic-tags':
+    'Provider topic tags',
+  'p.published-by-the-source-cyclowareness-did':
+    'Published by the source. Cyclowareness did not verify this list against the inventory — only the matches above were checked.',
+  'p.pushing-a-feed-item-into-the':
+    'Pushing a feed item into the loop requires the analyst role.',
+  'p.quiz-generation-and-role-variants-are':
+    'Quiz generation and role variants are part of the same stage and are not separately callable. To produce a new module, put an artifact into the loop.',
+  'p.quiz-pass-rate':
+    'Quiz pass rate',
+  'p.quoted-back-when-somebody-closes-this':
+    'Quoted back when somebody closes this, so the closure note can be checked against it.',
+  'p.raised-by-incident-response-against-named':
+    'Raised by incident response against named people',
+  'p.raises-the-risk-score':
+    'Raises the risk score',
+  'p.raw-headers-message-text-url-or':
+    'Raw headers, message text, URL or filename. Stored as inert text and never fetched.',
+  'p.reading-the-decision-from-the-audit':
+    'Reading the decision from the audit trail…',
+  'p.reading-the-live-loop-counts':
+    'Reading the live loop counts.',
+  'p.reading-the-queues':
+    'Reading the queues.',
+  'p.reason-for-reopening':
+    'Reason for reopening',
+  'p.received-the-artifact':
+    'Received the artifact',
+  'p.recorded-against-this-risk':
+    'Recorded against this risk',
+  'p.recorded-against-your-account-in-the':
+    'Recorded against your account in the audit trail. Required by the API.',
+  'p.recorded-against-your-name-in-the':
+    'Recorded against your name in the audit trail.',
+  'p.recorded-asis-never-contacted':
+    'Recorded as-is. Never contacted.',
+  'p.recorded-behaviour-has-cancelled-out-exactly':
+    'Recorded behaviour has cancelled out exactly, so the organisation currently sits on its role baselines.',
+  'p.recorded-on-the-audit-entry-why':
+    'Recorded on the audit entry — why these people, and not others.',
+  'p.recorded-on-the-audit-entry-not':
+    'Recorded on the audit entry, not shown to the employee.',
+  'p.recorded-on-the-version-snapshot-alongside':
+    'Recorded on the version snapshot alongside your name.',
+  'p.records-your-objection-and-leaves-the':
+    'Records your objection and leaves the run at the gate for editing.',
+  'p.refused-by-the-firewall':
+    'Refused by the firewall',
+  'p.refused-by-the-output-firewall':
+    'Refused by the output firewall',
+  'p.reject-the-module':
+    'Reject the module',
+  'p.reject-this-proposed-rule':
+    'Reject this proposed rule',
+  'p.rejecting-or-requesting-a-revision-needs':
+    'Rejecting or requesting a revision needs a comment first — the server refuses either without a reason, and a decision with nothing to act on helps no one.',
+  'p.related-incident-reference':
+    'Related incident reference',
+  'p.released-by-a-human-the-run':
+    'Released by a human — the run could not have reached targeting otherwise. The approval record was not loaded, so the reviewer and comment are not shown here.',
+  'p.released-by-a-person-the-run':
+    'Released by a person — the run could not have reached targeting otherwise. No decision entry was found in the audit trail for it, so the reviewer and comment are not shown here rather than guessed at.',
+  'p.reload-the-page':
+    'Reload the page',
+  'p.remember-my-email-on-this-device':
+    'Remember my email on this device',
+  'p.rendered-as-absent-rather-than-derived':
+    'Rendered as absent rather than derived in the browser from partial data.',
+  'p.rendered-exactly-as-the-employee-will':
+    'Rendered exactly as the employee will see it.',
+  'p.replaced-by-a-later-rule-kept':
+    'Replaced by a later rule. Kept so an older finding still resolves to what it cited.',
+  'p.report-status':
+    'Report status',
+  'p.reported-by-an-employee':
+    'Reported by an employee',
+  'p.reported-by-the-human-sensor-and':
+    'Reported by the human sensor and not yet triaged',
+  'p.reporters-note':
+    'Reporter’s note',
+  'p.reporting-rate':
+    'Reporting rate',
+  'p.reporting-window':
+    'Reporting window',
+  'p.reports-sent':
+    'Reports sent',
+  'p.required-action':
+    'Required action',
+  'p.required-for-a-rejection-or-a':
+    'Required for a rejection or a revision request. Stored with the decision in the audit trail.',
+  'p.required-training':
+    'Required training',
+  'p.required-resolving-accepting-or-reopening-a':
+    'Required. Resolving, accepting or reopening a finding is a claim the organisation may have to defend later.',
+  'p.required-the-api-refuses-a-rejection':
+    'Required. The API refuses a rejection without a stated reason.',
+  'p.required-this-is-what-the-person':
+    'Required. This is what the person is told about why their work was not accepted.',
+  'p.requires-a-quiz':
+    'Requires a quiz',
+  'p.requires-a-sandbox-exercise':
+    'Requires a sandbox exercise',
+  'p.requires-training':
+    'Requires training',
+  'p.reset-everything':
+    'Reset everything',
+  'p.reset-the-demonstration-world':
+    'Reset the demonstration world',
+  'p.reset-the-world':
+    'Reset the world',
+  'p.resetting-deletes-every-loop-run-approval':
+    'Resetting deletes every loop run, approval decision, training assignment, quiz result, sandbox job and audit entry, then rebuilds the seeded organisation deterministically — the same people, the same six months of history, re-anchored to today. Nothing is recoverable afterwards.',
+  'p.review-decisions-are-recorded-against-the':
+    'Review decisions are recorded against the individual subject rather than the risk, so they appear in the timeline above and not in this list.',
+  'p.review-state':
+    'Review state',
+  'p.reviewer-note-optional':
+    'Reviewer note (optional)',
+  'p.risk-opened-as-a-draft':
+    'Risk opened as a draft',
+  'p.risk-opened-but-nobody-was-attached':
+    'Risk opened, but nobody was attached',
+  'p.risk-scores-are-the-values-recorded':
+    'Risk scores are the values recorded when this list was drawn. A person&apos;s score moves afterwards, so the number here will not always match their profile today.',
+  'p.role-sensitivity-is-set-when-a':
+    'Role sensitivity is set when a person is imported. It is a judgement about the seat, not a measurement of the person.',
+  'p.run-the-selected-palette-result':
+    'Run the selected palette result',
+  'p.running-extraction-requires-the-policy-managemen':
+    'Running extraction requires the policy management permission.',
+  'p.runs-appear-once-a-threat-is':
+    'Runs appear once a threat is submitted, reported by an employee, or pushed from the intelligence feed.',
+  'p.runs-currently-moving-through-the-seven':
+    'Runs currently moving through the seven stages',
+  'p.runs-held-at-the-gate':
+    'Runs held at the gate',
+  'p.runs-over-the-most-recent-findings':
+    'Runs over the most recent findings; the count says so when it is a floor.',
+  'p.runs-that-reached-the-completed-state':
+    'Runs that reached the completed state and produced a measurement.',
+  'p.runs-waiting-at-the-human-approval':
+    'Runs waiting at the human approval gate',
+  'p.sha256-hash':
+    'SHA-256 hash',
+  'p.sandbox-detonation':
+    'Sandbox detonation',
+  'p.sanitised-for-display-shown-as-plain':
+    'Sanitised for display: shown as plain text, never rendered',
+  'p.save-edits-and-approve':
+    'Save edits and approve',
+  'p.saving-makes-this-content-analystedited-the':
+    'Saving makes this content analyst-edited. The module record carries no edited flag and this endpoint writes no audit entry, so the provenance badge elsewhere keeps reporting how the module was originally generated. Treat that as a known gap, not as evidence that nobody touched it.',
+  'p.saving-marks-this-module-as-analystedited':
+    'Saving marks this module as analyst-edited for this review, so it is no longer presented as machine output. The module record stores which engine generated it and not whether a person rewrote it — put what you changed in the decision comment, because that is what the audit trail keeps.',
+  'p.say-what-you-checked-this-is':
+    'Say what you checked. This is the record of the decision.',
+  'p.say-why-the-closure-did-not':
+    'Say why the closure did not hold. The people named by this risk may be asked for more work on the strength of it.',
+  'p.score-across-recent-events':
+    'Score across recent events',
+  'p.score-points-added-or-removed-by':
+    'Score points added or removed by recorded events across the whole roster.',
+  'p.score-you-must-reach':
+    'Score you must reach',
+  'p.scoring-has-not-run-for-this':
+    'Scoring has not run for this job yet, so it has no risk level.',
+  'p.search-by-name-email-or-role':
+    'Search by name, email or role',
+  'p.search-by-run-id-threat-type':
+    'Search by run id, threat, type or verdict',
+  'p.search-campaigns':
+    'Search campaigns',
+  'p.search-courses':
+    'Search courses',
+  'p.search-intake':
+    'Search intake',
+  'p.search-modules':
+    'Search modules',
+  'p.search-name-email-or-role':
+    'Search name, email or role',
+  'p.search-people':
+    'Search people',
+  'p.search-screens-and-actions':
+    'Search screens and actions',
+  'p.search-the-directory':
+    'Search the directory',
+  'p.search-titles-references-and-descriptions':
+    'Search titles, references and descriptions',
+  'p.search-titles-senders-artifact-text-reporters':
+    'Search titles, senders, artifact text, reporters…',
+  'p.seeded-credentials-for-the-fictional-caspian':
+    'Seeded credentials for the fictional Caspian Dynamics organisation.',
+  'p.select-at-least-one-person':
+    'Select at least one person.',
+  'p.sent-to-a-person-as-you':
+    'Sent to a person as you wrote it. Your score does not change until someone answers.',
+  'p.set-before-anything-you-did-and':
+    'Set before anything you did, and not a judgement about you.',
+  'p.set-by-the-lure-source':
+    'Set by the lure source',
+  'p.set-by-the-platform-not-by':
+    'Set by the platform, not by this browser. Switching roles is a real sign-in against a different account.',
+  'p.seven-stages-one-human-gate':
+    'Seven stages, one human gate',
+  'p.severity-is-set-when-a-finding':
+    'Severity is set when a finding is raised, and is not recomputed as it ages.',
+  'p.severityweighted-and-saturating-on-purpose-twent':
+    'Severity-weighted, and saturating on purpose: twenty low-severity observations must not add up to one critical one, because they are not the same evidence.',
+  'p.shares-a-denominator-with-the-click':
+    'Shares a denominator with the click rate, so the two are directly comparable.',
+  'p.show-the-raw-artifact':
+    'Show the raw artifact',
+  'p.shown-defanged-copying-gives-the-original':
+    'Shown defanged. Copying gives the original value.',
+  'p.shown-to-the-affected-employee-as':
+    'Shown to the affected employee as who to contact.',
+  'p.shown-to-the-affected-employee-at':
+    'Shown to the affected employee at every confidentiality level.',
+  'p.shown-to-the-employee-after-grading':
+    'Shown to the employee after grading, right or wrong.',
+  'p.sign-in-with-your-phone-number':
+    'Sign in with your phone number',
+  'p.since-the-run-reached-the-gate':
+    'Since the run reached the gate',
+  'p.single-signon-and-directory-sync-neither':
+    'Single sign-on and directory sync. Neither is wired here: this deployment authenticates against its own user table.',
+  'p.six-digits-a-code-works-once':
+    'Six digits. A code works once and expires in five minutes.',
+  'p.someone-will-read-what-you-wrote':
+    'Someone will read what you wrote and answer it here.',
+  'p.something-in-the-request-did-not':
+    'Something in the request did not pass validation. The field is named below.',
+  'p.something-was-assigned-to-you':
+    'Something was assigned to you',
+  'p.source-address-not-recorded':
+    'Source address not recorded',
+  'p.sources-contacted':
+    'Sources contacted',
+  'p.start-a-run-at-stage-one':
+    'Start a run at stage one',
+  'p.start-with-the-navigation-rail-collapsed':
+    'Start with the navigation rail collapsed',
+  'p.state-how-the-criteria-above-were':
+    'State how the criteria above were met. This is what an auditor reads.',
+  'p.static-analysis-and-dynamic-detonation-are':
+    'Static analysis and dynamic detonation are both available.',
+  'p.static-analysis-did-not-run':
+    'Static analysis did not run',
+  'p.static-analysis-only-no-detonation-host':
+    'Static analysis only. No detonation host is attached, so nothing submitted here is executed — reports say "not run" rather than "clean".',
+  'p.static-forensic-analysis-of-a-file':
+    'Static forensic analysis of a file or a URL, with the reasoning behind every point of the score.',
+  'p.still-loading-the-people-list-the':
+    'Still loading the people list — the count is not final.',
+  'p.stored-as-typed-lowercased-and-underscored':
+    'Stored as typed, lowercased and underscored.',
+  'p.stored-configuration':
+    'Stored configuration',
+  'p.structured-observations':
+    'Structured observations',
+  'p.subjects-accepted':
+    'Subjects accepted',
+  'p.subjects-whose-completion-a-reviewer-accepted':
+    'Subjects whose completion a reviewer accepted, divided by the subjects attached to this risk.',
+  'p.submit-a-threat-into-the-loop':
+    'Submit a threat into the loop',
+  'p.submit-an-artifact-to-the-sandbox':
+    'Submit an artifact to the sandbox',
+  'p.submit-and-grade':
+    'Submit and grade',
+  'p.submitted-url':
+    'Submitted URL',
+  'p.submitted-by-an-analyst':
+    'Submitted by an analyst',
+  'p.submitted-directly-by-an-analyst-on':
+    'Submitted directly by an analyst on this screen.',
+  'p.suggested-remediation':
+    'Suggested remediation',
+  'p.summary-object-label-or-action':
+    'Summary, object label or action',
+  'p.supplied-by-a-third-party-cyclowareness':
+    'Supplied by a third party. Cyclowareness did not measure it.',
+  'p.supplied-by-the-provider-shown-for':
+    'Supplied by the provider. Shown for context only — they are not a mapping.',
+  'p.suspicion-level':
+    'Suspicion level',
+  'p.synthetic-outcomes-written':
+    'Synthetic outcomes written',
+  'p.take-me-to-my-home-screen':
+    'Take me to my home screen',
+  'p.take-me-to-my-training':
+    'Take me to my training',
+  'p.take-me-to-the-command-center':
+    'Take me to the Command Center',
+  'p.take-me-to-the-executive-view':
+    'Take me to the Executive View',
+  'p.taken-from-the-curated-intel-feed':
+    'Taken from the curated intel feed by an analyst.',
+  'p.target-count-unavailable':
+    'Target count unavailable',
+  'p.targeting-has-been-released-the-decision':
+    'Targeting has been released. The decision is in the audit log.',
+  'p.targets-are-now-open-for-outcome':
+    'Targets are now open for outcome recording.',
+  'p.targets-who-reported-divided-by-every':
+    'Targets who reported divided by every target that reached an outcome.',
+  'p.team-or-department':
+    'Team or department',
+  'p.techniques-mapped-from-findings-this-analysis':
+    'Techniques mapped from findings this analysis produced. Each row names the signals it was derived from, so the mapping can be checked rather than taken on trust.',
+  'p.technologies-named-by-its-rules':
+    'Technologies named by its rules',
+  'p.tenant-migration-the-old-moodle-instance':
+    'Tenant migration — the old Moodle instance is being retired.',
+  'p.that-change-no-longer-applies':
+    'That change no longer applies',
+  'p.the-analyze-stage-has-not-recorded':
+    'The ANALYZE stage has not recorded a verdict for this artifact. That is not a clean result — nothing has been concluded about it.',
+  'p.the-api-and-this-interface-are':
+    'The API and this interface are served from one origin, so there is no cross-origin request and the loop stream is same-origin.',
+  'p.the-api-is-not-answering':
+    'The API is not answering',
+  'p.the-api-returned-an-error-instead':
+    'The API returned an error instead of data. This is a fault on the server side, not something you did wrong.',
+  'p.the-api-returned-only-part-of':
+    'The API returned only part of the match list, so match counts are not shown here. Open an advisory to see every match recorded against it.',
+  'p.the-api-returned-only-part-of-2':
+    'The API returned only part of the match list, so this advisory\'s matches were not all seen. Open it to count them.',
+  'p.the-advisories-on-this-screen-are':
+    'The advisories on this screen are the records stored in this deployment. Nothing on it was fetched from an external source while you have been looking at it.',
+  'p.the-affected-employee-sees-the-incident':
+    'The affected employee sees the incident narrative and the evidence.',
+  'p.the-affected-employees-are-not-shown':
+    'The affected employees are not shown what happened.',
+  'p.the-affected-employees-see-the-full':
+    'The affected employees see the full narrative.',
+  'p.the-analyser-recorded-no-indicators-for':
+    'The analyser recorded no indicators for this artifact. That is an absence of extraction, not a finding of none.',
+  'p.the-analysis-stage-recorded-no-verdict':
+    'The analysis stage recorded no verdict for this artifact. Nothing has been concluded about it.',
+  'p.the-analyzer-returned-no-behaviour-summary':
+    'The analyzer returned no behaviour summary for this artifact.',
+  'p.the-answer-did-not-save':
+    'The answer did not save',
+  'p.the-answer-key-was-not-included':
+    'The answer key was not included in this payload, so no option is marked correct here.',
+  'p.the-artifact-is-being-analysed-stage':
+    'The artifact is being analysed. Stage 3 will stop at the approval gate.',
+  'p.the-artifact-was-not-accepted':
+    'The artifact was not accepted',
+  'p.the-assignment-did-not-go-through':
+    'The assignment did not go through. Nothing was assigned.',
+  'p.the-audience-is-recomputed-at-execution':
+    'The audience is recomputed at execution time. If a risk score moves or somebody&apos;s status changes between now and approval, the list can differ from this one.',
+  'p.the-capability-endpoint-did-not-answer':
+    'The capability endpoint did not answer',
+  'p.the-change-and-its-reason-are':
+    'The change and its reason are in the audit trail.',
+  'p.the-completion-time-was-not-recorded':
+    'The completion time was not recorded.',
+  'p.the-connection-records-their-states-and':
+    'The connection records, their states and every action below are real and audited. No sync client is compiled into this build, so nothing on this page can reach a provider — a sync says so rather than inventing a result. The course catalogues attached to these connections are demonstration data.',
+  'p.the-dashboard-did-not-answer-so':
+    'The dashboard did not answer, so no department standing can be shown.',
+  'p.the-dashboard-has-not-answered-yet':
+    'The dashboard has not answered yet, so nothing can be summarised.',
+  'p.the-decision-did-not-save':
+    'The decision did not save',
+  'p.the-decision-was-not-recorded':
+    'The decision was not recorded',
+  'p.the-decision-was-not-recorded-nothing':
+    'The decision was not recorded. Nothing changed.',
+  'p.the-decision-was-recorded-without-a':
+    'The decision was recorded without a comment.',
+  'p.the-delivery-route-this-lesson-teaches':
+    'The delivery route this lesson teaches about.',
+  'p.the-departments-endpoint-returned-no-rollup':
+    'The departments endpoint returned no roll-up for this department, which happens when it has no active employees.',
+  'p.the-detail-of-this-incident-is':
+    'The detail of this incident is restricted and is not shown in this view.',
+  'p.the-directory-is-empty':
+    'The directory is empty',
+  'p.the-download-did-not-complete':
+    'The download did not complete.',
+  'p.the-employee-sees-their-score-which':
+    'The employee sees their score, which questions they got wrong, and the explanation for each.',
+  'p.the-employees-could-not-be-attached':
+    'The employees could not be attached.',
+  'p.the-employees-endpoint-returned-an-empty':
+    'The employees endpoint returned an empty roster. People appear here once an organisation is imported or the demonstration organisation is seeded.',
+  'p.the-engine-has-not-reached-a':
+    'The engine has not reached a verdict for this job yet.',
+  'p.the-engine-reached-this-classification':
+    'The engine reached this classification.',
+  'p.the-engine-stopped-partway-through-and':
+    'The engine stopped part-way through and produced no verdict. The sample is still quarantined, so the run can be repeated on exactly the same bytes.',
+  'p.the-evidence-is-sufficient-to-call':
+    'The evidence is sufficient to call this malicious. The findings behind it are listed below.',
+  'p.the-extraction-request-failed':
+    'The extraction request failed',
+  'p.the-feed-item-was-not-pushed':
+    'The feed item was not pushed',
+  'p.the-finding-record-keeps-only-the':
+    'The finding record keeps only the most recent note. Every status change, owner change and training assignment is written to the audit trail as it happens.',
+  'p.the-import-request-failed':
+    'The import request failed.',
+  'p.the-incident-narrative-and-the-evidence':
+    'The incident narrative and the evidence are withheld from the affected employee at this level.',
+  'p.the-integrations-layer-did-not-load':
+    'The integrations layer did not load on this host, so the destinations it would describe are unknown rather than absent.',
+  'p.the-item-moved-to-another-state':
+    'The item moved to another state before this action reached the server — usually because someone else acted on it first. Reload to see where it stands now.',
+  'p.the-job-failed-without-recording-a':
+    'The job failed without recording a reason.',
+  'p.the-judgement-and-its-reason-are':
+    'The judgement and its reason are on the audit trail.',
+  'p.the-kernel-would-refuse-to-execute':
+    'The kernel would refuse to execute a file in the quarantine. Read from the host mounts, not assumed.',
+  'p.the-list-response-does-not-carry':
+    'The list response does not carry a subject count. Open the risk to see who is attached.',
+  'p.the-loop-counts-could-not-be':
+    'The loop counts could not be read. Open Closed Loops for the error in full.',
+  'p.the-loop-has-been-released-to':
+    'The loop has been released to targeting.',
+  'p.the-loop-stops-here-a-named':
+    'The loop stops here. A named analyst reads what was generated and decides before anything is targeted at a colleague. Nothing crosses this line on its own.',
+  'p.the-loops-analyze-stage-has-not':
+    'The loop\'s ANALYZE stage has not written a verdict for this artifact. That is not a clean result — nothing has been concluded about it.',
+  'p.the-loops-analyze-stage-runs-the':
+    'The loop’s ANALYZE stage runs the platform analyzer over this artifact’s text. It does not raise a sandbox job, and this deployment records no link from a threat record to one — so no detonation verdict is claimed here.',
+  'p.the-match-named-this-policy-but':
+    'The match named this policy but no single rule inside it.',
+  'p.the-match-supplies-the-policy-the':
+    'The match supplies the policy, the departments, the people and the confidence.',
+  'p.the-mean-behaviourrisk-score-across-active':
+    'The mean behaviour-risk score across active employees: role baseline plus what each person did when a threat reached them.',
+  'p.the-mean-current-risk-score-of':
+    'The mean current risk score of every person on the roster.',
+  'p.the-mean-of-20-role-sensitivity':
+    'The mean of 20 + role sensitivity × 20 across the roster.',
+  'p.the-mean-of-every-current-risk':
+    'The mean of every current risk score on the roster.',
+  'p.the-measurement-window-is-set-by':
+    'The measurement window is set by the server and reported with each rate.',
+  'p.the-module-could-not-be-created':
+    'The module could not be created.',
+  'p.the-module-is-marked-rejected-and':
+    'The module is marked rejected and the run is closed as failed-by-review. Nothing is assigned to anyone, and the run cannot be reopened from this screen.',
+  'p.the-module-was-rejected-and-the':
+    'The module was rejected and the run is closed.',
+  'p.the-note-is-not-attributed-the':
+    'The note is not attributed — the finding is open again.',
+  'p.the-number-your-workplace-registered-for':
+    'The number your workplace registered for you.',
+  'p.the-one-sentence-the-employee-is':
+    'The one sentence the employee is left with.',
+  'p.the-oneparagraph-summary-an-employee-sees':
+    'The one-paragraph summary an employee sees before opening the module.',
+  'p.the-organisation-or-tenant-identifier-the':
+    'The organisation or tenant identifier the provider knows you by.',
+  'p.the-password-is-used-once-for':
+    'The password is used once, for this run, and is never stored.',
+  'p.the-person-this-account-acts-as':
+    'The person this account acts as. Their risk score moves when they complete training.',
+  'p.the-platform-compared-it-against-the':
+    'The platform compared it against the extracted policy rules, the approved-software list and the technologies recorded as in use, and found no overlap. That is not a statement that the organisation is unaffected — it is a statement about what has been recorded here.',
+  'p.the-platform-did-not-answer-the':
+    'The platform did not answer the capability request, so this build cannot tell you which environment it is talking to.',
+  'p.the-platform-does-not-attribute-a':
+    'The platform does not attribute a risk-score change to an incident risk. Risk events record the loop run that caused them and carry no incident reference, so no honest number can be shown here. Each subject&rsquo;s score and its derivation live on their own profile.',
+  'p.the-provider-answered':
+    'The provider answered.',
+  'p.the-provider-tenant-this-connection-would':
+    'The provider tenant this connection would talk to.',
+  'p.the-provider-was-not-contacted':
+    'The provider was not contacted.',
+  'p.the-publisher-did-not-attach-a':
+    'The publisher did not attach a CVSS score to this advisory.',
+  'p.the-publisher-did-not-attach-a-2':
+    'The publisher did not attach a CVSS score.',
+  'p.the-quarantine-is-not-mounted-noexec':
+    'The quarantine is NOT mounted noexec on this host. Samples are never executed by the analysis, but the mount does not enforce it.',
+  'p.the-queues-could-not-be-read':
+    'The queues could not be read, so this list is empty for a reason that has nothing to do with your workload.',
+  'p.the-reason-is-on-the-audit':
+    'The reason is on the audit trail. Re-assess it to bring it back.',
+  'p.the-reason-was-written-to-the':
+    'The reason was written to the audit trail. The last sync record is unchanged.',
+  'p.the-records-for-each-of-these':
+    'The records for each of these exist and are served by the API. What is missing is the route that renders them into a document. Each card names the gap rather than hiding it behind a button.',
+  'p.the-report-is-now-a-threat':
+    'The report is now a threat record and the artifact is being analysed.',
+  'p.the-report-was-not-dismissed':
+    'The report was not dismissed',
+  'p.the-report-was-not-pushed':
+    'The report was not pushed',
+  'p.the-request-could-not-be-completed':
+    'The request could not be completed',
+  'p.the-request-did-not-complete-and':
+    'The request did not complete, and the reason was not reported.',
+  'p.the-request-took-too-long':
+    'The request took too long',
+  'p.the-required-action-was-met-to':
+    'The required action was met to this incident’s standard.',
+  'p.the-reset-did-not-complete':
+    'The reset did not complete',
+  'p.the-resource-catalogue-could-not-be':
+    'The resource catalogue could not be loaded, so this list is not a statement that nothing exists for this topic.',
+  'p.the-reviewer-applies-this-bar-when':
+    'The reviewer applies this bar when accepting a completion. The quiz grader does not know about it.',
+  'p.the-risk-could-not-be-closed':
+    'The risk could not be closed. Nothing changed.',
+  'p.the-risk-could-not-be-opened':
+    'The risk could not be opened. Nothing was saved.',
+  'p.the-risk-could-not-be-reopened':
+    'The risk could not be reopened. Nothing changed.',
+  'p.the-risk-engine-gave-no-reason':
+    'The risk engine gave no reason for selecting this person.',
+  'p.the-rules-this-organisation-is-actually':
+    'The rules this organisation is actually checked against today.',
+  'p.the-run-completed-and-produced-no':
+    'The run completed and produced no behavioural findings — the sample did nothing the worker recognised.',
+  'p.the-run-this-artifact-started-its':
+    'The run this artifact started. Its stage history is the record of what happened next.',
+  'p.the-same-quarantined-bytes-are-being':
+    'The same quarantined bytes are being analysed again.',
+  'p.the-sample-is-quarantined-and-waiting':
+    'The sample is quarantined and waiting for a worker.',
+  'p.the-sandbox-did-not-report-its':
+    'The sandbox did not report its capabilities. Treat its availability as unknown rather than assuming either answer.',
+  'p.the-sandbox-pipeline-this-deployment-runs':
+    'The sandbox pipeline this deployment runs submissions through.',
+  'p.the-sender-address-the-subject-line':
+    'The sender address, the subject line, the link — whatever you have. Do not open it first.',
+  'p.the-server-did-not-accept-it':
+    'The server did not accept it.',
+  'p.the-server-did-not-answer':
+    'The server did not answer.',
+  'p.the-server-downloads-the-content-and':
+    'The server downloads the content and analyses what comes back. It refuses to fetch private, loopback and cloud-metadata addresses, and says which rule it hit.',
+  'p.the-server-failed-on-this-request':
+    'The server failed on this request',
+  'p.the-server-issued-a-new-token':
+    'The server issued a new token for this account.',
+  'p.the-server-refused-this-change':
+    'The server refused this change',
+  'p.the-server-refused-this-decision':
+    'The server refused this decision',
+  'p.the-server-refused-this-request-reloading':
+    'The server refused this request. Reloading is unlikely to change the answer — what it said is below.',
+  'p.the-server-rejected-these-values':
+    'The server rejected these values',
+  'p.the-server-returned-a-full-page':
+    'The server returned a full page, so every count here is a floor.',
+  'p.the-server-returned-no-description-of':
+    'The server returned no description of what it did. Treat the advisory list as unchanged rather than as up to date.',
+  'p.the-server-took-the-request-but':
+    'The server took the request but did not answer in time. It is likely busy rather than broken — trying again usually works.',
+  'p.the-session-expired-or-was-signed':
+    'The session expired or was signed out elsewhere. Sign in again to pick up where you left off.',
+  'p.the-share-of-people-who-acted':
+    'The share of people who acted on a simulated lure.',
+  'p.the-share-who-recognised-a-lure':
+    'The share who recognised a lure and said so. This is the human sensor.',
+  'p.the-shell-reads-this-once-when':
+    'The shell reads this once when the application loads, so it decides how the rail comes up next time rather than moving it now. The control at the foot of the rail collapses it immediately, and writes the same preference.',
+  'p.the-signin-request-failed-before-the':
+    'The sign-in request failed before the server answered.',
+  'p.the-single-behaviour-this-module-is':
+    'The single behaviour this module is asking for.',
+  'p.the-source-did-not-list-affected':
+    'The source did not list affected products.',
+  'p.the-source-named-no-technique':
+    'The source named no technique.',
+  'p.the-source-published-no-indicators-with':
+    'The source published no indicators with this advisory.',
+  'p.the-source-published-no-references':
+    'The source published no references.',
+  'p.the-studio-has-no-generate-button':
+    'The studio has no generate button, because the platform has no studio generator. A module is written in one place only: the conversion stage of a loop run, from a threat that has already been analyzed. That is what keeps every module traceable to a real artifact instead of to a prompt somebody typed.',
+  'p.the-threat-record-does-not-carry':
+    'The threat record does not carry the engine that wrote this sentence, so nothing is claimed about how it was produced.',
+  'p.the-ticket-or-case-this-came':
+    'The ticket or case this came from. It is what the audit trail labels every entry with.',
+  'p.the-training-assignment-was-refused':
+    'The training assignment was refused',
+  'p.the-vendor-that-produced-the-platform':
+    'The vendor that produced the platform. The organisation running it is named separately on incident records.',
+  'p.the-window-for-taking-it-closed':
+    'The window for taking it closed. The lesson is below and still worth reading; if you need it reassigned, ask the security team.',
+  'p.there-is-not-enough-measured-activity':
+    'There is not enough measured activity to summarise this period.',
+  'p.these-are-the-current-rollups-for':
+    'These are the current roll-ups for the departments this run selected from. They are context, not this run&apos;s effect — no before-and-after department measurement is recorded per run.',
+  'p.these-were-generated-not-observed-they':
+    'These were generated, not observed. They are demonstration data.',
+  'p.they-can-read-your-answer-on':
+    'They can read your answer on their own screen.',
+  'p.they-read-this-on-their-own':
+    'They read this on their own screen. Written to the audit trail under your name.',
+  'p.this-account-is-not-attached-to':
+    'This account is not attached to a person in the organisation, so it has no risk score of its own.',
+  'p.this-analyzer-did-not-run-and':
+    'This analyzer did not run and did not record a reason.',
+  'p.this-analyzer-recorded-no-structured-observation':
+    'This analyzer recorded no structured observations for this sample.',
+  'p.this-archive-is-encrypted-and-analysis':
+    'This archive is encrypted and analysis has paused for a password.',
+  'p.this-artifact-carries-no-recipient-or':
+    'This artifact carries no recipient or department metadata, so how far it reached is unknown.',
+  'p.this-assignment-expired-before-the-quiz':
+    'This assignment expired before the quiz was taken, so there is no score.',
+  'p.this-assignment-has-not-been-completed':
+    'This assignment has not been completed, so there is no score.',
+  'p.this-assignment-was-never-completed-so':
+    'This assignment was never completed, so no quiz was graded.',
+  'p.this-browser-refused-to-store-the':
+    'This browser refused to store the preference — private browsing or a full quota. It applies for this session and will not survive a reload.',
+  'p.this-build-talks-to-a-separate':
+    'This build talks to a separate API host.',
+  'p.this-content-is-now-analystedited':
+    'This content is now analyst-edited.',
+  'p.this-deployment-did-not-describe-the':
+    'This deployment did not describe the extraction state of the document.',
+  'p.this-deployment-did-not-record-where':
+    'This deployment did not record where the number came from.',
+  'p.this-deployment-did-not-report-its':
+    'This deployment did not report its integration matrix, so where a sample would go cannot be answered here.',
+  'p.this-deployment-reports-demo-mode-so':
+    'This deployment reports demo mode, so the seeded accounts are offered directly. Each button performs a real sign-in against the platform.',
+  'p.this-expired-before-it-was-finished':
+    'This expired before it was finished',
+  'p.this-finding-is-in-a-state':
+    'This finding is in a state the API allows no move out of. Nothing can be changed here.',
+  'p.this-finding-is-not-about-a':
+    'This finding is not about a version. No affected, approved or recommended version was recorded for it.',
+  'p.this-finding-is-not-tied-to':
+    'This finding is not tied to a policy. It describes an exposure the platform found without a document to check it against.',
+  'p.this-finding-names-no-employees-and':
+    'This finding names no employees, and the API requires an explicit list. There is nobody to assign from this screen — record the affected people on the finding first.',
+  'p.this-host-cannot-report-whether-the':
+    'This host cannot report whether the quarantine is mounted noexec.',
+  'p.this-id-no-longer-resolves-to':
+    'This id no longer resolves to an employee record.',
+  'p.this-is-an-automated-first-pass':
+    'This is an automated first pass. An analyst decides what happens next.',
+  'p.this-is-derived-from-the-riskevent':
+    'This is derived from the risk-event trail, not from an assignment list. The platform exposes no per-employee assignment or campaign endpoint, so an outstanding assignment that has not yet produced an event does not appear here.',
+  'p.this-is-no-longer-assigned-to':
+    'This is no longer assigned to you.',
+  'p.this-is-sent-to-a-person':
+    'This is sent to a person as you wrote it.',
+  'p.this-is-the-module-exactly-as':
+    'This is the module exactly as an employee meets it, with the answer key added.',
+  'p.this-is-the-number-the-product':
+    'This is the number the product stakes its claim on, so the measurement condition is part of the definition rather than a footnote.',
+  'p.this-is-the-only-risk-figure':
+    'This is the only risk figure that may be read as evidence the programme works. The composite score also falls when training is merely completed, so a fall in the composite can mean nothing more than that modules were assigned.',
+  'p.this-job-did-not-record-which':
+    'This job did not record which tiers ran. Treat the findings below as incomplete rather than as a full picture.',
+  'p.this-member-has-not-finished-analysis':
+    'This member has not finished analysis.',
+  'p.this-module-carries-no-questions-so':
+    'This module carries no questions, so completing it evidences nothing about comprehension.',
+  'p.this-module-carries-no-quiz':
+    'This module carries no quiz.',
+  'p.this-module-has-no-lesson-sections':
+    'This module has no lesson sections recorded.',
+  'p.this-module-has-no-lesson-sections-2':
+    'This module has no lesson sections recorded. Go straight to the questions, or ask your security team what was intended here.',
+  'p.this-module-has-no-lesson-sections-3':
+    'This module has no lesson sections. An employee would open it and find only the quiz.',
+  'p.this-module-has-no-quiz-an':
+    'This module has no quiz. An assignment carrying it could not be completed.',
+  'p.this-module-has-no-quiz-it':
+    'This module has no quiz. It cannot be completed by an employee.',
+  'p.this-module-has-no-sections-to':
+    'This module has no sections to edit.',
+  'p.this-module-has-no-sections-add':
+    'This module has no sections. Add at least one before saving.',
+  'p.this-module-has-no-sections-an':
+    'This module has no sections. An employee would open it and find nothing to read.',
+  'p.this-module-is-not-linked-to':
+    'This module is not linked to a policy document. This deployment records the threat a module was built from, but does not attach policies to training content.',
+  'p.this-number-is-not-registered':
+    'This number is not registered.',
+  'p.this-person-has-no-recorded-score':
+    'This person has no recorded score. The required action may not carry a quiz.',
+  'p.this-persons-current-score-could-not':
+    'This person\'s current score could not be read.',
+  'p.this-record-does-not-exist-it':
+    'This record does not exist. It may have been deleted, or the link may point at a different environment.',
+  'p.this-report-has-a-status-this':
+    'This report has a status this screen does not recognise.',
+  'p.this-risk-is-closed-reopen-it':
+    'This risk is closed. Reopen it before attaching more people.',
+  'p.this-role-has-no-analyst-surfaces':
+    'This role has no analyst surfaces. Its world is the portal.',
+  'p.this-role-has-no-surfaces-assigned':
+    'This role has no surfaces assigned in the permission matrix. That is a configuration problem rather than something you can fix here — ask whoever provisioned the account.',
+  'p.this-run-has-already-left-the':
+    'This run has already left the gate. The record below is read-only.',
+  'p.this-run-has-no-threat-attached':
+    'This run has no threat attached, so there is no artifact to review. Approving it would advance a loop with nothing behind it.',
+  'p.this-run-has-no-threat-attached-2':
+    'This run has no threat attached, so there is no artifact to show. That is a data fault rather than an empty result — a run is created from a threat.',
+  'p.this-run-has-not-been-measured':
+    'This run has not been measured. Nothing is shown here rather than zeroes: no completion rate, no score and no risk movement have been computed for it.',
+  'p.this-run-produces-a-training-module':
+    'This run produces a training module. No simulation lure is attached to a loop run in this deployment — simulated campaigns are built separately under Simulations.',
+  'p.this-score-has-never-been-recalculated':
+    'This score has never been recalculated — no events have been recorded against you.',
+  'p.this-score-is-not-asserted-it':
+    'This score is not asserted, it is computed. It starts at a baseline set by how sensitive the role is, and every signal the engine has recorded since then moves it. Add the column below up and you get the number at the top of this page.',
+  'p.this-source-has-not-answered-yet':
+    'This source has not answered yet',
+  'p.this-verdict-came-from-a-keyword':
+    'This verdict came from a keyword and indicator extractor running on this deployment, not from a language model. It is a first pass, not a decision.',
+  'p.this-view-is-served-one-figure':
+    'This view is served one figure per department — the average as it stands now — and one organisation-wide series. There is no stored per-department history to difference, so no department can honestly be called most improved.',
+  'p.threat-and-run-records-are-analystscoped':
+    'Threat and run records are analyst-scoped. Ask the security team for the underlying runs behind the closed-loop count above.',
+  'p.threat-or-module-title':
+    'Threat or module title',
+  'p.time-spent-was-not-recorded-for':
+    'Time spent was not recorded for this assignment.',
+  'p.title-or-description':
+    'Title or description',
+  'p.title-topic-or-behaviour':
+    'Title, topic or behaviour',
+  'p.total-moved-by-behaviour':
+    'Total moved by behaviour',
+  'p.trail-window':
+    'Trail window',
+  'p.training-completion':
+    'Training completion',
+  'p.training-completion-rate':
+    'Training completion rate',
+  'p.training-content-not-generated-yet':
+    'Training content not generated yet',
+  'p.triaging-a-report-requires-the-analyst':
+    'Triaging a report requires the analyst role. This account can read the queue only.',
+  'p.truncated-by-the-server-the-excerpt':
+    'Truncated by the server. The excerpt exists for a person to read, not for completeness.',
+  'p.two-or-more-events-are-needed':
+    'Two or more events are needed to draw a line',
+  'p.urls-one-per-line':
+    'URLs, one per line',
+  'p.unclassified':
+    'Unclassified',
+  'p.update-time-not-recorded':
+    'Update time not recorded',
+  'p.upload-a-file-or-submit-a':
+    'Upload a file or submit a URL above. Every submission appears here the moment it is queued, and updates as the engine works through it.',
+  'p.user-agent-not-recorded':
+    'User agent not recorded',
+  'p.version-history-is-not-recorded-for':
+    'Version history is not recorded for modules yet. Editing overwrites the stored content in place, and no revision is kept — so there is nothing to compare against and nothing to roll back to. Policies are versioned; modules are not.',
+  'p.version-recorded-here':
+    'Version recorded here',
+  'p.waiting-for-a-decision':
+    'Waiting for a decision',
+  'p.waiting-for-a-human-decision-no':
+    'Waiting for a human decision. No targeting or training happens until it is given.',
+  'p.waiting-for-an-analyst-to-read':
+    'Waiting for an analyst to read it.',
+  'p.what-configuring-a-source-would-do':
+    'What configuring a source would do',
+  'p.what-happened':
+    'What happened',
+  'p.what-happened-2':
+    'What happened?',
+  'p.what-it-contains':
+    'What it contains',
+  'p.what-made-you-suspicious-or-what':
+    'What made you suspicious, or what you already did.',
+  'p.what-people-have-done-is-currently':
+    'What people have done is currently pulling the organisation below where its roles alone would place it.',
+  'p.what-the-engine-got-right-or':
+    'What the engine got right or wrong, in the words you would use in a ticket.',
+  'p.what-the-engine-reported':
+    'What the engine reported',
+  'p.what-the-evidence-shows-it-can':
+    'What the evidence shows it can do',
+  'p.what-the-incident-actually-found-empty':
+    'What the incident actually found. Empty rows are discarded when the risk is opened.',
+  'p.what-they-wrote':
+    'What they wrote',
+  'p.what-this-connection-is-called-on':
+    'What this connection is called on the integrations screen.',
+  'p.what-to-do-next':
+    'What to do next',
+  'p.what-you-checked-what-you-changed':
+    'What you checked, what you changed, or what is wrong with it.',
+  'p.what-your-role-covers':
+    'What your role covers',
+  'p.where-approved-training-would-be-delivered':
+    'Where approved training would be delivered, and where completions would be read back so measurement is not taken on trust.',
+  'p.where-the-organisation-would-sit-if':
+    'Where the organisation would sit if nobody had done anything at all.',
+  'p.who-is-accountable-for-closing-it':
+    'Who is accountable for closing it. Optional.',
+  'p.who-the-incident-named-they-are':
+    'Who the incident named. They are attached to the risk; the required work is assigned separately, from the risk itself.',
+  'p.why-do-you-think-this-was':
+    'Why do you think this was assigned in error?',
+  'p.why-is-this-being-disabled':
+    'Why is this being disabled',
+  'p.why-this-does-not-need-to':
+    'Why this does not need to stay in front of an analyst.',
+  'p.why-this-rule-is-being-rejected':
+    'Why this rule is being rejected',
+  'p.widen-the-search-choose-another-department':
+    'Widen the search, choose another department, or clear the risk band to see the rest of the roster.',
+  'p.with-a-match-against-us':
+    'With a match against us',
+  'p.with-a-model':
+    'With a model',
+  'p.with-no-match-behind-it-the':
+    'With no match behind it the finding carries no confidence value, no policy and no named people.',
+  'p.withdraw-the-plan':
+    'Withdraw the plan',
+  'p.work-email-on-the-account':
+    'Work email on the account',
+  'p.would-be-graded-quizzes-at-or':
+    'Would be graded quizzes at or above the pass mark, divided by graded quizzes.',
+  'p.would-be-the-median-time-from':
+    'Would be the median time from lure delivery to the report being filed.',
+  'p.write-synthetic-outcomes':
+    'Write synthetic outcomes',
+  'p.written-by-a-language-model-no':
+    'Written by a language model. No person has edited the wording.',
+  'p.written-by-a-template':
+    'Written by a template',
+  'p.written-for-the-record-depending-on':
+    'Written for the record. Depending on the confidentiality below, the affected employee may read this.',
+  'p.you-are-editing-the-content-an':
+    'You are editing the content an employee will be assigned. Nothing is saved until you say so.',
+  'p.you-can-reach-every-one-of':
+    'You can reach every one of these screens from the navigation once you are inside.',
+  'p.you-contested-this-nobody-has-answered':
+    'You contested this. Nobody has answered yet.',
+  'p.you-do-not-have-access-to':
+    'You do not have access to this',
+  'p.you-have-already-completed-this':
+    'You have already completed this',
+  'p.your-assigned-training-the-work-raised':
+    'Your assigned training, the work raised against you, and how your risk score was calculated.',
+  'p.your-edits-are-written-to-the':
+    'Your edits are written to the module first, which marks it analyst-edited.',
+  'p.your-individual-answers-were-graded-and':
+    'Your individual answers were graded and then discarded — only the score was kept, so this screen cannot show you which questions you got wrong.',
+  'p.your-role-can-read-intelligence-but':
+    'Your role can read intelligence but not ask the platform to check its sources.',
+  'p.your-role-can-read-intelligence-but-2':
+    'Your role can read intelligence but not assess, dismiss or raise findings from it.',
+  'p.your-role-can-read-this-module':
+    'Your role can read this module but not change it. Editing training content requires the authoring permission.',
+  'p.your-role-can-read-this-queue':
+    'Your role can read this queue but cannot decide on it. An analyst has to act.',
+  'p.your-role-can-read-this-review':
+    'Your role can read this review but cannot record a decision.',
+  'p.your-role-cannot-read-sandbox-analyses':
+    'Your role cannot read sandbox analyses, so no export is offered here. An analyst can produce these files from the sandbox surface.',
+  'p.your-role-cannot-read-the-report':
+    'Your role cannot read the report queue, so this person’s reports cannot be shown here. The reporting credit is still visible in the event trail.',
+  'p.your-role-does-not-include-this':
+    'Your role does not include this view. An administrator can grant the permission if you need it.',
+  'p.your-session-has-ended':
+    'Your session has ended',
+  'p.your-system-asks-for-reduced-motion':
+    'Your system asks for reduced motion, and this product honours it.',
+  'p.your-system-does-not-ask-for':
+    'Your system does not ask for reduced motion.',
+  'p.zero-to-100-lower-is-safer':
+    'Zero to 100. Lower is safer. A point-in-time property of the roster, not a windowed rate.',
+  'p.httpsexamplecominvoicezip':
+    'https://example.com/invoice.zip',
+  'p.httpsexampleinstructurecom':
+    'https://example.instructure.com',
+  'p.verifypaymentchange':
+    'verify_payment_change',
+  'p.err-not-found':
+    'Not found',
+
+  // --- hero tiles -------------------------------------------------------
+  'h.assigned-to-you':
+    'Assigned to you',
+  'h.waiting-at-the-gate':
+    'Waiting at the gate',
+  'h.active-loops':
+    'Active loops',
+  'h.open-incident-risks':
+    'Open incident risks',
+  'h.running-simulations':
+    'Running simulations',
+  'h.sandbox-analyzers':
+    'Sandbox analyzers',
+  'h.approval-items-naming-you':
+    'Approval items naming you',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -2031,6 +3945,1916 @@ const az: Record<MessageKey, string> = {
     'Hazırlayıb',
   'a.tagline':
     'QAPALI DÖVRƏ İNSAN KİBER RİSKİ',
+  'p.a-blank-measurement-is-a-blank':
+    'Boş ölçmə boş ölçmə olaraq qalır. Platforma nəyisə hələ ölçməyibsə, yaxşı xəbər kimi görünən sıfır əvəzinə uzun tire yazır və nümunənin nə qədər böyük olduğunu bildirir.',
+  'p.a-chat-or-messaging-app':
+    'Söhbət və ya mesajlaşma tətbiqi',
+  'p.a-connection-record-appears-once-a':
+    'Bağlantı qeydi provayder platformada qeydiyyatdan keçdikdən sonra görünür. Bu quraşdırma vəziyyətləri nümayiş etdirmək üçün belə qeydlərin hazır dəsti ilə gəlir.',
+  'p.a-current-position-not-a-trend':
+    'Bu, cari vəziyyətdir, trend deyil. Trend şöbə ekranındadır.',
+  'p.a-detonation-host-is-attached':
+    'Detonasiya hostu qoşulub.',
+  'p.a-detonation-worker-is-attached-behavioural':
+    'Detonasiya icraçısı qoşulub. Hesabatdakı davranış siqnalları müşahidə edilib, ehtimal yolu ilə çıxarılmayıb.',
+  'p.a-fictional-organisation-is-seeded-for':
+    'Uydurma bir təşkilat nümayiş məlumatı kimi qurulub. Onun üzərində işləyən risk mühərriki, sandbox və təsdiq qapısı isə gerçəkdir.',
+  'p.a-finding-is-raised-when-threat':
+    'Təhdid kəşfiyyatı hansısa siyasət qaydasına uyğun gəldikdə, siyasət baxışı nəyisə üzə çıxardıqda və ya analitik onu birbaşa qeyd etdikdə tapıntı yaradılır.',
+  'p.a-floor-not-a-total-a':
+    'Bu, alt həddir, yekun say deyil. Bütöv bir şöbəyə şamil edilən tapıntı bu insan sayına heç kimi əlavə etmir.',
+  'p.a-high-completion-rate-is-not':
+    'Yüksək tamamlanma nisbəti davranışın dəyişdiyinə sübut deyil. Klik və bildirmə nisbətləri sübutdur.',
+  'p.a-language-model-is-connected-generated':
+    'Dil modeli qoşulub — yaradılan məzmun AI kimi işarələnir.',
+  'p.a-mapping-is-your-assertion-that':
+    'Uyğunlaşdırma bu kursu tamamlamağın adı çəkilən davranışı dəyişdiyinə dair sizin iddianızdır. O, hesabınıza yazılır, çünki hədəfləmə ondan asılıdır — həddindən artıq iddialı uyğunlaşdırma yanlış şəxsləri yanlış kursa göndərir və sonrakı ölçmə təlim uğursuzluğu kimi oxunur.',
+  'p.a-model-is-connected-content-it':
+    'Model qoşulub. Onun yazdığı məzmun süni intellektin yaratdığı məzmun kimi işarələnir və kiməsə çatmazdan əvvəl yenə də insan təsdiq qapısından keçir.',
+  'p.a-named-person-approved-this-content':
+    'Bu məzmun istifadə edilməzdən əvvəl təsdiq qapısında adı göstərilən şəxs tərəfindən təsdiqlənib.',
+  'p.a-persignal-rollup-across-the-whole':
+    'Bütün təşkilat üzrə hər siqnal üçün ayrıca yekun API tərəfindən verilmir — bölgü endpoint-i hər dəfə yalnız bir şəxs üçün cavab qaytarır. Ona görə də aşağıdakı cədvəl bütün dövrün yekununu iddia etmək əvəzinə, son qeydlərdəki real hadisələri sayır.',
+  'p.a-plan-is-raised-when-a':
+    'Plan yalnız siqnal konkret şəxsin adını çəkdikdə yaradılır — simulyasiyada klik, giriş məlumatlarının göndərilməsi, şəxsin aldığı nəyəsə verilən zərərli verdikt. Heç bir plan cədvəl üzrə yaradılmır.',
+  'p.a-policy-appears-here-once-its':
+    'Siyasət burada yalnız onun sənədi — və ya sadəcə metaməlumatı — platforma API-si vasitəsilə qeydə alındıqdan sonra görünür. Mətnin çıxarılması isə ayrıca, könüllü seçilən addımdır.',
+  'p.a-reason-is-required-to-dismiss':
+    'Xəbərdarlığı rədd etmək üçün səbəb tələb olunur.',
+  'p.a-reason-is-required-to-mark':
+    'Xəbərdarlığı aid deyil kimi işarələmək üçün səbəb göstərilməlidir.',
+  'p.a-reason-is-required':
+    'Səbəb göstərilməlidir.',
+  'p.a-refusal-is-a-security-metric':
+    'İmtina təhlükəsizlik göstəricisidir, xəta deyil. Hər hansı bir kod üzrə sayın artması o deməkdir ki, kimsə bu məhsulun işçinin ekranına nə yazacağını sınaqdan keçirir.',
+  'p.a-rejected-rule-was-never-in':
+    'Rədd edilmiş qayda heç vaxt qüvvədə olmayıb, ona görə versiya anlıq görüntüsü yazılmır. Səbəb audit izində qeydə alınır.',
+  'p.a-reviewer-discarded-these-they-were':
+    'Yoxlayan bunları rədd etdi. Onlar heç vaxt qüvvədə olmayıb.',
+  'p.a-risk-appears-here-when-incident':
+    'Risk burada insidentə cavab prosesi hər hansı məruz qalmanı adı çəkilən şəxslərin üzərinə yazdıqda yaranır — saxta portalda daxil edilmiş giriş məlumatı, yanlış alıcıya göndərilmiş fayl, təzyiq altında buraxılmış prosedur.',
+  'p.a-risk-score-is-one-number':
+    'Risk balı 0 ilə 100 arasında bir ədəddir və bu şəxsin hücumun uğur qazandığı nöqtə olma ehtimalını göstərir. Bu, nə iş fəaliyyətinin qiymətləndirilməsi, nə də rəydir — bu, onun vəzifəsi ilə müəyyən olunan başlanğıc nöqtəsi, üstəgəl platformanın onun haqqında qeydə aldığı bütün siqnallardır.',
+  'p.a-sync-against-a-connection-that':
+    'Konfiqurasiya edilməmiş və ya söndürülmüş bağlantı üzrə sinxronizasiya API tərəfindən rədd edilir. Əvvəlcə onu konfiqurasiya edin; rədd cavabı isə burada göstəriləcək.',
+  'p.a-sync-asks-the-provider-for':
+    'Sinxronizasiya provayderdən kursları və tamamlanmaları istəyir. Bu buraxılışda provayder klienti yoxdur, ona görə də o, heç bir sorğunun göndərilmədiyini açıq bildirəcək və saxlanmış sinxronizasiya vəziyyətinə toxunmayacaq.',
+  'p.a-threat-that-became-training-and':
+    'Təlimə çevrilmiş və sonra ölçülmüş təhdid. Heç nə ölçmədən bağlanan dövrə axınları sayılmır.',
+  'p.accepted-file-types':
+    'Qəbul edilən fayl tipləri',
+  'p.account-name':
+    'Hesab adı',
+  'p.activate-this-proposed-rule':
+    'Təklif olunan bu qaydanı aktivləşdir',
+  'p.activating-changes-the-set-of-rules':
+    'Aktivləşdirmə bu təşkilatın hansı qaydalar toplusu üzrə yoxlanıldığını dəyişir, ona görə də API həmin anda qüvvədə olan qaydalar toplusunun dəyişməz anlıq surətini yazır.',
+  'p.add-a-behaviour':
+    'Davranış əlavə et',
+  'p.add-a-comment-first-a-revision':
+    'Əvvəlcə şərh əlavə edin — şərhsiz düzəliş sorğusundan sonra üzərində işləmək üçün heç nə qalmır.',
+  'p.add-a-comment-first-the-server':
+    'Əvvəlcə şərh yazın — server səbəbsiz rədd cavabını qəbul etmir.',
+  'p.admin-phone-number':
+    'Administratorun telefon nömrəsi',
+  'p.advisories-reach-this-module-by-being':
+    'Xəbərdarlıqlar bu modula yalnız nümayiş məlumatı kimi yüklənməklə və ya əl ilə daxil edilməklə çatır — heç bir xarici mənbə konfiqurasiya olunmayıb, ona görə də heç nə öz-özünə gəlmir. Mənbə konfiqurasiya edin və alınan xəbərdarlıqlar burada görünəcək.',
+  'p.advisories-updated':
+    'Yenilənən bülletenlər',
+  'p.affected-department':
+    'Təsirə məruz qalan şöbə',
+  'p.affected-products-as-published':
+    'Təsirə məruz qalan məhsullar, dərc olunduğu kimi',
+  'p.all-named-subjects-accepted-at-or':
+    'Adı çəkilən bütün subyektlər keçid balında və ya ondan yuxarı qəbul edildi, giriş məlumatı isə dəyişdirildi.',
+  'p.already-raised-from-this-advisory':
+    'Bu xəbərdarlıq əsasında artıq yaradılıb',
+  'p.an-analyst-accepted-the-report-targeting':
+    'Analitik hesabatı qəbul etdi; bildirən şəxsə aid hədəfləmə açarları bu sərhəddə çıxarıldı.',
+  'p.an-analyst-pushed-a-curated-feed':
+    'Analitik seçilmiş lent yazısını dövrəyə ötürüb.',
+  'p.an-analyst-reviewed-it-and-decided':
+    'Analitik onu nəzərdən keçirib və heç bir tədbirə ehtiyac olmadığı qərarına gəlib. Buna baxmayaraq, onu bildirmək düzgün addım olub.',
+  'p.an-analyst-submitted-the-artifact-directly':
+    'Artefaktı analitik birbaşa təqdim edib.',
+  'p.an-analyst-took-it-forward-it':
+    'Analitik onu irəli apardı. O, real təhdid qeydinə çevrildi və dövrə axını başlatdı.',
+  'p.an-analyst-wrote-or-rewrote-this':
+    'Bu məzmunu analitik yazıb və ya yenidən yazıb.',
+  'p.an-assignment-is-delivered-by-appearing':
+    'Tapşırıq təyin olunan işçinin portalında görünməklə çatdırılır. Bu quraşdırmada heç bir poçt şlüzü qoşulmayıb, ona görə də heç nə e-poçtla göndərilməyib və heç bir göndərilmə və ya açılma hadisəsi qeydə alınmayıb.',
+  'p.an-employee-reported-this-and-an':
+    'Bunu bir işçi bildirib, analitik isə dövrəyə ötürüb.',
+  'p.an-entry-is-written-whenever-an':
+    'Təsdiq barədə qərar veriləndə, siyasət qaydası nəzərdən keçiriləndə, inteqrasiya dəyişdiriləndə və ya insidentin riski dəyişəndə qeyd yazılır. Daha köhnə fəaliyyətə çatmaq üçün zaman aralığını genişləndirin.',
+  'p.an-extraction-run-completed-and-wrote':
+    'Çıxarma axını tamamlandı, lakin heç nə yazmadı. «Sənəd» bölməsindəki sənədi yoxlayın.',
+  'p.an-isolated-detonation-worker-is-attached':
+    'Bu quraşdırmaya təcrid olunmuş detonasiya icraçısı qoşulub. Nümunələr həm ayrışdırılır, həm də nəzarət altında icra olunur və hər iki tapıntı dəsti hesabatda göstərilir.',
+  'p.an-unexpected-error-stopped-this-view':
+    'Gözlənilməz xəta bu görünüşün yüklənməsinin qarşısını aldı. Aşağıdakı təfərrüatlar məhsulun bildiyi hər şeydir.',
+  'p.analyse-a-file-or-a-url':
+    'Faylı və ya URL-i təhlil et',
+  'p.analysis-stopped-rather-than-continuing-on':
+    'Analiz aça bilmədiyi konteyner üzərində davam etmək əvəzinə dayandı. Mühərrik parolları nə təxmin edir, nə də kobud güclə seçir — parolun verilməsi analitikin qəsdən atdığı addımdır və məhz belə də qeyd olunur.',
+  'p.analysis-time':
+    'Təhlil müddəti',
+  'p.analyst-comment':
+    'Analitik şərhi',
+  'p.analyzed-threat':
+    'Təhlil edilmiş təhdid',
+  'p.analyzer-verdict':
+    'Analizatorun qərarı',
+  'p.analyzers-reported-ready-by-the-sandbox':
+    'Sandbox tərəfindən hazır bildirilən analizatorlar',
+  'p.anyone-already-attached-is-shown-as':
+    'Artıq əlavə edilmiş şəxslər bu qeydlə göstərilir və onlara toxunulmur.',
+  'p.anything-else-is-still-accepted-and':
+    'Qalan hər şey yenə də qəbul olunur və məzmununa görə müəyyən edilir — siyahıda isə mühərrikin ayrıca parserə malik olduğu formatlar göstərilib.',
+  'p.anything-else-worth-knowing-optional':
+    'Bilməli olduğumuz başqa bir şey varsa (istəyə bağlı)',
+  'p.approval-gate':
+    'Təsdiq qapısı',
+  'p.approval-items-naming-you':
+    'Adınızın keçdiyi təsdiq maddələri',
+  'p.approve-and-release':
+    'Təsdiqlə və yayımla',
+  'p.approved-by-policy':
+    'Siyasətlə təsdiqlənib',
+  'p.approved-module':
+    'Təsdiqlənmiş modul',
+  'p.approved-software':
+    'Təsdiqlənmiş proqram təminatı…',
+  'p.archive-password':
+    'Arxiv parolu',
+  'p.archive-password-optional':
+    'Arxiv parolu (məcburi deyil)',
+  'p.argument-this-finding-rests-on':
+    'Bu tapıntının əsaslandığı arqument',
+  'p.arrival-time-not-recorded':
+    'Gəlmə vaxtı qeydə alınmayıb',
+  'p.artifact-body':
+    'Artefaktın məzmunu',
+  'p.artifact-metadata':
+    'Artefakt metaməlumatları',
+  'p.artifact-reference-displayed-verbatim-never-link':
+    'Artefakt istinadı — eynilə göstərilir, heç vaxt keçidə çevrilmir',
+  'p.artifact-type':
+    'Artefakt növü',
+  'p.asking-the-api-which-environment-this':
+    'Bunun hansı mühit olduğu API-dən soruşulur.',
+  'p.asking-the-sandbox-what-it-can':
+    'Sandbox-dan nə edə bildiyi soruşulur.',
+  'p.assessed-as-urgent':
+    'Təcili olaraq qiymətləndirilib',
+  'p.at-least-one-configured-engine-receives':
+    'Ən azı bir konfiqurasiya edilmiş mühərrik bu quraşdırmadan məlumat alır. Hər birinin nə aldığı aşağıda göstərilib.',
+  'p.at-least-three-characters-sentence-case':
+    'Ən azı üç simvol. Kataloqun qalanı kimi, yalnız ilk hərfi böyük yazın.',
+  'p.attendance-not-behaviour-change-read-it':
+    'Bu, davranış dəyişikliyi deyil, iştirakdır. Onu yuxarıdakı iki göstərici üçün aşağı hədd kimi oxuyun.',
+  'p.average-behaviour-risk':
+    'Orta davranış riski',
+  'p.average-quiz-score':
+    'Orta test balı',
+  'p.average-reporting-time':
+    'Orta bildiriş vaxtı',
+  'p.average-risk-across-everyone-in-the':
+    'Şöbədəki bütün işçilər üzrə orta risk. Bu, komandanın orta göstəricisidir, kiminsə fərdi balı deyil.',
+  'p.average-risk-across-the-organisation':
+    'Təşkilat üzrə orta risk',
+  'p.average-risk-score':
+    'Orta risk balı',
+  'p.average-role-baseline':
+    'Rolların orta baza dəyəri',
+  'p.average-score':
+    'Orta bal',
+  'p.average-time-spent':
+    'Sərf olunan orta vaxt',
+  'p.awaiting-review':
+    'Baxış gözləyir',
+  'p.bands-are-fixed-029-low-3059':
+    'Zolaqlar sabitdir: 0–29 aşağı, 30–59 orta, 60–79 yüksək, 80–100 kritik.',
+  'p.behaviour-over-time':
+    'Zaman ərzində davranış',
+  'p.blocked-by-sovereign-mode':
+    'Suveren rejim tərəfindən bloklanıb',
+  'p.cve-id-title-or-summary':
+    'CVE identifikatoru, başlıq və ya xülasə',
+  'p.cvss-not-scored':
+    'CVSS balı verilməyib',
+  'p.campaign-created-as-a-draft':
+    'Kampaniya qaralama kimi yaradıldı',
+  'p.campaign-name':
+    'Kampaniyanın adı',
+  'p.campaigns-launched-and-still-collecting-outcomes':
+    'Başladılmış və hələ də nəticə toplayan kampaniyalar',
+  'p.carried-by-a-real-training-assignment':
+    'Təsdiqlənmiş modul üzrə verilmiş real təlim tapşırığına əsaslanır.',
+  'p.caspian-dynamics-has-been-reseeded-with':
+    'Caspian Dynamics altı aylıq tarixçə ilə yenidən doldurulub və tarixlər indiki ana uyğunlaşdırılıb.',
+  'p.change-in-average-risk':
+    'Orta riskdəki dəyişiklik',
+  'p.change-in-average-risk-negative-is':
+    'Orta riskdə dəyişiklik · mənfi qiymət yaxşılaşmadır',
+  'p.changed-saving-rewrites-the-module-and':
+    'Dəyişdirilib. Yadda saxlamaq modulu yenidən yazır və onu analitik tərəfindən redaktə edilmiş kimi işarələyir.',
+  'p.changing-a-finding-requires-the-policy':
+    'Tapıntının dəyişdirilməsi siyasətin idarə edilməsi icazəsini tələb edir.',
+  'p.chart-unavailable':
+    'Qrafik əlçatan deyil',
+  'p.chart-window':
+    'Qrafikin vaxt aralığı',
+  'p.choose-a-lure-source':
+    'Tələ mənbəyini seçin.',
+  'p.choose-a-module':
+    'Modul seçin…',
+  'p.choose-an-approved-module':
+    'Təsdiqlənmiş modul seçin',
+  'p.choose-another-state-or-set-the':
+    'Başqa vəziyyət seçin və ya filtri yenidən bütün vəziyyətlərə qaytarın.',
+  'p.chooses-how-the-analyzer-reads-the':
+    'Analizatorun aşağıdakı mətni necə oxuyacağını müəyyən edir.',
+  'p.classification':
+    'Təsnifat',
+  'p.clear-a-filter-or-widen-the':
+    'Bir filtri təmizləyin və ya zaman aralığını genişləndirin. Əməliyyat filtri özündən aşağıdakı bütün fellərə də uyğun gəlir, ona görə də dəqiq addan deyil, əməliyyat ailəsinin adından başlamaq adətən daha yaxşıdır.',
+  'p.clear-a-filter-to-widen-the':
+    'Axtarışı genişləndirmək üçün filtrlərdən birini təmizləyin. Şöbə filtri ən son yenilənmiş siyasətlər üzərində işləyir, ona görə çox köhnə sənəd onun xaricində qala bilər.',
+  'p.clear-one-of-the-filters-to':
+    'Axtarışı genişləndirmək üçün filtrlərdən birini təmizləyin. Şöbə filtri yalnız ən son tapıntıların məhdud bir hissəsini nəzərdən keçirir, ona görə də köhnə tapıntı bu həddin kənarında qala bilər.',
+  'p.clear-the-filter-to-see-every':
+    'Mühərrikin hazırladığı bütün planları görmək üçün filtri təmizləyin.',
+  'p.clear-the-search':
+    'Axtarışı təmizləyin',
+  'p.clear-the-search-to-see-the':
+    'Bu bağlantıda həqiqətən mövcud olan kursları görmək üçün axtarışı təmizləyin.',
+  'p.click-rate-is-at-or-below':
+    'Klikləmə faizi bildiriş faizinə bərabər və ya ondan aşağıdır, heç bir şöbə yüksək zolaqda deyil, yüksək ciddilikli açıq tapıntı yoxdur və ən azı bir dövrə ölçmə ilə bağlanıb. Bu, xəbərdarlığın olmamasıdır, sertifikat deyil.',
+  'p.clicked-targets-divided-by-every-simulation':
+    'Klikləyən hədəflərin sayı nəticəyə çatmış bütün simulyasiya hədəflərinin sayına bölünür.',
+  'p.close-campaign':
+    'Kampaniyanı bağla',
+  'p.close-the-palette-a-dialog-or':
+    'Palitranı, dialoqu və ya yan paneli bağlamaq',
+  'p.closed-loops':
+    'Bağlanmış dövrələr',
+  'p.closes-the-run-as-failedbyreview-nothing':
+    'Axını baxış nəticəsində uğursuz kimi bağlayır. Heç bir tapşırıq verilmir.',
+  'p.closure-criteria':
+    'Bağlanma meyarları',
+  'p.closure-note':
+    'Bağlanma qeydi',
+  'p.command-palette':
+    'Əmr paleti',
+  'p.compiled-at-startup-and-applied-to':
+    'Sistem işə düşərkən kompilyasiya edilir və hər təqdimata tətbiq olunur.',
+  'p.complete-the-supplierimpersonation-module-and-ch':
+    'Təchizatçı adından saxtakarlıq modulunu tamamlayın və ifşa olunmuş giriş məlumatını dəyişin.',
+  'p.completed-assignments-divided-by-assignments-mad':
+    'Tamamlanmış tapşırıqların həmin aralıqda verilmiş tapşırıqlara nisbəti.',
+  'p.completing-this-module-moves-the-employeeaposs':
+    'Bu modulun tamamlanması işçinin risk balını dəyişir. Bu dəyişikliyin həcmini burada deyil, tamamlanma anında risk mühərriki müəyyən edir.',
+  'p.completion-is-attendance-not-behaviour-change':
+    'Tamamlama iştirakdır, davranış dəyişikliyi deyil',
+  'p.completion-is-not-the-same-as':
+    'Tamamlamaq səriştə ilə eyni şey deyil. Bunu sübut edən aşağıdakı baldır.',
+  'p.computed-from-the-roster-in-the':
+    'Brauzerdə işçi siyahısı əsasında hesablanır, ona görə də hər bir şəxs yalnız bir dəfə sayılır. Aşağıdakı şöbə ortalamaları serverdən gəlir və işdən ayrılmış şəxsləri əhatə etmir.',
+  'p.computed-when-the-employee-completes-the':
+    'İşçi testi tamamladıqda hesablanır. Bu modul üzrə hələ heç nə ölçülməyib, ona görə burada rəqəm göstərilmir.',
+  'p.confidentiality':
+    'Məxfilik',
+  'p.configurable-per-pilot-so-a-deployment':
+    'Hər pilot üçün ayrıca konfiqurasiya olunur ki, quraşdırma müştəri brendi altında (white-label) təqdim edilə bilsin.',
+  'p.configured-sources':
+    'Konfiqurasiya edilmiş mənbələr',
+  'p.connected-generated-content-is-labelled-ai':
+    'Qoşulub. Yaradılan məzmun AI kimi işarələnir.',
+  'p.connection-state':
+    'Bağlantının vəziyyəti',
+  'p.content-author':
+    'Məzmun müəllifi',
+  'p.content-type':
+    'Məzmun növü',
+  'p.content-written-by-a-model-is':
+    'Model tərəfindən yazılmış məzmun göründüyü hər yerdə məhz belə işarələnir. Şablon nəticəsi şablon nəticəsi kimi işarələnir, heç vaxt AI kimi yox.',
+  'p.continue-with-microsoft':
+    'Microsoft ilə davam et',
+  'p.control-gaps':
+    'Nəzarət boşluqları',
+  'p.copy-every-indicator':
+    'Bütün indikatorları kopyala',
+  'p.copy-failed-try-again':
+    'Kopyalanmadı — yenidən cəhd edin',
+  'p.copy-the-original-url':
+    'Orijinal URL-i kopyala',
+  'p.correct-answer':
+    'Düzgün cavab',
+  'p.could-not-close-the-campaign':
+    'Kampaniyanı bağlamaq mümkün olmadı',
+  'p.could-not-generate-outcomes':
+    'Nəticələr yaradıla bilmədi',
+  'p.could-not-record-the-feedback':
+    'Rəyi qeyd etmək mümkün olmadı',
+  'p.could-not-switch-account':
+    'Hesabı dəyişmək mümkün olmadı',
+  'p.counted-from-the-returned-rows-not':
+    'Qaytarılan sətirlərə görə sayılıb, server tərəfindəki ümumi göstəriciyə görə deyil.',
+  'p.counted-over-every-finding-not-just':
+    'Yalnız bu zaman aralığı üzrə deyil, bütün tapıntılar üzrə sayılır — vaxtın ötməsi bugünkü günə aid faktdır.',
+  'p.counts-describe-the-advisories-stored-in':
+    'Buradakı saylar bu quraşdırmada saxlanan bülletenlərə aiddir. Bu, dərc olunmuşların sayı deyil — məlumat çəkmək üçün heç bir mənbə konfiqurasiya edilməyib.',
+  'p.courses-appear-once-a-sync-imports':
+    'Kurslar yalnız sinxronizasiya onları provayderdən idxal etdikdən sonra görünür. Bu buraxılışda provayder klienti yoxdur, ona görə burada heç nə əldə edilə bilməz.',
+  'p.coverage-gaps':
+    'Əhatə boşluqları',
+  'p.creating-a-campaign-records-it-and':
+    'Kampaniya yaratmaq onu və hədəflərini qeydə alır. Bu quraşdırmaya nə poçt, nə də SMS şlüzü qoşulmayıb, ona görə əslində heç nə göndərilmir — nəticələri hədəflər üzrə analitik qeyd edir.',
+  'p.credential-entered-on-a-spoofed-supplier':
+    'Saxta təchizatçı portalında daxil edilmiş giriş məlumatları',
+  'p.critical-and-high':
+    'Kritik və yüksək',
+  'p.current-standing-of-the-scored-population':
+    'Balı hesablanan işçilərin hazırkı vəziyyəti, 0–100 şkalası üzrə.',
+  'p.cyclowareness-cannot-reach-its-backend-the':
+    'Cyclowareness öz backend-inə çata bilmir. Ola bilsin, xidmət hələ işə düşür, ya da bağlantı kəsilib. Bu, sizin etdiyiniz hər hansı əməlin nəticəsi deyil və heç nə itməyib.',
+  'p.decide-what-reaches-an-employee':
+    'İşçiyə nəyin çatacağına qərar verin',
+  'p.decision-comment':
+    'Qərar şərhi',
+  'p.declared-capabilities':
+    'Bəyan edilmiş imkanlar',
+  'p.defanged-for-display-and-deliberately-not':
+    'Ekranda göstərmək üçün zərərsizləşdirilib və qəsdən kliklənə bilmir.',
+  'p.defanged-for-display-and-never-rendered':
+    'Göstərmək üçün zərərsizləşdirilib və heç vaxt keçid kimi verilmir. Onları burada açmaq əvəzinə, tikətə və ya bloklama siyahısına kopyalayın.',
+  'p.defaults-to-the-advisorys-own-title':
+    'Standart olaraq xəbərdarlığın öz başlığı götürülür.',
+  'p.defaults-to-the-advisorys-published-severity':
+    'Standart olaraq xəbərdarlığın dərc edilmiş ciddiliyini götürür.',
+  'p.delivered-to-inbox-no-quarantine':
+    'Gələnlər qutusuna çatdırılıb, karantinə alınmayıb',
+  'p.demonstration-data-nothing-here-was-measured':
+    'Nümayiş məlumatı. Buradakı heç nə canlı sistemdən ölçülməyib.',
+  'p.demonstration-deployment-the-organisation-is-see':
+    'Nümayiş məqsədli quraşdırma. Təşkilat nümayiş məlumatıdır; onun üzərində işləyən mühərrik isə həqiqidir.',
+  'p.demonstration-world-rebuilt':
+    'Nümayiş dünyası yenidən quruldu',
+  'p.demonstration-world-reset':
+    'Nümayiş mühiti sıfırlandı',
+  'p.demonstration-the-organisation-is-seeded':
+    'Nümayiş — təşkilat nümayiş məlumatı üzərində qurulub',
+  'p.department-average':
+    'Şöbə üzrə orta',
+  'p.department-names-could-not-be-loaded':
+    'Şöbə adları yüklənə bilmədi, ona görə də yekun göstəricilər göstərilmir.',
+  'p.derived-by-the-server-from-the':
+    'Serverin tələ mənbəyindən çıxardığı dəyərdir. Müstəqil şəkildə təyin edilə bilməz.',
+  'p.derived-from-the-analyser-verdict':
+    'Analizatorun verdiktindən çıxarılıb.',
+  'p.derived-from-the-live-queues-this':
+    'Canlı növbələrdən əldə edilib. Bu quraşdırma nə e-poçt, nə də push bildirişi göndərir.',
+  'p.derived-from-this-runaposs-own-status':
+    'Bu axının öz statusu və tapşırıq qeydləri əsasında çıxarılıb. Bu, model tərəfindən hazırlanmış tövsiyə deyil.',
+  'p.describe-the-incident-how-it-was':
+    'İnsidenti, onun necə aşkar edildiyini və məruz qalmanın nədən ibarət olduğunu təsvir edin.',
+  'p.destroys-every-run-decision-and-result':
+    'Bütün axınları, qərarları və nəticələri məhv edir',
+  'p.digits-only-spaces-are-ignored':
+    'Yalnız rəqəmlər; boşluqlar nəzərə alınmır.',
+  'p.dismiss-report':
+    'Hesabatı rədd et',
+  'p.dismissed-by-an-analyst-no-loop':
+    'Analitik tərəfindən rədd edilib. Heç bir dövrə axını başladılmayıb və heç bir risk balı dəyişməyib.',
+  'p.display-name':
+    'Göstərilən ad',
+  'p.dispute-answered':
+    'Etiraz cavablandırıldı',
+  'p.disputes-waiting':
+    'Gözləyən etirazlar',
+  'p.distinct-employees-named-individually-by-any':
+    'Hər hansı açıq tapıntıda adbaad göstərilən fərqli işçilər.',
+  'p.drafted-by-a-language-model-and':
+    'Qaralaması dil modeli tərəfindən hazırlanıb, insan tərəfindən tamamlanıb.',
+  'p.duration-not-measured':
+    'Müddət ölçülməyib',
+  'p.dynamic-detonation-did-not-run':
+    'Dinamik detonasiya işə düşmədi',
+  'p.dynamic-detonation-is-not-available-on':
+    'Dinamik detonasiya bu hostda mövcud deyil. Buraya göndərilən heç nə icra olunmur — nümunələr ayrışdırılır, skan edilir və bal alır, heç vaxt işə salınmır.',
+  'p.dynamic-detonation-ran':
+    'Dinamik detonasiya icra olunub',
+  'p.each-entry-performs-a-real-signin':
+    'Buradakı hər sətir real giriş həyata keçirir. Tokeni server verir və bütün icazələri tətbiq etməyə davam edir — brauzerdə heç bir rol saxtalaşdırılmır.',
+  'p.effective-from':
+    'Qüvvəyə minmə tarixi',
+  'p.employees-appear-here-once-the-organisation':
+    'İşçilər təşkilat platformaya yükləndikdən sonra burada görünür.',
+  'p.employment-status-is-not-returned-by':
+    'İşçilər son nöqtəsi məşğulluq statusunu qaytarmır, ona görə də status sütunu göstərilmir.',
+  'p.endorsed-once-a-different-person-must':
+    'Bir dəfə dəstəklənib; təsdiqi başqa bir şəxs verməlidir',
+  'p.endorsed-held-for-a-second-approver':
+    'Dəstəklənib, ikinci təsdiqləyən üçün saxlanılır',
+  'p.estimated-duration':
+    'Təxmini müddət',
+  'p.estimated-minutes':
+    'Təxmini dəqiqə',
+  'p.estimated-time':
+    'Təxmini vaxt',
+  'p.every-account-is-bound-to-an':
+    'Hər hesab bir işçi qeydinə, şöbəyə və rola bağlıdır. Hədəfləmə və risk tarixçəsi məhz bu bağlılıq sayəsində məna kəsb edir; hesabın bu ekrandan yaradıla bilməməsinin səbəbi də budur.',
+  'p.every-analyzer-this-build-knows-about':
+    'Bu buraxılışın tanıdığı hər analizator bu hostda yüklənib.',
+  'p.every-cached-view-has-been-invalidated':
+    'Keşdəki bütün görünüşlər etibarsız sayılıb və yenidən yüklənir.',
+  'p.every-incident-risk-is-excluded-by':
+    'Cari seçim bütün insident risklərini kənarda saxlayır. Hamısını görmək üçün filtrləri təmizləyin.',
+  'p.every-material-change-recorded-against-this':
+    'Bu axına dair qeydə alınmış hər əhəmiyyətli dəyişiklik.',
+  'p.every-named-person-was-skipped-the':
+    'Adı çəkilən şəxslərin hamısı kənarda saxlanıldı. Səbəblər dialoq pəncərəsində göstərilib.',
+  'p.every-proposed-rule-sits-below-awaiting':
+    'Təklif olunan hər qayda aşağıda rəyçini gözləyir. Onlardan heç biri hələ heç nə ilə tutuşdurulmayıb.',
+  'p.every-question-is-answered-submitting-grades':
+    'Bütün suallar cavablandırılıb. Göndərdikdə cavablar qiymətləndiriləcək və bunu geri qaytarmaq mümkün olmayacaq.',
+  'p.every-record-on-screen-belongs-to':
+    'Ekrandakı hər qeyd bu təşkilata aiddir.',
+  'p.every-report-states-this-as-a':
+    'Hər hesabat bunu heç vaxt müşahidə olunmamış təmiz davranış nəticəsi kimi təqdim etmək əvəzinə, kor nöqtə kimi qeyd edir.',
+  'p.everyone-attached-to-this-risk-already':
+    'Bu riskə bağlanmış hər kəsin artıq tapşırığı var. Təkrar tapşırıq vermək kiminsə tamamlamış ola biləcəyi işi sıfırlayardı, ona görə server onlara toxunmur.',
+  'p.expire-and-measure':
+    'Müddəti bitir və ölç',
+  'p.explanation-shown-after-answering':
+    'Cavabdan sonra göstərilən izah',
+  'p.exposure-is-carried-by-the-match':
+    'Məruz qalmanı uyğunluq daşıyır: o, uyğun gələn siyasətin şamil olunduğu şöbələrdən və uyğun gələn texnologiyadan istifadə etdikləri qeyd olunan şəxslərdən gəlir. Bu xəbərdarlıq üçün nə biri, nə də digəri qeyd olunmayıb.',
+  'p.exposure-not-recorded':
+    'Məruz qalma qeydə alınmayıb',
+  'p.external-learning-and-identity-systems':
+    'Xarici təlim və kimlik sistemləri',
+  'p.external-pages-opened-in-a-new':
+    'Xarici səhifələr yeni tabda açılır. Cyclowareness onların içindəki heç nəyi yükləmir, təhlil etmir və ona əsaslanaraq hərəkət etmir.',
+  'p.extraction-was-not-attempted':
+    'Çıxarma cəhdi edilməyib.',
+  'p.filter-runs-by-status':
+    'Axınları statusa görə filtrləyin',
+  'p.finding-type':
+    'Tapıntı növü',
+  'p.findings-detected':
+    'Aşkarlanan tapıntılar',
+  'p.findings-that-matter-but-not-enough':
+    'Əhəmiyyətli tapıntılar var, lakin onu zərərli adlandırmaq üçün onların sayı kifayət etmir. Qərarı analitik verir.',
+  'p.forcemeasure-did-not-run':
+    'Məcburi ölçmə işə düşmədi',
+  'p.forensic-analysis-of-a-file-or':
+    'Faylın və ya URL-in forenzik təhlili — burada statik, detonasiya isə təcrid olunmuş icraçıda — balın hər bir bəndinin arxasındakı əsaslandırma ilə birlikdə.',
+  'p.from-the-library':
+    'Kitabxanadan',
+  'p.gaps-are-days-with-no-resolved':
+    'Boşluqlar həll edilmiş hadisənin olmadığı günlərdir',
+  'p.gating-a-loop-run':
+    'Dövrə axınının təsdiq qapısından keçirilməsi',
+  'p.generated-by-the-configured-anthropic-model':
+    'Konfiqurasiya edilmiş Anthropic modeli tərəfindən yaradılıb.',
+  'p.generated-from':
+    'Yaradılma mənbəyi',
+  'p.give-the-campaign-a-name':
+    'Kampaniyaya ad verin.',
+  'p.human-decision':
+    'İNSAN QƏRARI',
+  'p.has-a-recorded-outcome':
+    'Qeydə alınmış nəticəsi var',
+  'p.has-this-happened-to-you':
+    'Bu, sizin başınıza gəlib?',
+  'p.head-of-security-operations':
+    'Təhlükəsizlik Əməliyyatlarının rəhbəri',
+  'p.held-for-a-second-approver':
+    'İkinci təsdiqləyici üçün saxlanılır',
+  'p.hidden-by-default-this-is-attackerauthored':
+    'Standart olaraq gizlidir. Bu, hücumçunun yazdığı məzmundur; eynilə mətn kimi göstərilir və heç vaxt əldə edilmir, icra olunmur və keçidə çevrilmir.',
+  'p.hide-the-raw-artifact':
+    'Xam artefaktı gizlət',
+  'p.high-risk-is-a-score-of':
+    'Yüksək risk 60 və ondan yuxarı baldır.',
+  'p.highrisk-policy-findings':
+    'Yüksək riskli siyasət tapıntıları',
+  'p.how-each-metric-was-set':
+    'Hər göstəricinin necə müəyyən edildiyi',
+  'p.how-this-campaign-appears-in-the':
+    'Bu kampaniyanın proqram siyahısında və audit izində necə göründüyü.',
+  'p.how-this-content-was-produced-was':
+    'Bu məzmunun necə hazırlandığı qeydə alınmayıb.',
+  'p.how-this-model-was-built':
+    'Bu model necə qurulub',
+  'p.inc20260184':
+    'INC-2026-0184',
+  'p.identity-federation-is-not-configured-for':
+    'Bu quraşdırma üçün kimlik federasiyası konfiqurasiya edilməyib. Heç bir SAML və ya OIDC provayderi qoşulmayıb, ona görə də bunlar yönləndirirmiş kimi görünmək əvəzinə qeyri-aktivdir.',
+  'p.if-anything-here-reminds-you-of':
+    'Buradakı nəsə sizə gələn hansısa mesajı xatırladırsa, elə indi bildirin. Bu, təlimi yarıda kəsmir.',
+  'p.imported-from-a-connected-learning-system':
+    'Qoşulmuş təlim sistemindən idxal edilib. Onu Cyclowareness yazmayıb.',
+  'p.incident-remediation-completion':
+    'İnsident üzrə korrektiv tədbirlərin tamamlanması',
+  'p.incident-risks-in-the-closed-state':
+    'Bağlı vəziyyətdə olan insident riskləri bütün insident risklərinə bölünür.',
+  'p.incidentresponse-records-name-individuals-and-ar':
+    'İnsidentə cavab qeydlərində konkret şəxslərin adı çəkilir və onları təhlükəsizlik komandası saxlayır. Bu görünüş onları oxuya bilmir, bu isə belə qeydlərin olmaması demək deyil.',
+  'p.inside-archive':
+    'Arxivin içində',
+  'p.it-fell-short-a-note-saying':
+    'Tələb olunan səviyyəyə çatmadı. Nəyin həddən aşağı qaldığını izah edən qeyd tələb olunur.',
+  'p.it-is-attached-to-this-job':
+    'O, bu işə əlavə edilib və ixracda görünür.',
+  'p.it-is-no-longer-assigned-and':
+    'Tapşırıq artıq təyin edilmiş deyil və işçiyə səbəbi bildirilir.',
+  'p.it-is-now-cleared-to-reach':
+    'O, artıq adını çəkdiyi şəxsə çatmaq üçün təsdiqlənib.',
+  'p.it-may-still-be-queued':
+    'O, hələ növbədə ola bilər.',
+  'p.it-stops-being-assigned-to-them':
+    'Tapşırıq artıq onlara təyin olunmur. Onlar haqlı idisə, bunu seçin.',
+  'p.json-carries-the-complete-analyzer-output':
+    'JSON analizatorun tam nəticəsini, balın bölgüsünü və çıxarılmış hər indikatoru daşıyır. STIX 2.1 indikatorları başqa alətin qəbul edə biləcəyi paket şəklində daşıyır. PDF isə hazırlanmış hesabatdır. Hər üçü saxlanmış təhlildir — nümunənin yenidən analiz edilməsi isə işin özü üzərində ayrıca əməliyyatdır.',
+  'p.keeps-your-comment-and-unsaved-edits':
+    'Şərhinizi və yadda saxlanmamış düzəlişləri bu brauzerdə saxlayır. Qaralama üçün ayrıca endpoint yoxdur, ona görə qaralama heç vaxt bu cihazdan çıxmır.',
+  'p.kept-on-the-audit-entry-optional':
+    'Audit qeydində saxlanılır. Təsdiq üçün məcburi deyil, lakin rədd qərarını sonradan nəzərdən keçirməyə məhz bu imkan verir.',
+  'p.language-model':
+    'Dil modeli',
+  'p.leave-blank-unless-the-archive-is':
+    'Arxiv şifrələnməyibsə, boş buraxın. Şifrələnibsə, təhlil dayanıb parolu soruşur — mühərrik parolları nə təxmin edir, nə də brute-force ilə tapır.',
+  'p.live-data-has-resumed-open-views':
+    'Canlı məlumat bərpa olunub. Açıq görünüşlər yenilənib.',
+  'p.loading-approved-modules':
+    'Təsdiqlənmiş modullar yüklənir…',
+  'p.loading-resources':
+    'Resurslar yüklənir…',
+  'p.loading-the-policy-record':
+    'Siyasət qeydi yüklənir.',
+  'p.loading-the-thread':
+    'Yazışma yüklənir…',
+  'p.longest-wait':
+    'Ən uzun gözləmə',
+  'p.loop-run-record':
+    'Dövrə axını qeydi',
+  'p.loop-run-records':
+    'Dövrə axını qeydləri',
+  'p.loop-run-records-are-analystscoped-so':
+    'Dövrə axını qeydləri analitik üzrə məhdudlaşdırılıb, ona görə bu görünüş idarə panelinin bildirdiyi bağlanmış axınların sayını göstərə bilir, tamamlanmış, davam edən və uğursuz olanlar arasındakı bölgünü isə göstərə bilmir.',
+  'p.loop-runs-could-not-be-read':
+    'Dövrə axınlarını oxumaq mümkün olmadı, ona görə nəticələrin bölgüsü əlçatan deyil.',
+  'p.loop-status-unavailable':
+    'Dövrə statusu əlçatan deyil',
+  'p.lowers-the-risk-score':
+    'Risk balını aşağı salır',
+  'p.lure-as-stored':
+    'Tələ saxlandığı kimi',
+  'p.lure-preview':
+    'Tələyə öncədən baxış',
+  'p.m101400-c34400-34108-101108':
+    'M101,400 C34,400 34,108 101,108',
+  'p.mitre-attampck-techniques':
+    'MITRE ATT&amp;CK texnikaları',
+  'p.mail-gateway-verdict':
+    'Poçt şlüzünün qərarı',
+  'p.matching-these-filters':
+    'Bu filtrlərə uyğun gələnlər',
+  'p.measured-for-this-run-only-not':
+    'Yalnız bu axın üçün ölçülüb, sürüşən aralıq üzrə deyil.',
+  'p.measured-from-this-deployments-own-records':
+    'Bu quraşdırmanın öz qeydləri əsasında ölçülüb.',
+  'p.minimum-score':
+    'Minimum bal',
+  'p.module-to-assign':
+    'Təyin ediləcək modul',
+  'p.more-entries-matched-than-are-shown':
+    'Uyğun gələn qeydlərin sayı burada göstərilənlərdən çoxdur. Qalanlarını səhifə-səhifə nəzərdən keçirmək üçün audit jurnalını açın.',
+  'p.more-risk-is-coming-from-what':
+    'İnsanların etdiklərindən gələn risk, təkcə rolların izah edə biləcəyindən çoxdur.',
+  'p.move-through-palette-results':
+    'Palitra nəticələri arasında hərəkət et',
+  'p.move-to-the-next-control-the':
+    'Növbəti idarəetmə elementinə keçir; birinci keçid linki gəlir',
+  'p.name-owner-or-notes-press-enter':
+    'Ad, sahib və ya qeydlər. Axtarmaq üçün Enter basın.',
+  'p.names-the-behaviour-to-train-training':
+    'Təlim keçiriləcək davranışı adlandırır. Təlimin özü isə tapıntı üzərində təyin edilir.',
+  'p.negative-is-the-good-direction-here':
+    'Burada mənfi istiqamət yaxşıdır: bu o deməkdir ki, təşkilatın bildirişlərdən və təlimlərdən qazandığı bal kliklərə və vaxtı keçmiş tapşırıqlara itirdiyi baldan çoxdur.',
+  'p.never-sent-to-the-employee-it':
+    'İşçiyə heç vaxt göndərilmir. Qiymətləndirici cavabları məhz bununla tutuşdurub ballandırır.',
+  'p.new-advisories':
+    'Yeni bülletenlər',
+  'p.new-threat-submissions':
+    'Yeni təhdid göndərişləri',
+  'p.newest-advisory-in-view':
+    'Görünüşdəki ən yeni bülleten',
+  'p.no-advisory-is-stored-in-this':
+    'Bu quraşdırmada heç bir xəbərdarlıq saxlanmır',
+  'p.no-advisory-matches-these-filters':
+    'Bu filtrlərə uyğun xəbərdarlıq yoxdur',
+  'p.no-analyzed-threat-is-available':
+    'Təhlil edilmiş təhdid mövcud deyil',
+  'p.no-analyzer-raised-a-signal-on':
+    'Bu nümunə üzrə heç bir analizator siqnal vermədi. Bunu yuxarıdakı səviyyə bildirişi ilə birlikdə oxuyun: bu, tanınan heç nəyin işə düşmədiyini bildirir, nümunənin təhlükəsiz olduğunun sübut edildiyini yox.',
+  'p.no-analyzer-result-was-recorded-for':
+    'Bu iş üçün analizator nəticəsi qeydə alınmayıb. Bu, qeydlərdəki boşluqdur, təmiz nəticə deyil.',
+  'p.no-answer-key-was-recorded-for':
+    'Bu sual üçün düzgün cavab qeydə alınmayıb, ona görə balı hesablana bilmir.',
+  'p.no-approved-training-module-exists-in':
+    'Bu quraşdırmada təsdiqlənmiş təlim modulu yoxdur, ona görə də əlavə ediləsi heç nə yoxdur. API burada qəsdən modul yazmır — bu mərhələdə dərs yaratmaq yoxlanılmamış məzmunu insan təsdiq qapısından yan keçirmiş olardı. Əvvəlcə Təlim Studiyasında bir modul təsdiqləyin.',
+  'p.no-artifact-body-was-stored-for':
+    'Bu təhdid üçün artefaktın özü saxlanılmayıb — yalnız metadatası saxlanılıb.',
+  'p.no-audit-events-yet-every-decision':
+    'Hələ audit hadisəsi yoxdur. İnsan qapısından keçən hər qərar burada qeydə alınır.',
+  'p.no-automated-triage-was-recorded-against':
+    'Bu bildiriş üzrə heç bir avtomatik ilkin qiymətləndirmə qeydə alınmayıb.',
+  'p.no-automated-triage-was-recorded-for':
+    'Bu bildiriş üçün avtomatik ilkin qiymətləndirmə qeyd olunmayıb. Onu analitik oxuyacaq.',
+  'p.no-capability-was-derived-from-the':
+    'Sübutdan heç bir qabiliyyət çıxarılmayıb, ona görə bal veriləcək təsir yoxdur.',
+  'p.no-checks-were-reported-for-this':
+    'Bu axın üçün heç bir yoxlama bildirilməyib.',
+  'p.no-configuration-has-been-stored-for':
+    'Bu bağlantı üçün heç bir konfiqurasiya saxlanılmayıb.',
+  'p.no-connection-has-been-registered':
+    'Heç bir bağlantı qeydə alınmayıb',
+  'p.no-connection-is-in-that-state':
+    'Bu vəziyyətdə heç bir bağlantı yoxdur',
+  'p.no-correct-answer-is-recorded-for':
+    'Bu sual üçün düzgün cavab qeyd olunmayıb. Onu qiymətləndirmək mümkün deyil.',
+  'p.no-course-has-been-imported':
+    'Heç bir kurs idxal edilməyib',
+  'p.no-course-matches-this-search':
+    'Bu axtarışa uyğun kurs yoxdur',
+  'p.no-credential-field-exists-on-this':
+    'Bu formada giriş məlumatı sahəsi yoxdur. API açarları, müştəri sirləri və tokenlər yerləşdirmənin sirlər anbarında saxlanılmalıdır — API giriş məlumatına bənzəyən dəyərləri hər ehtiyat nüsxənin və ekran görüntüsünün daşıyacağı yerdə saxlamaqdansa, birbaşa rədd edir.',
+  'p.no-department-is-above-the-low':
+    'Heç bir şöbə aşağı zolağın üstündə deyil və heç birində yüksək risk zolağında olan işçi yoxdur.',
+  'p.no-department-is-currently-in-the':
+    'Hazırda aşağı zolaqda olub, eyni zamanda yüksək risk zolağında heç bir işçisi olmayan şöbə yoxdur.',
+  'p.no-department-or-employee-is-named':
+    'Bu tapıntıda heç bir şöbə və ya işçi göstərilməyib. Bu, qeyddəki boşluqdur, heç kimin təsirə məruz qalmadığını bildirən ifadə deyil.',
+  'p.no-departments':
+    'Şöbə yoxdur',
+  'p.no-departments-are-recorded':
+    'Heç bir şöbə qeydə alınmayıb.',
+  'p.no-detonation-host-files-are-analysed':
+    'Detonasiya hostu yoxdur. Fayllar statik şəkildə təhlil edilir və heç vaxt icra olunmur.',
+  'p.no-detonation-worker-is-attached-so':
+    'Heç bir detonasiya icraçısı qoşulmayıb, ona görə buraya göndərilən heç nə icra olunmur. Hesabatlar bunu hər səviyyə üzrə açıq yazır ki, oxuyan nümunənin işə salındığını güman etməsin.',
+  'p.no-employee-in-the-directory-matches':
+    'Kataloqda bu ada, e-poçta və ya vəzifə adına uyğun gələn işçi yoxdur.',
+  'p.no-employee-is-currently-selected-so':
+    'Hazırda heç bir işçi seçilməyib, ona görə də təsdiq etmək axını təyin ediləcək heç nə olmadan irəli aparacaq.',
+  'p.no-employee-matched-this-threats-targeting':
+    'Heç bir işçi bu təhdidin hədəfləmə siqnallarına uyğun gəlmədi. Bu, "heç kim risk altında deyil" demək deyil — təsdiqləmək axını tapşırılacaq heç nə olmadan irəli aparardı.',
+  'p.no-engine-recorded':
+    'Heç bir mühərrik qeydə alınmayıb',
+  'p.no-entry-matches-these-filters':
+    'Bu filtrlərə uyğun qeyd yoxdur',
+  'p.no-evidence-rows-yet-a-risk':
+    'Hələ sübut sətri yoxdur. Sübutu olmayan risk yenə də açıla bilər, lakin sonradan onu nəzərdən keçirən heç kim onu yoxlaya bilməyəcək.',
+  'p.no-evidence-was-recorded-for-this':
+    'Bunun üçün heç bir sübut qeydə alınmayıb.',
+  'p.no-explanation-is-recorded-the-employee':
+    'Heç bir izah qeyd olunmayıb — işçi yalnız düz cavab verib-vermədiyini görür.',
+  'p.no-explanation-was-recorded-for-this':
+    'Bu sual üçün heç bir izah qeydə alınmayıb.',
+  'p.no-external-engine-is-configured-to':
+    'Bu quraşdırmadan hər hansı bir şey qəbul etmək üçün heç bir xarici mühərrik konfiqurasiya edilməyib.',
+  'p.no-external-provider-is-connected-in':
+    'Bu quraşdırmada heç bir xarici provayder qoşulmayıb.',
+  'p.no-extracted-rule-an-approved-version':
+    'Bu xəbərdarlıq heç bir çıxarılmış qaydaya — təsdiqlənmiş versiyaya, ağ siyahı yazısına, istisnaya — toxunmadı. Qaydalar yalnız siyasət sənədi yükləndikdən və onun qaydaları çıxarıldıqdan sonra uyğunlaşdırıla bilər.',
+  'p.no-feature-was-present-in-this':
+    'Bu nümunədə heç bir əlamət yox idi, ona görə də bal yalnız modelin baza göstəricisindən ibarətdir.',
+  'p.no-filter-applied-beyond-the-window':
+    'Zaman aralığından başqa heç bir filtr tətbiq edilməyib',
+  'p.no-filters-applied-every-finding-this':
+    'Filtr tətbiq edilməyib — bu quraşdırmanın saxladığı hər tapıntı.',
+  'p.no-finding-matches-these-filters':
+    'Bu filtrlərə uyğun tapıntı yoxdur',
+  'p.no-findings-could-be-read':
+    'Heç bir tapıntını oxumaq mümkün olmadı.',
+  'p.no-findings-have-been-raised':
+    'Heç bir tapıntı qeydə alınmayıb',
+  'p.no-incident-risk-has-been-opened':
+    'Heç bir insident riski açılmayıb',
+  'p.no-indicators-were-extracted-for-a':
+    'Heç bir indikator çıxarılmayıb. Təsvir ediləsi şəbəkə və ya fayl sistemi davranışı olmayan nümunə üçün bu gözləniləndir — bu, nümunənin zərərsiz olduğuna dair sübut deyil.',
+  'p.no-indicators-were-extracted-on-a':
+    'Heç bir indikator çıxarılmayıb. Yükü və keçidi olmayan sosial mühəndislik artefaktında bu, boşluq deyil, gözlənilən nəticədir.',
+  'p.no-individual-events-have-been-recorded':
+    'Sizinlə bağlı heç bir fərdi hadisə qeydə alınmayıb.',
+  'p.no-individual-rule-is-cited-the':
+    'Ayrıca bir qaydaya istinad edilmir. Tapıntı bütövlükdə siyasətin özünə aid edilib — çox vaxt ona görə ki, ondan heç vaxt heç nə çıxarılmayıb.',
+  'p.no-individual-was-named-the-exposure':
+    'Heç bir şəxsin adı çəkilməyib — məruz qalma şöbə səviyyəsində qeyd olunub.',
+  'p.no-jobs-in-this-state':
+    'Bu vəziyyətdə iş yoxdur',
+  'p.no-language-model-is-connected-generated':
+    'Heç bir dil modeli qoşulmayıb. Yaradılan məzmun şablon çıxışıdır və məhz belə də işarələnir.',
+  'p.no-loop-runs-are-executing-right':
+    'Hazırda icra olunan dövrə axını yoxdur.',
+  'p.no-loops-yet':
+    'Hələ dövrə yoxdur',
+  'p.no-lure-source-recorded':
+    'Tələnin mənbəyi qeyd edilməyib',
+  'p.no-match-named-a-technology-from':
+    'Heç bir uyğunluq nə təsdiqlənmiş proqram siyahısından, nə də qeydə alınmış inventardan texnologiya adı göstərmədi. Aşağıdakıların hamısı bizim deyil, istehsalçının iddiasıdır.',
+  'p.no-match-my-own-claim':
+    'Uyğunluq yoxdur — mənim öz iddiam',
+  'p.no-metadata-was-recorded-with-this':
+    'Bu artefaktla birlikdə heç bir metadata qeyd olunmayıb.',
+  'p.no-model-connected-in-this-deployment':
+    'Bu quraşdırmada heç bir model qoşulmayıb — şablon nəticəsi.',
+  'p.no-model-is-connected-generated-training':
+    'Heç bir model qoşulmayıb. Yaradılan təlim və brifinqlər deterministik şablon nəticəsidir və AI kimi deyil, şablon kimi etiketlənir.',
+  'p.no-module-was-generated-for-this':
+    'Bu axın üçün modul yaradılmayıb',
+  'p.no-movement-to-show':
+    'Göstəriləcək dinamika yoxdur',
+  'p.no-one-matches-these-filters':
+    'Bu filtrlərə uyğun gələn yoxdur',
+  'p.no-one-was-selected-that-is':
+    'Heç kim seçilmədi. Bu, “heç kim risk altında deyil” demək deyil — bu o deməkdir ki, nə artefaktda, nə təsirə məruz qalmış şöbələrdə, nə də son davranış siqnallarında heç nə konkret bir adamla uyğunlaşmadı. Bu vəziyyətdə təsdiqlənən axın təyin ediləcək heç nə olmadan irəli gedir.',
+  'p.no-one-was-targeted-so-no':
+    'Heç kim hədəfə alınmayıb, ona görə heç bir şöbəyə toxunulmayıb.',
+  'p.no-open-findings':
+    'Açıq tapıntı yoxdur',
+  'p.no-pass-mark-was-set-on':
+    'Bu insident üçün keçid balı təyin edilməyib.',
+  'p.no-passage-was-recorded-for-this':
+    'Bu qayda üçün heç bir mətn parçası qeydə alınmayıb, ona görə də onu burada sənədlə tutuşdurmaq mümkün deyil.',
+  'p.no-passage-was-recorded-for-this-2':
+    'Bu qayda üçün heç bir mətn parçası qeydə alınmayıb, ona görə də oxucunun ifadəni tutuşdura biləcəyi heç nə yoxdur.',
+  'p.no-passage-was-recorded-for-this-3':
+    'Bu qayda üçün heç bir mətn parçası qeyd olunmayıb, ona görə də ifadəni tutuşdurmaq üçün heç nə yoxdur. Onu rədd edib nəzarət tədbirini əl ilə daxil etməyi nəzərdən keçirin.',
+  'p.no-people-have-been-loaded':
+    'Heç bir şəxs yüklənməyib',
+  'p.no-perdepartment-history-is-stored-the':
+    'Şöbələr üzrə tarixçə saxlanmır: şöbələr endpointi yalnız cari yekunu qaytarır və son risk hadisələrinin heç biri hər hansı şöbədəki konkret şəxsə aid edilə bilmədi.',
+  'p.no-plainlanguage-explanation-was-written-for':
+    'Bu artefakt üçün sadə dildə izah yazılmayıb.',
+  'p.no-plan-has-been-raised-yet':
+    'Hələ heç bir plan yaradılmayıb',
+  'p.no-plan-holds-this-status':
+    'Bu statusda plan yoxdur',
+  'p.no-policies-have-been-registered':
+    'Heç bir siyasət qeydə alınmayıb',
+  'p.no-policy-matches-these-filters':
+    'Bu filtrlərə uyğun gələn siyasət yoxdur',
+  'p.no-provider-client-exists-in-this':
+    'Bu versiyada provayder klienti yoxdur. Saxlanmış sinxronizasiya vəziyyəti dəyişməyib.',
+  'p.no-questions-are-attached-so-nothing':
+    'Heç bir sual əlavə edilməyib, ona görə də bu modulla bağlı heç nə ölçülə bilməz.',
+  'p.no-quiz-score-was-recorded-against':
+    'Bu tapşırıq üzrə heç bir test balı qeydə alınmayıb.',
+  'p.no-quiz-was-recorded-against-this':
+    'Bu modul üçün heç bir test qeydə alınmayıb, ona görə də cavablandırılacaq heç nə yoxdur. Bunun nəzərdə tutulub-tutulmadığını təhlükəsizlik komandanız sizə deyə bilər.',
+  'p.no-recent-risk-event-could-be':
+    'Son dövrün heç bir risk hadisəsini adı bəlli şəxsə aid etmək mümkün olmadı, ona görə də heç bir dəyişiklik göstərilmir.',
+  'p.no-recent-risk-event-could-be-2':
+    'Son risk hadisələrinin heç biri konkret şəxsə aid edilə bilmədi, ona görə heç bir dəyişmə göstərilmir.',
+  'p.no-record-on-this-deployment-links':
+    'Bu quraşdırmada bu artefaktı hər hansı dövrə axını ilə əlaqələndirən heç bir qeyd yoxdur. Təhdidlər API-si axınları təhdid üzrə indeksləmir və hər iki id-ni yalnız insan-sensor bildirişi daşıyır.',
+  'p.no-risk-matches-these-filters':
+    'Bu filtrlərə uyğun risk yoxdur',
+  'p.no-risk-score-is-recorded-for':
+    'Bu auditoriyada heç kim üçün risk balı qeydə alınmayıb, ona görə paylanma göstərilə bilməz.',
+  'p.no-rollup-available':
+    'Yekun göstərici mövcud deyil',
+  'p.no-rule-on-this-page-fired':
+    'Bu səhifədəki heç bir qayda işə düşmədi.',
+  'p.no-rules-exist-yet-so-nothing':
+    'Hələ heç bir qayda yoxdur, ona görə də heç bir texnologiyanın adı çəkilmir',
+  'p.no-sandbox-job-is-linked-to':
+    'Bu icraya bağlı sandbox işi yoxdur. Yuxarıda göstərilənlərin hamısı təhlil mərhələsindən gəlir, detonasiyadan yox.',
+  'p.no-score-was-recorded-for-this':
+    'Bu şəxs üçün bal qeyd edilməyib. Tələb olunan tədbirdə test olmaya bilər.',
+  'p.no-selection-reasons-were-recorded-against':
+    'Bu tapşırıq üzrə seçim səbəbləri qeydə alınmayıb, ona görə də bu ekran sizə niyə seçildiyinizi deyə bilməz. Təhlükəsizlik komandanız deyə bilər.',
+  'p.no-severity-band-contributed-no-signal':
+    'Heç bir ciddilik zolağı töhfə verməyib — məlumat səviyyəsindən yuxarı heç bir siqnal işə düşməyib.',
+  'p.no-severity-was-derived-for-this':
+    'Bu icra üçün ciddilik müəyyən edilməyib, çünki təhlil mərhələsində heç bir hökm qeyd olunmayıb.',
+  'p.no-signal-fired-on-this-sample':
+    'Bu nümunədə heç bir siqnal işə düşmədi. Bu, hər şeyin təmiz olması demək deyil — işə düşən analizatorlar tanıdıqları heç nə tapmadılar, işə düşə bilməyənlər isə yuxarıda sadalanıb.',
+  'p.no-source-check-has-been-requested':
+    'Bu sessiyada heç bir mənbə yoxlaması tələb olunmayıb. Dəyişməyən siyahı yeni xəbərdarlığın olmadığına sübut deyil — o, sadəcə heç kimin baxmadığının sübutudur.',
+  'p.no-submission-currently-holds-this-status':
+    'Hazırda heç bir göndəriş bu statusda deyil. Mühərrikin təhlil etdiyi hər şeyi görmək üçün filtri təmizləyin.',
+  'p.no-sync-was-attempted':
+    'Sinxronizasiya cəhdi edilməyib',
+  'p.no-training-module-exists-on-this':
+    'Bu axında təlim modulu yoxdur. Zərərsiz hökm dövrəni bu mərhələdə modul yaratmadan bağlayır, daha əvvəl uğursuz olan axın isə bu mərhələyə heç çatmır.',
+  'p.no-training-module-was-generated-for':
+    'Bu axın üçün təlim modulu yaradılmayıb. Burada nəzərdən keçiriləcək heç nə yoxdur və təsdiq etsəniz, dövrə təyin ediləcək heç nə olmadan irəli gedəcək.',
+  'p.no-verdict-was-recorded-that-is':
+    'Heç bir hökm qeydə alınmayıb. Bu, təmiz nəticə deyil — bu artefakt barədə heç bir qənaətə gəlinməyib.',
+  'p.no-verdict-yet':
+    'Hələ hökm yoxdur',
+  'p.nobody-is-attached-yet-so-nobody':
+    'Hələ heç kim əlavə edilməyib, ona görə də heç kim məsuliyyət daşımır.',
+  'p.nobody-is-selected-yet':
+    'Hələ heç kim seçilməyib.',
+  'p.nobody-was-attached-the-risk-is':
+    'Heç kim əlavə edilmədi. Risk dəyişməz qalır.',
+  'p.none-endorsed-and-held':
+    'Heç biri təsdiqlənib saxlanılmayıb',
+  'p.none-of-its-rules-names-a':
+    'Onun qaydalarının heç biri hansısa texnologiyanın adını çəkmir',
+  'p.none-every-plan-built-so-far':
+    'Yoxdur. İndiyədək qurulan bütün planlar firewall-dan keçib — ona nə bir təyinat ünvanı, nə uydurma açar, nə də təhlükəli cavab çatıb.',
+  'p.none-this-deployment-has-no-threatintelligence':
+    'Yoxdur. Bu quraşdırmada müraciət ediləcək təhdid kəşfiyyatı mənbəyi yoxdur.',
+  'p.not-a-humansensor-report':
+    'İnsan-sensor hesabatı deyil',
+  'p.not-available-the-threat-record-served':
+    'Mövcud deyil. Bu ekrana verilən təhdid qeydində hökm, təhdid növü, davranış xülasəsi və indikatorlar var — texnika uyğunlaşdırması yoxdur, ona görə də heç nə göstərilmir.',
+  'p.not-classified':
+    'Təsnif edilməyib',
+  'p.not-completed-so-no-score-was':
+    'Tamamlanmayıb, ona görə heç bir bal qeydə alınmayıb.',
+  'p.not-connected-content-is-template-output':
+    'Qoşulmayıb. Məzmun şablon nəticəsidir və heç vaxt AI kimi işarələnmir.',
+  'p.not-derived-from-the-perassignment-scores':
+    'Brauzerdə hər tapşırıq üzrə ballardan hesablanmır, çünki bu görünüş onların hamısını görə bilmir.',
+  'p.not-exposed-selected-on-risk-signals':
+    'İfşa olunmayıb — risk siqnallarına görə seçilib',
+  'p.not-reached-nothing-has-been-proposed':
+    'Bu mərhələyə çatılmayıb. Bu axında hələ heç nə baxış üçün təklif edilməyib.',
+  'p.not-reached-nothing-has-been-proposed-2':
+    'Çatılmayıb. Bu icrada nəzərdən keçirilmək üçün heç nə təklif edilməyib.',
+  'p.not-recorded':
+    'Qeydə alınmayıb',
+  'p.not-stated-on-the-artifact':
+    'Artefaktda göstərilməyib',
+  'p.not-yet-assessed':
+    'Hələ qiymətləndirilməyib',
+  'p.not-yet-reviewed-by-anyone':
+    'Hələ heç kim tərəfindən nəzərdən keçirilməyib',
+  'p.note-optional':
+    'Qeyd (istəyə bağlı)',
+  'p.note-for-the-assignment-optional':
+    'Tapşırıq üçün qeyd (məcburi deyil)',
+  'p.nothing-assigned':
+    'Heç nə tapşırılmayıb',
+  'p.nothing-found-reached-the-threshold-to':
+    'Aşkarlananların heç biri bu nümunəni işarələmək üçün lazım olan həddə çatmadı.',
+  'p.nothing-has-been-recorded-against-this':
+    'Bu axın üzrə hələ heç nə qeyd edilməyib. İlk qərar, dəstək və ya yenidən baxılma tələbi burada görünəcək.',
+  'p.nothing-has-been-submitted-yet':
+    'Hələ heç nə göndərilməyib',
+  'p.nothing-has-been-written-on-this':
+    'Bu tapıntı üzrə hələ heç nə yazılmayıb. O, nə bağlanıb, nə qəbul edilib, nə də rədd edilib.',
+  'p.nothing-has-moved-your-score-yet':
+    'Hələ heç nə balınızı dəyişməyib. O, hələ də rolunuzun nə dərəcədə həssas olmasına görə təyin edilmiş başlanğıc nöqtəsidir.',
+  'p.nothing-has-produced-rules-for-this':
+    'Bu siyasət üçün hələ heç nə qayda yaratmayıb. Maneənin nədən ibarət olduğu «Sənəd» bölməsində yazılıb, qaydaları həm də API vasitəsilə əl ilə daxil etmək olar.',
+  'p.nothing-in-the-humansensor-queue-is':
+    'İnsan-sensor növbəsində qərar gözləyən heç nə yoxdur.',
+  'p.nothing-in-this-catalogue-is-mapped':
+    'Bu kataloqda hələ heç nə uyğunlaşdırılmayıb. Aşağıda ilk davranışı əlavə edin.',
+  'p.nothing-in-this-deployment-can-assign':
+    'Bu quraşdırmada heç nə onu təyin edə bilməz — sandbox-a təqdim etməyi yalnız analitik edir. Bunun qeydə alınması əl ilə atılan addımdır.',
+  'p.nothing-is-checked-against-them-until':
+    'Yoxlayıcı hər birini aktivləşdirənə qədər onların əsasında heç nə yoxlanılmır.',
+  'p.nothing-is-checked-against-these-a':
+    'Bunların əsasında heç nə yoxlanılmır. Maşın təklif edə bilər; yalnız insan aktivləşdirə bilər və aktivləşdirmə versiyanın anlıq surətini yazır.',
+  'p.nothing-is-delivered-until-you-launch':
+    'Siz işə salmayınca heç nə çatdırılmır.',
+  'p.nothing-is-graded-on-arrival-the':
+    'Daxil olan anda heç nə qiymətləndirilmir. 2-ci mərhələdəki hökm və inam dərəcəsi bu artefaktın aldığı ilk qiymətləndirmədir.',
+  'p.nothing-is-held-at-this-point':
+    'Hazırda dövrənin bu nöqtəsində heç nə gözləmir. Bütün axınları görmək üçün filtri təmizləyin.',
+  'p.nothing-is-scored-until-the-analysis':
+    'Təhlil bitməyincə heç nə ballandırılmır. Bu işin bildiriləcək risk səviyyəsi yoxdur.',
+  'p.nothing-is-waiting-at-the-approval':
+    'Təsdiq qapısında gözləyən heç nə yoxdur.',
+  'p.nothing-reaches-an-employee-until-a':
+    'İnsan qərar verməyincə heç nə işçiyə çatmır',
+  'p.nothing-stored-here-matches-the-source':
+    'Burada saxlananların heç biri təyin etdiyiniz mənbə, tip, ciddilik, qiymətləndirmə və axtarışa uyğun gəlmir. Onları təmizləsəniz, bu quraşdırmada olan hər şey görünəcək.',
+  'p.nothing-to-show':
+    'Göstəriləcək heç nə yoxdur',
+  'p.nothing-verified-for-this-channel-yet':
+    'Bu kanal üçün hələ heç nə yoxlanılmayıb. Materialı analitik təlim ekranından əlavə edir, keçid isə yalnız provayder onu təsdiqlədikdən sonra siyahıya düşür.',
+  'p.nothing-was-assigned-on-this-run':
+    'Bu axında heç nə təyin edilmədi. Ya o, hələ qapıdan keçməyib, ya da hədəfləmə heç kimi seçməyib.',
+  'p.nothing-was-assigned-the-decision-is':
+    'Heç bir tapşırıq verilmədi. Qərar audit jurnalındadır.',
+  'p.nothing-was-delivered':
+    'Heç nə çatdırılmadı.',
+  'p.nothing-was-recorded-in-this-window':
+    'Bu zaman aralığında heç nə qeydə alınmayıb',
+  'p.nothing-was-sent-cyclowareness-has-no':
+    'Heç nə göndərilmədi. Cyclowareness-in bunun üçün endpointi yoxdur — aşağıdakı mətni kopyalayıb özünüz göndərin.',
+  'p.obligation-discharged':
+    'Öhdəlik yerinə yetirildi',
+  'p.one-approval-releases-this-run-use':
+    'Bir təsdiq bu axını sərbəst buraxır. Bunun əvəzinə onu ikinci imzalayan üçün saxlamaq istəyirsinizsə, aşağıdakı "İkinci təsdiq tələb et" seçimindən istifadə edin.',
+  'p.one-behavioural-finding-was-observed-and':
+    'Bir davranış tapıntısı müşahidə edilib və statik sübutla yanaşı balda nəzərə alınıb.',
+  'p.oneline-description':
+    'Bir sətirlik təsvir',
+  'p.onetime-code':
+    'Birdəfəlik kod',
+  'p.only-approved-modules-appear-here-choosing':
+    'Burada yalnız təsdiqlənmiş modullar görünür. Heç birini seçməsəniz belə, cəhd qeydə alınır və nəyin yerinə yetirilmədiyi bildirilir.',
+  'p.only-modules-a-human-has-approved':
+    'Yalnız insanın təsdiqlədiyi modullar təyin edilə bilər.',
+  'p.only-satisfied-if-the-module-you':
+    'Yalnız təyin etdiyiniz modulda həqiqətən suallar varsa təmin olunur.',
+  'p.open-findings-at-critical-or-high':
+    'Kritik və ya yüksək ciddilikdə açıq tapıntılar',
+  'p.open-findings-whose-severity-is-critical':
+    'Ciddiliyi kritik və ya yüksək olan açıq tapıntılar.',
+  'p.open-highrisk-findings':
+    'Açıq yüksək riskli tapıntılar',
+  'p.open-navigation':
+    'Naviqasiyanı aç',
+  'p.open-the-approval-gate':
+    'Təsdiq qapısını açın',
+  'p.open-the-command-palette':
+    'Əmr palitrasını açın',
+  'p.open-in-review-remediation-planned-or':
+    'Açıq, baxışda, korrektiv tədbir planlanıb və ya təlim təyin edilib.',
+  'p.opening-it-now-training-is-assigned':
+    'İndi açılır. Təlim tapıntıdan təyin edilir.',
+  'p.optional-for-this-move-and-kept':
+    'Bu addım üçün istəyə bağlıdır və doldurulsa da, doldurulmasa da qeydə alınır.',
+  'p.optional-url-log-id-ticket':
+    'Seçimlidir — URL, jurnal id-si, tiket',
+  'p.optional-and-worth-writing-it-is':
+    'İxtiyaridir, amma yazmağa dəyər: növbəti analitikin oxuyacağı məhz budur.',
+  'p.optional-appended-to-the-audit-entry':
+    'İstəyə bağlıdır. Bu dəyişikliyin audit qeydinə əlavə olunur.',
+  'p.optional-interpreted-as-the-end-of':
+    'İstəyə bağlı. UTC üzrə həmin günün sonu kimi başa düşülür.',
+  'p.optional-it-helps-whoever-provisions-the':
+    'Məcburi deyil. Hesabı yaradan şəxsə düzgün rolu seçməkdə kömək edir.',
+  'p.optional-left-blank-the-platform-names':
+    'İxtiyaridir. Boş buraxılsa, platforma ona artefakt növünün adını verir.',
+  'p.optional-recorded-on-the-audit-entry':
+    'Məcburi deyil. Audit qeydində saxlanılır.',
+  'p.optional-use-it-when-the-exposure':
+    'Məcburi deyil. Məruz qalma bir şəxsə deyil, komandaya aid olduqda istifadə edin.',
+  'p.optional-what-would-resolve-it':
+    'İstəyə bağlıdır. Onu nəyin həll edəcəyi.',
+  'p.outcomes-for-this-campaign-could-not':
+    'Bu kampaniyanın nəticələri yüklənə bilmədi. Yenidən cəhd etmək üçün kampaniyanı açın.',
+  'p.outcomes-the-loop-is-meant-to':
+    'Dövrənin dəyişdirməli olduğu nəticələr',
+  'p.overdue-and-open':
+    'Vaxtı keçmiş və açıq',
+  'p.part-of-an-email-address':
+    'E-poçt ünvanının bir hissəsi',
+  'p.pass-criteria':
+    'Keçid meyarları',
+  'p.passing-streak':
+    'Ardıcıl keçmə seriyası',
+  'p.paste-at-least-part-of-what':
+    'Gördüyünüzün heç olmasa bir hissəsini yapışdırın.',
+  'p.paste-it-here':
+    'Onu bura yapışdırın',
+  'p.people-in-a-scored-department':
+    'Balı hesablanan şöbədəki insanlar',
+  'p.people-in-the-highrisk-band':
+    'Yüksək risk zolağındakı şəxslər',
+  'p.people-to-attach':
+    'Əlavə ediləcək şəxslər',
+  'p.phishing-click-rate':
+    'Fişinq kliklənmə nisbəti',
+  'p.pick-departments-risk-bands-or-both':
+    'Şöbələri, risk zolaqlarını və ya hər ikisini seçin. Hər hansı birinə uyğun gələn şəxs bir dəfə daxil edilir.',
+  'p.platform-api':
+    'Platforma API-si',
+  'p.point-in-time-todays-stored-scores':
+    'Müəyyən an — bu gün saxlanmış ballar',
+  'p.points-count-completed-training-only-50':
+    'Xallar yalnız tamamlanmış təlimi nəzərə alır — bitirdiyiniz hər modula görə 50, üstəgəl test balınızın yarısı. Onlar nə etdiyinizin qeydidir, nə qədər təhlükəsiz olduğunuzun ölçüsü deyil.',
+  'p.policy-exposure':
+    'Siyasətdən doğan risk',
+  'p.policy-findings-could-not-be-read':
+    'Siyasət tapıntıları oxuna bilmədi, ona görə burada heç nə sayılmır.',
+  'p.policy-intelligence':
+    'Siyasət kəşfiyyatı',
+  'p.policy-intelligence-sections':
+    'Siyasət kəşfiyyatı bölmələri',
+  'p.preview-width':
+    'Önizləmə eni',
+  'p.produced-by-a-fixed-template-no':
+    'Sabit şablonla hazırlanıb. Onun heç bir hissəsini dil modeli yazmayıb.',
+  'p.produced-by-the-analysis-sandbox-from':
+    'Təhlil sandbox-u real artefaktdan hazırlayıb.',
+  'p.production-deployment-every-record-on-screen':
+    'İstismar mühitidir. Ekrandakı hər qeyd bu təşkilata aiddir.',
+  'p.proposed-awaiting-a-human':
+    'Təklif edilib — insan qərarı gözlənilir',
+  'p.provider-topic-tags':
+    'Provayderin mövzu etiketləri',
+  'p.published-by-the-source-cyclowareness-did':
+    'Mənbə tərəfindən dərc olunub. Cyclowareness bu siyahını inventarla tutuşdurmayıb — yalnız yuxarıdakı uyğunluqlar yoxlanılıb.',
+  'p.pushing-a-feed-item-into-the':
+    'Lent elementini dövrəyə göndərmək üçün analitik rolu tələb olunur.',
+  'p.quiz-generation-and-role-variants-are':
+    'Test yaradılması və rol variantları eyni mərhələnin hissəsidir və ayrıca çağırıla bilməz. Yeni modul hazırlamaq üçün dövrəyə artefakt verin.',
+  'p.quiz-pass-rate':
+    'Testdən keçmə faizi',
+  'p.quoted-back-when-somebody-closes-this':
+    'Kimsə bunu bağlayarkən mətn yenidən göstərilir ki, bağlanış qeydi onunla tutuşdurula bilsin.',
+  'p.raised-by-incident-response-against-named':
+    'İnsidentə cavab prosesi tərəfindən adı göstərilən şəxslərə qarşı qaldırılıb',
+  'p.raises-the-risk-score':
+    'Risk balını qaldırır',
+  'p.raw-headers-message-text-url-or':
+    'Xam başlıqlar, mesaj mətni, URL və ya fayl adı. Passiv mətn kimi saxlanılır və heç vaxt açılmır.',
+  'p.reading-the-decision-from-the-audit':
+    'Qərar audit izindən oxunur…',
+  'p.reading-the-live-loop-counts':
+    'Canlı dövrə sayları oxunur.',
+  'p.reading-the-queues':
+    'Növbələr oxunur.',
+  'p.reason-for-reopening':
+    'Yenidən açılma səbəbi',
+  'p.received-the-artifact':
+    'Artefaktı aldı',
+  'p.recorded-against-this-risk':
+    'Bu risk üzrə qeydə alınıb',
+  'p.recorded-against-your-account-in-the':
+    'Audit izində sizin hesabınıza yazılır. API bunu tələb edir.',
+  'p.recorded-against-your-name-in-the':
+    'Audit izində sizin adınıza qeyd olunur.',
+  'p.recorded-asis-never-contacted':
+    'Olduğu kimi qeyd olunub. Heç vaxt əlaqə saxlanılmayıb.',
+  'p.recorded-behaviour-has-cancelled-out-exactly':
+    'Qeydə alınmış davranışlar bir-birini tam olaraq neytrallaşdırıb, ona görə də təşkilat hazırda rol üzrə baza səviyyələrindədir.',
+  'p.recorded-on-the-audit-entry-why':
+    'Audit qeydində saxlanılıb — nə üçün məhz bu insanlar, başqaları yox.',
+  'p.recorded-on-the-audit-entry-not':
+    'Audit qeydində saxlanılır, işçiyə göstərilmir.',
+  'p.recorded-on-the-version-snapshot-alongside':
+    'Versiya anlıq görüntüsündə adınızla birlikdə qeyd edilib.',
+  'p.records-your-objection-and-leaves-the':
+    'Etirazınızı qeydə alır və axını redaktə üçün qapıda saxlayır.',
+  'p.refused-by-the-firewall':
+    'Firewall tərəfindən rədd edilib',
+  'p.refused-by-the-output-firewall':
+    'Çıxış firewall-u tərəfindən rədd edilib',
+  'p.reject-the-module':
+    'Modulu rədd et',
+  'p.reject-this-proposed-rule':
+    'Təklif olunan bu qaydanı rədd et',
+  'p.rejecting-or-requesting-a-revision-needs':
+    'Rədd etmək və ya düzəliş tələb etmək üçün əvvəlcə şərh lazımdır — server səbəb göstərilmədən heç birini qəbul etmir, əsasında addım atmağa heç nə verməyən qərar isə heç kimin işinə yaramır.',
+  'p.related-incident-reference':
+    'Əlaqəli insidentin istinadı',
+  'p.released-by-a-human-the-run':
+    'İnsan tərəfindən buraxılıb — əks halda axın hədəfləmə mərhələsinə çata bilməzdi. Təsdiq qeydi yüklənmədiyi üçün yoxlayıcı və şərh burada göstərilmir.',
+  'p.released-by-a-person-the-run':
+    'Bir insan tərəfindən buraxılıb — əks halda axın hədəfləmə mərhələsinə çata bilməzdi. Audit izində buna aid qərar qeydi tapılmadı, ona görə də nəzərdən keçirən şəxs və şərh təxmin edilmək əvəzinə burada ümumiyyətlə göstərilmir.',
+  'p.reload-the-page':
+    'Səhifəni yenidən yüklə',
+  'p.remember-my-email-on-this-device':
+    'E-poçtumu bu cihazda yadda saxla',
+  'p.rendered-as-absent-rather-than-derived':
+    'Brauzerdə natamam məlumatdan hesablanmaqdansa, mövcud deyil kimi göstərilir.',
+  'p.rendered-exactly-as-the-employee-will':
+    'İşçinin görəcəyi kimi eynilə göstərilib.',
+  'p.replaced-by-a-later-rule-kept':
+    'Sonrakı qayda ilə əvəz olunub. Köhnə tapıntının istinad etdiyi qayda hələ də tapıla bilsin deyə saxlanılır.',
+  'p.report-status':
+    'Bildirişin statusu',
+  'p.reported-by-an-employee':
+    'İşçi tərəfindən bildirilib',
+  'p.reported-by-the-human-sensor-and':
+    'İnsan-sensor tərəfindən bildirilib və hələ triaj edilməyib',
+  'p.reporters-note':
+    'Bildirən şəxsin qeydi',
+  'p.reporting-rate':
+    'Bildirmə faizi',
+  'p.reporting-window':
+    'Hesabat pəncərəsi',
+  'p.reports-sent':
+    'Göndərilmiş hesabatlar',
+  'p.required-action':
+    'Tələb olunan iş',
+  'p.required-for-a-rejection-or-a':
+    'Rədd cavabı və ya yenidən işlənmə tələbi üçün mütləqdir. Qərarla birlikdə audit izində saxlanılır.',
+  'p.required-training':
+    'Tələb olunan təlim',
+  'p.required-resolving-accepting-or-reopening-a':
+    'Məcburidir. Tapıntını həll etmək, qəbul etmək və ya yenidən açmaq təşkilatın sonradan müdafiə etməli ola biləcəyi bir iddiadır.',
+  'p.required-the-api-refuses-a-rejection':
+    'Mütləqdir. API səbəb göstərilmədən edilən rəddi qəbul etmir.',
+  'p.required-this-is-what-the-person':
+    'Mütləqdir. Şəxsə işinin niyə qəbul edilmədiyi barədə məhz bu deyilir.',
+  'p.requires-a-quiz':
+    'Test tələb edir',
+  'p.requires-a-sandbox-exercise':
+    'Sandbox məşqi tələb olunur',
+  'p.requires-training':
+    'Təlim tələb olunur',
+  'p.reset-everything':
+    'Hər şeyi sıfırla',
+  'p.reset-the-demonstration-world':
+    'Nümayiş mühitini sıfırla',
+  'p.reset-the-world':
+    'Dünyanı sıfırla',
+  'p.resetting-deletes-every-loop-run-approval':
+    'Sıfırlama hər dövrə axınını, təsdiq qərarını, təlim tapşırığını, test nəticəsini, sandbox işini və audit qeydini silir, sonra nümayiş məlumatı üzərində qurulmuş təşkilatı determinist şəkildə yenidən yaradır — eyni insanlar, eyni altı aylıq tarixçə, bu günə yenidən bağlanmış halda. Bundan sonra heç nə bərpa edilə bilməz.',
+  'p.review-decisions-are-recorded-against-the':
+    'Baxış qərarları riskin özünə deyil, ayrı-ayrı subyektə yazılır, ona görə də yuxarıdakı zaman xəttində görünür, bu siyahıda yox.',
+  'p.review-state':
+    'Baxış vəziyyəti',
+  'p.reviewer-note-optional':
+    'Nəzərdən keçirənin qeydi (istəyə bağlı)',
+  'p.risk-opened-as-a-draft':
+    'Risk qaralama kimi açılıb',
+  'p.risk-opened-but-nobody-was-attached':
+    'Risk açılıb, lakin heç kim ona bağlanmayıb',
+  'p.risk-scores-are-the-values-recorded':
+    'Risk balları bu siyahı tərtib edilərkən qeydə alınmış dəyərlərdir. Şəxsin balı sonradan dəyişir, ona görə buradakı rəqəm həmişə onun bugünkü profili ilə üst-üstə düşməyəcək.',
+  'p.role-sensitivity-is-set-when-a':
+    'Rol həssaslığı şəxs idxal edilərkən təyin olunur. Bu, vəzifə barədə mülahizədir, şəxsin ölçülməsi deyil.',
+  'p.run-the-selected-palette-result':
+    'Seçilmiş palitra nəticəsini işə salmaq',
+  'p.running-extraction-requires-the-policy-managemen':
+    'Çıxarmanı işə salmaq üçün siyasət idarəetməsi icazəsi tələb olunur.',
+  'p.runs-appear-once-a-threat-is':
+    'Axınlar təhdid göndəriləndə, işçi tərəfindən bildiriləndə və ya kəşfiyyat lentindən ötürüləndə görünür.',
+  'p.runs-currently-moving-through-the-seven':
+    'Hazırda yeddi mərhələdən keçən axınlar',
+  'p.runs-held-at-the-gate':
+    'Qapıda saxlanılan axınlar',
+  'p.runs-over-the-most-recent-findings':
+    'Ən son tapıntılar üzərində işləyir; say aşağı hədd olduqda bunu bildirir.',
+  'p.runs-that-reached-the-completed-state':
+    'Tamamlanmış vəziyyətə çatmış və ölçmə nəticəsi vermiş axınlar.',
+  'p.runs-waiting-at-the-human-approval':
+    'İnsan təsdiq qapısında gözləyən axınlar',
+  'p.sha256-hash':
+    'SHA-256 heşi',
+  'p.sandbox-detonation':
+    'Sandbox-da detonasiya',
+  'p.sanitised-for-display-shown-as-plain':
+    'Göstərmək üçün zərərsizləşdirilib: adi mətn kimi verilir, heç vaxt render edilmir',
+  'p.save-edits-and-approve':
+    'Dəyişiklikləri saxla və təsdiqlə',
+  'p.saving-makes-this-content-analystedited-the':
+    'Yadda saxlamaqla bu məzmun analitik tərəfindən redaktə edilmiş sayılır. Modul qeydində redaktə bayrağı yoxdur və bu endpoint audit izinə qeyd yazmır, ona görə də başqa yerlərdəki mənşə nişanı modulun ilkin olaraq necə yaradıldığını bildirməyə davam edir. Bunu məlum boşluq kimi qəbul edin, heç kimin ona toxunmadığının sübutu kimi yox.',
+  'p.saving-marks-this-module-as-analystedited':
+    'Yadda saxlamaq bu modulu həmin baxış üçün analitik tərəfindən redaktə edilmiş kimi işarələyir, beləliklə o, artıq maşın nəticəsi kimi təqdim olunmur. Modul qeydi onu hansı mühərrikin yaratdığını saxlayır, insanın onu yenidən yazıb-yazmadığını yox — nəyi dəyişdiyinizi qərar şərhində yazın, çünki audit izi məhz onu saxlayır.',
+  'p.say-what-you-checked-this-is':
+    'Nəyi yoxladığınızı yazın. Bu, qərarın qeydidir.',
+  'p.say-why-the-closure-did-not':
+    'Bağlanmanın niyə etibarlı sayılmadığını yazın. Bu riskdə adı çəkilən şəxslərdən yazdığınıza əsasən əlavə iş tələb oluna bilər.',
+  'p.score-across-recent-events':
+    'Son hadisələr üzrə bal',
+  'p.score-points-added-or-removed-by':
+    'Bütün heyət üzrə qeydə alınmış hadisələrin əlavə etdiyi və ya çıxardığı bal.',
+  'p.score-you-must-reach':
+    'Toplamalı olduğunuz bal',
+  'p.scoring-has-not-run-for-this':
+    'Bu iş üçün ballandırma hələ aparılmayıb, ona görə də onun risk səviyyəsi yoxdur.',
+  'p.search-by-name-email-or-role':
+    'Ad, e-poçt və ya rol üzrə axtarın',
+  'p.search-by-run-id-threat-type':
+    'İcra id-si, təhdid, növ və ya hökmə görə axtarın',
+  'p.search-campaigns':
+    'Kampaniyalarda axtar',
+  'p.search-courses':
+    'Kurs axtar',
+  'p.search-intake':
+    'Qəbulda axtar',
+  'p.search-modules':
+    'Modullarda axtar',
+  'p.search-name-email-or-role':
+    'Ad, e-poçt və ya vəzifə axtar',
+  'p.search-people':
+    'Şəxsləri axtar',
+  'p.search-screens-and-actions':
+    'Ekranlar və əməliyyatlarda axtarış',
+  'p.search-the-directory':
+    'Kataloqda axtar',
+  'p.search-titles-references-and-descriptions':
+    'Başlıqlar, istinadlar və təsvirlər üzrə axtarın',
+  'p.search-titles-senders-artifact-text-reporters':
+    'Başlıqlar, göndərənlər, artefakt mətni, bildirənlər üzrə axtarın…',
+  'p.seeded-credentials-for-the-fictional-caspian':
+    'Uydurma Caspian Dynamics təşkilatı üçün nümayiş məlumatı kimi hazırlanmış giriş məlumatları.',
+  'p.select-at-least-one-person':
+    'Ən azı bir şəxs seçin.',
+  'p.sent-to-a-person-as-you':
+    'Şəxsə yazdığınız kimi göndərilir. Kimsə cavab verənə qədər balınız dəyişmir.',
+  'p.set-before-anything-you-did-and':
+    'Siz hər hansı addım atmamışdan əvvəl təyin olunub və sizin haqqınızda mülahizə deyil.',
+  'p.set-by-the-lure-source':
+    'Tələ mənbəyi tərəfindən təyin olunur',
+  'p.set-by-the-platform-not-by':
+    'Bu brauzer tərəfindən deyil, platforma tərəfindən təyin olunur. Rolu dəyişmək başqa hesabla real giriş deməkdir.',
+  'p.seven-stages-one-human-gate':
+    'Yeddi mərhələ, bir insan qapısı',
+  'p.severity-is-set-when-a-finding':
+    'Ciddilik tapıntı qaldırılarkən müəyyən edilir və vaxt keçdikcə yenidən hesablanmır.',
+  'p.severityweighted-and-saturating-on-purpose-twent':
+    'Ciddiliyə görə çəki verilib və qəsdən doyma həddinə çatır: iyirmi aşağı ciddilikli müşahidə bir kritik müşahidəyə bərabər tutulmamalıdır, çünki onlar eyni sübut deyil.',
+  'p.shares-a-denominator-with-the-click':
+    'Klik nisbəti ilə eyni məxrəcə malikdir, ona görə də ikisi birbaşa müqayisə oluna bilər.',
+  'p.show-the-raw-artifact':
+    'Emal olunmamış artefaktı göstərin',
+  'p.shown-defanged-copying-gives-the-original':
+    'Zərərsizləşdirilmiş formada göstərilir. Kopyalayanda orijinal dəyər alınır.',
+  'p.shown-to-the-affected-employee-as':
+    'Təsirə məruz qalan işçiyə əlaqə saxlanılacaq şəxs kimi göstərilir.',
+  'p.shown-to-the-affected-employee-at':
+    'Bütün məxfilik səviyyələrində təsirə məruz qalan işçiyə göstərilir.',
+  'p.shown-to-the-employee-after-grading':
+    'Qiymətləndirmədən sonra işçiyə göstərilir — cavab düz olsa da, səhv olsa da.',
+  'p.sign-in-with-your-phone-number':
+    'Telefon nömrənizlə daxil olun',
+  'p.since-the-run-reached-the-gate':
+    'Axın təsdiq qapısına çatandan bəri',
+  'p.single-signon-and-directory-sync-neither':
+    'Vahid giriş və kataloq sinxronizasiyası. Heç biri burada qoşulmayıb: bu quraşdırma öz istifadəçi cədvəli üzərindən autentifikasiya aparır.',
+  'p.six-digits-a-code-works-once':
+    'Altı rəqəm. Kod bir dəfə işləyir və beş dəqiqədən sonra etibarsız olur.',
+  'p.someone-will-read-what-you-wrote':
+    'Yazdıqlarınızı kimsə oxuyacaq və burada cavab verəcək.',
+  'p.something-in-the-request-did-not':
+    'Sorğuda nəsə yoxlamadan keçmədi. Sahənin adı aşağıda göstərilib.',
+  'p.something-was-assigned-to-you':
+    'Sizə bir tapşırıq təyin edildi',
+  'p.source-address-not-recorded':
+    'Mənbə ünvanı qeyd edilməyib',
+  'p.sources-contacted':
+    'Müraciət olunan mənbələr',
+  'p.start-a-run-at-stage-one':
+    'Axını birinci mərhələdən başladın',
+  'p.start-with-the-navigation-rail-collapsed':
+    'Naviqasiya paneli yığılmış vəziyyətdə açılsın',
+  'p.state-how-the-criteria-above-were':
+    'Yuxarıdakı meyarların necə ödəndiyini yazın. Auditorun oxuduğu məhz budur.',
+  'p.static-analysis-and-dynamic-detonation-are':
+    'Həm statik təhlil, həm də dinamik detonasiya mövcuddur.',
+  'p.static-analysis-did-not-run':
+    'Statik təhlil işə düşmədi',
+  'p.static-analysis-only-no-detonation-host':
+    'Yalnız statik təhlil. Heç bir detonasiya hostu qoşulmayıb, ona görə buraya göndərilən heç nə icra olunmur — hesabatlar "təmiz" yox, "işə salınmayıb" yazır.',
+  'p.static-forensic-analysis-of-a-file':
+    'Faylın və ya URL-in statik məhkəmə-ekspertiza analizi — balın hər bir bəndinin arxasındakı əsaslandırma ilə birlikdə.',
+  'p.still-loading-the-people-list-the':
+    'Şəxslər siyahısı hələ yüklənir — say hələ yekun deyil.',
+  'p.stored-as-typed-lowercased-and-underscored':
+    'Yazıldığı kimi saxlanılır — kiçik hərflərlə və alt xətlərlə.',
+  'p.stored-configuration':
+    'Saxlanmış konfiqurasiya',
+  'p.structured-observations':
+    'Strukturlaşdırılmış müşahidələr',
+  'p.subjects-accepted':
+    'Qəbul edilən subyektlər',
+  'p.subjects-whose-completion-a-reviewer-accepted':
+    'Tamamlanması baxış aparan tərəfindən qəbul edilmiş subyektlərin bu riskə əlavə edilmiş subyektlərə nisbəti.',
+  'p.submit-a-threat-into-the-loop':
+    'Dövrəyə təhdid göndər',
+  'p.submit-an-artifact-to-the-sandbox':
+    'Sandbox-a artefakt təqdim et',
+  'p.submit-and-grade':
+    'Göndər və qiymətləndir',
+  'p.submitted-url':
+    'Göndərilən URL',
+  'p.submitted-by-an-analyst':
+    'Analitik tərəfindən təqdim edilib',
+  'p.submitted-directly-by-an-analyst-on':
+    'Bu ekranda analitik tərəfindən birbaşa göndərilib.',
+  'p.suggested-remediation':
+    'Təklif olunan korrektiv tədbir',
+  'p.summary-object-label-or-action':
+    'Xülasə, obyekt etiketi və ya əməliyyat',
+  'p.supplied-by-a-third-party-cyclowareness':
+    'Üçüncü tərəf təqdim edib. Cyclowareness bunu ölçməyib.',
+  'p.supplied-by-the-provider-shown-for':
+    'Provayder tərəfindən təqdim edilib. Yalnız kontekst üçün göstərilir — bunlar uyğunlaşdırma deyil.',
+  'p.suspicion-level':
+    'Şübhə səviyyəsi',
+  'p.synthetic-outcomes-written':
+    'Yazılan sintetik nəticələr',
+  'p.take-me-to-my-home-screen':
+    'Məni ana ekranıma apar',
+  'p.take-me-to-my-training':
+    'Məni təlimimə apar',
+  'p.take-me-to-the-command-center':
+    'Məni Komanda Mərkəzinə apar',
+  'p.take-me-to-the-executive-view':
+    'Məni Rəhbər Görünüşünə apar',
+  'p.taken-from-the-curated-intel-feed':
+    'Seçilmiş kəşfiyyat lentindən analitik tərəfindən götürülüb.',
+  'p.target-count-unavailable':
+    'Hədəflərin sayı mövcud deyil',
+  'p.targeting-has-been-released-the-decision':
+    'Hədəfləmə buraxılıb. Qərar audit jurnalındadır.',
+  'p.targets-are-now-open-for-outcome':
+    'Hədəflər artıq nəticələrin qeydə alınmasına açıqdır.',
+  'p.targets-who-reported-divided-by-every':
+    'Bildiriş göndərən hədəflərin sayının nəticəyə çatan bütün hədəflərin sayına bölünməsi.',
+  'p.team-or-department':
+    'Komanda və ya şöbə',
+  'p.techniques-mapped-from-findings-this-analysis':
+    'Bu təhlilin verdiyi tapıntılardan uyğunlaşdırılan texnikalar. Hər sətir hansı siqnallardan çıxarıldığını göstərir, beləliklə uyğunlaşdırmanı olduğu kimi qəbul etmək əvəzinə yoxlamaq mümkündür.',
+  'p.technologies-named-by-its-rules':
+    'Qaydalarında adı çəkilən texnologiyalar',
+  'p.tenant-migration-the-old-moodle-instance':
+    'Tenant köçürülməsi — köhnə Moodle nüsxəsi istifadədən çıxarılır.',
+  'p.that-change-no-longer-applies':
+    'Həmin dəyişiklik artıq keçərli deyil',
+  'p.the-analyze-stage-has-not-recorded':
+    'ANALİZ mərhələsi bu artefakt üçün heç bir verdikt qeydə almayıb. Bu, təmiz nəticə demək deyil — onun barəsində heç bir qənaətə gəlinməyib.',
+  'p.the-api-and-this-interface-are':
+    'API və bu interfeys eyni origin üzərindən verilir, ona görə də originlərarası sorğu yoxdur və dövrə yayımı da eyni origindən gəlir.',
+  'p.the-api-is-not-answering':
+    'API cavab vermir',
+  'p.the-api-returned-an-error-instead':
+    'API məlumat əvəzinə xəta qaytardı. Bu, server tərəfindəki nasazlıqdır, sizin səhviniz deyil.',
+  'p.the-api-returned-only-part-of':
+    'API uyğunluq siyahısının yalnız bir hissəsini qaytardı, ona görə də uyğunluq sayları burada göstərilmir. Ona aid qeydə alınmış bütün uyğunluqları görmək üçün xəbərdarlığı açın.',
+  'p.the-api-returned-only-part-of-2':
+    'API uyğunluq siyahısının yalnız bir hissəsini qaytardı, ona görə bu xəbərdarlığın uyğunluqlarının hamısı görünmədi. Onları saymaq üçün xəbərdarlığı açın.',
+  'p.the-advisories-on-this-screen-are':
+    'Bu ekrandakı xəbərdarlıqlar bu quraşdırmada saxlanılan qeydlərdir. Siz bu ekrana baxdığınız müddətdə buradakı heç nə xarici mənbədən gətirilməyib.',
+  'p.the-affected-employee-sees-the-incident':
+    'Təsirə məruz qalmış işçi insidentin təsvirini və sübutu görür.',
+  'p.the-affected-employees-are-not-shown':
+    'Təsirə məruz qalan işçilərə nə baş verdiyi göstərilmir.',
+  'p.the-affected-employees-see-the-full':
+    'Təsirə məruz qalan işçilər tam təsviri görür.',
+  'p.the-analyser-recorded-no-indicators-for':
+    'Analizator bu artefakt üçün heç bir indikator qeyd etməyib. Bu, çıxarmanın baş tutmamasıdır, indikatorun olmadığına dair tapıntı deyil.',
+  'p.the-analysis-stage-recorded-no-verdict':
+    'Təhlil mərhələsi bu artefakt üçün heç bir verdikt qeydə almayıb. Onun barəsində heç bir nəticə çıxarılmayıb.',
+  'p.the-analyzer-returned-no-behaviour-summary':
+    'Analizator bu artefakt üçün davranış xülasəsi qaytarmadı.',
+  'p.the-answer-did-not-save':
+    'Cavab yadda saxlanmadı',
+  'p.the-answer-key-was-not-included':
+    'Cavab açarı bu məlumat paketinə daxil edilməyib, ona görə burada heç bir variant düzgün kimi işarələnmir.',
+  'p.the-artifact-is-being-analysed-stage':
+    'Artefakt analiz edilir. 3-cü mərhələ təsdiq qapısında dayanacaq.',
+  'p.the-artifact-was-not-accepted':
+    'Artefakt qəbul edilmədi',
+  'p.the-assignment-did-not-go-through':
+    'Tapşırığın verilməsi baş tutmadı. Heç nə tapşırılmadı.',
+  'p.the-audience-is-recomputed-at-execution':
+    'Auditoriya icra anında yenidən hesablanır. İndi ilə təsdiq arasında hər hansı risk balı dəyişsə və ya kiminsə statusu dəyişsə, siyahı bundan fərqli ola bilər.',
+  'p.the-capability-endpoint-did-not-answer':
+    'İmkanlar son nöqtəsi cavab vermədi',
+  'p.the-change-and-its-reason-are':
+    'Dəyişiklik və onun səbəbi audit izindədir.',
+  'p.the-completion-time-was-not-recorded':
+    'Tamamlanma vaxtı qeydə alınmayıb.',
+  'p.the-connection-records-their-states-and':
+    'Bağlantı qeydləri, onların vəziyyətləri və aşağıdakı hər əməliyyat realdır və auditdən keçir. Bu buraxılışa heç bir sinxronizasiya klienti daxil edilməyib, ona görə də bu səhifədəki heç nə provayderə çata bilməz — sinxronizasiya nəticə uydurmaq əvəzinə bunu açıq bildirir. Bu bağlantılara qoşulmuş kurs kataloqları isə nümayiş məlumatıdır.',
+  'p.the-dashboard-did-not-answer-so':
+    'İdarə paneli cavab vermədi, ona görə şöbələrin vəziyyəti göstərilə bilmir.',
+  'p.the-dashboard-has-not-answered-yet':
+    'İdarə paneli hələ cavab qaytarmayıb, ona görə heç nəyi ümumiləşdirmək mümkün deyil.',
+  'p.the-decision-did-not-save':
+    'Qərar yadda saxlanmadı',
+  'p.the-decision-was-not-recorded':
+    'Qərar qeydə alınmadı',
+  'p.the-decision-was-not-recorded-nothing':
+    'Qərar qeyd olunmadı. Heç nə dəyişmədi.',
+  'p.the-decision-was-recorded-without-a':
+    'Qərar şərh olmadan qeydə alınıb.',
+  'p.the-delivery-route-this-lesson-teaches':
+    'Bu dərsin öyrətdiyi çatdırılma yolu.',
+  'p.the-departments-endpoint-returned-no-rollup':
+    'Şöbələr endpointi bu şöbə üçün heç bir yekun göstərici qaytarmadı; bu, şöbədə aktiv işçi olmayanda baş verir.',
+  'p.the-detail-of-this-incident-is':
+    'Bu insidentin təfərrüatı məhdudlaşdırılıb və bu görünüşdə göstərilmir.',
+  'p.the-directory-is-empty':
+    'Kataloq boşdur',
+  'p.the-download-did-not-complete':
+    'Yükləmə tamamlanmadı.',
+  'p.the-employee-sees-their-score-which':
+    'İşçi öz balını, hansı suallara səhv cavab verdiyini və hər birinin izahını görür.',
+  'p.the-employees-could-not-be-attached':
+    'İşçiləri bağlamaq mümkün olmadı.',
+  'p.the-employees-endpoint-returned-an-empty':
+    'İşçilər endpointi boş heyət siyahısı qaytardı. İnsanlar burada yalnız təşkilat idxal ediləndən və ya demonstrasiya təşkilatı nümayiş məlumatı kimi yüklənəndən sonra görünür.',
+  'p.the-engine-has-not-reached-a':
+    'Mühərrik bu iş üçün hələ hökm verməyib.',
+  'p.the-engine-reached-this-classification':
+    'Bu təsnifata mühərrik gəlib.',
+  'p.the-engine-stopped-partway-through-and':
+    'Mühərrik yarı yolda dayandı və hökm vermədi. Nümunə hələ də karantindədir, ona görə də axın tam eyni baytlar üzərində təkrarlana bilər.',
+  'p.the-evidence-is-sufficient-to-call':
+    'Sübutlar bunu zərərli hesab etmək üçün kifayətdir. Buna əsas verən tapıntılar aşağıda sadalanıb.',
+  'p.the-extraction-request-failed':
+    'Çıxarma sorğusu uğursuz oldu',
+  'p.the-feed-item-was-not-pushed':
+    'Lent elementi göndərilmədi',
+  'p.the-finding-record-keeps-only-the':
+    'Tapıntı yazısında yalnız ən son qeyd saxlanılır. Hər status dəyişikliyi, sahib dəyişikliyi və təlim tapşırığı baş verdiyi anda audit izinə yazılır.',
+  'p.the-import-request-failed':
+    'İdxal sorğusu uğursuz oldu.',
+  'p.the-incident-narrative-and-the-evidence':
+    'Bu səviyyədə insident təsviri və sübut təsirə məruz qalan işçidən gizli saxlanılır.',
+  'p.the-integrations-layer-did-not-load':
+    'İnteqrasiya qatı bu hostda yüklənmədi, ona görə də onun təsvir edəcəyi təyinat nöqtələri yox deyil, sadəcə naməlumdur.',
+  'p.the-item-moved-to-another-state':
+    'Bu əməliyyat serverə çatmamış element başqa vəziyyətə keçib — adətən ona görə ki, kimsə ondan əvvəl hərəkət edib. İndiki vəziyyəti görmək üçün səhifəni yeniləyin.',
+  'p.the-job-failed-without-recording-a':
+    'İş heç bir səbəb qeydə alınmadan uğursuz oldu.',
+  'p.the-judgement-and-its-reason-are':
+    'Verilən qərar və onun səbəbi audit izindədir.',
+  'p.the-kernel-would-refuse-to-execute':
+    'Kernel karantindəki faylı icra etməkdən imtina edərdi. Host qoşma nöqtələrindən oxunub, güman edilməyib.',
+  'p.the-list-response-does-not-carry':
+    'Siyahı cavabında subyektlərin sayı göstərilmir. Kimin əlaqələndirildiyini görmək üçün riski açın.',
+  'p.the-loop-counts-could-not-be':
+    'Dövrə sayları oxuna bilmədi. Xətanın tam mətni üçün Qapalı Dövrələr bölməsini açın.',
+  'p.the-loop-has-been-released-to':
+    'Dövrə hədəfləmə mərhələsinə buraxıldı.',
+  'p.the-loop-stops-here-a-named':
+    'Dövrə burada dayanır. Adı bəlli olan analitik yaradılan məzmunu oxuyur və hər hansı material həmkarına yönəldilməzdən əvvəl qərar verir. Bu xətti heç nə öz-özünə keçmir.',
+  'p.the-loops-analyze-stage-has-not':
+    'Dövrənin ANALİZ mərhələsi bu artefakt üçün qərar yazmayıb. Bu, təmiz nəticə demək deyil — onunla bağlı heç bir nəticəyə gəlinməyib.',
+  'p.the-loops-analyze-stage-runs-the':
+    'Dövrənin ANALYZE mərhələsi bu artefaktın mətni üzərində platforma analizatorunu işə salır. O, sandbox işi yaratmır və bu quraşdırmada təhdid qeydi ilə belə bir iş arasında heç bir bağlantı qeydə alınmır — ona görə də burada heç bir detonasiya hökmü iddia olunmur.',
+  'p.the-match-named-this-policy-but':
+    'Uyğunluqda bu siyasətin adı çəkilib, lakin onun daxilindəki heç bir konkret qayda göstərilməyib.',
+  'p.the-match-supplies-the-policy-the':
+    'Siyasəti, şöbələri, şəxsləri və etibarlılıq dərəcəsini uyğunluğun özü təmin edir.',
+  'p.the-mean-behaviourrisk-score-across-active':
+    'Aktiv işçilər üzrə orta davranış riski balı: rol üzrə baza dəyəri, üstəgəl təhdid onlara çatanda hər kəsin nə etdiyi.',
+  'p.the-mean-current-risk-score-of':
+    'Heyət siyahısındakı hər bir şəxsin cari risk balının orta göstəricisi.',
+  'p.the-mean-of-20-role-sensitivity':
+    'İşçi siyahısı üzrə 20 + rol həssaslığı × 20 ifadəsinin ortalaması.',
+  'p.the-mean-of-every-current-risk':
+    'Heyət siyahısındakı bütün cari risk ballarının orta qiymətidir.',
+  'p.the-measurement-window-is-set-by':
+    'Ölçmə pəncərəsini server təyin edir və onu hər göstərici ilə birlikdə bildirir.',
+  'p.the-module-could-not-be-created':
+    'Modul yaradıla bilmədi.',
+  'p.the-module-is-marked-rejected-and':
+    'Modul rədd edilmiş kimi işarələnir və axın baxış nəticəsində uğursuz sayılaraq bağlanır. Heç kimə heç nə tapşırılmır və axın bu ekrandan yenidən açıla bilməz.',
+  'p.the-module-was-rejected-and-the':
+    'Modul rədd edildi və icra bağlandı.',
+  'p.the-note-is-not-attributed-the':
+    'Qeydin müəllifi göstərilməyib — tapıntı yenidən açıqdır.',
+  'p.the-number-your-workplace-registered-for':
+    'İş yerinizin sizin üçün qeydiyyata aldığı nömrə.',
+  'p.the-one-sentence-the-employee-is':
+    'İşçiyə qalan yeganə cümlə.',
+  'p.the-oneparagraph-summary-an-employee-sees':
+    'İşçinin modulu açmazdan əvvəl gördüyü bir abzaslıq xülasə.',
+  'p.the-organisation-or-tenant-identifier-the':
+    'Provayderin sizi tanıdığı təşkilat və ya tenant identifikatoru.',
+  'p.the-password-is-used-once-for':
+    'Parol yalnız bir dəfə, bu axın üçün istifadə olunur və heç vaxt saxlanmır.',
+  'p.the-person-this-account-acts-as':
+    'Bu hesabın adından fəaliyyət göstərdiyi şəxs. Təlimi tamamladıqda onun risk balı dəyişir.',
+  'p.the-platform-compared-it-against-the':
+    'Platforma onu çıxarılmış siyasət qaydaları, təsdiqlənmiş proqram siyahısı və istifadədə olduğu qeyd edilən texnologiyalarla tutuşdurdu və heç bir kəsişmə tapmadı. Bu, təşkilatın təsirlənmədiyini bildirmir — bu, yalnız burada nəyin qeyd olunduğunu bildirir.',
+  'p.the-platform-did-not-answer-the':
+    'Platforma imkanlar sorğusuna cavab vermədi, ona görə də bu buraxılış hansı mühitlə əlaqə qurduğunu sizə deyə bilmir.',
+  'p.the-platform-does-not-attribute-a':
+    'Platforma risk balındakı dəyişikliyi insident riskinə aid etmir. Risk hadisələri onları yaradan dövrə axınını qeyd edir və heç bir insident istinadı daşımır, ona görə də burada dürüst rəqəm göstərmək mümkün deyil. Hər bir şəxsin balı və onun necə alındığı öz profilində göstərilir.',
+  'p.the-provider-answered':
+    'Provayder cavab verdi.',
+  'p.the-provider-tenant-this-connection-would':
+    'Bu bağlantının müraciət edəcəyi provayder tenantı.',
+  'p.the-provider-was-not-contacted':
+    'Provayderlə əlaqə saxlanılmayıb.',
+  'p.the-publisher-did-not-attach-a':
+    'İstehsalçı bu xəbərdarlığa CVSS balı əlavə etməyib.',
+  'p.the-publisher-did-not-attach-a-2':
+    'Nəşr edən tərəf CVSS balı əlavə etməyib.',
+  'p.the-quarantine-is-not-mounted-noexec':
+    'Karantin bu hostda noexec rejimində mount EDİLMƏYİB. Nümunələr təhlil zamanı heç vaxt icra olunmur, lakin mount özü bunu texniki olaraq təmin etmir.',
+  'p.the-queues-could-not-be-read':
+    'Növbələri oxumaq mümkün olmadı, ona görə bu siyahı iş yükünüzlə heç bir əlaqəsi olmayan səbəbdən boşdur.',
+  'p.the-reason-is-on-the-audit':
+    'Səbəb audit izindədir. Geri qaytarmaq üçün onu yenidən qiymətləndirin.',
+  'p.the-reason-was-written-to-the':
+    'Səbəb audit izinə yazıldı. Son sinxronizasiya qeydi dəyişməyib.',
+  'p.the-records-for-each-of-these':
+    'Bunların hər biri üçün qeydlər mövcuddur və API onları verir. Çatışmayan şey onları sənədə çevirən marşrutdur. Hər kart bu boşluğu düymənin arxasında gizlətmək əvəzinə açıq adlandırır.',
+  'p.the-report-is-now-a-threat':
+    'Bildiriş artıq təhdid qeydidir və artefakt analiz edilir.',
+  'p.the-report-was-not-dismissed':
+    'Hesabat rədd edilmədi',
+  'p.the-report-was-not-pushed':
+    'Hesabat ötürülmədi',
+  'p.the-request-could-not-be-completed':
+    'Sorğu tamamlana bilmədi',
+  'p.the-request-did-not-complete-and':
+    'Sorğu tamamlanmadı və səbəb bildirilmədi.',
+  'p.the-request-took-too-long':
+    'Sorğu həddindən artıq uzun çəkdi',
+  'p.the-required-action-was-met-to':
+    'Tələb olunan tədbir bu insidentin standartına uyğun yerinə yetirilib.',
+  'p.the-reset-did-not-complete':
+    'Sıfırlama tamamlanmadı',
+  'p.the-resource-catalogue-could-not-be':
+    'Resurs kataloqu yüklənə bilmədi, ona görə bu siyahı bu mövzu üzrə heç nəyin mövcud olmadığını bildirmir.',
+  'p.the-reviewer-applies-this-bar-when':
+    'Yoxlayıcı tamamlamanı qəbul edərkən bu həddi tətbiq edir. Test qiymətləndiricisinin bundan xəbəri yoxdur.',
+  'p.the-risk-could-not-be-closed':
+    'Risk bağlana bilmədi. Heç nə dəyişmədi.',
+  'p.the-risk-could-not-be-opened':
+    'Risk açıla bilmədi. Heç nə yadda saxlanmadı.',
+  'p.the-risk-could-not-be-reopened':
+    'Risk yenidən açıla bilmədi. Heç nə dəyişmədi.',
+  'p.the-risk-engine-gave-no-reason':
+    'Risk mühərriki bu şəxsin seçilməsi üçün heç bir səbəb göstərmədi.',
+  'p.the-rules-this-organisation-is-actually':
+    'Bu təşkilatın bu gün həqiqətən yoxlanıldığı qaydalar.',
+  'p.the-run-completed-and-produced-no':
+    'İcra tamamlandı və heç bir davranış tapıntısı vermədi — nümunə elə bir hərəkət etmədi ki, işçi proses onu tanısın.',
+  'p.the-run-this-artifact-started-its':
+    'Bu artefaktın başlatdığı axın. Onun mərhələ tarixçəsi sonra baş verənlərin qeydidir.',
+  'p.the-same-quarantined-bytes-are-being':
+    'Karantinə alınmış eyni baytlar yenidən təhlil edilir.',
+  'p.the-sample-is-quarantined-and-waiting':
+    'Nümunə karantinə alınıb və işçi prosesi gözləyir.',
+  'p.the-sandbox-did-not-report-its':
+    'Sandbox öz imkanlarını bildirmədi. Hər hansı bir cavabı fərz etmək əvəzinə, onun əlçatanlığını naməlum sayın.',
+  'p.the-sandbox-pipeline-this-deployment-runs':
+    'Bu quraşdırmanın təqdim olunanları keçirdiyi sandbox emal zənciri.',
+  'p.the-sender-address-the-subject-line':
+    'Göndərənin ünvanı, mövzu sətri, keçid — əlinizdə nə varsa. Onu əvvəlcədən açmayın.',
+  'p.the-server-did-not-accept-it':
+    'Server bunu qəbul etmədi.',
+  'p.the-server-did-not-answer':
+    'Server cavab vermədi.',
+  'p.the-server-downloads-the-content-and':
+    'Server məzmunu endirir və geri gələni analiz edir. O, özəl, loopback və bulud-metaməlumat ünvanlarını yükləməkdən imtina edir və hansı qaydanın işə düşdüyünü bildirir.',
+  'p.the-server-failed-on-this-request':
+    'Server bu sorğunu yerinə yetirə bilmədi',
+  'p.the-server-issued-a-new-token':
+    'Server bu hesab üçün yeni token verdi.',
+  'p.the-server-refused-this-change':
+    'Server bu dəyişikliyi qəbul etmədi',
+  'p.the-server-refused-this-decision':
+    'Server bu qərarı rədd etdi',
+  'p.the-server-refused-this-request-reloading':
+    'Server bu sorğunu rədd etdi. Yenidən yükləməklə cavabın dəyişməsi ehtimalı azdır — serverin dediyi aşağıdadır.',
+  'p.the-server-rejected-these-values':
+    'Server bu dəyərləri rədd etdi',
+  'p.the-server-returned-a-full-page':
+    'Server tam bir səhifə qaytardı, ona görə də buradakı hər say yalnız aşağı həddir.',
+  'p.the-server-returned-no-description-of':
+    'Server nə etdiyi barədə heç bir təsvir qaytarmadı. Bülleten siyahısına yenilənmiş kimi yox, dəyişməmiş kimi baxın.',
+  'p.the-server-took-the-request-but':
+    'Server sorğunu qəbul etdi, lakin vaxtında cavab vermədi. Ehtimal ki, sıradan çıxmayıb, sadəcə məşğuldur — təkrar cəhd adətən nəticə verir.',
+  'p.the-session-expired-or-was-signed':
+    'Sessiyanın vaxtı bitib və ya başqa yerdən çıxış edilib. Qaldığınız yerdən davam etmək üçün yenidən daxil olun.',
+  'p.the-share-of-people-who-acted':
+    'Simulyasiya edilmiş tələyə uyan şəxslərin payı.',
+  'p.the-share-who-recognised-a-lure':
+    'Tələni tanıyıb bunu bildirənlərin payı. Bu, insan sensorudur.',
+  'p.the-shell-reads-this-once-when':
+    'Tətbiq bu seçimi yüklənərkən bir dəfə oxuyur, ona görə də seçim yan paneli indi dəyişmir, onun növbəti dəfə necə açılacağını müəyyən edir. Yan panelin aşağısındakı idarəetmə elementi paneli dərhal yığır və eyni seçimi yazır.',
+  'p.the-signin-request-failed-before-the':
+    'Giriş sorğusu server cavab verməmişdən əvvəl uğursuz oldu.',
+  'p.the-single-behaviour-this-module-is':
+    'Bu modulun tələb etdiyi yeganə davranış.',
+  'p.the-source-did-not-list-affected':
+    'Mənbə təsirə məruz qalmış məhsulları sadalamayıb.',
+  'p.the-source-named-no-technique':
+    'Mənbə heç bir texnika adı göstərmədi.',
+  'p.the-source-published-no-indicators-with':
+    'Mənbə bu bülletenlə birlikdə heç bir indikator dərc etməyib.',
+  'p.the-source-published-no-references':
+    'Mənbə heç bir istinad dərc etməyib.',
+  'p.the-studio-has-no-generate-button':
+    'Studiyada generasiya düyməsi yoxdur, çünki platformada studiya generatoru yoxdur. Modul yalnız bir yerdə yazılır: dövrə axınının çevrilmə mərhələsində, artıq təhlil edilmiş təhdiddən. Məhz bu, hər modulun kiminsə yazdığı prompta deyil, real artefakta qədər izlənə bilməsini təmin edir.',
+  'p.the-threat-record-does-not-carry':
+    'Təhdid qeydi bu cümləni yazan mühərriki saxlamır, ona görə onun necə hazırlandığı barədə heç bir iddia irəli sürülmür.',
+  'p.the-ticket-or-case-this-came':
+    'Bunun gəldiyi tiket və ya iş. Audit izi hər qeydi məhz bununla etiketləyir.',
+  'p.the-training-assignment-was-refused':
+    'Təlim tapşırığı rədd edildi',
+  'p.the-vendor-that-produced-the-platform':
+    'Platformanı hazırlayan istehsalçı. Onu işlədən təşkilat insident qeydlərində ayrıca göstərilir.',
+  'p.the-window-for-taking-it-closed':
+    'Onu keçmək üçün nəzərdə tutulan vaxt bitib. Dərs aşağıdadır və hələ də oxumağa dəyər; yenidən təyin olunmasına ehtiyacınız varsa, təhlükəsizlik komandasına müraciət edin.',
+  'p.there-is-not-enough-measured-activity':
+    'Bu dövrü ümumiləşdirmək üçün kifayət qədər ölçülmüş fəaliyyət yoxdur.',
+  'p.these-are-the-current-rollups-for':
+    'Bunlar bu icranın seçim apardığı şöbələrin cari yekun göstəriciləridir. Onlar konteksdir, bu icranın nəticəsi deyil — hər icra üçün şöbə üzrə əvvəl-sonra ölçməsi qeydə alınmır.',
+  'p.these-were-generated-not-observed-they':
+    'Bunlar müşahidə edilməyib, yaradılıb. Bunlar nümayiş məlumatıdır.',
+  'p.they-can-read-your-answer-on':
+    'Onlar cavabınızı öz ekranlarında oxuya bilərlər.',
+  'p.they-read-this-on-their-own':
+    'Onlar bunu öz ekranlarında oxuyur. Audit izinə sizin adınızla yazılır.',
+  'p.this-account-is-not-attached-to':
+    'Bu hesab təşkilatdakı heç bir şəxsə bağlanmayıb, ona görə də onun öz risk balı yoxdur.',
+  'p.this-analyzer-did-not-run-and':
+    'Bu analizator işə düşmədi və heç bir səbəb qeydə almadı.',
+  'p.this-analyzer-recorded-no-structured-observation':
+    'Bu analizator həmin nümunə üçün heç bir strukturlaşdırılmış müşahidə qeydə almayıb.',
+  'p.this-archive-is-encrypted-and-analysis':
+    'Bu arxiv şifrələnib və təhlil parol gözləyərək dayanıb.',
+  'p.this-artifact-carries-no-recipient-or':
+    'Bu artefaktda alıcı və ya şöbə metadatası yoxdur, ona görə onun hara qədər çatdığı bilinmir.',
+  'p.this-assignment-expired-before-the-quiz':
+    'Bu tapşırığın müddəti test verilməmişdən əvvəl bitib, ona görə də bal yoxdur.',
+  'p.this-assignment-has-not-been-completed':
+    'Bu tapşırıq tamamlanmayıb, ona görə də bal yoxdur.',
+  'p.this-assignment-was-never-completed-so':
+    'Bu tapşırıq heç vaxt tamamlanmayıb, ona görə heç bir test qiymətləndirilməyib.',
+  'p.this-browser-refused-to-store-the':
+    'Bu brauzer seçimi yadda saxlamaqdan imtina etdi — məxfi rejim və ya dolmuş kvota. Seçim bu sessiya üçün qüvvədədir və səhifə yenidən yüklənəndə itəcək.',
+  'p.this-build-talks-to-a-separate':
+    'Bu qurulma ayrıca API hostu ilə əlaqə saxlayır.',
+  'p.this-content-is-now-analystedited':
+    'Bu məzmun artıq analitik tərəfindən redaktə olunub.',
+  'p.this-deployment-did-not-describe-the':
+    'Bu quraşdırma sənədin çıxarılma vəziyyətini bildirməyib.',
+  'p.this-deployment-did-not-record-where':
+    'Bu quraşdırma rəqəmin haradan gəldiyini qeyd etməyib.',
+  'p.this-deployment-did-not-report-its':
+    'Bu quraşdırma inteqrasiya matrisini bildirmədi, ona görə nümunənin hara gedəcəyinə burada cavab verilə bilmir.',
+  'p.this-deployment-reports-demo-mode-so':
+    'Bu quraşdırma demo rejimini bildirir, ona görə nümayiş məlumatı kimi yaradılmış hesablar birbaşa təklif olunur. Hər düymə platformada real giriş həyata keçirir.',
+  'p.this-expired-before-it-was-finished':
+    'Tamamlanmadan vaxtı bitib',
+  'p.this-finding-is-in-a-state':
+    'Bu tapıntı elə vəziyyətdədir ki, API oradan başqa vəziyyətə keçməyə icazə vermir. Burada heç nə dəyişdirilə bilməz.',
+  'p.this-finding-is-not-about-a':
+    'Bu tapıntı versiya ilə bağlı deyil. Onun üçün nə təsirlənən, nə təsdiqlənmiş, nə də tövsiyə olunan versiya qeyd edilib.',
+  'p.this-finding-is-not-tied-to':
+    'Bu tapıntı heç bir siyasətə bağlı deyil. O, platformanın aşkarladığı zəif nöqtəni təsvir edir — həmin nöqtəni üzləşdirib yoxlamaq üçün heç bir sənəd yoxdur.',
+  'p.this-finding-names-no-employees-and':
+    'Bu tapıntı heç bir işçinin adını çəkmir, API isə siyahının açıq şəkildə göstərilməsini tələb edir. Bu ekrandan tapşırılacaq heç kim yoxdur — əvvəlcə təsirə məruz qalan insanları tapıntıda qeyd edin.',
+  'p.this-host-cannot-report-whether-the':
+    'Bu host karantinin noexec ilə qoşulub-qoşulmadığını bildirə bilmir.',
+  'p.this-id-no-longer-resolves-to':
+    'Bu id artıq heç bir işçi qeydinə uyğun gəlmir.',
+  'p.this-is-an-automated-first-pass':
+    'Bu, avtomatlaşdırılmış ilkin baxışdır. Sonra nə olacağına analitik qərar verir.',
+  'p.this-is-derived-from-the-riskevent':
+    'Bu, tapşırıq siyahısından deyil, risk hadisələri izindən çıxarılıb. Platforma hər işçi üzrə ayrıca tapşırıq və ya kampaniya endpointi təqdim etmir, ona görə də hələ hadisə yaratmamış, icra gözləyən tapşırıq burada görünmür.',
+  'p.this-is-no-longer-assigned-to':
+    'Bu, artıq sizə təyin edilmir.',
+  'p.this-is-sent-to-a-person':
+    'Bu, şəxsə yazdığınız kimi göndərilir.',
+  'p.this-is-the-module-exactly-as':
+    'Bu, işçinin gördüyü modulun eynisidir — üzərinə cavab açarı əlavə edilib.',
+  'p.this-is-the-number-the-product':
+    'Məhsul öz iddiasını məhz bu rəqəmin üzərində qurur, ona görə də ölçmə şərti sətiraltı qeyd deyil, tərifin bir hissəsidir.',
+  'p.this-is-the-only-risk-figure':
+    'Proqramın işlədiyinə sübut kimi oxuna bilən yeganə risk göstəricisi budur. Kompozit bal təlim sadəcə tamamlandıqda da düşür, ona görə kompozitdəki düşmə modulların sadəcə təyin edildiyindən başqa heç nə ifadə etməyə bilər.',
+  'p.this-job-did-not-record-which':
+    'Bu iş hansı səviyyələrin işlədiyini qeyd etməyib. Aşağıdakı tapıntılara tam mənzərə kimi deyil, natamam kimi yanaşın.',
+  'p.this-member-has-not-finished-analysis':
+    'Bu üzvün təhlili hələ bitməyib.',
+  'p.this-module-carries-no-questions-so':
+    'Bu modulda sual yoxdur, ona görə onu tamamlamaq mövzunun mənimsənildiyi barədə heç nəyi sübut etmir.',
+  'p.this-module-carries-no-quiz':
+    'Bu modulda test yoxdur.',
+  'p.this-module-has-no-lesson-sections':
+    'Bu modul üçün heç bir dərs bölməsi qeyd edilməyib.',
+  'p.this-module-has-no-lesson-sections-2':
+    'Bu modulda qeydə alınmış dərs bölməsi yoxdur. Birbaşa suallara keçin və ya təhlükəsizlik komandanızdan burada nə nəzərdə tutulduğunu soruşun.',
+  'p.this-module-has-no-lesson-sections-3':
+    'Bu modulda dərs bölmələri yoxdur. İşçi onu açsa, yalnız testlə qarşılaşacaq.',
+  'p.this-module-has-no-quiz-an':
+    'Bu modulun testi yoxdur. Onu daşıyan tapşırıq tamamlana bilməzdi.',
+  'p.this-module-has-no-quiz-it':
+    'Bu modulun testi yoxdur. İşçi onu tamamlaya bilməz.',
+  'p.this-module-has-no-sections-to':
+    'Bu modulda redaktə ediləcək bölmə yoxdur.',
+  'p.this-module-has-no-sections-add':
+    'Bu modulda bölmə yoxdur. Yadda saxlamazdan əvvəl ən azı bir bölmə əlavə edin.',
+  'p.this-module-has-no-sections-an':
+    'Bu modulun bölmələri yoxdur. İşçi onu açsa, oxumağa heç nə tapmayacaq.',
+  'p.this-module-is-not-linked-to':
+    'Bu modul heç bir siyasət sənədinə bağlanmayıb. Bu quraşdırma modulun hansı təhdid əsasında hazırlandığını qeyd edir, lakin təlim məzmununa siyasət bağlamır.',
+  'p.this-number-is-not-registered':
+    'Bu nömrə qeydiyyatda deyil.',
+  'p.this-person-has-no-recorded-score':
+    'Bu şəxsin qeydə alınmış balı yoxdur. Tələb olunan işdə test olmaya bilər.',
+  'p.this-persons-current-score-could-not':
+    'Bu şəxsin cari balı oxuna bilmədi.',
+  'p.this-record-does-not-exist-it':
+    'Bu qeyd mövcud deyil. O, silinmiş ola bilər və ya keçid başqa mühiti göstərə bilər.',
+  'p.this-report-has-a-status-this':
+    'Bu bildirişin statusunu bu ekran tanımır.',
+  'p.this-risk-is-closed-reopen-it':
+    'Bu risk bağlanıb. Yeni şəxslər əlavə etməzdən əvvəl onu yenidən açın.',
+  'p.this-role-has-no-analyst-surfaces':
+    'Bu rolun analitik ekranları yoxdur. Onun dünyası portaldır.',
+  'p.this-role-has-no-surfaces-assigned':
+    'İcazə matrisində bu rola heç bir ekran təyin edilməyib. Bu, burada həll edə biləcəyiniz məsələ deyil, konfiqurasiya problemidir — hesabı quran şəxsə müraciət edin.',
+  'p.this-run-has-already-left-the':
+    'Bu axın artıq qapıdan keçib. Aşağıdakı qeyd yalnız oxumaq üçündür.',
+  'p.this-run-has-no-threat-attached':
+    'Bu axına təhdid qoşulmayıb, ona görə də nəzərdən keçiriləsi artefakt yoxdur. Onu təsdiqləmək arxasında heç nə olmayan dövrəni irəli aparmaq demək olardı.',
+  'p.this-run-has-no-threat-attached-2':
+    'Bu axına təhdid bağlanmayıb, ona görə göstəriləcək artefakt yoxdur. Bu, boş nəticə deyil, məlumat qüsurudur — axın təhdiddən yaradılır.',
+  'p.this-run-has-not-been-measured':
+    'Bu axın ölçülməyib. Burada sıfırlar əvəzinə heç nə göstərilmir: onun üçün nə tamamlanma faizi, nə bal, nə də risk dəyişməsi hesablanıb.',
+  'p.this-run-produces-a-training-module':
+    'Bu axın təlim modulu yaradır. Bu quraşdırmada dövrə axınına heç bir simulyasiya tələsi əlavə edilmir — simulyasiya kampaniyaları ayrıca, Simulyasiyalar bölməsində qurulur.',
+  'p.this-score-has-never-been-recalculated':
+    'Bu bal heç vaxt yenidən hesablanmayıb — sizin barənizdə heç bir hadisə qeydə alınmayıb.',
+  'p.this-score-is-not-asserted-it':
+    'Bu bal iddia edilmir, hesablanır. O, vəzifənin nə qədər həssas olmasına görə təyin edilən başlanğıc səviyyədən başlayır və mühərrikin o vaxtdan bəri qeydə aldığı hər siqnal onu dəyişir. Aşağıdakı sütunu toplasanız, bu səhifənin yuxarısındakı rəqəmi alarsınız.',
+  'p.this-source-has-not-answered-yet':
+    'Bu mənbə hələ cavab verməyib',
+  'p.this-verdict-came-from-a-keyword':
+    'Bu hökm dil modelindən deyil, bu quraşdırmada işləyən, açar sözləri və indikatorları çıxaran vasitədən gəlib. Bu, ilkin baxışdır, qərar deyil.',
+  'p.this-view-is-served-one-figure':
+    'Bu görünüşə hər şöbə üçün yalnız bir rəqəm — hazırkı orta göstərici — və bütün təşkilat üzrə bir zaman sırası verilir. Şöbələr üzrə fərqi hesablamağa imkan verən saxlanılmış tarixçə yoxdur, ona görə də heç bir şöbəni vicdanla ən çox irəliləyən şöbə adlandırmaq olmaz.',
+  'p.threat-and-run-records-are-analystscoped':
+    'Təhdid və icra qeydləri analitik səlahiyyətinə aiddir. Yuxarıdakı bağlanmış dövrə sayının arxasında duran icraları təhlükəsizlik komandasından soruşun.',
+  'p.threat-or-module-title':
+    'Təhdidin və ya modulun adı',
+  'p.time-spent-was-not-recorded-for':
+    'Bu tapşırıq üçün sərf olunan vaxt qeydə alınmayıb.',
+  'p.title-or-description':
+    'Başlıq və ya təsvir',
+  'p.title-topic-or-behaviour':
+    'Başlıq, mövzu və ya davranış',
+  'p.total-moved-by-behaviour':
+    'Davranış hesabına ümumi dəyişmə',
+  'p.trail-window':
+    'İz aralığı',
+  'p.training-completion':
+    'Təlimin tamamlanması',
+  'p.training-completion-rate':
+    'Təlimin tamamlanma nisbəti',
+  'p.training-content-not-generated-yet':
+    'Təlim məzmunu hələ yaradılmayıb',
+  'p.triaging-a-report-requires-the-analyst':
+    'Bildirişin triajı analitik rolu tələb edir. Bu hesab növbəni yalnız oxuya bilər.',
+  'p.truncated-by-the-server-the-excerpt':
+    'Server tərəfindən kəsilib. Bu çıxarış insanın oxuması üçündür, tamlıq üçün deyil.',
+  'p.two-or-more-events-are-needed':
+    'Xətt çəkmək üçün ən azı iki hadisə lazımdır',
+  'p.urls-one-per-line':
+    'URL-lər, hər sətirdə bir dənə',
+  'p.unclassified':
+    'Təsnifatsız',
+  'p.update-time-not-recorded':
+    'Yenilənmə vaxtı qeyd olunmayıb',
+  'p.upload-a-file-or-submit-a':
+    'Yuxarıda fayl yükləyin və ya URL təqdim edin. Hər təqdimat növbəyə düşdüyü an burada görünür və mühərrik onu emal etdikcə yenilənir.',
+  'p.user-agent-not-recorded':
+    'İstifadəçi agenti qeyd olunmayıb',
+  'p.version-history-is-not-recorded-for':
+    'Modullar üçün versiya tarixçəsi hələ saxlanmır. Redaktə yadda saxlanmış məzmunun üzərinə yazır və heç bir əvvəlki variant qalmır — beləliklə, nə müqayisə ediləcək, nə də geri qayıdılacaq bir şey olur. Siyasətlər versiyalanır, modullar isə yox.',
+  'p.version-recorded-here':
+    'Burada qeydə alınan versiya',
+  'p.waiting-for-a-decision':
+    'Qərar gözlənilir',
+  'p.waiting-for-a-human-decision-no':
+    'İnsan qərarı gözlənilir. Qərar verilənə qədər nə hədəfləmə, nə də təlim baş vermir.',
+  'p.waiting-for-an-analyst-to-read':
+    'Analitikin onu oxumasını gözləyir.',
+  'p.what-configuring-a-source-would-do':
+    'Mənbənin konfiqurasiya edilməsi nəyi dəyişərdi',
+  'p.what-happened':
+    'Nə baş verdi',
+  'p.what-happened-2':
+    'Nə baş verdi?',
+  'p.what-it-contains':
+    'Nələri əhatə edir',
+  'p.what-made-you-suspicious-or-what':
+    'Sizdə şübhə oyadan nə oldu və ya artıq nə etdiniz.',
+  'p.what-people-have-done-is-currently':
+    'İnsanların etdikləri hazırda təşkilatı təkcə rollarının onu yerləşdirəcəyi səviyyədən aşağı çəkir.',
+  'p.what-the-engine-got-right-or':
+    'Mühərrikin nəyi düzgün, nəyi səhv tapdığı — müraciətdə yazacağınız sözlərlə.',
+  'p.what-the-engine-reported':
+    'Mühərrikin bildirdikləri',
+  'p.what-the-evidence-shows-it-can':
+    'Sübutun göstərdiyinə görə nə edə bilir',
+  'p.what-the-incident-actually-found-empty':
+    'İnsidentin əslində nə aşkarladığı. Risk açılanda boş sətirlər saxlanılmır.',
+  'p.what-they-wrote':
+    'Onun yazdığı',
+  'p.what-this-connection-is-called-on':
+    'Bu bağlantının inteqrasiyalar ekranındakı adı.',
+  'p.what-to-do-next':
+    'Bundan sonra nə etməli',
+  'p.what-you-checked-what-you-changed':
+    'Nəyi yoxladığınız, nəyi dəyişdiyiniz və ya onda nəyin səhv olduğu.',
+  'p.what-your-role-covers':
+    'Rolunuzun əhatə etdikləri',
+  'p.where-approved-training-would-be-delivered':
+    'Təsdiqlənmiş təlimin harada çatdırılacağı və tamamlamaların harada geri oxunacağı — ölçmə etibar üzərində qurulmasın deyə.',
+  'p.where-the-organisation-would-sit-if':
+    'Heç kim heç nə etməsəydi, təşkilatın hansı səviyyədə olacağı.',
+  'p.who-is-accountable-for-closing-it':
+    'Onun bağlanmasına kim cavabdehdir. İstəyə bağlıdır.',
+  'p.who-the-incident-named-they-are':
+    'İnsidentin adını çəkdiyi şəxslər. Onlar riskə bağlanır; tələb olunan iş isə ayrıca, riskin özündən tapşırılır.',
+  'p.why-do-you-think-this-was':
+    'Sizcə, bu niyə səhvən təyin edilib?',
+  'p.why-is-this-being-disabled':
+    'Bu nə üçün söndürülür',
+  'p.why-this-does-not-need-to':
+    'Bunun niyə analitikin diqqətində qalmasına ehtiyac olmadığı.',
+  'p.why-this-rule-is-being-rejected':
+    'Bu qayda nə üçün rədd edilir',
+  'p.widen-the-search-choose-another-department':
+    'Siyahının qalan hissəsini görmək üçün axtarışı genişləndirin, başqa şöbə seçin və ya risk zolağını təmizləyin.',
+  'p.with-a-match-against-us':
+    'Bizə uyğunluğu olanlar',
+  'p.with-a-model':
+    'Model ilə',
+  'p.with-no-match-behind-it-the':
+    'Arxasında uyğunluq olmadığı üçün tapıntının nə etibarlılıq dəyəri, nə siyasəti, nə də adı çəkilən şəxsləri var.',
+  'p.withdraw-the-plan':
+    'Planı geri götür',
+  'p.work-email-on-the-account':
+    'Hesabdakı iş e-poçtu',
+  'p.would-be-graded-quizzes-at-or':
+    'Keçid balına bərabər və ya ondan yuxarı qiymətləndirilmiş testlərin qiymətləndirilmiş testlərə nisbəti olardı.',
+  'p.would-be-the-median-time-from':
+    'Tələnin çatdırılmasından bildirişin qeydə alınmasına qədər olan median vaxt olardı.',
+  'p.write-synthetic-outcomes':
+    'Sintetik nəticələr yaz',
+  'p.written-by-a-language-model-no':
+    'Dil modeli tərəfindən yazılıb. Mətni heç bir insan redaktə etməyib.',
+  'p.written-by-a-template':
+    'Şablonla yazılıb',
+  'p.written-for-the-record-depending-on':
+    'Qeyd üçün yazılıb. Aşağıdakı məxfilik səviyyəsindən asılı olaraq, təsirə məruz qalmış işçi bunu oxuya bilər.',
+  'p.you-are-editing-the-content-an':
+    'Siz işçiyə tapşırıq kimi veriləcək məzmunu redaktə edirsiniz. Siz deməyincə heç nə yadda saxlanmır.',
+  'p.you-can-reach-every-one-of':
+    'İçəri girdikdən sonra bu ekranların hər birinə naviqasiyadan keçə bilərsiniz.',
+  'p.you-contested-this-nobody-has-answered':
+    'Buna etiraz etdiniz. Hələ heç kim cavab verməyib.',
+  'p.you-do-not-have-access-to':
+    'Buna girişiniz yoxdur',
+  'p.you-have-already-completed-this':
+    'Siz bunu artıq tamamlamısınız',
+  'p.your-assigned-training-the-work-raised':
+    'Sizə təyin edilmiş təlimlər, adınıza açılmış işlər və risk balınızın necə hesablandığı.',
+  'p.your-edits-are-written-to-the':
+    'Redaktələriniz əvvəlcə modula yazılır və bu, onu analitik tərəfindən redaktə edilmiş kimi işarələyir.',
+  'p.your-individual-answers-were-graded-and':
+    'Fərdi cavablarınız qiymətləndirilib və sonra silinib — yalnız bal saxlanılıb, ona görə də bu ekran hansı suallarda səhv etdiyinizi göstərə bilmir.',
+  'p.your-role-can-read-intelligence-but':
+    'Sizin rolunuz kəşfiyyat məlumatlarını oxuya bilər, lakin platformadan mənbələri yoxlamağı tələb edə bilməz.',
+  'p.your-role-can-read-intelligence-but-2':
+    'Rolunuz təhdid kəşfiyyatını oxuya bilər, lakin onu qiymətləndirə, rədd edə və ya onun əsasında tapıntı yarada bilməz.',
+  'p.your-role-can-read-this-module':
+    'Rolunuz bu modulu oxuya bilir, lakin dəyişə bilmir. Təlim məzmununu redaktə etmək üçün müəlliflik icazəsi tələb olunur.',
+  'p.your-role-can-read-this-queue':
+    'Rolunuz bu növbəni oxuya bilir, lakin onun barəsində qərar verə bilmir. Analitik hərəkətə keçməlidir.',
+  'p.your-role-can-read-this-review':
+    'Rolunuz bu baxışı oxuya bilər, lakin qərar qeydə ala bilməz.',
+  'p.your-role-cannot-read-sandbox-analyses':
+    'Rolunuz sandbox analizlərini oxumağa imkan vermir, ona görə də burada ixrac təklif olunmur. Bu faylları analitik sandbox bölməsindən hazırlaya bilər.',
+  'p.your-role-cannot-read-the-report':
+    'Rolunuz bildiriş növbəsini oxuya bilmir, ona görə də bu şəxsin bildirişləri burada göstərilə bilməz. Bildirişə görə yazılan bal isə hadisə izində yenə də görünür.',
+  'p.your-role-does-not-include-this':
+    'Rolunuz bu görünüşü əhatə etmir. Ehtiyacınız varsa, administrator bu icazəni verə bilər.',
+  'p.your-session-has-ended':
+    'Sessiyanız başa çatıb',
+  'p.your-system-asks-for-reduced-motion':
+    'Sisteminiz azaldılmış hərəkət tələb edir və bu məhsul buna riayət edir.',
+  'p.your-system-does-not-ask-for':
+    'Sisteminiz azaldılmış hərəkət tələb etmir.',
+  'p.zero-to-100-lower-is-safer':
+    'Sıfırdan 100-ə qədər. Aşağı olması daha təhlükəsizdir. Bu, heyət siyahısının müəyyən andakı xassəsidir, pəncərə üzrə hesablanmış göstərici deyil.',
+  'p.httpsexamplecominvoicezip':
+    'https://example.com/invoice.zip',
+  'p.httpsexampleinstructurecom':
+    'https://example.instructure.com',
+  'p.verifypaymentchange':
+    'verify_payment_change',
+  'p.err-not-found':
+    'Tapılmadı',
+  'h.assigned-to-you':
+    'Sizə təyin olunub',
+  'h.waiting-at-the-gate':
+    'Qapıda gözləyir',
+  'h.active-loops':
+    'Aktiv dövrələr',
+  'h.open-incident-risks':
+    'Açıq insident riskləri',
+  'h.running-simulations':
+    'İşləyən simulyasiyalar',
+  'h.sandbox-analyzers':
+    'Sandbox analizatorları',
+  'h.approval-items-naming-you':
+    'Adınızı çəkən təsdiq elementləri',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

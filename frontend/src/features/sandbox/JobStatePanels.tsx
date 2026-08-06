@@ -26,7 +26,7 @@ export function ProgressPanel({ job }: { job: SandboxJobDetail }) {
     <Panel title={t('x.analysis-in-progress')} tone="feature">
       <p className="text-body text-fg-muted">
         {job.status === 'queued'
-          ? 'The sample is quarantined and waiting for a worker.'
+          ? t('p.the-sample-is-quarantined-and-waiting')
           : `The engine is working through this sample. Current stage: ${humanise(job.stage) || 'starting'}.`}
       </p>
       <div
@@ -66,19 +66,13 @@ export function PasswordPrompt({ job }: { job: SandboxJobDetail }) {
         <KeyRound className="mt-0.5 size-5 shrink-0 text-medium" aria-hidden="true" strokeWidth={1.75} />
         <div className="min-w-0 flex-1 space-y-4">
           <div className="space-y-2">
-            <p className="text-body text-fg-muted">
-              Analysis stopped rather than continuing on a container it cannot open. The engine does
-              not guess passwords and does not brute-force them — supplying one is a deliberate
-              analyst action, and it is recorded as such.
-            </p>
-            <p className="text-body text-fg-muted">
-              The password is used once, for this run, and is never stored.
-            </p>
+            <p className="text-body text-fg-muted">{t('p.analysis-stopped-rather-than-continuing-on')}</p>
+            <p className="text-body text-fg-muted">{t('p.the-password-is-used-once-for')}</p>
           </div>
 
           <form onSubmit={onSubmit} className="space-y-3">
             <Input
-              label="Archive password"
+              label={t('p.archive-password')}
               type="password"
               autoComplete="off"
               value={password}
@@ -125,14 +119,11 @@ export function FailurePanel({ job }: { job: SandboxJobDetail }) {
           strokeWidth={1.75}
         />
         <div className="min-w-0 flex-1 space-y-4">
-          <p className="text-body text-fg-muted">
-            The engine stopped part-way through and produced no verdict. The sample is still
-            quarantined, so the run can be repeated on exactly the same bytes.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.the-engine-stopped-partway-through-and')}</p>
 
           <CodeBlock
-            value={job.error ?? 'The job failed without recording a reason.'}
-            label="What the engine reported"
+            value={job.error ?? t('p.the-job-failed-without-recording-a')}
+            label={t('p.what-the-engine-reported')}
             copyable
             wrap
           />

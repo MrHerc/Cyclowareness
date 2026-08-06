@@ -12,6 +12,7 @@
  * outcome with a non-attempt would destroy the only true record on the row.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { BookOpen, PlugZap, Power, RefreshCw, Settings2 } from 'lucide-react'
 import { LastUpdated } from '../../components/data'
@@ -42,6 +43,7 @@ export function IntegrationCard({
   onDisable,
   onViewCourses,
 }: IntegrationCardProps) {
+  const t = useT()
   const canManage = usePermission('integrations.manage')
   const toast = useToast()
   const [outcome, setOutcome] = useState<string | null>(null)
@@ -53,10 +55,10 @@ export function IntegrationCard({
         // Not a failure and not a success: nothing was requested. The card says
         // so in place, because a toast disappears and this is the answer to
         // "did my sync do anything".
-        setOutcome(result.error ?? 'The provider was not contacted.')
+        setOutcome(result.error ?? t('p.the-provider-was-not-contacted'))
         toast.show({
-          title: 'No sync was attempted',
-          description: 'No provider client exists in this build. The stored sync state is unchanged.',
+          title: t('p.no-sync-was-attempted'),
+          description: t('p.no-provider-client-exists-in-this'),
           tone: 'warning',
         })
         return
@@ -66,7 +68,7 @@ export function IntegrationCard({
         title: 'Sync completed',
         description: result
           ? `${num(result.coursesImported)} course(s) imported.`
-          : 'The provider answered.',
+          : t('p.the-provider-answered'),
         tone: 'success',
       })
     },
@@ -94,7 +96,7 @@ export function IntegrationCard({
 
       {integration.capabilities.length ? (
         <div>
-          <p className="label text-fg-faint">Declared capabilities</p>
+          <p className="label text-fg-faint">{t('p.declared-capabilities')}</p>
           <p className="mt-1.5 flex flex-wrap gap-1.5">
             {integration.capabilities.map((capability) => (
               <span
@@ -110,7 +112,7 @@ export function IntegrationCard({
 
       {entries.length ? (
         <div>
-          <p className="label text-fg-faint">Stored configuration</p>
+          <p className="label text-fg-faint">{t('p.stored-configuration')}</p>
           <dl className="mt-1.5 grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-[minmax(0,auto)_minmax(0,1fr)]">
             {entries.map((entry) => (
               <div key={entry.key} className="contents">
@@ -129,7 +131,7 @@ export function IntegrationCard({
           </dl>
         </div>
       ) : (
-        <p className="text-sm text-fg-subtle">No configuration has been stored for this connection.</p>
+        <p className="text-sm text-fg-subtle">{t('p.no-configuration-has-been-stored-for')}</p>
       )}
 
       <div className="rounded-control border border-line-subtle bg-base px-3 py-2.5">
@@ -161,8 +163,8 @@ export function IntegrationCard({
       {canManage ? (
         <p className="text-xs text-fg-subtle">
           {refused
-            ? 'A sync against a connection that is not configured or is disabled is refused by the API. Configure it first, and the refusal will be shown here.'
-            : 'A sync asks the provider for courses and completions. No provider client exists in this build, so it will report plainly that nothing was requested and leave the stored sync state alone.'}
+            ? t('p.a-sync-against-a-connection-that')
+            : t('p.a-sync-asks-the-provider-for')}
         </p>
       ) : null}
 

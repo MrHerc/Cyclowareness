@@ -34,10 +34,7 @@ export function MitrePanel({ techniques }: MitrePanelProps) {
   return (
     <Panel>
       <h2 className="text-h text-fg">{t('y.mitre-attampck')}</h2>
-      <p className="mt-1 text-sm text-fg-muted">
-        Techniques mapped from findings this analysis produced. Each row names the signals it was
-        derived from, so the mapping can be checked rather than taken on trust.
-      </p>
+      <p className="mt-1 text-sm text-fg-muted">{t('p.techniques-mapped-from-findings-this-analysis')}</p>
 
       <div className="mt-4 space-y-5">
         {Object.entries(byTactic).map(([tactic, rows]) => (

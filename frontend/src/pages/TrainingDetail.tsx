@@ -88,8 +88,8 @@ export default function TrainingDetail() {
                 </div>
                 <p className="mt-2 max-w-2xl text-sm text-fg-subtle">
                   {editing
-                    ? 'You are editing the content an employee will be assigned. Nothing is saved until you say so.'
-                    : 'This is the module exactly as an employee meets it, with the answer key added.'}
+                    ? t('p.you-are-editing-the-content-an')
+                    : t('p.this-is-the-module-exactly-as')}
                 </p>
               </div>
               {canAuthor && !editing ? (
@@ -138,10 +138,7 @@ export default function TrainingDetail() {
                   <VersionHistoryNotice />
                   {!canAuthor ? (
                     <Panel title={t('x.editing')} headingLevel={2}>
-                      <p className="text-body text-fg-muted">
-                        Your role can read this module but not change it. Editing training content
-                        requires the authoring permission.
-                      </p>
+                      <p className="text-body text-fg-muted">{t('p.your-role-can-read-this-module')}</p>
                     </Panel>
                   ) : null}
                   <GenerationNotice />

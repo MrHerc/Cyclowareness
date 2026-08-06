@@ -78,7 +78,7 @@ function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
 
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
         <CountStat label="Targeted" value={stats.targets} />
-        <CountStat label="Resolved" value={stats.resolved} hint="Has a recorded outcome" />
+        <CountStat label="Resolved" value={stats.resolved} hint={t('p.has-a-recorded-outcome')} />
         <CountStat label="Clicked" value={stats.clicked} />
         <CountStat label="Reported" value={stats.reported} />
         <CountStat label="Pending" value={pending} hint={`${num(ignored)} ignored`} />
@@ -147,7 +147,7 @@ export default function SimulationDetail() {
                     ? `Analyzed threat #${data.template_threat_id}`
                     : data.lure_template_id
                       ? data.lure_template_id
-                      : 'No lure source recorded'
+                      : t('p.no-lure-source-recorded')
                 }
                 sourceHref={
                   data.template_threat_id ? `/threats/${data.template_threat_id}` : undefined

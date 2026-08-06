@@ -37,7 +37,7 @@ export function IocPanel({ iocs }: IocPanelProps) {
             value={groups
               .map((group) => `${group.label}\n${group.values.join('\n')}`)
               .join('\n\n')}
-            label="Copy every indicator"
+            label={t('p.copy-every-indicator')}
             variant="secondary"
           >
             Copy all
@@ -46,10 +46,7 @@ export function IocPanel({ iocs }: IocPanelProps) {
       }
     >
       {total === 0 ? (
-        <p className="text-body text-fg-muted">
-          No indicators were extracted. For a sample with no network or filesystem behaviour to
-          describe that is expected — it is not evidence that the sample is harmless.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-indicators-were-extracted-for-a')}</p>
       ) : (
         <div className="space-y-5">
           {groups.map((group) => (
@@ -68,9 +65,7 @@ export function IocPanel({ iocs }: IocPanelProps) {
                 ))}
               </ul>
               {group.defang ? (
-                <p className="mt-1 text-xs text-fg-faint">
-                  Shown defanged. Copying gives the original value.
-                </p>
+                <p className="mt-1 text-xs text-fg-faint">{t('p.shown-defanged-copying-gives-the-original')}</p>
               ) : null}
             </section>
           ))}

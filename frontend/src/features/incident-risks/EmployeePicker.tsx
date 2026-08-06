@@ -10,6 +10,7 @@
  * no longer see is a selection you cannot check before submitting.
  */
 
+import { useT } from '../../lib/i18n'
 import { Search, UserPlus, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { EmptyState, ErrorState, SkeletonRow } from '../../components/states'
@@ -40,6 +41,7 @@ export function EmployeePicker({
   maxVisible = 60,
   className,
 }: EmployeePickerProps) {
+  const t = useT()
   const [query, setQuery] = useState('')
   const employees = useEmployees({})
   const departments = useDepartments()
@@ -85,11 +87,11 @@ export function EmployeePicker({
       {hint && <p className="-mt-1 text-xs text-fg-faint">{hint}</p>}
 
       <Input
-        label="Search the directory"
+        label={t('p.search-the-directory')}
         labelHidden
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search by name, email or role"
+        placeholder={t('p.search-by-name-email-or-role')}
         type="search"
         autoComplete="off"
       />
@@ -128,11 +130,11 @@ export function EmployeePicker({
           <EmptyState
             compact
             icon={query ? Search : UserPlus}
-            headline={query ? 'Nobody matches that' : 'The directory is empty'}
+            headline={query ? 'Nobody matches that' : t('p.the-directory-is-empty')}
             description={
               query
-                ? 'No employee in the directory matches that name, email or role title.'
-                : 'Employees appear here once the organisation has been loaded into the platform.'
+                ? t('p.no-employee-in-the-directory-matches')
+                : t('p.employees-appear-here-once-the-organisation')
             }
           />
         ) : (

@@ -33,7 +33,7 @@ import {
   WifiOff,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { ApiError, type ApiErrorKind } from '../../lib/api/client'
 import { cn } from '../../lib/format'
 import { StateAction } from './StateAction'
@@ -49,8 +49,8 @@ import { StateAction } from './StateAction'
 type ErrorTone = 'degraded' | 'failed' | 'refused'
 
 interface ErrorCopy {
-  headline: string
-  sentence: string
+  headline: MessageKey
+  sentence: MessageKey
   icon: LucideIcon
   tone: ErrorTone
 }
@@ -64,71 +64,71 @@ const TONE_CLASS: Record<ErrorTone, string> = {
 /** The copy table. One entry per `ApiErrorKind`, plus the non-API fallback. */
 const COPY: Record<ApiErrorKind | 'unknown', ErrorCopy> = {
   unreachable: {
-    headline: 'The API is not answering',
+    headline: 'p.the-api-is-not-answering',
     sentence:
-      'Cyclowareness cannot reach its backend. The service may still be starting, or the connection dropped. Nothing you did caused this, and nothing was lost.',
+      'p.cyclowareness-cannot-reach-its-backend-the',
     icon: WifiOff,
     tone: 'degraded',
   },
   timeout: {
-    headline: 'The request took too long',
+    headline: 'p.the-request-took-too-long',
     sentence:
-      'The server took the request but did not answer in time. It is likely busy rather than broken — trying again usually works.',
+      'p.the-server-took-the-request-but',
     icon: TimerOff,
     tone: 'degraded',
   },
   unauthorized: {
-    headline: 'Your session has ended',
+    headline: 'p.your-session-has-ended',
     sentence:
-      'The session expired or was signed out elsewhere. Sign in again to pick up where you left off.',
+      'p.the-session-expired-or-was-signed',
     icon: KeyRound,
     tone: 'refused',
   },
   forbidden: {
-    headline: 'You do not have access to this',
+    headline: 'p.you-do-not-have-access-to',
     sentence:
-      'Your role does not include this view. An administrator can grant the permission if you need it.',
+      'p.your-role-does-not-include-this',
     icon: Lock,
     tone: 'refused',
   },
   not_found: {
-    headline: 'Not found',
+    headline: 'p.err-not-found',
     sentence:
-      'This record does not exist. It may have been deleted, or the link may point at a different environment.',
+      'p.this-record-does-not-exist-it',
     icon: SearchX,
     tone: 'refused',
   },
   conflict: {
-    headline: 'That change no longer applies',
+    headline: 'p.that-change-no-longer-applies',
     sentence:
-      'The item moved to another state before this action reached the server — usually because someone else acted on it first. Reload to see where it stands now.',
+      'p.the-item-moved-to-another-state',
     icon: GitMerge,
     tone: 'refused',
   },
   validation: {
-    headline: 'The server rejected these values',
-    sentence: 'Something in the request did not pass validation. The field is named below.',
+    headline: 'p.the-server-rejected-these-values',
+    sentence: 'p.something-in-the-request-did-not',
     icon: TriangleAlert,
     tone: 'refused',
   },
   server: {
-    headline: 'The server failed on this request',
+    headline: 'p.the-server-failed-on-this-request',
     sentence:
-      'The API returned an error instead of data. This is a fault on the server side, not something you did wrong.',
+      'p.the-api-returned-an-error-instead',
     icon: ServerCrash,
     tone: 'failed',
   },
   client: {
-    headline: 'The request could not be completed',
+    headline: 'p.the-request-could-not-be-completed',
     sentence:
-      'The server refused this request. Reloading is unlikely to change the answer — what it said is below.',
+      'p.the-server-refused-this-request-reloading',
     icon: Ban,
     tone: 'refused',
   },
   unknown: {
-    headline: 'Something went wrong',
+    headline: 'state.error',
     sentence:
-      'An unexpected error stopped this view from loading. The details below are all the product knows.',
+      'p.an-unexpected-error-stopped-this-view',
     icon: CircleAlert,
     tone: 'failed',
   },
@@ -206,8 +206,8 @@ export function ErrorState({
       <Icon aria-hidden="true" className={cn('size-7', TONE_CLASS[copy.tone])} strokeWidth={1.5} />
 
       <div className="max-w-md space-y-2">
-        <h2 className="text-h text-fg">{title ?? (copy.headline === 'Something went wrong' ? t('state.error') : copy.headline)}</h2>
-        <p className="text-body text-fg-muted">{copy.sentence}</p>
+        <h2 className="text-h text-fg">{title ?? t(copy.headline)}</h2>
+        <p className="text-body text-fg-muted">{t(copy.sentence)}</p>
       </div>
 
       {detail ? (

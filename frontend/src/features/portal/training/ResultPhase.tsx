@@ -103,9 +103,7 @@ export function ResultPhase({ result, module, questions, answers }: ResultPhaseP
                     {outcome.explanation ? (
                       <p className="text-body text-fg-muted">{outcome.explanation}</p>
                     ) : (
-                      <p className="text-sm text-fg-faint">
-                        No explanation was recorded for this question.
-                      </p>
+                      <p className="text-sm text-fg-faint">{t('p.no-explanation-was-recorded-for-this')}</p>
                     )}
                   </div>
                 </div>

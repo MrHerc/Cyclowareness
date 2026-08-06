@@ -65,11 +65,8 @@ export function LessonPhase({
               aria-hidden="true"
             />
             <div className="min-w-0">
-              <p className="text-body text-fg">Has this happened to you?</p>
-              <p className="mt-1 text-sm text-fg-subtle">
-                If anything here reminds you of a message you received, report it now. It does not
-                interrupt this training.
-              </p>
+              <p className="text-body text-fg">{t('p.has-this-happened-to-you')}</p>
+              <p className="mt-1 text-sm text-fg-subtle">{t('p.if-anything-here-reminds-you-of')}</p>
             </div>
           </div>
           <Button
@@ -81,10 +78,7 @@ export function LessonPhase({
           </Button>
         </div>
 
-        <p className="mt-4 border-t border-line-subtle pt-3 text-xs text-fg-faint">
-          This module is not linked to a policy document. This deployment records the threat a
-          module was built from, but does not attach policies to training content.
-        </p>
+        <p className="mt-4 border-t border-line-subtle pt-3 text-xs text-fg-faint">{t('p.this-module-is-not-linked-to')}</p>
       </Panel>
 
       <div className="flex justify-end">

@@ -79,13 +79,11 @@ function Origin({ threat }: { threat: Threat }) {
 }
 
 function Indicators({ iocs }: { iocs: Record<string, string[]> }) {
+  const t = useT()
   const groups = Object.entries(iocs)
   if (groups.length === 0) {
     return (
-      <p className="text-sm text-fg-subtle">
-        The analyser recorded no indicators for this artifact. That is an absence of extraction, not
-        a finding of none.
-      </p>
+      <p className="text-sm text-fg-subtle">{t('p.the-analyser-recorded-no-indicators-for')}</p>
     )
   }
   return (
@@ -104,9 +102,7 @@ function Indicators({ iocs }: { iocs: Record<string, string[]> }) {
           </ul>
         </div>
       ))}
-      <p className="text-xs text-fg-faint">
-        Defanged for display and deliberately not clickable.
-      </p>
+      <p className="text-xs text-fg-faint">{t('p.defanged-for-display-and-deliberately-not')}</p>
     </div>
   )
 }
@@ -148,11 +144,12 @@ function SandboxResult({ job }: { job: SandboxJobDetail }) {
 }
 
 function AnalysisBlock({ analysis, note }: { analysis: AnalysisView | null; note: string | null }) {
+  const t = useT()
   if (!analysis) {
     return (
       <p className="text-sm text-medium" role="note">
         {note ??
-          'The analysis stage recorded no verdict for this artifact. Nothing has been concluded about it.'}
+          t('p.the-analysis-stage-recorded-no-verdict')}
       </p>
     )
   }
@@ -198,10 +195,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
   if (!threat) {
     return (
       <Panel title={t('x.the-original-threat')} headingLevel={2}>
-        <p className="text-body text-medium" role="note">
-          This run has no threat attached, so there is no artifact to review. Approving it would
-          advance a loop with nothing behind it.
-        </p>
+        <p className="text-body text-medium" role="note">{t('p.this-run-has-no-threat-attached')}</p>
       </Panel>
     )
   }
@@ -241,10 +235,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
       {sandboxJob ? (
         <SandboxResult job={sandboxJob} />
       ) : (
-        <p className="text-xs text-fg-faint" role="note">
-          No sandbox job is linked to this run. Anything shown above came from the analysis stage,
-          not from detonation.
-        </p>
+        <p className="text-xs text-fg-faint" role="note">{t('p.no-sandbox-job-is-linked-to')}</p>
       )}
 
       <Separator fade />
@@ -255,21 +246,16 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
           <>
             <CodeBlock
               value={detail.artifactExcerpt}
-              label="Sanitised for display: shown as plain text, never rendered"
+              label={t('p.sanitised-for-display-shown-as-plain')}
               wrap
               maxHeight="18rem"
             />
             {detail.artifactExcerptTruncated && (
-              <p className="text-xs text-fg-faint">
-                Truncated by the server. The excerpt exists for a person to read, not for
-                completeness.
-              </p>
+              <p className="text-xs text-fg-faint">{t('p.truncated-by-the-server-the-excerpt')}</p>
             )}
           </>
         ) : (
-          <p className="text-sm text-fg-subtle">
-            No artifact body was stored for this threat — only its metadata.
-          </p>
+          <p className="text-sm text-fg-subtle">{t('p.no-artifact-body-was-stored-for')}</p>
         )}
       </div>
 

@@ -43,6 +43,7 @@ const SUSPICION_TONE: Record<string, 'critical' | 'medium' | 'safe'> = {
 }
 
 function TriageResult({ report, modelConnected }: { report: Report; modelConnected?: boolean }) {
+  const t = useT()
   const triage = report.triage_summary
   const iocs = triage?.likely_iocs ?? {}
   const iocEntries = Object.entries(iocs).filter(
@@ -65,9 +66,7 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
       </div>
 
       {triage === null ? (
-        <p className="text-body text-fg-subtle">
-          No automated triage was recorded for this report. An analyst will read it.
-        </p>
+        <p className="text-body text-fg-subtle">{t('p.no-automated-triage-was-recorded-for')}</p>
       ) : (
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
@@ -83,14 +82,9 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
           </div>
 
           {triage.source === 'mock' ? (
-            <p className="text-xs text-fg-faint">
-              This verdict came from a keyword and indicator extractor running on this deployment,
-              not from a language model. It is a first pass, not a decision.
-            </p>
+            <p className="text-xs text-fg-faint">{t('p.this-verdict-came-from-a-keyword')}</p>
           ) : (
-            <p className="text-xs text-fg-faint">
-              This is an automated first pass. An analyst decides what happens next.
-            </p>
+            <p className="text-xs text-fg-faint">{t('p.this-is-an-automated-first-pass')}</p>
           )}
 
           <p className="text-body text-fg-muted">{triage.summary}</p>
@@ -216,19 +210,19 @@ export function ReportSuspiciousDialog({
           />
 
           <Textarea
-            label="Paste it here"
-            hint="The sender address, the subject line, the link — whatever you have. Do not open it first."
+            label={t('p.paste-it-here')}
+            hint={t('p.the-sender-address-the-subject-line')}
             value={artifactRef}
             onChange={(event) => setArtifactRef(event.target.value)}
             onBlur={() => setTouched(true)}
-            error={touched && invalid ? 'Paste at least part of what you saw.' : null}
+            error={touched && invalid ? t('p.paste-at-least-part-of-what') : null}
             required
             rows={4}
           />
 
           <Textarea
-            label="Anything else worth knowing (optional)"
-            hint="What made you suspicious, or what you already did."
+            label={t('p.anything-else-worth-knowing-optional')}
+            hint={t('p.what-made-you-suspicious-or-what')}
             value={note}
             onChange={(event) => setNote(event.target.value)}
             rows={2}

@@ -113,8 +113,8 @@ export function LoopSection({
               headline="No runs here"
               description={
                 selected === null
-                  ? 'Runs appear once a threat is submitted, reported by an employee, or pushed from the intelligence feed.'
-                  : 'Nothing is held at this point of the loop right now. Clear the filter to see every run.'
+                  ? t('p.runs-appear-once-a-threat-is')
+                  : t('p.nothing-is-held-at-this-point')
               }
               action={
                 selected === null ? (

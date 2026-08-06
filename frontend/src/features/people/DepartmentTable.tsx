@@ -7,6 +7,7 @@
  * denominator in the adjacent column rather than floating free as a percentage.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui'
@@ -23,6 +24,7 @@ export interface DepartmentTableProps {
 }
 
 export function DepartmentTable({ departments, movement, movementSample }: DepartmentTableProps) {
+  const t = useT()
   const ordered = [...departments].sort((a, b) => b.avg_risk - a.avg_risk)
 
   return (
@@ -31,7 +33,7 @@ export function DepartmentTable({ departments, movement, movementSample }: Depar
         {ordered.length} {ordered.length === 1 ? 'department' : 'departments'}. Departed staff are
         excluded from every average.{' '}
         {movementSample === 0
-          ? 'No recent risk event could be attributed to a person, so no movement is shown.'
+          ? t('p.no-recent-risk-event-could-be-2')
           : `Movement is the change the ${movementSample} attributed recent risk events made to each department’s average.`}
       </TableCaption>
 

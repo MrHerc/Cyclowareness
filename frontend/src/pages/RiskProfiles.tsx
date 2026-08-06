@@ -106,7 +106,7 @@ export default function RiskProfiles() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Panel>
               <HonestMetric
-                label="Average score"
+                label={t('p.average-score')}
                 value={averageScore}
                 format="score"
                 digits={1}
@@ -115,17 +115,17 @@ export default function RiskProfiles() {
                 source="live"
                 unmeasuredReason="the roster is empty"
                 definition={{
-                  calculation: 'The mean of every current risk score on the roster.',
+                  calculation: t('p.the-mean-of-every-current-risk'),
                   includes: ['Everyone the employees endpoint returns'],
                   excludes: ['Nothing — there is no trailing window on this figure'],
-                  caveat: 'A current position, not a trend. The trend lives on the department screen.',
+                  caveat: t('p.a-current-position-not-a-trend'),
                 }}
               />
             </Panel>
 
             <Panel>
               <HonestMetric
-                label="Average role baseline"
+                label={t('p.average-role-baseline')}
                 value={averageBaseline}
                 format="score"
                 digits={1}
@@ -133,20 +133,20 @@ export default function RiskProfiles() {
                 sampleNoun="scored people"
                 source="live"
                 unmeasuredReason="the roster is empty"
-                hint="Where the organisation would sit if nobody had done anything at all."
+                hint={t('p.where-the-organisation-would-sit-if')}
                 definition={{
-                  calculation: 'The mean of 20 + role sensitivity × 20 across the roster.',
+                  calculation: t('p.the-mean-of-20-role-sensitivity'),
                   includes: ['Every person’s recorded role sensitivity'],
                   excludes: ['Every recorded event — this is the starting point only'],
                   caveat:
-                    'Role sensitivity is set when a person is imported. It is a judgement about the seat, not a measurement of the person.',
+                    t('p.role-sensitivity-is-set-when-a'),
                 }}
               />
             </Panel>
 
             <Panel>
               <HonestMetric
-                label="Total moved by behaviour"
+                label={t('p.total-moved-by-behaviour')}
                 value={totalBehaviour}
                 format="number"
                 digits={1}
@@ -161,13 +161,13 @@ export default function RiskProfiles() {
                       : 'safe'
                 }
                 unmeasuredReason="the roster is empty"
-                hint="Score points added or removed by recorded events across the whole roster."
+                hint={t('p.score-points-added-or-removed-by')}
                 definition={{
                   calculation: 'Σ(current score − role baseline), over every person on the roster.',
                   includes: ['Every non-revoked event the engine has applied'],
                   excludes: ['The role baselines themselves'],
                   caveat:
-                    'Negative is the good direction here: it means the organisation has earned more credit from reporting and training than it has lost to clicks and expiries.',
+                    t('p.negative-is-the-good-direction-here'),
                 }}
               />
             </Panel>
@@ -189,16 +189,12 @@ export default function RiskProfiles() {
               that by {signed(behaviourPerPerson, 1)} per person — {signed(totalBehaviour, 1)} points
               in total across the roster — which lands the average at {num(averageScore, 1)}.{' '}
               {totalBehaviour === null || totalBehaviour === 0
-                ? 'Recorded behaviour has cancelled out exactly, so the organisation currently sits on its role baselines.'
+                ? t('p.recorded-behaviour-has-cancelled-out-exactly')
                 : totalBehaviour > 0
-                  ? 'More risk is coming from what people have done than the roles alone would explain.'
-                  : 'What people have done is currently pulling the organisation below where its roles alone would place it.'}
+                  ? t('p.more-risk-is-coming-from-what')
+                  : t('p.what-people-have-done-is-currently')}
             </p>
-            <p className="mt-3 text-sm text-fg-subtle">
-              A per-signal roll-up across the whole organisation is not exposed by the API — the
-              breakdown endpoint answers for one person at a time. The table below therefore counts
-              real events from the recent tail rather than claiming an all-time total.
-            </p>
+            <p className="mt-3 text-sm text-fg-subtle">{t('p.a-persignal-rollup-across-the-whole')}</p>
           </Panel>
 
           <Panel

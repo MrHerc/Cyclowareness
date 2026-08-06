@@ -63,9 +63,7 @@ export function IncidentTimeline({ events, limit = 6 }: IncidentTimelineProps) {
       </div>
 
       {nodes.length === 0 ? (
-        <p className="mt-6 text-sm text-fg-faint">
-          No audit events yet. Every decision that crosses the human gate is recorded here.
-        </p>
+        <p className="mt-6 text-sm text-fg-faint">{t('p.no-audit-events-yet-every-decision')}</p>
       ) : (
         <div className="mt-8 overflow-x-auto pb-2">
           <ol

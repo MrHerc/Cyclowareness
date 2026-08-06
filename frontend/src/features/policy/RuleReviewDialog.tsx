@@ -13,6 +13,7 @@
  * control is disabled until there is one rather than letting the server refuse.
  */
 
+import { useT } from '../../lib/i18n'
 import { useEffect, useState } from 'react'
 import { Dialog, Button, Textarea, useToast } from '../../components/ui'
 import type { PolicyRule } from '../../domain/types'
@@ -29,6 +30,7 @@ export interface RuleReviewDialogProps {
 }
 
 export function RuleReviewDialog({ rule, decision, open, onOpenChange }: RuleReviewDialogProps) {
+  const t = useT()
   const [note, setNote] = useState('')
   const toast = useToast()
   const review = useReviewRule()
@@ -59,7 +61,7 @@ export function RuleReviewDialog({ rule, decision, open, onOpenChange }: RuleRev
         },
         onError: (error) => {
           toast.show({
-            title: 'The server refused this decision',
+            title: t('p.the-server-refused-this-decision'),
             description: error.message,
             tone: 'error',
           })
@@ -72,11 +74,11 @@ export function RuleReviewDialog({ rule, decision, open, onOpenChange }: RuleRev
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title={rejecting ? 'Reject this proposed rule' : 'Activate this proposed rule'}
+      title={rejecting ? t('p.reject-this-proposed-rule') : t('p.activate-this-proposed-rule')}
       description={
         rejecting
-          ? 'A rejected rule was never in force, so no version snapshot is written. The reason is recorded in the audit trail.'
-          : 'Activating changes the set of rules this organisation is checked against, so the API writes an immutable snapshot of the rule set at this moment.'
+          ? t('p.a-rejected-rule-was-never-in')
+          : t('p.activating-changes-the-set-of-rules')
       }
       size="md"
       footer={
@@ -114,24 +116,21 @@ export function RuleReviewDialog({ rule, decision, open, onOpenChange }: RuleRev
             ) : null}
           </blockquote>
         ) : (
-          <p className="text-sm text-fg-faint">
-            No passage was recorded for this rule, so there is nothing to check the statement
-            against. Consider rejecting it and entering the control by hand.
-          </p>
+          <p className="text-sm text-fg-faint">{t('p.no-passage-was-recorded-for-this')}</p>
         )}
 
         <Textarea
-          label={rejecting ? 'Why this rule is being rejected' : 'Reviewer note (optional)'}
+          label={rejecting ? t('p.why-this-rule-is-being-rejected') : t('p.reviewer-note-optional')}
           required={rejecting}
           rows={3}
           value={note}
           onChange={(event) => setNote(event.target.value)}
           hint={
             rejecting
-              ? 'Required. The API refuses a rejection without a stated reason.'
-              : 'Recorded on the version snapshot alongside your name.'
+              ? t('p.required-the-api-refuses-a-rejection')
+              : t('p.recorded-on-the-version-snapshot-alongside')
           }
-          error={noteMissing && note.length > 0 ? 'A reason is required.' : null}
+          error={noteMissing && note.length > 0 ? t('p.a-reason-is-required') : null}
         />
       </div>
     </Dialog>

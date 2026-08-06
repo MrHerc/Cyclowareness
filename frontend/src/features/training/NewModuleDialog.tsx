@@ -86,12 +86,12 @@ export function NewModuleDialog() {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           maxLength={255}
-          hint="At least three characters. Sentence case, like the rest of the catalogue."
+          hint={t('p.at-least-three-characters-sentence-case')}
         />
 
         <Textarea
           id="new-module-description"
-          label="One-line description"
+          label={t('p.oneline-description')}
           rows={2}
           maxLength={500}
           value={description}
@@ -104,11 +104,11 @@ export function NewModuleDialog() {
             options={CHANNELS}
             value={channel}
             onValueChange={setChannel}
-            hint="The delivery route this lesson teaches about."
+            hint={t('p.the-delivery-route-this-lesson-teaches')}
           />
           <Input
             id="new-module-minutes"
-            label="Estimated minutes"
+            label={t('p.estimated-minutes')}
             type="number"
             min={1}
             max={60}
@@ -122,7 +122,7 @@ export function NewModuleDialog() {
           <p className="text-sm text-critical">
             {create.error instanceof ApiError
               ? create.error.message
-              : 'The module could not be created.'}
+              : t('p.the-module-could-not-be-created')}
           </p>
         ) : null}
 

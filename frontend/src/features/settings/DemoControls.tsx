@@ -30,9 +30,9 @@ export function DemoControls() {
     onSuccess: () => {
       setOpen(false)
       toast.show({
-        title: 'Demonstration world rebuilt',
+        title: t('p.demonstration-world-rebuilt'),
         description:
-          'Caspian Dynamics has been re-seeded with six months of history re-anchored to now.',
+          t('p.caspian-dynamics-has-been-reseeded-with'),
         tone: 'success',
       })
     },
@@ -47,12 +47,7 @@ export function DemoControls() {
       subtitle={t('x.available-because-this-deployment-reports')}
     >
       <div className="space-y-4">
-        <p className="text-body text-fg-muted">
-          Resetting deletes every loop run, approval decision, training assignment, quiz result,
-          sandbox job and audit entry, then rebuilds the seeded organisation deterministically — the
-          same people, the same six months of history, re-anchored to today. Nothing is recoverable
-          afterwards.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.resetting-deletes-every-loop-run-approval')}</p>
 
         <Button
           variant="danger"
@@ -68,7 +63,7 @@ export function DemoControls() {
         onOpenChange={setOpen}
         title={t('x.reset-the-demonstration-world')}
         description={t('x.every-loop-run-approval-assignment')}
-        confirmLabel="Reset everything"
+        confirmLabel={t('p.reset-everything')}
         tone="danger"
         requireTyped={CONFIRM_PHRASE}
         busy={reset.isPending}

@@ -106,7 +106,7 @@ export default function Reports() {
         <DateRangeSelector
           value={range}
           onChange={setRange}
-          label="Reporting window"
+          label={t('p.reporting-window')}
           className="shrink-0"
         />
       </header>
@@ -123,20 +123,12 @@ export default function Reports() {
         flush
       >
         <div className="p-5 pb-0">
-          <p className="text-body text-fg-muted">
-            JSON carries the complete analyzer output, the score breakdown and every extracted
-            indicator. STIX 2.1 carries the indicators as a bundle another tool can ingest. The PDF
-            is the rendered report. All three are the stored analysis — re-running a sample is a
-            separate action on the job itself.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.json-carries-the-complete-analyzer-output')}</p>
         </div>
 
         <div className="mt-4">
           {!canReadSandbox ? (
-            <p className="px-5 pb-5 text-body text-fg-subtle">
-              Your role cannot read sandbox analyses, so no export is offered here. An analyst can
-              produce these files from the sandbox surface.
-            </p>
+            <p className="px-5 pb-5 text-body text-fg-subtle">{t('p.your-role-cannot-read-sandbox-analyses')}</p>
           ) : (
           <AsyncBoundary
             isLoading={sandbox.isLoading}
@@ -172,11 +164,7 @@ export default function Reports() {
       <section className="space-y-4">
         <div className="max-w-3xl">
           <h2 className="text-title text-fg">{t('y.packs-this-deployment-cannot-yet')}</h2>
-          <p className="mt-1.5 text-body text-fg-muted">
-            The records for each of these exist and are served by the API. What is missing is the
-            route that renders them into a document. Each card names the gap rather than hiding it
-            behind a button.
-          </p>
+          <p className="mt-1.5 text-body text-fg-muted">{t('p.the-records-for-each-of-these')}</p>
         </div>
 
         <AsyncBoundary

@@ -163,13 +163,13 @@ export default function AuditLog() {
                 icon={ScrollText}
                 headline={
                   filters.activeCount > 0
-                    ? 'No entry matches these filters'
-                    : 'Nothing was recorded in this window'
+                    ? t('p.no-entry-matches-these-filters')
+                    : t('p.nothing-was-recorded-in-this-window')
                 }
                 description={
                   filters.activeCount > 0
-                    ? 'Clear a filter or widen the window. An action filter also matches every verb beneath it, so a family name is usually a better place to start than an exact one.'
-                    : 'An entry is written whenever an approval is decided, a policy rule is reviewed, an integration is changed, or an incident risk moves. Widen the window to reach older activity.'
+                    ? t('p.clear-a-filter-or-widen-the')
+                    : t('p.an-entry-is-written-whenever-an')
                 }
               />
             </div>

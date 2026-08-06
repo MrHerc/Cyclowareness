@@ -85,7 +85,7 @@ export function TrainingHistory({ assignments }: TrainingHistoryProps) {
                 <TableCell numeric>
                   {assignment.score === null ? (
                     <NoMeasurement
-                      reason="This assignment was never completed, so no quiz was graded."
+                      reason={t('p.this-assignment-was-never-completed-so')}
                       className="justify-end"
                     />
                   ) : (

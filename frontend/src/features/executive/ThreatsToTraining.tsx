@@ -75,7 +75,7 @@ export function ThreatsToTraining({
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
       <Panel>
         <HonestMetric
-          label="Closed loops"
+          label={t('p.closed-loops')}
           value={loopsClosed}
           format="number"
           sample={runs ? runs.length : loopsClosed}
@@ -84,16 +84,16 @@ export function ThreatsToTraining({
           sourceDetail="Platform API"
           lastUpdated={updatedAt}
           tone={loopsClosed > 0 ? 'brand' : 'neutral'}
-          hint="A threat that became training and was then measured. Runs that closed without measuring anything are not counted."
+          hint={t('p.a-threat-that-became-training-and')}
           unmeasuredReason="the dashboard did not report a count"
           definition={{
-            calculation: 'Runs that reached the completed state and produced a measurement.',
+            calculation: t('p.runs-that-reached-the-completed-state'),
             includes: ['Runs where training was assigned, taken, and scored'],
             excludes: [
               'Runs that closed at conversion because the artifact came back benign',
               'Runs still awaiting approval, training or measurement',
             ],
-            caveat: 'This is the number the product stakes its claim on, so the measurement condition is part of the definition rather than a footnote.',
+            caveat: t('p.this-is-the-number-the-product'),
           }}
         />
       </Panel>
@@ -109,7 +109,7 @@ export function ThreatsToTraining({
       ) : (
         <RestrictedNote
           what="The run-by-run breakdown is held by the security team"
-          detail="Loop run records are analyst-scoped, so this view can show the closed count the dashboard reports but not the split between completed, in flight and failed."
+          detail={t('p.loop-run-records-are-analystscoped-so')}
         />
       )}
 
@@ -122,7 +122,7 @@ export function ThreatsToTraining({
         {!runs ? (
           <RestrictedNote
             what="The threat list is held by the security team"
-            detail="Threat and run records are analyst-scoped. Ask the security team for the underlying runs behind the closed-loop count above."
+            detail={t('p.threat-and-run-records-are-analystscoped')}
           />
         ) : drivers.length > 0 ? (
           <ul>

@@ -186,8 +186,8 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
                       </span>
                     ) : (
                       <NoMeasurement
-                        label="No verdict yet"
-                        reason="The ANALYZE stage has not recorded a verdict for this artifact. That is not a clean result — nothing has been concluded about it."
+                        label={t('p.no-verdict-yet')}
+                        reason={t('p.the-analyze-stage-has-not-recorded')}
                       />
                     )}
                   </TableCell>
@@ -207,8 +207,8 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
                       </span>
                     ) : (
                       <NoMeasurement
-                        label="Not recorded"
-                        reason="This artifact carries no recipient or department metadata, so how far it reached is unknown."
+                        label={t('p.not-recorded')}
+                        reason={t('p.this-artifact-carries-no-recipient-or')}
                       />
                     )}
                   </TableCell>

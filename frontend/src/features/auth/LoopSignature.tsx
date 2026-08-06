@@ -21,6 +21,7 @@
  * type scale honest at every width.
  */
 
+import { useT } from '../../lib/i18n'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useId, useState } from 'react'
 import { cn } from '../../lib/format'
@@ -281,11 +282,12 @@ export function LoopSignature({ className }: LoopSignatureProps) {
  * assume — every other stage is machinery.
  */
 function StaticNarrative() {
+  const t = useT()
   const gate = LOOP_STORY.find((node) => node.kind === 'gate')
   return (
     <div className="w-full max-w-md text-center">
-      <p className="label text-brand-fg">HUMAN DECISION</p>
-      <p className="text-h text-fg mt-2">Seven stages, one human gate</p>
+      <p className="label text-brand-fg">{t('p.human-decision')}</p>
+      <p className="text-h text-fg mt-2">{t('p.seven-stages-one-human-gate')}</p>
       <p className="text-body text-fg-muted mt-1.5">{gate?.narrative}</p>
       <ul className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
         {LOOP_STORY.map((node) => (

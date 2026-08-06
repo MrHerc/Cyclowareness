@@ -72,15 +72,15 @@ export function ApprovalGatePanel({
             title: decision === 'approve' ? `Run ${runId} approved` : `Run ${runId} rejected`,
             description:
               decision === 'approve'
-                ? 'The loop has been released to targeting.'
-                : 'The module was rejected and the run is closed.',
+                ? t('p.the-loop-has-been-released-to')
+                : t('p.the-module-was-rejected-and-the'),
             tone: decision === 'approve' ? 'success' : 'info',
           })
         },
         onError: (error) => {
           setPending(null)
           toast.show({
-            title: 'The decision was not recorded',
+            title: t('p.the-decision-was-not-recorded'),
             description: error.message,
             tone: 'error',
           })
@@ -102,8 +102,8 @@ export function ApprovalGatePanel({
       </p>
 
       <Textarea
-        label="Decision comment"
-        hint="Kept on the audit entry. Optional for an approval, and the reason a rejection can be reviewed later."
+        label={t('p.decision-comment')}
+        hint={t('p.kept-on-the-audit-entry-optional')}
         className="mt-4"
         rows={3}
         value={comment}
@@ -133,9 +133,7 @@ export function ApprovalGatePanel({
             </Button>
           </>
         ) : (
-          <p className="text-sm text-fg-subtle">
-            Your role can read this queue but cannot decide on it. An analyst has to act.
-          </p>
+          <p className="text-sm text-fg-subtle">{t('p.your-role-can-read-this-queue')}</p>
         )}
       </div>
     </>
@@ -148,7 +146,7 @@ export function ApprovalGatePanel({
       {gate.comment?.trim() ? (
         <p className="mt-2 text-body text-fg-muted">{gate.comment.trim()}</p>
       ) : (
-        <p className="mt-2 text-sm text-fg-subtle">The decision was recorded without a comment.</p>
+        <p className="mt-2 text-sm text-fg-subtle">{t('p.the-decision-was-recorded-without-a')}</p>
       )}
       <div className="mt-4">
         <Button asChild variant="secondary" size="sm">
@@ -157,17 +155,11 @@ export function ApprovalGatePanel({
       </div>
     </>
   ) : gateUnknown ? (
-    <p className="text-body text-fg-muted">Reading the decision from the audit trail…</p>
+    <p className="text-body text-fg-muted">{t('p.reading-the-decision-from-the-audit')}</p>
   ) : released ? (
-    <p className="text-body text-fg-muted">
-      Released by a person — the run could not have reached targeting otherwise. No decision entry
-      was found in the audit trail for it, so the reviewer and comment are not shown here rather
-      than guessed at.
-    </p>
+    <p className="text-body text-fg-muted">{t('p.released-by-a-person-the-run')}</p>
   ) : (
-    <p className="text-body text-fg-muted">
-      Not reached. Nothing has been proposed for review on this run.
-    </p>
+    <p className="text-body text-fg-muted">{t('p.not-reached-nothing-has-been-proposed-2')}</p>
   )
 
   return (
@@ -192,7 +184,7 @@ export function ApprovalGatePanel({
         description={`Approving releases the module to ${proposedTargets} proposed target${
           proposedTargets === 1 ? '' : 's'
         }. Targeting is recomputed at execution, so the final audience can differ if a risk score has moved since this list was drawn.`}
-        confirmLabel="Approve and release"
+        confirmLabel={t('p.approve-and-release')}
         busy={decide.isPending}
         onConfirm={() => submit('approve')}
       />
@@ -203,7 +195,7 @@ export function ApprovalGatePanel({
         tone="danger"
         title={`Reject run ${runId}`}
         description={t('x.rejecting-marks-the-module-rejected')}
-        confirmLabel="Reject the module"
+        confirmLabel={t('p.reject-the-module')}
         busy={decide.isPending}
         onConfirm={() => submit('reject')}
       />

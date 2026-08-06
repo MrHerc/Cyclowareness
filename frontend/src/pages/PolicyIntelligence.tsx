@@ -125,7 +125,7 @@ export default function PolicyIntelligence() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <Panel tone="quiet">
                 <HonestMetric
-                  label="Findings detected"
+                  label={t('p.findings-detected')}
                   value={summary.sample_size}
                   format="number"
                   sample={summary.sample_size}
@@ -140,7 +140,7 @@ export default function PolicyIntelligence() {
 
               <Panel tone="quiet">
                 <HonestMetric
-                  label="Critical and high"
+                  label={t('p.critical-and-high')}
                   value={criticalAndHigh}
                   format="number"
                   sample={summary.sample_size}
@@ -148,7 +148,7 @@ export default function PolicyIntelligence() {
                   windowDays={summary.window_days}
                   tone={criticalAndHigh !== null && criticalAndHigh > 0 ? 'critical' : 'neutral'}
                   source="live"
-                  hint="Severity is set when a finding is raised, and is not recomputed as it ages."
+                  hint={t('p.severity-is-set-when-a-finding')}
                 />
               </Panel>
 
@@ -161,20 +161,20 @@ export default function PolicyIntelligence() {
                   sampleNoun="findings"
                   windowDays={summary.window_days}
                   source="live"
-                  hint="Open, in review, remediation planned or training assigned."
+                  hint={t('p.open-in-review-remediation-planned-or')}
                 />
               </Panel>
 
               <Panel tone="quiet">
                 <HonestMetric
-                  label="Overdue and open"
+                  label={t('p.overdue-and-open')}
                   value={summary.overdue_open_all_time}
                   format="number"
                   sample={summary.total_all_time}
                   sampleNoun="findings on record"
                   tone={summary.overdue_open_all_time > 0 ? 'high' : 'neutral'}
                   source="live"
-                  hint="Counted over every finding, not just this window — being overdue is a fact about today."
+                  hint={t('p.counted-over-every-finding-not-just')}
                 />
               </Panel>
             </div>

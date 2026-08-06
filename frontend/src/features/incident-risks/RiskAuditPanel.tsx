@@ -37,7 +37,7 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
       subtitle={
         slice.total !== null
           ? `${slice.events.length} of ${slice.total} entries recorded against this risk`
-          : 'Recorded against this risk'
+          : t('p.recorded-against-this-risk')
       }
     >
       <AsyncBoundary
@@ -93,10 +93,7 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
           ))}
         </Accordion>
 
-        <p className="mt-4 text-xs text-fg-faint">
-          Review decisions are recorded against the individual subject rather than the risk, so they
-          appear in the timeline above and not in this list.
-        </p>
+        <p className="mt-4 text-xs text-fg-faint">{t('p.review-decisions-are-recorded-against-the')}</p>
       </AsyncBoundary>
     </Panel>
   )

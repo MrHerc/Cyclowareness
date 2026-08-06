@@ -7,6 +7,7 @@
  * local state to reset.
  */
 
+import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
 import type { DepartmentRisk } from '../../domain/types'
 import { Button, Input, Select } from '../../components/ui'
@@ -42,6 +43,7 @@ export function EmployeeFilters({
   shown,
   total,
 }: EmployeeFiltersProps) {
+  const t = useT()
   const active = value.q !== '' || value.departmentId !== null || value.band !== 'all'
 
   const departmentOptions = [
@@ -55,10 +57,10 @@ export function EmployeeFilters({
   return (
     <div className="flex flex-wrap items-end gap-3">
       <Input
-        label="Search people"
+        label={t('p.search-people')}
         labelHidden
         type="search"
-        placeholder="Search name, email or role"
+        placeholder={t('p.search-name-email-or-role')}
         value={value.q}
         onChange={(event) => onChange({ q: event.target.value })}
         className="min-w-56 flex-1"

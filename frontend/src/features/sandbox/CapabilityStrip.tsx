@@ -89,16 +89,13 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
           </div>
 
           <div>
-            <p className="text-body text-fg">Accepted file types</p>
+            <p className="text-body text-fg">{t('p.accepted-file-types')}</p>
             <p className="mt-1.5 flex flex-wrap gap-1.5">
               {extensions.map((extension) => (
                 <Chip key={extension}>{extension}</Chip>
               ))}
             </p>
-            <p className="mt-1.5 text-xs text-fg-faint">
-              Anything else is still accepted and identified by content — the list is what the
-              engine has a dedicated parser for.
-            </p>
+            <p className="mt-1.5 text-xs text-fg-faint">{t('p.anything-else-is-still-accepted-and')}</p>
           </div>
         </div>
 
@@ -123,21 +120,11 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
                 {dynamic ? t('w.static-and-dynamic-analysis') : t('w.static-analysis-only')}
               </h3>
               {dynamic ? (
-                <p className="text-body text-fg-muted">
-                  An isolated detonation worker is attached to this deployment. Samples are parsed
-                  and also executed under supervision, and both sets of findings appear in the
-                  report.
-                </p>
+                <p className="text-body text-fg-muted">{t('p.an-isolated-detonation-worker-is-attached')}</p>
               ) : (
                 <>
-                  <p className="text-body text-fg-muted">
-                    Dynamic detonation is not available on this host. Nothing submitted here is
-                    executed — samples are parsed, scanned and scored, never run.
-                  </p>
-                  <p className="text-body text-fg-muted">
-                    Every report states this as a blind spot rather than reporting a clean
-                    behavioural result that was never observed.
-                  </p>
+                  <p className="text-body text-fg-muted">{t('p.dynamic-detonation-is-not-available-on')}</p>
+                  <p className="text-body text-fg-muted">{t('p.every-report-states-this-as-a')}</p>
                   {/* The engine's own reason, not a guess. "Not available" and
                       "not available because no worker token is configured" send
                       an operator to different places. */}

@@ -11,6 +11,7 @@
  * Indicators are defanged and rendered as text. Nothing here is a link.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowRight, Ban, CircleHelp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AIProvenanceBadge, ConfidenceBadge } from '../../components/data'
@@ -57,6 +58,7 @@ export function ReportCard({
   dismissing,
   error,
 }: ReportCardProps) {
+  const t = useT()
   const triage = report.triage_summary
   const sender = metaText(report.artifact_meta, 'sender')
   const iocs = triage?.likely_iocs ?? {}
@@ -222,9 +224,7 @@ export function ReportCard({
         ) : null}
 
         {report.status === 'new' && !canAct ? (
-          <p className="text-sm text-fg-faint">
-            Triaging a report requires the analyst role. This account can read the queue only.
-          </p>
+          <p className="text-sm text-fg-faint">{t('p.triaging-a-report-requires-the-analyst')}</p>
         ) : null}
 
         {report.linked_loop_run_id !== null ? (
@@ -236,9 +236,7 @@ export function ReportCard({
         ) : null}
 
         {report.status === 'dismissed' ? (
-          <p className="text-sm text-fg-faint">
-            Dismissed by an analyst. No loop run was started and no risk score moved.
-          </p>
+          <p className="text-sm text-fg-faint">{t('p.dismissed-by-an-analyst-no-loop')}</p>
         ) : null}
       </div>
 

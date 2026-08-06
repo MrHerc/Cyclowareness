@@ -108,13 +108,8 @@ export default function Integrations() {
             strokeWidth={1.75}
           />
           <div className="min-w-0 space-y-1">
-            <p className="text-body text-fg">No external provider is connected in this deployment.</p>
-            <p className="text-sm text-fg-muted">
-              The connection records, their states and every action below are real and audited. No
-              sync client is compiled into this build, so nothing on this page can reach a provider —
-              a sync says so rather than inventing a result. The course catalogues attached to these
-              connections are demonstration data.
-            </p>
+            <p className="text-body text-fg">{t('p.no-external-provider-is-connected-in')}</p>
+            <p className="text-sm text-fg-muted">{t('p.the-connection-records-their-states-and')}</p>
           </div>
         </div>
       </header>
@@ -134,7 +129,7 @@ export default function Integrations() {
             ) : null}
           </div>
           <Select
-            label="Connection state"
+            label={t('p.connection-state')}
             options={statusOptions}
             value={status}
             onValueChange={setStatus}
@@ -162,13 +157,13 @@ export default function Integrations() {
             icon={Link2}
             headline={
               rows.length === 0
-                ? 'No connection has been registered'
-                : 'No connection is in that state'
+                ? t('p.no-connection-has-been-registered')
+                : t('p.no-connection-is-in-that-state')
             }
             description={
               rows.length === 0
-                ? 'A connection record appears once a provider is registered with the platform. This deployment ships a set of them so the states can be demonstrated.'
-                : 'Choose another state, or set the filter back to every state.'
+                ? t('p.a-connection-record-appears-once-a')
+                : t('p.choose-another-state-or-set-the')
             }
           />
         }

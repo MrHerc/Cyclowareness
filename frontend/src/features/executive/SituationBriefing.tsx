@@ -84,13 +84,11 @@ export function SituationBriefing({
         </>
       ) : (
         <div className="max-w-3xl space-y-2">
-          <p className="text-lead text-fg-muted">
-            There is not enough measured activity to summarise this period.
-          </p>
+          <p className="text-lead text-fg-muted">{t('p.there-is-not-enough-measured-activity')}</p>
           <p className="text-sm text-fg-subtle">
             {metrics
               ? `No rate in the trailing ${metrics.window_days} days reached the ${metrics.min_sample} resolved events the platform requires before it will report one. A simulation, an assigned module completed, or a threat carried through the loop will each produce something to say here.`
-              : 'The dashboard has not answered yet, so nothing can be summarised.'}
+              : t('p.the-dashboard-has-not-answered-yet')}
           </p>
         </div>
       )}

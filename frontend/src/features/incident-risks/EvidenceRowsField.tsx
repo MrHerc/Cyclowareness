@@ -12,6 +12,7 @@
  * and changed their mind should not have to find the empty box.
  */
 
+import { useT } from '../../lib/i18n'
 import { Plus, Trash2 } from 'lucide-react'
 import { useFieldArray, type Control, type UseFormRegister } from 'react-hook-form'
 import { Button, IconButton, Input } from '../../components/ui'
@@ -24,20 +25,16 @@ export interface EvidenceRowsFieldProps {
 }
 
 export function EvidenceRowsField({ control, register, disabled }: EvidenceRowsFieldProps) {
+  const t = useT()
   const { fields, append, remove } = useFieldArray({ control, name: 'evidence' })
 
   return (
     <fieldset className="flex min-w-0 flex-col gap-3 border-0 p-0" disabled={disabled}>
       <legend className="text-sm font-medium text-fg-muted">Evidence</legend>
-      <p className="-mt-1 text-xs text-fg-faint">
-        What the incident actually found. Empty rows are discarded when the risk is opened.
-      </p>
+      <p className="-mt-1 text-xs text-fg-faint">{t('p.what-the-incident-actually-found-empty')}</p>
 
       {fields.length === 0 && (
-        <p className="text-sm text-fg-subtle">
-          No evidence rows yet. A risk with no evidence can still be opened, but nobody reviewing it
-          later will be able to check it.
-        </p>
+        <p className="text-sm text-fg-subtle">{t('p.no-evidence-rows-yet-a-risk')}</p>
       )}
 
       <ul className="flex flex-col gap-3">
@@ -48,17 +45,17 @@ export function EvidenceRowsField({ control, register, disabled }: EvidenceRowsF
           >
             <Input
               label="Label"
-              placeholder="Mail gateway verdict"
+              placeholder={t('p.mail-gateway-verdict')}
               {...register(`evidence.${index}.label` as const)}
             />
             <Input
               label="Value"
-              placeholder="Delivered to inbox, no quarantine"
+              placeholder={t('p.delivered-to-inbox-no-quarantine')}
               {...register(`evidence.${index}.value` as const)}
             />
             <Input
               label="Reference"
-              placeholder="Optional — URL, log id, ticket"
+              placeholder={t('p.optional-url-log-id-ticket')}
               inputClassName="tech"
               {...register(`evidence.${index}.ref` as const)}
             />

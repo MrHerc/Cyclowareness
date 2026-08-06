@@ -8,6 +8,7 @@
  * conflict and the dialog shows that message verbatim.
  */
 
+import { useT } from '../../lib/i18n'
 import { CheckCircle2, Lock, RotateCcw, Send } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { Badge, Panel, Tooltip } from '../../components/ui'
@@ -33,6 +34,7 @@ export interface RiskHeaderProps {
 }
 
 export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
+  const t = useT()
   const [assigning, setAssigning] = useState(false)
   const [closing, setClosing] = useState(false)
   const [reopening, setReopening] = useState(false)
@@ -68,7 +70,7 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
           <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
             <Meta label="Risk type" value={riskTypeLabel(risk.risk_type)} />
             <Meta
-              label="Confidentiality"
+              label={t('p.confidentiality')}
               value={
                 <span className={redacted ? 'inline-flex items-center gap-1.5 text-medium' : undefined}>
                   {redacted && <Lock size={13} className="shrink-0" aria-hidden="true" />}
@@ -77,8 +79,8 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
               }
               hint={
                 redacted
-                  ? 'The affected employees are not shown what happened.'
-                  : 'The affected employees see the full narrative.'
+                  ? t('p.the-affected-employees-are-not-shown')
+                  : t('p.the-affected-employees-see-the-full')
               }
             />
             <Meta

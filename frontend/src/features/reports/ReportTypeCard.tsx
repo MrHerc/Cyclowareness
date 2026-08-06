@@ -9,6 +9,7 @@
  * "Generate" button would be a promise; a link is a fact.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Ban } from 'lucide-react'
 import { SampleSizeLabel } from '../../components/data'
@@ -29,11 +30,12 @@ export interface ReportTypeCardProps {
 }
 
 export function ReportTypeCard({ type, sample, blocked = false, range }: ReportTypeCardProps) {
+  const t = useT()
   const Icon = type.icon
   const coverage =
     type.scoping === 'range'
       ? formatRangeLabel(range.from, range.to)
-      : 'Point in time — today’s stored scores'
+      : t('p.point-in-time-todays-stored-scores')
 
   return (
     <Panel headingLevel={3} className="flex h-full flex-col">
@@ -52,7 +54,7 @@ export function ReportTypeCard({ type, sample, blocked = false, range }: ReportT
         </div>
 
         <div>
-          <p className="label text-fg-faint">What it contains</p>
+          <p className="label text-fg-faint">{t('p.what-it-contains')}</p>
           <ul className="mt-2 space-y-1.5">
             {type.contains.map((line) => (
               <li key={line} className="flex gap-2 text-sm text-fg-muted">

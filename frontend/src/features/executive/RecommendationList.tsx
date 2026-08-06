@@ -47,12 +47,8 @@ export function RecommendationList({ items }: RecommendationListProps) {
         <div className="flex items-start gap-3">
           <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-safe" aria-hidden="true" />
           <div>
-            <p className="text-body text-fg">No rule on this page fired.</p>
-            <p className="mt-1 text-sm text-fg-subtle">
-              Click rate is at or below reporting rate, no department sits in the high band, no
-              high-severity finding is open, and at least one loop has closed with a measurement.
-              That is the absence of a warning, not a certificate.
-            </p>
+            <p className="text-body text-fg">{t('p.no-rule-on-this-page-fired')}</p>
+            <p className="mt-1 text-sm text-fg-subtle">{t('p.click-rate-is-at-or-below')}</p>
           </div>
         </div>
       )}

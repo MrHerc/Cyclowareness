@@ -137,11 +137,11 @@ export default function Simulations() {
                 className="w-44"
               />
               <Input
-                label="Search campaigns"
+                label={t('p.search-campaigns')}
                 type="search"
                 value={query}
                 onChange={(event) => setParam('q', event.target.value)}
-                placeholder="Campaign name"
+                placeholder={t('p.campaign-name')}
                 className="w-56"
               />
             </div>

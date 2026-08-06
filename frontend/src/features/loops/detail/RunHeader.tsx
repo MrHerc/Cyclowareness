@@ -6,6 +6,7 @@
  * one" — should not require reading a seven-row list to answer.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import type { LoopRunDetail } from '../../../domain/types'
@@ -22,6 +23,7 @@ export interface RunHeaderProps {
 }
 
 export function RunHeader({ run, updatedAt }: RunHeaderProps) {
+  const t = useT()
   const title = run.threat?.title?.trim() || 'Untitled artifact'
 
   return (
@@ -55,7 +57,7 @@ export function RunHeader({ run, updatedAt }: RunHeaderProps) {
         </div>
 
         <div className="flex flex-col items-end gap-1.5">
-          <DataSourceLabel source="live" detail="Loop run record" />
+          <DataSourceLabel source="live" detail={t('p.loop-run-record')} />
           <LastUpdated at={updatedAt ? new Date(updatedAt).toISOString() : null} />
           {run.status === 'awaiting_approval' ? (
             <Button asChild variant="primary" size="sm" className="mt-1">

@@ -29,7 +29,7 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
       <Panel title={t('x.analysis')}>
         <InsufficientDataState
           title={t('x.no-verdict-has-been-recorded')}
-          reason="The loop's ANALYZE stage has not written a verdict for this artifact. That is not a clean result — nothing has been concluded about it."
+          reason={t('p.the-loops-analyze-stage-has-not')}
           remedy="A verdict appears once stage 2 completes for the run this artifact started."
         />
       </Panel>
@@ -57,7 +57,7 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
         <div>
           <dt className="label text-fg-faint">Behaviour observed</dt>
           <dd className="mt-1 text-body text-fg-muted">
-            {threat.behavior_summary ?? 'The analyzer returned no behaviour summary for this artifact.'}
+            {threat.behavior_summary ?? t('p.the-analyzer-returned-no-behaviour-summary')}
           </dd>
         </div>
 
@@ -70,7 +70,7 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
             <AIProvenanceBadge provenance="unknown" />
           </dt>
           <dd className="mt-1 text-body text-fg-muted">
-            {threat.explanation ?? 'No plain-language explanation was written for this artifact.'}
+            {threat.explanation ?? t('p.no-plainlanguage-explanation-was-written-for')}
           </dd>
           <dd className="mt-2 text-xs text-fg-faint">
             The threat record stores this paragraph but not which engine produced it, so this screen

@@ -77,12 +77,12 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
               {page.truncated ? ` The API returned ${num(page.items.length)} of ${num(page.total)}.` : ''}
             </p>
             <Input
-              label="Search courses"
+              label={t('p.search-courses')}
               labelHidden
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Title, topic or behaviour"
+              placeholder={t('p.title-topic-or-behaviour')}
               className="w-56"
             />
           </div>
@@ -106,13 +106,13 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
                 icon={BookOpen}
                 headline={
                   page.items.length === 0
-                    ? 'No course has been imported'
-                    : 'No course matches this search'
+                    ? t('p.no-course-has-been-imported')
+                    : t('p.no-course-matches-this-search')
                 }
                 description={
                   page.items.length === 0
-                    ? 'Courses appear once a sync imports them from the provider. No provider client exists in this build, so nothing can be fetched here.'
-                    : 'Clear the search to see the courses this connection does hold.'
+                    ? t('p.courses-appear-once-a-sync-imports')
+                    : t('p.clear-the-search-to-see-the')
                 }
               />
             }

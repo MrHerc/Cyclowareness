@@ -111,7 +111,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
       createdId = created.id
     } catch (error) {
       setFailure(
-        error instanceof ApiError ? error.message : 'The risk could not be opened. Nothing was saved.',
+        error instanceof ApiError ? error.message : t('p.the-risk-could-not-be-opened'),
       )
       return
     }
@@ -120,10 +120,10 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
       try {
         await attachSubjects.mutateAsync({ id: createdId, employee_ids: employeeIds })
       } catch (error) {
-        const detail = error instanceof ApiError ? error.message : 'The employees could not be attached.'
+        const detail = error instanceof ApiError ? error.message : t('p.the-employees-could-not-be-attached')
         toast.show({
           tone: 'warning',
-          title: 'Risk opened, but nobody was attached',
+          title: t('p.risk-opened-but-nobody-was-attached'),
           description: `${detail} Attach the affected people from the risk itself.`,
         })
         close(false)
@@ -134,11 +134,11 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
 
     toast.show({
       tone: 'success',
-      title: 'Risk opened as a draft',
+      title: t('p.risk-opened-as-a-draft'),
       description:
         employeeIds.length > 0
           ? `${employeeIds.length} ${employeeIds.length === 1 ? 'person is' : 'people are'} attached. Nobody is on the hook until the required work is assigned.`
-          : 'Nobody is attached yet, so nobody is on the hook.',
+          : t('p.nobody-is-attached-yet-so-nobody'),
     })
     close(false)
     void navigate(`/incident-risks/${createdId}`)
@@ -178,14 +178,14 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             required
             className="sm:col-span-2"
             error={form.formState.errors.title?.message}
-            placeholder="Credential entered on a spoofed supplier portal"
+            placeholder={t('p.credential-entered-on-a-spoofed-supplier')}
             {...form.register('title')}
           />
           <Input
-            label="Related incident reference"
-            hint="The ticket or case this came from. It is what the audit trail labels every entry with."
+            label={t('p.related-incident-reference')}
+            hint={t('p.the-ticket-or-case-this-came')}
             inputClassName="tech"
-            placeholder="INC-2026-0184"
+            placeholder={t('p.inc20260184')}
             {...form.register('incident_ref')}
           />
           <Controller
@@ -219,8 +219,8 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="affected_department_id"
             render={({ field }) => (
               <Select
-                label="Affected department"
-                hint="Optional. Use it when the exposure is a team's, not one person's."
+                label={t('p.affected-department')}
+                hint={t('p.optional-use-it-when-the-exposure')}
                 options={departmentOptions}
                 value={field.value}
                 onValueChange={field.onChange}
@@ -231,12 +231,12 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
         </div>
 
         <Textarea
-          label="What happened"
+          label={t('p.what-happened')}
           required
           rows={4}
           error={form.formState.errors.description?.message}
-          hint="Written for the record. Depending on the confidentiality below, the affected employee may read this."
-          placeholder="Describe the incident, how it was found, and what the exposure was."
+          hint={t('p.written-for-the-record-depending-on')}
+          placeholder={t('p.describe-the-incident-how-it-was')}
           {...form.register('description')}
         />
 
@@ -247,7 +247,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
         <EmployeePicker
           value={employeeIds}
           onChange={setEmployeeIds}
-          hint="Who the incident named. They are attached to the risk; the required work is assigned separately, from the risk itself."
+          hint={t('p.who-the-incident-named-they-are')}
         />
 
         <Separator fade />
@@ -258,7 +258,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="confidentiality"
             render={({ field }) => (
               <Select
-                label="Confidentiality"
+                label={t('p.confidentiality')}
                 required
                 options={CONFIDENTIALITY_OPTIONS}
                 value={field.value}
@@ -282,12 +282,12 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
         </div>
 
         <Textarea
-          label="Required action"
+          label={t('p.required-action')}
           required
           rows={3}
           error={form.formState.errors.required_action?.message}
-          hint="Shown to the affected employee at every confidentiality level."
-          placeholder="Complete the supplier-impersonation module and change the exposed credential."
+          hint={t('p.shown-to-the-affected-employee-at')}
+          placeholder={t('p.complete-the-supplierimpersonation-module-and-ch')}
           {...form.register('required_action')}
         />
 
@@ -298,8 +298,8 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="requires_training"
             render={({ field }) => (
               <Checkbox
-                label="Requires training"
-                hint="Carried by a real training assignment against an approved module."
+                label={t('p.requires-training')}
+                hint={t('p.carried-by-a-real-training-assignment')}
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
@@ -310,8 +310,8 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="requires_quiz"
             render={({ field }) => (
               <Checkbox
-                label="Requires a quiz"
-                hint="Only satisfied if the module you assign actually carries questions."
+                label={t('p.requires-a-quiz')}
+                hint={t('p.only-satisfied-if-the-module-you')}
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
@@ -322,8 +322,8 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="requires_sandbox"
             render={({ field }) => (
               <Checkbox
-                label="Requires a sandbox exercise"
-                hint="Nothing in this deployment can assign one — sandbox submission is analyst-only. Recording it is a manual step."
+                label={t('p.requires-a-sandbox-exercise')}
+                hint={t('p.nothing-in-this-deployment-can-assign')}
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
@@ -333,12 +333,12 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
-            label="Minimum score"
+            label={t('p.minimum-score')}
             type="number"
             min={0}
             max={100}
             inputMode="numeric"
-            hint="The reviewer applies this bar when accepting a completion. The quiz grader does not know about it."
+            hint={t('p.the-reviewer-applies-this-bar-when')}
             error={form.formState.errors.min_score?.message}
             {...form.register('min_score')}
           />
@@ -348,7 +348,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             hint={
               deadlineReadout
                 ? `Due end of day UTC — ${deadlineReadout.text}${deadlineReadout.overdue ? ', already past' : ''}.`
-                : 'Optional. Interpreted as the end of that day, UTC.'
+                : t('p.optional-interpreted-as-the-end-of')
             }
             {...form.register('deadline')}
           />
@@ -356,19 +356,19 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             label="Approver"
             required
             error={form.formState.errors.approver_name?.message}
-            hint="Shown to the affected employee as who to contact."
-            placeholder="Head of Security Operations"
+            hint={t('p.shown-to-the-affected-employee-as')}
+            placeholder={t('p.head-of-security-operations')}
             {...form.register('approver_name')}
           />
         </div>
 
         <Textarea
-          label="Closure criteria"
+          label={t('p.closure-criteria')}
           required
           rows={2}
           error={form.formState.errors.closure_criteria?.message}
-          hint="Quoted back when somebody closes this, so the closure note can be checked against it."
-          placeholder="All named subjects accepted at or above the pass mark, and the credential rotated."
+          hint={t('p.quoted-back-when-somebody-closes-this')}
+          placeholder={t('p.all-named-subjects-accepted-at-or')}
           {...form.register('closure_criteria')}
         />
       </form>

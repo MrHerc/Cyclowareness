@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import { Bar, BarChart, Cell, Tooltip, XAxis, YAxis } from 'recharts'
 import type { Severity } from '../../domain/types'
 import { humanise } from '../../lib/format'
@@ -44,6 +45,7 @@ export function SeverityBarChart({
   error = null,
   className,
 }: SeverityBarChartProps) {
+  const t = useT()
   const bySeverity = new Map(data.map((entry) => [entry.severity, entry.count]))
   const rows: Row[] = SEVERITY_ORDER.filter((severity) => bySeverity.has(severity)).map(
     (severity) => ({
@@ -63,7 +65,7 @@ export function SeverityBarChart({
       hasData={total > 0}
       loading={loading}
       error={error}
-      emptyTitle="Nothing to show"
+      emptyTitle={t('p.nothing-to-show')}
       emptyMessage="No findings have been raised in this view."
       description={`Counts by severity: ${rows.map((row) => `${row.label} ${row.count}`).join(', ')}.`}
       className={className}

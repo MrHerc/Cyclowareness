@@ -73,12 +73,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       setConfirmReset(false)
       toast.show({
         tone: 'success',
-        title: 'Demonstration world reset',
-        description: 'Every cached view has been invalidated and is reloading.',
+        title: t('p.demonstration-world-reset'),
+        description: t('p.every-cached-view-has-been-invalidated'),
       })
     },
     onError: (error) => {
-      toast.show({ tone: 'error', title: 'The reset did not complete', description: error.message })
+      toast.show({ tone: 'error', title: t('p.the-reset-did-not-complete'), description: error.message })
     },
   })
 
@@ -110,8 +110,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   if (can('sandbox.submit')) {
     actions.push({
       id: 'submit-artifact',
-      label: 'Submit an artifact to the sandbox',
-      hint: 'Analyse a file or a URL',
+      label: t('p.submit-an-artifact-to-the-sandbox'),
+      hint: t('p.analyse-a-file-or-a-url'),
       icon: Upload,
       run: () => go('/sandbox'),
     })
@@ -119,8 +119,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   if (can('threats.submit')) {
     actions.push({
       id: 'submit-threat',
-      label: 'Submit a threat into the loop',
-      hint: 'Start a run at stage one',
+      label: t('p.submit-a-threat-into-the-loop'),
+      hint: t('p.start-a-run-at-stage-one'),
       icon: Send,
       run: () => go('/threats'),
     })
@@ -128,8 +128,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   if (can('approvals.view')) {
     actions.push({
       id: 'open-approvals',
-      label: 'Open the approval gate',
-      hint: 'Decide what reaches an employee',
+      label: t('p.open-the-approval-gate'),
+      hint: t('p.decide-what-reaches-an-employee'),
       icon: BadgeCheck,
       run: () => go('/approvals'),
     })
@@ -137,8 +137,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   if (can('demo.reset') && capabilities?.demo_mode === true) {
     actions.push({
       id: 'reset-demo',
-      label: 'Reset the demonstration world',
-      hint: 'Destroys every run, decision and result',
+      label: t('p.reset-the-demonstration-world'),
+      hint: t('p.destroys-every-run-decision-and-result'),
       icon: RotateCcw,
       run: () => {
         onOpenChange(false)
@@ -165,7 +165,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 handler first and then skips its own arrow/Enter handling if the
                 event was defaulted, so intercepting here silently disables
                 keyboard selection. */}
-            <Command label="Command palette" loop className="flex flex-col">
+            <Command label={t('p.command-palette')} loop className="flex flex-col">
               <div className="flex items-center gap-3 border-b border-line-subtle px-4">
                 <Search
                   className="size-4 shrink-0 text-fg-subtle"
@@ -173,7 +173,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   strokeWidth={1.75}
                 />
                 <Command.Input
-                  placeholder="Search screens and actions"
+                  placeholder={t('p.search-screens-and-actions')}
                   className="h-12 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-faint"
                 />
               </div>
@@ -283,7 +283,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         onOpenChange={setConfirmReset}
         title="Reset the demonstration world"
         description="Every loop run, approval decision, simulation outcome and training result is deleted and the seeded organisation is rebuilt. This cannot be undone, and anything demonstrated so far will be gone."
-        confirmLabel="Reset the world"
+        confirmLabel={t('p.reset-the-world')}
         tone="danger"
         requireTyped="RESET"
         busy={resetDemo.isPending}

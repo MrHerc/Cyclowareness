@@ -13,6 +13,7 @@
  * there is none.
  */
 
+import { useT } from '../../lib/i18n'
 import type { SandboxVerdict } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { cn, humanise } from '../../lib/format'
@@ -45,6 +46,7 @@ function Fact({ label, value }: { label: string; value: string }) {
 }
 
 export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
+  const t = useT()
   const answer = 'verdict' in verdict ? (verdict as SandboxVerdict) : null
   // A job that has not been classified has no panel to draw. Rendering an empty
   // one would imply the engine looked and had nothing to say.
@@ -57,13 +59,13 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
     <Panel>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div className="min-w-0">
-          <p className="label text-fg-subtle">Classification</p>
+          <p className="label text-fg-subtle">{t('p.classification')}</p>
           <p className={cn('mt-2 text-display', tone)}>{humanise(answer.verdict)}</p>
           {answer.threat_name ? (
             <p className="tech mt-2 break-all text-body text-fg">{answer.threat_name}</p>
           ) : null}
           <p className="mt-3 text-sm text-fg-muted">
-            {VERDICT_SENTENCE[answer.verdict] ?? 'The engine reached this classification.'}
+            {VERDICT_SENTENCE[answer.verdict] ?? t('p.the-engine-reached-this-classification')}
           </p>
         </div>
 

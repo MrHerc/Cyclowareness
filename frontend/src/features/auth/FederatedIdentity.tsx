@@ -12,6 +12,7 @@
  * true here; a neutral key icon claims nothing.
  */
 
+import { useT } from '../../lib/i18n'
 import { KeyRound } from 'lucide-react'
 import { Button } from '../../components/ui'
 
@@ -22,6 +23,7 @@ const PROVIDERS = [
 ] as const
 
 export function FederatedIdentity() {
+  const t = useT()
   return (
     <div className="mt-6">
       <div className="flex items-center gap-3" aria-hidden="true">
@@ -46,10 +48,7 @@ export function FederatedIdentity() {
 
       {/* Immediately after the controls, so it is read in order by anyone who
           cannot see that they are dimmed. */}
-      <p className="text-xs text-fg-faint mt-3">
-        Identity federation is not configured for this deployment. No SAML or OIDC provider is
-        connected, so these are inactive rather than pretending to redirect.
-      </p>
+      <p className="text-xs text-fg-faint mt-3">{t('p.identity-federation-is-not-configured-for')}</p>
     </div>
   )
 }

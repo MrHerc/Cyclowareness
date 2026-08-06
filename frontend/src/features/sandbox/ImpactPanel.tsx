@@ -43,7 +43,7 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
         <p className="mt-2 text-body text-fg-muted">
           Nothing here is rated, because nothing was demonstrated.{' '}
           {rated.rationale[0]?.why ??
-            'No capability was derived from the evidence, so there is no impact to score.'}
+            t('p.no-capability-was-derived-from-the')}
         </p>
       ) : (
         <>
@@ -59,7 +59,7 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
 
           {rated.capabilities.length > 0 ? (
             <div className="mt-5">
-              <p className="label text-fg-subtle">What the evidence shows it can do</p>
+              <p className="label text-fg-subtle">{t('p.what-the-evidence-shows-it-can')}</p>
               <ul className="mt-2 flex flex-wrap gap-1.5">
                 {rated.capabilities.map((capability) => (
                   <li
@@ -75,7 +75,7 @@ export function ImpactPanel({ impact }: ImpactPanelProps) {
 
           {rated.rationale.length > 0 ? (
             <div className="mt-5">
-              <p className="label text-fg-subtle">How each metric was set</p>
+              <p className="label text-fg-subtle">{t('p.how-each-metric-was-set')}</p>
               <dl className="divide-line mt-1">
                 {rated.rationale.map((row, index) => (
                   <div

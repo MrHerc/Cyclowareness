@@ -26,6 +26,7 @@ export interface IncidentObligationsProps {
 }
 
 function Obligation({ item }: { item: MyIncidentRisk }) {
+  const t = useT()
   const due = deadlineIn(item.deadline)
   const open = isIncidentWorkOpen(item)
 
@@ -54,7 +55,7 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
           <EyeOff className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
           <p className="text-sm text-fg-muted">
             {item.redaction_note ??
-              'The detail of this incident is restricted and is not shown in this view.'}
+              t('p.the-detail-of-this-incident-is')}
           </p>
         </div>
       ) : (

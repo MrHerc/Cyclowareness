@@ -11,6 +11,7 @@
  * feed is one tab stop per advisory and the target has an accessible name.
  */
 
+import { useT } from '../../lib/i18n'
 import { NoMeasurement } from '../../components/data'
 import {
   Badge,
@@ -42,6 +43,7 @@ export function IntelFeedTable({
   onSelect,
   matchCountFor,
 }: IntelFeedTableProps) {
+  const t = useT()
   return (
     <Table containerClassName="max-h-[36rem]">
       <TableHeader>
@@ -100,7 +102,7 @@ export function IntelFeedTable({
                 {item.cvss_score === null || item.cvss_score === undefined ? (
                   <NoMeasurement
                     label="Not scored"
-                    reason="The publisher did not attach a CVSS score to this advisory."
+                    reason={t('p.the-publisher-did-not-attach-a')}
                     className="justify-end"
                   />
                 ) : (
@@ -112,7 +114,7 @@ export function IntelFeedTable({
                 {matches === null ? (
                   <NoMeasurement
                     label="Not counted"
-                    reason="The API returned only part of the match list, so this advisory's matches were not all seen. Open it to count them."
+                    reason={t('p.the-api-returned-only-part-of-2')}
                     className="justify-end"
                   />
                 ) : matches === 0 ? (

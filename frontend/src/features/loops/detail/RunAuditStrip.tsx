@@ -41,7 +41,7 @@ export function RunAuditStrip({
       title={t('x.audit-trail')}
       subtitle={
         total === undefined
-          ? 'Every material change recorded against this run.'
+          ? t('p.every-material-change-recorded-against-this')
           : `${total} entr${total === 1 ? 'y' : 'ies'} recorded against this run.`
       }
       actions={
@@ -51,7 +51,7 @@ export function RunAuditStrip({
       }
       footer={
         truncated
-          ? 'More entries matched than are shown here. Open the audit log to page through the rest.'
+          ? t('p.more-entries-matched-than-are-shown')
           : undefined
       }
     >

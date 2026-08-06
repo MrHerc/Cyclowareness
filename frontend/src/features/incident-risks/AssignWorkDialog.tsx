@@ -96,7 +96,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
       setFailure(
         error instanceof ApiError
           ? error.message
-          : 'The assignment did not go through. Nothing was assigned.',
+          : t('p.the-assignment-did-not-go-through'),
       )
     }
   }
@@ -159,14 +159,14 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
         ) : (
           <>
             <Select
-              label="Module to assign"
+              label={t('p.module-to-assign')}
               required
-              placeholder={modules.isLoading ? 'Loading approved modules…' : 'Choose an approved module'}
+              placeholder={modules.isLoading ? t('p.loading-approved-modules') : t('p.choose-an-approved-module')}
               options={moduleOptions}
               value={moduleId}
               onValueChange={setModuleId}
               disabled={modules.isLoading}
-              hint="Only approved modules appear here. Choosing none still records the attempt and reports what went unfulfilled."
+              hint={t('p.only-approved-modules-appear-here-choosing')}
             />
 
             {chosenModule && (
@@ -180,7 +180,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
                 />
                 <span className="text-xs text-fg-subtle">
                   {chosenModule.quiz.length === 0
-                    ? 'This module carries no questions, so completing it evidences nothing about comprehension.'
+                    ? t('p.this-module-carries-no-questions-so')
                     : `${chosenModule.quiz.length} question${chosenModule.quiz.length === 1 ? '' : 's'} · about ${chosenModule.est_minutes} minutes`}
                 </span>
               </div>
@@ -189,10 +189,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
             <fieldset className="flex min-w-0 flex-col gap-2 border-0 p-0">
               <legend className="text-sm font-medium text-fg-muted">Who to assign</legend>
               {assignable.length === 0 ? (
-                <p className="text-sm text-fg-subtle">
-                  Everyone attached to this risk already holds an assignment. Assigning again would
-                  reset work somebody may have completed, so the server leaves them untouched.
-                </p>
+                <p className="text-sm text-fg-subtle">{t('p.everyone-attached-to-this-risk-already')}</p>
               ) : (
                 <ul className="flex flex-col gap-2">
                   {assignable.map((subject) => (
@@ -221,7 +218,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
               rows={2}
               value={note}
               onChange={(event) => setNote(event.target.value)}
-              hint="Recorded on the audit entry, not shown to the employee."
+              hint={t('p.recorded-on-the-audit-entry-not')}
             />
           </>
         )}

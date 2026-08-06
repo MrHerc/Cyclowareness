@@ -34,8 +34,8 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
       <Tooltip
         content={
           isError
-            ? 'The loop counts could not be read. Open Closed Loops for the error in full.'
-            : 'Reading the live loop counts.'
+            ? t('p.the-loop-counts-could-not-be')
+            : t('p.reading-the-live-loop-counts')
         }
       >
         <span
@@ -46,7 +46,7 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
           )}
         >
           <Radar className="size-3.5 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-          {isError ? 'Loop status unavailable' : 'Loop status'}
+          {isError ? t('p.loop-status-unavailable') : 'Loop status'}
         </span>
       </Tooltip>
     )
@@ -61,12 +61,12 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
         <span className="block space-y-1">
           <span className="block">
             {running === 0
-              ? 'No loop runs are executing right now.'
+              ? t('p.no-loop-runs-are-executing-right')
               : `${running} loop ${running === 1 ? 'run is' : 'runs are'} executing.`}
           </span>
           <span className="block">
             {waiting === 0
-              ? 'Nothing is waiting at the approval gate.'
+              ? t('p.nothing-is-waiting-at-the-approval')
               : `${waiting} ${waiting === 1 ? 'run is' : 'runs are'} waiting for a human decision.`}
           </span>
           <span className="block text-fg-subtle">Open Closed Loops for the full picture.</span>

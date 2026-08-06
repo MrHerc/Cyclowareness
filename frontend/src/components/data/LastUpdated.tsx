@@ -6,6 +6,7 @@
  * simply sits there looking current.
  */
 
+import { useT } from '../../lib/i18n'
 import { Clock } from 'lucide-react'
 import { cn, formatDateTime, timeAgo } from '../../lib/format'
 import { Tip } from './Tip'
@@ -21,6 +22,7 @@ export interface LastUpdatedProps {
 }
 
 export function LastUpdated({ at, prefix = 'Updated', hideIcon = false, className }: LastUpdatedProps) {
+  const t = useT()
   const relative = timeAgo(at)
   const exact = formatDateTime(at)
   const known = relative !== '—'
@@ -28,7 +30,7 @@ export function LastUpdated({ at, prefix = 'Updated', hideIcon = false, classNam
   const body = (
     <span className={cn('inline-flex items-center gap-1.5 text-xs text-fg-faint', className)}>
       {hideIcon ? null : <Clock className="size-3.5 shrink-0" aria-hidden="true" />}
-      {known ? `${prefix} ${relative}` : 'Update time not recorded'}
+      {known ? `${prefix} ${relative}` : t('p.update-time-not-recorded')}
     </span>
   )
 

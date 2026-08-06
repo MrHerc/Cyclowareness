@@ -48,7 +48,7 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
         onSuccess: () => {
           toast.show({
             title: `Assessed as ${RELEVANCE_LABEL[relevance as keyof typeof RELEVANCE_LABEL] ?? relevance}`,
-            description: 'The judgement and its reason are on the audit trail.',
+            description: t('p.the-judgement-and-its-reason-are'),
             tone: 'success',
           })
           onOpenChange(false)
@@ -92,11 +92,11 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
           required={reasonRequired}
           value={reason}
           onChange={(event) => setReason(event.target.value)}
-          error={touched && missingReason ? 'A reason is required to mark an advisory not applicable.' : null}
+          error={touched && missingReason ? t('p.a-reason-is-required-to-mark') : null}
           hint={
             reasonRequired
-              ? 'Say what you checked. This is the record of the decision.'
-              : 'Optional, and worth writing: it is what the next analyst reads.'
+              ? t('p.say-what-you-checked-this-is')
+              : t('p.optional-and-worth-writing-it-is')
           }
           rows={3}
         />

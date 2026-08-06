@@ -100,7 +100,7 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
       description={
         policy
           ? `${POLICY_TYPE_LABELS[policy.policy_type] ?? policy.policy_type} · version ${policy.version}`
-          : 'Loading the policy record.'
+          : t('p.loading-the-policy-record')
       }
     >
       <AsyncBoundary
@@ -130,7 +130,7 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                   <span className="text-fg-subtle">No owner recorded</span>
                 )}
               </MetaRow>
-              <MetaRow label="Effective from">{formatDate(policy.effective_date)}</MetaRow>
+              <MetaRow label={t('p.effective-from')}>{formatDate(policy.effective_date)}</MetaRow>
               <MetaRow label="Review due">
                 {policy.review_date ? (
                   <span className={review.overdue ? 'text-high' : undefined}>
@@ -149,14 +149,14 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                   </span>
                 )}
               </MetaRow>
-              <MetaRow label="Technologies named by its rules">
+              <MetaRow label={t('p.technologies-named-by-its-rules')}>
                 {technologies.length > 0 ? (
                   <span className="tech">{technologies.join(', ')}</span>
                 ) : (
                   <span className="text-fg-subtle">
                     {rules.length === 0
-                      ? 'No rules exist yet, so nothing names a technology'
-                      : 'None of its rules names a technology'}
+                      ? t('p.no-rules-exist-yet-so-nothing')
+                      : t('p.none-of-its-rules-names-a')}
                   </span>
                 )}
               </MetaRow>
@@ -186,8 +186,8 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                   canReview={canManage}
                   emptyDescription={
                     policy.extraction_status === 'extracted'
-                      ? 'An extraction run completed and wrote nothing. Check the document under the Document tab.'
-                      : 'Nothing has produced rules for this policy yet. The Document tab says what stands in the way, and rules can also be entered by hand through the API.'
+                      ? t('p.an-extraction-run-completed-and-wrote')
+                      : t('p.nothing-has-produced-rules-for-this')
                   }
                 />
               </TabsContent>

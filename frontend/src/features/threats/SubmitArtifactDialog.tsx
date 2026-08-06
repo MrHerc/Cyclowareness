@@ -43,14 +43,14 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
     onSuccess: (data) => {
       toast.show({
         title: `Loop run ${data.loop_run_id} started`,
-        description: 'The artifact is being analysed. Stage 3 will stop at the approval gate.',
+        description: t('p.the-artifact-is-being-analysed-stage'),
         tone: 'success',
       })
       close()
       navigate(`/loops/${data.loop_run_id}`)
     },
     onError: (error) => {
-      toast.show({ title: 'The artifact was not accepted', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.the-artifact-was-not-accepted'), description: error.message, tone: 'error' })
     },
   })
 
@@ -109,18 +109,18 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
     >
       <form id={FORM_ID} onSubmit={handleSubmit} className="space-y-4">
         <Select
-          label="Artifact type"
+          label={t('p.artifact-type')}
           options={ARTIFACT_TYPE_OPTIONS}
           value={artifactType}
           onValueChange={setArtifactType}
-          hint="Chooses how the analyzer reads the body below."
+          hint={t('p.chooses-how-the-analyzer-reads-the')}
         />
 
         <Input
           label="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          hint="Optional. Left blank, the platform names it after the artifact type."
+          hint={t('p.optional-left-blank-the-platform-names')}
           autoComplete="off"
         />
 
@@ -130,7 +130,7 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
               label="Sender"
               value={sender}
               onChange={(event) => setSender(event.target.value)}
-              hint="Recorded as-is. Never contacted."
+              hint={t('p.recorded-asis-never-contacted')}
               autoComplete="off"
               spellCheck={false}
             />
@@ -144,13 +144,13 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
         ) : null}
 
         <Textarea
-          label="Artifact body"
+          label={t('p.artifact-body')}
           required
           rows={9}
           value={body}
           onChange={(event) => setBody(event.target.value)}
           error={bodyError}
-          hint="Raw headers, message text, URL or filename. Stored as inert text and never fetched."
+          hint={t('p.raw-headers-message-text-url-or')}
           spellCheck={false}
           textareaClassName="tech"
         />

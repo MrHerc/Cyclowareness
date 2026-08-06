@@ -113,8 +113,8 @@ export function Recognition({
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
           <Stat label="Points" value={num(points, 0)} />
-          <Stat label="Passing streak" value={num(streak, 0)} />
-          <Stat label="Reports sent" value={num(reportsSubmitted, 0)} />
+          <Stat label={t('p.passing-streak')} value={num(streak, 0)} />
+          <Stat label={t('p.reports-sent')} value={num(reportsSubmitted, 0)} />
           <Stat label="Standing" value={rank === null ? 'Unranked' : `#${num(rank, 0)}`} />
         </div>
 
@@ -148,17 +148,11 @@ export function Recognition({
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-xs text-fg-faint">
-              Average risk across everyone in the department. It is a team average, not anyone's
-              individual score.
-            </p>
+            <p className="mt-2 text-xs text-fg-faint">{t('p.average-risk-across-everyone-in-the')}</p>
           </div>
         ) : null}
 
-        <p className="text-xs text-fg-faint">
-          Points count completed training only — 50 for each module you finish, plus half your quiz
-          score. They are a record of what you did, not a measurement of how safe you are.
-        </p>
+        <p className="text-xs text-fg-faint">{t('p.points-count-completed-training-only-50')}</p>
       </div>
     </Panel>
   )

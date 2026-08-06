@@ -90,12 +90,12 @@ export default function IncidentRisks() {
               compact
               icon={ShieldAlert}
               headline={
-                filtered ? 'No risk matches these filters' : 'No incident risk has been opened'
+                filtered ? t('p.no-risk-matches-these-filters') : t('p.no-incident-risk-has-been-opened')
               }
               description={
                 filtered
-                  ? 'Every incident risk is excluded by the current selection. Clear the filters to see the whole set.'
-                  : 'A risk appears here when incident response charges an exposure to named people — a credential entered on a spoofed portal, a file sent to the wrong recipient, a procedure skipped under pressure.'
+                  ? t('p.every-incident-risk-is-excluded-by')
+                  : t('p.a-risk-appears-here-when-incident')
               }
               action={
                 filtered ? (

@@ -55,27 +55,27 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
           caption={t('x.for-a-human-decision')}
         />
         <Tile
-          label="From the library"
+          label={t('p.from-the-library')}
           value={num(stats.built_from_the_library, 0)}
           caption={t('x.no-model-involved')}
         />
         <Tile
-          label="With a model"
+          label={t('p.with-a-model')}
           value={num(stats.built_with_a_model, 0)}
           tone={stats.built_with_a_model > 0 ? 'text-ai' : undefined}
         />
         <Tile
-          label="Coverage gaps"
+          label={t('p.coverage-gaps')}
           value={num(stats.coverage_gaps, 0)}
           caption={t('x.nothing-covered-it')}
         />
         <Tile
-          label="Control gaps"
+          label={t('p.control-gaps')}
           value={num(stats.control_gaps, 0)}
           caption={t('x.a-control-not-a-module')}
         />
         <Tile
-          label="Disputes waiting"
+          label={t('p.disputes-waiting')}
           value={num(stats.disputes_open, 0)}
           tone={stats.disputes_open > 0 ? 'text-high' : undefined}
           caption={
@@ -87,12 +87,9 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
       </div>
 
       <div className="mt-5 border-t border-line-subtle pt-4">
-        <p className="label text-fg-subtle">Refused by the output firewall</p>
+        <p className="label text-fg-subtle">{t('p.refused-by-the-output-firewall')}</p>
         {refusals === 0 ? (
-          <p className="mt-1 text-body text-fg-muted">
-            None. Every plan built so far passed the firewall — no destination, invented key or
-            unsafe answer has reached it.
-          </p>
+          <p className="mt-1 text-body text-fg-muted">{t('p.none-every-plan-built-so-far')}</p>
         ) : (
           <>
             <p className={cn('mt-1 text-title', 'text-critical')}>{num(refusals, 0)}</p>
@@ -108,10 +105,7 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
             </ul>
           </>
         )}
-        <p className="mt-2 text-xs text-fg-faint">
-          A refusal is a security metric, not an error. A rise in one code means somebody is
-          probing what this product will write into an employee&rsquo;s screen.
-        </p>
+        <p className="mt-2 text-xs text-fg-faint">{t('p.a-refusal-is-a-security-metric')}</p>
       </div>
     </Panel>
   )

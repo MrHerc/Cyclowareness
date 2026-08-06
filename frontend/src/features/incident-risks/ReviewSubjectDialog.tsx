@@ -65,7 +65,7 @@ export function ReviewSubjectDialog({
       setFailure(
         error instanceof ApiError
           ? error.message
-          : 'The decision was not recorded. Nothing changed.',
+          : t('p.the-decision-was-not-recorded-nothing'),
       )
     }
   }
@@ -128,7 +128,7 @@ export function ReviewSubjectDialog({
                 ) : (
                   <NoMeasurement
                     className="text-lead"
-                    reason="This person has no recorded score. The required action may not carry a quiz."
+                    reason={t('p.this-person-has-no-recorded-score')}
                   />
                 )}
               </dd>
@@ -149,12 +149,12 @@ export function ReviewSubjectDialog({
               {
                 value: 'accepted',
                 label: 'Accept',
-                hint: 'The required action was met to this incident’s standard.',
+                hint: t('p.the-required-action-was-met-to'),
               },
               {
                 value: 'rejected',
                 label: 'Reject',
-                hint: 'It fell short. A note saying what was short of the bar is required.',
+                hint: t('p.it-fell-short-a-note-saying'),
               },
             ]}
           />
@@ -167,8 +167,8 @@ export function ReviewSubjectDialog({
             onChange={(event) => setNote(event.target.value)}
             hint={
               rejecting
-                ? 'Required. This is what the person is told about why their work was not accepted.'
-                : 'Optional. Recorded on the audit entry.'
+                ? t('p.required-this-is-what-the-person')
+                : t('p.optional-recorded-on-the-audit-entry')
             }
           />
         </div>

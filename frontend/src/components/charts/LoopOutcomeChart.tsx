@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { pct } from '../../lib/format'
 import { ChartFrame } from './ChartFrame'
@@ -43,6 +44,7 @@ export function LoopOutcomeChart({
   error = null,
   className,
 }: LoopOutcomeChartProps) {
+  const t = useT()
   const total = completed + awaiting + failed
   const share = (value: number) => (total === 0 ? null : pct(value / total, 0))
 
@@ -59,7 +61,7 @@ export function LoopOutcomeChart({
       hasData={total > 0}
       loading={loading}
       error={error}
-      emptyTitle="No loops yet"
+      emptyTitle={t('p.no-loops-yet')}
       emptyMessage="No loop has been started in this window."
       description={`Of ${total} loops, ${completed} completed, ${awaiting} are still in flight and ${failed} failed.`}
       className={className}

@@ -87,11 +87,7 @@ export default function Register() {
           strokeWidth={1.75}
           aria-hidden="true"
         />
-        <p className="text-sm text-fg-muted">
-          Every account is bound to an employee record, a department and a role. That binding is
-          what makes targeting and risk history mean anything, and it is why an account cannot be
-          created from this screen.
-        </p>
+        <p className="text-sm text-fg-muted">{t('p.every-account-is-bound-to-an')}</p>
       </div>
 
       <form
@@ -109,8 +105,8 @@ export default function Register() {
           {...register('email')}
         />
         <Input
-          label="Team or department"
-          hint="Optional. It helps whoever provisions the account pick the right role."
+          label={t('p.team-or-department')}
+          hint={t('p.optional-it-helps-whoever-provisions-the')}
           autoComplete="organization"
           error={errors.team?.message}
           {...register('team')}

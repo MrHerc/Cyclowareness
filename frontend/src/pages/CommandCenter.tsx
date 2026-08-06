@@ -193,20 +193,22 @@ export default function CommandCenter() {
           title: `Run #${runId} ${decision === 'approve' ? 'approved' : 'rejected'}`,
           description:
             decision === 'approve'
-              ? 'Targeting has been released. The decision is in the audit log.'
-              : 'Nothing was assigned. The decision is in the audit log.',
+              ? t('p.targeting-has-been-released-the-decision')
+              : t('p.nothing-was-assigned-the-decision-is'),
           tone: 'success',
         })
       } catch (error) {
         toast.show({
-          title: 'The decision was not recorded',
-          description: error instanceof Error ? error.message : 'The server did not accept it.',
+          title: t('p.the-decision-was-not-recorded'),
+          description: error instanceof Error ? error.message : t('p.the-server-did-not-accept-it'),
           tone: 'error',
         })
         throw error
       }
     },
-    [decide, toast],
+    // `t` is read inside: a language switch must produce a handler that
+    // announces in the new language, not the one the page mounted with.
+    [decide, toast, t],
   )
 
   const backing = backingFor('command-center')
@@ -225,7 +227,7 @@ export default function CommandCenter() {
             <p lang={locale} className="mt-1 text-body text-fg-muted">{t('page.command-center.lead')}</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <DataSourceLabel source="live" detail="Platform API" />
+            <DataSourceLabel source="live" detail={t('p.platform-api')} />
             <LastUpdated at={updatedAt} />
             {capabilities.data?.demo_mode ? <DemoDataBadge detail={backing.note} /> : null}
           </div>
@@ -234,7 +236,7 @@ export default function CommandCenter() {
           Counts are current as of the last refresh.{' '}
           {metrics
             ? `Rates cover a trailing ${metrics.window_days} days and are withheld below ${metrics.min_sample} resolved events.`
-            : 'The measurement window is set by the server and reported with each rate.'}
+            : t('p.the-measurement-window-is-set-by')}
         </p>
       </header>
 
@@ -332,7 +334,7 @@ export default function CommandCenter() {
               error={
                 dashboard.data || !dashboard.error
                   ? null
-                  : 'The dashboard did not answer, so no department standing can be shown.'
+                  : t('p.the-dashboard-did-not-answer-so')
               }
             />
             <p className="text-xs text-fg-subtle">

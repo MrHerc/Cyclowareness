@@ -13,6 +13,7 @@
  *   status makes the difference between "working" and "stuck" visible.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link, useNavigate } from 'react-router-dom'
 import type { SandboxJobSummary } from '../../domain/types'
 import { NoMeasurement } from '../../components/data'
@@ -55,6 +56,7 @@ function StageBar({ stage }: { stage: string }) {
 }
 
 export function JobsTable({ jobs }: JobsTableProps) {
+  const t = useT()
   const navigate = useNavigate()
 
   return (
@@ -125,8 +127,8 @@ export function JobsTable({ jobs }: JobsTableProps) {
                   </>
                 ) : (
                   <NoMeasurement
-                    label="Not classified"
-                    reason="The engine has not reached a verdict for this job yet."
+                    label={t('p.not-classified')}
+                    reason={t('p.the-engine-has-not-reached-a')}
                   />
                 )}
               </TableCell>
@@ -137,7 +139,7 @@ export function JobsTable({ jobs }: JobsTableProps) {
                 ) : (
                   <NoMeasurement
                     label="Not scored"
-                    reason="Scoring has not run for this job yet, so it has no risk level."
+                    reason={t('p.scoring-has-not-run-for-this')}
                   />
                 )}
               </TableCell>

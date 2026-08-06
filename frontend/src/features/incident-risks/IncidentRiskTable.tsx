@@ -13,6 +13,7 @@
  * list payload does not support.
  */
 
+import { useT } from '../../lib/i18n'
 import { Lock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { NoMeasurement } from '../../components/data'
@@ -36,6 +37,7 @@ export interface IncidentRiskTableProps {
 }
 
 export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
+  const t = useT()
   return (
     <Table>
       <TableHeader>
@@ -93,7 +95,7 @@ export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
                 ) : (
                   <NoMeasurement
                     label="Not listed"
-                    reason="The list response does not carry a subject count. Open the risk to see who is attached."
+                    reason={t('p.the-list-response-does-not-carry')}
                     className="justify-end text-xs"
                   />
                 )}
@@ -114,8 +116,8 @@ export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
                 <Tooltip
                   content={
                     redacted
-                      ? 'The incident narrative and the evidence are withheld from the affected employee at this level.'
-                      : 'The affected employee sees the incident narrative and the evidence.'
+                      ? t('p.the-incident-narrative-and-the-evidence')
+                      : t('p.the-affected-employee-sees-the-incident')
                   }
                 >
                   <span className="inline-flex items-center gap-1.5 text-sm">

@@ -197,7 +197,7 @@ export default function Executive() {
             <p lang={locale} className="mt-2 text-lead text-fg-muted">{t('page.executive.lead')}</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <DataSourceLabel source="live" detail="Platform API" />
+            <DataSourceLabel source="live" detail={t('p.platform-api')} />
             <LastUpdated at={updatedAt} />
             {capabilities.data?.demo_mode ? <DemoDataBadge detail={backing.note} /> : null}
           </div>
@@ -257,7 +257,7 @@ export default function Executive() {
                 <DateRangeSelector
                   value={range}
                   onChange={setRange}
-                  label="Chart window"
+                  label={t('p.chart-window')}
                 />
               }
             >
@@ -305,7 +305,7 @@ export default function Executive() {
                 loading={canReadRuns && runs.isLoading}
                 error={
                   canReadRuns && !runs.data && runs.error
-                    ? 'Loop runs could not be read, so the outcome split is unavailable.'
+                    ? t('p.loop-runs-could-not-be-read')
                     : null
                 }
               />
@@ -325,7 +325,7 @@ export default function Executive() {
                 loading={findings.isLoading}
                 error={
                   !findings.data && findings.error
-                    ? 'Policy findings could not be read, so nothing is counted here.'
+                    ? t('p.policy-findings-could-not-be-read')
                     : null
                 }
               />

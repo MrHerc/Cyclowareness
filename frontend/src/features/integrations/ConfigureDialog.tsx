@@ -102,18 +102,14 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
             aria-hidden="true"
             strokeWidth={1.75}
           />
-          <p className="text-sm text-fg-muted">
-            No credential field exists on this form. API keys, client secrets and tokens belong in
-            the deployment’s secret store — the API rejects credential-shaped values outright rather
-            than storing them where every backup and screenshot would carry them.
-          </p>
+          <p className="text-sm text-fg-muted">{t('p.no-credential-field-exists-on-this')}</p>
         </div>
 
         <Input
-          label="Display name"
+          label={t('p.display-name')}
           value={displayName}
           onChange={(event) => setDisplayName(event.target.value)}
-          hint="What this connection is called on the integrations screen."
+          hint={t('p.what-this-connection-is-called-on')}
           maxLength={120}
         />
         <Input
@@ -121,14 +117,14 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
           type="url"
           value={baseUrl}
           onChange={(event) => setBaseUrl(event.target.value)}
-          placeholder="https://example.instructure.com"
-          hint="The provider tenant this connection would talk to."
+          placeholder={t('p.httpsexampleinstructurecom')}
+          hint={t('p.the-provider-tenant-this-connection-would')}
         />
         <Input
-          label="Account name"
+          label={t('p.account-name')}
           value={accountName}
           onChange={(event) => setAccountName(event.target.value)}
-          hint="The organisation or tenant identifier the provider knows you by."
+          hint={t('p.the-organisation-or-tenant-identifier-the')}
         />
 
         <p className="text-xs text-fg-subtle">

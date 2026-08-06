@@ -33,13 +33,14 @@ export interface MyRemediationPlansProps {
 }
 
 function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => void }) {
+  const t = useT()
   const toast = useToast()
   const [note, setNote] = useState('')
   const dispute = useRemediationDispute({
     onSuccess: () => {
       toast.show({
         title: 'Sent to a person',
-        description: 'Someone will read what you wrote and answer it here.',
+        description: t('p.someone-will-read-what-you-wrote'),
         tone: 'success',
       })
       onDone()
@@ -63,8 +64,8 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
         // from the top of the page to lodge an appeal.
         autoFocus
         id={`dispute-${plan.id}`}
-        label="Why do you think this was assigned in error?"
-        hint="This is sent to a person as you wrote it."
+        label={t('p.why-do-you-think-this-was')}
+        hint={t('p.this-is-sent-to-a-person')}
         rows={3}
         maxLength={2000}
         value={note}
@@ -90,6 +91,7 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
 }
 
 function Dispute({ plan }: { plan: RemediationPlan }) {
+  const t = useT()
   const [open, setOpen] = useState(false)
 
   const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -121,7 +123,7 @@ function Dispute({ plan }: { plan: RemediationPlan }) {
         {/* The status is the server's, not a client guess: `rejected` after a
             dispute is the analyst having withdrawn it. */}
         {plan.status === 'rejected' ? (
-          <p className="mt-1 text-fg-muted">This is no longer assigned to you.</p>
+          <p className="mt-1 text-fg-muted">{t('p.this-is-no-longer-assigned-to')}</p>
         ) : null}
       </div>
     )
@@ -157,7 +159,7 @@ export function MyRemediationPlans({ plans }: MyRemediationPlansProps) {
           <li key={plan.id} className="rounded-panel border border-line bg-elevated p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <h3 className="text-h text-fg">
-                {plan.framing.headline ?? 'Something was assigned to you'}
+                {plan.framing.headline ?? t('p.something-was-assigned-to-you')}
               </h3>
               <span className="shrink-0 text-xs text-fg-faint">
                 {formatDate(plan.created_at)}

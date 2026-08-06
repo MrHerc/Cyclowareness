@@ -59,7 +59,7 @@ export function QueueSummary({ stats }: QueueSummaryProps) {
         <Tile label="Suspicious" value={num(verdicts.suspicious, 0)} tone="text-high" />
         <Tile label="Clean" value={num(verdicts.clean, 0)} tone="text-safe" />
         <Tile
-          label="Unclassified"
+          label={t('p.unclassified')}
           value={num(verdicts.unclassified, 0)}
           tone="text-fg-muted"
           caption={t('x.finished-without-a-verdict')}

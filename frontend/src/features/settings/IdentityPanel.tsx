@@ -41,7 +41,7 @@ export function IdentityPanel() {
       <dl>
         <SettingRow
           term="Role"
-          detail="Set by the platform, not by this browser. Switching roles is a real sign-in against a different account."
+          detail={t('p.set-by-the-platform-not-by')}
         >
           <Badge tone="brand" size="sm">
             {role ? ROLE_LABEL[role] : 'No role'}
@@ -52,8 +52,8 @@ export function IdentityPanel() {
           term="Linked employee record"
           detail={
             session.employee_id === null
-              ? 'This account is not attached to a person in the organisation, so it has no risk score of its own.'
-              : 'The person this account acts as. Their risk score moves when they complete training.'
+              ? t('p.this-account-is-not-attached-to')
+              : t('p.the-person-this-account-acts-as')
           }
         >
           {session.employee_id === null ? (
@@ -71,7 +71,7 @@ export function IdentityPanel() {
           term="Surfaces you can open"
           detail={
             sections.length === 0
-              ? 'This role has no analyst surfaces. Its world is the portal.'
+              ? t('p.this-role-has-no-analyst-surfaces')
               : sections.map((section) => section.label).join(' · ')
           }
         >

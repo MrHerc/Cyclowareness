@@ -126,12 +126,12 @@ export function SubmissionPanel() {
               </Field>
 
               <Input
-                label="Archive password (optional)"
+                label={t('p.archive-password-optional')}
                 type="password"
                 autoComplete="off"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                hint="Leave blank unless the archive is encrypted. If it is, analysis pauses and asks — the engine does not guess or brute-force passwords."
+                hint={t('p.leave-blank-unless-the-archive-is')}
               />
             </div>
 
@@ -161,10 +161,10 @@ export function SubmissionPanel() {
               type="url"
               inputMode="url"
               autoComplete="off"
-              placeholder="https://example.com/invoice.zip"
+              placeholder={t('p.httpsexamplecominvoicezip')}
               value={url}
               onChange={(event) => setUrl(event.target.value)}
-              hint="The server downloads the content and analyses what comes back. It refuses to fetch private, loopback and cloud-metadata addresses, and says which rule it hit."
+              hint={t('p.the-server-downloads-the-content-and')}
               required
             />
 

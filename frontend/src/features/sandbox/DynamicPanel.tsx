@@ -40,6 +40,7 @@ const SEVERITY_TONE: Record<string, string> = {
 }
 
 function Timeline({ events }: { events: NonNullable<SandboxDynamicReport['timeline']> }) {
+  const t = useT()
   // One lane per kind, in first-seen order.
   const lanes = events.reduce<Record<string, typeof events>>((acc, event) => {
     ;(acc[event.kind] ??= []).push(event)
@@ -49,7 +50,7 @@ function Timeline({ events }: { events: NonNullable<SandboxDynamicReport['timeli
 
   return (
     <div className="mt-4">
-      <p className="label text-fg-subtle">Behaviour over time</p>
+      <p className="label text-fg-subtle">{t('p.behaviour-over-time')}</p>
       <div className="mt-2 space-y-2">
         {Object.entries(lanes).map(([kind, lane]) => (
           <div key={kind} className="grid grid-cols-1 gap-1 sm:grid-cols-[8rem_1fr] sm:items-center sm:gap-3">
@@ -108,15 +109,15 @@ export function DynamicPanel({
               Detonated on the {dynamic.engine ?? 'attached'} engine
               {dynamic.duration_ms ? <> for {duration(dynamic.duration_ms)}</> : null}.{' '}
               {signals.length === 0
-                ? 'The run completed and produced no behavioural findings — the sample did nothing the worker recognised.'
+                ? t('p.the-run-completed-and-produced-no')
                 : signals.length === 1
-                  ? 'One behavioural finding was observed, and scored alongside the static evidence.'
+                  ? t('p.one-behavioural-finding-was-observed-and')
                   : `${signals.length} behavioural findings were observed, and scored alongside the static evidence.`}
             </p>
           ) : workerAttached ? (
             <p className="mt-1 text-body text-fg-muted">
               A detonation worker is attached but has not reported on this sample yet.{' '}
-              {dynamic.unavailable_reason ?? 'It may still be queued.'} Everything below the verdict
+              {dynamic.unavailable_reason ?? t('p.it-may-still-be-queued')} Everything below the verdict
               comes from static analysis alone.
             </p>
           ) : (

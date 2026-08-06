@@ -89,10 +89,7 @@ export function CurrentAssignmentCard({
               ))}
             </ul>
           ) : (
-            <p className="mt-2 text-body text-fg-subtle">
-              No selection reasons were recorded against this assignment, so this screen cannot tell
-              you why you were chosen. Your security team can.
-            </p>
+            <p className="mt-2 text-body text-fg-subtle">{t('p.no-selection-reasons-were-recorded-against')}</p>
           )}
 
           {module.threat_id !== null ? (
@@ -127,7 +124,7 @@ export function CurrentAssignmentCard({
             )}
           </Fact>
 
-          <Fact icon={Clock} label="Estimated time">
+          <Fact icon={Clock} label={t('p.estimated-time')}>
             {module.est_minutes > 0 ? (
               `${module.est_minutes} minutes`
             ) : (
@@ -135,7 +132,7 @@ export function CurrentAssignmentCard({
             )}
           </Fact>
 
-          <Fact icon={Target} label="Score you must reach">
+          <Fact icon={Target} label={t('p.score-you-must-reach')}>
             {incident?.min_score !== null && incident?.min_score !== undefined ? (
               `${num(incident.min_score, 0)}%`
             ) : (

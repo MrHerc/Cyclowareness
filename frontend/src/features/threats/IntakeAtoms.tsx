@@ -8,6 +8,7 @@
  * ten seconds later, which is what `ActionError` is for.
  */
 
+import { useT } from '../../lib/i18n'
 import {
   AtSign,
   FileText,
@@ -123,11 +124,12 @@ export interface ActionErrorProps {
  * would lose the analyst the thing they were deciding about.
  */
 export function ActionError({ error, className }: ActionErrorProps) {
+  const t = useT()
   if (error === null || error === undefined) return null
   const message =
     error instanceof ApiError
       ? error.message
-      : 'The request did not complete, and the reason was not reported.'
+      : t('p.the-request-did-not-complete-and')
   return (
     <p role="alert" className={cn('text-sm text-critical', className)}>
       {message}

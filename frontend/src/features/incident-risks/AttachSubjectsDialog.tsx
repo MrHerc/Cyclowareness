@@ -50,7 +50,7 @@ export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubject
       setFailure(
         error instanceof ApiError
           ? error.message
-          : 'Nobody was attached. The risk is unchanged.',
+          : t('p.nobody-was-attached-the-risk-is'),
       )
     }
   }
@@ -92,8 +92,8 @@ export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubject
           value={employeeIds}
           onChange={setEmployeeIds}
           alreadyAttached={alreadyAttached}
-          label="People to attach"
-          hint="Anyone already attached is shown as such and is left untouched."
+          label={t('p.people-to-attach')}
+          hint={t('p.anyone-already-attached-is-shown-as')}
         />
 
         <Textarea
@@ -101,7 +101,7 @@ export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubject
           rows={2}
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          hint="Recorded on the audit entry — why these people, and not others."
+          hint={t('p.recorded-on-the-audit-entry-why')}
         />
       </div>
     </Dialog>

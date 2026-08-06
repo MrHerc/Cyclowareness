@@ -45,10 +45,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
           </div>
         ) : (
           <div className="space-y-3">
-            <p className="text-body text-fg-muted">
-              No record on this deployment links this artifact to a loop run. The threats API does not
-              index runs by threat, and only a human-sensor report carries both ids.
-            </p>
+            <p className="text-body text-fg-muted">{t('p.no-record-on-this-deployment-links')}</p>
             <Button variant="secondary" size="sm" asChild>
               <Link to="/loops" className="gap-2">
                 <Route className="size-4" aria-hidden="true" />
@@ -110,11 +107,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
       <Separator className="my-4" />
 
       <h3 className="label text-fg-faint">{t('y.sandbox')}</h3>
-      <p className="mt-2 text-sm text-fg-muted">
-        The loop’s ANALYZE stage runs the platform analyzer over this artifact’s text. It does not
-        raise a sandbox job, and this deployment records no link from a threat record to one — so no
-        detonation verdict is claimed here.
-      </p>
+      <p className="mt-2 text-sm text-fg-muted">{t('p.the-loops-analyze-stage-runs-the')}</p>
       <Button variant="ghost" size="sm" asChild className="mt-2">
         <Link to="/sandbox" className="gap-2">
           <FlaskConical className="size-4" aria-hidden="true" />

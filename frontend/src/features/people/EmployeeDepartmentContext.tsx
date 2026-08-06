@@ -7,6 +7,7 @@
  * confident-looking number computed from a handful of people.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { NoMeasurement } from '../../components/data'
@@ -25,13 +26,14 @@ export function EmployeeDepartmentContext({
   department,
   score,
 }: EmployeeDepartmentContextProps) {
+  const t = useT()
   if (!department) {
     return (
       <div className="space-y-2">
         <p className="text-body text-fg">{departmentName || 'No department recorded'}</p>
         <NoMeasurement
-          label="No roll-up available"
-          reason="The departments endpoint returned no roll-up for this department, which happens when it has no active employees."
+          label={t('p.no-rollup-available')}
+          reason={t('p.the-departments-endpoint-returned-no-rollup')}
         />
       </div>
     )
@@ -42,7 +44,7 @@ export function EmployeeDepartmentContext({
   return (
     <div className="space-y-4">
       <div>
-        <p className="label text-fg-subtle">Department average</p>
+        <p className="label text-fg-subtle">{t('p.department-average')}</p>
         <div className="mt-2">
           <RiskScore score={department.avg_risk} bar />
         </div>

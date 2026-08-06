@@ -70,7 +70,7 @@ export default function Onboarding() {
       </Panel>
 
       <Panel
-        title={role ? `What ${ROLE_LABEL[role]} covers` : 'What your role covers'}
+        title={role ? `What ${ROLE_LABEL[role]} covers` : t('p.what-your-role-covers')}
         subtitle={t('x.every-screen-below-is-one')}
       >
         <RoleSurfaces can={can} onNavigate={markOnboardingSeen} />
@@ -84,11 +84,7 @@ export default function Onboarding() {
               strokeWidth={1.6}
               aria-hidden="true"
             />
-            <p className="text-body text-fg-muted">
-              A blank measurement is a blank measurement. Where the platform has not measured
-              something yet it prints an em dash and says how large the sample was, rather than a
-              zero that looks like good news.
-            </p>
+            <p className="text-body text-fg-muted">{t('p.a-blank-measurement-is-a-blank')}</p>
           </li>
           <li className="flex gap-3">
             <ArrowRight
@@ -96,25 +92,20 @@ export default function Onboarding() {
               strokeWidth={1.6}
               aria-hidden="true"
             />
-            <p className="text-body text-fg-muted">
-              Content written by a model is labelled as such, everywhere it appears. Template output
-              is labelled as template output, never as AI.
-            </p>
+            <p className="text-body text-fg-muted">{t('p.content-written-by-a-model-is')}</p>
           </li>
         </ul>
       </Panel>
 
       <footer className="flex flex-wrap items-center justify-between gap-3 pb-4">
-        <p className="text-sm text-fg-subtle">
-          You can reach every one of these screens from the navigation once you are inside.
-        </p>
+        <p className="text-sm text-fg-subtle">{t('p.you-can-reach-every-one-of')}</p>
         <Button
           variant="primary"
           size="lg"
           onClick={leave}
           icon={<ArrowRight className="size-4" aria-hidden="true" />}
         >
-          {(role && HOME_LABEL[role]) ?? 'Take me to my home screen'}
+          {(role && HOME_LABEL[role]) ?? t('p.take-me-to-my-home-screen')}
         </Button>
       </footer>
     </div>

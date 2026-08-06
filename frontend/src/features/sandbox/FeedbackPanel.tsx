@@ -32,13 +32,13 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
       setSubmitting(null)
       toast.show({
         title: 'Feedback recorded',
-        description: 'It is attached to this job and visible in the export.',
+        description: t('p.it-is-attached-to-this-job'),
         tone: 'success',
       })
     },
     onError: (error) => {
       setSubmitting(null)
-      toast.show({ title: 'Could not record the feedback', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.could-not-record-the-feedback'), description: error.message, tone: 'error' })
     },
   })
 
@@ -61,11 +61,11 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
     >
       <div className="space-y-4">
         <Textarea
-          label="Note (optional)"
+          label={t('p.note-optional')}
           rows={3}
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          hint="What the engine got right or wrong, in the words you would use in a ticket."
+          hint={t('p.what-the-engine-got-right-or')}
         />
 
         <div className="flex flex-wrap items-center gap-2">

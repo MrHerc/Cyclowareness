@@ -38,16 +38,15 @@ function count(value: number | null): string {
 }
 
 function Result({ view }: { view: RefreshView }) {
+  const t = useT()
   const none = view.configuredSources.length === 0
 
   return (
     <div role="status" aria-live="polite" className="rise space-y-4">
       <div className="space-y-2">
-        <p className="label text-fg-faint">Configured sources</p>
+        <p className="label text-fg-faint">{t('p.configured-sources')}</p>
         {none ? (
-          <p className="text-body text-fg">
-            None. This deployment has no threat-intelligence source to contact.
-          </p>
+          <p className="text-body text-fg">{t('p.none-this-deployment-has-no-threatintelligence')}</p>
         ) : (
           <ul className="flex flex-wrap gap-1.5">
             {view.configuredSources.map((source) => (
@@ -65,9 +64,9 @@ function Result({ view }: { view: RefreshView }) {
       <Separator />
 
       <div className="space-y-1.5">
-        <Fact label="Sources contacted" value={count(view.sourcesChecked)} />
-        <Fact label="New advisories" value={count(view.itemsAdded)} />
-        <Fact label="Advisories updated" value={count(view.itemsUpdated)} />
+        <Fact label={t('p.sources-contacted')} value={count(view.sourcesChecked)} />
+        <Fact label={t('p.new-advisories')} value={count(view.itemsAdded)} />
+        <Fact label={t('p.advisories-updated')} value={count(view.itemsUpdated)} />
         {view.requestedAt ? (
           <Fact label="Requested" value={formatDateTime(view.requestedAt)} />
         ) : null}
@@ -76,15 +75,12 @@ function Result({ view }: { view: RefreshView }) {
       {view.detail ? (
         <p className="text-sm leading-relaxed text-fg-muted">{view.detail}</p>
       ) : (
-        <p className="text-sm leading-relaxed text-fg-muted">
-          The server returned no description of what it did. Treat the advisory list as
-          unchanged rather than as up to date.
-        </p>
+        <p className="text-sm leading-relaxed text-fg-muted">{t('p.the-server-returned-no-description-of')}</p>
       )}
 
       {view.nextStep ? (
         <div className="rounded-control border border-line-subtle bg-base p-3">
-          <p className="label text-fg-faint">What configuring a source would do</p>
+          <p className="label text-fg-faint">{t('p.what-configuring-a-source-would-do')}</p>
           <p className="mt-1.5 text-sm leading-relaxed text-fg-muted">{view.nextStep}</p>
         </div>
       ) : null}
@@ -111,14 +107,11 @@ export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSour
       headingLevel={2}
     >
       <div className="space-y-4">
-        <p className="text-sm leading-relaxed text-fg-muted">
-          The advisories on this screen are the records stored in this deployment. Nothing on
-          it was fetched from an external source while you have been looking at it.
-        </p>
+        <p className="text-sm leading-relaxed text-fg-muted">{t('p.the-advisories-on-this-screen-are')}</p>
 
         <div className="space-y-1.5">
           <Fact
-            label="Newest advisory in view"
+            label={t('p.newest-advisory-in-view')}
             value={latestPublishedAt ? formatDateTime(latestPublishedAt) : 'None'}
           />
         </div>
@@ -139,9 +132,7 @@ export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSour
             Check sources now
           </Button>
         ) : (
-          <p className="text-sm text-fg-subtle">
-            Your role can read intelligence but not ask the platform to check its sources.
-          </p>
+          <p className="text-sm text-fg-subtle">{t('p.your-role-can-read-intelligence-but')}</p>
         )}
 
         {refresh.isError ? (
@@ -163,10 +154,7 @@ export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSour
               aria-hidden="true"
               strokeWidth={1.5}
             />
-            <p className="text-sm leading-relaxed text-fg-subtle">
-              No source check has been requested in this session. An unchanged list is not
-              evidence that no new advisory exists — it is evidence that nobody looked.
-            </p>
+            <p className="text-sm leading-relaxed text-fg-subtle">{t('p.no-source-check-has-been-requested')}</p>
           </div>
         )}
       </div>

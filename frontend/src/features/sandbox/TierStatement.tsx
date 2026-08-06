@@ -38,10 +38,7 @@ export function TierStatement({ tiers }: TierStatementProps) {
   if (entries.length === 0) {
     return (
       <Panel title={t('x.analysis-tiers')}>
-        <p className="text-body text-fg-muted">
-          This job did not record which tiers ran. Treat the findings below as incomplete rather
-          than as a full picture.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.this-job-did-not-record-which')}</p>
       </Panel>
     )
   }

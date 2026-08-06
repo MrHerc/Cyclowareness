@@ -73,7 +73,7 @@ export function ModuleEditor({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs text-fg-faint">
             {dirty
-              ? 'Changed. Saving rewrites the module and marks it analyst-edited.'
+              ? t('p.changed-saving-rewrites-the-module-and')
               : 'No changes yet.'}
           </span>
           <div className="flex gap-2">
@@ -89,12 +89,7 @@ export function ModuleEditor({
     >
       <div className="flex items-start gap-2 rounded-control border border-ai/30 bg-ai/5 px-3 py-2">
         <PenLine className="mt-0.5 size-4 shrink-0 text-ai" aria-hidden="true" />
-        <p className="text-sm text-fg-muted">
-          Saving marks this module as analyst-edited for this review, so it is no longer presented
-          as machine output. The module record stores which engine generated it and not whether a
-          person rewrote it — put what you changed in the decision comment, because that is what
-          the audit trail keeps.
-        </p>
+        <p className="text-sm text-fg-muted">{t('p.saving-marks-this-module-as-analystedited')}</p>
       </div>
 
       {error && (
@@ -122,7 +117,7 @@ export function ModuleEditor({
       <div className="space-y-5">
         <h3 className="label text-fg-faint">{t('y.lesson-sections')}</h3>
         {value.content.length === 0 ? (
-          <p className="text-sm text-fg-subtle">This module has no sections to edit.</p>
+          <p className="text-sm text-fg-subtle">{t('p.this-module-has-no-sections-to')}</p>
         ) : (
           value.content.map((section, index) => (
             <div key={index} className="space-y-3 rounded-control border border-line-subtle p-4">
@@ -147,9 +142,7 @@ export function ModuleEditor({
       <div className="space-y-5">
         <h3 className="label text-fg-faint">{t('y.quiz')}</h3>
         {value.quiz.length === 0 ? (
-          <p className="text-sm text-critical">
-            This module has no quiz. It cannot be completed by an employee.
-          </p>
+          <p className="text-sm text-critical">{t('p.this-module-has-no-quiz-it')}</p>
         ) : (
           value.quiz.map((question, index) => (
             <div key={index} className="space-y-3 rounded-control border border-line-subtle p-4">
@@ -172,7 +165,7 @@ export function ModuleEditor({
               </div>
 
               <RadioGroup
-                label="Correct answer"
+                label={t('p.correct-answer')}
                 orientation="horizontal"
                 value={question.correct_index !== undefined ? String(question.correct_index) : undefined}
                 onValueChange={(next) => setQuestion(index, { correct_index: Number(next) })}
@@ -180,11 +173,11 @@ export function ModuleEditor({
                   value: String(optionIndex),
                   label: `Option ${optionIndex + 1}`,
                 }))}
-                hint="Never sent to the employee. It is what the grader scores against."
+                hint={t('p.never-sent-to-the-employee-it')}
               />
 
               <Textarea
-                label="Explanation shown after answering"
+                label={t('p.explanation-shown-after-answering')}
                 rows={2}
                 value={question.explanation ?? ''}
                 onChange={(event) => setQuestion(index, { explanation: event.target.value })}
@@ -201,7 +194,7 @@ export function ModuleEditor({
         rows={3}
         value={value.takeaway}
         onChange={(event) => setField('takeaway', event.target.value)}
-        hint="The one sentence the employee is left with."
+        hint={t('p.the-one-sentence-the-employee-is')}
       />
     </Panel>
   )

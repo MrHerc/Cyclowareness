@@ -8,6 +8,7 @@
  * reach, which is worse than saying nothing.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { EMPLOYEE_NAV, visibleSections, type NavItem } from '../../app/navigation'
 import type { Permission } from '../../lib/auth/permissions'
@@ -19,6 +20,7 @@ export interface RoleSurfacesProps {
 }
 
 export function RoleSurfaces({ can, onNavigate }: RoleSurfacesProps) {
+  const t = useT()
   const sections = visibleSections(can)
   const mine = EMPLOYEE_NAV.filter((item) => can(item.permission))
   const groups: { id: string; label: string; items: NavItem[] }[] = [
@@ -28,10 +30,7 @@ export function RoleSurfaces({ can, onNavigate }: RoleSurfacesProps) {
 
   if (groups.length === 0) {
     return (
-      <p className="text-body text-fg-muted">
-        This role has no surfaces assigned in the permission matrix. That is a configuration
-        problem rather than something you can fix here — ask whoever provisioned the account.
-      </p>
+      <p className="text-body text-fg-muted">{t('p.this-role-has-no-surfaces-assigned')}</p>
     )
   }
 

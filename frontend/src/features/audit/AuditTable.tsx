@@ -12,6 +12,7 @@
  * the element it controls. A `<tr>` with an onClick is invisible to a keyboard.
  */
 
+import { useT } from '../../lib/i18n'
 import { Fragment, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { Badge, CodeBlock, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui'
@@ -24,6 +25,7 @@ export interface AuditTableProps {
 }
 
 export function AuditTable({ events }: AuditTableProps) {
+  const t = useT()
   const [expanded, setExpanded] = useState<number | null>(null)
 
   return (
@@ -123,10 +125,10 @@ export function AuditTable({ events }: AuditTableProps) {
                           {`Entry #${event.id}`}
                         </Badge>
                         <span className="tech">
-                          {event.ip_address ? `From ${event.ip_address}` : 'Source address not recorded'}
+                          {event.ip_address ? `From ${event.ip_address}` : t('p.source-address-not-recorded')}
                         </span>
                         <span className="min-w-0 truncate">
-                          {event.user_agent ? truncate(event.user_agent, 90) : 'User agent not recorded'}
+                          {event.user_agent ? truncate(event.user_agent, 90) : t('p.user-agent-not-recorded')}
                         </span>
                       </div>
                     </div>

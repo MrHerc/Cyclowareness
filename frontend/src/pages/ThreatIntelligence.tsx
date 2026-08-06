@@ -173,13 +173,13 @@ export default function ThreatIntelligence() {
                   icon={Radar}
                   headline={
                     hasFilters
-                      ? 'No advisory matches these filters'
-                      : 'No advisory is stored in this deployment'
+                      ? t('p.no-advisory-matches-these-filters')
+                      : t('p.no-advisory-is-stored-in-this')
                   }
                   description={
                     hasFilters
-                      ? 'Nothing stored here matches the source, type, severity, assessment and search you have set. Clearing them shows everything this deployment holds.'
-                      : 'Advisories reach this module by being seeded or entered by hand — no external source is configured, so nothing arrives on its own. Configure one and fetched advisories will appear here.'
+                      ? t('p.nothing-stored-here-matches-the-source')
+                      : t('p.advisories-reach-this-module-by-being')
                   }
                   action={
                     hasFilters ? (
@@ -202,10 +202,7 @@ export default function ThreatIntelligence() {
             </AsyncBoundary>
 
             {matchIndex === null && page.items.length > 0 ? (
-              <p className="border-t border-line-subtle px-5 py-3 text-xs text-fg-faint">
-                The API returned only part of the match list, so match counts are not shown here.
-                Open an advisory to see every match recorded against it.
-              </p>
+              <p className="border-t border-line-subtle px-5 py-3 text-xs text-fg-faint">{t('p.the-api-returned-only-part-of')}</p>
             ) : null}
           </Panel>
         </div>

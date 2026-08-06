@@ -62,7 +62,7 @@ export function UnresolvedRisks({
         <Panel>
           {openFindings && severe !== null ? (
             <HonestMetric
-              label="Open high-risk findings"
+              label={t('p.open-highrisk-findings')}
               value={severe}
               format="number"
               sample={openFindings.length}
@@ -74,10 +74,10 @@ export function UnresolvedRisks({
               hint={`${atLeast}Findings at critical or high severity that have not been resolved, accepted or ruled out.`}
               unmeasuredReason="the findings list could not be read"
               definition={{
-                calculation: 'Open findings whose severity is critical or high.',
+                calculation: t('p.open-findings-whose-severity-is-critical'),
                 includes: ['Statuses open, in review, remediation planned and training assigned'],
                 excludes: ['Resolved, accepted risk and false positive'],
-                caveat: 'Counted from the returned rows, not from a server-side total.',
+                caveat: t('p.counted-from-the-returned-rows-not'),
               }}
             />
           ) : (
@@ -88,7 +88,7 @@ export function UnresolvedRisks({
         <Panel>
           {openFindings && exposure ? (
             <HonestMetric
-              label="Policy exposure"
+              label={t('p.policy-exposure')}
               value={exposure.people}
               format="number"
               sample={openFindings.length}
@@ -100,14 +100,14 @@ export function UnresolvedRisks({
               hint={`People named by at least one open finding, across ${exposure.departments} department${exposure.departments === 1 ? '' : 's'}.`}
               unmeasuredReason="the findings list could not be read"
               definition={{
-                calculation: 'Distinct employees named individually by any open finding.',
+                calculation: t('p.distinct-employees-named-individually-by-any'),
                 includes: ['Employees a finding lists by name'],
                 excludes: [
                   'People covered only because their department was named',
                   `${exposure.unscoped} open finding${exposure.unscoped === 1 ? '' : 's'} naming neither a person nor a department`,
                 ],
                 caveat:
-                  'A floor, not a total. A finding scoped to a whole department contributes nobody to this head count.',
+                  t('p.a-floor-not-a-total-a'),
               }}
             />
           ) : (
@@ -118,7 +118,7 @@ export function UnresolvedRisks({
         <Panel>
           {remediation ? (
             <HonestMetric
-              label="Incident remediation completion"
+              label={t('p.incident-remediation-completion')}
               value={remediation.rate}
               format="percent"
               sample={remediation.total}
@@ -131,7 +131,7 @@ export function UnresolvedRisks({
               unmeasuredReason={`fewer than ${minSample} incident risks exist, which is too few to state as a rate`}
               unmeasuredRemedy="The closed and open counts are still shown above. A rate appears once there are enough records for one to mean anything."
               definition={{
-                calculation: 'Incident risks in the closed state, divided by all incident risks.',
+                calculation: t('p.incident-risks-in-the-closed-state'),
                 includes: ['Every incident risk the platform holds, whatever its age'],
                 excludes: ['Any trailing window — this is the whole register'],
                 caveat: `Withheld below ${minSample} records, matching the rule the server applies to its own rates.`,
@@ -141,7 +141,7 @@ export function UnresolvedRisks({
             <WithheldMetric
               label="Incident remediation completion"
               cause="restricted"
-              reason="Incident-response records name individuals and are held by the security team. This view cannot read them, which is not the same as there being none."
+              reason={t('p.incidentresponse-records-name-individuals-and-ar')}
             />
           )}
         </Panel>
@@ -153,7 +153,7 @@ export function UnresolvedRisks({
         caption={
           openFindings
             ? `${atLeast}Counted from the open findings this view can read.`
-            : 'No findings could be read.'
+            : t('p.no-findings-could-be-read')
         }
         loading={loading}
         error={error}

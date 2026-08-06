@@ -104,9 +104,9 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
     [employees.data, departmentIds, bands],
   )
 
-  const nameError = submitted && !name.trim() ? 'Give the campaign a name.' : null
-  const lureError = submitted && !lure.text ? 'Choose a lure source.' : null
-  const audienceError = submitted && audience.all.length === 0 ? 'Select at least one person.' : null
+  const nameError = submitted && !name.trim() ? t('p.give-the-campaign-a-name') : null
+  const lureError = submitted && !lure.text ? t('p.choose-a-lure-source') : null
+  const audienceError = submitted && audience.all.length === 0 ? t('p.select-at-least-one-person') : null
 
   function reset() {
     setName('')
@@ -144,8 +144,8 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
       {
         onSuccess: (simulation) => {
           toast.show({
-            title: 'Campaign created as a draft',
-            description: 'Nothing is delivered until you launch it.',
+            title: t('p.campaign-created-as-a-draft'),
+            description: t('p.nothing-is-delivered-until-you-launch'),
             tone: 'success',
           })
           handleOpenChange(false)
@@ -175,12 +175,12 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
     >
       <div className="space-y-6">
         <Input
-          label="Campaign name"
+          label={t('p.campaign-name')}
           required
           value={name}
           error={nameError}
           onChange={(event) => setName(event.target.value)}
-          hint="How this campaign appears in the programme list and in the audit trail."
+          hint={t('p.how-this-campaign-appears-in-the')}
         />
 
         <div>
@@ -215,13 +215,13 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
 
             <TabsContent value="threat">
               <Select
-                label="Analyzed threat"
+                label={t('p.analyzed-threat')}
                 labelHidden
                 placeholder={
                   threats.isLoading
                     ? 'Loading threats…'
                     : analyzedThreats.length === 0
-                      ? 'No analyzed threat is available'
+                      ? t('p.no-analyzed-threat-is-available')
                       : 'Choose a threat'
                 }
                 value={threatId}
@@ -246,17 +246,17 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
             options={[
               {
                 value: lure.channel ?? 'unset',
-                label: lure.channel ? channelLabel(lure.channel) : 'Set by the lure source',
+                label: lure.channel ? channelLabel(lure.channel) : t('p.set-by-the-lure-source'),
               },
             ]}
             value={lure.channel ?? 'unset'}
             disabled
-            hint="Derived by the server from the lure source. It cannot be set independently."
+            hint={t('p.derived-by-the-server-from-the')}
           />
         </div>
 
         <div>
-          <p className="text-sm font-medium text-fg-muted">Lure preview</p>
+          <p className="text-sm font-medium text-fg-muted">{t('p.lure-preview')}</p>
           <div className="mt-2">
             <LurePreview
               value={lure.text}
@@ -285,11 +285,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
           error={audienceError}
         />
 
-        <p className="text-xs text-fg-faint">
-          Creating a campaign records it and its targets. This deployment has no mail or SMS
-          gateway wired in, so nothing is actually sent — outcomes are recorded against targets by
-          an analyst.
-        </p>
+        <p className="text-xs text-fg-faint">{t('p.creating-a-campaign-records-it-and')}</p>
 
         {create.error ? (
           <p

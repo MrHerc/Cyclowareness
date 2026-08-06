@@ -108,7 +108,7 @@ export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
               />
               <Textarea
                 label={`Explanation for question ${index + 1}`}
-                hint="Shown to the employee after grading, right or wrong."
+                hint={t('p.shown-to-the-employee-after-grading')}
                 rows={3}
                 value={question.explanation}
                 onChange={(event) => update(index, { explanation: event.target.value })}

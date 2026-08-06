@@ -99,7 +99,7 @@ export function AssignTrainingDialog({
           if (parsed && parsed.assigned.length === 0) {
             toast.show({
               title: 'Nobody was assigned',
-              description: 'Every named person was skipped. The reasons are on the dialog.',
+              description: t('p.every-named-person-was-skipped-the'),
               tone: 'warning',
             })
           } else if (parsed) {
@@ -112,7 +112,7 @@ export function AssignTrainingDialog({
         },
         onError: (error) => {
           toast.show({
-            title: 'The training assignment was refused',
+            title: t('p.the-training-assignment-was-refused'),
             description: error.message,
             tone: 'error',
           })
@@ -208,31 +208,22 @@ export function AssignTrainingDialog({
             ) : null}
 
             {approved.length === 0 ? (
-              <p role="alert" className="text-sm text-fg-muted">
-                No approved training module exists in this deployment, so there is nothing to
-                attach. The API deliberately will not write one here — generating a lesson at
-                this point would push unreviewed content past the human approval gate. Approve a
-                module in the Training Studio first.
-              </p>
+              <p role="alert" className="text-sm text-fg-muted">{t('p.no-approved-training-module-exists-in')}</p>
             ) : (
               <Select
-                label="Approved module"
+                label={t('p.approved-module')}
                 options={options}
                 value={moduleId}
                 onValueChange={setModuleId}
-                placeholder="Choose a module…"
-                hint="Only modules a human has approved can be assigned."
+                placeholder={t('p.choose-a-module')}
+                hint={t('p.only-modules-a-human-has-approved')}
               />
             )}
 
             <fieldset className="space-y-2">
               <legend className="text-sm font-medium text-fg-muted">People</legend>
               {employees.length === 0 ? (
-                <p role="alert" className="text-sm text-fg-muted">
-                  This finding names no employees, and the API requires an explicit list. There
-                  is nobody to assign from this screen — record the affected people on the
-                  finding first.
-                </p>
+                <p role="alert" className="text-sm text-fg-muted">{t('p.this-finding-names-no-employees-and')}</p>
               ) : (
                 employees.map((employee) => {
                   const gone = employee.employment_status === 'left'
@@ -245,7 +236,7 @@ export function AssignTrainingDialog({
                       disabled={gone || unresolved}
                       hint={
                         unresolved
-                          ? 'This id no longer resolves to an employee record.'
+                          ? t('p.this-id-no-longer-resolves-to')
                           : [
                               employee.department_name,
                               employee.employment_status && employee.employment_status !== 'active'
@@ -269,7 +260,7 @@ export function AssignTrainingDialog({
             </fieldset>
 
             <Textarea
-              label="Note for the assignment (optional)"
+              label={t('p.note-for-the-assignment-optional')}
               rows={2}
               value={note}
               onChange={(event) => setNote(event.target.value)}

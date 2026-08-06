@@ -130,7 +130,7 @@ export default function Portal() {
           <p className="mt-1 text-lead text-fg-muted">
             {employee
               ? `${employee.name} · ID ${employee.id} · ${employee.role_title}${employee.department ? ` · ${employee.department}` : ''}`
-              : 'Your assigned training, the work raised against you, and how your risk score was calculated.'}
+              : t('p.your-assigned-training-the-work-raised')}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

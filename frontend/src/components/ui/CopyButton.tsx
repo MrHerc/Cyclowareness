@@ -11,6 +11,7 @@
  *   quiet lie about the one thing this button exists to do.
  */
 
+import { useT } from '../../lib/i18n'
 import { Check, Copy } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Button, IconButton, type ButtonSize, type ButtonVariant } from './Button'
@@ -37,6 +38,7 @@ export function CopyButton({
   size = 'sm',
   className,
 }: CopyButtonProps) {
+  const t = useT()
   const [state, setState] = useState<CopyState>('idle')
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -71,7 +73,7 @@ export function CopyButton({
         </Button>
       ) : (
         <IconButton
-          label={state === 'failed' ? 'Copy failed — try again' : label}
+          label={state === 'failed' ? t('p.copy-failed-try-again') : label}
           variant={variant}
           size={size}
           onClick={copy}

@@ -8,6 +8,7 @@
  * where a viewer will see it, not in a footnote.
  */
 
+import { useT } from '../../lib/i18n'
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 import { DataSourceLabel, DemoDataBadge } from '../../components/data'
@@ -31,6 +32,7 @@ export interface PolicyHeaderProps {
 }
 
 export function PolicyHeader({ title, description, actions, className }: PolicyHeaderProps) {
+  const t = useT()
   const backing = backingFor(SURFACE)
 
   return (
@@ -38,7 +40,7 @@ export function PolicyHeader({ title, description, actions, className }: PolicyH
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 max-w-3xl space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="label text-brand">Policy intelligence</p>
+            <p className="label text-brand">{t('p.policy-intelligence')}</p>
             {backing.backing === 'seeded' || backing.backing === 'demo' ? (
               <DemoDataBadge detail={backing.note} />
             ) : (
@@ -51,7 +53,7 @@ export function PolicyHeader({ title, description, actions, className }: PolicyH
         {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
       </div>
 
-      <nav aria-label="Policy intelligence sections">
+      <nav aria-label={t('p.policy-intelligence-sections')}>
         <ul className="flex flex-wrap items-center gap-1 border-b border-line-subtle">
           {LINKS.map((link) => (
             <li key={link.to}>

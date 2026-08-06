@@ -58,7 +58,7 @@ export function ModuleMetaPanel({
   return (
     <Panel title={t('x.module-record')} headingLevel={2}>
       <dl className="divide-y divide-line-subtle">
-        <Row label="Review state">
+        <Row label={t('p.review-state')}>
           <div className="flex flex-wrap items-center gap-2">
             <Badge status={module.status} dot />
             {module.approved_by ? (
@@ -86,7 +86,7 @@ export function ModuleMetaPanel({
           </div>
         </Row>
 
-        <Row label="Generated from">
+        <Row label={t('p.generated-from')}>
           {module.threat_id === null ? (
             <span className="text-fg-faint">
               No threat is linked. This module was not produced by a loop run.
@@ -102,7 +102,7 @@ export function ModuleMetaPanel({
           )}
         </Row>
 
-        <Row label="Gating a loop run">
+        <Row label={t('p.gating-a-loop-run')}>
           {gateLoading ? (
             <span className="inline-flex items-center gap-2 text-fg-subtle">
               <Spinner size={13} />
@@ -124,7 +124,7 @@ export function ModuleMetaPanel({
           )}
         </Row>
 
-        <Row label="Pass criteria">
+        <Row label={t('p.pass-criteria')}>
           <span>
             {PLATFORM_PASS_MARK}% or better on the quiz.
             <span className="ml-1 text-fg-faint">
@@ -134,7 +134,7 @@ export function ModuleMetaPanel({
           </span>
         </Row>
 
-        <Row label="Estimated duration">
+        <Row label={t('p.estimated-duration')}>
           {module.est_minutes > 0 ? (
             `${num(module.est_minutes)} minutes`
           ) : (

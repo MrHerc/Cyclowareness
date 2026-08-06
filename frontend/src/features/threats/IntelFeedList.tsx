@@ -71,7 +71,7 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
       },
       onError: (error) => {
         setFailedId(item.id)
-        toast.show({ title: 'The feed item was not pushed', description: error.message, tone: 'error' })
+        toast.show({ title: t('p.the-feed-item-was-not-pushed'), description: error.message, tone: 'error' })
       },
     })
   }
@@ -175,9 +175,7 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
                       Push into stage 1
                     </Button>
                   ) : (
-                    <p className="text-sm text-fg-faint">
-                      Pushing a feed item into the loop requires the analyst role.
-                    </p>
+                    <p className="text-sm text-fg-faint">{t('p.pushing-a-feed-item-into-the')}</p>
                   )}
                 </div>
 

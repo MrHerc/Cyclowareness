@@ -65,10 +65,7 @@ export function QuizPhase({
   if (!question) {
     return (
       <Panel title={t('x.this-module-has-no-questions')}>
-        <p className="text-body text-fg-muted">
-          No quiz was recorded against this module, so there is nothing to answer. Your security
-          team can tell you whether that is intended.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-quiz-was-recorded-against-this')}</p>
       </Panel>
     )
   }
@@ -171,7 +168,7 @@ export function QuizPhase({
 
       <p aria-live="polite" className="text-sm text-fg-subtle">
         {complete
-          ? 'Every question is answered. Submitting grades them and cannot be undone.'
+          ? t('p.every-question-is-answered-submitting-grades')
           : `Still to answer: ${unanswered.map((position) => `question ${position}`).join(', ')}.`}
       </p>
 
@@ -180,7 +177,7 @@ export function QuizPhase({
         onOpenChange={onConfirmOpenChange}
         title={t('x.submit-your-answers')}
         description={t('x.your-answers-are-graded-now')}
-        confirmLabel="Submit and grade"
+        confirmLabel={t('p.submit-and-grade')}
         cancelLabel="Keep checking"
         onConfirm={onSubmit}
         busy={submitting}

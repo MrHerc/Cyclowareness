@@ -8,6 +8,7 @@
  * baked in at build time. Every line in it can be checked against the server.
  */
 
+import { useT } from '../../lib/i18n'
 import { Command, Keyboard, LifeBuoy, ScrollText } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import {
@@ -108,6 +109,7 @@ function DeploymentDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const t = useT()
   // Both queries are already in cache from the shell; asking again costs nothing
   // and keeps this dialog readable in isolation.
   const capabilities = useCapabilities()
@@ -132,34 +134,34 @@ function DeploymentDialog({
           {capabilities.isPending
             ? 'Not answered yet'
             : capabilities.isError
-              ? 'The capability endpoint did not answer'
+              ? t('p.the-capability-endpoint-did-not-answer')
               : capabilities.data.demo_mode
-                ? 'Demonstration — the organisation is seeded'
+                ? t('p.demonstration-the-organisation-is-seeded')
                 : 'Production'}
         </Row>
 
-        <Row label="Language model">
+        <Row label={t('p.language-model')}>
           {capabilities.isPending
             ? 'Not answered yet'
             : capabilities.isError
               ? 'Unknown'
               : capabilities.data.ai_provider === 'anthropic'
-                ? 'Connected. Generated content is labelled AI.'
-                : 'Not connected. Content is template output and is never labelled AI.'}
+                ? t('p.connected-generated-content-is-labelled-ai')
+                : t('p.not-connected-content-is-template-output')}
         </Row>
 
         <Row label="Analyzer">
           {capabilities.isPending || capabilities.isError ? '—' : capabilities.data.analyzer}
         </Row>
 
-        <Row label="Sandbox detonation">
+        <Row label={t('p.sandbox-detonation')}>
           {sandbox.isPending
             ? 'Not answered yet'
             : sandbox.isError
               ? 'Unknown'
               : sandbox.data.dynamic_worker
-                ? 'A detonation host is attached.'
-                : 'No detonation host. Files are analysed statically and never executed.'}
+                ? t('p.a-detonation-host-is-attached')
+                : t('p.no-detonation-host-files-are-analysed')}
         </Row>
 
         <Row label="YARA rules">

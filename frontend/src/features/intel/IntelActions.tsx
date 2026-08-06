@@ -9,6 +9,7 @@
  * already named, and a loop starts from an artifact the sandbox can analyse.
  */
 
+import { useT } from '../../lib/i18n'
 import { GraduationCap, Radar, ShieldAlert, type LucideIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -53,6 +54,7 @@ export interface IntelActionsProps {
 }
 
 export function IntelActions({ item, canManage }: IntelActionsProps) {
+  const t = useT()
   const [dialog, setDialog] = useState<'assess' | 'dismiss' | 'finding' | null>(null)
   const findings = item.findings ?? []
   const dismissed = Boolean(item.dismissed_by)
@@ -62,7 +64,7 @@ export function IntelActions({ item, canManage }: IntelActionsProps) {
       <div className="space-y-4">
         {findings.length > 0 ? (
           <div>
-            <p className="label text-fg-faint">Already raised from this advisory</p>
+            <p className="label text-fg-faint">{t('p.already-raised-from-this-advisory')}</p>
             <ul className="mt-1.5 space-y-1.5">
               {findings.map((finding) => (
                 <li key={finding.id}>
@@ -118,9 +120,7 @@ export function IntelActions({ item, canManage }: IntelActionsProps) {
             )}
           </div>
         ) : (
-          <p className="text-sm text-fg-subtle">
-            Your role can read intelligence but not assess, dismiss or raise findings from it.
-          </p>
+          <p className="text-sm text-fg-subtle">{t('p.your-role-can-read-intelligence-but-2')}</p>
         )}
 
         <div className="space-y-2">

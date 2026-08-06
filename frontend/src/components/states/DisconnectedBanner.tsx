@@ -167,14 +167,14 @@ export function DisconnectedBanner({ className }: DisconnectedBannerProps) {
 
       <div className="min-w-0">
         <p className="text-sm text-fg">
-          {down ? 'The API is not answering' : 'Reconnected'}
+          {down ? t('p.the-api-is-not-answering') : 'Reconnected'}
         </p>
         <p className="text-xs text-fg-subtle">
           {down
             ? `Live data is paused. This clears itself when the service answers — stopped responding ${timeAgo(
                 new Date(downSince).toISOString(),
               )}.`
-            : 'Live data has resumed. Open views have been refreshed.'}
+            : t('p.live-data-has-resumed-open-views')}
         </p>
       </div>
 

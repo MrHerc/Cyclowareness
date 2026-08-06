@@ -12,6 +12,7 @@
  * being escalated as a genuine incident.
  */
 
+import { useT } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import { Badge, CodeBlock } from '../../components/ui'
 import { channelLabel } from '../../lib/format'
@@ -37,6 +38,7 @@ export function LurePreview({
   emptyMessage = 'No lure text was stored for this campaign.',
   className,
 }: LurePreviewProps) {
+  const t = useT()
   return (
     <div className={className}>
       <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -52,7 +54,7 @@ export function LurePreview({
       </div>
 
       {value.trim() ? (
-        <CodeBlock value={value} label="Lure as stored" copyable wrap maxHeight="16rem" />
+        <CodeBlock value={value} label={t('p.lure-as-stored')} copyable wrap maxHeight="16rem" />
       ) : (
         <p className="text-sm text-fg-faint">{emptyMessage}</p>
       )}

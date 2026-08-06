@@ -34,13 +34,13 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
   return (
     <div className="space-y-6">
       <Panel
-        title={expired ? 'This expired before it was finished' : 'You have already completed this'}
+        title={expired ? t('p.this-expired-before-it-was-finished') : t('p.you-have-already-completed-this')}
         subtitle={
           expired
-            ? 'The window for taking it closed. The lesson is below and still worth reading; if you need it reassigned, ask the security team.'
+            ? t('p.the-window-for-taking-it-closed')
             : assignment.completed_at
               ? `Finished ${formatDateTime(assignment.completed_at)}`
-              : 'The completion time was not recorded.'
+              : t('p.the-completion-time-was-not-recorded')
         }
         actions={<Badge status={assignment.status} dot />}
         headingLevel={2}
@@ -53,8 +53,8 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
                 <NoMeasurement
                   reason={
                     expired
-                      ? 'This assignment expired before the quiz was taken, so there is no score.'
-                      : 'No quiz score was recorded against this assignment.'
+                      ? t('p.this-assignment-expired-before-the-quiz')
+                      : t('p.no-quiz-score-was-recorded-against')
                   }
                 />
               ) : (
@@ -66,7 +66,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
             <span className="label text-fg-subtle">Time spent</span>
             <p className="mt-1.5 text-title text-fg tabular-nums">
               {assignment.time_spent_seconds === null ? (
-                <NoMeasurement reason="Time spent was not recorded for this assignment." />
+                <NoMeasurement reason={t('p.time-spent-was-not-recorded-for')} />
               ) : (
                 duration(assignment.time_spent_seconds * 1000)
               )}
@@ -82,16 +82,13 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
             their answers were discarded when they never gave any invents a
             history for them. */}
         {expired ? null : (
-          <p className="mt-5 border-t border-line-subtle pt-4 text-sm text-fg-subtle">
-            Your individual answers were graded and then discarded — only the score was kept, so
-            this screen cannot show you which questions you got wrong.
-          </p>
+          <p className="mt-5 border-t border-line-subtle pt-4 text-sm text-fg-subtle">{t('p.your-individual-answers-were-graded-and')}</p>
         )}
       </Panel>
 
       <Panel title={module.title} subtitle={module.description} headingLevel={2}>
         {module.content.length === 0 ? (
-          <p className="text-body text-fg-subtle">This module has no lesson sections recorded.</p>
+          <p className="text-body text-fg-subtle">{t('p.this-module-has-no-lesson-sections')}</p>
         ) : (
           <div className="space-y-6">
             {module.content.map((section) => (

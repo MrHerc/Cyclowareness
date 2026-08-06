@@ -14,6 +14,7 @@
  * interactive.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowRight, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { HonestMetric } from '../../components/data'
@@ -44,6 +45,7 @@ function MetricSkeleton() {
 }
 
 export function CampaignCard({ simulation }: CampaignCardProps) {
+  const t = useT()
   const detail = useSimulation(simulation.id)
   const stats = detail.data?.stats ?? null
 
@@ -77,7 +79,7 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
             ? `${num(stats.targets)} targeted`
             : detail.isLoading
               ? 'Counting targets'
-              : 'Target count unavailable'}
+              : t('p.target-count-unavailable')}
         </Badge>
         {stats ? (
           <span className="text-xs text-fg-faint">
@@ -93,9 +95,7 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
             <MetricSkeleton />
           </>
         ) : detail.error || !stats ? (
-          <p className="text-sm text-fg-faint sm:col-span-2" role="status">
-            Outcomes for this campaign could not be loaded. Open the campaign to try again.
-          </p>
+          <p className="text-sm text-fg-faint sm:col-span-2" role="status">{t('p.outcomes-for-this-campaign-could-not')}</p>
         ) : (
           <>
             <HonestMetric

@@ -55,7 +55,7 @@ export function ReportHistory({ reports }: ReportHistoryProps) {
                 </p>
 
                 <p className="text-body text-fg-muted">
-                  {STATUS_COPY[report.status] ?? 'This report has a status this screen does not recognise.'}
+                  {STATUS_COPY[report.status] ?? t('p.this-report-has-a-status-this')}
                 </p>
 
                 {report.note ? (
@@ -71,9 +71,7 @@ export function ReportHistory({ reports }: ReportHistoryProps) {
                     <p className="mt-1 text-body text-fg-muted">{report.triage_summary.summary}</p>
                   </div>
                 ) : (
-                  <p className="text-sm text-fg-faint">
-                    No automated triage was recorded against this report.
-                  </p>
+                  <p className="text-sm text-fg-faint">{t('p.no-automated-triage-was-recorded-against')}</p>
                 )}
               </div>
             </AccordionItem>

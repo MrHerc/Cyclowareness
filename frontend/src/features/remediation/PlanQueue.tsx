@@ -21,6 +21,7 @@
  * whose only possible answer is "upheld" is theatre.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Check, MessageSquareWarning, ShieldX, X } from 'lucide-react'
 import { disputeState, provenanceOf, type RemediationPlan } from '../../domain/types'
@@ -53,6 +54,7 @@ const URGENCY_TONE: Record<string, string> = {
 }
 
 export function PlanQueue({ plans }: PlanQueueProps) {
+  const t = useT()
   // The provider was written in as the literal 'anthropic', twice, so a
   // deployment running anything else had a badge naming a vendor it does not
   // use — the provenance badge exists precisely to stop that kind of claim.
@@ -72,12 +74,12 @@ export function PlanQueue({ plans }: PlanQueueProps) {
       toast.show({
         title: vars.withdraw ? 'Plan withdrawn' : 'Dispute answered',
         description: vars.withdraw
-          ? 'It is no longer assigned, and they are told why.'
-          : 'They can read your answer on their own screen.',
+          ? t('p.it-is-no-longer-assigned-and')
+          : t('p.they-can-read-your-answer-on'),
         tone: 'success',
       }),
     onError: (error) =>
-      toast.show({ title: 'The answer did not save', description: error.message, tone: 'error' }),
+      toast.show({ title: t('p.the-answer-did-not-save'), description: error.message, tone: 'error' }),
   })
 
   const decide = useRemediationDecision({
@@ -86,12 +88,12 @@ export function PlanQueue({ plans }: PlanQueueProps) {
         title: vars.decision === 'approve' ? 'Plan approved' : 'Plan rejected',
         description:
           vars.decision === 'approve'
-            ? 'It is now cleared to reach the person it names.'
-            : 'Nothing was delivered.',
+            ? t('p.it-is-now-cleared-to-reach')
+            : t('p.nothing-was-delivered'),
         tone: 'success',
       }),
     onError: (error) =>
-      toast.show({ title: 'The decision did not save', description: error.message, tone: 'error' }),
+      toast.show({ title: t('p.the-decision-did-not-save'), description: error.message, tone: 'error' }),
   })
 
   return (
@@ -185,7 +187,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                       Disputed
                     </p>
                   ) : dispute === 'resolved' ? (
-                    <p className="mt-1 text-xs text-fg-faint">Dispute answered</p>
+                    <p className="mt-1 text-xs text-fg-faint">{t('p.dispute-answered')}</p>
                   ) : null}
                 </TableCell>
 

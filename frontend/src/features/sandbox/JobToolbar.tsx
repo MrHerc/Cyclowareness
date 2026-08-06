@@ -7,6 +7,7 @@
  * the same error handling as everything else, so a failed export says so.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { FileJson, FileText, RotateCw, Scale, Share2, ShieldCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -54,13 +55,14 @@ const ICONS: Record<ExportKind, LucideIcon> = {
 }
 
 export function JobToolbar({ job }: JobToolbarProps) {
+  const t = useT()
   const toast = useToast()
   const [pending, setPending] = useState<ExportKind | null>(null)
   const reanalyze = useSandboxReanalyze({
     onSuccess: () =>
       toast.show({
         title: 'Re-analysis queued',
-        description: 'The same quarantined bytes are being analysed again.',
+        description: t('p.the-same-quarantined-bytes-are-being'),
         tone: 'success',
       }),
     onError: (error) =>
@@ -75,7 +77,7 @@ export function JobToolbar({ job }: JobToolbarProps) {
     } catch (error) {
       toast.show({
         title: `Could not export the ${label}`,
-        description: error instanceof ApiError ? error.message : 'The download did not complete.',
+        description: error instanceof ApiError ? error.message : t('p.the-download-did-not-complete'),
         tone: 'error',
       })
     } finally {

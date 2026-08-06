@@ -32,14 +32,13 @@ const BANDS = [
 ]
 
 function Distribution({ members }: { members: AudienceMember[] }) {
+  const t = useT()
   const scored = members.filter((member) => member.riskScore !== null)
   const unscored = members.length - scored.length
 
   if (scored.length === 0) {
     return (
-      <p className="text-sm text-fg-subtle">
-        No risk score is recorded for anyone in this audience, so no distribution can be shown.
-      </p>
+      <p className="text-sm text-fg-subtle">{t('p.no-risk-score-is-recorded-for')}</p>
     )
   }
 
@@ -76,6 +75,7 @@ function Distribution({ members }: { members: AudienceMember[] }) {
 }
 
 function Member({ member }: { member: AudienceMember }) {
+  const t = useT()
   return (
     <li className="flex gap-3 py-3">
       <Avatar name={member.name} size="sm" />
@@ -114,9 +114,7 @@ function Member({ member }: { member: AudienceMember }) {
             ))}
           </ul>
         ) : (
-          <p className="text-xs text-fg-faint">
-            The risk engine gave no reason for selecting this person.
-          </p>
+          <p className="text-xs text-fg-faint">{t('p.the-risk-engine-gave-no-reason')}</p>
         )}
       </div>
     </li>
@@ -146,7 +144,7 @@ export function AudiencePanel({ members, targetingNote }: AudiencePanelProps) {
       {members.length === 0 ? (
         <p className="text-sm text-medium" role="note">
           {targetingNote ??
-            'No employee matched this threat’s targeting signals. That is not "nobody is at risk" — approving would advance the run with nothing to assign.'}
+            t('p.no-employee-matched-this-threats-targeting')}
         </p>
       ) : (
         <>
@@ -196,10 +194,7 @@ export function AudiencePanel({ members, targetingNote }: AudiencePanelProps) {
 
         <div className="flex items-start gap-2">
           <Users className="mt-0.5 size-4 shrink-0 text-fg-faint" aria-hidden="true" />
-          <p className="text-xs text-fg-subtle">
-            The audience is recomputed at execution time. If a risk score moves or somebody&apos;s
-            status changes between now and approval, the list can differ from this one.
-          </p>
+          <p className="text-xs text-fg-subtle">{t('p.the-audience-is-recomputed-at-execution')}</p>
         </div>
       </div>
     </Panel>

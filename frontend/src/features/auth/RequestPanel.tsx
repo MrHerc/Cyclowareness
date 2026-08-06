@@ -11,6 +11,7 @@
  * user just did, several fields above where their focus is.
  */
 
+import { useT } from '../../lib/i18n'
 import { CopyButton } from '../../components/ui'
 
 export interface RequestPanelProps {
@@ -23,6 +24,7 @@ export interface RequestPanelProps {
 }
 
 export function RequestPanel({ title, body, routing }: RequestPanelProps) {
+  const t = useT()
   return (
     <section
       aria-live="polite"
@@ -31,10 +33,7 @@ export function RequestPanel({ title, body, routing }: RequestPanelProps) {
       <header className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-h text-fg">{title}</h2>
-          <p className="text-sm text-fg-muted mt-1">
-            Nothing was sent. Cyclowareness has no endpoint for this — copy the text below and send
-            it yourself.
-          </p>
+          <p className="text-sm text-fg-muted mt-1">{t('p.nothing-was-sent-cyclowareness-has-no')}</p>
         </div>
         <CopyButton value={body} variant="secondary" size="sm">
           Copy

@@ -38,10 +38,7 @@ export function AnalyzerDetail({ analysis }: AnalyzerDetailProps) {
       bodyClassName="px-5"
     >
       {entries.length === 0 ? (
-        <p className="py-5 text-body text-fg-muted">
-          No analyzer result was recorded for this job. That is a gap in the record, not a clean
-          result.
-        </p>
+        <p className="py-5 text-body text-fg-muted">{t('p.no-analyzer-result-was-recorded-for')}</p>
       ) : (
         <Accordion type="multiple">
           {entries.map(([name, result]) => {
@@ -73,7 +70,7 @@ export function AnalyzerDetail({ analysis }: AnalyzerDetailProps) {
                 {!result.ran ? (
                   <p className="text-body text-fg-muted">
                     {result.unavailable_reason ??
-                      'This analyzer did not run and did not record a reason.'}
+                      t('p.this-analyzer-did-not-run-and')}
                   </p>
                 ) : (
                   <div className="space-y-3">
@@ -87,14 +84,12 @@ export function AnalyzerDetail({ analysis }: AnalyzerDetailProps) {
                     {factCount > 0 ? (
                       <CodeBlock
                         value={JSON.stringify(facts, null, 2)}
-                        label="Structured observations"
+                        label={t('p.structured-observations')}
                         copyable
                         wrap
                       />
                     ) : (
-                      <p className="text-sm text-fg-faint">
-                        This analyzer recorded no structured observations for this sample.
-                      </p>
+                      <p className="text-sm text-fg-faint">{t('p.this-analyzer-recorded-no-structured-observation')}</p>
                     )}
                   </div>
                 )}

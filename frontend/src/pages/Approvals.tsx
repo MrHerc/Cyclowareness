@@ -57,21 +57,21 @@ function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
       <Stat
         label="Waiting"
         value={num(total ?? rows.length)}
-        caption={total !== null && total !== rows.length ? `${rows.length} loaded on this page` : 'Runs held at the gate'}
+        caption={total !== null && total !== rows.length ? `${rows.length} loaded on this page` : t('p.runs-held-at-the-gate')}
       />
       <Stat
-        label="Longest wait"
+        label={t('p.longest-wait')}
         value={rows.length > 0 ? waitLabel(oldest) : '—'}
-        caption={rows.length > 0 ? 'Since the run reached the gate' : 'Nothing is waiting'}
+        caption={rows.length > 0 ? t('p.since-the-run-reached-the-gate') : 'Nothing is waiting'}
         className={rows.length > 0 ? TONE_TEXT[waitTone(oldest)] : undefined}
       />
       <Stat
-        label="Held for a second approver"
+        label={t('p.held-for-a-second-approver')}
         value={num(held)}
-        caption={held > 0 ? 'Endorsed once; a different person must approve' : 'None endorsed and held'}
+        caption={held > 0 ? t('p.endorsed-once-a-different-person-must') : t('p.none-endorsed-and-held')}
       />
       <Stat
-        label="No engine recorded"
+        label={t('p.no-engine-recorded')}
         value={num(unattributed)}
         caption={t('x.modules-whose-author-was-never')}
         className={unattributed > 0 ? 'text-medium' : undefined}

@@ -112,7 +112,7 @@ export default function EmployeeDetail() {
                   </dl>
 
                   <div className="mt-4 border-t border-line-subtle pt-3">
-                    <p className="label text-fg-subtle">Score across recent events</p>
+                    <p className="label text-fg-subtle">{t('p.score-across-recent-events')}</p>
                     <div className="mt-2 flex items-center gap-3">
                       <Sparkline
                         values={trail}
@@ -127,7 +127,7 @@ export default function EmployeeDetail() {
                             (withdrawnCount > 0
                               ? `, excluding ${withdrawnCount} withdrawn`
                               : '')
-                          : 'Two or more events are needed to draw a line'}
+                          : t('p.two-or-more-events-are-needed')}
                       </span>
                     </div>
                   </div>
@@ -195,10 +195,7 @@ export default function EmployeeDetail() {
                       />
                     </AsyncBoundary>
                   ) : (
-                    <p className="text-sm text-fg-subtle">
-                      Your role cannot read the report queue, so this person’s reports cannot be shown
-                      here. The reporting credit is still visible in the event trail.
-                    </p>
+                    <p className="text-sm text-fg-subtle">{t('p.your-role-cannot-read-the-report')}</p>
                   )}
                 </Panel>
               </TabsContent>

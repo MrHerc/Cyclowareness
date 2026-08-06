@@ -76,10 +76,7 @@ export function MeasurementPanel({
         sourceDetail="Measurement summary stored on the run"
       >
         {!summary ? (
-          <p className="text-body text-fg-muted">
-            This run has not been measured. Nothing is shown here rather than zeroes: no completion
-            rate, no score and no risk movement have been computed for it.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.this-run-has-not-been-measured')}</p>
         ) : (
           <>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -92,10 +89,10 @@ export function MeasurementPanel({
                 source="live"
                 tone="neutral"
                 unmeasuredReason="Nothing was assigned on this run, so there is no rate to compute."
-                hint="Measured for this run only, not over a rolling window."
+                hint={t('p.measured-for-this-run-only-not')}
               />
               <HonestMetric
-                label="Average quiz score"
+                label={t('p.average-quiz-score')}
                 value={summary.avg_score}
                 format="score"
                 sample={scored}
@@ -105,7 +102,7 @@ export function MeasurementPanel({
                 unmeasuredRemedy="A score appears once someone finishes the quiz."
               />
               <HonestMetric
-                label="Average time spent"
+                label={t('p.average-time-spent')}
                 value={summary.avg_time_seconds}
                 format="duration"
                 // The denominator is not sent — only completions that recorded a
@@ -150,7 +147,7 @@ export function MeasurementPanel({
                     </TableCell>
                     <TableCell numeric>
                       {row.score === null ? (
-                        <NoMeasurement reason="Not completed, so no score was recorded." />
+                        <NoMeasurement reason={t('p.not-completed-so-no-score-was')} />
                       ) : (
                         `${num(row.score, 0)}%`
                       )}
@@ -162,7 +159,7 @@ export function MeasurementPanel({
                     </TableCell>
                     <TableCell numeric>
                       {row.risk_score_now === null ? (
-                        <NoMeasurement reason="This person's current score could not be read." />
+                        <NoMeasurement reason={t('p.this-persons-current-score-could-not')} />
                       ) : (
                         num(row.risk_score_now, 0)
                       )}
@@ -191,8 +188,8 @@ export function MeasurementPanel({
         {touchedDepartments.length === 0 ? (
           <p className="mt-1.5 text-sm text-fg-faint">
             {targets.length === 0
-              ? 'No one was targeted, so no department was touched.'
-              : 'Department names could not be loaded, so the roll-ups are not shown.'}
+              ? t('p.no-one-was-targeted-so-no')
+              : t('p.department-names-could-not-be-loaded')}
           </p>
         ) : (
           <>
@@ -216,21 +213,14 @@ export function MeasurementPanel({
                 ))}
               </TableBody>
             </Table>
-            <p className="mt-3 text-xs text-fg-subtle">
-              These are the current roll-ups for the departments this run selected from. They are
-              context, not this run&apos;s effect — no before-and-after department measurement is
-              recorded per run.
-            </p>
+            <p className="mt-3 text-xs text-fg-subtle">{t('p.these-are-the-current-rollups-for')}</p>
           </>
         )}
 
         <div className="mt-5 border-t border-line-subtle pt-4">
           <h3 className="text-h text-fg">{t('y.what-this-run-leaves-open')}</h3>
           <p className="mt-1.5 text-body text-fg-muted">{nextAction}</p>
-          <p className="mt-1.5 text-xs text-fg-subtle">
-            Derived from this run&apos;s own status and assignment records. It is not a
-            recommendation produced by a model.
-          </p>
+          <p className="mt-1.5 text-xs text-fg-subtle">{t('p.derived-from-this-runaposs-own-status')}</p>
         </div>
       </StageSection>
     </>

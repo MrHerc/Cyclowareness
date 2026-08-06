@@ -40,7 +40,7 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
         onSuccess: () => {
           toast.show({
             title: 'Advisory dismissed',
-            description: 'The reason is on the audit trail. Re-assess it to bring it back.',
+            description: t('p.the-reason-is-on-the-audit'),
           })
           onOpenChange(false)
         },
@@ -82,8 +82,8 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
           autoFocus
           value={reason}
           onChange={(event) => setReason(event.target.value)}
-          error={touched && missing ? 'A reason is required to dismiss an advisory.' : null}
-          hint="Why this does not need to stay in front of an analyst."
+          error={touched && missing ? t('p.a-reason-is-required-to-dismiss') : null}
+          hint={t('p.why-this-does-not-need-to')}
           rows={3}
         />
 

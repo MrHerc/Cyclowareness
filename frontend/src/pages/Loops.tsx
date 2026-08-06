@@ -54,7 +54,7 @@ export default function Loops() {
           <p lang={locale} className="mt-1 max-w-2xl text-body text-fg-muted">{t('page.loops.lead')}</p>
         </div>
         <div className="flex flex-col items-end gap-1.5">
-          <DataSourceLabel source="live" detail="Loop run records" />
+          <DataSourceLabel source="live" detail={t('p.loop-run-records')} />
           <LastUpdated at={runs.dataUpdatedAt ? new Date(runs.dataUpdatedAt).toISOString() : null} />
         </div>
       </header>

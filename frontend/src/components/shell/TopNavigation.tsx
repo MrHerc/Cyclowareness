@@ -13,6 +13,7 @@
  * withholding them secures anything. The server is the authority either way.
  */
 
+import { useT } from '../../lib/i18n'
 import { Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { IconButton } from '../ui'
@@ -40,6 +41,7 @@ export interface TopNavigationProps {
 }
 
 export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigationProps) {
+  const t = useT()
   const { role, can } = useAuth()
   const { data: capabilities } = useCapabilities()
 
@@ -65,7 +67,7 @@ export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigat
           widened to 44px here, the size a thumb actually lands on, rather than
           changing `sm` for every icon button in the product. */}
       <IconButton
-        label="Open navigation"
+        label={t('p.open-navigation')}
         variant="ghost"
         size="sm"
         onClick={onOpenNav}

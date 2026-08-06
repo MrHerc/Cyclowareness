@@ -8,6 +8,7 @@
  * this product must never make.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import type { StageEntry, TrainingModule } from '../../../domain/types'
 import { STAGES, provenanceOf } from '../../../domain/types'
@@ -27,13 +28,11 @@ export interface ConversionPanelProps {
 }
 
 export function ConversionPanel({ entry, module, modelConnected }: ConversionPanelProps) {
+  const t = useT()
   if (!module) {
     return (
       <StageSection stage={STAGE} entry={entry} source="live" sourceDetail="Training module record">
-        <p className="text-body text-fg-muted">
-          No training module exists on this run. A benign verdict closes the loop at this stage
-          without generating one, and a run that failed earlier never reached it.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-training-module-exists-on-this')}</p>
       </StageSection>
     )
   }
@@ -130,14 +129,11 @@ export function ConversionPanel({ entry, module, modelConnected }: ConversionPan
               ))}
             </ol>
             {module.quiz.every((question) => question.correct_index === undefined) ? (
-              <p className="mt-3 text-xs text-fg-subtle">
-                The answer key was not included in this payload, so no option is marked correct
-                here.
-              </p>
+              <p className="mt-3 text-xs text-fg-subtle">{t('p.the-answer-key-was-not-included')}</p>
             ) : null}
           </details>
         ) : (
-          <p className="text-sm text-fg-faint">This module carries no quiz.</p>
+          <p className="text-sm text-fg-faint">{t('p.this-module-carries-no-quiz')}</p>
         )}
       </div>
     </StageSection>

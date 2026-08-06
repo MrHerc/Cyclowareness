@@ -34,7 +34,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
     onSuccess: () =>
       toast.show({
         title: 'Campaign launched',
-        description: 'Targets are now open for outcome recording.',
+        description: t('p.targets-are-now-open-for-outcome'),
         tone: 'success',
       }),
     onError: (error) =>
@@ -48,7 +48,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
     },
     onError: (error) => {
       setConfirming(null)
-      toast.show({ title: 'Could not close the campaign', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.could-not-close-the-campaign'), description: error.message, tone: 'error' })
     },
   })
 
@@ -56,14 +56,14 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
     onSuccess: () => {
       setConfirming(null)
       toast.show({
-        title: 'Synthetic outcomes written',
-        description: 'These were generated, not observed. They are demonstration data.',
+        title: t('p.synthetic-outcomes-written'),
+        description: t('p.these-were-generated-not-observed-they'),
         tone: 'warning',
       })
     },
     onError: (error) => {
       setConfirming(null)
-      toast.show({ title: 'Could not generate outcomes', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.could-not-generate-outcomes'), description: error.message, tone: 'error' })
     },
   })
 
@@ -112,7 +112,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
         }}
         title={t('x.close-this-campaign')}
         description={`${num(pending)} ${pending === 1 ? 'target is' : 'targets are'} still pending. Closing the campaign stops any further outcome from being recorded, and those targets stay unresolved — they will not count toward the click or report rate.`}
-        confirmLabel="Close campaign"
+        confirmLabel={t('p.close-campaign')}
         onConfirm={() => complete.mutate(simulation.id)}
         busy={complete.isPending}
       />
@@ -125,7 +125,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
         tone="danger"
         title={t('x.generate-synthetic-outcomes')}
         description={`This invents behaviour for ${num(pending)} pending ${pending === 1 ? 'target' : 'targets'} by rolling against each person's risk score, and writes the result into the real risk trail. Nothing was observed. Use it only to demonstrate the loop — the click and report rates afterwards are not measurements.`}
-        confirmLabel="Write synthetic outcomes"
+        confirmLabel={t('p.write-synthetic-outcomes')}
         requireTyped="synthetic"
         onConfirm={() => synthetic.mutate(simulation.id)}
         busy={synthetic.isPending}

@@ -27,11 +27,7 @@ export function TopReasons({ reasons }: TopReasonsProps) {
       subtitle={t('x.the-highestseverity-observations-in-the')}
     >
       {items.length === 0 ? (
-        <p className="text-body text-fg-muted">
-          No signal fired on this sample. That is not a clean bill of health — it means the
-          analyzers that ran found nothing they recognise, and anything they could not run is listed
-          above.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-signal-fired-on-this-sample')}</p>
       ) : (
         <ol className="divide-line">
           {items.map((reason, index) => (

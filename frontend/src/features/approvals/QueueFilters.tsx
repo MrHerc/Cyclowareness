@@ -13,6 +13,7 @@
  * is not a gate.
  */
 
+import { useT } from '../../lib/i18n'
 import { Search } from 'lucide-react'
 import { Input, Select } from '../../components/ui'
 import { type QueueFilterState } from './filterState'
@@ -50,6 +51,7 @@ export interface QueueFiltersProps {
 }
 
 export function QueueFilters({ value, onChange }: QueueFiltersProps) {
+  const t = useT()
   const set = <K extends keyof QueueFilterState>(key: K, next: QueueFilterState[K]) =>
     onChange({ ...value, [key]: next })
 
@@ -63,7 +65,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
         <Input
           label="Search"
           type="search"
-          placeholder="Threat or module title"
+          placeholder={t('p.threat-or-module-title')}
           value={value.q}
           onChange={(event) => set('q', event.target.value)}
           inputClassName="pl-9"
@@ -77,13 +79,13 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
         onValueChange={(next) => set('severity', next)}
       />
       <Select
-        label="Analyzer verdict"
+        label={t('p.analyzer-verdict')}
         options={VERDICT_OPTIONS}
         value={value.verdict}
         onValueChange={(next) => set('verdict', next)}
       />
       <Select
-        label="Content author"
+        label={t('p.content-author')}
         options={GENERATION_OPTIONS}
         value={value.generation}
         onValueChange={(next) => set('generation', next)}

@@ -51,14 +51,14 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
         if (result?.attempted) {
           toast.show({
             title: `Extraction produced ${result.rules_proposed} proposed rule${result.rules_proposed === 1 ? '' : 's'}`,
-            description: 'Nothing is checked against them until a reviewer activates each one.',
+            description: t('p.nothing-is-checked-against-them-until'),
             tone: 'success',
           })
         }
       },
       onError: (error) => {
         toast.show({
-          title: 'The extraction request failed',
+          title: t('p.the-extraction-request-failed'),
           description: error.message,
           tone: 'error',
         })
@@ -136,7 +136,7 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
 
           <p className="mt-2 text-sm text-fg-muted">
             {EXTRACTION_STATUS_MEANING[policy.extraction_status] ??
-              'This deployment did not describe the extraction state of the document.'}
+              t('p.this-deployment-did-not-describe-the')}
           </p>
 
           {policy.extraction_error ? (
@@ -158,25 +158,20 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
               <p className="text-sm text-fg">
                 {outcome.attempted
                   ? `An engine read the document and proposed ${outcome.rules_proposed} rule${outcome.rules_proposed === 1 ? '' : 's'}.`
-                  : 'Extraction was not attempted.'}
+                  : t('p.extraction-was-not-attempted')}
               </p>
               {outcome.reason ? (
                 <p className="text-sm text-fg-muted">{outcome.reason}</p>
               ) : null}
               {outcome.attempted ? (
-                <p className="text-xs text-fg-faint">
-                  Every proposed rule sits below awaiting a reviewer. None of them is checked
-                  against anything yet.
-                </p>
+                <p className="text-xs text-fg-faint">{t('p.every-proposed-rule-sits-below-awaiting')}</p>
               ) : null}
             </div>
           </div>
         ) : null}
 
         {!canManage ? (
-          <p className="text-xs text-fg-faint">
-            Running extraction requires the policy management permission.
-          </p>
+          <p className="text-xs text-fg-faint">{t('p.running-extraction-requires-the-policy-managemen')}</p>
         ) : null}
       </div>
     </Panel>

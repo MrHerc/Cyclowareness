@@ -16,6 +16,7 @@
  * than a flat line implying a stable score.
  */
 
+import { useT } from '../../lib/i18n'
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Sparkline } from '../../components/charts'
@@ -98,6 +99,7 @@ function SortButton({
 }
 
 export function EmployeeTable({ rows, sort, direction, onSort, movementSample }: EmployeeTableProps) {
+  const t = useT()
   // A column of "Not reported" in every row is noise, not honesty. The API
   // simply does not return employment status today, so the column appears only
   // if some deployment starts sending it — and the caption says so either way.
@@ -112,7 +114,7 @@ export function EmployeeTable({ rows, sort, direction, onSort, movementSample }:
           ? ''
           : 'Employment status is not returned by the employees endpoint, so no status column is shown. '}
         {movementSample === 0
-          ? 'No recent risk event could be attributed to a named person, so no movement is shown.'
+          ? t('p.no-recent-risk-event-could-be')
           : `Recent movement is derived from the ${movementSample} most recent risk events that could be attributed to a named person; it is not a full history.`}
       </TableCaption>
 

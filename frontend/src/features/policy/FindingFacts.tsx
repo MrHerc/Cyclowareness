@@ -13,6 +13,7 @@
  * named people have left rather than wondering why training never lands.
  */
 
+import { useT } from '../../lib/i18n'
 import { Building2, UserRound } from 'lucide-react'
 import { Badge } from '../../components/ui'
 import { cn, humanise } from '../../lib/format'
@@ -55,14 +56,12 @@ export function VersionComparison({
   technology,
   className,
 }: VersionComparisonProps) {
+  const t = useT()
   const nothing = !affected && !approved && !recommended
 
   if (nothing) {
     return (
-      <p className={cn('text-sm text-fg-faint', className)}>
-        This finding is not about a version. No affected, approved or recommended version was
-        recorded for it.
-      </p>
+      <p className={cn('text-sm text-fg-faint', className)}>{t('p.this-finding-is-not-about-a')}</p>
     )
   }
 
@@ -76,7 +75,7 @@ export function VersionComparison({
       ) : null}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <VersionCell label="In use" value={affected} tone="text-high" />
-        <VersionCell label="Approved by policy" value={approved} />
+        <VersionCell label={t('p.approved-by-policy')} value={approved} />
         <VersionCell label="Recommended" value={recommended} tone="text-safe" />
       </div>
     </div>
@@ -90,12 +89,10 @@ export interface AffectedPeopleProps {
 }
 
 export function AffectedPeople({ departments, employees, className }: AffectedPeopleProps) {
+  const t = useT()
   if (departments.length === 0 && employees.length === 0) {
     return (
-      <p className={cn('text-sm text-fg-faint', className)}>
-        No department or employee is named on this finding. That is a gap in the record, not a
-        statement that nobody is affected.
-      </p>
+      <p className={cn('text-sm text-fg-faint', className)}>{t('p.no-department-or-employee-is-named')}</p>
     )
   }
 

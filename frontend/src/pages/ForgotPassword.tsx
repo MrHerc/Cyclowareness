@@ -95,7 +95,7 @@ export default function ForgotPassword() {
         className="mt-6 flex flex-col gap-4"
       >
         <Input
-          label="Work email on the account"
+          label={t('p.work-email-on-the-account')}
           type="email"
           autoComplete="username"
           spellCheck={false}

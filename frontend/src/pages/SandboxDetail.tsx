@@ -69,6 +69,7 @@ export default function SandboxDetail() {
 }
 
 function Report({ job }: { job: SandboxJobDetail }) {
+  const t = useT()
   // Whether a detonation worker exists at all is a property of the deployment,
   // not of this job — so the behavioural panel can tell "nobody could run it"
   // apart from "it was run and did nothing".
@@ -92,7 +93,7 @@ function Report({ job }: { job: SandboxJobDetail }) {
             job.verdict && 'verdict' in job.verdict ? job.verdict.verdict : 'not classified'
           }. Score ${job.final_score} out of 100.`
         : job.status === 'awaiting_password'
-          ? 'This archive is encrypted and analysis has paused for a password.'
+          ? t('p.this-archive-is-encrypted-and-analysis')
           : `Analysis ${job.status} for ${job.original_name || 'the sample'}.`
 
   return (

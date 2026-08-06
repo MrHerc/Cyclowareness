@@ -14,6 +14,7 @@
  * individual items the number counted, never a general index of everything.
  */
 
+import { useT } from '../../lib/i18n'
 import {
   BadgeCheck,
   Boxes,
@@ -27,15 +28,18 @@ import {
 import { Link } from 'react-router-dom'
 import type { SandboxCapabilities } from '../../domain/types'
 import { cn } from '../../lib/format'
+import { type MessageKey } from '../../lib/i18n'
 
 type TileTone = 'neutral' | 'brand' | 'critical' | 'high' | 'medium'
 
 interface Tile {
   id: string
-  label: string
+  label: MessageKey
   /** `null` only when the source did not answer. A measured zero is `0`. */
   value: number | null
-  caption: string
+  /** A key, or an already-computed sentence when the text interpolates a
+   *  number. `isKey` at the render site decides which. */
+  caption: MessageKey | string
   to: string
   icon: LucideIcon
   tone: TileTone
@@ -95,7 +99,7 @@ function buildTiles(props: HeroStripProps): Tile[] {
   const analyzers = sandbox ? sandbox.static_analyzers.length : null
   const unavailable = sandbox ? Object.keys(sandbox.unavailable_analyzers).length : 0
 
-  return [
+  const tiles: Tile[] = [
     // THE SAME RULE THE QUEUE TAB FOLLOWS. Nothing in this product assigns a run
     // to an analyst — the server never emits `assigned_analyst` — so this tile
     // read a permanent 0 in the leading position of the attention strip, which
@@ -106,51 +110,54 @@ function buildTiles(props: HeroStripProps): Tile[] {
     // It reappears the moment a deployment populates the field, which is why
     // this reads the data rather than a flag.
     ...(assignedToMe !== null && assignedToMe > 0
-      ? [
+      // Annotated so the key literals narrow to `MessageKey`. Without it the
+      // inner array widens `label` to `string` and the tile stops type-checking
+      // against the catalogue.
+      ? ([
           {
             id: 'assigned',
-            label: 'Assigned to you',
+            label: 'h.assigned-to-you',
             value: assignedToMe,
             caption:
               awaitingApproval === null
-                ? 'Approval items naming you'
+                ? 'h.approval-items-naming-you'
                 : `${awaitingApproval} ${plural(awaitingApproval, 'item is', 'items are')} at the gate in total`,
             to: '/approvals',
             icon: BadgeCheck,
             tone: pressing(assignedToMe, 'medium'),
           },
-        ]
+        ] as Tile[])
       : []),
     {
       id: 'gate',
-      label: 'Waiting at the gate',
+      label: 'h.waiting-at-the-gate',
       value: awaitingApproval,
-      caption: 'Nothing reaches an employee until a human decides',
+      caption: 'p.nothing-reaches-an-employee-until-a',
       to: '/approvals',
       icon: BadgeCheck,
       tone: pressing(awaitingApproval, 'medium'),
     },
     {
       id: 'runs',
-      label: 'Active loops',
+      label: 'h.active-loops',
       value: activeRuns,
-      caption: 'Runs currently moving through the seven stages',
+      caption: 'p.runs-currently-moving-through-the-seven',
       to: '/loops',
       icon: Radar,
       tone: pressing(activeRuns, 'brand'),
     },
     {
       id: 'reports',
-      label: 'New threat submissions',
+      label: 'p.new-threat-submissions',
       value: newReports,
-      caption: 'Reported by the human sensor and not yet triaged',
+      caption: 'p.reported-by-the-human-sensor-and',
       to: '/threats',
       icon: Inbox,
       tone: pressing(newReports, 'high'),
     },
     {
       id: 'findings',
-      label: 'High-risk policy findings',
+      label: 'p.highrisk-policy-findings',
       value: highRiskFindings,
       caption:
         openFindings === null
@@ -162,25 +169,25 @@ function buildTiles(props: HeroStripProps): Tile[] {
     },
     {
       id: 'incidents',
-      label: 'Open incident risks',
+      label: 'h.open-incident-risks',
       value: openIncidentRisks,
-      caption: 'Raised by incident response against named people',
+      caption: 'p.raised-by-incident-response-against-named',
       to: '/incident-risks',
       icon: ShieldAlert,
       tone: pressing(openIncidentRisks, 'high'),
     },
     {
       id: 'simulations',
-      label: 'Running simulations',
+      label: 'h.running-simulations',
       value: activeSimulations,
-      caption: 'Campaigns launched and still collecting outcomes',
+      caption: 'p.campaigns-launched-and-still-collecting-outcomes',
       to: '/simulations',
       icon: Send,
       tone: pressing(activeSimulations, 'brand'),
     },
     {
       id: 'sandbox',
-      label: 'Sandbox analyzers',
+      label: 'h.sandbox-analyzers',
       value: analyzers,
       caption: sandbox
         ? `${unavailable} unavailable · dynamic detonation ${sandbox.dynamic_worker ? 'available' : 'not available'}`
@@ -191,13 +198,25 @@ function buildTiles(props: HeroStripProps): Tile[] {
       tone: sandbox && !sandbox.dynamic_worker ? 'medium' : 'neutral',
     },
   ]
+
+  return tiles
 }
 
 /**
  * The decision row. Rendered as a list of links so it is one tab stop per tile
  * and reads as "eight things, each of which goes somewhere" to a screen reader.
  */
+/** A caption is a message key when it looks like one — every key in this
+ *  catalogue is `prefix.slug`, and no rendered sentence is. Computed captions
+ *  ("3 items are at the gate in total") interpolate a number and cannot be
+ *  keyed, so they pass through untranslated rather than being looked up and
+ *  coming back blank. */
+function isKey(value: MessageKey | string): value is MessageKey {
+  return /^[a-z]+\.[a-z0-9-]+$/.test(value)
+}
+
 export function HeroStrip(props: HeroStripProps) {
+  const t = useT()
   const tiles = buildTiles(props)
 
   // ONE FILLED TILE, AND ONLY WHEN IT IS EARNED. The accent-on-dark design puts
@@ -245,7 +264,7 @@ export function HeroStrip(props: HeroStripProps) {
                   )}
                 />
                 <span className={cn('label', filled ? 'text-on-brand/70' : 'text-fg-subtle')}>
-                  {tile.label}
+                  {t(tile.label)}
                 </span>
               </span>
 
@@ -266,7 +285,11 @@ export function HeroStrip(props: HeroStripProps) {
                   filled ? 'text-on-brand/70' : 'text-fg-subtle',
                 )}
               >
-                {unavailable ? 'This source has not answered yet' : tile.caption}
+                {unavailable
+                  ? t('p.this-source-has-not-answered-yet')
+                  : isKey(tile.caption)
+                    ? t(tile.caption)
+                    : tile.caption}
               </span>
             </Link>
           </li>

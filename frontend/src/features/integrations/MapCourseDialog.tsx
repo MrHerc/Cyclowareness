@@ -113,19 +113,12 @@ export function MapCourseDialog({
       }
     >
       <div className="space-y-5">
-        <p className="text-sm text-fg-muted">
-          A mapping is your assertion that finishing this course changes the behaviour named. It is
-          recorded against your account, because targeting depends on it — an over-claimed mapping
-          sends the wrong people to the wrong course, and the measurement afterwards reads as a
-          training failure.
-        </p>
+        <p className="text-sm text-fg-muted">{t('p.a-mapping-is-your-assertion-that')}</p>
 
         <fieldset className="space-y-2">
           <legend className="label text-fg-faint">Behaviours in use in this catalogue</legend>
           {options.length === 0 ? (
-            <p className="text-sm text-fg-subtle">
-              Nothing in this catalogue is mapped yet. Add the first behaviour below.
-            </p>
+            <p className="text-sm text-fg-subtle">{t('p.nothing-in-this-catalogue-is-mapped')}</p>
           ) : (
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {options.map((behaviour) => (
@@ -142,7 +135,7 @@ export function MapCourseDialog({
 
         <div className="flex items-end gap-2">
           <Input
-            label="Add a behaviour"
+            label={t('p.add-a-behaviour')}
             value={custom}
             onChange={(event) => setCustom(event.target.value)}
             onKeyDown={(event) => {
@@ -151,8 +144,8 @@ export function MapCourseDialog({
                 addCustom()
               }
             }}
-            placeholder="verify_payment_change"
-            hint="Stored as typed, lowercased and underscored."
+            placeholder={t('p.verifypaymentchange')}
+            hint={t('p.stored-as-typed-lowercased-and-underscored')}
             className="flex-1"
           />
           <Button variant="secondary" onClick={addCustom} disabled={!custom.trim()}>
@@ -162,7 +155,7 @@ export function MapCourseDialog({
 
         {course.topics?.length ? (
           <div>
-            <p className="label text-fg-faint">Provider topic tags</p>
+            <p className="label text-fg-faint">{t('p.provider-topic-tags')}</p>
             <p className="mt-1.5 flex flex-wrap gap-1.5">
               {course.topics.map((topic) => (
                 <span
@@ -173,9 +166,7 @@ export function MapCourseDialog({
                 </span>
               ))}
             </p>
-            <p className="mt-1.5 text-xs text-fg-faint">
-              Supplied by the provider. Shown for context only — they are not a mapping.
-            </p>
+            <p className="mt-1.5 text-xs text-fg-faint">{t('p.supplied-by-the-provider-shown-for')}</p>
           </div>
         ) : null}
 
@@ -184,7 +175,7 @@ export function MapCourseDialog({
           value={note}
           onChange={(event) => setNote(event.target.value)}
           rows={2}
-          hint="Optional. Appended to the audit entry for this change."
+          hint={t('p.optional-appended-to-the-audit-entry')}
         />
 
         {failure ? (

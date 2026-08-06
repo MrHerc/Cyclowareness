@@ -39,10 +39,7 @@ export function SignalList({ signals }: SignalListProps) {
       }
     >
       {signals.length === 0 ? (
-        <p className="text-body text-fg-muted">
-          No analyzer raised a signal on this sample. Read that alongside the tier statement above:
-          it means nothing recognised fired, not that the sample was proven safe.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-analyzer-raised-a-signal-on')}</p>
       ) : (
         <ul className="divide-line">
           {signals.map((signal, index) => {

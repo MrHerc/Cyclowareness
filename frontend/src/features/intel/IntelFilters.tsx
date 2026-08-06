@@ -8,6 +8,7 @@
  * filters on the server anyway.
  */
 
+import { useT } from '../../lib/i18n'
 import { Search, X } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { Button, Input, Select } from '../../components/ui'
@@ -36,6 +37,7 @@ export interface IntelFiltersProps {
 }
 
 export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFiltersProps) {
+  const t = useT()
   const [term, setTerm] = useState(values.q)
 
   // The URL is the source of truth: a back navigation, a shared link or the
@@ -85,7 +87,7 @@ export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFi
           type="search"
           value={term}
           onChange={(event) => setTerm(event.target.value)}
-          placeholder="CVE id, title or summary"
+          placeholder={t('p.cve-id-title-or-summary')}
           className="min-w-0 flex-1"
         />
         <Button type="submit" variant="secondary" icon={<Search className="size-4" aria-hidden="true" />}>

@@ -11,6 +11,7 @@
  * `riskBand()`, which is the one place this product decides what "high" means.
  */
 
+import { useT } from '../../lib/i18n'
 import { Checkbox } from '../../components/ui'
 import type { DepartmentRisk, Employee, RiskBand } from '../../domain/types'
 import { num, riskBand } from '../../lib/format'
@@ -45,6 +46,7 @@ export function AudienceSelector({
   loading = false,
   error,
 }: AudienceSelectorProps) {
+  const t = useT()
   const bandCounts = new Map<RiskBand, number>()
   for (const employee of employees) {
     const band = riskBand(employee.current_risk_score)
@@ -54,16 +56,14 @@ export function AudienceSelector({
   return (
     <fieldset className="min-w-0">
       <legend className="text-sm font-medium text-fg-muted">Target audience</legend>
-      <p className="mt-1 text-xs text-fg-faint">
-        Pick departments, risk bands, or both. Anyone matching either is included once.
-      </p>
+      <p className="mt-1 text-xs text-fg-faint">{t('p.pick-departments-risk-bands-or-both')}</p>
 
       <div className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <p className="label text-fg-faint">Departments</p>
           <div className="mt-2 space-y-2">
             {departments.length === 0 ? (
-              <p className="text-sm text-fg-faint">No departments are recorded.</p>
+              <p className="text-sm text-fg-faint">{t('p.no-departments-are-recorded')}</p>
             ) : (
               departments.map((department) => (
                 <Checkbox
@@ -112,9 +112,9 @@ export function AudienceSelector({
 
       <p aria-live="polite" className="mt-4 text-sm text-fg">
         {loading
-          ? 'Still loading the people list — the count is not final.'
+          ? t('p.still-loading-the-people-list-the')
           : selectedCount === 0
-            ? 'Nobody is selected yet.'
+            ? t('p.nobody-is-selected-yet')
             : `${num(selectedCount)} ${selectedCount === 1 ? 'person' : 'people'} will be targeted.`}
       </p>
       {error ? (

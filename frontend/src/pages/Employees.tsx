@@ -186,13 +186,13 @@ export default function Employees() {
               compact
               headline={
                 (employees.data?.length ?? 0) === 0
-                  ? 'No people have been loaded'
-                  : 'No one matches these filters'
+                  ? t('p.no-people-have-been-loaded')
+                  : t('p.no-one-matches-these-filters')
               }
               description={
                 (employees.data?.length ?? 0) === 0
-                  ? 'The employees endpoint returned an empty roster. People appear here once an organisation is imported or the demonstration organisation is seeded.'
-                  : 'Widen the search, choose another department, or clear the risk band to see the rest of the roster.'
+                  ? t('p.the-employees-endpoint-returned-an-empty')
+                  : t('p.widen-the-search-choose-another-department')
               }
               className="m-4"
             />

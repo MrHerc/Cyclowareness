@@ -11,6 +11,7 @@
  * produce a document asserting a verdict nothing had reached yet.
  */
 
+import { useT } from '../../lib/i18n'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FileJson, FileText, Share2, type LucideIcon } from 'lucide-react'
@@ -40,6 +41,7 @@ export interface SandboxExportTableProps {
 }
 
 export function SandboxExportTable({ jobs }: SandboxExportTableProps) {
+  const t = useT()
   const toast = useToast()
   const [pending, setPending] = useState<string | null>(null)
 
@@ -55,7 +57,7 @@ export function SandboxExportTable({ jobs }: SandboxExportTableProps) {
       toast.show({
         title: `Could not export the ${spec.label} report`,
         description:
-          error instanceof ApiError ? error.message : 'The download did not complete.',
+          error instanceof ApiError ? error.message : t('p.the-download-did-not-complete'),
         tone: 'error',
       })
     } finally {

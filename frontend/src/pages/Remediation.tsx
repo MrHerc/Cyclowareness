@@ -99,12 +99,12 @@ export default function Remediation() {
               compact
               className="px-5"
               headline={
-                status === 'all' ? 'No plan has been raised yet' : 'No plan holds this status'
+                status === 'all' ? t('p.no-plan-has-been-raised-yet') : t('p.no-plan-holds-this-status')
               }
               description={
                 status === 'all'
-                  ? 'A plan is raised when a signal names a specific person — a simulation click, a credential submission, a malicious verdict on something they received. Nothing is raised on a schedule.'
-                  : 'Clear the filter to see every plan the engine has produced.'
+                  ? t('p.a-plan-is-raised-when-a')
+                  : t('p.clear-the-filter-to-see-every')
               }
             />
           }

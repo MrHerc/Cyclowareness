@@ -11,6 +11,7 @@
  * this platform ran, not a person's judgement and not a model's prose.
  */
 
+import { useT } from '../../lib/i18n'
 import { ChevronRight, Library } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ConfidenceBadge } from '../../components/data'
@@ -50,6 +51,7 @@ function describeProduct(product: { vendor?: string; product?: string; versions?
 }
 
 export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAnswersProps) {
+  const t = useT()
   const matches = item.matches ?? []
 
   const technologies = matches
@@ -74,7 +76,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
         {matches.length === 0 ? (
           <NothingFound
             headline="Nothing of ours matched this advisory."
-            detail="The platform compared it against the extracted policy rules, the approved-software list and the technologies recorded as in use, and found no overlap. That is not a statement that the organisation is unaffected — it is a statement about what has been recorded here."
+            detail={t('p.the-platform-compared-it-against-the')}
           />
         ) : (
           <div className="space-y-3">
@@ -116,7 +118,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
           {technologies.length === 0 ? (
             <NothingFound
               headline="No approved technology was matched."
-              detail="No match named a technology from the approved-software list or from the recorded inventory. Anything below is the publisher's claim, not ours."
+              detail={t('p.no-match-named-a-technology-from')}
             />
           ) : (
             <ul className="space-y-1.5">
@@ -130,7 +132,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
                     {entry.version ? <span className="text-fg-muted"> {entry.version}</span> : null}
                   </span>
                   <span className="text-xs text-fg-faint">
-                    {entry.version ? 'Version recorded here' : 'No version recorded'} ·{' '}
+                    {entry.version ? t('p.version-recorded-here') : 'No version recorded'} ·{' '}
                     {MATCH_TYPE_LABEL[entry.type] ?? entry.type}
                   </span>
                 </li>
@@ -139,11 +141,9 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
           )}
 
           <div>
-            <p className="label text-fg-faint">Affected products, as published</p>
+            <p className="label text-fg-faint">{t('p.affected-products-as-published')}</p>
             {products.length === 0 ? (
-              <p className="mt-1.5 text-sm text-fg-subtle">
-                The source did not list affected products.
-              </p>
+              <p className="mt-1.5 text-sm text-fg-subtle">{t('p.the-source-did-not-list-affected')}</p>
             ) : (
               <ul className="mt-1.5 space-y-1">
                 {products.map((product, index) => (
@@ -153,10 +153,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
                 ))}
               </ul>
             )}
-            <p className="mt-1.5 text-xs text-fg-faint">
-              Published by the source. Cyclowareness did not verify this list against the
-              inventory — only the matches above were checked.
-            </p>
+            <p className="mt-1.5 text-xs text-fg-faint">{t('p.published-by-the-source-cyclowareness-did')}</p>
           </div>
         </div>
       </Question>
@@ -165,7 +162,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
         {policyMatches.length === 0 ? (
           <NothingFound
             headline="No policy rule was matched."
-            detail="No extracted rule — an approved version, a whitelist entry, an exception — was touched by this advisory. Rules can only be matched once a policy document has been uploaded and its rules extracted."
+            detail={t('p.no-extracted-rule-an-approved-version')}
           />
         ) : (
           <div className="space-y-4">
@@ -191,7 +188,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
         {departmentIds.length === 0 && employeeIds.length === 0 ? (
           <NothingFound
             headline="No department or person was named."
-            detail="Exposure is carried by the match: it comes from the departments a matched policy applies to and the people recorded as using a matched technology. Neither was recorded for this advisory."
+            detail={t('p.exposure-is-carried-by-the-match')}
           />
         ) : (
           <div className="space-y-4">
@@ -229,9 +226,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
             <div>
               <p className="label text-fg-faint">People ({employeeIds.length})</p>
               {employeeIds.length === 0 ? (
-                <p className="mt-1.5 text-sm text-fg-subtle">
-                  No individual was named — the exposure was recorded at department level.
-                </p>
+                <p className="mt-1.5 text-sm text-fg-subtle">{t('p.no-individual-was-named-the-exposure')}</p>
               ) : (
                 <>
                   <ul className="mt-1.5 flex flex-wrap gap-1.5">

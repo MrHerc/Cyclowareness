@@ -7,15 +7,13 @@
  * any of the numbers underneath it.
  */
 
+import { useT } from '../../lib/i18n'
+
 export function RiskFormula() {
+  const t = useT()
   return (
     <div className="space-y-4">
-      <p className="text-body text-fg-muted">
-        A risk score is one number between 0 and 100 describing how likely this person is to be the
-        point where an attack succeeds. It is not a performance rating and it is not an opinion — it
-        is a starting point set by their role, plus every signal the platform has recorded about
-        them.
-      </p>
+      <p className="text-body text-fg-muted">{t('p.a-risk-score-is-one-number')}</p>
 
       <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-control border border-line-subtle bg-base p-4">

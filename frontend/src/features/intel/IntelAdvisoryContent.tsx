@@ -34,9 +34,9 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
       <h3 className="text-h text-fg">{t('y.as-published')}</h3>
 
       <div>
-        <p className="label text-fg-faint">MITRE ATT&amp;CK techniques</p>
+        <p className="label text-fg-faint">{t('p.mitre-attampck-techniques')}</p>
         {techniques.length === 0 ? (
-          <p className="mt-1.5 text-sm text-fg-subtle">The source named no technique.</p>
+          <p className="mt-1.5 text-sm text-fg-subtle">{t('p.the-source-named-no-technique')}</p>
         ) : (
           <ul className="mt-1.5 flex flex-wrap gap-1.5">
             {techniques.map((technique) => (
@@ -54,9 +54,7 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
       <div>
         <p className="label text-fg-faint">Indicators</p>
         {iocGroups.length === 0 ? (
-          <p className="mt-1.5 text-sm text-fg-subtle">
-            The source published no indicators with this advisory.
-          </p>
+          <p className="mt-1.5 text-sm text-fg-subtle">{t('p.the-source-published-no-indicators-with')}</p>
         ) : (
           <div className="mt-2 space-y-2">
             {iocGroups.map(([group, values]) => (
@@ -69,10 +67,7 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
                 value={values.map((value) => defang(String(value))).join('\n')}
               />
             ))}
-            <p className="text-xs text-fg-faint">
-              Defanged for display and never rendered as links. Copy them into a ticket or a
-              block list rather than opening them here.
-            </p>
+            <p className="text-xs text-fg-faint">{t('p.defanged-for-display-and-never-rendered')}</p>
           </div>
         )}
       </div>
@@ -80,7 +75,7 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
       <div>
         <p className="label text-fg-faint">References</p>
         {references.length === 0 ? (
-          <p className="mt-1.5 text-sm text-fg-subtle">The source published no references.</p>
+          <p className="mt-1.5 text-sm text-fg-subtle">{t('p.the-source-published-no-references')}</p>
         ) : (
           <ul className="mt-1.5 space-y-1.5">
             {references.map((url) => (
@@ -98,10 +93,7 @@ export function IntelAdvisoryContent({ item }: IntelAdvisoryContentProps) {
             ))}
           </ul>
         )}
-        <p className="mt-1.5 text-xs text-fg-faint">
-          External pages, opened in a new tab. Cyclowareness does not fetch, parse or act on
-          anything they contain.
-        </p>
+        <p className="mt-1.5 text-xs text-fg-faint">{t('p.external-pages-opened-in-a-new')}</p>
       </div>
     </section>
   )

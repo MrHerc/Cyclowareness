@@ -105,17 +105,17 @@ export function LoopTimeline({
 
   const gateBody: Record<GateState, { detail: string; meta: string | null }> = {
     pending: {
-      detail: 'Not reached. Nothing has been proposed for review on this run yet.',
+      detail: t('p.not-reached-nothing-has-been-proposed'),
       meta: null,
     },
     waiting: {
-      detail: 'Waiting for a human decision. No targeting or training happens until it is given.',
+      detail: t('p.waiting-for-a-human-decision-no'),
       meta: waitingSince ? `Waiting since ${formatDateTime(waitingSince)} (${timeAgo(waitingSince)})` : null,
     },
     decided: {
       detail: gate?.comment?.trim()
         ? gate.comment.trim()
-        : 'The decision was recorded without a comment.',
+        : t('p.the-decision-was-recorded-without-a'),
       meta:
         gate && gate.decision
           ? `${DECISION_LABEL[gate.decision]}${gate.actor ? ` by ${gate.actor}` : ''} · ${formatDateTime(gate.at)}`
@@ -124,7 +124,7 @@ export function LoopTimeline({
     released: {
       // Capability honesty: we know it passed, we do not know who let it through.
       detail:
-        'Released by a human — the run could not have reached targeting otherwise. The approval record was not loaded, so the reviewer and comment are not shown here.',
+        t('p.released-by-a-human-the-run'),
       meta: null,
     },
   }
@@ -182,7 +182,7 @@ export function LoopTimeline({
                 <div className="min-w-0 flex-1">
                   <section
                     className="rounded-panel border border-brand/40 bg-brand/5 p-4"
-                    aria-label="Approval gate"
+                    aria-label={t('p.approval-gate')}
                   >
                     <header className="flex flex-wrap items-center gap-x-3 gap-y-2">
                       <h3 className="text-h text-fg">{t('y.approval-gate')}</h3>

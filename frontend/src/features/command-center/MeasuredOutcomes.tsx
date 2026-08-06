@@ -69,7 +69,7 @@ export function MeasuredOutcomes({
       subtitle={
         metrics
           ? `Trailing ${metrics.window_days} days · a rate is withheld below ${metrics.min_sample} resolved events`
-          : 'Outcomes the loop is meant to move'
+          : t('p.outcomes-the-loop-is-meant-to')
       }
     >
       <AsyncBoundary
@@ -88,7 +88,7 @@ export function MeasuredOutcomes({
         {metrics ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <HonestMetric
-              label="Phishing click rate"
+              label={t('p.phishing-click-rate')}
               value={metrics.phishing_click_rate}
               format="percent"
               sample={metrics.simulation_sample}
@@ -122,7 +122,7 @@ export function MeasuredOutcomes({
             />
 
             <HonestMetric
-              label="Training completion rate"
+              label={t('p.training-completion-rate')}
               value={metrics.training_completion_rate}
               format="percent"
               sample={metrics.training_sample}
@@ -139,14 +139,14 @@ export function MeasuredOutcomes({
             />
 
             <HonestMetric
-              label="Average risk score"
+              label={t('p.average-risk-score')}
               value={metrics.avg_risk_score}
               format="score"
               sample={scored}
               sampleNoun="scored employees"
               source="live"
               tone={riskTone}
-              hint="Current standing of the scored population, on a 0–100 scale."
+              hint={t('p.current-standing-of-the-scored-population')}
               unmeasuredReason="No employee has a scored risk profile yet"
               unmeasuredRemedy="The risk engine scores a person once they have at least one recorded event."
             />

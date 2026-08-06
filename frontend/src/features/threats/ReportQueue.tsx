@@ -51,13 +51,13 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
     onSuccess: (data) => {
       toast.show({
         title: `Loop run ${data.loop_run_id} started`,
-        description: 'The report is now a threat record and the artifact is being analysed.',
+        description: t('p.the-report-is-now-a-threat'),
         tone: 'success',
       })
       navigate(`/loops/${data.loop_run_id}`)
     },
     onError: (error) => {
-      toast.show({ title: 'The report was not pushed', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.the-report-was-not-pushed'), description: error.message, tone: 'error' })
     },
   })
 
@@ -67,7 +67,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
       toast.show({ title: 'Report dismissed', tone: 'info' })
     },
     onError: (error) => {
-      toast.show({ title: 'The report was not dismissed', description: error.message, tone: 'error' })
+      toast.show({ title: t('p.the-report-was-not-dismissed'), description: error.message, tone: 'error' })
     },
   })
 
@@ -101,7 +101,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
       title={t('x.awaiting-triage')}
       subtitle={
         newCount === 0
-          ? 'Nothing in the human-sensor queue is waiting for a decision.'
+          ? t('p.nothing-in-the-humansensor-queue-is')
           : `${newCount} report${newCount === 1 ? '' : 's'} from employees waiting for a decision.`
       }
     >
@@ -110,7 +110,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
           viewport into horizontal scroll. */}
       <div className="mb-4 flex flex-wrap items-end gap-2">
         <Select
-          label="Report status"
+          label={t('p.report-status')}
           labelHidden
           options={REPORT_STATUS_OPTIONS}
           value={status}
@@ -118,7 +118,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
           className="w-full sm:w-48"
         />
         <Select
-          label="Suspicion level"
+          label={t('p.suspicion-level')}
           labelHidden
           options={SUSPICION_OPTIONS}
           value={suspicion}
@@ -181,7 +181,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
         }}
         title={t('x.dismiss-this-report')}
         description={t('x.the-report-is-closed-without')}
-        confirmLabel="Dismiss report"
+        confirmLabel={t('p.dismiss-report')}
         busy={dismiss.isPending}
         onConfirm={() => {
           if (dismissTarget) dismiss.mutate(dismissTarget.id)

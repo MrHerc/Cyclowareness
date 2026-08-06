@@ -221,7 +221,7 @@ function Workspace({ runId }: { runId: string }) {
 
                 <div className="flex flex-wrap items-center gap-2">
                   {detail.severity && (
-                    <Tooltip content={detail.severityBasis ?? 'Derived from the analyser verdict.'}>
+                    <Tooltip content={detail.severityBasis ?? t('p.derived-from-the-analyser-verdict')}>
                       <Badge status={detail.severity} dot />
                     </Tooltip>
                   )}

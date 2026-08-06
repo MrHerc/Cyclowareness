@@ -30,9 +30,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
         <p className="text-lead text-fg">{module.description}</p>
 
         {sections.length === 0 ? (
-          <p className="mt-4 text-sm text-fg-faint">
-            This module has no sections. An employee would open it and find nothing to read.
-          </p>
+          <p className="mt-4 text-sm text-fg-faint">{t('p.this-module-has-no-sections-an')}</p>
         ) : (
           <div className="mt-5 space-y-6">
             {sections.map((section, index) => (
@@ -58,9 +56,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
         headingLevel={2}
       >
         {quiz.length === 0 ? (
-          <p className="text-sm text-fg-faint">
-            No questions are attached, so nothing about this module can be measured.
-          </p>
+          <p className="text-sm text-fg-faint">{t('p.no-questions-are-attached-so-nothing')}</p>
         ) : (
           <ol className="space-y-6">
             {quiz.map((question, index) => (
@@ -98,9 +94,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
                   })}
                 </ul>
                 {question.correct_index === undefined ? (
-                  <p className="mt-2 text-xs text-critical" role="alert">
-                    No correct answer is recorded for this question. It cannot be graded.
-                  </p>
+                  <p className="mt-2 text-xs text-critical" role="alert">{t('p.no-correct-answer-is-recorded-for')}</p>
                 ) : null}
                 {question.explanation ? (
                   <p className="mt-2 text-sm text-fg-subtle">
@@ -108,9 +102,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
                     {question.explanation}
                   </p>
                 ) : (
-                  <p className="mt-2 text-sm text-fg-faint">
-                    No explanation is recorded — the employee sees only whether they were right.
-                  </p>
+                  <p className="mt-2 text-sm text-fg-faint">{t('p.no-explanation-is-recorded-the-employee')}</p>
                 )}
               </li>
             ))}

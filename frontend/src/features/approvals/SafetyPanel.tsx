@@ -51,7 +51,7 @@ export function SafetyPanel({
       tone={safety.failed > 0 ? 'danger' : 'default'}
       subtitle={
         safety.checks.length === 0
-          ? 'No checks were reported for this run.'
+          ? t('p.no-checks-were-reported-for-this')
           : `${safety.passed} passed · ${safety.failed} failed · ${safety.notRun} not run`
       }
       bodyClassName="space-y-4"
@@ -123,7 +123,7 @@ export function SafetyPanel({
         ) : (
           <p className="text-xs text-fg-subtle">
             {secondApproval.note ??
-              'One approval releases this run. Use "Require a second approval" below to hold it for a co-signer instead.'}
+              t('p.one-approval-releases-this-run-use')}
           </p>
         )}
       </div>

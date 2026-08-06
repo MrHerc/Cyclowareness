@@ -64,10 +64,7 @@ export function ScoreBreakdownPanel({
         {/* --- rule component ------------------------------------------------ */}
         <section>
           <h3 className="text-h text-fg">{t('y.rule-component')}</h3>
-          <p className="mt-1 text-sm text-fg-subtle">
-            Severity-weighted, and saturating on purpose: twenty low-severity observations must not
-            add up to one critical one, because they are not the same evidence.
-          </p>
+          <p className="mt-1 text-sm text-fg-subtle">{t('p.severityweighted-and-saturating-on-purpose-twent')}</p>
           <p className="mt-2 text-lead text-fg">
             {num(rule?.score ?? 0, 1)}{' '}
             <span className="text-sm text-fg-subtle">
@@ -97,9 +94,7 @@ export function ScoreBreakdownPanel({
               </TableBody>
             </Table>
           ) : (
-            <p className="mt-3 text-sm text-fg-faint">
-              No severity band contributed — no signal above informational fired.
-            </p>
+            <p className="mt-3 text-sm text-fg-faint">{t('p.no-severity-band-contributed-no-signal')}</p>
           )}
         </section>
 
@@ -108,7 +103,7 @@ export function ScoreBreakdownPanel({
           <h3 className="text-h text-fg">{t('y.model-component')}</h3>
 
           <div className="mt-2 rounded-panel border border-ai/30 bg-ai/5 p-3">
-            <p className="label text-ai">How this model was built</p>
+            <p className="label text-ai">{t('p.how-this-model-was-built')}</p>
             <p className="mt-1.5 text-sm text-fg-muted">{model?.provenance}</p>
           </div>
 
@@ -133,9 +128,7 @@ export function ScoreBreakdownPanel({
               ))}
             </ul>
           ) : (
-            <p className="mt-3 text-sm text-fg-faint">
-              No feature was present in this sample, so the score is the model's base rate alone.
-            </p>
+            <p className="mt-3 text-sm text-fg-faint">{t('p.no-feature-was-present-in-this')}</p>
           )}
 
           <p className="tech mt-3 text-fg-faint">

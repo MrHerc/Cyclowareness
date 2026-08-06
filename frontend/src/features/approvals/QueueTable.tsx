@@ -10,6 +10,7 @@
  * reader that the product tracks something it does not.
  */
 
+import { useT } from '../../lib/i18n'
 import { ShieldQuestion, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AIProvenanceBadge } from '../../components/data'
@@ -36,22 +37,24 @@ export interface QueueTableProps {
 }
 
 function Wait({ seconds, since }: { seconds: number; since: string | null }) {
+  const t = useT()
   const tone = waitTone(seconds)
   return (
     <div className="min-w-0">
       <div className={cn('text-h', TONE_TEXT[tone])}>{waitLabel(seconds)}</div>
-      <div className="text-xs text-fg-faint">{since ? timeAgo(since) : 'Arrival time not recorded'}</div>
+      <div className="text-xs text-fg-faint">{since ? timeAgo(since) : t('p.arrival-time-not-recorded')}</div>
     </div>
   )
 }
 
 function Severity({ row }: { row: QueueRow }) {
+  const t = useT()
   if (!row.severity) {
     return (
       <Tooltip
         content={
           row.severityBasis ??
-          'No severity was derived for this run, because the analysis stage recorded no verdict.'
+          t('p.no-severity-was-derived-for-this')
         }
       >
         <span className="inline-flex items-center gap-1.5 text-sm text-fg-faint">
@@ -67,6 +70,7 @@ function Severity({ row }: { row: QueueRow }) {
 }
 
 export function QueueTable({ rows, modelConnected }: QueueTableProps) {
+  const t = useT()
   const showSanitization = rows.some((row) => row.sanitizationStatus !== null)
   const showAnalyst = rows.some((row) => row.assignedAnalyst !== null)
 
@@ -126,7 +130,7 @@ export function QueueTable({ rows, modelConnected }: QueueTableProps) {
             <TableCell>
               <div className="min-w-0 max-w-xs space-y-1.5">
                 <div className="truncate text-body text-fg-muted">
-                  {row.moduleTitle ?? 'No module was generated for this run'}
+                  {row.moduleTitle ?? t('p.no-module-was-generated-for-this')}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <AIProvenanceBadge

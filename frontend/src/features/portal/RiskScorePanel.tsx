@@ -32,6 +32,7 @@ const BAND_TONE: Record<RiskEvidence['band'], MetricTone> = {
 }
 
 function ContestControl({ event }: { event: RiskEvent }) {
+  const t = useT()
   const toast = useToast()
   const [open, setOpen] = useState(false)
 
@@ -48,7 +49,7 @@ function ContestControl({ event }: { event: RiskEvent }) {
     onSuccess: () => {
       toast.show({
         title: 'Sent to a person',
-        description: 'Someone will read what you wrote and answer it here.',
+        description: t('p.someone-will-read-what-you-wrote'),
         tone: 'success',
       })
       setOpen(false)
@@ -74,9 +75,7 @@ function ContestControl({ event }: { event: RiskEvent }) {
   }
   if (event.contested_at) {
     return (
-      <p className="mt-1 text-xs text-fg-subtle">
-        You contested this. Nobody has answered yet.
-      </p>
+      <p className="mt-1 text-xs text-fg-subtle">{t('p.you-contested-this-nobody-has-answered')}</p>
     )
   }
   // ONLY WHERE THE RECORD COUNTS AGAINST THEM. The control was offered on every
@@ -115,8 +114,8 @@ function ContestControl({ event }: { event: RiskEvent }) {
         // tab back from the top of the page.
         autoFocus
         id={`contest-${event.id}`}
-        label="What happened?"
-        hint="Sent to a person as you wrote it. Your score does not change until someone answers."
+        label={t('p.what-happened-2')}
+        hint={t('p.sent-to-a-person-as-you')}
         rows={2}
         maxLength={2000}
         value={note}
@@ -230,10 +229,7 @@ export function RiskScorePanel({
         {sentence ? (
           <p className="text-lead text-fg-muted">{sentence}</p>
         ) : (
-          <p className="text-lead text-fg-muted">
-            Nothing has moved your score yet. It is still the starting point set by how sensitive
-            your role is.
-          </p>
+          <p className="text-lead text-fg-muted">{t('p.nothing-has-moved-your-score-yet')}</p>
         )}
 
         {/* WHERE THE SCORE STARTED, kept out of the two columns below.
@@ -247,9 +243,7 @@ export function RiskScorePanel({
         {evidence.startingPoints.length > 0 ? (
           <div className="border-t border-line-subtle pt-5">
             <h3 className="label text-fg-subtle">{t('y.where-your-score-started')}</h3>
-            <p className="mt-1 text-sm text-fg-faint">
-              Set before anything you did, and not a judgement about you.
-            </p>
+            <p className="mt-1 text-sm text-fg-faint">{t('p.set-before-anything-you-did-and')}</p>
             <ul className="mt-2">
               {evidence.startingPoints.map((factor) => (
                 <li
@@ -285,9 +279,7 @@ export function RiskScorePanel({
         <div className="border-t border-line-subtle pt-5">
           <h3 className="label text-fg-subtle">{t('y.recent-changes')}</h3>
           {evidence.events.length === 0 ? (
-            <p className="mt-2 text-sm text-fg-faint">
-              No individual events have been recorded against you.
-            </p>
+            <p className="mt-2 text-sm text-fg-faint">{t('p.no-individual-events-have-been-recorded')}</p>
           ) : (
             <ul className="mt-2 divide-line">
               {evidence.events.map((event) => (
@@ -324,7 +316,7 @@ export function RiskScorePanel({
         <div className="flex items-start gap-2.5 rounded-control border border-brand/25 bg-brand/5 px-4 py-3">
           <Info className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />
           <div>
-            <p className="label text-fg-subtle">What to do next</p>
+            <p className="label text-fg-subtle">{t('p.what-to-do-next')}</p>
             <p className="mt-1 text-body text-fg">
               {recommendedAction(evidence, openAssignments, openIncidentWork)}
             </p>
@@ -334,7 +326,7 @@ export function RiskScorePanel({
         <p className="text-xs text-fg-faint">
           {evidence.lastRecalculated
             ? `Last recalculated ${formatDateTime(evidence.lastRecalculated)}, from ${num(evidence.scoredEvents, 0)} recorded events.`
-            : 'This score has never been recalculated — no events have been recorded against you.'}
+            : t('p.this-score-has-never-been-recalculated')}
         </p>
       </div>
     </Panel>

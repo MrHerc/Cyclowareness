@@ -37,7 +37,7 @@ export function DisableDialog({ integration, open, onOpenChange }: DisableDialog
     onSuccess: () => {
       toast.show({
         title: `${integration.display_name} disabled`,
-        description: 'The reason was written to the audit trail. The last sync record is unchanged.',
+        description: t('p.the-reason-was-written-to-the'),
         tone: 'success',
       })
       onOpenChange(false)
@@ -75,13 +75,13 @@ export function DisableDialog({ integration, open, onOpenChange }: DisableDialog
     >
       <div className="space-y-4">
         <Textarea
-          label="Why is this being disabled"
+          label={t('p.why-is-this-being-disabled')}
           value={reason}
           onChange={(event) => setReason(event.target.value)}
           required
           rows={3}
-          hint="Recorded against your account in the audit trail. Required by the API."
-          placeholder="Tenant migration — the old Moodle instance is being retired."
+          hint={t('p.recorded-against-your-account-in-the')}
+          placeholder={t('p.tenant-migration-the-old-moodle-instance')}
         />
         {failure ? (
           <p role="alert" className="text-sm text-critical">

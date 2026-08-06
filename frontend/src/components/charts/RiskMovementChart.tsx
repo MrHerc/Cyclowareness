@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import { Bar, BarChart, Cell, ReferenceLine, Tooltip, XAxis, YAxis } from 'recharts'
 import { signed } from '../../lib/format'
 import { ChartFrame } from './ChartFrame'
@@ -46,6 +47,7 @@ export function RiskMovementChart({
   error = null,
   className,
 }: RiskMovementChartProps) {
+  const t = useT()
   // Largest rise at the top: the departments that got worse are the ones an
   // analyst has to do something about.
   const rows = [...data].sort((a, b) => b.delta - a.delta)
@@ -67,7 +69,7 @@ export function RiskMovementChart({
       caption={
         windowDays
           ? `Change in average risk over the last ${windowDays} days · negative is improvement`
-          : 'Change in average risk · negative is improvement'
+          : t('p.change-in-average-risk-negative-is')
       }
       legend={[
         { label: 'Risk rose', color: DIVERGING.worse },
@@ -78,7 +80,7 @@ export function RiskMovementChart({
       hasData={rows.length > 0}
       loading={loading}
       error={error}
-      emptyTitle="No movement to show"
+      emptyTitle={t('p.no-movement-to-show')}
       emptyMessage="No department has two scored points to compare in this window."
       description={`Change in average risk score per department: ${rows
         .map((row) => `${row.department} ${signed(row.delta, 1)}`)
@@ -127,7 +129,7 @@ export function RiskMovementChart({
                 }
                 rows={[
                   {
-                    label: 'Change in average risk',
+                    label: t('p.change-in-average-risk'),
                     color: colorFor(row.delta),
                     value: signed(row.delta, 1),
                   },

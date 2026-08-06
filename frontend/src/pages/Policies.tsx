@@ -109,13 +109,13 @@ export default function Policies() {
                 icon={FileText}
                 headline={
                   filters.activeCount > 0
-                    ? 'No policy matches these filters'
-                    : 'No policies have been registered'
+                    ? t('p.no-policy-matches-these-filters')
+                    : t('p.no-policies-have-been-registered')
                 }
                 description={
                   filters.activeCount > 0
-                    ? 'Clear a filter to widen the search. The department filter runs over the most recently updated policies, so a very old document may sit outside it.'
-                    : 'A policy appears here once its document — or just its metadata — has been registered through the platform API. Extraction is a separate, opt-in step.'
+                    ? t('p.clear-a-filter-to-widen-the')
+                    : t('p.a-policy-appears-here-once-its')
                 }
               />
             }

@@ -24,16 +24,8 @@ export function GenerationNotice() {
       <div className="flex gap-3">
         <Sparkles className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
         <div className="min-w-0 space-y-3">
-          <p className="text-body text-fg-muted">
-            The studio has no generate button, because the platform has no studio generator. A
-            module is written in one place only: the conversion stage of a loop run, from a threat
-            that has already been analyzed. That is what keeps every module traceable to a real
-            artifact instead of to a prompt somebody typed.
-          </p>
-          <p className="text-body text-fg-muted">
-            Quiz generation and role variants are part of the same stage and are not separately
-            callable. To produce a new module, put an artifact into the loop.
-          </p>
+          <p className="text-body text-fg-muted">{t('p.the-studio-has-no-generate-button')}</p>
+          <p className="text-body text-fg-muted">{t('p.quiz-generation-and-role-variants-are')}</p>
           <div className="flex flex-wrap gap-4">
             <Link to="/threats" className="text-sm text-brand hover:underline">
               Submit an artifact in Threat Intake
@@ -54,11 +46,7 @@ export function VersionHistoryNotice() {
     <Panel title={t('x.version-history')} headingLevel={2}>
       <div className="flex gap-3">
         <History className="mt-0.5 size-4 shrink-0 text-fg-subtle" aria-hidden="true" />
-        <p className="text-body text-fg-muted">
-          Version history is not recorded for modules yet. Editing overwrites the stored content in
-          place, and no revision is kept — so there is nothing to compare against and nothing to
-          roll back to. Policies are versioned; modules are not.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.version-history-is-not-recorded-for')}</p>
       </div>
     </Panel>
   )

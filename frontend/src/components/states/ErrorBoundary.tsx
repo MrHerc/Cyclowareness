@@ -12,6 +12,7 @@
  * of a client-side crash that anyone can read off a demo laptop afterwards.
  */
 
+import { useT } from '../../lib/i18n'
 import { Component, useEffect, type ErrorInfo, type ReactNode } from 'react'
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 import { ApiError, type ApiErrorKind } from '../../lib/api/client'
@@ -91,6 +92,7 @@ const ROUTE_STATUS_KIND: Record<number, ApiErrorKind> = {
  * router error state survives until the route is entered again.
  */
 export function RouteErrorBoundary() {
+  const t = useT()
   const routeError = useRouteError()
 
   // In an effect, not in render: a boundary that re-renders must not multiply
@@ -110,7 +112,7 @@ export function RouteErrorBoundary() {
       <ErrorState
         error={error}
         onRetry={() => window.location.reload()}
-        retryLabel="Reload the page"
+        retryLabel={t('p.reload-the-page')}
         // A 404 is not retryable, so the retry button is withheld — without this
         // there would be no way out of the route at all.
         action={

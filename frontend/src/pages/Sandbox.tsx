@@ -63,8 +63,8 @@ export default function Sandbox() {
             an isolated off-host worker or not at all. */}
         <p className="text-lead text-fg-muted">
           {capabilities.data?.dynamic_worker
-            ? 'Forensic analysis of a file or a URL — static here, detonation on an isolated worker — with the reasoning behind every point of the score.'
-            : 'Static forensic analysis of a file or a URL, with the reasoning behind every point of the score.'}
+            ? t('p.forensic-analysis-of-a-file-or')
+            : t('p.static-forensic-analysis-of-a-file')}
         </p>
         <DataSourceLabel source="sandbox" detail={backing.note} />
       </header>
@@ -113,11 +113,11 @@ export default function Sandbox() {
               icon={FlaskConical}
               compact
               className="px-5"
-              headline={status === 'all' ? 'Nothing has been submitted yet' : 'No jobs in this state'}
+              headline={status === 'all' ? t('p.nothing-has-been-submitted-yet') : t('p.no-jobs-in-this-state')}
               description={
                 status === 'all'
-                  ? 'Upload a file or submit a URL above. Every submission appears here the moment it is queued, and updates as the engine works through it.'
-                  : 'No submission currently holds this status. Clear the filter to see everything the engine has analysed.'
+                  ? t('p.upload-a-file-or-submit-a')
+                  : t('p.no-submission-currently-holds-this-status')
               }
             />
           }

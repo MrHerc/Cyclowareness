@@ -84,12 +84,12 @@ export function DecisionPanel({
 
   const audienceSentence =
     audienceCount === 0
-      ? 'No employee is currently selected, so approving advances the run with nothing to assign.'
+      ? t('p.no-employee-is-currently-selected-so')
       : `${audienceCount} ${audienceCount === 1 ? 'person' : 'people'} will be assigned this module as soon as the run advances.`
 
   const approveAction = (kind: 'approve' | 'approve_with_edits'): PendingAction => ({
     kind,
-    title: kind === 'approve' ? 'Approve this content' : 'Save edits and approve',
+    title: kind === 'approve' ? 'Approve this content' : t('p.save-edits-and-approve'),
     description:
       (kind === 'approve_with_edits'
         ? 'Your edits are written to the module first, which marks it analyst-edited. '
@@ -106,7 +106,7 @@ export function DecisionPanel({
     kind: 'reject',
     title: 'Reject this content',
     description:
-      'The module is marked rejected and the run is closed as failed-by-review. Nothing is assigned to anyone, and the run cannot be reopened from this screen.',
+      t('p.the-module-is-marked-rejected-and'),
     confirmLabel: 'Reject',
     tone: 'danger',
   }
@@ -119,21 +119,21 @@ export function DecisionPanel({
         tone="feature"
         subtitle={
           !awaitingApproval
-            ? 'This run has already left the gate. The record below is read-only.'
+            ? t('p.this-run-has-already-left-the')
             : !canDecide
-              ? 'Your role can read this review but cannot record a decision.'
-              : 'Recorded against your name in the audit trail.'
+              ? t('p.your-role-can-read-this-review')
+              : t('p.recorded-against-your-name-in-the')
         }
         bodyClassName="space-y-4"
       >
         <Textarea
-          label="Analyst comment"
+          label={t('p.analyst-comment')}
           rows={4}
           value={comment}
           onChange={(event) => onCommentChange(event.target.value)}
           disabled={locked || busy}
-          placeholder="What you checked, what you changed, or what is wrong with it."
-          hint="Required for a rejection or a revision request. Stored with the decision in the audit trail."
+          placeholder={t('p.what-you-checked-what-you-changed')}
+          hint={t('p.required-for-a-rejection-or-a')}
         />
 
         <div className="grid gap-2">
@@ -173,8 +173,8 @@ export function DecisionPanel({
           <Tooltip
             content={
               commented
-                ? 'Records your objection and leaves the run at the gate for editing.'
-                : 'Add a comment first — a revision request without one leaves nothing to act on.'
+                ? t('p.records-your-objection-and-leaves-the')
+                : t('p.add-a-comment-first-a-revision')
             }
           >
             <span className="block">
@@ -193,8 +193,8 @@ export function DecisionPanel({
           <Tooltip
             content={
               commented
-                ? 'Closes the run as failed-by-review. Nothing is assigned.'
-                : 'Add a comment first — the server refuses a rejection without a reason.'
+                ? t('p.closes-the-run-as-failedbyreview-nothing')
+                : t('p.add-a-comment-first-the-server')
             }
           >
             <span className="block">
@@ -220,11 +220,7 @@ export function DecisionPanel({
             Said once, in text, where it costs nobody a hover. The tooltips stay
             for the enabled state, where they describe what the action DOES. */}
         {!commented && !locked ? (
-          <p className="text-sm text-fg-subtle">
-            Rejecting or requesting a revision needs a comment first — the server
-            refuses either without a reason, and a decision with nothing to act on
-            helps no one.
-          </p>
+          <p className="text-sm text-fg-subtle">{t('p.rejecting-or-requesting-a-revision-needs')}</p>
         ) : null}
 
         <div aria-live="polite" className="empty:hidden">
@@ -265,7 +261,7 @@ export function DecisionPanel({
           <p className="text-xs text-fg-faint">
             {draftSavedAt
               ? `Draft saved in this browser at ${formatDateTime(draftSavedAt)}. It is on this device only — nobody else reviewing this run can see it.`
-              : 'Keeps your comment and unsaved edits in this browser. There is no draft endpoint, so a draft never leaves this device.'}
+              : t('p.keeps-your-comment-and-unsaved-edits')}
           </p>
         </div>
 

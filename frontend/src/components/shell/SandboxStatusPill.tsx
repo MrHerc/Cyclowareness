@@ -8,6 +8,7 @@
  * the pill repeats it rather than inferring anything.
  */
 
+import { useT } from '../../lib/i18n'
 import { Boxes } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from '../ui'
@@ -22,6 +23,7 @@ const PILL =
   'inline-flex items-center gap-1.5 rounded-chip border border-line px-2 py-0.5 text-xs whitespace-nowrap transition-colors hover:border-line-strong hover:bg-raised'
 
 export function SandboxStatusPill({ className }: SandboxStatusPillProps) {
+  const t = useT()
   const { data, isPending, isError } = useSandboxCapabilities()
 
   if (isPending || isError) {
@@ -29,8 +31,8 @@ export function SandboxStatusPill({ className }: SandboxStatusPillProps) {
       <Tooltip
         content={
           isError
-            ? 'The sandbox did not report its capabilities. Treat its availability as unknown rather than assuming either answer.'
-            : 'Asking the sandbox what it can do.'
+            ? t('p.the-sandbox-did-not-report-its')
+            : t('p.asking-the-sandbox-what-it-can')
         }
       >
         <span
@@ -57,8 +59,8 @@ export function SandboxStatusPill({ className }: SandboxStatusPillProps) {
         <span className="block space-y-1">
           <span className="block">
             {dynamic
-              ? 'Static analysis and dynamic detonation are both available.'
-              : 'Static analysis only. No detonation host is attached, so nothing submitted here is executed — reports say "not run" rather than "clean".'}
+              ? t('p.static-analysis-and-dynamic-detonation-are')
+              : t('p.static-analysis-only-no-detonation-host')}
           </span>
           <span className="block text-fg-subtle">
             {analyzers} static {analyzers === 1 ? 'analyzer' : 'analyzers'} · {yara} YARA{' '}

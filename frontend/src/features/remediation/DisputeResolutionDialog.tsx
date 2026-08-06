@@ -65,7 +65,7 @@ export function DisputeResolutionDialog({
           }}
         >
           <div className="rounded-panel border border-line-subtle bg-surface p-3">
-            <p className="label text-fg-subtle">What they wrote</p>
+            <p className="label text-fg-subtle">{t('p.what-they-wrote')}</p>
             {/* Verbatim. See the module docstring. */}
             <p className="mt-1 whitespace-pre-wrap text-body text-fg-muted">
               {plan.dispute_note}
@@ -76,7 +76,7 @@ export function DisputeResolutionDialog({
             <Textarea
               id={`dispute-answer-${plan.id}`}
               label="Your answer"
-              hint="They read this on their own screen. Written to the audit trail under your name."
+              hint={t('p.they-read-this-on-their-own')}
               rows={4}
               maxLength={2000}
               value={resolution}
@@ -87,8 +87,8 @@ export function DisputeResolutionDialog({
 
           <div className="mt-3">
             <Checkbox
-              label="Withdraw the plan"
-              hint="It stops being assigned to them. Choose this when they were right."
+              label={t('p.withdraw-the-plan')}
+              hint={t('p.it-stops-being-assigned-to-them')}
               checked={withdraw}
               onCheckedChange={setWithdraw}
             />

@@ -39,12 +39,9 @@ export function HistoryTimeline({ entries, loading }: HistoryTimelineProps) {
   return (
     <Panel title={t('x.approval-history')} headingLevel={2} bodyClassName="space-y-0">
       {loading ? (
-        <p className="text-sm text-fg-subtle">Loading the thread…</p>
+        <p className="text-sm text-fg-subtle">{t('p.loading-the-thread')}</p>
       ) : entries.length === 0 ? (
-        <p className="text-sm text-fg-subtle">
-          Nothing has been recorded against this run yet. The first decision, endorsement or
-          revision request will appear here.
-        </p>
+        <p className="text-sm text-fg-subtle">{t('p.nothing-has-been-recorded-against-this')}</p>
       ) : (
         <ol className="relative space-y-5 pl-7">
           <span

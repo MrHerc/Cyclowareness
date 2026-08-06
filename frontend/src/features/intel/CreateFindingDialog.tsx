@@ -54,7 +54,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
   const selectedMatch = matches.find((match) => String(match.id) === matchId) ?? null
 
   const matchOptions = [
-    { value: NO_MATCH, label: 'No match — my own claim' },
+    { value: NO_MATCH, label: t('p.no-match-my-own-claim') },
     ...matches.map((match) => ({
       value: String(match.id),
       label: `${MATCH_TYPE_LABEL[match.match_type] ?? match.match_type} — ${truncate(match.explanation, 60)}`,
@@ -81,7 +81,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
         onSuccess: (finding) => {
           toast.show({
             title: `Finding #${finding.id} raised`,
-            description: 'Opening it now. Training is assigned from the finding.',
+            description: t('p.opening-it-now-training-is-assigned'),
             tone: 'success',
           })
           onOpenChange(false)
@@ -111,14 +111,14 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
     >
       <div className="space-y-4">
         <Select
-          label="Argument this finding rests on"
+          label={t('p.argument-this-finding-rests-on')}
           options={matchOptions}
           value={matchId}
           onValueChange={setMatchId}
           hint={
             selectedMatch
-              ? 'The match supplies the policy, the departments, the people and the confidence.'
-              : 'With no match behind it the finding carries no confidence value, no policy and no named people.'
+              ? t('p.the-match-supplies-the-policy-the')
+              : t('p.with-no-match-behind-it-the')
           }
         />
 
@@ -132,12 +132,12 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
           label="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          hint="Defaults to the advisory's own title."
+          hint={t('p.defaults-to-the-advisorys-own-title')}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Select
-            label="Finding type"
+            label={t('p.finding-type')}
             options={FINDING_TYPE_OPTIONS}
             value={findingType}
             onValueChange={setFindingType}
@@ -147,7 +147,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             options={FINDING_SEVERITY_OPTIONS}
             value={severity}
             onValueChange={setSeverity}
-            hint="Defaults to the advisory's published severity."
+            hint={t('p.defaults-to-the-advisorys-published-severity')}
           />
         </div>
 
@@ -156,7 +156,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             label="Owner"
             value={owner}
             onChange={(event) => setOwner(event.target.value)}
-            hint="Who is accountable for closing it. Optional."
+            hint={t('p.who-is-accountable-for-closing-it')}
           />
           <Input
             label="Due date"
@@ -168,18 +168,18 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
         </div>
 
         <Textarea
-          label="Suggested remediation"
+          label={t('p.suggested-remediation')}
           value={remediation}
           onChange={(event) => setRemediation(event.target.value)}
           rows={2}
-          hint="Optional. What would resolve it."
+          hint={t('p.optional-what-would-resolve-it')}
         />
 
         <Input
-          label="Required training"
+          label={t('p.required-training')}
           value={training}
           onChange={(event) => setTraining(event.target.value)}
-          hint="Names the behaviour to train. Training itself is assigned on the finding."
+          hint={t('p.names-the-behaviour-to-train-training')}
         />
 
         {create.isError ? (

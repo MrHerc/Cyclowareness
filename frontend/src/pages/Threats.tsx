@@ -79,17 +79,17 @@ export default function Threats() {
 
       <div className="flex flex-wrap items-end gap-3">
         <Input
-          label="Search intake"
+          label={t('p.search-intake')}
           labelHidden
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search titles, senders, artifact text, reporters…"
+          placeholder={t('p.search-titles-senders-artifact-text-reporters')}
           className="min-w-0 flex-1 sm:max-w-md"
           autoComplete="off"
         />
         <Select
-          label="Artifact type"
+          label={t('p.artifact-type')}
           labelHidden
           options={typeOptions}
           value={artifactType}

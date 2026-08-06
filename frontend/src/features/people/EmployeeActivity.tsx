@@ -102,11 +102,7 @@ export function EmployeeActivity({ events }: EmployeeActivityProps) {
         emptyLine="No simulated-phishing click or report has been recorded for this person in the events the API returns."
       />
 
-      <p className="border-t border-line-subtle pt-3 text-xs text-fg-subtle">
-        This is derived from the risk-event trail, not from an assignment list. The platform exposes
-        no per-employee assignment or campaign endpoint, so an outstanding assignment that has not
-        yet produced an event does not appear here.
-      </p>
+      <p className="border-t border-line-subtle pt-3 text-xs text-fg-subtle">{t('p.this-is-derived-from-the-riskevent')}</p>
     </div>
   )
 }

@@ -13,6 +13,7 @@
  *   timestamp. `due_before=<now>` would produce a new query key on every render.
  */
 
+import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
 import { Select } from '../../components/ui'
 import { Button } from '../../components/ui'
@@ -57,6 +58,7 @@ export function FindingFilters({
   sources,
   owners,
 }: FindingFiltersProps) {
+  const t = useT()
   const policyOptions = [
     { value: ANY_VALUE, label: 'Any policy' },
     ...policies.map((policy) => ({ value: String(policy.id), label: policy.name })),
@@ -102,7 +104,7 @@ export function FindingFilters({
           options={departmentOptions}
           value={filters.values.department || ANY_VALUE}
           onValueChange={(value) => filters.set('department', value)}
-          hint="Runs over the most recent findings; the count says so when it is a floor."
+          hint={t('p.runs-over-the-most-recent-findings')}
         />
         <Select
           label="Technology"
@@ -133,7 +135,7 @@ export function FindingFilters({
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-fg-subtle">
           {filters.activeCount === 0
-            ? 'No filters applied — every finding this deployment holds.'
+            ? t('p.no-filters-applied-every-finding-this')
             : `${filters.activeCount} filter${filters.activeCount === 1 ? '' : 's'} applied, all of them server-side.`}
         </p>
         <Button

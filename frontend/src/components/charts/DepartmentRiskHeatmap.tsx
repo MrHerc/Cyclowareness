@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import type { DepartmentRisk } from '../../domain/types'
 import { cn, num, riskBand, riskBandLabel } from '../../lib/format'
 import { ChartFrame } from './ChartFrame'
@@ -47,6 +48,7 @@ export function DepartmentRiskHeatmap({
   error = null,
   className,
 }: DepartmentRiskHeatmapProps) {
+  const t = useT()
   // Worst first. An alphabetical heatmap makes the reader do the sorting.
   const ordered = [...departments].sort((a, b) => b.avg_risk - a.avg_risk)
 
@@ -64,7 +66,7 @@ export function DepartmentRiskHeatmap({
       hasData={ordered.length > 0}
       loading={loading}
       error={error}
-      emptyTitle="No departments"
+      emptyTitle={t('p.no-departments')}
       emptyMessage="No department has a scored population yet."
       responsive={false}
       description="Average risk score per department, with headcount and the number of high-risk people in each."

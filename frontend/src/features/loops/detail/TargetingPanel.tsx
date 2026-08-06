@@ -9,6 +9,7 @@
  * weight.
  */
 
+import { useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import type { DepartmentRisk, StageEntry, Target } from '../../../domain/types'
 import { STAGES } from '../../../domain/types'
@@ -40,6 +41,7 @@ function exposureOf(target: Target): { label: string; className: string } {
 }
 
 export function TargetingPanel({ entry, targets, departments }: TargetingPanelProps) {
+  const t = useT()
   const departmentName = (id: number) =>
     departments?.find((department) => department.id === id)?.name ?? `Department ${id}`
 
@@ -51,11 +53,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
       sourceDetail="Risk engine selection stored on the run"
     >
       {targets.length === 0 ? (
-        <p className="text-body text-fg-muted">
-          No one was selected. That is not “nobody is at risk” — it means nothing in the artifact,
-          the exposed departments or the recent-behaviour signals matched a person. A run approved
-          in this state advances with nothing to assign.
-        </p>
+        <p className="text-body text-fg-muted">{t('p.no-one-was-selected-that-is')}</p>
       ) : (
         <>
           <p className="text-body text-fg-muted">
@@ -119,10 +117,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
             </TableBody>
           </Table>
 
-          <p className="mt-3 text-xs text-fg-subtle">
-            Risk scores are the values recorded when this list was drawn. A person&apos;s score
-            moves afterwards, so the number here will not always match their profile today.
-          </p>
+          <p className="mt-3 text-xs text-fg-subtle">{t('p.risk-scores-are-the-values-recorded')}</p>
         </>
       )}
     </StageSection>

@@ -105,6 +105,7 @@ function QueueEntry({
   busy: boolean
   onRequest: (pending: PendingDecision) => void
 }) {
+  const t = useT()
   const provenance = provenanceOf(item.generationSource)
 
   return (
@@ -114,7 +115,7 @@ function QueueEntry({
           <div className="flex flex-wrap items-center gap-2">
             {item.severity ? <Badge status={item.severity} size="sm" /> : null}
             <h3 className="text-h text-fg">
-              {item.moduleTitle ?? 'Training content not generated yet'}
+              {item.moduleTitle ?? t('p.training-content-not-generated-yet')}
             </h3>
           </div>
 

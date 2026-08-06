@@ -57,7 +57,7 @@ export function ResourceImportPanel() {
       >
         <Textarea
           id="resource-import-urls"
-          label="URLs, one per line"
+          label={t('p.urls-one-per-line')}
           rows={4}
           value={urls}
           onChange={(event) => setUrls(event.target.value)}
@@ -87,7 +87,7 @@ export function ResourceImportPanel() {
           <p className="text-sm text-critical">
             {importer.error instanceof ApiError
               ? importer.error.message
-              : 'The import request failed.'}
+              : t('p.the-import-request-failed')}
           </p>
         ) : null}
 

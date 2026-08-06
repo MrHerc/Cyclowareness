@@ -10,6 +10,7 @@
  * version — a reconciliation that only ever succeeds is not a reconciliation.
  */
 
+import { useT } from '../../lib/i18n'
 import {
   Table,
   TableBody,
@@ -38,6 +39,7 @@ function contributionTone(factor: string, contribution: number): string {
 }
 
 export function RiskDerivation({ employee }: RiskDerivationProps) {
+  const t = useT()
   const breakdown = employee.risk_breakdown ?? []
   const baseline = baselineFor(employee.role_sensitivity)
   const total = breakdownTotal(breakdown)
@@ -49,11 +51,7 @@ export function RiskDerivation({ employee }: RiskDerivationProps) {
 
   return (
     <div className="space-y-4">
-      <p className="text-body text-fg-muted">
-        This score is not asserted, it is computed. It starts at a baseline set by how sensitive the
-        role is, and every signal the engine has recorded since then moves it. Add the column below
-        up and you get the number at the top of this page.
-      </p>
+      <p className="text-body text-fg-muted">{t('p.this-score-is-not-asserted-it')}</p>
 
       <p className="tech rounded-control border border-line-subtle bg-base px-3 py-2.5 text-fg">
         20 + {num(employee.role_sensitivity, 1)} × 20 = {num(baseline, 1)}

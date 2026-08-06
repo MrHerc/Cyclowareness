@@ -58,18 +58,15 @@ export function ResourcePanel({
       headingLevel={headingLevel}
     >
       {isLoading ? (
-        <p className="text-sm text-fg-subtle">Loading resources…</p>
+        <p className="text-sm text-fg-subtle">{t('p.loading-resources')}</p>
       ) : error ? (
         // Stated, not swallowed. An empty list and a failed request look the
         // same to a reader, and only one of them means "we have nothing".
-        <p className="text-sm text-fg-subtle">
-          The resource catalogue could not be loaded, so this list is not a
-          statement that nothing exists for this topic.
-        </p>
+        <p className="text-sm text-fg-subtle">{t('p.the-resource-catalogue-could-not-be')}</p>
       ) : resources.length === 0 ? (
         <p className="text-sm text-fg-subtle">
           {emptyNote ??
-            'Nothing verified for this channel yet. An analyst adds material from the training screen, and a link is only listed once the provider has confirmed it.'}
+            t('p.nothing-verified-for-this-channel-yet')}
         </p>
       ) : (
         <ul className="divide-y divide-line-subtle">

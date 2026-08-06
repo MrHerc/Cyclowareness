@@ -9,6 +9,7 @@
  * about the whole store instead of about one page of it.
  */
 
+import { useT } from '../../lib/i18n'
 import { Select, Input, Button } from '../../components/ui'
 import { DateRangeSelector, type DateRangeValue } from '../../components/data'
 import { ANY_VALUE, type UrlFilters } from '../policy/useUrlFilters'
@@ -36,6 +37,7 @@ export function AuditFilters({
   limit,
   onLimitChange,
 }: AuditFiltersProps) {
+  const t = useT()
   const actionOptions = [
     { value: ANY_VALUE, label: 'Every action' },
     ...actions.map((entry) => ({
@@ -57,7 +59,7 @@ export function AuditFilters({
           type="search"
           value={filters.values.q}
           onChange={(event) => filters.set('q', event.target.value)}
-          placeholder="Summary, object label or action"
+          placeholder={t('p.summary-object-label-or-action')}
           className="w-64"
         />
         <Input
@@ -65,7 +67,7 @@ export function AuditFilters({
           type="search"
           value={filters.values.actor}
           onChange={(event) => filters.set('actor', event.target.value)}
-          placeholder="Part of an email address"
+          placeholder={t('p.part-of-an-email-address')}
           className="w-56"
         />
         <Select
@@ -92,11 +94,11 @@ export function AuditFilters({
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <DateRangeSelector value={range} onChange={onRangeChange} label="Trail window" />
+        <DateRangeSelector value={range} onChange={onRangeChange} label={t('p.trail-window')} />
         <div className="flex items-center gap-3">
           <span className="text-xs text-fg-faint">
             {filters.activeCount === 0
-              ? 'No filter applied beyond the window'
+              ? t('p.no-filter-applied-beyond-the-window')
               : `${num(filters.activeCount)} filter${filters.activeCount === 1 ? '' : 's'} applied`}
           </span>
           <Button

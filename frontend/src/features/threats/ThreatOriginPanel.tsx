@@ -58,16 +58,16 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
     label: `Threat #${threat.id}`,
     detail:
       threat.source === 'human_sensor'
-        ? 'An analyst accepted the report; targeting keys from the reporter were stripped at this boundary.'
+        ? t('p.an-analyst-accepted-the-report-targeting')
         : threat.source === 'feed'
-          ? 'An analyst pushed a curated feed item into the loop.'
-          : 'An analyst submitted the artifact directly.',
+          ? t('p.an-analyst-pushed-a-curated-feed')
+          : t('p.an-analyst-submitted-the-artifact-directly'),
   })
   if (loopRunId !== null) {
     custody.push({
       at: null,
       label: `Loop run #${loopRunId}`,
-      detail: 'The run this artifact started. Its stage history is the record of what happened next.',
+      detail: t('p.the-run-this-artifact-started-its'),
     })
   }
 
@@ -78,7 +78,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
           <SourceTag source={threat.source} />
         </DetailRow>
 
-        <DetailRow label="Artifact type">{channelLabel(threat.artifact_type)}</DetailRow>
+        <DetailRow label={t('p.artifact-type')}>{channelLabel(threat.artifact_type)}</DetailRow>
 
         <DetailRow label="Submitted">
           <time dateTime={threat.created_at}>{formatDateTime(threat.created_at)}</time>
@@ -103,14 +103,14 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
         </DetailRow>
 
         {report?.note.trim() ? (
-          <DetailRow label="Reporter’s note">{report.note.trim()}</DetailRow>
+          <DetailRow label={t('p.reporters-note')}>{report.note.trim()}</DetailRow>
         ) : null}
 
         <DetailRow label="Reach">
           {reach ?? (
             <NoMeasurement
-              label="Not recorded"
-              reason="This artifact carries no recipient or department metadata, so how far it reached is unknown."
+              label={t('p.not-recorded')}
+              reason={t('p.this-artifact-carries-no-recipient-or')}
             />
           )}
         </DetailRow>

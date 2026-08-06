@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from 'react'
-import { useLocale } from '../../lib/i18n'
+import { useLocale, useT } from '../../lib/i18n'
 import { ResponsiveContainer } from 'recharts'
 import { cn } from '../../lib/format'
 import { ChartLegend, type LegendItem } from './ChartLegend'
@@ -76,6 +76,7 @@ export function ChartFrame({
   className,
   children,
 }: ChartFrameProps) {
+  const t = useT()
   // Same rule as Panel: the frame's own text follows the active language.
   const { locale } = useLocale()
   const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
@@ -111,7 +112,7 @@ export function ChartFrame({
             role="alert"
             className="flex h-full flex-col items-center justify-center gap-1 rounded-control border border-critical/40 bg-critical/5 px-4 text-center"
           >
-            <p className="text-sm text-critical">Chart unavailable</p>
+            <p className="text-sm text-critical">{t('p.chart-unavailable')}</p>
             <p className="text-xs text-fg-muted">{error}</p>
           </div>
         ) : !hasData ? (

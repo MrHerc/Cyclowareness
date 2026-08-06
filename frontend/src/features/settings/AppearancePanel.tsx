@@ -34,23 +34,16 @@ export function AppearancePanel() {
           />
           <div className="min-w-0 space-y-1.5">
             <Switch
-              label="Start with the navigation rail collapsed"
+              label={t('p.start-with-the-navigation-rail-collapsed')}
               checked={collapsed}
               onCheckedChange={(next) => {
                 setCollapsed(next)
                 setStorageFailed(!writeNavCollapsed(next))
               }}
             />
-            <p className="text-xs text-fg-subtle">
-              The shell reads this once when the application loads, so it decides how the rail comes
-              up next time rather than moving it now. The control at the foot of the rail collapses
-              it immediately, and writes the same preference.
-            </p>
+            <p className="text-xs text-fg-subtle">{t('p.the-shell-reads-this-once-when')}</p>
             {storageFailed ? (
-              <p role="alert" className="text-xs text-critical">
-                This browser refused to store the preference — private browsing or a full quota. It
-                applies for this session and will not survive a reload.
-              </p>
+              <p role="alert" className="text-xs text-critical">{t('p.this-browser-refused-to-store-the')}</p>
             ) : null}
           </div>
         </div>
@@ -64,8 +57,8 @@ export function AppearancePanel() {
           <div className="min-w-0 space-y-1">
             <p className="text-body text-fg">
               {reducedMotion
-                ? 'Your system asks for reduced motion, and this product honours it.'
-                : 'Your system does not ask for reduced motion.'}
+                ? t('p.your-system-asks-for-reduced-motion')
+                : t('p.your-system-does-not-ask-for')}
             </p>
             <p className="text-xs text-fg-subtle">
               Every animation in the interface collapses under the operating system’s reduced-motion

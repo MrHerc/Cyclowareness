@@ -50,7 +50,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
       ),
       hint: threat?.verdict
         ? undefined
-        : 'No verdict was recorded. That is not a clean result — nothing has been concluded about this artifact.',
+        : t('p.no-verdict-was-recorded-that-is'),
     },
     { label: 'Confidence', value: <ConfidenceBadge value={threat?.confidence ?? null} /> },
     {
@@ -86,19 +86,13 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
             {threat?.explanation?.trim() ||
               'No plain-language explanation was written for this artifact.'}
           </p>
-          <p className="mt-1.5 text-xs text-fg-subtle">
-            The threat record does not carry the engine that wrote this sentence, so nothing is
-            claimed about how it was produced.
-          </p>
+          <p className="mt-1.5 text-xs text-fg-subtle">{t('p.the-threat-record-does-not-carry')}</p>
         </div>
 
         <div>
           <h3 className="text-h text-fg">{t('y.indicators-of-compromise')}</h3>
           {groups.length === 0 ? (
-            <p className="mt-1.5 text-sm text-fg-faint">
-              No indicators were extracted. On a social-engineering artifact with no payload and no
-              link, that is the expected result rather than a gap.
-            </p>
+            <p className="mt-1.5 text-sm text-fg-faint">{t('p.no-indicators-were-extracted-on-a')}</p>
           ) : (
             <dl className="mt-2 space-y-3">
               {groups.map((group) => (
@@ -122,10 +116,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
 
         <div>
           <h3 className="text-h text-fg">{t('y.mitre-attampck-mapping')}</h3>
-          <p className="mt-1.5 text-sm text-fg-muted">
-            Not available. The threat record served to this screen carries a verdict, a threat type,
-            a behaviour summary and indicators — it carries no technique mapping, so none is shown.
-          </p>
+          <p className="mt-1.5 text-sm text-fg-muted">{t('p.not-available-the-threat-record-served')}</p>
         </div>
 
         <div>

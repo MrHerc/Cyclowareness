@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 import { useId } from 'react'
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
 import type { TrendPoint } from '../../domain/types'
@@ -46,6 +47,7 @@ export function CompletionTrendChart({
   error = null,
   className,
 }: CompletionTrendChartProps) {
+  const t = useT()
   // The gradient id must be unique per instance or two charts on one page share
   // a fill and the second silently inherits the first. `useId` wraps its value
   // in punctuation that is not safe inside `url(#…)`, so it is stripped.
@@ -59,7 +61,7 @@ export function CompletionTrendChart({
       caption={
         windowDays
           ? `Last ${windowDays} days · completion is attendance, not behaviour change`
-          : 'Completion is attendance, not behaviour change'
+          : t('p.completion-is-attendance-not-behaviour-change')
       }
       legend={[{ label: 'Completion rate', color: COMPLETION_COLOR }]}
       height={height}

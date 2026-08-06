@@ -46,7 +46,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
     onSuccess: () => {
       toast.show({
         title: 'Module saved',
-        description: 'This content is now analyst-edited.',
+        description: t('p.this-content-is-now-analystedited'),
         tone: 'success',
       })
       onSaved()
@@ -81,12 +81,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
       >
         <div className="flex flex-wrap items-center gap-3">
           <AIProvenanceBadge provenance="analyst_edited" />
-          <p className="text-sm text-fg-muted">
-            Saving makes this content analyst-edited. The module record carries no edited flag and
-            this endpoint writes no audit entry, so the provenance badge elsewhere keeps reporting
-            how the module was originally generated. Treat that as a known gap, not as evidence
-            that nobody touched it.
-          </p>
+          <p className="text-sm text-fg-muted">{t('p.saving-makes-this-content-analystedited-the')}</p>
         </div>
       </Panel>
 
@@ -102,7 +97,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
             label="Description"
             required
             rows={3}
-            hint="The one-paragraph summary an employee sees before opening the module."
+            hint={t('p.the-oneparagraph-summary-an-employee-sees')}
             value={draft.description}
             onChange={(event) => setDraft({ ...draft, description: event.target.value })}
           />
@@ -110,7 +105,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
             label="Takeaway"
             required
             rows={2}
-            hint="The single behaviour this module is asking for."
+            hint={t('p.the-single-behaviour-this-module-is')}
             value={draft.takeaway}
             onChange={(event) => setDraft({ ...draft, takeaway: event.target.value })}
           />
@@ -133,9 +128,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
         }
       >
         {draft.content.length === 0 ? (
-          <p className="text-sm text-fg-faint">
-            This module has no sections. Add at least one before saving.
-          </p>
+          <p className="text-sm text-fg-faint">{t('p.this-module-has-no-sections-add')}</p>
         ) : (
           <ol className="space-y-5">
             {draft.content.map((section, index) => (

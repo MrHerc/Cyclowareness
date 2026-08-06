@@ -59,16 +59,16 @@ export function RoleSwitcher({ className }: RoleSwitcherProps) {
       toast.show({
         tone: 'success',
         title: `Signed in as ${next.employee_name ?? next.email}`,
-        description: 'The server issued a new token for this account.',
+        description: t('p.the-server-issued-a-new-token'),
       })
     } catch (error) {
       toast.show({
         tone: 'error',
-        title: 'Could not switch account',
+        title: t('p.could-not-switch-account'),
         description:
           error instanceof ApiError
             ? error.message
-            : 'The sign-in request failed before the server answered.',
+            : t('p.the-signin-request-failed-before-the'),
       })
     } finally {
       setPending(null)
@@ -121,10 +121,7 @@ export function RoleSwitcher({ className }: RoleSwitcherProps) {
         })}
 
         <DropdownMenuSeparator />
-        <p className="px-2 pb-1.5 pt-1 text-xs text-fg-faint">
-          Each entry performs a real sign-in. The server issues the token and continues to enforce
-          every permission — no role is faked in the browser.
-        </p>
+        <p className="px-2 pb-1.5 pt-1 text-xs text-fg-faint">{t('p.each-entry-performs-a-real-signin')}</p>
       </DropdownMenuContent>
     </DropdownMenu>
   )

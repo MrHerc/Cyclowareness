@@ -72,7 +72,7 @@ export function ArchiveChildren({ members }: ArchiveChildrenProps) {
                   ) : (
                     <NoMeasurement
                       label="Not scored"
-                      reason="This member has not finished analysis."
+                      reason={t('p.this-member-has-not-finished-analysis')}
                     />
                   )}
                 </TableCell>
