@@ -16,8 +16,11 @@
  * typing a password into, and a repaint-heavy background on a mid-range laptop
  * is a dropped keystroke.
  *
- * Colour comes from `--color-brand` via `color-mix`, never a literal, so a
- * repaint of the palette carries this with it. Under
+ * Colour comes from `--color-brand` via `color-mix`, never a literal — which
+ * is what lets the same component work on the light sign-in surface, where
+ * `--color-brand` resolves to the darkened accent, and on the dark console
+ * where it does not. The mix percentages were lowered for the light ground:
+ * a glow tuned for near-black is invisible on white. Under
  * `prefers-reduced-motion` the global rule in `tokens.css` stops the animation
  * and the blooms simply sit still — the composition still reads.
  */
@@ -39,7 +42,7 @@ export function AuroraField({ className }: AuroraFieldProps) {
         style={{
           background:
             'radial-gradient(circle at 50% 50%,' +
-            ' color-mix(in oklab, var(--color-brand) 22%, transparent), transparent 70%)',
+            ' color-mix(in oklab, var(--color-brand) 13%, transparent), transparent 70%)',
         }}
       />
       <div
@@ -47,7 +50,7 @@ export function AuroraField({ className }: AuroraFieldProps) {
         style={{
           background:
             'radial-gradient(circle at 50% 50%,' +
-            ' color-mix(in oklab, var(--color-safe) 14%, transparent), transparent 72%)',
+            ' color-mix(in oklab, var(--color-safe) 11%, transparent), transparent 72%)',
         }}
       />
     </div>

@@ -50,12 +50,12 @@ export function AuthScaffold({
 }: AuthScaffoldProps) {
   const { locale, t } = useLocale()
   return (
-    <div className="min-h-dvh w-full lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <div className="auth-surface min-h-dvh w-full lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       {/* Behind everything, pointer-events-none, and carrying no information —
           see the component. The first screen anyone sees should feel like a
           surface rather than a form on a flat colour. */}
       <PointerLight />
-      <div className="flex min-h-dvh flex-col px-6 py-8 sm:px-10 lg:px-14">
+      <div className="flex min-h-dvh flex-col px-6 py-10 sm:px-12 lg:px-20 lg:py-14">
         <header className="settle settle-1">
           <Link
             to="/login"
@@ -72,19 +72,26 @@ export function AuthScaffold({
           </Link>
         </header>
 
-        <main className="flex flex-1 items-center py-10">
+        <main className="flex flex-1 items-center py-14">
           {/* The form floats as one elevated card on the lit background, the way
               the internals' panels rest on the surface — so the first screen and
               every screen after it share a language. `bg-elevated/80` with a
               backdrop blur lets the pointer light read THROUGH the card without
               washing the fields out. */}
-          <div className="settle settle-2 mx-auto w-full max-w-sm rounded-panel border border-line-subtle bg-elevated/80 p-7 shadow-float backdrop-blur-xl sm:p-8 lg:mx-0">
+          {/* No card, no blur, no shadow. On a light ground those read as a
+              dialog sitting on top of a page; Mercury's sign-in IS the page.
+              The type carries the hierarchy instead of a container. */}
+          <div className="settle settle-2 mx-auto w-full max-w-md lg:mx-0">
             {mobileIntro ? <div className="mb-8 lg:hidden">{mobileIntro}</div> : null}
 
-            <h1 className="text-display text-fg">{title}</h1>
-            {intro ? <p className="text-lead text-fg-muted mt-2">{intro}</p> : null}
+            <h1 className="text-[2.75rem] font-medium leading-[1.08] tracking-[-0.02em] text-fg sm:text-[3.25rem]">
+              {title}
+            </h1>
+            {intro ? (
+              <p className="mt-4 max-w-sm text-[1.0625rem] leading-relaxed text-fg-muted">{intro}</p>
+            ) : null}
 
-            <div className="mt-7">{children}</div>
+            <div className="mt-10">{children}</div>
           </div>
         </main>
 

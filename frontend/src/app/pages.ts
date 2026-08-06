@@ -12,7 +12,7 @@ import { lazy } from 'react'
 
 /* --- public ------------------------------------------------------------- */
 export const Login = lazy(() => import('../pages/Login'))
-export const AdminLogin = lazy(() => import('../pages/AdminLogin'))
+export const AdminEntry = lazy(() => import('../pages/AdminEntry'))
 export const Register = lazy(() => import('../pages/Register'))
 export const ForgotPassword = lazy(() => import('../pages/ForgotPassword'))
 

@@ -307,6 +307,73 @@ body {
   );
 }
 
+
+/* =============================================================================
+   The authentication surface — LIGHT, and deliberately unlike the console.
+
+   The brief asked for two different rooms: the sign-in in the Mercury idiom,
+   the internals in the dark command-centre idiom. Mercury is near-white,
+   generously spaced, with one large display line and the form as the only
+   dense thing on the page. Making the door dark to "match" the console was the
+   mistake — the door is meant to feel like arriving somewhere, and the console
+   like working.
+
+   These override the same variable NAMES rather than introducing new ones, so
+   every existing component — Input, Button, Panel — renders correctly inside
+   the scope with no per-component light variants. One class flips the room.
+
+   Contrast, AA floor 4.5, measured against all three light grounds
+   (base #ffffff / surface #f6f6f4 / raised #f1f1ee) — the WORST is what counts,
+   and it is never `base`:
+     fg         17.9 / 16.6 / 15.4
+     fg-muted    7.1 /  6.6 /  6.3
+     fg-subtle   6.3 /  5.8 /  5.6
+     fg-faint    5.4 /  5.0 /  4.8
+   The first version of this block quoted `base` only and, worse, quoted it from
+   estimate rather than measurement: `fg-faint` was published as 4.6 and was
+   really 3.96 on white and 3.50 on `raised`. A sweep of the rendered page found
+   seven failing runs of text. Both greys were darkened a step to clear the
+   floor on the darkest ground, keeping muted > subtle > faint distinct.
+
+   The lime accent is kept for continuity but darkened for text use — the
+   console's #c9f24d measures 1.7 on white and is unreadable there.
+   ========================================================================== */
+.auth-surface {
+  --color-void: #fbfbfa;
+  --color-base: #ffffff;
+  --color-surface: #f6f6f4;
+  --color-elevated: #ffffff;
+  --color-raised: #f1f1ee;
+
+  --color-fg: #16171a;
+  --color-fg-muted: #55585f;
+  --color-fg-subtle: #5c6068;
+  --color-fg-faint: #666a72;
+
+  /* The accent, dark enough to read as text on white. */
+  --color-brand: #4a6b12;
+  --color-brand-fg: #3d5a0e;
+  --color-brand-deep: #2f470a;
+  --color-on-brand: #ffffff;
+
+  --color-line-subtle: rgb(22 23 26 / 0.07);
+  --color-line: rgb(22 23 26 / 0.12);
+  --color-line-strong: rgb(22 23 26 / 0.2);
+
+  background: var(--color-base);
+  color: var(--color-fg);
+}
+
+/* The page background follows the scope: without this the dark `body` colour
+   shows through around a light auth screen on a tall viewport. */
+.auth-surface::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  background: var(--color-base);
+}
+
 /* =============================================================================
    Motion. Every animation is state feedback or the loop itself; none decorates.
    All of it collapses under prefers-reduced-motion.

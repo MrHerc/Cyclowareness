@@ -23,7 +23,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const VARIANT: Record<ButtonVariant, string> = {
   primary:
-    'bg-brand text-void border border-brand hover:bg-brand-fg hover:border-brand-fg shadow-panel',
+    'bg-brand text-on-brand border border-brand hover:bg-brand-fg hover:border-brand-fg shadow-panel',
   secondary:
     'bg-raised text-fg border border-line hover:bg-elevated hover:border-line-strong shadow-panel',
   ghost: 'bg-transparent text-fg-muted border border-transparent hover:bg-raised hover:text-fg',

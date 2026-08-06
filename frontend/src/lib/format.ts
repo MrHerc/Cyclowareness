@@ -8,7 +8,30 @@
  */
 
 import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { extendTailwindMerge } from 'tailwind-merge'
+
+/**
+ * `text-*` is two utilities wearing one prefix: a SIZE (`text-body`) and a
+ * COLOUR (`text-fg-muted`). tailwind-merge knows the built-in sizes, but our
+ * scale in `tokens.css` is our own, so it read `text-body` as a colour, put it
+ * in the same conflict group as the real colour, and kept whichever came last.
+ *
+ * The class it dropped was silent. The primary button rendered `bg-brand` with
+ * no colour class at all and inherited whatever the surrounding surface used —
+ * on the light sign-in ground that was near-black text on dark green, 2.9:1,
+ * a straight WCAG failure that no test caught because the class list looked
+ * fine in source and only the merged output was wrong.
+ *
+ * Naming the seven non-standard sizes puts them back in `font-size`, where a
+ * colour no longer collides with them. `sm` and `xs` are already built in.
+ */
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      'font-size': [{ text: ['hero', 'display', 'title', 'h', 'lead', 'body', 'label'] }],
+    },
+  },
+})
 
 /** Merge Tailwind classes, letting later ones win conflicts. */
 export function cn(...inputs: ClassValue[]): string {

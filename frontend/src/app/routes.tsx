@@ -73,15 +73,12 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        // The admin portal's own door. Same building behind it — a verified
-        // admin phone resolves to the seeded analyst identity — but the entry
-        // is separate so the two audiences never share a first screen.
+        // NOT wrapped in `RedirectIfAuthenticated`. That guard bounced anyone
+        // with a session before the page rendered, which reads as "there is no
+        // admin page" — the exact complaint. `AdminEntry` decides by WHO you
+        // are: the door when signed out, the console when you are the analyst.
         path: '/admin',
-        element: page(
-          <RedirectIfAuthenticated>
-            <Page.AdminLogin />
-          </RedirectIfAuthenticated>,
-        ),
+        element: page(<Page.AdminEntry />),
       },
       {
         path: '/register',

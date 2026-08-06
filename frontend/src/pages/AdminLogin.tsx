@@ -117,7 +117,7 @@ export default function AdminLogin() {
             hint={t('a.digits-only')}
           />
           {error ? <p className="text-sm text-critical">{error}</p> : null}
-          <Button type="submit" block loading={busy} disabled={!phone.trim()}>{t('a.continue')}</Button>
+          <Button type="submit" variant="primary" block loading={busy} disabled={!phone.trim()}>{t('a.continue')}</Button>
         </form>
       ) : (
         <form
@@ -149,7 +149,7 @@ export default function AdminLogin() {
             </p>
           ) : null}
           {error ? <p className="text-sm text-critical">{error}</p> : null}
-          <Button type="submit" block loading={busy} disabled={code.trim().length < 6}>{t('a.enter-admin')}</Button>
+          <Button type="submit" variant="primary" block loading={busy} disabled={code.trim().length < 6}>{t('a.enter-admin')}</Button>
           <Button
             type="button"
             variant="ghost"

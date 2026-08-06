@@ -92,7 +92,7 @@ export function PointerLight() {
         style={{
           background:
             'radial-gradient(560px 560px at var(--light-x) var(--light-y),' +
-            ' color-mix(in oklab, var(--color-brand) 13%, transparent), transparent 68%)',
+            ' color-mix(in oklab, var(--color-brand) 8%, transparent), transparent 68%)',
         }}
       />
       {/* The far light: wide and faint, so the page still has a horizon when the
@@ -103,7 +103,7 @@ export function PointerLight() {
           background:
             'radial-gradient(1100px 900px at calc(var(--light-x) * 0.6 + 8%)' +
             ' calc(var(--light-y) * 0.6 + 4%),' +
-            ' color-mix(in oklab, var(--color-brand) 6%, transparent), transparent 62%)',
+            ' color-mix(in oklab, var(--color-brand) 4%, transparent), transparent 62%)',
         }}
       />
     </div>
