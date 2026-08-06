@@ -8,7 +8,7 @@
  * baked in at build time. Every line in it can be checked against the server.
  */
 
-import { useT } from '../../lib/i18n'
+import { type MessageKey, useT } from '../../lib/i18n'
 import { Command, Keyboard, LifeBuoy, ScrollText } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import {
@@ -32,15 +32,16 @@ export interface HelpMenuProps {
   className?: string
 }
 
-const SHORTCUTS: { keys: string[]; action: string }[] = [
-  { keys: ['Ctrl', 'K'], action: 'Open the command palette' },
-  { keys: ['Esc'], action: 'Close the palette, a dialog or a side sheet' },
-  { keys: ['↑', '↓'], action: 'Move through palette results' },
-  { keys: ['Enter'], action: 'Run the selected palette result' },
-  { keys: ['Tab'], action: 'Move to the next control; the skip link comes first' },
+const SHORTCUTS: { keys: string[]; action: MessageKey }[] = [
+  { keys: ['Ctrl', 'K'], action: 'p.open-the-command-palette' },
+  { keys: ['Esc'], action: 'p.close-the-palette-a-dialog-or' },
+  { keys: ['↑', '↓'], action: 'p.move-through-palette-results' },
+  { keys: ['Enter'], action: 'p.run-the-selected-palette-result' },
+  { keys: ['Tab'], action: 'p.move-to-the-next-control-the' },
 ]
 
 export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
+  const t = useT()
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
 
@@ -85,8 +86,8 @@ export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
       >
         <dl className="divide-line">
           {SHORTCUTS.map((shortcut) => (
-            <div key={shortcut.action} className="flex items-center justify-between gap-4 py-2">
-              <dt className="text-body text-fg-muted">{shortcut.action}</dt>
+            <div key={t(shortcut.action)} className="flex items-center justify-between gap-4 py-2">
+              <dt className="text-body text-fg-muted">{t(shortcut.action)}</dt>
               <dd className="flex shrink-0 items-center gap-1">
                 {shortcut.keys.map((key) => (
                   <Kbd key={key}>{key}</Kbd>

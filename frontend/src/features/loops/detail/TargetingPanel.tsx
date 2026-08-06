@@ -9,7 +9,7 @@
  * weight.
  */
 
-import { useT } from '../../../lib/i18n'
+import { type MessageKey, useT } from '../../../lib/i18n'
 import { Link } from 'react-router-dom'
 import type { DepartmentRisk, StageEntry, Target } from '../../../domain/types'
 import { STAGES } from '../../../domain/types'
@@ -33,11 +33,11 @@ export interface TargetingPanelProps {
   departments: DepartmentRisk[] | undefined
 }
 
-function exposureOf(target: Target): { label: string; className: string } {
-  if (target.exposed === true) return { label: 'Received the artifact', className: 'text-high' }
+function exposureOf(target: Target): { label: MessageKey; className: string } {
+  if (target.exposed === true) return { label: 'p.received-the-artifact', className: 'text-high' }
   if (target.exposed === false)
-    return { label: 'Not exposed — selected on risk signals', className: 'text-fg-muted' }
-  return { label: 'Exposure not recorded', className: 'text-fg-faint' }
+    return { label: 'p.not-exposed-selected-on-risk-signals', className: 'text-fg-muted' }
+  return { label: 'p.exposure-not-recorded', className: 'text-fg-faint' }
 }
 
 export function TargetingPanel({ entry, targets, departments }: TargetingPanelProps) {
@@ -96,7 +96,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
                       </span>
                     </TableCell>
                     <TableCell className={cn('text-sm', exposure.className)}>
-                      {exposure.label}
+                      {t(exposure.label)}
                     </TableCell>
                     <TableCell>
                       {target.reasons.length === 0 ? (

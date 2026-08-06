@@ -1,0 +1,481 @@
+[
+ {
+  "key": "p.a-chat-or-messaging-app",
+  "en": "A chat or messaging app",
+  "az": "Söhbət və ya mesajlaşma tətbiqi",
+  "files": [
+   "src/features/portal/ReportSuspiciousDialog.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.a-reviewer-discarded-these-they-were",
+  "en": "A reviewer discarded these. They were never in force.",
+  "az": "Yoxlayan bunları rədd etdi. Onlar heç vaxt qüvvədə olmayıb.",
+  "files": [
+   "src/features/policy/PolicyRuleList.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.admin-phone-number",
+  "en": "Admin phone number",
+  "az": "Administratorun telefon nömrəsi",
+  "files": [
+   "src/pages/AdminLogin.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.an-analyst-reviewed-it-and-decided",
+  "en": "An analyst reviewed it and decided no action was needed. Reporting it was still right.",
+  "az": "Analitik onu nəzərdən keçirib və heç bir tədbirə ehtiyac olmadığı qərarına gəlib. Buna baxmayaraq, onu bildirmək düzgün addım olub.",
+  "files": [
+   "src/features/portal/ReportHistory.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.an-analyst-took-it-forward-it",
+  "en": "An analyst took it forward. It became a real threat record and started a loop.",
+  "az": "Analitik onu irəli apardı. O, real təhdid qeydinə çevrildi və dövrə axını başlatdı.",
+  "files": [
+   "src/features/portal/ReportHistory.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.an-employee-reported-this-and-an",
+  "en": "An employee reported this and an analyst pushed it into the loop.",
+  "az": "Bunu bir işçi bildirib, analitik isə dövrəyə ötürüb.",
+  "files": [
+   "src/features/threats/IntakeAtoms.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.analyzers-reported-ready-by-the-sandbox",
+  "en": "Analyzers reported ready by the sandbox",
+  "az": "Sandbox tərəfindən hazır bildirilən analizatorlar",
+  "files": [
+   "src/features/command-center/HeroStrip.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.approval-items-naming-you",
+  "en": "Approval items naming you",
+  "az": "Adınızın keçdiyi təsdiq maddələri",
+  "files": [
+   "src/features/command-center/HeroStrip.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.continue-with-microsoft",
+  "en": "Continue with Microsoft",
+  "az": "Microsoft ilə davam et",
+  "files": [
+   "src/features/auth/FederatedIdentity.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.digits-only-spaces-are-ignored",
+  "en": "Digits only; spaces are ignored.",
+  "az": "Yalnız rəqəmlər; boşluqlar nəzərə alınmır.",
+  "files": [
+   "src/pages/AdminLogin.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.duration-not-measured",
+  "en": "Duration not measured",
+  "az": "Müddət ölçülməyib",
+  "files": [
+   "src/components/loop/ClosedLoopStage.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.dynamic-detonation-did-not-run",
+  "en": "Dynamic detonation did not run",
+  "az": "Dinamik detonasiya işə düşmədi",
+  "files": [
+   "src/features/sandbox/TierStatement.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.dynamic-detonation-ran",
+  "en": "Dynamic detonation ran",
+  "az": "Dinamik detonasiya icra olunub",
+  "files": [
+   "src/features/sandbox/TierStatement.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.employment-status-is-not-returned-by",
+  "en": "Employment status is not returned by the employees endpoint, so no status column is shown.",
+  "az": "İşçilər son nöqtəsi məşğulluq statusunu qaytarmır, ona görə də status sütunu göstərilmir.",
+  "files": [
+   "src/features/people/EmployeeTable.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.endorsed-held-for-a-second-approver",
+  "en": "Endorsed, held for a second approver",
+  "az": "Dəstəklənib, ikinci təsdiqləyən üçün saxlanılır",
+  "files": [
+   "src/features/approvals/HistoryTimeline.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.findings-that-matter-but-not-enough",
+  "en": "Findings that matter, but not enough of them to call it malicious. An analyst decides.",
+  "az": "Əhəmiyyətli tapıntılar var, lakin onu zərərli adlandırmaq üçün onların sayı kifayət etmir. Qərarı analitik verir.",
+  "files": [
+   "src/features/sandbox/ClassificationPanel.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.lowers-the-risk-score",
+  "en": "Lowers the risk score",
+  "az": "Risk balını aşağı salır",
+  "files": [
+   "src/features/simulations/TargetTable.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.m101400-c34400-34108-101108",
+  "en": "M101,400 C34,400 34,108 101,108",
+  "az": "M101,400 C34,400 34,108 101,108",
+  "files": [
+   "src/components/loop/ClosedLoopFlow.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.no-passage-was-recorded-for-this-2",
+  "en": null,
+  "az": null,
+  "files": [],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.no-passage-was-recorded-for-this-3",
+  "en": null,
+  "az": null,
+  "files": [],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.nothing-found-reached-the-threshold-to",
+  "en": "Nothing found reached the threshold to flag this sample.",
+  "az": "Aşkarlananların heç biri bu nümunəni işarələmək üçün lazım olan həddə çatmadı.",
+  "files": [
+   "src/features/sandbox/ClassificationPanel.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.nothing-is-checked-against-these-a",
+  "en": "Nothing is checked against these. A machine may propose; only a person may activate, and activating writes a version snapshot.",
+  "az": "Bunların əsasında heç nə yoxlanılmır. Maşın təklif edə bilər; yalnız insan aktivləşdirə bilər və aktivləşdirmə versiyanın anlıq surətini yazır.",
+  "files": [
+   "src/features/policy/PolicyRuleList.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.onetime-code",
+  "en": "One-time code",
+  "az": "Birdəfəlik kod",
+  "files": [
+   "src/pages/AdminLogin.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.open-findings-at-critical-or-high",
+  "en": "Open findings at critical or high severity",
+  "az": "Kritik və ya yüksək ciddilikdə açıq tapıntılar",
+  "files": [
+   "src/features/command-center/HeroStrip.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.proposed-awaiting-a-human",
+  "en": "Proposed — awaiting a human",
+  "az": "Təklif edilib — insan qərarı gözlənilir",
+  "files": [
+   "src/features/policy/PolicyRuleList.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.raises-the-risk-score",
+  "en": "Raises the risk score",
+  "az": "Risk balını qaldırır",
+  "files": [
+   "src/features/simulations/TargetTable.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.refused-by-the-firewall",
+  "en": "Refused by the firewall",
+  "az": "Firewall tərəfindən rədd edilib",
+  "files": [
+   "src/pages/Remediation.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.replaced-by-a-later-rule-kept",
+  "en": "Replaced by a later rule. Kept so an older finding still resolves to what it cited.",
+  "az": "Sonrakı qayda ilə əvəz olunub. Köhnə tapıntının istinad etdiyi qayda hələ də tapıla bilsin deyə saxlanılır.",
+  "files": [
+   "src/features/policy/PolicyRuleList.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.reported-by-an-employee",
+  "en": "Reported by an employee",
+  "az": "İşçi tərəfindən bildirilib",
+  "files": [
+   "src/features/executive/ThreatsToTraining.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.runs-waiting-at-the-human-approval",
+  "en": "Runs waiting at the human approval gate",
+  "az": "İnsan təsdiq qapısında gözləyən axınlar",
+  "files": [
+   "src/features/command-center/LoopSection.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.sign-in-with-your-phone-number",
+  "en": "Sign in with your phone number",
+  "az": "Telefon nömrənizlə daxil olun",
+  "files": [
+   "src/features/auth/PhoneEntry.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.single-signon-and-directory-sync-neither",
+  "en": "Single sign-on and directory sync. Neither is wired here: this deployment authenticates against its own user table.",
+  "az": "Vahid giriş və kataloq sinxronizasiyası. Heç biri burada qoşulmayıb: bu quraşdırma öz istifadəçi cədvəli üzərindən autentifikasiya aparır.",
+  "files": [
+   "src/pages/Integrations.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.six-digits-a-code-works-once",
+  "en": "Six digits. A code works once and expires in five minutes.",
+  "az": "Altı rəqəm. Kod bir dəfə işləyir və beş dəqiqədən sonra etibarsız olur.",
+  "files": [
+   "src/pages/AdminLogin.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.static-analysis-did-not-run",
+  "en": "Static analysis did not run",
+  "az": "Statik təhlil işə düşmədi",
+  "files": [
+   "src/features/sandbox/TierStatement.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.submitted-by-an-analyst",
+  "en": "Submitted by an analyst",
+  "az": "Analitik tərəfindən təqdim edilib",
+  "files": [
+   "src/features/executive/ThreatsToTraining.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.submitted-directly-by-an-analyst-on",
+  "en": "Submitted directly by an analyst on this screen.",
+  "az": "Bu ekranda analitik tərəfindən birbaşa göndərilib.",
+  "files": [
+   "src/features/threats/IntakeAtoms.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.take-me-to-my-training",
+  "en": "Take me to my training",
+  "az": "Məni təlimimə apar",
+  "files": [
+   "src/pages/Onboarding.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.take-me-to-the-command-center",
+  "en": "Take me to the Command Center",
+  "az": "Məni Komanda Mərkəzinə apar",
+  "files": [
+   "src/pages/Onboarding.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.take-me-to-the-executive-view",
+  "en": "Take me to the Executive View",
+  "az": "Məni Rəhbər Görünüşünə apar",
+  "files": [
+   "src/pages/Onboarding.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.taken-from-the-curated-intel-feed",
+  "en": "Taken from the curated intel feed by an analyst.",
+  "az": "Seçilmiş kəşfiyyat lentindən analitik tərəfindən götürülüb.",
+  "files": [
+   "src/features/threats/IntakeAtoms.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-evidence-is-sufficient-to-call",
+  "en": "The evidence is sufficient to call this malicious. The findings behind it are listed below.",
+  "az": "Sübutlar bunu zərərli hesab etmək üçün kifayətdir. Buna əsas verən tapıntılar aşağıda sadalanıb.",
+  "files": [
+   "src/features/sandbox/ClassificationPanel.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-loop-stops-here-a-named",
+  "en": "The loop stops here. A named analyst reads what was generated and decides before anything is targeted at a colleague. Nothing crosses this line on its own.",
+  "az": "Dövrə burada dayanır. Adı bəlli olan analitik yaradılan məzmunu oxuyur və hər hansı material həmkarına yönəldilməzdən əvvəl qərar verir. Bu xətti heç nə öz-özünə keçmir.",
+  "files": [
+   "src/features/onboarding/LoopPrimer.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-number-your-workplace-registered-for",
+  "en": "The number your workplace registered for you.",
+  "az": "İş yerinizin sizin üçün qeydiyyata aldığı nömrə.",
+  "files": [
+   "src/features/auth/PhoneEntry.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-rules-this-organisation-is-actually",
+  "en": "The rules this organisation is actually checked against today.",
+  "az": "Bu təşkilatın bu gün həqiqətən yoxlanıldığı qaydalar.",
+  "files": [
+   "src/features/policy/PolicyRuleList.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-server-did-not-answer",
+  "en": "The server did not answer.",
+  "az": "Server cavab vermədi.",
+  "files": [
+   "src/features/auth/PhoneEntry.tsx",
+   "src/pages/AdminLogin.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.the-server-returned-a-full-page",
+  "en": "The server returned a full page, so every count here is a floor.",
+  "az": "Server tam bir səhifə qaytardı, ona görə də buradakı hər say yalnız aşağı həddir.",
+  "files": [
+   "src/features/executive/UnresolvedRisks.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.this-module-has-no-lesson-sections-2",
+  "en": null,
+  "az": null,
+  "files": [],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.this-number-is-not-registered",
+  "en": "This number is not registered.",
+  "az": "Bu nömrə qeydiyyatda deyil.",
+  "files": [
+   "src/features/auth/PhoneEntry.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.this-run-has-no-threat-attached-2",
+  "en": null,
+  "az": null,
+  "files": [],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.waiting-for-a-decision",
+  "en": "Waiting for a decision",
+  "az": "Qərar gözlənilir",
+  "files": [
+   "src/pages/Remediation.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.waiting-for-an-analyst-to-read",
+  "en": "Waiting for an analyst to read it.",
+  "az": "Analitikin onu oxumasını gözləyir.",
+  "files": [
+   "src/features/portal/ReportHistory.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.where-approved-training-would-be-delivered",
+  "en": "Where approved training would be delivered, and where completions would be read back so measurement is not taken on trust.",
+  "az": "Təsdiqlənmiş təlimin harada çatdırılacağı və tamamlamaların harada geri oxunacağı — ölçmə etibar üzərində qurulmasın deyə.",
+  "files": [
+   "src/pages/Integrations.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.written-by-a-template",
+  "en": "Written by a template",
+  "az": "Şablonla yazılıb",
+  "files": [
+   "src/features/approvals/QueueFilters.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ },
+ {
+  "key": "p.your-edits-are-written-to-the",
+  "en": "Your edits are written to the module first, which marks it analyst-edited.",
+  "az": "Redaktələriniz əvvəlcə modula yazılır və bu, onu analitik tərəfindən redaktə edilmiş kimi işarələyir.",
+  "files": [
+   "src/features/approvals/DecisionPanel.tsx"
+  ],
+  "why": "module-scope constant or computed literal; needs the render site wrapped in t() by hand"
+ }
+]

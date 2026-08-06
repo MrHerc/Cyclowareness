@@ -7,6 +7,7 @@
  * strongest. Nothing here uses a risk hue: provenance is not health.
  */
 
+import { useT, type MessageKey } from '../../lib/i18n'
 import { CircleHelp, FlaskConical, MonitorPlay, Radio, Rss } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '../../lib/format'
@@ -21,45 +22,46 @@ export interface DataSourceLabelProps {
   className?: string
 }
 
-const SOURCES: Record<DataSource, { label: string; icon: LucideIcon; tone: string; tip: string }> = {
+const SOURCES: Record<DataSource, { label: string; icon: LucideIcon; tone: string; tip: MessageKey }> = {
   live: {
     label: 'Live API',
     icon: Radio,
     tone: 'text-fg-muted',
-    tip: 'Measured from this deployment’s own records.',
+    tip: 'p.measured-from-this-deployments-own-records',
   },
   sandbox: {
     label: 'Sandbox',
     icon: FlaskConical,
     tone: 'text-fg-muted',
-    tip: 'Produced by the analysis sandbox from a real artifact.',
+    tip: 'p.produced-by-the-analysis-sandbox-from',
   },
   demo: {
     label: 'Demo dataset',
     icon: MonitorPlay,
     tone: 'text-fg-subtle',
-    tip: 'Demonstration data. Nothing here was measured from a live system.',
+    tip: 'p.demonstration-data-nothing-here-was-measured',
   },
   external: {
     label: 'External feed',
     icon: Rss,
     tone: 'text-fg-muted',
-    tip: 'Supplied by a third party. Cyclowareness did not measure it.',
+    tip: 'p.supplied-by-a-third-party-cyclowareness',
   },
   unknown: {
     label: 'Source not recorded',
     icon: CircleHelp,
     tone: 'text-fg-faint',
-    tip: 'This deployment did not record where the number came from.',
+    tip: 'p.this-deployment-did-not-record-where',
   },
 }
 
 export function DataSourceLabel({ source, detail, className }: DataSourceLabelProps) {
+  const t = useT()
   const spec = SOURCES[source] ?? SOURCES.unknown
   const Icon = spec.icon
 
   return (
-    <Tip content={detail ? `${spec.tip} ${detail}` : spec.tip}>
+    <Tip content={detail ? `${t(spec.tip)} ${detail}` : spec.tip}>
       <span className={cn('inline-flex items-center gap-1.5 text-xs', spec.tone, className)}>
         <Icon className="size-3.5 shrink-0" aria-hidden="true" />
         {detail ? `${spec.label} · ${detail}` : spec.label}

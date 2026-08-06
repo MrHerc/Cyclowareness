@@ -1041,8 +1041,6 @@ const en = {
   // --- explanatory prose ------------------------------------------------
   'p.a-blank-measurement-is-a-blank':
     'A blank measurement is a blank measurement. Where the platform has not measured something yet it prints an em dash and says how large the sample was, rather than a zero that looks like good news.',
-  'p.a-chat-or-messaging-app':
-    'A chat or messaging app',
   'p.a-connection-record-appears-once-a':
     'A connection record appears once a provider is registered with the platform. This deployment ships a set of them so the states can be demonstrated.',
   'p.a-current-position-not-a-trend':
@@ -1083,8 +1081,6 @@ const en = {
     'A refusal is a security metric, not an error. A rise in one code means somebody is probing what this product will write into an employee&rsquo;s screen.',
   'p.a-rejected-rule-was-never-in':
     'A rejected rule was never in force, so no version snapshot is written. The reason is recorded in the audit trail.',
-  'p.a-reviewer-discarded-these-they-were':
-    'A reviewer discarded these. They were never in force.',
   'p.a-risk-appears-here-when-incident':
     'A risk appears here when incident response charges an exposure to named people — a credential entered on a spoofed portal, a file sent to the wrong recipient, a procedure skipped under pressure.',
   'p.a-risk-score-is-one-number':
@@ -1109,8 +1105,6 @@ const en = {
     'Add a comment first — a revision request without one leaves nothing to act on.',
   'p.add-a-comment-first-the-server':
     'Add a comment first — the server refuses a rejection without a reason.',
-  'p.admin-phone-number':
-    'Admin phone number',
   'p.advisories-reach-this-module-by-being':
     'Advisories reach this module by being seeded or entered by hand — no external source is configured, so nothing arrives on its own. Configure one and fetched advisories will appear here.',
   'p.advisories-updated':
@@ -1127,18 +1121,12 @@ const en = {
     'An analyst accepted the report; targeting keys from the reporter were stripped at this boundary.',
   'p.an-analyst-pushed-a-curated-feed':
     'An analyst pushed a curated feed item into the loop.',
-  'p.an-analyst-reviewed-it-and-decided':
-    'An analyst reviewed it and decided no action was needed. Reporting it was still right.',
   'p.an-analyst-submitted-the-artifact-directly':
     'An analyst submitted the artifact directly.',
-  'p.an-analyst-took-it-forward-it':
-    'An analyst took it forward. It became a real threat record and started a loop.',
   'p.an-analyst-wrote-or-rewrote-this':
     'An analyst wrote or rewrote this content.',
   'p.an-assignment-is-delivered-by-appearing':
     'An assignment is delivered by appearing in the assignee&apos;s portal. No mail gateway is connected in this deployment, so nothing was emailed and no send or open event is recorded.',
-  'p.an-employee-reported-this-and-an':
-    'An employee reported this and an analyst pushed it into the loop.',
   'p.an-entry-is-written-whenever-an':
     'An entry is written whenever an approval is decided, a policy rule is reviewed, an integration is changed, or an incident risk moves. Widen the window to reach older activity.',
   'p.an-extraction-run-completed-and-wrote':
@@ -1159,8 +1147,6 @@ const en = {
     'Analyzed threat',
   'p.analyzer-verdict':
     'Analyzer verdict',
-  'p.analyzers-reported-ready-by-the-sandbox':
-    'Analyzers reported ready by the sandbox',
   'p.anyone-already-attached-is-shown-as':
     'Anyone already attached is shown as such and is left untouched.',
   'p.anything-else-is-still-accepted-and':
@@ -1169,8 +1155,6 @@ const en = {
     'Anything else worth knowing (optional)',
   'p.approval-gate':
     'Approval gate',
-  'p.approval-items-naming-you':
-    'Approval items naming you',
   'p.approve-and-release':
     'Approve and release',
   'p.approved-by-policy':
@@ -1333,8 +1317,6 @@ const en = {
     'Content type',
   'p.content-written-by-a-model-is':
     'Content written by a model is labelled as such, everywhere it appears. Template output is labelled as template output, never as AI.',
-  'p.continue-with-microsoft':
-    'Continue with Microsoft',
   'p.control-gaps':
     'Control gaps',
   'p.copy-every-indicator':
@@ -1415,8 +1397,6 @@ const en = {
     'Describe the incident, how it was found, and what the exposure was.',
   'p.destroys-every-run-decision-and-result':
     'Destroys every run, decision and result',
-  'p.digits-only-spaces-are-ignored':
-    'Digits only; spaces are ignored.',
   'p.dismiss-report':
     'Dismiss report',
   'p.dismissed-by-an-analyst-no-loop':
@@ -1431,26 +1411,16 @@ const en = {
     'Distinct employees named individually by any open finding.',
   'p.drafted-by-a-language-model-and':
     'Drafted by a language model and finished by a person.',
-  'p.duration-not-measured':
-    'Duration not measured',
-  'p.dynamic-detonation-did-not-run':
-    'Dynamic detonation did not run',
   'p.dynamic-detonation-is-not-available-on':
     'Dynamic detonation is not available on this host. Nothing submitted here is executed — samples are parsed, scanned and scored, never run.',
-  'p.dynamic-detonation-ran':
-    'Dynamic detonation ran',
   'p.each-entry-performs-a-real-signin':
     'Each entry performs a real sign-in. The server issues the token and continues to enforce every permission — no role is faked in the browser.',
   'p.effective-from':
     'Effective from',
   'p.employees-appear-here-once-the-organisation':
     'Employees appear here once the organisation has been loaded into the platform.',
-  'p.employment-status-is-not-returned-by':
-    'Employment status is not returned by the employees endpoint, so no status column is shown.',
   'p.endorsed-once-a-different-person-must':
     'Endorsed once; a different person must approve',
-  'p.endorsed-held-for-a-second-approver':
-    'Endorsed, held for a second approver',
   'p.estimated-duration':
     'Estimated duration',
   'p.estimated-minutes':
@@ -1499,8 +1469,6 @@ const en = {
     'Finding type',
   'p.findings-detected':
     'Findings detected',
-  'p.findings-that-matter-but-not-enough':
-    'Findings that matter, but not enough of them to call it malicious. An analyst decides.',
   'p.forcemeasure-did-not-run':
     'Force-measure did not run',
   'p.forensic-analysis-of-a-file-or':
@@ -1603,14 +1571,10 @@ const en = {
     'Loop runs could not be read, so the outcome split is unavailable.',
   'p.loop-status-unavailable':
     'Loop status unavailable',
-  'p.lowers-the-risk-score':
-    'Lowers the risk score',
   'p.lure-as-stored':
     'Lure as stored',
   'p.lure-preview':
     'Lure preview',
-  'p.m101400-c34400-34108-101108':
-    'M101,400 C34,400 34,108 101,108',
   'p.mitre-attampck-techniques':
     'MITRE ATT&amp;CK techniques',
   'p.mail-gateway-verdict':
@@ -1785,10 +1749,6 @@ const en = {
     'No pass mark was set on this incident.',
   'p.no-passage-was-recorded-for-this':
     'No passage was recorded for this rule, so it cannot be checked against the document here.',
-  'p.no-passage-was-recorded-for-this-2':
-    'No passage was recorded for this rule, so there is nothing a reader can check the statement against.',
-  'p.no-passage-was-recorded-for-this-3':
-    'No passage was recorded for this rule, so there is nothing to check the statement against. Consider rejecting it and entering the control by hand.',
   'p.no-people-have-been-loaded':
     'No people have been loaded',
   'p.no-perdepartment-history-is-stored-the':
@@ -1899,8 +1859,6 @@ const en = {
     'Note for the assignment (optional)',
   'p.nothing-assigned':
     'Nothing assigned',
-  'p.nothing-found-reached-the-threshold-to':
-    'Nothing found reached the threshold to flag this sample.',
   'p.nothing-has-been-recorded-against-this':
     'Nothing has been recorded against this run yet. The first decision, endorsement or revision request will appear here.',
   'p.nothing-has-been-submitted-yet':
@@ -1919,8 +1877,6 @@ const en = {
     'Nothing in this deployment can assign one — sandbox submission is analyst-only. Recording it is a manual step.',
   'p.nothing-is-checked-against-them-until':
     'Nothing is checked against them until a reviewer activates each one.',
-  'p.nothing-is-checked-against-these-a':
-    'Nothing is checked against these. A machine may propose; only a person may activate, and activating writes a version snapshot.',
   'p.nothing-is-delivered-until-you-launch':
     'Nothing is delivered until you launch it.',
   'p.nothing-is-graded-on-arrival-the':
@@ -1957,16 +1913,12 @@ const en = {
     'One behavioural finding was observed, and scored alongside the static evidence.',
   'p.oneline-description':
     'One-line description',
-  'p.onetime-code':
-    'One-time code',
   'p.only-approved-modules-appear-here-choosing':
     'Only approved modules appear here. Choosing none still records the attempt and reports what went unfulfilled.',
   'p.only-modules-a-human-has-approved':
     'Only modules a human has approved can be assigned.',
   'p.only-satisfied-if-the-module-you':
     'Only satisfied if the module you assign actually carries questions.',
-  'p.open-findings-at-critical-or-high':
-    'Open findings at critical or high severity',
   'p.open-findings-whose-severity-is-critical':
     'Open findings whose severity is critical or high.',
   'p.open-highrisk-findings':
@@ -2049,8 +2001,6 @@ const en = {
     'Produced by the analysis sandbox from a real artifact.',
   'p.production-deployment-every-record-on-screen':
     'Production deployment. Every record on screen belongs to this organisation.',
-  'p.proposed-awaiting-a-human':
-    'Proposed — awaiting a human',
   'p.provider-topic-tags':
     'Provider topic tags',
   'p.published-by-the-source-cyclowareness-did':
@@ -2065,8 +2015,6 @@ const en = {
     'Quoted back when somebody closes this, so the closure note can be checked against it.',
   'p.raised-by-incident-response-against-named':
     'Raised by incident response against named people',
-  'p.raises-the-risk-score':
-    'Raises the risk score',
   'p.raw-headers-message-text-url-or':
     'Raw headers, message text, URL or filename. Stored as inert text and never fetched.',
   'p.reading-the-decision-from-the-audit':
@@ -2097,8 +2045,6 @@ const en = {
     'Recorded on the version snapshot alongside your name.',
   'p.records-your-objection-and-leaves-the':
     'Records your objection and leaves the run at the gate for editing.',
-  'p.refused-by-the-firewall':
-    'Refused by the firewall',
   'p.refused-by-the-output-firewall':
     'Refused by the output firewall',
   'p.reject-the-module':
@@ -2121,12 +2067,8 @@ const en = {
     'Rendered as absent rather than derived in the browser from partial data.',
   'p.rendered-exactly-as-the-employee-will':
     'Rendered exactly as the employee will see it.',
-  'p.replaced-by-a-later-rule-kept':
-    'Replaced by a later rule. Kept so an older finding still resolves to what it cited.',
   'p.report-status':
     'Report status',
-  'p.reported-by-an-employee':
-    'Reported by an employee',
   'p.reported-by-the-human-sensor-and':
     'Reported by the human sensor and not yet triaged',
   'p.reporters-note':
@@ -2191,8 +2133,6 @@ const en = {
     'Runs over the most recent findings; the count says so when it is a floor.',
   'p.runs-that-reached-the-completed-state':
     'Runs that reached the completed state and produced a measurement.',
-  'p.runs-waiting-at-the-human-approval':
-    'Runs waiting at the human approval gate',
   'p.sha256-hash':
     'SHA-256 hash',
   'p.sandbox-detonation':
@@ -2271,14 +2211,8 @@ const en = {
     'Shown to the affected employee at every confidentiality level.',
   'p.shown-to-the-employee-after-grading':
     'Shown to the employee after grading, right or wrong.',
-  'p.sign-in-with-your-phone-number':
-    'Sign in with your phone number',
   'p.since-the-run-reached-the-gate':
     'Since the run reached the gate',
-  'p.single-signon-and-directory-sync-neither':
-    'Single sign-on and directory sync. Neither is wired here: this deployment authenticates against its own user table.',
-  'p.six-digits-a-code-works-once':
-    'Six digits. A code works once and expires in five minutes.',
   'p.someone-will-read-what-you-wrote':
     'Someone will read what you wrote and answer it here.',
   'p.something-in-the-request-did-not':
@@ -2297,8 +2231,6 @@ const en = {
     'State how the criteria above were met. This is what an auditor reads.',
   'p.static-analysis-and-dynamic-detonation-are':
     'Static analysis and dynamic detonation are both available.',
-  'p.static-analysis-did-not-run':
-    'Static analysis did not run',
   'p.static-analysis-only-no-detonation-host':
     'Static analysis only. No detonation host is attached, so nothing submitted here is executed — reports say "not run" rather than "clean".',
   'p.static-forensic-analysis-of-a-file':
@@ -2323,10 +2255,6 @@ const en = {
     'Submit and grade',
   'p.submitted-url':
     'Submitted URL',
-  'p.submitted-by-an-analyst':
-    'Submitted by an analyst',
-  'p.submitted-directly-by-an-analyst-on':
-    'Submitted directly by an analyst on this screen.',
   'p.suggested-remediation':
     'Suggested remediation',
   'p.summary-object-label-or-action':
@@ -2341,14 +2269,6 @@ const en = {
     'Synthetic outcomes written',
   'p.take-me-to-my-home-screen':
     'Take me to my home screen',
-  'p.take-me-to-my-training':
-    'Take me to my training',
-  'p.take-me-to-the-command-center':
-    'Take me to the Command Center',
-  'p.take-me-to-the-executive-view':
-    'Take me to the Executive View',
-  'p.taken-from-the-curated-intel-feed':
-    'Taken from the curated intel feed by an analyst.',
   'p.target-count-unavailable':
     'Target count unavailable',
   'p.targeting-has-been-released-the-decision':
@@ -2447,8 +2367,6 @@ const en = {
     'The engine reached this classification.',
   'p.the-engine-stopped-partway-through-and':
     'The engine stopped part-way through and produced no verdict. The sample is still quarantined, so the run can be repeated on exactly the same bytes.',
-  'p.the-evidence-is-sufficient-to-call':
-    'The evidence is sufficient to call this malicious. The findings behind it are listed below.',
   'p.the-extraction-request-failed':
     'The extraction request failed',
   'p.the-feed-item-was-not-pushed':
@@ -2475,8 +2393,6 @@ const en = {
     'The loop counts could not be read. Open Closed Loops for the error in full.',
   'p.the-loop-has-been-released-to':
     'The loop has been released to targeting.',
-  'p.the-loop-stops-here-a-named':
-    'The loop stops here. A named analyst reads what was generated and decides before anything is targeted at a colleague. Nothing crosses this line on its own.',
   'p.the-loops-analyze-stage-has-not':
     'The loop\'s ANALYZE stage has not written a verdict for this artifact. That is not a clean result — nothing has been concluded about it.',
   'p.the-loops-analyze-stage-runs-the':
@@ -2503,8 +2419,6 @@ const en = {
     'The module was rejected and the run is closed.',
   'p.the-note-is-not-attributed-the':
     'The note is not attributed — the finding is open again.',
-  'p.the-number-your-workplace-registered-for':
-    'The number your workplace registered for you.',
   'p.the-one-sentence-the-employee-is':
     'The one sentence the employee is left with.',
   'p.the-oneparagraph-summary-an-employee-sees':
@@ -2569,8 +2483,6 @@ const en = {
     'The risk could not be reopened. Nothing changed.',
   'p.the-risk-engine-gave-no-reason':
     'The risk engine gave no reason for selecting this person.',
-  'p.the-rules-this-organisation-is-actually':
-    'The rules this organisation is actually checked against today.',
   'p.the-run-completed-and-produced-no':
     'The run completed and produced no behavioural findings — the sample did nothing the worker recognised.',
   'p.the-run-this-artifact-started-its':
@@ -2587,8 +2499,6 @@ const en = {
     'The sender address, the subject line, the link — whatever you have. Do not open it first.',
   'p.the-server-did-not-accept-it':
     'The server did not accept it.',
-  'p.the-server-did-not-answer':
-    'The server did not answer.',
   'p.the-server-downloads-the-content-and':
     'The server downloads the content and analyses what comes back. It refuses to fetch private, loopback and cloud-metadata addresses, and says which rule it hit.',
   'p.the-server-failed-on-this-request':
@@ -2603,8 +2513,6 @@ const en = {
     'The server refused this request. Reloading is unlikely to change the answer — what it said is below.',
   'p.the-server-rejected-these-values':
     'The server rejected these values',
-  'p.the-server-returned-a-full-page':
-    'The server returned a full page, so every count here is a floor.',
   'p.the-server-returned-no-description-of':
     'The server returned no description of what it did. Treat the advisory list as unchanged rather than as up to date.',
   'p.the-server-took-the-request-but':
@@ -2719,8 +2627,6 @@ const en = {
     'This module carries no quiz.',
   'p.this-module-has-no-lesson-sections':
     'This module has no lesson sections recorded.',
-  'p.this-module-has-no-lesson-sections-2':
-    'This module has no lesson sections recorded. Go straight to the questions, or ask your security team what was intended here.',
   'p.this-module-has-no-lesson-sections-3':
     'This module has no lesson sections. An employee would open it and find only the quiz.',
   'p.this-module-has-no-quiz-an':
@@ -2735,8 +2641,6 @@ const en = {
     'This module has no sections. An employee would open it and find nothing to read.',
   'p.this-module-is-not-linked-to':
     'This module is not linked to a policy document. This deployment records the threat a module was built from, but does not attach policies to training content.',
-  'p.this-number-is-not-registered':
-    'This number is not registered.',
   'p.this-person-has-no-recorded-score':
     'This person has no recorded score. The required action may not carry a quiz.',
   'p.this-persons-current-score-could-not':
@@ -2755,8 +2659,6 @@ const en = {
     'This run has already left the gate. The record below is read-only.',
   'p.this-run-has-no-threat-attached':
     'This run has no threat attached, so there is no artifact to review. Approving it would advance a loop with nothing behind it.',
-  'p.this-run-has-no-threat-attached-2':
-    'This run has no threat attached, so there is no artifact to show. That is a data fault rather than an empty result — a run is created from a threat.',
   'p.this-run-has-not-been-measured':
     'This run has not been measured. Nothing is shown here rather than zeroes: no completion rate, no score and no risk movement have been computed for it.',
   'p.this-run-produces-a-training-module':
@@ -2811,12 +2713,8 @@ const en = {
     'Version history is not recorded for modules yet. Editing overwrites the stored content in place, and no revision is kept — so there is nothing to compare against and nothing to roll back to. Policies are versioned; modules are not.',
   'p.version-recorded-here':
     'Version recorded here',
-  'p.waiting-for-a-decision':
-    'Waiting for a decision',
   'p.waiting-for-a-human-decision-no':
     'Waiting for a human decision. No targeting or training happens until it is given.',
-  'p.waiting-for-an-analyst-to-read':
-    'Waiting for an analyst to read it.',
   'p.what-configuring-a-source-would-do':
     'What configuring a source would do',
   'p.what-happened':
@@ -2847,8 +2745,6 @@ const en = {
     'What you checked, what you changed, or what is wrong with it.',
   'p.what-your-role-covers':
     'What your role covers',
-  'p.where-approved-training-would-be-delivered':
-    'Where approved training would be delivered, and where completions would be read back so measurement is not taken on trust.',
   'p.where-the-organisation-would-sit-if':
     'Where the organisation would sit if nobody had done anything at all.',
   'p.who-is-accountable-for-closing-it':
@@ -2883,8 +2779,6 @@ const en = {
     'Write synthetic outcomes',
   'p.written-by-a-language-model-no':
     'Written by a language model. No person has edited the wording.',
-  'p.written-by-a-template':
-    'Written by a template',
   'p.written-for-the-record-depending-on':
     'Written for the record. Depending on the confidentiality below, the affected employee may read this.',
   'p.you-are-editing-the-content-an':
@@ -2899,8 +2793,6 @@ const en = {
     'You have already completed this',
   'p.your-assigned-training-the-work-raised':
     'Your assigned training, the work raised against you, and how your risk score was calculated.',
-  'p.your-edits-are-written-to-the':
-    'Your edits are written to the module first, which marks it analyst-edited.',
   'p.your-individual-answers-were-graded-and':
     'Your individual answers were graded and then discarded — only the score was kept, so this screen cannot show you which questions you got wrong.',
   'p.your-role-can-read-intelligence-but':
@@ -3947,8 +3839,6 @@ const az: Record<MessageKey, string> = {
     'QAPALI DÖVRƏ İNSAN KİBER RİSKİ',
   'p.a-blank-measurement-is-a-blank':
     'Boş ölçmə boş ölçmə olaraq qalır. Platforma nəyisə hələ ölçməyibsə, yaxşı xəbər kimi görünən sıfır əvəzinə uzun tire yazır və nümunənin nə qədər böyük olduğunu bildirir.',
-  'p.a-chat-or-messaging-app':
-    'Söhbət və ya mesajlaşma tətbiqi',
   'p.a-connection-record-appears-once-a':
     'Bağlantı qeydi provayder platformada qeydiyyatdan keçdikdən sonra görünür. Bu quraşdırma vəziyyətləri nümayiş etdirmək üçün belə qeydlərin hazır dəsti ilə gəlir.',
   'p.a-current-position-not-a-trend':
@@ -3989,8 +3879,6 @@ const az: Record<MessageKey, string> = {
     'İmtina təhlükəsizlik göstəricisidir, xəta deyil. Hər hansı bir kod üzrə sayın artması o deməkdir ki, kimsə bu məhsulun işçinin ekranına nə yazacağını sınaqdan keçirir.',
   'p.a-rejected-rule-was-never-in':
     'Rədd edilmiş qayda heç vaxt qüvvədə olmayıb, ona görə versiya anlıq görüntüsü yazılmır. Səbəb audit izində qeydə alınır.',
-  'p.a-reviewer-discarded-these-they-were':
-    'Yoxlayan bunları rədd etdi. Onlar heç vaxt qüvvədə olmayıb.',
   'p.a-risk-appears-here-when-incident':
     'Risk burada insidentə cavab prosesi hər hansı məruz qalmanı adı çəkilən şəxslərin üzərinə yazdıqda yaranır — saxta portalda daxil edilmiş giriş məlumatı, yanlış alıcıya göndərilmiş fayl, təzyiq altında buraxılmış prosedur.',
   'p.a-risk-score-is-one-number':
@@ -4015,8 +3903,6 @@ const az: Record<MessageKey, string> = {
     'Əvvəlcə şərh əlavə edin — şərhsiz düzəliş sorğusundan sonra üzərində işləmək üçün heç nə qalmır.',
   'p.add-a-comment-first-the-server':
     'Əvvəlcə şərh yazın — server səbəbsiz rədd cavabını qəbul etmir.',
-  'p.admin-phone-number':
-    'Administratorun telefon nömrəsi',
   'p.advisories-reach-this-module-by-being':
     'Xəbərdarlıqlar bu modula yalnız nümayiş məlumatı kimi yüklənməklə və ya əl ilə daxil edilməklə çatır — heç bir xarici mənbə konfiqurasiya olunmayıb, ona görə də heç nə öz-özünə gəlmir. Mənbə konfiqurasiya edin və alınan xəbərdarlıqlar burada görünəcək.',
   'p.advisories-updated':
@@ -4033,18 +3919,12 @@ const az: Record<MessageKey, string> = {
     'Analitik hesabatı qəbul etdi; bildirən şəxsə aid hədəfləmə açarları bu sərhəddə çıxarıldı.',
   'p.an-analyst-pushed-a-curated-feed':
     'Analitik seçilmiş lent yazısını dövrəyə ötürüb.',
-  'p.an-analyst-reviewed-it-and-decided':
-    'Analitik onu nəzərdən keçirib və heç bir tədbirə ehtiyac olmadığı qərarına gəlib. Buna baxmayaraq, onu bildirmək düzgün addım olub.',
   'p.an-analyst-submitted-the-artifact-directly':
     'Artefaktı analitik birbaşa təqdim edib.',
-  'p.an-analyst-took-it-forward-it':
-    'Analitik onu irəli apardı. O, real təhdid qeydinə çevrildi və dövrə axını başlatdı.',
   'p.an-analyst-wrote-or-rewrote-this':
     'Bu məzmunu analitik yazıb və ya yenidən yazıb.',
   'p.an-assignment-is-delivered-by-appearing':
     'Tapşırıq təyin olunan işçinin portalında görünməklə çatdırılır. Bu quraşdırmada heç bir poçt şlüzü qoşulmayıb, ona görə də heç nə e-poçtla göndərilməyib və heç bir göndərilmə və ya açılma hadisəsi qeydə alınmayıb.',
-  'p.an-employee-reported-this-and-an':
-    'Bunu bir işçi bildirib, analitik isə dövrəyə ötürüb.',
   'p.an-entry-is-written-whenever-an':
     'Təsdiq barədə qərar veriləndə, siyasət qaydası nəzərdən keçiriləndə, inteqrasiya dəyişdiriləndə və ya insidentin riski dəyişəndə qeyd yazılır. Daha köhnə fəaliyyətə çatmaq üçün zaman aralığını genişləndirin.',
   'p.an-extraction-run-completed-and-wrote':
@@ -4065,8 +3945,6 @@ const az: Record<MessageKey, string> = {
     'Təhlil edilmiş təhdid',
   'p.analyzer-verdict':
     'Analizatorun qərarı',
-  'p.analyzers-reported-ready-by-the-sandbox':
-    'Sandbox tərəfindən hazır bildirilən analizatorlar',
   'p.anyone-already-attached-is-shown-as':
     'Artıq əlavə edilmiş şəxslər bu qeydlə göstərilir və onlara toxunulmur.',
   'p.anything-else-is-still-accepted-and':
@@ -4075,8 +3953,6 @@ const az: Record<MessageKey, string> = {
     'Bilməli olduğumuz başqa bir şey varsa (istəyə bağlı)',
   'p.approval-gate':
     'Təsdiq qapısı',
-  'p.approval-items-naming-you':
-    'Adınızın keçdiyi təsdiq maddələri',
   'p.approve-and-release':
     'Təsdiqlə və yayımla',
   'p.approved-by-policy':
@@ -4239,8 +4115,6 @@ const az: Record<MessageKey, string> = {
     'Məzmun növü',
   'p.content-written-by-a-model-is':
     'Model tərəfindən yazılmış məzmun göründüyü hər yerdə məhz belə işarələnir. Şablon nəticəsi şablon nəticəsi kimi işarələnir, heç vaxt AI kimi yox.',
-  'p.continue-with-microsoft':
-    'Microsoft ilə davam et',
   'p.control-gaps':
     'Nəzarət boşluqları',
   'p.copy-every-indicator':
@@ -4321,8 +4195,6 @@ const az: Record<MessageKey, string> = {
     'İnsidenti, onun necə aşkar edildiyini və məruz qalmanın nədən ibarət olduğunu təsvir edin.',
   'p.destroys-every-run-decision-and-result':
     'Bütün axınları, qərarları və nəticələri məhv edir',
-  'p.digits-only-spaces-are-ignored':
-    'Yalnız rəqəmlər; boşluqlar nəzərə alınmır.',
   'p.dismiss-report':
     'Hesabatı rədd et',
   'p.dismissed-by-an-analyst-no-loop':
@@ -4337,26 +4209,16 @@ const az: Record<MessageKey, string> = {
     'Hər hansı açıq tapıntıda adbaad göstərilən fərqli işçilər.',
   'p.drafted-by-a-language-model-and':
     'Qaralaması dil modeli tərəfindən hazırlanıb, insan tərəfindən tamamlanıb.',
-  'p.duration-not-measured':
-    'Müddət ölçülməyib',
-  'p.dynamic-detonation-did-not-run':
-    'Dinamik detonasiya işə düşmədi',
   'p.dynamic-detonation-is-not-available-on':
     'Dinamik detonasiya bu hostda mövcud deyil. Buraya göndərilən heç nə icra olunmur — nümunələr ayrışdırılır, skan edilir və bal alır, heç vaxt işə salınmır.',
-  'p.dynamic-detonation-ran':
-    'Dinamik detonasiya icra olunub',
   'p.each-entry-performs-a-real-signin':
     'Buradakı hər sətir real giriş həyata keçirir. Tokeni server verir və bütün icazələri tətbiq etməyə davam edir — brauzerdə heç bir rol saxtalaşdırılmır.',
   'p.effective-from':
     'Qüvvəyə minmə tarixi',
   'p.employees-appear-here-once-the-organisation':
     'İşçilər təşkilat platformaya yükləndikdən sonra burada görünür.',
-  'p.employment-status-is-not-returned-by':
-    'İşçilər son nöqtəsi məşğulluq statusunu qaytarmır, ona görə də status sütunu göstərilmir.',
   'p.endorsed-once-a-different-person-must':
     'Bir dəfə dəstəklənib; təsdiqi başqa bir şəxs verməlidir',
-  'p.endorsed-held-for-a-second-approver':
-    'Dəstəklənib, ikinci təsdiqləyən üçün saxlanılır',
   'p.estimated-duration':
     'Təxmini müddət',
   'p.estimated-minutes':
@@ -4405,8 +4267,6 @@ const az: Record<MessageKey, string> = {
     'Tapıntı növü',
   'p.findings-detected':
     'Aşkarlanan tapıntılar',
-  'p.findings-that-matter-but-not-enough':
-    'Əhəmiyyətli tapıntılar var, lakin onu zərərli adlandırmaq üçün onların sayı kifayət etmir. Qərarı analitik verir.',
   'p.forcemeasure-did-not-run':
     'Məcburi ölçmə işə düşmədi',
   'p.forensic-analysis-of-a-file-or':
@@ -4509,14 +4369,10 @@ const az: Record<MessageKey, string> = {
     'Dövrə axınlarını oxumaq mümkün olmadı, ona görə nəticələrin bölgüsü əlçatan deyil.',
   'p.loop-status-unavailable':
     'Dövrə statusu əlçatan deyil',
-  'p.lowers-the-risk-score':
-    'Risk balını aşağı salır',
   'p.lure-as-stored':
     'Tələ saxlandığı kimi',
   'p.lure-preview':
     'Tələyə öncədən baxış',
-  'p.m101400-c34400-34108-101108':
-    'M101,400 C34,400 34,108 101,108',
   'p.mitre-attampck-techniques':
     'MITRE ATT&amp;CK texnikaları',
   'p.mail-gateway-verdict':
@@ -4691,10 +4547,6 @@ const az: Record<MessageKey, string> = {
     'Bu insident üçün keçid balı təyin edilməyib.',
   'p.no-passage-was-recorded-for-this':
     'Bu qayda üçün heç bir mətn parçası qeydə alınmayıb, ona görə də onu burada sənədlə tutuşdurmaq mümkün deyil.',
-  'p.no-passage-was-recorded-for-this-2':
-    'Bu qayda üçün heç bir mətn parçası qeydə alınmayıb, ona görə də oxucunun ifadəni tutuşdura biləcəyi heç nə yoxdur.',
-  'p.no-passage-was-recorded-for-this-3':
-    'Bu qayda üçün heç bir mətn parçası qeyd olunmayıb, ona görə də ifadəni tutuşdurmaq üçün heç nə yoxdur. Onu rədd edib nəzarət tədbirini əl ilə daxil etməyi nəzərdən keçirin.',
   'p.no-people-have-been-loaded':
     'Heç bir şəxs yüklənməyib',
   'p.no-perdepartment-history-is-stored-the':
@@ -4805,8 +4657,6 @@ const az: Record<MessageKey, string> = {
     'Tapşırıq üçün qeyd (məcburi deyil)',
   'p.nothing-assigned':
     'Heç nə tapşırılmayıb',
-  'p.nothing-found-reached-the-threshold-to':
-    'Aşkarlananların heç biri bu nümunəni işarələmək üçün lazım olan həddə çatmadı.',
   'p.nothing-has-been-recorded-against-this':
     'Bu axın üzrə hələ heç nə qeyd edilməyib. İlk qərar, dəstək və ya yenidən baxılma tələbi burada görünəcək.',
   'p.nothing-has-been-submitted-yet':
@@ -4825,8 +4675,6 @@ const az: Record<MessageKey, string> = {
     'Bu quraşdırmada heç nə onu təyin edə bilməz — sandbox-a təqdim etməyi yalnız analitik edir. Bunun qeydə alınması əl ilə atılan addımdır.',
   'p.nothing-is-checked-against-them-until':
     'Yoxlayıcı hər birini aktivləşdirənə qədər onların əsasında heç nə yoxlanılmır.',
-  'p.nothing-is-checked-against-these-a':
-    'Bunların əsasında heç nə yoxlanılmır. Maşın təklif edə bilər; yalnız insan aktivləşdirə bilər və aktivləşdirmə versiyanın anlıq surətini yazır.',
   'p.nothing-is-delivered-until-you-launch':
     'Siz işə salmayınca heç nə çatdırılmır.',
   'p.nothing-is-graded-on-arrival-the':
@@ -4863,16 +4711,12 @@ const az: Record<MessageKey, string> = {
     'Bir davranış tapıntısı müşahidə edilib və statik sübutla yanaşı balda nəzərə alınıb.',
   'p.oneline-description':
     'Bir sətirlik təsvir',
-  'p.onetime-code':
-    'Birdəfəlik kod',
   'p.only-approved-modules-appear-here-choosing':
     'Burada yalnız təsdiqlənmiş modullar görünür. Heç birini seçməsəniz belə, cəhd qeydə alınır və nəyin yerinə yetirilmədiyi bildirilir.',
   'p.only-modules-a-human-has-approved':
     'Yalnız insanın təsdiqlədiyi modullar təyin edilə bilər.',
   'p.only-satisfied-if-the-module-you':
     'Yalnız təyin etdiyiniz modulda həqiqətən suallar varsa təmin olunur.',
-  'p.open-findings-at-critical-or-high':
-    'Kritik və ya yüksək ciddilikdə açıq tapıntılar',
   'p.open-findings-whose-severity-is-critical':
     'Ciddiliyi kritik və ya yüksək olan açıq tapıntılar.',
   'p.open-highrisk-findings':
@@ -4955,8 +4799,6 @@ const az: Record<MessageKey, string> = {
     'Təhlil sandbox-u real artefaktdan hazırlayıb.',
   'p.production-deployment-every-record-on-screen':
     'İstismar mühitidir. Ekrandakı hər qeyd bu təşkilata aiddir.',
-  'p.proposed-awaiting-a-human':
-    'Təklif edilib — insan qərarı gözlənilir',
   'p.provider-topic-tags':
     'Provayderin mövzu etiketləri',
   'p.published-by-the-source-cyclowareness-did':
@@ -4971,8 +4813,6 @@ const az: Record<MessageKey, string> = {
     'Kimsə bunu bağlayarkən mətn yenidən göstərilir ki, bağlanış qeydi onunla tutuşdurula bilsin.',
   'p.raised-by-incident-response-against-named':
     'İnsidentə cavab prosesi tərəfindən adı göstərilən şəxslərə qarşı qaldırılıb',
-  'p.raises-the-risk-score':
-    'Risk balını qaldırır',
   'p.raw-headers-message-text-url-or':
     'Xam başlıqlar, mesaj mətni, URL və ya fayl adı. Passiv mətn kimi saxlanılır və heç vaxt açılmır.',
   'p.reading-the-decision-from-the-audit':
@@ -5003,8 +4843,6 @@ const az: Record<MessageKey, string> = {
     'Versiya anlıq görüntüsündə adınızla birlikdə qeyd edilib.',
   'p.records-your-objection-and-leaves-the':
     'Etirazınızı qeydə alır və axını redaktə üçün qapıda saxlayır.',
-  'p.refused-by-the-firewall':
-    'Firewall tərəfindən rədd edilib',
   'p.refused-by-the-output-firewall':
     'Çıxış firewall-u tərəfindən rədd edilib',
   'p.reject-the-module':
@@ -5027,12 +4865,8 @@ const az: Record<MessageKey, string> = {
     'Brauzerdə natamam məlumatdan hesablanmaqdansa, mövcud deyil kimi göstərilir.',
   'p.rendered-exactly-as-the-employee-will':
     'İşçinin görəcəyi kimi eynilə göstərilib.',
-  'p.replaced-by-a-later-rule-kept':
-    'Sonrakı qayda ilə əvəz olunub. Köhnə tapıntının istinad etdiyi qayda hələ də tapıla bilsin deyə saxlanılır.',
   'p.report-status':
     'Bildirişin statusu',
-  'p.reported-by-an-employee':
-    'İşçi tərəfindən bildirilib',
   'p.reported-by-the-human-sensor-and':
     'İnsan-sensor tərəfindən bildirilib və hələ triaj edilməyib',
   'p.reporters-note':
@@ -5097,8 +4931,6 @@ const az: Record<MessageKey, string> = {
     'Ən son tapıntılar üzərində işləyir; say aşağı hədd olduqda bunu bildirir.',
   'p.runs-that-reached-the-completed-state':
     'Tamamlanmış vəziyyətə çatmış və ölçmə nəticəsi vermiş axınlar.',
-  'p.runs-waiting-at-the-human-approval':
-    'İnsan təsdiq qapısında gözləyən axınlar',
   'p.sha256-hash':
     'SHA-256 heşi',
   'p.sandbox-detonation':
@@ -5177,14 +5009,8 @@ const az: Record<MessageKey, string> = {
     'Bütün məxfilik səviyyələrində təsirə məruz qalan işçiyə göstərilir.',
   'p.shown-to-the-employee-after-grading':
     'Qiymətləndirmədən sonra işçiyə göstərilir — cavab düz olsa da, səhv olsa da.',
-  'p.sign-in-with-your-phone-number':
-    'Telefon nömrənizlə daxil olun',
   'p.since-the-run-reached-the-gate':
     'Axın təsdiq qapısına çatandan bəri',
-  'p.single-signon-and-directory-sync-neither':
-    'Vahid giriş və kataloq sinxronizasiyası. Heç biri burada qoşulmayıb: bu quraşdırma öz istifadəçi cədvəli üzərindən autentifikasiya aparır.',
-  'p.six-digits-a-code-works-once':
-    'Altı rəqəm. Kod bir dəfə işləyir və beş dəqiqədən sonra etibarsız olur.',
   'p.someone-will-read-what-you-wrote':
     'Yazdıqlarınızı kimsə oxuyacaq və burada cavab verəcək.',
   'p.something-in-the-request-did-not':
@@ -5203,8 +5029,6 @@ const az: Record<MessageKey, string> = {
     'Yuxarıdakı meyarların necə ödəndiyini yazın. Auditorun oxuduğu məhz budur.',
   'p.static-analysis-and-dynamic-detonation-are':
     'Həm statik təhlil, həm də dinamik detonasiya mövcuddur.',
-  'p.static-analysis-did-not-run':
-    'Statik təhlil işə düşmədi',
   'p.static-analysis-only-no-detonation-host':
     'Yalnız statik təhlil. Heç bir detonasiya hostu qoşulmayıb, ona görə buraya göndərilən heç nə icra olunmur — hesabatlar "təmiz" yox, "işə salınmayıb" yazır.',
   'p.static-forensic-analysis-of-a-file':
@@ -5229,10 +5053,6 @@ const az: Record<MessageKey, string> = {
     'Göndər və qiymətləndir',
   'p.submitted-url':
     'Göndərilən URL',
-  'p.submitted-by-an-analyst':
-    'Analitik tərəfindən təqdim edilib',
-  'p.submitted-directly-by-an-analyst-on':
-    'Bu ekranda analitik tərəfindən birbaşa göndərilib.',
   'p.suggested-remediation':
     'Təklif olunan korrektiv tədbir',
   'p.summary-object-label-or-action':
@@ -5247,14 +5067,6 @@ const az: Record<MessageKey, string> = {
     'Yazılan sintetik nəticələr',
   'p.take-me-to-my-home-screen':
     'Məni ana ekranıma apar',
-  'p.take-me-to-my-training':
-    'Məni təlimimə apar',
-  'p.take-me-to-the-command-center':
-    'Məni Komanda Mərkəzinə apar',
-  'p.take-me-to-the-executive-view':
-    'Məni Rəhbər Görünüşünə apar',
-  'p.taken-from-the-curated-intel-feed':
-    'Seçilmiş kəşfiyyat lentindən analitik tərəfindən götürülüb.',
   'p.target-count-unavailable':
     'Hədəflərin sayı mövcud deyil',
   'p.targeting-has-been-released-the-decision':
@@ -5353,8 +5165,6 @@ const az: Record<MessageKey, string> = {
     'Bu təsnifata mühərrik gəlib.',
   'p.the-engine-stopped-partway-through-and':
     'Mühərrik yarı yolda dayandı və hökm vermədi. Nümunə hələ də karantindədir, ona görə də axın tam eyni baytlar üzərində təkrarlana bilər.',
-  'p.the-evidence-is-sufficient-to-call':
-    'Sübutlar bunu zərərli hesab etmək üçün kifayətdir. Buna əsas verən tapıntılar aşağıda sadalanıb.',
   'p.the-extraction-request-failed':
     'Çıxarma sorğusu uğursuz oldu',
   'p.the-feed-item-was-not-pushed':
@@ -5381,8 +5191,6 @@ const az: Record<MessageKey, string> = {
     'Dövrə sayları oxuna bilmədi. Xətanın tam mətni üçün Qapalı Dövrələr bölməsini açın.',
   'p.the-loop-has-been-released-to':
     'Dövrə hədəfləmə mərhələsinə buraxıldı.',
-  'p.the-loop-stops-here-a-named':
-    'Dövrə burada dayanır. Adı bəlli olan analitik yaradılan məzmunu oxuyur və hər hansı material həmkarına yönəldilməzdən əvvəl qərar verir. Bu xətti heç nə öz-özünə keçmir.',
   'p.the-loops-analyze-stage-has-not':
     'Dövrənin ANALİZ mərhələsi bu artefakt üçün qərar yazmayıb. Bu, təmiz nəticə demək deyil — onunla bağlı heç bir nəticəyə gəlinməyib.',
   'p.the-loops-analyze-stage-runs-the':
@@ -5409,8 +5217,6 @@ const az: Record<MessageKey, string> = {
     'Modul rədd edildi və icra bağlandı.',
   'p.the-note-is-not-attributed-the':
     'Qeydin müəllifi göstərilməyib — tapıntı yenidən açıqdır.',
-  'p.the-number-your-workplace-registered-for':
-    'İş yerinizin sizin üçün qeydiyyata aldığı nömrə.',
   'p.the-one-sentence-the-employee-is':
     'İşçiyə qalan yeganə cümlə.',
   'p.the-oneparagraph-summary-an-employee-sees':
@@ -5475,8 +5281,6 @@ const az: Record<MessageKey, string> = {
     'Risk yenidən açıla bilmədi. Heç nə dəyişmədi.',
   'p.the-risk-engine-gave-no-reason':
     'Risk mühərriki bu şəxsin seçilməsi üçün heç bir səbəb göstərmədi.',
-  'p.the-rules-this-organisation-is-actually':
-    'Bu təşkilatın bu gün həqiqətən yoxlanıldığı qaydalar.',
   'p.the-run-completed-and-produced-no':
     'İcra tamamlandı və heç bir davranış tapıntısı vermədi — nümunə elə bir hərəkət etmədi ki, işçi proses onu tanısın.',
   'p.the-run-this-artifact-started-its':
@@ -5493,8 +5297,6 @@ const az: Record<MessageKey, string> = {
     'Göndərənin ünvanı, mövzu sətri, keçid — əlinizdə nə varsa. Onu əvvəlcədən açmayın.',
   'p.the-server-did-not-accept-it':
     'Server bunu qəbul etmədi.',
-  'p.the-server-did-not-answer':
-    'Server cavab vermədi.',
   'p.the-server-downloads-the-content-and':
     'Server məzmunu endirir və geri gələni analiz edir. O, özəl, loopback və bulud-metaməlumat ünvanlarını yükləməkdən imtina edir və hansı qaydanın işə düşdüyünü bildirir.',
   'p.the-server-failed-on-this-request':
@@ -5509,8 +5311,6 @@ const az: Record<MessageKey, string> = {
     'Server bu sorğunu rədd etdi. Yenidən yükləməklə cavabın dəyişməsi ehtimalı azdır — serverin dediyi aşağıdadır.',
   'p.the-server-rejected-these-values':
     'Server bu dəyərləri rədd etdi',
-  'p.the-server-returned-a-full-page':
-    'Server tam bir səhifə qaytardı, ona görə də buradakı hər say yalnız aşağı həddir.',
   'p.the-server-returned-no-description-of':
     'Server nə etdiyi barədə heç bir təsvir qaytarmadı. Bülleten siyahısına yenilənmiş kimi yox, dəyişməmiş kimi baxın.',
   'p.the-server-took-the-request-but':
@@ -5625,8 +5425,6 @@ const az: Record<MessageKey, string> = {
     'Bu modulda test yoxdur.',
   'p.this-module-has-no-lesson-sections':
     'Bu modul üçün heç bir dərs bölməsi qeyd edilməyib.',
-  'p.this-module-has-no-lesson-sections-2':
-    'Bu modulda qeydə alınmış dərs bölməsi yoxdur. Birbaşa suallara keçin və ya təhlükəsizlik komandanızdan burada nə nəzərdə tutulduğunu soruşun.',
   'p.this-module-has-no-lesson-sections-3':
     'Bu modulda dərs bölmələri yoxdur. İşçi onu açsa, yalnız testlə qarşılaşacaq.',
   'p.this-module-has-no-quiz-an':
@@ -5641,8 +5439,6 @@ const az: Record<MessageKey, string> = {
     'Bu modulun bölmələri yoxdur. İşçi onu açsa, oxumağa heç nə tapmayacaq.',
   'p.this-module-is-not-linked-to':
     'Bu modul heç bir siyasət sənədinə bağlanmayıb. Bu quraşdırma modulun hansı təhdid əsasında hazırlandığını qeyd edir, lakin təlim məzmununa siyasət bağlamır.',
-  'p.this-number-is-not-registered':
-    'Bu nömrə qeydiyyatda deyil.',
   'p.this-person-has-no-recorded-score':
     'Bu şəxsin qeydə alınmış balı yoxdur. Tələb olunan işdə test olmaya bilər.',
   'p.this-persons-current-score-could-not':
@@ -5661,8 +5457,6 @@ const az: Record<MessageKey, string> = {
     'Bu axın artıq qapıdan keçib. Aşağıdakı qeyd yalnız oxumaq üçündür.',
   'p.this-run-has-no-threat-attached':
     'Bu axına təhdid qoşulmayıb, ona görə də nəzərdən keçiriləsi artefakt yoxdur. Onu təsdiqləmək arxasında heç nə olmayan dövrəni irəli aparmaq demək olardı.',
-  'p.this-run-has-no-threat-attached-2':
-    'Bu axına təhdid bağlanmayıb, ona görə göstəriləcək artefakt yoxdur. Bu, boş nəticə deyil, məlumat qüsurudur — axın təhdiddən yaradılır.',
   'p.this-run-has-not-been-measured':
     'Bu axın ölçülməyib. Burada sıfırlar əvəzinə heç nə göstərilmir: onun üçün nə tamamlanma faizi, nə bal, nə də risk dəyişməsi hesablanıb.',
   'p.this-run-produces-a-training-module':
@@ -5717,12 +5511,8 @@ const az: Record<MessageKey, string> = {
     'Modullar üçün versiya tarixçəsi hələ saxlanmır. Redaktə yadda saxlanmış məzmunun üzərinə yazır və heç bir əvvəlki variant qalmır — beləliklə, nə müqayisə ediləcək, nə də geri qayıdılacaq bir şey olur. Siyasətlər versiyalanır, modullar isə yox.',
   'p.version-recorded-here':
     'Burada qeydə alınan versiya',
-  'p.waiting-for-a-decision':
-    'Qərar gözlənilir',
   'p.waiting-for-a-human-decision-no':
     'İnsan qərarı gözlənilir. Qərar verilənə qədər nə hədəfləmə, nə də təlim baş vermir.',
-  'p.waiting-for-an-analyst-to-read':
-    'Analitikin onu oxumasını gözləyir.',
   'p.what-configuring-a-source-would-do':
     'Mənbənin konfiqurasiya edilməsi nəyi dəyişərdi',
   'p.what-happened':
@@ -5753,8 +5543,6 @@ const az: Record<MessageKey, string> = {
     'Nəyi yoxladığınız, nəyi dəyişdiyiniz və ya onda nəyin səhv olduğu.',
   'p.what-your-role-covers':
     'Rolunuzun əhatə etdikləri',
-  'p.where-approved-training-would-be-delivered':
-    'Təsdiqlənmiş təlimin harada çatdırılacağı və tamamlamaların harada geri oxunacağı — ölçmə etibar üzərində qurulmasın deyə.',
   'p.where-the-organisation-would-sit-if':
     'Heç kim heç nə etməsəydi, təşkilatın hansı səviyyədə olacağı.',
   'p.who-is-accountable-for-closing-it':
@@ -5789,8 +5577,6 @@ const az: Record<MessageKey, string> = {
     'Sintetik nəticələr yaz',
   'p.written-by-a-language-model-no':
     'Dil modeli tərəfindən yazılıb. Mətni heç bir insan redaktə etməyib.',
-  'p.written-by-a-template':
-    'Şablonla yazılıb',
   'p.written-for-the-record-depending-on':
     'Qeyd üçün yazılıb. Aşağıdakı məxfilik səviyyəsindən asılı olaraq, təsirə məruz qalmış işçi bunu oxuya bilər.',
   'p.you-are-editing-the-content-an':
@@ -5805,8 +5591,6 @@ const az: Record<MessageKey, string> = {
     'Siz bunu artıq tamamlamısınız',
   'p.your-assigned-training-the-work-raised':
     'Sizə təyin edilmiş təlimlər, adınıza açılmış işlər və risk balınızın necə hesablandığı.',
-  'p.your-edits-are-written-to-the':
-    'Redaktələriniz əvvəlcə modula yazılır və bu, onu analitik tərəfindən redaktə edilmiş kimi işarələyir.',
   'p.your-individual-answers-were-graded-and':
     'Fərdi cavablarınız qiymətləndirilib və sonra silinib — yalnız bal saxlanılıb, ona görə də bu ekran hansı suallarda səhv etdiyinizi göstərə bilmir.',
   'p.your-role-can-read-intelligence-but':
