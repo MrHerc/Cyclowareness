@@ -1,7 +1,7 @@
 /** Reading the locale. Separate from the provider so fast refresh keeps working. */
 
 import { useContext } from 'react'
-import { LocaleContext, type LocaleContextValue } from './context'
+import { LocaleContext, type LocaleContextValue, type MessageValues } from './context'
 import type { MessageKey } from './messages'
 
 export function useLocale(): LocaleContextValue {
@@ -13,6 +13,6 @@ export function useLocale(): LocaleContextValue {
 }
 
 /** Just the translator, for the common case. */
-export function useT(): (key: MessageKey) => string {
+export function useT(): (key: MessageKey, values?: MessageValues) => string {
   return useLocale().t
 }

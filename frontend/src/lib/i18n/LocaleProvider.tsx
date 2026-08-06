@@ -7,6 +7,10 @@
  * a screen reader picks its voice from that attribute, and Azerbaijani read
  * aloud by an English synthesiser is unusable.
  *
+ * `t(key, values)` splices `{placeholders}`. The values come from the caller
+ * already formatted, because only the caller knows whether a number is a count,
+ * a rate or a score, and this layer must not decide that quietly.
+ *
  * `t()` falls back to the English string when a key is missing from the active
  * locale. That cannot currently happen — `MessageKey` is derived from the
  * English catalogue and the Azerbaijani one is typed as a complete `Record` of
@@ -15,7 +19,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { LocaleContext, STORAGE_KEY, initialLocale } from './context'
+import { LocaleContext, STORAGE_KEY, initialLocale, type MessageValues } from './context'
 import { resetDateFormatCache } from '../format'
 import { MESSAGES, type Locale, type MessageKey } from './messages'
 
@@ -39,8 +43,17 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  // Placeholders are `{name}`. A message that mentions a placeholder the caller
+  // did not supply keeps the literal `{name}` rather than printing "undefined"
+  // — a visible gap is debuggable and an invented value is not.
   const t = useCallback(
-    (key: MessageKey) => MESSAGES[locale][key] ?? MESSAGES.en[key] ?? key,
+    (key: MessageKey, values?: MessageValues) => {
+      const template = MESSAGES[locale][key] ?? MESSAGES.en[key] ?? key
+      if (!values) return template
+      return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
+        name in values ? String(values[name]) : whole,
+      )
+    },
     [locale],
   )
 

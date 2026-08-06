@@ -12,10 +12,15 @@ import { LOCALES, type Locale, type MessageKey } from './messages'
 
 export const STORAGE_KEY = 'cyclowareness.locale'
 
+/** Values spliced into a message's `{placeholders}`. Numbers are formatted by
+ *  the caller, because only the caller knows whether a figure is a count, a
+ *  rate or a score — this layer must not decide that silently. */
+export type MessageValues = Record<string, string | number>
+
 export interface LocaleContextValue {
   locale: Locale
   setLocale: (next: Locale) => void
-  t: (key: MessageKey) => string
+  t: (key: MessageKey, values?: MessageValues) => string
 }
 
 export const LocaleContext = createContext<LocaleContextValue | null>(null)
