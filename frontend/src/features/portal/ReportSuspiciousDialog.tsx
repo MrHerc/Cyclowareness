@@ -11,7 +11,7 @@
  * Presenting the two identically is the exact claim this product cannot make.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { useState } from 'react'
 import { Send, ShieldQuestion } from 'lucide-react'
 import { AIProvenanceBadge } from '../../components/data'
@@ -28,12 +28,12 @@ export interface ReportSuspiciousDialogProps {
   modelConnected?: boolean
 }
 
-const ARTIFACT_TYPES = [
-  { value: 'email', label: 'An email' },
-  { value: 'url', label: 'A link or website' },
-  { value: 'sms', label: 'A text message' },
-  { value: 'chat', label: 'A chat or messaging app' },
-  { value: 'file', label: 'A file or attachment' },
+const ARTIFACT_TYPES: { value: string; label: MessageKey }[] = [
+  { value: 'email', label: 'p.an-email' },
+  { value: 'url', label: 'p.a-link-or-website' },
+  { value: 'sms', label: 'p.a-text-message' },
+  { value: 'chat', label: 'p.a-chat-or-messaging-app' },
+  { value: 'file', label: 'p.a-file-or-attachment' },
 ]
 
 const SUSPICION_TONE: Record<string, 'critical' | 'medium' | 'safe'> = {
@@ -204,7 +204,7 @@ export function ReportSuspiciousDialog({
         <div className="space-y-4">
           <Select
             label="What is it"
-            options={ARTIFACT_TYPES}
+            options={ARTIFACT_TYPES.map((o) => ({ value: o.value, label: t(o.label) }))}
             value={artifactType}
             onValueChange={setArtifactType}
           />

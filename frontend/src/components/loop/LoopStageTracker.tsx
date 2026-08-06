@@ -10,6 +10,7 @@
  */
 
 import { APPROVAL_GATE_AFTER_STAGE, STAGES } from '../../domain/types'
+import { useT } from '../../lib/i18n'
 import type { LoopStatus } from '../../domain/types'
 import { cn, humanise } from '../../lib/format'
 
@@ -39,6 +40,7 @@ export function LoopStageTracker({
   showLabel = false,
   className,
 }: LoopStageTrackerProps) {
+  const t = useT()
   const current = Math.min(Math.max(Math.round(currentStage) || 1, 1), TOTAL)
   const stage = STAGES.find((s) => s.n === current)
   const label = `Stage ${current} of ${TOTAL}, ${humanise(status).toLowerCase()}`
@@ -71,7 +73,7 @@ export function LoopStageTracker({
       </span>
       {showLabel && stage && (
         <span className="truncate text-xs text-fg-subtle" aria-hidden="true">
-          {stage.label}
+          {t(stage.labelKey)}
         </span>
       )}
     </span>

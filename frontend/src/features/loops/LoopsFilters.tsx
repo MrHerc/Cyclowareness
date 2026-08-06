@@ -79,7 +79,7 @@ export function LoopsFilters({
           onValueChange={(value) => onStageChange(value === ALL_STAGES ? null : Number(value))}
           options={[
             { value: ALL_STAGES, label: 'All stages' },
-            ...STAGES.map((s) => ({ value: String(s.n), label: `${s.n}. ${s.label}` })),
+            ...STAGES.map((s) => ({ value: String(s.n), label: `${s.n}. ${t(s.labelKey)}` })),
           ]}
         />
 

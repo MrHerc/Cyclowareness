@@ -96,7 +96,7 @@ export default function Loops() {
               icon={Radar}
               headline="No run matches these filters"
               description={`${loaded.length} run${loaded.length === 1 ? '' : 's'} loaded, but none is ${
-                stage === null ? 'a match' : `sitting at ${stageLabel(stage)}`
+                stage === null ? 'a match' : `sitting at ${stageLabel(stage, t)}`
               } for the current search. Widen the filters to see the rest.`}
               action={
                 <Button variant="secondary" onClick={() => patch({ status: null, stage: null, q: null })}>

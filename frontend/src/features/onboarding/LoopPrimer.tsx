@@ -13,6 +13,7 @@
  */
 
 import { BadgeCheck, type LucideIcon } from 'lucide-react'
+import { useLocale, useT, type MessageKey } from '../../lib/i18n'
 import { STAGE_ICONS } from '../../components/loop/icons'
 import { APPROVAL_GATE_AFTER_STAGE, STAGES } from '../../domain/types'
 import { cn } from '../../lib/format'
@@ -22,9 +23,9 @@ interface PrimerRow {
   gate: boolean
   /** The stage number, or null for the gate. A gate is not a stage. */
   n: number | null
-  label: string
-  detail: string
-  owner: string
+  label: MessageKey
+  detail: MessageKey
+  owner: MessageKey
   icon: LucideIcon
 }
 
@@ -33,9 +34,9 @@ const ROWS: PrimerRow[] = STAGES.flatMap((stage) => {
     key: stage.key,
     gate: false,
     n: stage.n,
-    label: stage.label,
-    detail: stage.hint,
-    owner: stage.owner,
+    label: stage.labelKey,
+    detail: stage.hintKey,
+    owner: stage.ownerKey,
     icon: STAGE_ICONS[stage.key],
   }
   if (stage.n !== APPROVAL_GATE_AFTER_STAGE) return [row]
@@ -45,16 +46,17 @@ const ROWS: PrimerRow[] = STAGES.flatMap((stage) => {
       key: 'gate',
       gate: true,
       n: null,
-      label: 'Human approval gate',
-      detail:
-        'The loop stops here. A named analyst reads what was generated and decides before anything is targeted at a colleague. Nothing crosses this line on its own.',
-      owner: 'Required',
+      label: 'p.human-approval-gate',
+      detail: 'p.the-loop-stops-here-a-named',
+      owner: 'p.required',
       icon: BadgeCheck,
     },
   ]
 })
 
 export function LoopPrimer() {
+  const t = useT()
+  const { locale } = useLocale()
   return (
     <ol className="flex flex-col gap-2">
       {ROWS.map((row) => {
@@ -80,17 +82,17 @@ export function LoopPrimer() {
             <div className="min-w-0 flex-1">
               <p className="text-body text-fg">
                 {row.n !== null && <span className="text-fg-faint">{row.n}. </span>}
-                {row.label}
+                {t(row.label)}
               </p>
               <p className={cn('text-sm', row.gate ? 'text-fg-muted' : 'text-fg-subtle')}>
-                {row.detail}
+                {t(row.detail)}
               </p>
             </div>
 
             <span
               className={cn('label mt-1.5 shrink-0', row.gate ? 'text-brand-fg' : 'text-fg-faint')}
             >
-              {row.owner.toUpperCase()}
+              {t(row.owner).toLocaleUpperCase(locale)}
             </span>
           </li>
         )

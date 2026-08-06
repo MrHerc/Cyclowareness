@@ -14,7 +14,7 @@
  * individual items the number counted, never a general index of everything.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type TFunction } from '../../lib/i18n'
 import {
   BadgeCheck,
   Boxes,
@@ -83,7 +83,7 @@ function plural(count: number | null, one: string, many: string): string {
   return count === 1 ? one : many
 }
 
-function buildTiles(props: HeroStripProps): Tile[] {
+function buildTiles(props: HeroStripProps, t: TFunction): Tile[] {
   const {
     activeRuns,
     awaitingApproval,
@@ -121,7 +121,10 @@ function buildTiles(props: HeroStripProps): Tile[] {
             caption:
               awaitingApproval === null
                 ? 'h.approval-items-naming-you'
-                : `${awaitingApproval} ${plural(awaitingApproval, 'item is', 'items are')} at the gate in total`,
+                : t('p.items-at-the-gate-in-total', {
+                    count: awaitingApproval,
+                    noun: plural(awaitingApproval, 'item is', 'items are'),
+                  }),
             to: '/approvals',
             icon: BadgeCheck,
             tone: pressing(assignedToMe, 'medium'),
@@ -161,8 +164,11 @@ function buildTiles(props: HeroStripProps): Tile[] {
       value: highRiskFindings,
       caption:
         openFindings === null
-          ? 'Open findings at critical or high severity'
-          : `${openFindings} open ${plural(openFindings, 'finding', 'findings')} at all severities`,
+          ? 'p.open-findings-at-critical-or-high'
+          : t('p.open-findings-at-all-severities', {
+              count: openFindings,
+              noun: plural(openFindings, 'finding', 'findings'),
+            }),
       to: '/policy-intelligence/findings',
       icon: Landmark,
       tone: pressing(highRiskFindings, 'critical'),
@@ -190,8 +196,11 @@ function buildTiles(props: HeroStripProps): Tile[] {
       label: 'h.sandbox-analyzers',
       value: analyzers,
       caption: sandbox
-        ? `${unavailable} unavailable · dynamic detonation ${sandbox.dynamic_worker ? 'available' : 'not available'}`
-        : 'Analyzers reported ready by the sandbox',
+        ? t('p.unavailable-dynamic-detonation', {
+            count: unavailable,
+            state: t(sandbox.dynamic_worker ? 'p.available' : 'p.not-available'),
+          })
+        : 'p.analyzers-reported-ready-by-the-sandbox',
       to: '/sandbox',
       icon: Boxes,
       // Capability, not urgency: a healthy sandbox must not glow like a queue.
@@ -217,7 +226,7 @@ function isKey(value: MessageKey | string): value is MessageKey {
 
 export function HeroStrip(props: HeroStripProps) {
   const t = useT()
-  const tiles = buildTiles(props)
+  const tiles = buildTiles(props, t)
 
   // ONE FILLED TILE, AND ONLY WHEN IT IS EARNED. The accent-on-dark design puts
   // a single card in the accent colour and leaves the rest in greyscale, which

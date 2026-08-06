@@ -13,7 +13,7 @@
  * is not a gate.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Search } from 'lucide-react'
 import { Input, Select } from '../../components/ui'
 import { type QueueFilterState } from './filterState'
@@ -33,11 +33,11 @@ const VERDICT_OPTIONS = [
   { value: 'benign', label: 'Benign' },
 ]
 
-const GENERATION_OPTIONS = [
-  { value: 'all', label: 'Any author' },
-  { value: 'anthropic', label: 'Written by a model' },
-  { value: 'mock', label: 'Written by a template' },
-  { value: 'none', label: 'No engine recorded' },
+const GENERATION_OPTIONS: { value: string; label: MessageKey }[] = [
+  { value: 'all', label: 'p.any-author' },
+  { value: 'anthropic', label: 'p.written-by-a-model' },
+  { value: 'mock', label: 'p.written-by-a-template' },
+  { value: 'none', label: 'p.no-engine-recorded' },
 ]
 
 const SORT_OPTIONS = [
@@ -86,7 +86,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
       />
       <Select
         label={t('p.content-author')}
-        options={GENERATION_OPTIONS}
+        options={GENERATION_OPTIONS.map((o) => ({ value: o.value, label: t(o.label) }))}
         value={value.generation}
         onValueChange={(next) => set('generation', next)}
       />

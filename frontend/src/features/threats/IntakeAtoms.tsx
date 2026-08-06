@@ -8,7 +8,7 @@
  * ten seconds later, which is what `ActionError` is for.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import {
   AtSign,
   FileText,
@@ -63,21 +63,24 @@ export function ArtifactTypeTag({ type }: { type: string | null | undefined }) {
    Where it came from
    ========================================================================== */
 
-const SOURCES: Record<ThreatSource, { label: string; icon: LucideIcon; hint: string }> = {
+const SOURCES: Record<
+  ThreatSource,
+  { label: MessageKey; icon: LucideIcon; hint: MessageKey }
+> = {
   human_sensor: {
-    label: 'Human sensor',
+    label: 'p.human-sensor',
     icon: UserRound,
-    hint: 'An employee reported this and an analyst pushed it into the loop.',
+    hint: 'p.an-employee-reported-this-and-an',
   },
   feed: {
-    label: 'Curated feed',
+    label: 'p.curated-feed',
     icon: Rss,
-    hint: 'Taken from the curated intel feed by an analyst.',
+    hint: 'p.taken-from-the-curated-intel-feed',
   },
   manual: {
-    label: 'Analyst submission',
+    label: 'p.analyst-submission',
     icon: Waypoints,
-    hint: 'Submitted directly by an analyst on this screen.',
+    hint: 'p.submitted-directly-by-an-analyst-on',
   },
 }
 
@@ -88,9 +91,10 @@ export interface SourceTagProps {
 
 /** Reads the source as a word, never as a colour — a source is not a health signal. */
 export function SourceTag({ source, className }: SourceTagProps) {
+  const t = useT()
   const spec = SOURCES[(source ?? '') as ThreatSource]
   if (!spec) {
-    return <span className={cn('text-sm text-fg-faint', className)}>Source not recorded</span>
+    return <span className={cn('text-sm text-fg-faint', className)}>{t('p.source-not-recorded')}</span>
   }
   const Icon = spec.icon
   return (
@@ -99,10 +103,10 @@ export function SourceTag({ source, className }: SourceTagProps) {
         'inline-flex items-center gap-1.5 rounded-chip border border-line px-2 py-0.5 text-xs text-fg-muted',
         className,
       )}
-      title={spec.hint}
+      title={t(spec.hint)}
     >
       <Icon className="size-3.5 shrink-0" aria-hidden="true" />
-      {spec.label}
+      {t(spec.label)}
     </span>
   )
 }

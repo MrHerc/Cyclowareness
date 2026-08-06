@@ -1,6 +1,6 @@
 export { LocaleProvider } from './LocaleProvider'
 export { useLocale, useT } from './useLocale'
 export { initialLocale } from './context'
-export type { MessageValues } from './context'
+export type { MessageValues, TFunction } from './context'
 export { LOCALES, LOCALE_NAMES, MESSAGES } from './messages'
 export type { Locale, MessageKey } from './messages'

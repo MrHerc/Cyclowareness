@@ -50,8 +50,8 @@ export function UnresolvedRisks({
 }: UnresolvedRisksProps) {
   const t = useT()
   const remediation = incidentRisks ? remediationProgress(incidentRisks, minSample) : null
-  const atLeast = truncated ? 'The server returned a full page, so every count here is a floor. ' : ''
-  const noun = truncated ? 'open findings scanned' : 'open findings'
+  const atLeast = truncated ? t('p.the-server-returned-a-full-page') : ''
+  const noun = t(truncated ? 'p.open-findings-scanned' : 'p.open-findings')
 
   const severe = openFindings ? highSeverityCount(openFindings) : null
   const exposure = openFindings ? policyExposure(openFindings) : null

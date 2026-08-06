@@ -12,14 +12,14 @@
  * true here; a neutral key icon claims nothing.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { KeyRound } from 'lucide-react'
 import { Button } from '../../components/ui'
 
-const PROVIDERS = [
-  { id: 'microsoft', label: 'Continue with Microsoft' },
-  { id: 'google', label: 'Continue with Google' },
-  { id: 'saml', label: 'Continue with SSO' },
+const PROVIDERS: { id: string; label: MessageKey }[] = [
+  { id: 'microsoft', label: 'p.continue-with-microsoft' },
+  { id: 'google', label: 'p.continue-with-google' },
+  { id: 'saml', label: 'p.continue-with-sso' },
 ] as const
 
 export function FederatedIdentity() {
@@ -41,7 +41,7 @@ export function FederatedIdentity() {
             disabled
             icon={<KeyRound className="size-4" aria-hidden="true" />}
           >
-            {provider.label}
+            {t(provider.label)}
           </Button>
         ))}
       </div>

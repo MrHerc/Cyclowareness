@@ -14,7 +14,7 @@
  * in one undifferentiated list is how a machine's guess becomes policy.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Check, FileQuestion, X } from 'lucide-react'
 import { useState } from 'react'
 import { AIProvenanceBadge, ConfidenceBadge } from '../../components/data'
@@ -23,29 +23,41 @@ import { Badge, Button, Panel } from '../../components/ui'
 import type { PolicyRule } from '../../domain/types'
 import { cn, formatDate } from '../../lib/format'
 import { RuleReviewDialog, type RuleDecision } from './RuleReviewDialog'
-import { RULE_STATUS_LABELS, RULE_TYPE_LABELS, ruleProvenance } from './vocabulary'
+import { RULE_TYPE_LABELS, ruleProvenance } from './vocabulary'
 
-const GROUPS: { status: string; heading: string; blurb: string }[] = [
+/**
+ * Module scope cannot call a hook, so these hold KEYS and the component
+ * resolves them. `STATUS_KEY` is shared with the per-rule badge below — the
+ * four status words were written twice before, once here and once in
+ * `RULE_STATUS_LABELS`, which is how a panel ends up half-translated.
+ */
+const STATUS_KEY: Record<string, MessageKey> = {
+  proposed: 'p.proposed',
+  active: 'p.active',
+  superseded: 'p.superseded',
+  rejected: 'p.rejected',
+}
+
+const GROUPS: { status: string; headingKey: MessageKey; blurbKey: MessageKey }[] = [
   {
     status: 'proposed',
-    heading: 'Proposed — awaiting a human',
-    blurb:
-      'Nothing is checked against these. A machine may propose; only a person may activate, and activating writes a version snapshot.',
+    headingKey: 'p.proposed-awaiting-a-human',
+    blurbKey: 'p.nothing-is-checked-against-these-a',
   },
   {
     status: 'active',
-    heading: 'Active',
-    blurb: 'The rules this organisation is actually checked against today.',
+    headingKey: 'p.active',
+    blurbKey: 'p.the-rules-this-organisation-is-actually',
   },
   {
     status: 'superseded',
-    heading: 'Superseded',
-    blurb: 'Replaced by a later rule. Kept so an older finding still resolves to what it cited.',
+    headingKey: 'p.superseded',
+    blurbKey: 'p.replaced-by-a-later-rule-kept',
   },
   {
     status: 'rejected',
-    heading: 'Rejected',
-    blurb: 'A reviewer discarded these. They were never in force.',
+    headingKey: 'p.rejected',
+    blurbKey: 'p.a-reviewer-discarded-these-they-were',
   },
 ]
 
@@ -74,7 +86,7 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
           <p className="text-body text-fg">{rule.statement}</p>
         </div>
         <Badge status={rule.status} size="sm">
-          {RULE_STATUS_LABELS[rule.status] ?? rule.status}
+          {STATUS_KEY[rule.status] ? t(STATUS_KEY[rule.status]) : rule.status}
         </Badge>
       </div>
 
@@ -100,7 +112,7 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
         <blockquote className="mt-3 border-l-2 border-brand/40 pl-3">
           <p className="text-sm italic text-fg-muted">“{rule.evidence_quote}”</p>
           <footer className="mt-1 text-xs text-fg-faint">
-            {rule.evidence_location || 'Location in the document was not recorded'}
+            {rule.evidence_location || t('p.location-in-the-document-was-not-recorded')}
           </footer>
         </blockquote>
       ) : (
@@ -110,7 +122,7 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-fg-faint">
           {rule.reviewed_by
-            ? `Reviewed by ${rule.reviewed_by} on ${formatDate(rule.reviewed_at)}`
+            ? t('p.reviewed-by-on', { who: rule.reviewed_by, when: formatDate(rule.reviewed_at) })
             : t('p.not-yet-reviewed-by-anyone')}
         </p>
 
@@ -122,7 +134,7 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
               icon={<X className="size-4" />}
               onClick={() => onReview(rule, 'reject')}
             >
-              Reject
+              {t('p.reject')}
             </Button>
             <Button
               size="sm"
@@ -130,7 +142,7 @@ function RuleRow({ rule, extractionSource, modelConnected, canReview, onReview }
               icon={<Check className="size-4" />}
               onClick={() => onReview(rule, 'activate')}
             >
-              Activate
+              {t('p.activate')}
             </Button>
           </div>
         ) : null}
@@ -172,7 +184,7 @@ export function PolicyRuleList({
       <EmptyState
         compact
         icon={FileQuestion}
-        headline="No rules on this policy"
+        headline={t('p.no-rules-on-this-policy')}
         description={emptyDescription}
         className={className}
       />
@@ -193,8 +205,8 @@ export function PolicyRuleList({
             key={group.status}
             tone={group.status === 'proposed' ? 'feature' : 'quiet'}
             headingLevel={4}
-            title={`${group.heading} · ${inGroup.length}`}
-            subtitle={group.blurb}
+            title={`${t(group.headingKey)} · ${inGroup.length}`}
+            subtitle={t(group.blurbKey)}
           >
             <ul className="space-y-3">
               {inGroup.map((rule) => (

@@ -91,13 +91,6 @@ export const RULE_TYPE_LABELS: Record<string, string> = {
   control: 'Control',
 }
 
-export const RULE_STATUS_LABELS: Record<string, string> = {
-  proposed: 'Proposed',
-  active: 'Active',
-  rejected: 'Rejected',
-  superseded: 'Superseded',
-}
-
 /**
  * A rule with no extraction confidence was typed by a person — the API sets it
  * NULL precisely because a human's sentence has no extraction score. Everything

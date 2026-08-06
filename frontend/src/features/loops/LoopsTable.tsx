@@ -8,6 +8,7 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import type { RunSummary } from '../../domain/types'
 import { humanise, timeAgo, truncate } from '../../lib/format'
 import { LoopStageTracker, LoopStatusBadge } from '../../components/loop'
@@ -27,6 +28,7 @@ export interface LoopsTableProps {
 }
 
 export function LoopsTable({ runs }: LoopsTableProps) {
+  const t = useT()
   return (
     <Table containerClassName="max-h-[70vh] overflow-y-auto">
       <TableHeader>
@@ -74,7 +76,7 @@ export function LoopsTable({ runs }: LoopsTableProps) {
             </TableCell>
 
             <TableCell className="whitespace-nowrap text-sm">
-              {stageLabel(run.current_stage)}
+              {stageLabel(run.current_stage, t)}
             </TableCell>
 
             <TableCell>

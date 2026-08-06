@@ -2843,6 +2843,209 @@ const en = {
     'Sandbox analyzers',
   'h.approval-items-naming-you':
     'Approval items naming you',
+
+  // --- wired from the parked work-list ------------------------------------
+  'p.a-chat-or-messaging-app':
+    'A chat or messaging app',
+  'p.a-reviewer-discarded-these-they-were':
+    'A reviewer discarded these. They were never in force.',
+  'p.an-analyst-reviewed-it-and-decided':
+    'An analyst reviewed it and decided no action was needed. Reporting it was still right.',
+  'p.an-analyst-took-it-forward-it':
+    'An analyst took it forward. It became a real threat record and started a loop.',
+  'p.an-employee-reported-this-and-an':
+    'An employee reported this and an analyst pushed it into the loop.',
+  'p.analyzers-reported-ready-by-the-sandbox':
+    'Analyzers reported ready by the sandbox',
+  'p.continue-with-microsoft':
+    'Continue with Microsoft',
+  'p.duration-not-measured':
+    'Duration not measured',
+  'p.dynamic-detonation-did-not-run':
+    'Dynamic detonation did not run',
+  'p.dynamic-detonation-ran':
+    'Dynamic detonation ran',
+  'p.employment-status-is-not-returned-by':
+    'Employment status is not returned by the employees endpoint, so no status column is shown.',
+  'p.endorsed-held-for-a-second-approver':
+    'Endorsed, held for a second approver',
+  'p.findings-that-matter-but-not-enough':
+    'Findings that matter, but not enough of them to call it malicious. An analyst decides.',
+  'p.lowers-the-risk-score':
+    'Lowers the risk score',
+  'p.nothing-found-reached-the-threshold-to':
+    'Nothing found reached the threshold to flag this sample.',
+  'p.nothing-is-checked-against-these-a':
+    'Nothing is checked against these. A machine may propose; only a person may activate, and activating writes a version snapshot.',
+  'p.open-findings-at-critical-or-high':
+    'Open findings at critical or high severity',
+  'p.proposed-awaiting-a-human':
+    'Proposed — awaiting a human',
+  'p.raises-the-risk-score':
+    'Raises the risk score',
+  'p.refused-by-the-firewall':
+    'Refused by the firewall',
+  'p.replaced-by-a-later-rule-kept':
+    'Replaced by a later rule. Kept so an older finding still resolves to what it cited.',
+  'p.reported-by-an-employee':
+    'Reported by an employee',
+  'p.runs-waiting-at-the-human-approval':
+    'Runs waiting at the human approval gate',
+  'p.single-signon-and-directory-sync-neither':
+    'Single sign-on and directory sync. Neither is wired here: this deployment authenticates against its own user table.',
+  'p.static-analysis-did-not-run':
+    'Static analysis did not run',
+  'p.submitted-by-an-analyst':
+    'Submitted by an analyst',
+  'p.submitted-directly-by-an-analyst-on':
+    'Submitted directly by an analyst on this screen.',
+  'p.take-me-to-my-training':
+    'Take me to my training',
+  'p.take-me-to-the-command-center':
+    'Take me to the Command Center',
+  'p.take-me-to-the-executive-view':
+    'Take me to the Executive View',
+  'p.taken-from-the-curated-intel-feed':
+    'Taken from the curated intel feed by an analyst.',
+  'p.the-evidence-is-sufficient-to-call':
+    'The evidence is sufficient to call this malicious. The findings behind it are listed below.',
+  'p.the-loop-stops-here-a-named':
+    'The loop stops here. A named analyst reads what was generated and decides before anything is targeted at a colleague. Nothing crosses this line on its own.',
+  'p.the-rules-this-organisation-is-actually':
+    'The rules this organisation is actually checked against today.',
+  'p.the-server-returned-a-full-page':
+    'The server returned a full page, so every count here is a floor.',
+  'p.waiting-for-a-decision':
+    'Waiting for a decision',
+  'p.waiting-for-an-analyst-to-read':
+    'Waiting for an analyst to read it.',
+  'p.where-approved-training-would-be-delivered':
+    'Where approved training would be delivered, and where completions would be read back so measurement is not taken on trust.',
+  'p.written-by-a-template':
+    'Written by a template',
+  'p.your-edits-are-written-to-the':
+    'Your edits are written to the module first, which marks it analyst-edited.',
+  'p.active':
+    'Active',
+  'p.no-rules-on-this-policy':
+    'No rules on this policy',
+  'p.proposed':
+    'Proposed',
+  'p.rejected':
+    'Rejected',
+  'p.superseded':
+    'Superseded',
+  'p.activate':
+    'Activate',
+  'p.location-in-the-document-was-not-recorded':
+    'Location in the document was not recorded',
+  'p.reject':
+    'Reject',
+  'p.reviewed-by-on':
+    'Reviewed by {who} on {when}',
+  'p.a-file-or-attachment':
+    'A file or attachment',
+  'p.a-link-or-website':
+    'A link or website',
+  'p.a-text-message':
+    'A text message',
+  'p.an-email':
+    'An email',
+  'p.analyst-submission':
+    'Analyst submission',
+  'p.any-author':
+    'Any author',
+  'p.approved':
+    'Approved',
+  'p.avg-over-n':
+    'avg {avg} · n={sample}',
+  'p.clicked-the-lure':
+    'Clicked the lure',
+  'p.comment':
+    'Comment',
+  'p.continue-with-google':
+    'Continue with Google',
+  'p.curated-feed':
+    'Curated feed',
+  'p.delivered':
+    'Delivered',
+  'p.every-plan':
+    'Every plan',
+  'p.human-approval-gate':
+    'Human approval gate',
+  'p.human-sensor':
+    'Human sensor',
+  'p.identity-providers':
+    'Identity providers',
+  'p.ignored-it':
+    'Ignored it',
+  'p.learning-platforms':
+    'Learning platforms',
+  'p.no-risk-movement':
+    'No risk movement',
+  'p.open-findings':
+    'open findings',
+  'p.open-findings-scanned':
+    'open findings scanned',
+  'p.people':
+    'people',
+  'p.person':
+    'person',
+  'p.reported-the-lure':
+    'Reported the lure',
+  'p.required':
+    'Required',
+  'p.revision-requested':
+    'Revision requested',
+  'p.runs-held-at':
+    'Runs held at {stage}',
+  'p.static-analysis-ran':
+    'Static analysis ran',
+  'p.threat-feed':
+    'Threat feed',
+  'p.written-by-a-model':
+    'Written by a model',
+  'p.continue-with-sso':
+    'Continue with SSO',
+  'p.source-not-recorded':
+    'Source not recorded',
+  'p.available':
+    'available',
+  'p.items-at-the-gate-in-total':
+    '{count} {noun} at the gate in total',
+  'p.not-available':
+    'not available',
+  'p.open-findings-at-all-severities':
+    '{count} open {noun} at all severities',
+  'p.unavailable-dynamic-detonation':
+    '{count} unavailable · dynamic detonation {state}',
+  'p.people-risk-scores-are-current':
+    '{count} {noun}. Risk scores are the engine’s current values. ',
+  'p.recent-movement-is-derived-from':
+    'Recent movement is derived from the {count} most recent risk events that could be attributed to a named person; it is not a full history.',
+
+  // --- the seven loop stages ----------------------------------------------
+  's.ingest.label': 'Intake',
+  's.ingest.hint': 'Human sensor, feed, API',
+  's.ingest.owner': 'Platform',
+  's.analyze.label': 'Analysis',
+  's.analyze.hint': 'Sandbox verdict and IOCs',
+  's.analyze.owner': 'Sandbox',
+  's.convert.label': 'Conversion',
+  's.convert.hint': 'Threat becomes safe training',
+  's.convert.owner': 'AI',
+  's.target.label': 'Targeting',
+  's.target.hint': 'The people actually at risk',
+  's.target.owner': 'Risk engine',
+  's.train.label': 'Training',
+  's.train.hint': 'Delivery and completion',
+  's.train.owner': 'Employee',
+  's.measure.label': 'Measurement',
+  's.measure.hint': 'Behaviour, not attendance',
+  's.measure.owner': 'Platform',
+  's.feedback.label': 'Feedback',
+  's.feedback.hint': 'Evidence updates the model',
+  's.feedback.owner': 'Risk engine',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -5639,6 +5842,208 @@ const az: Record<MessageKey, string> = {
     'Sandbox analizatorları',
   'h.approval-items-naming-you':
     'Adınızı çəkən təsdiq elementləri',
+
+  // --- wired from the parked work-list ------------------------------------
+  'p.a-chat-or-messaging-app':
+    'Söhbət və ya mesajlaşma tətbiqi',
+  'p.a-reviewer-discarded-these-they-were':
+    'Yoxlayan bunları rədd etdi. Onlar heç vaxt qüvvədə olmayıb.',
+  'p.an-analyst-reviewed-it-and-decided':
+    'Analitik onu nəzərdən keçirib və heç bir tədbirə ehtiyac olmadığı qərarına gəlib. Buna baxmayaraq, onu bildirmək düzgün addım olub.',
+  'p.an-analyst-took-it-forward-it':
+    'Analitik onu irəli apardı. O, real təhdid qeydinə çevrildi və dövrə axını başlatdı.',
+  'p.an-employee-reported-this-and-an':
+    'Bunu bir işçi bildirib, analitik isə dövrəyə ötürüb.',
+  'p.analyzers-reported-ready-by-the-sandbox':
+    'Sandbox tərəfindən hazır bildirilən analizatorlar',
+  'p.continue-with-microsoft':
+    'Microsoft ilə davam et',
+  'p.duration-not-measured':
+    'Müddət ölçülməyib',
+  'p.dynamic-detonation-did-not-run':
+    'Dinamik detonasiya işə düşmədi',
+  'p.dynamic-detonation-ran':
+    'Dinamik detonasiya icra olunub',
+  'p.employment-status-is-not-returned-by':
+    'İşçilər son nöqtəsi məşğulluq statusunu qaytarmır, ona görə də status sütunu göstərilmir.',
+  'p.endorsed-held-for-a-second-approver':
+    'Dəstəklənib, ikinci təsdiqləyən üçün saxlanılır',
+  'p.findings-that-matter-but-not-enough':
+    'Əhəmiyyətli tapıntılar var, lakin onu zərərli adlandırmaq üçün onların sayı kifayət etmir. Qərarı analitik verir.',
+  'p.lowers-the-risk-score':
+    'Risk balını aşağı salır',
+  'p.nothing-found-reached-the-threshold-to':
+    'Aşkarlananların heç biri bu nümunəni işarələmək üçün lazım olan həddə çatmadı.',
+  'p.nothing-is-checked-against-these-a':
+    'Bunların əsasında heç nə yoxlanılmır. Maşın təklif edə bilər; yalnız insan aktivləşdirə bilər və aktivləşdirmə versiyanın anlıq surətini yazır.',
+  'p.open-findings-at-critical-or-high':
+    'Kritik və ya yüksək ciddilikdə açıq tapıntılar',
+  'p.proposed-awaiting-a-human':
+    'Təklif edilib — insan qərarı gözlənilir',
+  'p.raises-the-risk-score':
+    'Risk balını qaldırır',
+  'p.refused-by-the-firewall':
+    'Firewall tərəfindən rədd edilib',
+  'p.replaced-by-a-later-rule-kept':
+    'Sonrakı qayda ilə əvəz olunub. Köhnə tapıntının istinad etdiyi qayda hələ də tapıla bilsin deyə saxlanılır.',
+  'p.reported-by-an-employee':
+    'İşçi tərəfindən bildirilib',
+  'p.runs-waiting-at-the-human-approval':
+    'İnsan təsdiq qapısında gözləyən axınlar',
+  'p.single-signon-and-directory-sync-neither':
+    'Vahid giriş və kataloq sinxronizasiyası. Heç biri burada qoşulmayıb: bu quraşdırma öz istifadəçi cədvəli üzərindən autentifikasiya aparır.',
+  'p.static-analysis-did-not-run':
+    'Statik təhlil işə düşmədi',
+  'p.submitted-by-an-analyst':
+    'Analitik tərəfindən təqdim edilib',
+  'p.submitted-directly-by-an-analyst-on':
+    'Bu ekranda analitik tərəfindən birbaşa göndərilib.',
+  'p.take-me-to-my-training':
+    'Məni təlimimə apar',
+  'p.take-me-to-the-command-center':
+    'Məni Komanda Mərkəzinə apar',
+  'p.take-me-to-the-executive-view':
+    'Məni Rəhbər Görünüşünə apar',
+  'p.taken-from-the-curated-intel-feed':
+    'Seçilmiş kəşfiyyat lentindən analitik tərəfindən götürülüb.',
+  'p.the-evidence-is-sufficient-to-call':
+    'Sübutlar bunu zərərli hesab etmək üçün kifayətdir. Buna əsas verən tapıntılar aşağıda sadalanıb.',
+  'p.the-loop-stops-here-a-named':
+    'Dövrə burada dayanır. Adı bəlli olan analitik yaradılan məzmunu oxuyur və hər hansı material həmkarına yönəldilməzdən əvvəl qərar verir. Bu xətti heç nə öz-özünə keçmir.',
+  'p.the-rules-this-organisation-is-actually':
+    'Bu təşkilatın bu gün həqiqətən yoxlanıldığı qaydalar.',
+  'p.the-server-returned-a-full-page':
+    'Server tam bir səhifə qaytardı, ona görə də buradakı hər say yalnız aşağı həddir.',
+  'p.waiting-for-a-decision':
+    'Qərar gözlənilir',
+  'p.waiting-for-an-analyst-to-read':
+    'Analitikin onu oxumasını gözləyir.',
+  'p.where-approved-training-would-be-delivered':
+    'Təsdiqlənmiş təlimin harada çatdırılacağı və tamamlamaların harada geri oxunacağı — ölçmə etibar üzərində qurulmasın deyə.',
+  'p.written-by-a-template':
+    'Şablonla yazılıb',
+  'p.your-edits-are-written-to-the':
+    'Redaktələriniz əvvəlcə modula yazılır və bu, onu analitik tərəfindən redaktə edilmiş kimi işarələyir.',
+  'p.active':
+    'Aktiv',
+  'p.no-rules-on-this-policy':
+    'Bu siyasətdə qayda yoxdur',
+  'p.proposed':
+    'Təklif olunub',
+  'p.rejected':
+    'Rədd edilib',
+  'p.superseded':
+    'Əvəzlənib',
+  'p.activate':
+    'Aktivləşdir',
+  'p.location-in-the-document-was-not-recorded':
+    'Sənəddəki yer qeyd edilməyib',
+  'p.reject':
+    'Rədd et',
+  'p.reviewed-by-on':
+    '{who} tərəfindən {when} tarixində baxılıb',
+  'p.a-file-or-attachment':
+    'Fayl və ya qoşma',
+  'p.a-link-or-website':
+    'Link və ya vebsayt',
+  'p.a-text-message':
+    'SMS mesajı',
+  'p.an-email':
+    'E-poçt',
+  'p.analyst-submission':
+    'Analitik göndərişi',
+  'p.any-author':
+    'İstənilən müəllif',
+  'p.approved':
+    'Təsdiqlənib',
+  'p.avg-over-n':
+    'orta {avg} · n={sample}',
+  'p.clicked-the-lure':
+    'Tələyə klikləyib',
+  'p.comment':
+    'Şərh',
+  'p.continue-with-google':
+    'Google ilə davam et',
+  'p.curated-feed':
+    'Seçilmiş lent',
+  'p.delivered':
+    'Çatdırılıb',
+  'p.every-plan':
+    'Bütün planlar',
+  'p.human-approval-gate':
+    'İnsan təsdiq qapısı',
+  'p.human-sensor':
+    'İnsan sensoru',
+  'p.identity-providers':
+    'Kimlik provayderləri',
+  'p.ignored-it':
+    'Məhəl qoymayıb',
+  'p.learning-platforms':
+    'Təlim platformaları',
+  'p.no-risk-movement':
+    'Risk dəyişmir',
+  'p.open-findings':
+    'açıq tapıntı',
+  'p.open-findings-scanned':
+    'skan edilmiş açıq tapıntı',
+  'p.people':
+    'nəfər',
+  'p.person':
+    'nəfər',
+  'p.reported-the-lure':
+    'Tələni bildirib',
+  'p.required':
+    'Məcburi',
+  'p.revision-requested':
+    'Düzəliş tələb olunub',
+  'p.runs-held-at':
+    '{stage} mərhələsində saxlanan axınlar',
+  'p.static-analysis-ran':
+    'Statik təhlil icra olunub',
+  'p.threat-feed':
+    'Təhdid lenti',
+  'p.written-by-a-model':
+    'Model tərəfindən yazılıb',
+  'p.continue-with-sso':
+    'SSO ilə davam et',
+  'p.source-not-recorded':
+    'Mənbə qeyd edilməyib',
+  'p.available':
+    'əlçatandır',
+  'p.items-at-the-gate-in-total':
+    'Ümumilikdə {count} element qapıdadır',
+  'p.not-available':
+    'əlçatan deyil',
+  'p.open-findings-at-all-severities':
+    'Bütün ciddilik səviyyələrində {count} açıq tapıntı',
+  'p.unavailable-dynamic-detonation':
+    '{count} əlçatmaz · dinamik detonasiya {state}',
+  'p.people-risk-scores-are-current':
+    '{count} {noun}. Risk balları mühərrikin cari dəyərləridir. ',
+  'p.recent-movement-is-derived-from':
+    'Son dəyişmə adı bəlli şəxsə aid edilə bilən ən son {count} risk hadisəsindən çıxarılıb; bu, tam tarixçə deyil.',
+
+  's.ingest.label': 'Qəbul',
+  's.ingest.hint': 'İnsan sensoru, lent, API',
+  's.ingest.owner': 'Platforma',
+  's.analyze.label': 'Təhlil',
+  's.analyze.hint': 'Sandbox qərarı və IOC-lar',
+  's.analyze.owner': 'Sandbox',
+  's.convert.label': 'Çevirmə',
+  's.convert.hint': 'Təhdid təhlükəsiz təlimə çevrilir',
+  's.convert.owner': 'Süni intellekt',
+  's.target.label': 'Hədəfləmə',
+  's.target.hint': 'Həqiqətən risk altında olan insanlar',
+  's.target.owner': 'Risk mühərriki',
+  's.train.label': 'Təlim',
+  's.train.hint': 'Çatdırılma və tamamlanma',
+  's.train.owner': 'İşçi',
+  's.measure.label': 'Ölçmə',
+  's.measure.hint': 'Davranış, iştirak deyil',
+  's.measure.owner': 'Platforma',
+  's.feedback.label': 'Geri əlaqə',
+  's.feedback.hint': 'Sübutlar modeli yeniləyir',
+  's.feedback.owner': 'Risk mühərriki',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

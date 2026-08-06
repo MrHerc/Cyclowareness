@@ -108,14 +108,14 @@ export function EmployeeTable({ rows, sort, direction, onSort, movementSample }:
   return (
     <Table containerClassName="max-h-[70vh]">
       <TableCaption>
-        {rows.length} {rows.length === 1 ? 'person' : 'people'}. Risk scores are the engine’s current
-        values.{' '}
-        {hasStatus
-          ? ''
-          : 'Employment status is not returned by the employees endpoint, so no status column is shown. '}
+        {t('p.people-risk-scores-are-current', {
+          count: rows.length,
+          noun: t(rows.length === 1 ? 'p.person' : 'p.people'),
+        })}
+        {hasStatus ? '' : t('p.employment-status-is-not-returned-by')}{' '}
         {movementSample === 0
           ? t('p.no-recent-risk-event-could-be')
-          : `Recent movement is derived from the ${movementSample} most recent risk events that could be attributed to a named person; it is not a full history.`}
+          : t('p.recent-movement-is-derived-from', { count: movementSample })}
       </TableCaption>
 
       <TableHeader>

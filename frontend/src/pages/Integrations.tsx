@@ -14,7 +14,7 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Link2, ShieldOff } from 'lucide-react'
-import { useLocale } from '../lib/i18n'
+import { useLocale, type MessageKey } from '../lib/i18n'
 import { DemoDataBadge } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard } from '../components/states'
 import { Badge, Panel, Select } from '../components/ui'
@@ -28,18 +28,16 @@ import { useIntegrations } from '../lib/api/queries'
 import { backingFor } from '../lib/demo/registry'
 import { humanise, num } from '../lib/format'
 
-const GROUPS: { key: 'learning' | 'identity'; title: string; blurb: string }[] = [
+const GROUPS: { key: 'learning' | 'identity'; title: MessageKey; blurb: MessageKey }[] = [
   {
     key: 'learning',
-    title: 'Learning platforms',
-    blurb:
-      'Where approved training would be delivered, and where completions would be read back so measurement is not taken on trust.',
+    title: 'p.learning-platforms',
+    blurb: 'p.where-approved-training-would-be-delivered',
   },
   {
     key: 'identity',
-    title: 'Identity providers',
-    blurb:
-      'Single sign-on and directory sync. Neither is wired here: this deployment authenticates against its own user table.',
+    title: 'p.identity-providers',
+    blurb: 'p.single-signon-and-directory-sync-neither',
   },
 ]
 
@@ -175,8 +173,8 @@ export default function Integrations() {
             return (
               <section key={group.key} className="space-y-4">
                 <div className="max-w-3xl">
-                  <h2 className="text-title text-fg">{group.title}</h2>
-                  <p className="mt-1 text-body text-fg-muted">{group.blurb}</p>
+                  <h2 className="text-title text-fg">{t(group.title)}</h2>
+                  <p className="mt-1 text-body text-fg-muted">{t(group.blurb)}</p>
                 </div>
                 <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
                   {members.map((integration) => (

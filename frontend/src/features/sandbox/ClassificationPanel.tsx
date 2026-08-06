@@ -13,7 +13,7 @@
  * there is none.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import type { SandboxVerdict } from '../../domain/types'
 import { Panel } from '../../components/ui'
 import { cn, humanise } from '../../lib/format'
@@ -28,12 +28,10 @@ const VERDICT_TONE: Record<string, string> = {
   clean: 'text-safe',
 }
 
-const VERDICT_SENTENCE: Record<string, string> = {
-  malicious:
-    'The evidence is sufficient to call this malicious. The findings behind it are listed below.',
-  suspicious:
-    'Findings that matter, but not enough of them to call it malicious. An analyst decides.',
-  clean: 'Nothing found reached the threshold to flag this sample.',
+const VERDICT_SENTENCE: Record<string, MessageKey> = {
+  malicious: 'p.the-evidence-is-sufficient-to-call',
+  suspicious: 'p.findings-that-matter-but-not-enough',
+  clean: 'p.nothing-found-reached-the-threshold-to',
 }
 
 function Fact({ label, value }: { label: string; value: string }) {
@@ -65,7 +63,7 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
             <p className="tech mt-2 break-all text-body text-fg">{answer.threat_name}</p>
           ) : null}
           <p className="mt-3 text-sm text-fg-muted">
-            {VERDICT_SENTENCE[answer.verdict] ?? t('p.the-engine-reached-this-classification')}
+            {t(VERDICT_SENTENCE[answer.verdict] ?? 'p.the-engine-reached-this-classification')}
           </p>
         </div>
 

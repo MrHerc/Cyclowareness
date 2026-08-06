@@ -21,7 +21,7 @@ import { ControlGapList } from '../features/remediation/ControlGapList'
 import { CoverageGapList } from '../features/remediation/CoverageGapList'
 import { PlanQueue } from '../features/remediation/PlanQueue'
 import { RemediationSummary } from '../features/remediation/RemediationSummary'
-import { useLocale } from '../lib/i18n'
+import { useLocale, type MessageKey } from '../lib/i18n'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
 import { Panel, Select } from '../components/ui'
 import {
@@ -32,12 +32,12 @@ import {
 } from '../lib/api/queries'
 
 const STATUS_OPTIONS = [
-  { value: 'all', label: 'Every plan' },
-  { value: 'proposed', label: 'Waiting for a decision' },
-  { value: 'approved', label: 'Approved' },
-  { value: 'rejected', label: 'Rejected' },
-  { value: 'blocked', label: 'Refused by the firewall' },
-  { value: 'delivered', label: 'Delivered' },
+  { value: 'all', label: 'p.every-plan' as MessageKey },
+  { value: 'proposed', label: 'p.waiting-for-a-decision' as MessageKey },
+  { value: 'approved', label: 'p.approved' as MessageKey },
+  { value: 'rejected', label: 'p.rejected' as MessageKey },
+  { value: 'blocked', label: 'p.refused-by-the-firewall' as MessageKey },
+  { value: 'delivered', label: 'p.delivered' as MessageKey },
 ]
 
 export default function Remediation() {
@@ -77,7 +77,7 @@ export default function Remediation() {
           <Select
             label="Status"
             labelHidden
-            options={STATUS_OPTIONS}
+            options={STATUS_OPTIONS.map((o) => ({ value: o.value, label: t(o.label) }))}
             value={status}
             onValueChange={setStatus}
             className="w-56"

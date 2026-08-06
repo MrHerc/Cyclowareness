@@ -51,7 +51,7 @@ export function RunHeader({ run, updatedAt }: RunHeaderProps) {
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
             <LoopStageTracker currentStage={run.current_stage} status={run.status} showLabel />
             <span className="text-sm text-fg-subtle">
-              Stage {run.current_stage} of 7 · {stageLabel(run.current_stage)}
+              Stage {run.current_stage} of 7 · {stageLabel(run.current_stage, t)}
             </span>
           </div>
         </div>

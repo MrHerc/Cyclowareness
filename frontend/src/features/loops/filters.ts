@@ -9,6 +9,7 @@
  */
 
 import { STAGES } from '../../domain/types'
+import type { TFunction } from '../../lib/i18n'
 import type { RunSummary } from '../../domain/types'
 
 export const STATUS_FILTERS = [
@@ -33,8 +34,10 @@ export function parseStage(value: string | null): number | null {
   return STAGES.some((s) => s.n === stage) ? stage : null
 }
 
-export function stageLabel(stage: number): string {
-  return STAGES.find((s) => s.n === stage)?.label ?? `Stage ${stage}`
+export function stageLabel(stage: number, t?: TFunction): string {
+  const found = STAGES.find((s) => s.n === stage)
+  if (!found) return `Stage ${stage}`
+  return t ? t(found.labelKey) : found.label
 }
 
 /**

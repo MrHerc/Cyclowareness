@@ -11,6 +11,7 @@
  */
 
 import type { ReactNode } from 'react'
+import { useT, type TFunction } from '../../lib/i18n'
 import { ShieldCheck } from 'lucide-react'
 import { cn, duration } from '../../lib/format'
 import { STAGE_ICONS } from './icons'
@@ -70,10 +71,10 @@ function countChips(counts: StageCounts): { text: string; tone: string }[] {
   return chips
 }
 
-function timingLine(timing: StageTiming): string {
+function timingLine(timing: StageTiming, t: TFunction): string {
   // `null` is "never measured". Rendering it as 0ms would invent a fact.
-  if (timing.avgMs === null) return 'Duration not measured'
-  return `avg ${duration(timing.avgMs)} · n=${timing.sample}`
+  if (timing.avgMs === null) return t('p.duration-not-measured')
+  return t('p.avg-over-n', { avg: duration(timing.avgMs), sample: timing.sample })
 }
 
 function waitLine(seconds: number | null): string {
@@ -85,6 +86,7 @@ function waitLine(seconds: number | null): string {
 
 /** A stage node, or the approval gate when `kind` is `'gate'`. */
 export function ClosedLoopStage(props: ClosedLoopStageProps) {
+  const t = useT()
   const { selected, onClick, className } = props
 
   let frameClass: string
@@ -128,11 +130,11 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
 
     frameClass = style.frame
     label = [
-      `Stage ${stage.n} of 7, ${stage.label}`,
-      `owned by ${stage.owner}`,
+      `Stage ${stage.n} of 7, ${t(stage.labelKey)}`,
+      `owned by ${t(stage.ownerKey)}`,
       occupancy,
       `${counts.completed} cleared`,
-      timingLine(timing),
+      timingLine(timing, t),
     ].join('. ')
 
     body = (
@@ -140,14 +142,14 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
         <span className="flex items-center gap-2" aria-hidden="true">
           <span className={cn('size-1.5 shrink-0 rounded-full', style.dot)} />
           <span className="tech text-fg-faint">{String(stage.n).padStart(2, '0')}</span>
-          <span className="label ml-auto truncate text-fg-faint">{stage.owner}</span>
+          <span className="label ml-auto truncate text-fg-faint">{t(stage.ownerKey)}</span>
         </span>
 
         <span className="flex items-center gap-2" aria-hidden="true">
           <Icon
             className={cn('size-4 shrink-0', state === 'idle' ? 'text-fg-faint' : 'text-fg-muted')}
           />
-          <span className="truncate text-sm font-semibold text-fg">{stage.label}</span>
+          <span className="truncate text-sm font-semibold text-fg">{t(stage.labelKey)}</span>
         </span>
 
         <span className="flex items-center gap-1.5 overflow-hidden" aria-hidden="true">
@@ -167,7 +169,7 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
         </span>
 
         <span className="truncate text-xs text-fg-subtle" aria-hidden="true">
-          {timingLine(timing)}
+          {timingLine(timing, t)}
         </span>
       </>
     )

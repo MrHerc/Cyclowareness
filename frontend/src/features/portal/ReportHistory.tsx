@@ -8,7 +8,7 @@
  * and still sitting in a queue.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Flag } from 'lucide-react'
 import { EmptyState } from '../../components/states'
 import { Accordion, AccordionItem, Badge, Panel } from '../../components/ui'
@@ -19,10 +19,10 @@ export interface ReportHistoryProps {
   reports: Report[]
 }
 
-const STATUS_COPY: Record<string, string> = {
-  new: 'Waiting for an analyst to read it.',
-  in_loop: 'An analyst took it forward. It became a real threat record and started a loop.',
-  dismissed: 'An analyst reviewed it and decided no action was needed. Reporting it was still right.',
+const STATUS_COPY: Record<string, MessageKey> = {
+  new: 'p.waiting-for-an-analyst-to-read',
+  in_loop: 'p.an-analyst-took-it-forward-it',
+  dismissed: 'p.an-analyst-reviewed-it-and-decided',
 }
 
 export function ReportHistory({ reports }: ReportHistoryProps) {
@@ -55,7 +55,7 @@ export function ReportHistory({ reports }: ReportHistoryProps) {
                 </p>
 
                 <p className="text-body text-fg-muted">
-                  {STATUS_COPY[report.status] ?? t('p.this-report-has-a-status-this')}
+                  {t(STATUS_COPY[report.status] ?? 'p.this-report-has-a-status-this')}
                 </p>
 
                 {report.note ? (

@@ -9,23 +9,27 @@
  * comment shown here can be relied on to be the comment that was recorded.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Check, MessageSquare, MessageSquareWarning, UserPlus, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Panel } from '../../components/ui'
 import { cn, formatDateTime, timeAgo } from '../../lib/format'
 import type { HistoryAction, HistoryEntry } from './contract'
 
-const ACTION: Record<HistoryAction, { icon: LucideIcon; tone: string; label: string }> = {
-  approve: { icon: Check, tone: 'text-safe border-safe/40', label: 'Approved' },
-  reject: { icon: X, tone: 'text-critical border-critical/40', label: 'Rejected' },
+const ACTION: Record<HistoryAction, { icon: LucideIcon; tone: string; label: MessageKey }> = {
+  approve: { icon: Check, tone: 'text-safe border-safe/40', label: 'p.approved' },
+  reject: { icon: X, tone: 'text-critical border-critical/40', label: 'p.rejected' },
   request_revision: {
     icon: MessageSquareWarning,
     tone: 'text-medium border-medium/40',
-    label: 'Revision requested',
+    label: 'p.revision-requested',
   },
-  endorse: { icon: UserPlus, tone: 'text-brand border-brand/40', label: 'Endorsed, held for a second approver' },
-  comment: { icon: MessageSquare, tone: 'text-fg-muted border-line', label: 'Comment' },
+  endorse: {
+    icon: UserPlus,
+    tone: 'text-brand border-brand/40',
+    label: 'p.endorsed-held-for-a-second-approver',
+  },
+  comment: { icon: MessageSquare, tone: 'text-fg-muted border-line', label: 'p.comment' },
 }
 
 export interface HistoryTimelineProps {
@@ -65,7 +69,7 @@ export function HistoryTimeline({ entries, loading }: HistoryTimelineProps) {
 
                 <div className="space-y-1">
                   <div className="flex flex-wrap items-baseline gap-x-2">
-                    <span className={cn('text-sm', spec.tone.split(' ')[0])}>{spec.label}</span>
+                    <span className={cn('text-sm', spec.tone.split(' ')[0])}>{t(spec.label)}</span>
                     <span className="text-sm text-fg">{entry.actor}</span>
                     {entry.actorRole && (
                       <span className="text-xs text-fg-faint">{entry.actorRole}</span>

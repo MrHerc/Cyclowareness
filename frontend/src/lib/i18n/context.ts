@@ -17,6 +17,10 @@ export const STORAGE_KEY = 'cyclowareness.locale'
  *  rate or a score — this layer must not decide that silently. */
 export type MessageValues = Record<string, string | number>
 
+/** The translator itself. Module-scope helpers cannot call `useT`, so they
+ *  take one of these as an argument instead. */
+export type TFunction = (key: MessageKey, values?: MessageValues) => string
+
 export interface LocaleContextValue {
   locale: Locale
   setLocale: (next: Locale) => void

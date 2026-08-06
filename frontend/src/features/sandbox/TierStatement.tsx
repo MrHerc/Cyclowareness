@@ -10,7 +10,7 @@
  * The `detail` string is the engine's own sentence and is rendered verbatim.
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { CircleSlash, ScanSearch } from 'lucide-react'
 import type { ScoreBreakdown } from '../../domain/types'
 import { Panel } from '../../components/ui'
@@ -21,14 +21,14 @@ export interface TierStatementProps {
   tiers: ScoreBreakdown['tiers']
 }
 
-const TIER_TITLES: Record<string, { ran: string; missing: string }> = {
+const TIER_TITLES: Record<string, { ran: MessageKey; missing: MessageKey }> = {
   static: {
-    ran: 'Static analysis ran',
-    missing: 'Static analysis did not run',
+    ran: 'p.static-analysis-ran',
+    missing: 'p.static-analysis-did-not-run',
   },
   dynamic: {
-    ran: 'Dynamic detonation ran',
-    missing: 'Dynamic detonation did not run',
+    ran: 'p.dynamic-detonation-ran',
+    missing: 'p.dynamic-detonation-did-not-run',
   },
 }
 
@@ -54,8 +54,8 @@ export function TierStatement({ tiers }: TierStatementProps) {
           const titles = TIER_TITLES[name]
           const heading = titles
             ? tier.ran
-              ? titles.ran
-              : titles.missing
+              ? t(titles.ran)
+              : t(titles.missing)
             : `${humanise(name)} ${tier.ran ? 'ran' : 'did not run'}`
           const gaps = Object.entries(tier.unavailable_analyzers ?? {})
 

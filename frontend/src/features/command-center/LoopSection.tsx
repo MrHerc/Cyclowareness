@@ -12,10 +12,9 @@
  * three rows. Any other arrangement drifts.
  */
 
-import type { MessageKey } from '../../lib/i18n'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { useT } from '../../lib/i18n'
+import { useT, type TFunction } from '../../lib/i18n'
 import { ClosedLoopFlow, LoopStatusBadge, summariseRuns } from '../../components/loop'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../../components/states'
 import {
@@ -41,16 +40,18 @@ export interface LoopSectionProps {
   onRetry: () => void
 }
 
-function stageLabel(stage: number): string {
-  return STAGES.find((entry) => entry.n === stage)?.label ?? `Stage ${stage}`
+function stageLabel(stage: number, t?: TFunction): string {
+  const found = STAGES.find((entry) => entry.n === stage)
+  if (!found) return `Stage ${stage}`
+  return t ? t(found.labelKey) : found.label
 }
 
 /** Takes the translator rather than reaching for one: this is a module-level
  *  helper, and a hook cannot be called outside a component. */
-function selectionLabel(selected: RunPosition, t: (key: MessageKey) => string): string {
+function selectionLabel(selected: RunPosition, t: TFunction): string {
   if (selected === null) return t('w.every-active-and-recently-closed')
-  if (selected === 'gate') return 'Runs waiting at the human approval gate'
-  return `Runs held at ${stageLabel(selected)}`
+  if (selected === 'gate') return t('p.runs-waiting-at-the-human-approval')
+  return t('p.runs-held-at', { stage: stageLabel(selected, t) })
 }
 
 export function LoopSection({

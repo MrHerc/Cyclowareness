@@ -13,7 +13,7 @@
  * Both ways out are on screen the whole time, so there is nothing to trap.
  */
 
-import { useT } from '../lib/i18n'
+import { useT, type MessageKey } from '../lib/i18n'
 import { ArrowRight, RefreshCw } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,10 +25,10 @@ import { useAuth } from '../lib/auth/useAuth'
 import { homeFor, ROLE_LABEL } from '../lib/auth/permissions'
 import { PRODUCT_NAME } from '../lib/demo/registry'
 
-const HOME_LABEL: Record<string, string> = {
-  analyst: 'Take me to the Command Center',
-  executive: 'Take me to the Executive View',
-  employee: 'Take me to my training',
+const HOME_LABEL: Record<string, MessageKey> = {
+  analyst: 'p.take-me-to-the-command-center',
+  executive: 'p.take-me-to-the-executive-view',
+  employee: 'p.take-me-to-my-training',
 }
 
 export default function Onboarding() {
@@ -105,7 +105,7 @@ export default function Onboarding() {
           onClick={leave}
           icon={<ArrowRight className="size-4" aria-hidden="true" />}
         >
-          {(role && HOME_LABEL[role]) ?? t('p.take-me-to-my-home-screen')}
+          {t((role && HOME_LABEL[role]) ?? 'p.take-me-to-my-home-screen')}
         </Button>
       </footer>
     </div>

@@ -92,7 +92,7 @@ export function DecisionPanel({
     title: kind === 'approve' ? 'Approve this content' : t('p.save-edits-and-approve'),
     description:
       (kind === 'approve_with_edits'
-        ? 'Your edits are written to the module first, which marks it analyst-edited. '
+        ? t('p.your-edits-are-written-to-the')
         : '') +
       audienceSentence +
       (failedChecks > 0

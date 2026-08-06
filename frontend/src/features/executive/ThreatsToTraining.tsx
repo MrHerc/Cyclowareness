@@ -13,7 +13,7 @@
  * would read as "no threats drove training".
  */
 
-import { useT } from '../../lib/i18n'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { ShieldCheck } from 'lucide-react'
 import { LoopOutcomeChart } from '../../components/charts'
 import { HonestMetric } from '../../components/data'
@@ -24,10 +24,10 @@ import { humanise, timeAgo } from '../../lib/format'
 import { loopOutcomes, trainingDrivers } from './derive'
 import { RestrictedNote } from './ExecutiveSection'
 
-const SOURCE_LABELS: Record<string, string> = {
-  human_sensor: 'Reported by an employee',
-  feed: 'Threat feed',
-  manual: 'Submitted by an analyst',
+const SOURCE_LABELS: Record<string, MessageKey> = {
+  human_sensor: 'p.reported-by-an-employee',
+  feed: 'p.threat-feed',
+  manual: 'p.submitted-by-an-analyst',
 }
 
 export interface ThreatsToTrainingProps {
@@ -41,12 +41,13 @@ export interface ThreatsToTrainingProps {
 }
 
 function DriverRow({ run }: { run: RunSummary }) {
+  const t = useT()
   return (
     <li className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 border-b border-line-subtle py-3 last:border-b-0">
       <div className="min-w-0 flex-1">
         <p className="truncate text-body text-fg">{run.threat_title}</p>
         <p className="mt-0.5 text-xs text-fg-subtle">
-          {SOURCE_LABELS[run.source ?? ''] ?? 'Source not recorded'}
+          {t(SOURCE_LABELS[run.source ?? ''] ?? 'p.source-not-recorded')}
           {run.threat_type ? ` · ${humanise(run.threat_type)}` : ''} · {timeAgo(run.created_at)}
         </p>
       </div>

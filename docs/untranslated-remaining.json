@@ -1,0 +1,2792 @@
+[
+ {
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 65,
+  "kind": "PROP",
+  "text": "Behaviour over time"
+ },
+ {
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 76,
+  "kind": "PROP",
+  "text": "Phishing click rate and threat report rate per day. Days without resolved simulation outcomes are omitted rather than interpolated."
+ },
+ {
+  "file": "components/charts/ChartTooltip.tsx",
+  "line": 47,
+  "kind": "JSX",
+  "text": "Not measured"
+ },
+ {
+  "file": "components/charts/CompletionTrendChart.tsx",
+  "line": 60,
+  "kind": "PROP",
+  "text": "Training completion"
+ },
+ {
+  "file": "components/charts/CompletionTrendChart.tsx",
+  "line": 72,
+  "kind": "PROP",
+  "text": "Share of assigned training completed, per day. Days with no assignments due are omitted rather than counted as zero."
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 58,
+  "kind": "PROP",
+  "text": "Risk by department"
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 59,
+  "kind": "PROP",
+  "text": "Average risk score, 0–100 · worst first"
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 72,
+  "kind": "PROP",
+  "text": "Average risk score per department, with headcount and the number of high-risk people in each."
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "Loop outcomes"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "Loop outcomes"
+ },
+ {
+  "file": "components/charts/RiskMovementChart.tsx",
+  "line": 68,
+  "kind": "PROP",
+  "text": "Risk movement by department"
+ },
+ {
+  "file": "components/charts/RiskTrendChart.tsx",
+  "line": 82,
+  "kind": "PROP",
+  "text": "Risk over time"
+ },
+ {
+  "file": "components/data/ConfidenceBadge.tsx",
+  "line": 36,
+  "kind": "JSX",
+  "text": "Confidence not stated"
+ },
+ {
+  "file": "components/data/DemoDataBadge.tsx",
+  "line": 39,
+  "kind": "JSX",
+  "text": "Demo data"
+ },
+ {
+  "file": "components/data/SampleSizeLabel.tsx",
+  "line": 30,
+  "kind": "JSX",
+  "text": "Sample size not recorded"
+ },
+ {
+  "file": "components/loop/ClosedLoopFlow.tsx",
+  "line": 182,
+  "kind": "JSX",
+  "text": "Back to intake"
+ },
+ {
+  "file": "components/loop/ClosedLoopStage.tsx",
+  "line": 107,
+  "kind": "JSX",
+  "text": "Approval gate"
+ },
+ {
+  "file": "components/loop/ClosedLoopStage.tsx",
+  "line": 110,
+  "kind": "JSX",
+  "text": "Human decision required"
+ },
+ {
+  "file": "components/loop/ClosedLoopStage.tsx",
+  "line": 157,
+  "kind": "JSX",
+  "text": "No runs here"
+ },
+ {
+  "file": "components/shell/AppShell.tsx",
+  "line": 156,
+  "kind": "PROP",
+  "text": "Every screen your role can open."
+ },
+ {
+  "file": "components/shell/CommandPalette.tsx",
+  "line": 162,
+  "kind": "JSX",
+  "text": "Command palette"
+ },
+ {
+  "file": "components/shell/CommandPalette.tsx",
+  "line": 182,
+  "kind": "JSX",
+  "text": "Nothing matches. The palette only lists screens your role can open."
+ },
+ {
+  "file": "components/shell/CommandPalette.tsx",
+  "line": 284,
+  "kind": "PROP",
+  "text": "Reset the demonstration world"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 62,
+  "kind": "JSX",
+  "text": "Command palette"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 67,
+  "kind": "JSX",
+  "text": "Keyboard shortcuts"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 74,
+  "kind": "JSX",
+  "text": "About this deployment"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Keyboard shortcuts"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "Everything in the shell is reachable without a pointer."
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 123,
+  "kind": "PROP",
+  "text": "About this deployment"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 124,
+  "kind": "PROP",
+  "text": "Read from the running server, not from the build."
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 130,
+  "kind": "PROP",
+  "text": "API origin"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 168,
+  "kind": "PROP",
+  "text": "YARA rules"
+ },
+ {
+  "file": "components/shell/LoopStatusPill.tsx",
+  "line": 72,
+  "kind": "JSX",
+  "text": "Open Closed Loops for the full picture."
+ },
+ {
+  "file": "components/shell/NotificationsMenu.tsx",
+  "line": 63,
+  "kind": "JSX",
+  "text": "Waiting for you"
+ },
+ {
+  "file": "components/shell/NotificationsMenu.tsx",
+  "line": 77,
+  "kind": "JSX",
+  "text": "Waiting at the approval gate"
+ },
+ {
+  "file": "components/shell/NotificationsMenu.tsx",
+  "line": 83,
+  "kind": "JSX",
+  "text": "New reports to triage"
+ },
+ {
+  "file": "components/shell/PageFallback.tsx",
+  "line": 15,
+  "kind": "JSX",
+  "text": "Loading this screen"
+ },
+ {
+  "file": "components/shell/RoleSwitcher.tsx",
+  "line": 92,
+  "kind": "JSX",
+  "text": "Seeded demonstration accounts"
+ },
+ {
+  "file": "components/states/ErrorBoundary.tsx",
+  "line": 69,
+  "kind": "JSX",
+  "text": "Reload the page"
+ },
+ {
+  "file": "components/states/ErrorBoundary.tsx",
+  "line": 119,
+  "kind": "JSX",
+  "text": "Go back"
+ },
+ {
+  "file": "features/approvals/AudiencePanel.tsx",
+  "line": 97,
+  "kind": "JSX",
+  "text": "No score"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 147,
+  "kind": "JSX",
+  "text": "Approve with edits"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 169,
+  "kind": "JSX",
+  "text": "Require a second approval"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 187,
+  "kind": "JSX",
+  "text": "Request revision"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 252,
+  "kind": "JSX",
+  "text": "Save draft"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 256,
+  "kind": "JSX",
+  "text": "Discard draft"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 274,
+  "kind": "JSX",
+  "text": "Escalation is not available."
+ },
+ {
+  "file": "features/approvals/ModuleEditor.tsx",
+  "line": 80,
+  "kind": "JSX",
+  "text": "Discard changes"
+ },
+ {
+  "file": "features/approvals/ModuleEditor.tsx",
+  "line": 83,
+  "kind": "JSX",
+  "text": "Save content"
+ },
+ {
+  "file": "features/approvals/ModuleEditor.tsx",
+  "line": 193,
+  "kind": "PROP",
+  "text": "Take away"
+ },
+ {
+  "file": "features/approvals/QueueTable.tsx",
+  "line": 61,
+  "kind": "JSX",
+  "text": "Not derived"
+ },
+ {
+  "file": "features/approvals/QueueTable.tsx",
+  "line": 84,
+  "kind": "JSX",
+  "text": "Generated training"
+ },
+ {
+  "file": "features/approvals/QueueTable.tsx",
+  "line": 89,
+  "kind": "JSX",
+  "text": "Open review"
+ },
+ {
+  "file": "features/approvals/QueueTable.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Held for a second approver"
+ },
+ {
+  "file": "features/approvals/QueueTable.tsx",
+  "line": 174,
+  "kind": "JSX",
+  "text": "Not reported"
+ },
+ {
+  "file": "features/approvals/SafetyPanel.tsx",
+  "line": 115,
+  "kind": "JSX",
+  "text": "Held for a second approver"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 66,
+  "kind": "JSX",
+  "text": "Reported by"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Sandbox verdict"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 138,
+  "kind": "JSX",
+  "text": "Open the full sandbox report"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 171,
+  "kind": "JSX",
+  "text": "Observed behaviour"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 213,
+  "kind": "JSX",
+  "text": "Threat record"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 224,
+  "kind": "JSX",
+  "text": "Analyser conclusion"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 244,
+  "kind": "JSX",
+  "text": "Artifact, as received"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 264,
+  "kind": "JSX",
+  "text": "Headers and attachment metadata"
+ },
+ {
+  "file": "features/approvals/ThreatPanel.tsx",
+  "line": 275,
+  "kind": "JSX",
+  "text": "MITRE ATT&amp;CK"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 75,
+  "kind": "JSX",
+  "text": "Take away"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 121,
+  "kind": "JSX",
+  "text": "Correct answer"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 157,
+  "kind": "JSX",
+  "text": "What they are left with"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 232,
+  "kind": "JSX",
+  "text": "Edit content"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 251,
+  "kind": "JSX",
+  "text": "Unsaved edits shown"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 262,
+  "kind": "JSX",
+  "text": "Quiz and answer key"
+ },
+ {
+  "file": "features/approvals/TrainingPreview.tsx",
+  "line": 263,
+  "kind": "JSX",
+  "text": "Completion screen"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 109,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 115,
+  "kind": "JSX",
+  "text": "An action matches exactly or as a dotted prefix, so"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 81,
+  "kind": "PROP",
+  "text": "Object type"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 88,
+  "kind": "PROP",
+  "text": "Page size"
+ },
+ {
+  "file": "features/audit/AuditTable.tsx",
+  "line": 96,
+  "kind": "JSX",
+  "text": "No object"
+ },
+ {
+  "file": "features/auth/LoopSignature.tsx",
+  "line": 122,
+  "kind": "JSX",
+  "text": "Real threat"
+ },
+ {
+  "file": "features/auth/LoopSignature.tsx",
+  "line": 241,
+  "kind": "JSX",
+  "text": "Seven stages, one human gate"
+ },
+ {
+  "file": "features/auth/SignInForm.tsx",
+  "line": 130,
+  "kind": "JSX",
+  "text": "Forgot password"
+ },
+ {
+  "file": "features/auth/SignInForm.tsx",
+  "line": 135,
+  "kind": "JSX",
+  "text": "Sign in"
+ },
+ {
+  "file": "features/auth/SignInForm.tsx",
+  "line": 102,
+  "kind": "PROP",
+  "text": "Work email"
+ },
+ {
+  "file": "features/command-center/AnalystActivityPanel.tsx",
+  "line": 39,
+  "kind": "JSX",
+  "text": "Full audit log"
+ },
+ {
+  "file": "features/command-center/AnalystActivityPanel.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "Nothing has been changed yet"
+ },
+ {
+  "file": "features/command-center/ApprovalQueuePanel.tsx",
+  "line": 161,
+  "kind": "JSX",
+  "text": "Sanitisation not recorded"
+ },
+ {
+  "file": "features/command-center/ApprovalQueuePanel.tsx",
+  "line": 199,
+  "kind": "JSX",
+  "text": "Your role can read this queue but cannot decide on it."
+ },
+ {
+  "file": "features/command-center/ApprovalQueuePanel.tsx",
+  "line": 344,
+  "kind": "PROP",
+  "text": "Items appear here when a loop run finishes conversion and needs a person to release it into targeting."
+ },
+ {
+  "file": "features/command-center/ApprovalQueuePanel.tsx",
+  "line": 356,
+  "kind": "PROP",
+  "text": "Items appear here once an analyst is named on them. Unassigned work stays in the whole queue."
+ },
+ {
+  "file": "features/command-center/IncidentRiskPanel.tsx",
+  "line": 47,
+  "kind": "JSX",
+  "text": "All incident risks"
+ },
+ {
+  "file": "features/command-center/IncidentRiskPanel.tsx",
+  "line": 61,
+  "kind": "PROP",
+  "text": "Nothing is open"
+ },
+ {
+  "file": "features/command-center/IntegrationHealthPanel.tsx",
+  "line": 48,
+  "kind": "JSX",
+  "text": "RANK[integration.status]"
+ },
+ {
+  "file": "features/command-center/IntegrationHealthPanel.tsx",
+  "line": 81,
+  "kind": "JSX",
+  "text": "Open integrations"
+ },
+ {
+  "file": "features/command-center/IntegrationHealthPanel.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "No provider is connected"
+ },
+ {
+  "file": "features/command-center/LoopSection.tsx",
+  "line": 75,
+  "kind": "JSX",
+  "text": "Clear stage filter"
+ },
+ {
+  "file": "features/command-center/LoopSection.tsx",
+  "line": 123,
+  "kind": "JSX",
+  "text": "Open threat intake"
+ },
+ {
+  "file": "features/command-center/LoopSection.tsx",
+  "line": 126,
+  "kind": "JSX",
+  "text": "Clear stage filter"
+ },
+ {
+  "file": "features/command-center/LoopSection.tsx",
+  "line": 114,
+  "kind": "PROP",
+  "text": "No runs here"
+ },
+ {
+  "file": "features/command-center/MeasuredOutcomes.tsx",
+  "line": 108,
+  "kind": "PROP",
+  "text": "Report rate"
+ },
+ {
+  "file": "features/command-center/PolicyExposurePanel.tsx",
+  "line": 62,
+  "kind": "JSX",
+  "text": "No open findings."
+ },
+ {
+  "file": "features/command-center/PolicyExposurePanel.tsx",
+  "line": 88,
+  "kind": "JSX",
+  "text": "Open the findings register"
+ },
+ {
+  "file": "features/command-center/SimulationsPanel.tsx",
+  "line": 47,
+  "kind": "JSX",
+  "text": "All simulations"
+ },
+ {
+  "file": "features/command-center/SimulationsPanel.tsx",
+  "line": 65,
+  "kind": "JSX",
+  "text": "Open simulations"
+ },
+ {
+  "file": "features/command-center/SimulationsPanel.tsx",
+  "line": 61,
+  "kind": "PROP",
+  "text": "No campaign is running"
+ },
+ {
+  "file": "features/command-center/ThreatIntakePanel.tsx",
+  "line": 41,
+  "kind": "JSX",
+  "text": "All threats"
+ },
+ {
+  "file": "features/command-center/ThreatIntakePanel.tsx",
+  "line": 84,
+  "kind": "JSX",
+  "text": "Not yet analysed"
+ },
+ {
+  "file": "features/command-center/ThreatIntakePanel.tsx",
+  "line": 55,
+  "kind": "PROP",
+  "text": "Nothing has been submitted"
+ },
+ {
+  "file": "features/executive/DepartmentStandingPanels.tsx",
+  "line": 67,
+  "kind": "PROP",
+  "text": "No department has a scored population"
+ },
+ {
+  "file": "features/executive/PostureMetrics.tsx",
+  "line": 39,
+  "kind": "PROP",
+  "text": "Click rate"
+ },
+ {
+  "file": "features/executive/ThreatsToTraining.tsx",
+  "line": 138,
+  "kind": "PROP",
+  "text": "No threat has reached targeting yet"
+ },
+ {
+  "file": "features/executive/UnresolvedRisks.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "Open high-risk findings"
+ },
+ {
+  "file": "features/executive/UnresolvedRisks.tsx",
+  "line": 114,
+  "kind": "PROP",
+  "text": "Policy exposure"
+ },
+ {
+  "file": "features/executive/UnresolvedRisks.tsx",
+  "line": 142,
+  "kind": "PROP",
+  "text": "Incident remediation completion"
+ },
+ {
+  "file": "features/incident-risks/AssignWorkDialog.tsx",
+  "line": 155,
+  "kind": "JSX",
+  "text": "Go to training"
+ },
+ {
+  "file": "features/incident-risks/AssignWorkDialog.tsx",
+  "line": 190,
+  "kind": "JSX",
+  "text": "Who to assign"
+ },
+ {
+  "file": "features/incident-risks/AssignWorkDialog.tsx",
+  "line": 151,
+  "kind": "PROP",
+  "text": "No approved module to assign"
+ },
+ {
+  "file": "features/incident-risks/ClosureDialogs.tsx",
+  "line": 81,
+  "kind": "JSX",
+  "text": "Close the risk"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 159,
+  "kind": "JSX",
+  "text": "Open risk"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 295,
+  "kind": "JSX",
+  "text": "What discharges this risk"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 196,
+  "kind": "PROP",
+  "text": "Risk type"
+ },
+ {
+  "file": "features/incident-risks/EmployeePicker.tsx",
+  "line": 124,
+  "kind": "JSX",
+  "text": "Loading the employee directory"
+ },
+ {
+  "file": "features/incident-risks/EmployeePicker.tsx",
+  "line": 167,
+  "kind": "JSX",
+  "text": "Already attached"
+ },
+ {
+  "file": "features/incident-risks/EmployeeViewPanel.tsx",
+  "line": 71,
+  "kind": "JSX",
+  "text": "What happened"
+ },
+ {
+  "file": "features/incident-risks/EmployeeViewPanel.tsx",
+  "line": 88,
+  "kind": "JSX",
+  "text": "What you must do"
+ },
+ {
+  "file": "features/incident-risks/EmployeeViewPanel.tsx",
+  "line": 101,
+  "kind": "JSX",
+  "text": "By when"
+ },
+ {
+  "file": "features/incident-risks/EmployeeViewPanel.tsx",
+  "line": 108,
+  "kind": "JSX",
+  "text": "No deadline was set."
+ },
+ {
+  "file": "features/incident-risks/EmployeeViewPanel.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Withheld at this classification. Incident evidence routinely names other people."
+ },
+ {
+  "file": "features/incident-risks/EvidenceRowsField.tsx",
+  "line": 80,
+  "kind": "JSX",
+  "text": "Add evidence row"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 79,
+  "kind": "PROP",
+  "text": "Risk type"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskTable.tsx",
+  "line": 72,
+  "kind": "JSX",
+  "text": "No incident reference"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskTable.tsx",
+  "line": 111,
+  "kind": "JSX",
+  "text": "No deadline"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskTable.tsx",
+  "line": 97,
+  "kind": "PROP",
+  "text": "Not listed"
+ },
+ {
+  "file": "features/incident-risks/ReviewSubjectDialog.tsx",
+  "line": 98,
+  "kind": "JSX",
+  "text": "Record decision"
+ },
+ {
+  "file": "features/incident-risks/RiskAuditPanel.tsx",
+  "line": 54,
+  "kind": "PROP",
+  "text": "No audit entry for this risk"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 53,
+  "kind": "JSX",
+  "text": "No incident reference"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 115,
+  "kind": "JSX",
+  "text": "Assign required work"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 71,
+  "kind": "PROP",
+  "text": "Risk type"
+ },
+ {
+  "file": "features/incident-risks/RiskImpactPanel.tsx",
+  "line": 74,
+  "kind": "PROP",
+  "text": "Not started"
+ },
+ {
+  "file": "features/incident-risks/RiskTimelinePanel.tsx",
+  "line": 38,
+  "kind": "PROP",
+  "text": "Nothing has happened yet"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 67,
+  "kind": "JSX",
+  "text": "Attach people"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 82,
+  "kind": "JSX",
+  "text": "Attach people"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 98,
+  "kind": "JSX",
+  "text": "Reviewer decision"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 124,
+  "kind": "JSX",
+  "text": "Nothing assigned"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 155,
+  "kind": "JSX",
+  "text": "Not completed"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Nobody is attached yet"
+ },
+ {
+  "file": "features/incident-risks/SubjectsPanel.tsx",
+  "line": 142,
+  "kind": "PROP",
+  "text": "No score"
+ },
+ {
+  "file": "features/integrations/ConfigureDialog.tsx",
+  "line": 92,
+  "kind": "JSX",
+  "text": "Save configuration"
+ },
+ {
+  "file": "features/integrations/ConfigureDialog.tsx",
+  "line": 130,
+  "kind": "JSX",
+  "text": "Saving moves this connection to"
+ },
+ {
+  "file": "features/integrations/ConfigureDialog.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "Base URL"
+ },
+ {
+  "file": "features/integrations/CoursesDrawer.tsx",
+  "line": 143,
+  "kind": "JSX",
+  "text": "Duration not recorded"
+ },
+ {
+  "file": "features/integrations/CoursesDrawer.tsx",
+  "line": 162,
+  "kind": "JSX",
+  "text": "Not mapped to any behaviour — targeting will never select it."
+ },
+ {
+  "file": "features/integrations/CoursesDrawer.tsx",
+  "line": 170,
+  "kind": "JSX",
+  "text": "Edit mapping"
+ },
+ {
+  "file": "features/integrations/DisableDialog.tsx",
+  "line": 70,
+  "kind": "JSX",
+  "text": "Disable connection"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 122,
+  "kind": "JSX",
+  "text": "Withheld — this key is credential-shaped and is never displayed"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 200,
+  "kind": "JSX",
+  "text": "Sync now"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 205,
+  "kind": "JSX",
+  "text": "Already disabled"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 140,
+  "kind": "PROP",
+  "text": "Last sync"
+ },
+ {
+  "file": "features/integrations/MapCourseDialog.tsx",
+  "line": 119,
+  "kind": "JSX",
+  "text": "Behaviours in use in this catalogue"
+ },
+ {
+  "file": "features/intel/AssessDialog.tsx",
+  "line": 72,
+  "kind": "JSX",
+  "text": "Record assessment"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 106,
+  "kind": "JSX",
+  "text": "Raise finding"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 162,
+  "kind": "PROP",
+  "text": "Due date"
+ },
+ {
+  "file": "features/intel/IntelActions.tsx",
+  "line": 109,
+  "kind": "JSX",
+  "text": "Raise a policy finding"
+ },
+ {
+  "file": "features/intel/IntelActions.tsx",
+  "line": 63,
+  "kind": "PROP",
+  "text": "Should training or a finding be created?"
+ },
+ {
+  "file": "features/intel/IntelActions.tsx",
+  "line": 129,
+  "kind": "PROP",
+  "text": "Training is not created from an advisory"
+ },
+ {
+  "file": "features/intel/IntelActions.tsx",
+  "line": 136,
+  "kind": "PROP",
+  "text": "A closed loop starts from an artifact"
+ },
+ {
+  "file": "features/intel/IntelFeedTable.tsx",
+  "line": 75,
+  "kind": "JSX",
+  "text": "No external id"
+ },
+ {
+  "file": "features/intel/IntelFeedTable.tsx",
+  "line": 104,
+  "kind": "PROP",
+  "text": "Not scored"
+ },
+ {
+  "file": "features/intel/IntelFeedTable.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "Not counted"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 108,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 84,
+  "kind": "JSX",
+  "text": "Machine-derived"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 180,
+  "kind": "JSX",
+  "text": "Open the policy library"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 220,
+  "kind": "JSX",
+  "text": "Open department risk"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 75,
+  "kind": "PROP",
+  "text": "Why does this matter to this organisation?"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Nothing of ours matched this advisory."
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "Which approved technologies are affected?"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 120,
+  "kind": "PROP",
+  "text": "No approved technology was matched."
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 161,
+  "kind": "PROP",
+  "text": "Which policy is affected?"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 164,
+  "kind": "PROP",
+  "text": "No policy rule was matched."
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 187,
+  "kind": "PROP",
+  "text": "Which users or departments are exposed?"
+ },
+ {
+  "file": "features/intel/IntelMatchAnswers.tsx",
+  "line": 190,
+  "kind": "PROP",
+  "text": "No department or person was named."
+ },
+ {
+  "file": "features/intel/IntelSourceCoverage.tsx",
+  "line": 131,
+  "kind": "JSX",
+  "text": "Check sources now"
+ },
+ {
+  "file": "features/intel/IntelViewCounts.tsx",
+  "line": 48,
+  "kind": "PROP",
+  "text": "Shown here"
+ },
+ {
+  "file": "features/loops/detail/ApprovalGatePanel.tsx",
+  "line": 98,
+  "kind": "JSX",
+  "text": "The module"
+ },
+ {
+  "file": "features/loops/detail/ApprovalGatePanel.tsx",
+  "line": 116,
+  "kind": "JSX",
+  "text": "Open the full review"
+ },
+ {
+  "file": "features/loops/detail/ApprovalGatePanel.tsx",
+  "line": 124,
+  "kind": "JSX",
+  "text": "Approve and release"
+ },
+ {
+  "file": "features/loops/detail/ApprovalGatePanel.tsx",
+  "line": 153,
+  "kind": "JSX",
+  "text": "Open the review workspace"
+ },
+ {
+  "file": "features/loops/detail/ApprovalGatePanel.tsx",
+  "line": 171,
+  "kind": "JSX",
+  "text": "Approval gate"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 64,
+  "kind": "JSX",
+  "text": "Open in the training studio"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 87,
+  "kind": "JSX",
+  "text": "Chain of custody"
+ },
+ {
+  "file": "features/loops/detail/MeasurementPanel.tsx",
+  "line": 137,
+  "kind": "JSX",
+  "text": "Risk change"
+ },
+ {
+  "file": "features/loops/detail/MeasurementPanel.tsx",
+  "line": 138,
+  "kind": "JSX",
+  "text": "Risk now"
+ },
+ {
+  "file": "features/loops/detail/MeasurementPanel.tsx",
+  "line": 200,
+  "kind": "JSX",
+  "text": "Average risk today"
+ },
+ {
+  "file": "features/loops/detail/MeasurementPanel.tsx",
+  "line": 202,
+  "kind": "JSX",
+  "text": "High risk"
+ },
+ {
+  "file": "features/loops/detail/RunAuditStrip.tsx",
+  "line": 49,
+  "kind": "JSX",
+  "text": "Open the audit log"
+ },
+ {
+  "file": "features/loops/detail/RunAuditStrip.tsx",
+  "line": 75,
+  "kind": "PROP",
+  "text": "No audit entries for this run"
+ },
+ {
+  "file": "features/loops/detail/RunHeader.tsx",
+  "line": 35,
+  "kind": "JSX",
+  "text": "All closed loops"
+ },
+ {
+  "file": "features/loops/detail/RunHeader.tsx",
+  "line": 64,
+  "kind": "JSX",
+  "text": "Open the approval"
+ },
+ {
+  "file": "features/loops/detail/TargetingPanel.tsx",
+  "line": 69,
+  "kind": "JSX",
+  "text": "Risk at selection"
+ },
+ {
+  "file": "features/loops/detail/TargetingPanel.tsx",
+  "line": 71,
+  "kind": "JSX",
+  "text": "Why they were selected"
+ },
+ {
+  "file": "features/loops/detail/TargetingPanel.tsx",
+  "line": 103,
+  "kind": "JSX",
+  "text": "No reason was recorded"
+ },
+ {
+  "file": "features/loops/detail/TrainingPanel.tsx",
+  "line": 94,
+  "kind": "JSX",
+  "text": "Force measurement now"
+ },
+ {
+  "file": "features/loops/detail/TrainingPanel.tsx",
+  "line": 108,
+  "kind": "JSX",
+  "text": "Delivery status"
+ },
+ {
+  "file": "features/loops/detail/TrainingPanel.tsx",
+  "line": 109,
+  "kind": "JSX",
+  "text": "Quiz score"
+ },
+ {
+  "file": "features/loops/LoopsFilters.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "features/loops/LoopsFilters.tsx",
+  "line": 92,
+  "kind": "PROP",
+  "text": "Search runs"
+ },
+ {
+  "file": "features/loops/LoopsTable.tsx",
+  "line": 70,
+  "kind": "JSX",
+  "text": "Not analysed"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 43,
+  "kind": "JSX",
+  "text": "Average risk"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 45,
+  "kind": "JSX",
+  "text": "High risk"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 46,
+  "kind": "JSX",
+  "text": "Share high risk"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 48,
+  "kind": "JSX",
+  "text": "Open roster"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 70,
+  "kind": "JSX",
+  "text": "No recent events"
+ },
+ {
+  "file": "features/people/DepartmentTable.tsx",
+  "line": 86,
+  "kind": "JSX",
+  "text": "Open roster"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 88,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 79,
+  "kind": "PROP",
+  "text": "Risk band"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 173,
+  "kind": "JSX",
+  "text": "No recent events"
+ },
+ {
+  "file": "features/people/RiskDerivation.tsx",
+  "line": 81,
+  "kind": "JSX",
+  "text": "Share of the score"
+ },
+ {
+  "file": "features/people/RiskEventTrail.tsx",
+  "line": 63,
+  "kind": "JSX",
+  "text": "Loop run"
+ },
+ {
+  "file": "features/people/RiskEventTrail.tsx",
+  "line": 123,
+  "kind": "JSX",
+  "text": "Withdrawn after review — not counted in the score"
+ },
+ {
+  "file": "features/people/RiskEventTrail.tsx",
+  "line": 131,
+  "kind": "JSX",
+  "text": "Not from a loop"
+ },
+ {
+  "file": "features/people/RiskEventTrail.tsx",
+  "line": 43,
+  "kind": "PROP",
+  "text": "No risk events recorded"
+ },
+ {
+  "file": "features/people/RiskFormula.tsx",
+  "line": 20,
+  "kind": "JSX",
+  "text": "The baseline"
+ },
+ {
+  "file": "features/people/RiskFormula.tsx",
+  "line": 30,
+  "kind": "JSX",
+  "text": "The score"
+ },
+ {
+  "file": "features/people/RiskFormula.tsx",
+  "line": 42,
+  "kind": "JSX",
+  "text": "Clamped to 0–100."
+ },
+ {
+  "file": "features/people/RiskFormula.tsx",
+  "line": 52,
+  "kind": "JSX",
+  "text": "Being attacked is not a mark against you."
+ },
+ {
+  "file": "features/people/RiskFormula.tsx",
+  "line": 58,
+  "kind": "JSX",
+  "text": "Reporting lowers it."
+ },
+ {
+  "file": "features/people/SignalWeightsTable.tsx",
+  "line": 54,
+  "kind": "JSX",
+  "text": "Weight (constant)"
+ },
+ {
+  "file": "features/people/SignalWeightsTable.tsx",
+  "line": 55,
+  "kind": "JSX",
+  "text": "Recorded (measured)"
+ },
+ {
+  "file": "features/people/SignalWeightsTable.tsx",
+  "line": 56,
+  "kind": "JSX",
+  "text": "Net effect"
+ },
+ {
+  "file": "features/people/TopRiskTable.tsx",
+  "line": 40,
+  "kind": "JSX",
+  "text": "Baseline from role"
+ },
+ {
+  "file": "features/people/TopRiskTable.tsx",
+  "line": 41,
+  "kind": "JSX",
+  "text": "From behaviour"
+ },
+ {
+  "file": "features/policy/AssignTrainingDialog.tsx",
+  "line": 147,
+  "kind": "JSX",
+  "text": "Assign training"
+ },
+ {
+  "file": "features/policy/AssignTrainingDialog.tsx",
+  "line": 205,
+  "kind": "JSX",
+  "text": "Training this finding asks for"
+ },
+ {
+  "file": "features/policy/DriftingPolicies.tsx",
+  "line": 79,
+  "kind": "PROP",
+  "text": "No policy has an open finding"
+ },
+ {
+  "file": "features/policy/FindingFacts.tsx",
+  "line": 104,
+  "kind": "JSX",
+  "text": "None named."
+ },
+ {
+  "file": "features/policy/FindingFacts.tsx",
+  "line": 128,
+  "kind": "JSX",
+  "text": "None named."
+ },
+ {
+  "file": "features/policy/FindingFacts.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "In use"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 147,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 128,
+  "kind": "PROP",
+  "text": "Due date"
+ },
+ {
+  "file": "features/policy/FindingOrigin.tsx",
+  "line": 63,
+  "kind": "JSX",
+  "text": "None recorded"
+ },
+ {
+  "file": "features/policy/FindingsTable.tsx",
+  "line": 83,
+  "kind": "JSX",
+  "text": "Not tied to a policy"
+ },
+ {
+  "file": "features/policy/FindingStatusDialog.tsx",
+  "line": 100,
+  "kind": "JSX",
+  "text": "Save status"
+ },
+ {
+  "file": "features/policy/FindingStatusDialog.tsx",
+  "line": 111,
+  "kind": "PROP",
+  "text": "New status"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 130,
+  "kind": "JSX",
+  "text": "No owner recorded"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 140,
+  "kind": "JSX",
+  "text": "No review date set"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 147,
+  "kind": "JSX",
+  "text": "No departments named — this policy is organisation-wide"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 243,
+  "kind": "JSX",
+  "text": "Open these in the findings queue"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 134,
+  "kind": "PROP",
+  "text": "Review due"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 143,
+  "kind": "PROP",
+  "text": "Applies to"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 225,
+  "kind": "PROP",
+  "text": "No findings against this policy"
+ },
+ {
+  "file": "features/policy/PolicyExtraction.tsx",
+  "line": 82,
+  "kind": "JSX",
+  "text": "Run extraction"
+ },
+ {
+  "file": "features/policy/PolicyExtraction.tsx",
+  "line": 96,
+  "kind": "JSX",
+  "text": "Registered as metadata only — no document was attached"
+ },
+ {
+  "file": "features/policy/PolicyExtraction.tsx",
+  "line": 103,
+  "kind": "JSX",
+  "text": "Type and size"
+ },
+ {
+  "file": "features/policy/PolicyExtraction.tsx",
+  "line": 111,
+  "kind": "JSX",
+  "text": "Registered by"
+ },
+ {
+  "file": "features/policy/PolicyExtraction.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Last change"
+ },
+ {
+  "file": "features/policy/PolicyTable.tsx",
+  "line": 72,
+  "kind": "JSX",
+  "text": "Review due"
+ },
+ {
+  "file": "features/policy/PolicyTable.tsx",
+  "line": 73,
+  "kind": "JSX",
+  "text": "Applies to"
+ },
+ {
+  "file": "features/policy/PolicyTable.tsx",
+  "line": 76,
+  "kind": "JSX",
+  "text": "Open findings"
+ },
+ {
+  "file": "features/policy/PolicyTable.tsx",
+  "line": 118,
+  "kind": "JSX",
+  "text": "Not recorded"
+ },
+ {
+  "file": "features/policy/PolicyTable.tsx",
+  "line": 131,
+  "kind": "JSX",
+  "text": "Organisation-wide"
+ },
+ {
+  "file": "features/policy/PolicyVersions.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "No version snapshots yet"
+ },
+ {
+  "file": "features/portal/CurrentAssignmentCard.tsx",
+  "line": 121,
+  "kind": "JSX",
+  "text": "No due date — this deployment does not set one on training assignments"
+ },
+ {
+  "file": "features/portal/CurrentAssignmentCard.tsx",
+  "line": 131,
+  "kind": "JSX",
+  "text": "Not recorded"
+ },
+ {
+  "file": "features/portal/CurrentAssignmentCard.tsx",
+  "line": 139,
+  "kind": "JSX",
+  "text": "Not specified for this assignment"
+ },
+ {
+  "file": "features/portal/IncidentObligations.tsx",
+  "line": 80,
+  "kind": "JSX",
+  "text": "What you must do"
+ },
+ {
+  "file": "features/portal/IncidentObligations.tsx",
+  "line": 97,
+  "kind": "JSX",
+  "text": "Score to reach:"
+ },
+ {
+  "file": "features/portal/IncidentObligations.tsx",
+  "line": 106,
+  "kind": "JSX",
+  "text": "You scored:"
+ },
+ {
+  "file": "features/portal/IncidentObligations.tsx",
+  "line": 116,
+  "kind": "JSX",
+  "text": "Go to your training"
+ },
+ {
+  "file": "features/portal/IncidentObligations.tsx",
+  "line": 136,
+  "kind": "PROP",
+  "text": "Nothing has been raised against you"
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 82,
+  "kind": "JSX",
+  "text": "Send to a person"
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 110,
+  "kind": "JSX",
+  "text": "You disputed this."
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 120,
+  "kind": "JSX",
+  "text": "You disputed this, and a person answered."
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 179,
+  "kind": "JSX",
+  "text": "What to do"
+ },
+ {
+  "file": "features/portal/ReportHistory.tsx",
+  "line": 63,
+  "kind": "JSX",
+  "text": "What you said"
+ },
+ {
+  "file": "features/portal/ReportHistory.tsx",
+  "line": 70,
+  "kind": "JSX",
+  "text": "Automated first pass"
+ },
+ {
+  "file": "features/portal/ReportHistory.tsx",
+  "line": 39,
+  "kind": "PROP",
+  "text": "You have not reported anything yet"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 73,
+  "kind": "JSX",
+  "text": "First-pass verdict"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 94,
+  "kind": "JSX",
+  "text": "What it noticed"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 105,
+  "kind": "JSX",
+  "text": "Indicators extracted"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 121,
+  "kind": "JSX",
+  "text": "What you should do"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 177,
+  "kind": "JSX",
+  "text": "Report something else"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 194,
+  "kind": "JSX",
+  "text": "Send report"
+ },
+ {
+  "file": "features/portal/ReportSuspiciousDialog.tsx",
+  "line": 206,
+  "kind": "PROP",
+  "text": "What is it"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 97,
+  "kind": "JSX",
+  "text": "This was not me"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 126,
+  "kind": "JSX",
+  "text": "Send to a person"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 266,
+  "kind": "PROP",
+  "text": "What is raising it"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 272,
+  "kind": "PROP",
+  "text": "What is lowering it"
+ },
+ {
+  "file": "features/portal/training/CompletedReview.tsx",
+  "line": 50,
+  "kind": "JSX",
+  "text": "Score recorded"
+ },
+ {
+  "file": "features/portal/training/CompletedReview.tsx",
+  "line": 66,
+  "kind": "JSX",
+  "text": "Time spent"
+ },
+ {
+  "file": "features/portal/training/CompletedReview.tsx",
+  "line": 76,
+  "kind": "JSX",
+  "text": "Delivered as"
+ },
+ {
+  "file": "features/portal/training/CompletedReview.tsx",
+  "line": 112,
+  "kind": "JSX",
+  "text": "Back to my security"
+ },
+ {
+  "file": "features/portal/training/LessonPhase.tsx",
+  "line": 76,
+  "kind": "JSX",
+  "text": "Report a concern"
+ },
+ {
+  "file": "features/portal/training/QuizPhase.tsx",
+  "line": 154,
+  "kind": "JSX",
+  "text": "Submit answers"
+ },
+ {
+  "file": "features/portal/training/QuizPhase.tsx",
+  "line": 181,
+  "kind": "PROP",
+  "text": "Keep checking"
+ },
+ {
+  "file": "features/portal/training/ResultPhase.tsx",
+  "line": 90,
+  "kind": "JSX",
+  "text": "You answered:"
+ },
+ {
+  "file": "features/portal/training/ResultPhase.tsx",
+  "line": 98,
+  "kind": "JSX",
+  "text": "The answer was:"
+ },
+ {
+  "file": "features/portal/training/ResultPhase.tsx",
+  "line": 118,
+  "kind": "JSX",
+  "text": "Back to my security"
+ },
+ {
+  "file": "features/portal/TrainingHistory.tsx",
+  "line": 46,
+  "kind": "PROP",
+  "text": "You have not finished any training yet"
+ },
+ {
+  "file": "features/remediation/ControlGapList.tsx",
+  "line": 29,
+  "kind": "PROP",
+  "text": "No control gap has been raised"
+ },
+ {
+  "file": "features/remediation/CoverageGapList.tsx",
+  "line": 34,
+  "kind": "PROP",
+  "text": "Nothing has gone unanswered yet"
+ },
+ {
+  "file": "features/remediation/DisputeResolutionDialog.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Your answer"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 104,
+  "kind": "JSX",
+  "text": "Person and trigger"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 105,
+  "kind": "JSX",
+  "text": "What was attached"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 131,
+  "kind": "JSX",
+  "text": "Nothing — refused by the firewall"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 155,
+  "kind": "JSX",
+  "text": "Matched from your library"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 207,
+  "kind": "JSX",
+  "text": "Answer the dispute"
+ },
+ {
+  "file": "features/remediation/PlanQueue.tsx",
+  "line": 230,
+  "kind": "JSX",
+  "text": "Cannot be approved. Regenerate it instead."
+ },
+ {
+  "file": "features/reports/ReportTypeCard.tsx",
+  "line": 73,
+  "kind": "JSX",
+  "text": "Your role cannot read these records, so the coverage is not counted here."
+ },
+ {
+  "file": "features/reports/ReportTypeCard.tsx",
+  "line": 77,
+  "kind": "JSX",
+  "text": "Record count not available — the source query did not answer."
+ },
+ {
+  "file": "features/reports/ReportTypeCard.tsx",
+  "line": 94,
+  "kind": "JSX",
+  "text": "This deployment cannot generate this pack"
+ },
+ {
+  "file": "features/sandbox/AnalyzerDetail.tsx",
+  "line": 64,
+  "kind": "JSX",
+  "text": "Did not run"
+ },
+ {
+  "file": "features/sandbox/ArchiveChildren.tsx",
+  "line": 74,
+  "kind": "PROP",
+  "text": "Not scored"
+ },
+ {
+  "file": "features/sandbox/CapabilityStrip.tsx",
+  "line": 139,
+  "kind": "JSX",
+  "text": "Why detonation runs off-host"
+ },
+ {
+  "file": "features/sandbox/FeedbackPanel.tsx",
+  "line": 78,
+  "kind": "JSX",
+  "text": "False positive"
+ },
+ {
+  "file": "features/sandbox/FeedbackPanel.tsx",
+  "line": 87,
+  "kind": "JSX",
+  "text": "True positive"
+ },
+ {
+  "file": "features/sandbox/IocPanel.tsx",
+  "line": 42,
+  "kind": "JSX",
+  "text": "Copy all"
+ },
+ {
+  "file": "features/sandbox/JobsTable.tsx",
+  "line": 141,
+  "kind": "PROP",
+  "text": "Not scored"
+ },
+ {
+  "file": "features/sandbox/JobStatePanels.tsx",
+  "line": 95,
+  "kind": "JSX",
+  "text": "Unlock and continue"
+ },
+ {
+  "file": "features/sandbox/JobStatePanels.tsx",
+  "line": 142,
+  "kind": "JSX",
+  "text": "Run the analysis again"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 114,
+  "kind": "JSX",
+  "text": "Re-analyse"
+ },
+ {
+  "file": "features/sandbox/SubmissionPanel.tsx",
+  "line": 96,
+  "kind": "JSX",
+  "text": "Upload a file"
+ },
+ {
+  "file": "features/sandbox/SubmissionPanel.tsx",
+  "line": 97,
+  "kind": "JSX",
+  "text": "Analyse a URL"
+ },
+ {
+  "file": "features/sandbox/SubmissionPanel.tsx",
+  "line": 147,
+  "kind": "JSX",
+  "text": "Analyse file"
+ },
+ {
+  "file": "features/sandbox/SubmissionPanel.tsx",
+  "line": 179,
+  "kind": "JSX",
+  "text": "Fetch and analyse"
+ },
+ {
+  "file": "features/sandbox/VerdictHeader.tsx",
+  "line": 118,
+  "kind": "JSX",
+  "text": "Not recorded"
+ },
+ {
+  "file": "features/sandbox/VerdictHeader.tsx",
+  "line": 97,
+  "kind": "PROP",
+  "text": "MD5 hash"
+ },
+ {
+  "file": "features/settings/DemoControls.tsx",
+  "line": 56,
+  "kind": "JSX",
+  "text": "Reset the demonstration world"
+ },
+ {
+  "file": "features/settings/DeploymentPanel.tsx",
+  "line": 90,
+  "kind": "JSX",
+  "text": "Template engine"
+ },
+ {
+  "file": "features/settings/DeploymentPanel.tsx",
+  "line": 199,
+  "kind": "JSX",
+  "text": "Not reported"
+ },
+ {
+  "file": "features/settings/IdentityPanel.tsx",
+  "line": 60,
+  "kind": "JSX",
+  "text": "Not linked"
+ },
+ {
+  "file": "features/simulations/AudienceSelector.tsx",
+  "line": 58,
+  "kind": "JSX",
+  "text": "Target audience"
+ },
+ {
+  "file": "features/simulations/AudienceSelector.tsx",
+  "line": 90,
+  "kind": "JSX",
+  "text": "Risk band"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 82,
+  "kind": "JSX",
+  "text": "Launch campaign"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 92,
+  "kind": "JSX",
+  "text": "Close campaign"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 102,
+  "kind": "JSX",
+  "text": "Fill outcomes synthetically (demo)"
+ },
+ {
+  "file": "features/simulations/CampaignCard.tsx",
+  "line": 130,
+  "kind": "JSX",
+  "text": "Open campaign"
+ },
+ {
+  "file": "features/simulations/CampaignCard.tsx",
+  "line": 102,
+  "kind": "PROP",
+  "text": "Click rate"
+ },
+ {
+  "file": "features/simulations/CampaignCard.tsx",
+  "line": 113,
+  "kind": "PROP",
+  "text": "Report rate"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 170,
+  "kind": "JSX",
+  "text": "Create draft"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 187,
+  "kind": "JSX",
+  "text": "Lure source"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 194,
+  "kind": "JSX",
+  "text": "Prebuilt template"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 195,
+  "kind": "JSX",
+  "text": "Real analyzed threat"
+ },
+ {
+  "file": "features/simulations/LurePreview.tsx",
+  "line": 46,
+  "kind": "JSX",
+  "text": "Lure source"
+ },
+ {
+  "file": "features/simulations/TargetTable.tsx",
+  "line": 73,
+  "kind": "JSX",
+  "text": "Risk score"
+ },
+ {
+  "file": "features/simulations/TargetTable.tsx",
+  "line": 105,
+  "kind": "JSX",
+  "text": "Not yet"
+ },
+ {
+  "file": "features/simulations/TargetTable.tsx",
+  "line": 111,
+  "kind": "JSX",
+  "text": "Already recorded"
+ },
+ {
+  "file": "features/threats/IndicatorPanel.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "No indicators were extracted"
+ },
+ {
+  "file": "features/threats/IntelFeedList.tsx",
+  "line": 170,
+  "kind": "JSX",
+  "text": "Already pushed into the loop"
+ },
+ {
+  "file": "features/threats/IntelFeedList.tsx",
+  "line": 174,
+  "kind": "JSX",
+  "text": "Push into stage 1"
+ },
+ {
+  "file": "features/threats/IntelFeedList.tsx",
+  "line": 111,
+  "kind": "PROP",
+  "text": "The curated feed is empty"
+ },
+ {
+  "file": "features/threats/IntelFeedList.tsx",
+  "line": 118,
+  "kind": "PROP",
+  "text": "No feed item matches these filters"
+ },
+ {
+  "file": "features/threats/ReportCard.tsx",
+  "line": 111,
+  "kind": "JSX",
+  "text": "Reporter’s note:"
+ },
+ {
+  "file": "features/threats/ReportCard.tsx",
+  "line": 119,
+  "kind": "JSX",
+  "text": "Automated triage"
+ },
+ {
+  "file": "features/threats/ReportCard.tsx",
+  "line": 210,
+  "kind": "JSX",
+  "text": "Push into the loop"
+ },
+ {
+  "file": "features/threats/ReportQueue.tsx",
+  "line": 147,
+  "kind": "PROP",
+  "text": "No employee has reported anything yet"
+ },
+ {
+  "file": "features/threats/ReportQueue.tsx",
+  "line": 154,
+  "kind": "PROP",
+  "text": "No report matches these filters"
+ },
+ {
+  "file": "features/threats/SubmitArtifactDialog.tsx",
+  "line": 104,
+  "kind": "JSX",
+  "text": "Submit and start the loop"
+ },
+ {
+  "file": "features/threats/ThreatList.tsx",
+  "line": 145,
+  "kind": "JSX",
+  "text": "Threat type"
+ },
+ {
+  "file": "features/threats/ThreatList.tsx",
+  "line": 125,
+  "kind": "PROP",
+  "text": "No artifact has entered the platform yet"
+ },
+ {
+  "file": "features/threats/ThreatList.tsx",
+  "line": 132,
+  "kind": "PROP",
+  "text": "No artifact matches these filters"
+ },
+ {
+  "file": "features/threats/ThreatLoopPanel.tsx",
+  "line": 43,
+  "kind": "JSX",
+  "text": "Looking for the loop run behind this artifact"
+ },
+ {
+  "file": "features/threats/ThreatLoopPanel.tsx",
+  "line": 51,
+  "kind": "JSX",
+  "text": "Open the run list"
+ },
+ {
+  "file": "features/threats/ThreatLoopPanel.tsx",
+  "line": 113,
+  "kind": "JSX",
+  "text": "Open the sandbox"
+ },
+ {
+  "file": "features/threats/ThreatVerdictPanel.tsx",
+  "line": 51,
+  "kind": "JSX",
+  "text": "Threat type"
+ },
+ {
+  "file": "features/threats/ThreatVerdictPanel.tsx",
+  "line": 58,
+  "kind": "JSX",
+  "text": "Behaviour observed"
+ },
+ {
+  "file": "features/threats/ThreatVerdictPanel.tsx",
+  "line": 69,
+  "kind": "JSX",
+  "text": "Plain-language explanation"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 125,
+  "kind": "JSX",
+  "text": "Add section"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 176,
+  "kind": "JSX",
+  "text": "The server would reject this module"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 201,
+  "kind": "JSX",
+  "text": "Save changes"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 70,
+  "kind": "JSX",
+  "text": "No approver recorded"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 91,
+  "kind": "JSX",
+  "text": "No threat is linked. This module was not produced by a loop run."
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 108,
+  "kind": "JSX",
+  "text": "Checking the approval queue"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 141,
+  "kind": "JSX",
+  "text": "Not recorded"
+ },
+ {
+  "file": "features/training/ModuleReader.tsx",
+  "line": 101,
+  "kind": "JSX",
+  "text": "Shown after grading:"
+ },
+ {
+  "file": "features/training/ModuleTable.tsx",
+  "line": 39,
+  "kind": "JSX",
+  "text": "Generated from"
+ },
+ {
+  "file": "features/training/ModuleTable.tsx",
+  "line": 44,
+  "kind": "JSX",
+  "text": "Review state"
+ },
+ {
+  "file": "features/training/ModuleTable.tsx",
+  "line": 66,
+  "kind": "JSX",
+  "text": "Not from a threat"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 64,
+  "kind": "JSX",
+  "text": "New module"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 133,
+  "kind": "JSX",
+  "text": "Create and open the editor"
+ },
+ {
+  "file": "features/training/QuizEditor.tsx",
+  "line": 56,
+  "kind": "JSX",
+  "text": "Add question"
+ },
+ {
+  "file": "features/training/ResourceImportPanel.tsx",
+  "line": 81,
+  "kind": "JSX",
+  "text": "Verify and add"
+ },
+ {
+  "file": "features/training/ResourceImportPanel.tsx",
+  "line": 70,
+  "kind": "PROP",
+  "text": "File under"
+ },
+ {
+  "file": "features/training/StudioNotices.tsx",
+  "line": 30,
+  "kind": "JSX",
+  "text": "Submit an artifact in Threat Intake"
+ },
+ {
+  "file": "features/training/StudioNotices.tsx",
+  "line": 33,
+  "kind": "JSX",
+  "text": "See what is waiting at the approval gate"
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 192,
+  "kind": "JSX",
+  "text": "Approval gate"
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 252,
+  "kind": "JSX",
+  "text": "Revision requested."
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 257,
+  "kind": "JSX",
+  "text": "Held for a second approver."
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 263,
+  "kind": "JSX",
+  "text": "Awaiting approval."
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 269,
+  "kind": "JSX",
+  "text": "This run has already left the gate."
+ },
+ {
+  "file": "pages/ApprovalDetail.tsx",
+  "line": 205,
+  "kind": "PROP",
+  "text": "This run could not be loaded"
+ },
+ {
+  "file": "pages/Approvals.tsx",
+  "line": 152,
+  "kind": "JSX",
+  "text": "How urgency is coloured"
+ },
+ {
+  "file": "pages/Approvals.tsx",
+  "line": 126,
+  "kind": "PROP",
+  "text": "No run matches these filters"
+ },
+ {
+  "file": "pages/Approvals.tsx",
+  "line": 132,
+  "kind": "PROP",
+  "text": "Nothing is waiting for a decision"
+ },
+ {
+  "file": "pages/CommandCenter.tsx",
+  "line": 346,
+  "kind": "JSX",
+  "text": "Open departments"
+ },
+ {
+  "file": "pages/Departments.tsx",
+  "line": 76,
+  "kind": "PROP",
+  "text": "No department has a scored population"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 63,
+  "kind": "JSX",
+  "text": "Back to the roster"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 99,
+  "kind": "JSX",
+  "text": "Role sensitivity"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 103,
+  "kind": "JSX",
+  "text": "Baseline from the role"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 109,
+  "kind": "JSX",
+  "text": "Moved by recorded behaviour"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 159,
+  "kind": "JSX",
+  "text": "Event trail"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 160,
+  "kind": "JSX",
+  "text": "Training and simulations"
+ },
+ {
+  "file": "pages/EmployeeDetail.tsx",
+  "line": 161,
+  "kind": "JSX",
+  "text": "Reports submitted"
+ },
+ {
+  "file": "pages/Employees.tsx",
+  "line": 135,
+  "kind": "JSX",
+  "text": "How the score is computed"
+ },
+ {
+  "file": "pages/Executive.tsx",
+  "line": 237,
+  "kind": "PROP",
+  "text": "The dashboard returned nothing"
+ },
+ {
+  "file": "pages/ForgotPassword.tsx",
+  "line": 73,
+  "kind": "JSX",
+  "text": "Back to sign in"
+ },
+ {
+  "file": "pages/ForgotPassword.tsx",
+  "line": 106,
+  "kind": "JSX",
+  "text": "Prepare the reset request"
+ },
+ {
+  "file": "pages/IncidentRiskDetail.tsx",
+  "line": 43,
+  "kind": "JSX",
+  "text": "All incident risks"
+ },
+ {
+  "file": "pages/IncidentRiskDetail.tsx",
+  "line": 90,
+  "kind": "JSX",
+  "text": "What happened"
+ },
+ {
+  "file": "pages/IncidentRiskDetail.tsx",
+  "line": 96,
+  "kind": "JSX",
+  "text": "Required action"
+ },
+ {
+  "file": "pages/IncidentRiskDetail.tsx",
+  "line": 102,
+  "kind": "JSX",
+  "text": "Closure criteria"
+ },
+ {
+  "file": "pages/IncidentRisks.tsx",
+  "line": 58,
+  "kind": "JSX",
+  "text": "Open a risk"
+ },
+ {
+  "file": "pages/IncidentRisks.tsx",
+  "line": 102,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "pages/IncidentRisks.tsx",
+  "line": 106,
+  "kind": "JSX",
+  "text": "Open a risk"
+ },
+ {
+  "file": "pages/Integrations.tsx",
+  "line": 126,
+  "kind": "JSX",
+  "text": "No connection records exist."
+ },
+ {
+  "file": "pages/LoopDetail.tsx",
+  "line": 146,
+  "kind": "JSX",
+  "text": "Read the full stage"
+ },
+ {
+  "file": "pages/LoopDetail.tsx",
+  "line": 151,
+  "kind": "JSX",
+  "text": "Go to the gate"
+ },
+ {
+  "file": "pages/Loops.tsx",
+  "line": 90,
+  "kind": "JSX",
+  "text": "Go to threat intake"
+ },
+ {
+  "file": "pages/Loops.tsx",
+  "line": 102,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "pages/Loops.tsx",
+  "line": 86,
+  "kind": "PROP",
+  "text": "No loop runs yet"
+ },
+ {
+  "file": "pages/Loops.tsx",
+  "line": 97,
+  "kind": "PROP",
+  "text": "No run matches these filters"
+ },
+ {
+  "file": "pages/NotFound.tsx",
+  "line": 30,
+  "kind": "JSX",
+  "text": "Go to your home screen"
+ },
+ {
+  "file": "pages/NotFound.tsx",
+  "line": 26,
+  "kind": "PROP",
+  "text": "This page does not exist"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 66,
+  "kind": "JSX",
+  "text": "Back to the queue"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 117,
+  "kind": "JSX",
+  "text": "Change status"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 125,
+  "kind": "JSX",
+  "text": "Assign training"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 133,
+  "kind": "JSX",
+  "text": "Accept the risk"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 140,
+  "kind": "JSX",
+  "text": "Mark false positive"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 144,
+  "kind": "JSX",
+  "text": "This finding is closed. Reopen it before assigning training."
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 167,
+  "kind": "JSX",
+  "text": "Open the policy"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 240,
+  "kind": "JSX",
+  "text": "Suggested remediation"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 246,
+  "kind": "JSX",
+  "text": "Required training"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 297,
+  "kind": "JSX",
+  "text": "See every change in the audit log"
+ },
+ {
+  "file": "pages/PolicyFindingDetail.tsx",
+  "line": 322,
+  "kind": "PROP",
+  "text": "This finding could not be loaded"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 100,
+  "kind": "JSX",
+  "text": "Policy library"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 103,
+  "kind": "JSX",
+  "text": "Work the queue"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 262,
+  "kind": "JSX",
+  "text": "See all open"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 157,
+  "kind": "PROP",
+  "text": "Still open"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 187,
+  "kind": "PROP",
+  "text": "The finding counts are unavailable"
+ },
+ {
+  "file": "pages/PolicyIntelligence.tsx",
+  "line": 275,
+  "kind": "PROP",
+  "text": "Nothing is open"
+ },
+ {
+  "file": "pages/Portal.tsx",
+  "line": 144,
+  "kind": "JSX",
+  "text": "Report something suspicious"
+ },
+ {
+  "file": "pages/Portal.tsx",
+  "line": 177,
+  "kind": "PROP",
+  "text": "No training is waiting on you"
+ },
+ {
+  "file": "pages/PortalTraining.tsx",
+  "line": 119,
+  "kind": "JSX",
+  "text": "My security"
+ },
+ {
+  "file": "pages/Register.tsx",
+  "line": 77,
+  "kind": "JSX",
+  "text": "Sign in"
+ },
+ {
+  "file": "pages/Register.tsx",
+  "line": 115,
+  "kind": "JSX",
+  "text": "Prepare the request"
+ },
+ {
+  "file": "pages/Register.tsx",
+  "line": 98,
+  "kind": "PROP",
+  "text": "Full name"
+ },
+ {
+  "file": "pages/Register.tsx",
+  "line": 100,
+  "kind": "PROP",
+  "text": "Work email"
+ },
+ {
+  "file": "pages/Reports.tsx",
+  "line": 148,
+  "kind": "PROP",
+  "text": "No settled analysis in this window"
+ },
+ {
+  "file": "pages/RiskProfiles.tsx",
+  "line": 100,
+  "kind": "PROP",
+  "text": "No one is scored yet"
+ },
+ {
+  "file": "pages/SandboxDetail.tsx",
+  "line": 48,
+  "kind": "JSX",
+  "text": "Back to submissions"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 103,
+  "kind": "JSX",
+  "text": "All campaigns"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 54,
+  "kind": "PROP",
+  "text": "Click rate"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 65,
+  "kind": "PROP",
+  "text": "Report rate"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 168,
+  "kind": "PROP",
+  "text": "This campaign has no targets"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 105,
+  "kind": "JSX",
+  "text": "New campaign"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 174,
+  "kind": "JSX",
+  "text": "New campaign"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 186,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 170,
+  "kind": "PROP",
+  "text": "No campaigns have been created"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 183,
+  "kind": "PROP",
+  "text": "No campaign matches these filters"
+ },
+ {
+  "file": "pages/ThreatDetail.tsx",
+  "line": 47,
+  "kind": "JSX",
+  "text": "Threat intake"
+ },
+ {
+  "file": "pages/ThreatIntelligence.tsx",
+  "line": 186,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "pages/Threats.tsx",
+  "line": 74,
+  "kind": "JSX",
+  "text": "Submit artifact"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 145,
+  "kind": "JSX",
+  "text": "Open Threat Intake"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 155,
+  "kind": "JSX",
+  "text": "Clear filters"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 141,
+  "kind": "PROP",
+  "text": "No training module exists yet"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 152,
+  "kind": "PROP",
+  "text": "No module matches this view"
+ },
+ {
+  "file": "pages/TrainingDetail.tsx",
+  "line": 64,
+  "kind": "JSX",
+  "text": "Training Studio"
+ },
+ {
+  "file": "pages/TrainingDetail.tsx",
+  "line": 100,
+  "kind": "JSX",
+  "text": "Edit module"
+ }
+]

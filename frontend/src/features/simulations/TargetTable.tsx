@@ -13,6 +13,7 @@
  */
 
 import { ChevronDown } from 'lucide-react'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Link } from 'react-router-dom'
 import {
   Badge,
@@ -35,10 +36,14 @@ import { useRecordOutcome } from '../../lib/api/mutations'
 import { formatDateTime, num, riskBandLabel, timeAgo } from '../../lib/format'
 
 /** The three outcomes the API accepts. `pending` is a starting state, not a choice. */
-const RECORDABLE: { value: Exclude<SimOutcome, 'pending'>; label: string; note: string }[] = [
-  { value: 'clicked', label: 'Clicked the lure', note: 'Raises the risk score' },
-  { value: 'reported', label: 'Reported the lure', note: 'Lowers the risk score' },
-  { value: 'ignored', label: 'Ignored it', note: 'No risk movement' },
+const RECORDABLE: {
+  value: Exclude<SimOutcome, 'pending'>
+  label: MessageKey
+  note: MessageKey
+}[] = [
+  { value: 'clicked', label: 'p.clicked-the-lure', note: 'p.raises-the-risk-score' },
+  { value: 'reported', label: 'p.reported-the-lure', note: 'p.lowers-the-risk-score' },
+  { value: 'ignored', label: 'p.ignored-it', note: 'p.no-risk-movement' },
 ]
 
 export interface TargetTableProps {
@@ -48,6 +53,7 @@ export interface TargetTableProps {
 }
 
 export function TargetTable({ simulation, canRecord }: TargetTableProps) {
+  const t = useT()
   const toast = useToast()
   const record = useRecordOutcome({
     // A rejected outcome is usually a race: someone else recorded it, or the
@@ -133,8 +139,8 @@ export function TargetTable({ simulation, canRecord }: TargetTableProps) {
                           }
                         >
                           <span className="flex flex-col">
-                            <span>{option.label}</span>
-                            <span className="text-xs text-fg-faint">{option.note}</span>
+                            <span>{t(option.label)}</span>
+                            <span className="text-xs text-fg-faint">{t(option.note)}</span>
                           </span>
                         </DropdownMenuItem>
                       ))}
