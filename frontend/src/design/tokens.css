@@ -366,13 +366,23 @@ body {
     transform: none;
   }
 }
-.settle {
-  animation: settle-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+/* The entrance is applied ONLY where motion is positively supported and
+   wanted. That guard is not politeness, it is the failure mode: `both` holds
+   the `from` state during the delay, so an element carrying `.settle`
+   unconditionally is INVISIBLE until the animation runs. Behind
+   `no-preference` the default is a visible element, and the animation is the
+   way in rather than the condition of being seen.
+
+   Content must never depend on an animation completing to exist. */
+@media (prefers-reduced-motion: no-preference) {
+  .settle {
+    animation: settle-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .settle-1 { animation-delay: 0.04s; }
+  .settle-2 { animation-delay: 0.12s; }
+  .settle-3 { animation-delay: 0.2s; }
+  .settle-4 { animation-delay: 0.3s; }
 }
-.settle-1 { animation-delay: 0.04s; }
-.settle-2 { animation-delay: 0.12s; }
-.settle-3 { animation-delay: 0.2s; }
-.settle-4 { animation-delay: 0.3s; }
 
 /* The aurora behind the sign-in aside. Two brand-hued fields drifting on long,
    coprime periods so they never visibly loop. It carries NO information — like
