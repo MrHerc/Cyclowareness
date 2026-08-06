@@ -123,6 +123,12 @@ class Settings(BaseSettings):
     entity_sector: str = ""
     entity_contact: str = ""
 
+    # Who BUILT the platform, as distinct from `entity_name`, which is the
+    # organisation RUNNING it and reporting incidents under NIS2/DORA. Mixing
+    # the two would put the vendor's name on a regulatory notification the
+    # customer files, so they stay separate settings with separate meanings.
+    vendor_name: str = "Safarov Industries Inc."
+
     # Behaviour
     auto_approve_training: bool = False
     access_token_expire_minutes: int = 720

@@ -41,6 +41,9 @@ export interface Capabilities {
   demo_mode: boolean
   ai_provider: 'anthropic' | 'mock'
   analyzer: string
+  /** Who BUILT the platform — not the organisation running it, which is the
+   *  notifying entity on regulatory records and a different field entirely. */
+  vendor_name: string
 }
 
 /* ============================================================================

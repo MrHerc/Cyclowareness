@@ -17,6 +17,7 @@
  */
 
 import { useT } from '../../lib/i18n'
+import { MadeBy } from '../../components/shell/MadeBy'
 import { AsyncBoundary, SkeletonText } from '../../components/states'
 import { Badge, Panel } from '../../components/ui'
 import { useCapabilities, useSandboxCapabilities } from '../../lib/api/queries'
@@ -48,6 +49,16 @@ export function DeploymentPanel() {
             detail="Configurable per pilot so a deployment can be white-labelled."
           >
             {PRODUCT_NAME}
+          </SettingRow>
+
+          {/* The maker, read from the deployment rather than compiled in — and
+              deliberately NOT the notifying entity, which is whoever RUNS this
+              and whose name goes on a regulatory incident record. */}
+          <SettingRow
+            term="Built by"
+            detail="The vendor that produced the platform. The organisation running it is named separately on incident records."
+          >
+            <MadeBy variant="inline" />
           </SettingRow>
 
           <SettingRow

@@ -16,6 +16,8 @@
  */
 
 import type { ReactNode } from 'react'
+import { MadeBy } from '../../components/shell/MadeBy'
+import { AuroraField } from './AuroraField'
 import { Link } from 'react-router-dom'
 import { PointerLight } from './PointerLight'
 // Directly, not through the shell barrel: that barrel reaches AppShell and the
@@ -52,7 +54,7 @@ export function AuthScaffold({
           surface rather than a form on a flat colour. */}
       <PointerLight />
       <div className="flex min-h-dvh flex-col px-6 py-8 sm:px-10 lg:px-14">
-        <header>
+        <header className="settle settle-1">
           <Link
             to="/login"
             className="inline-flex items-center gap-2.5 rounded-control"
@@ -72,7 +74,7 @@ export function AuthScaffold({
               every screen after it share a language. `bg-elevated/80` with a
               backdrop blur lets the pointer light read THROUGH the card without
               washing the fields out. */}
-          <div className="mx-auto w-full max-w-sm rounded-panel border border-line-subtle bg-elevated/80 p-7 shadow-float backdrop-blur-xl sm:p-8 lg:mx-0">
+          <div className="settle settle-2 mx-auto w-full max-w-sm rounded-panel border border-line-subtle bg-elevated/80 p-7 shadow-float backdrop-blur-xl sm:p-8 lg:mx-0">
             {mobileIntro ? <div className="mb-8 lg:hidden">{mobileIntro}</div> : null}
 
             <h1 className="text-display text-fg">{title}</h1>
@@ -82,16 +84,21 @@ export function AuthScaffold({
           </div>
         </main>
 
-        {footer ? (
-          <footer className="mx-auto w-full max-w-sm px-1 text-sm text-fg-subtle lg:mx-0">
-            {footer}
-          </footer>
-        ) : null}
+        <footer className="settle settle-4 mx-auto w-full max-w-sm space-y-2 px-1 text-sm text-fg-subtle lg:mx-0">
+          {footer}
+          {/* Attribution sits under whatever the page's own footer says, on
+              every auth screen, because this is where a reader looks for who
+              made the thing they are about to sign in to. */}
+          <MadeBy />
+        </footer>
       </div>
 
       {aside ? (
         <aside className="relative hidden lg:flex lg:items-center lg:justify-center lg:px-12 lg:py-16">
-          {aside}
+          {/* Behind the figure, not around it: the aside's own content stays the
+              thing being read, and the field is the surface it sits on. */}
+          <AuroraField />
+          <div className="settle settle-3 relative">{aside}</div>
         </aside>
       ) : null}
     </div>

@@ -220,6 +220,10 @@ def capabilities():
         "demo_mode": settings.is_demo,
         "ai_provider": "anthropic" if settings.anthropic_api_key else "mock",
         "analyzer": settings.sandbox_analyzer,
+        # Who built the platform. Distinct from the notifying entity, which is
+        # whoever is RUNNING it — the UI shows this where a reader looks for
+        # provenance of the software itself.
+        "vendor_name": settings.vendor_name,
     }
 
 

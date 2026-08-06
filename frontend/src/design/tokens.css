@@ -349,6 +349,52 @@ body {
   animation: rise-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* The sign-in entrance. A short rise with a per-element delay, so the screen
+   assembles in the order a reader would take it in — mark, heading, form,
+   footer — rather than appearing all at once. It is 0.5s total; anything
+   longer is a page that makes people wait to read it.
+
+   Applied only on the authentication screens. Inside the product a delayed
+   render is latency, not craft. */
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.settle {
+  animation: settle-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.settle-1 { animation-delay: 0.04s; }
+.settle-2 { animation-delay: 0.12s; }
+.settle-3 { animation-delay: 0.2s; }
+.settle-4 { animation-delay: 0.3s; }
+
+/* The aurora behind the sign-in aside. Two brand-hued fields drifting on long,
+   coprime periods so they never visibly loop. It carries NO information — like
+   the pointer light, it is light, and a decorative element that hinted at data
+   would be the same lie as a seeded chart.
+
+   Long durations and transform-only movement: this runs behind a form somebody
+   is typing into, and a repaint-heavy background on a laptop is a dropped
+   keystroke. */
+@keyframes aurora-a {
+  0%   { transform: translate3d(-6%, -4%, 0) scale(1); }
+  50%  { transform: translate3d(6%, 5%, 0) scale(1.12); }
+  100% { transform: translate3d(-6%, -4%, 0) scale(1); }
+}
+@keyframes aurora-b {
+  0%   { transform: translate3d(5%, 6%, 0) scale(1.08); }
+  50%  { transform: translate3d(-7%, -5%, 0) scale(1); }
+  100% { transform: translate3d(5%, 6%, 0) scale(1.08); }
+}
+.aurora-a { animation: aurora-a 34s ease-in-out infinite; }
+.aurora-b { animation: aurora-b 47s ease-in-out infinite; }
+
 @keyframes shimmer-sweep {
   100% {
     transform: translateX(100%);
