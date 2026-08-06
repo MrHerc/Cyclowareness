@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `e2c479c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `187b750` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -224,6 +224,59 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
   considered figure there and refuses to carry invented quantities.
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
+
+## 11. NEXT SESSION STARTS HERE (2026-08-06, `187b750`)
+
+Everything below is measured. CI green, 346 backend tests, all five frontend
+gates pass (build, lint, typecheck, check:links, check:i18n at 1438 keys).
+
+### The parameterised message system is BUILT and unused
+
+`t(key, values)` splices `{placeholders}` — `src/lib/i18n/context.ts` defines
+`MessageValues`, `LocaleProvider` does the replacement, `useT` is typed for it.
+A placeholder with no supplied value keeps its literal `{name}` rather than
+printing "undefined".
+
+**Nothing calls it yet.** That is the next job, and the work-list already
+exists: run
+
+    frontend $ python <scratchpad>/find_interpolated.py out.json
+
+It finds **36 interpolated sentences** — real prose with a value spliced in, at
+least five literal words, identifiers filtered out. The biggest cluster is
+`features/executive/` (UnresolvedRisks, PostureMetrics). Each becomes
+`t('key', { total, completed })` with `{total}` style placeholders in the
+catalogue.
+
+### The 53 parked keys
+
+`frontend/docs/pending-translations.json` — key, English, Azerbaijani, the files
+that hold them, and why each resisted mechanical wiring. **The translation is
+already paid for**; only the plumbing is left. They live in module-scope
+constants whose render site the automated pass could not identify.
+
+### The applier rule, learned three times
+
+**One file, run tsc, keep it only if clean; never a whole batch then a check.**
+Batch-then-check hit 44 syntax errors on the first attempt and 27 type errors on
+the third, and both times the entire batch — including the good work — had to be
+reverted. `scratchpad/wire_remaining2.py` has the per-file version.
+
+### Module-scope constants cannot call hooks
+
+Two honest shapes, prefer the second:
+1. the constant becomes a function of `t` — `reportTypes(t)`;
+2. the constant holds `MessageKey` values and the component resolves them —
+   `ErrorState`, `AIProvenanceBadge`, `HeroStrip`.
+
+Where a value interpolates, the field is `MessageKey | string` with an `isKey`
+guard, so a computed sentence passes through instead of being looked up and
+coming back blank.
+
+### What is deliberately NOT translated
+
+Seeded data — threat titles, campaign names, integration names. Those are
+records, not interface.
 
 ## 10. Where the Azerbaijani stands (2026-08-06, `e2c479c`)
 
