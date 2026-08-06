@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `a9836d2` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `e2c479c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -224,6 +224,40 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
   considered figure there and refuses to carry invented quantities.
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
+
+## 10. Where the Azerbaijani stands (2026-08-06, `e2c479c`)
+
+**1438 keys, both locales complete, `check:i18n` green.** Navigation, page
+titles and standfirsts, panel titles/subtitles/captions, inline headings, the
+report catalogue, the auth screens, and 880 of the 947 explanatory prose
+strings.
+
+**Three things are still English ON PURPOSE, and each for a different reason:**
+
+1. **Interpolated sentences.** "Rates cover a trailing 30 days and are withheld
+   below 5 resolved events" splices numbers into prose. A flat key catalogue
+   cannot express that; it needs parameterised messages (`t(key, {days, min})`).
+   That is a design change to `messages.ts` + `LocaleProvider`, not a sweep.
+   **This is the largest remaining class.**
+2. **Seeded data** — threat titles, campaign names, integration names. Records,
+   not interface. Translating them would be wrong.
+3. **54 parked keys**, listed with their Azerbaijani in
+   `frontend/docs/pending-translations.json`. They live in module-scope
+   constants whose render site could not be wrapped mechanically. The
+   translation is already paid for; only the plumbing is left.
+
+**The applier lesson, twice learned.** Rewrite one file, run tsc, keep it only
+if clean — never a whole batch then a check. The batch approach hit 44 syntax
+errors on the first attempt and 27 type errors on the third, and both times the
+entire batch had to be reverted, good work included.
+
+**Module-scope constants cannot call hooks.** Two honest shapes: the constant
+becomes a function of `t` (`reportTypes(t)`), or it holds `MessageKey` values
+that the component resolves (`ErrorState`, `AIProvenanceBadge`, `HeroStrip`).
+Prefer the second — smaller diff, and a missing key becomes a compile error.
+Where a value interpolates, the field is `MessageKey | string` with an `isKey`
+guard, so a computed sentence passes through rather than being looked up and
+coming back blank.
 
 ## 9. The sign-in screen, the maker's name, and the last prose (2026-08-06)
 
