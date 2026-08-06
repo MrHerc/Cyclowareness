@@ -50,12 +50,23 @@ export function AuthScaffold({
 }: AuthScaffoldProps) {
   const { locale, t } = useLocale()
   return (
-    <div className="auth-surface min-h-dvh w-full lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <div className="auth-surface relative min-h-dvh w-full overflow-hidden">
+      {/* FULL-BLEED, not boxed into the right column. The reference bleeds its
+          gradient across the whole page and lets the content sit in the light;
+          confining it to the aside made it a decorative panel beside a plain
+          white form, which is the tell that gave the old version away. */}
+      <AuroraField />
       {/* Behind everything, pointer-events-none, and carrying no information —
           see the component. The first screen anyone sees should feel like a
           surface rather than a form on a flat colour. */}
       <PointerLight />
-      <div className="flex min-h-dvh flex-col px-6 py-10 sm:px-12 lg:px-20 lg:py-14">
+
+      {/* One centred measure holding both columns, rather than two halves of the
+          viewport. At 1600px the old split threw the form against the left edge
+          and stretched the aside to fill; a page that stays centred and simply
+          stops growing is the whole difference in feel. */}
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-[1180px] flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-16">
+      <div className="flex min-h-dvh flex-col px-6 py-10 sm:px-12 lg:px-0 lg:py-16">
         <header className="settle settle-1">
           <Link
             to="/login"
@@ -81,21 +92,27 @@ export function AuthScaffold({
           {/* No card, no blur, no shadow. On a light ground those read as a
               dialog sitting on top of a page; Mercury's sign-in IS the page.
               The type carries the hierarchy instead of a container. */}
-          <div className="settle settle-2 mx-auto w-full max-w-md lg:mx-0">
+          {/* 26rem, not 28. The reference keeps its sign-in column narrow and
+              lets the whitespace around it do the work; a wider measure makes
+              the same fields read as a form to be processed. */}
+          <div className="settle settle-2 mx-auto w-full max-w-[26rem] lg:mx-0">
             {mobileIntro ? <div className="mb-8 lg:hidden">{mobileIntro}</div> : null}
 
-            <h1 className="text-[2.75rem] font-medium leading-[1.08] tracking-[-0.02em] text-fg sm:text-[3.25rem]">
+            {/* 40px, down from 52. A display size belongs on a marketing hero;
+                on a sign-in it shouts over the one thing the page is for. The
+                weight and the tight tracking carry the refinement instead. */}
+            <h1 className="text-[2.25rem] font-medium leading-[1.1] tracking-[-0.025em] text-fg sm:text-[2.5rem]">
               {title}
             </h1>
             {intro ? (
-              <p className="mt-4 max-w-sm text-[1.0625rem] leading-relaxed text-fg-muted">{intro}</p>
+              <p className="mt-4 max-w-[22rem] text-base leading-[1.65] text-fg-muted">{intro}</p>
             ) : null}
 
-            <div className="mt-10">{children}</div>
+            <div className="mt-9">{children}</div>
           </div>
         </main>
 
-        <footer className="settle settle-4 mx-auto w-full max-w-sm space-y-2 px-1 text-sm text-fg-subtle lg:mx-0">
+        <footer className="settle settle-4 mx-auto w-full max-w-[26rem] space-y-2 text-sm text-fg-subtle lg:mx-0">
           {footer}
           {/* Attribution sits under whatever the page's own footer says, on
               every auth screen, because this is where a reader looks for who
@@ -105,13 +122,11 @@ export function AuthScaffold({
       </div>
 
       {aside ? (
-        <aside className="relative hidden lg:flex lg:items-center lg:justify-center lg:px-12 lg:py-16">
-          {/* Behind the figure, not around it: the aside's own content stays the
-              thing being read, and the field is the surface it sits on. */}
-          <AuroraField />
+        <aside className="relative hidden lg:flex lg:items-center lg:justify-center lg:py-16">
           <div className="settle settle-3 relative">{aside}</div>
         </aside>
       ) : null}
+      </div>
     </div>
   )
 }

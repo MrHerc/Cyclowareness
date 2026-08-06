@@ -74,6 +74,16 @@
   /* Text and icons ON a lime fill. Near-black, never white. */
   --color-on-brand: #0b1004;
 
+  /* THE PRIMARY BUTTON'S OWN COLOUR, separate from the accent.
+     On the console the call to action IS the accent — lime on near-black reads
+     as the one live control on the screen. On the light sign-in it must not be:
+     a saturated fill on white is a marketing button, and Mercury's is plain
+     near-black. One token, overridden in `.auth-surface`, so the same
+     `variant="primary"` is right in both rooms without a second variant. */
+  --color-cta: #c9f24d;
+  --color-cta-fg: #d8f77e;
+  --color-on-cta: #0b1004;
+
   /* --- machine reasoning: violet. AI provenance, intelligence, inference -- */
   --color-ai: #a78bfa;
   --color-ai-deep: #6d28d9;
@@ -356,12 +366,38 @@ body {
   --color-brand-deep: #2f470a;
   --color-on-brand: #ffffff;
 
+  /* Near-black, not the accent. 17.9:1 with white on it. */
+  --color-cta: #16171a;
+  --color-cta-fg: #2b2d33;
+  --color-on-cta: #ffffff;
+
   --color-line-subtle: rgb(22 23 26 / 0.07);
   --color-line: rgb(22 23 26 / 0.12);
   --color-line-strong: rgb(22 23 26 / 0.2);
 
   background: var(--color-base);
   color: var(--color-fg);
+}
+
+/* CONTROL SIZE, SCOPED TO THE DOOR.
+   The console's 36px controls are right for a dense table toolbar and wrong
+   here: the reference gives a sign-in field room to be tapped and read, and
+   36px is the single clearest "this is an admin template" tell left on the
+   page. Scoped rather than changed on `Input`, because raising it globally
+   would loosen every filter bar in the product.
+
+   `:where()` keeps specificity at zero so a component's own class still wins,
+   and the selector is deliberately narrow — text-like inputs and the submit
+   button, not checkboxes, radios or the locale switcher. */
+.auth-surface :where(input:not([type='checkbox']):not([type='radio'])),
+.auth-surface :where(button[type='submit']) {
+  height: 2.875rem;
+  border-radius: 0.625rem;
+  font-size: 0.9375rem;
+}
+
+.auth-surface :where(input:not([type='checkbox']):not([type='radio'])) {
+  padding-inline: 0.875rem;
 }
 
 /* The page background follows the scope: without this the dark `body` colour
