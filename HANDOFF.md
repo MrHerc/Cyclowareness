@@ -9,7 +9,7 @@ from the repositories, not recalled.
 
 | | Repo | Head | CI | Notes |
 |---|---|---|---|---|
-| Portal | `MrHerc/Cyclowareness` | `40e156c` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
+| Portal | `MrHerc/Cyclowareness` | `a9836d2` on `master` | green; backend commits pass, the recent ones are design-only | 350 backend tests |
 | Sandbox | `MrHerc/cyclowareness-sandbox` | `a853849` (another session's, now **GREEN**) | green | I re-vendored its engine into the portal at `616c67b` |
 
 **Engine drift is CLOSED as of `616c67b`** — the four files were re-vendored once
@@ -224,6 +224,37 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
   considered figure there and refuses to carry invented quantities.
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
+
+## 9. The sign-in screen, the maker's name, and the last prose (2026-08-06)
+
+**Login in the Mercury idiom.** The card and pointer light were already there;
+what was missing was entrance and life. `settle` (tokens.css) staggers the
+screen in reading order — mark 0.04s, form 0.12s, figure 0.2s, footer 0.3s.
+`AuroraField` drifts two brand-hued blooms at 34s and 47s; the periods are
+**coprime on purpose** so the pair never visibly returns to a starting pose.
+Transform-only, because this runs behind a password field and a repaint costs a
+keystroke. Both carry NO information — same rule as the pointer light.
+
+**`vendor_name` is NOT `entity_name`.** The first is who BUILT the platform
+("Safarov Industries Inc.", surfaced by `MadeBy` from `/api/capabilities`); the
+second is the organisation RUNNING it, copied verbatim onto NIS2 and DORA
+incident records. Putting the vendor in `entity_name` would file a regulatory
+notification in the wrong company's name. Never merge these two settings.
+
+**Auth screens are fully translated** (20 strings, keys `a.*`). The wordmark
+stays "Cyclowareness" — a name. The tagline is a phrase and carries
+`lang={locale}` so uppercase follows Azerbaijani casing.
+
+**Gate note worth keeping:** two strings sitting before a `{' '}` separator were
+invisible to the bare-text regex and were caught by `check:i18n` as orphan keys.
+When a translation "does not apply", check for a JSX expression splitting the
+text node.
+
+**In flight at write time:** the 947-string prose pass (`p.*` keys), 12 batches
+with a reviewer lens, applied by `scratchpad/apply_prose.py`. That script
+DEFERS any literal that sits outside a component body — a module-level helper
+cannot call a hook, and forcing one there is what broke the tree on the first
+panel attempt.
 
 ## 8. The overnight run (2026-08-05 → 06): four owner asks
 
