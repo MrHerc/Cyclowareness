@@ -225,6 +225,26 @@ pane does not composite frames, so no screenshots and no rAF — see §4.8)
 * The **login pointer-light MOTION is still unverified** — rAF does not run in
   this pane. Ask the user to confirm it visually.
 
+## 12. Full-system audit, 2026-08-06 — everything measured, nothing assumed
+
+Run against the local stack at `187b750`, locale `az`.
+
+| Surface | Result |
+|---|---|
+| Backend suite | **346 passed**, 1 skipped (engine byte-identity, skipped in CI) |
+| Frontend gates | build, lint, typecheck, check:links (38 routes), check:i18n (1438 keys) — all pass |
+| All 19 analyst routes | render, **zero errors**, all h1 in Azerbaijani |
+| API surface (10 endpoints) | 200 on every one |
+| Admin door | phone → OTP → **analyst** token |
+| Employee door | phone → **employee** token, no OTP (as specified) |
+| Unknown number | flat **404**, no enumeration hint |
+| Resource catalogue | 9 topics, **37 verified**, zero empty topics |
+| Module resource panel | 6 verified links, each with its check date |
+| Employee portal | renders, "Təhlükəsizliyim", no error branch |
+
+One 404 during the sweep was **my own wrong path guess** — `/api/intel/advisories`
+does not exist; the route is `/api/intel/items`, which answers 200. Not a defect.
+
 ## 11. NEXT SESSION STARTS HERE (2026-08-06, `187b750`)
 
 Everything below is measured. CI green, 346 backend tests, all five frontend
