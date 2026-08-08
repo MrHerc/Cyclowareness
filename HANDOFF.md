@@ -245,58 +245,37 @@ Run against the local stack at `187b750`, locale `az`.
 One 404 during the sweep was **my own wrong path guess** — `/api/intel/advisories`
 does not exist; the route is `/api/intel/items`, which answers 200. Not a defect.
 
-## 11. NEXT SESSION STARTS HERE (2026-08-06, `187b750`)
+## 11. NEXT SESSION STARTS HERE (2026-08-09, `b5d5596`)
 
-Everything below is measured. CI green, 346 backend tests, all five frontend
-gates pass (build, lint, typecheck, check:links, check:i18n at 1438 keys).
+Everything below is measured on this branch's tip, live in the browser.
 
-### The parameterised message system is BUILT and unused
+### What the overnight run finished (all pushed)
 
-`t(key, values)` splices `{placeholders}` — `src/lib/i18n/context.ts` defines
-`MessageValues`, `LocaleProvider` does the replacement, `useT` is typed for it.
-A placeholder with no supplied value keeps its literal `{name}` rather than
-printing "undefined".
+* **The auth doors are single-column Mercury** (`84bfa91`, `b5d5596`): white
+  ground, four pastel blooms full-bleed, black 46px CTA (17.92:1), 40px title,
+  one centred 26rem column, no aside. Login shows ONE method at a time —
+  email <-> phone behind a switch link — the three SSO buttons are one compact
+  row, and the demo-accounts panel is a closed `<details>`. All four doors
+  sweep to zero contrast failures.
+* **The translation backlog is done** (`b5d5596`): 463 measured strings ->
+  2 deliberate leftovers ("MITRE ATT&CK" is a proper noun;
+  `RANK[integration.status]` is a scanner artefact). check-i18n: **2015 keys,
+  all rendered, both locales complete**. 23 routes swept signed-in in `az`
+  with zero message keys as visible text.
+* **The pipeline is committed** in `frontend/tools/`:
+  `find-untranslated.py` (JSX + PROP + FIELD shapes),
+  `wire-translations.py` (verbatim `{en: az}` batches, tsc after every file,
+  restore on failure), `prune-unrendered.py`. Read
+  `docs/translation-status.md` before touching any of it.
 
-**Nothing calls it yet.** That is the next job, and the work-list already
-exists: run
+### What is deliberately NOT done
 
-    frontend $ python <scratchpad>/find_interpolated.py out.json
-
-It finds **36 interpolated sentences** — real prose with a value spliced in, at
-least five literal words, identifiers filtered out. The biggest cluster is
-`features/executive/` (UnresolvedRisks, PostureMetrics). Each becomes
-`t('key', { total, completed })` with `{total}` style placeholders in the
-catalogue.
-
-### The 53 parked keys
-
-`frontend/docs/pending-translations.json` — key, English, Azerbaijani, the files
-that hold them, and why each resisted mechanical wiring. **The translation is
-already paid for**; only the plumbing is left. They live in module-scope
-constants whose render site the automated pass could not identify.
-
-### The applier rule, learned three times
-
-**One file, run tsc, keep it only if clean; never a whole batch then a check.**
-Batch-then-check hit 44 syntax errors on the first attempt and 27 type errors on
-the third, and both times the entire batch — including the good work — had to be
-reverted. `scratchpad/wire_remaining2.py` has the per-file version.
-
-### Module-scope constants cannot call hooks
-
-Two honest shapes, prefer the second:
-1. the constant becomes a function of `t` — `reportTypes(t)`;
-2. the constant holds `MessageKey` values and the component resolves them —
-   `ErrorState`, `AIProvenanceBadge`, `HeroStrip`.
-
-Where a value interpolates, the field is `MessageKey | string` with an `isKey`
-guard, so a computed sentence passes through instead of being looked up and
-coming back blank.
-
-### What is deliberately NOT translated
-
-Seeded data — threat titles, campaign names, integration names. Those are
-records, not interface.
+* **English in server data** — seeded threat titles, module names, intel
+  advisories. That is `backend/app/seed.py` content, a seeding decision, not
+  an i18n gap. If Safar wants the demo world itself in Azerbaijani, that is a
+  seed-file translation pass plus re-seed, and nothing in the frontend changes.
+* **The live deployment still runs the old bundle** — this branch has not been
+  merged or deployed. `master` is behind; the deploy step is Safar's call.
 
 ## 10. Where the Azerbaijani stands (2026-08-06, `e2c479c`)
 
