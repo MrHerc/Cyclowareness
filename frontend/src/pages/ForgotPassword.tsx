@@ -21,7 +21,6 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { Button, Input } from '../components/ui'
 import { AuthScaffold } from '../features/auth/AuthScaffold'
-import { CompactIntro, PublicAside } from '../features/auth/PublicAside'
 import { RequestPanel } from '../features/auth/RequestPanel'
 import { rememberedEmail } from '../features/auth/rememberedEmail'
 import { PRODUCT_NAME } from '../lib/demo/registry'
@@ -65,8 +64,6 @@ export default function ForgotPassword() {
     <AuthScaffold
       title={t('x.reset-your-password')}
       intro="Password resets go through your security team. This deployment has no self-service reset."
-      mobileIntro={<CompactIntro />}
-      aside={<PublicAside />}
       footer={
         <p>
           Remembered it?{' '}

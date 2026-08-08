@@ -1,18 +1,21 @@
 /**
- * The frame every public page shares: credentials on the left, the product on
- * the right.
+ * The frame every public page shares: one centred column, nothing beside it.
  *
- * Two constraints decided the layout.
+ * WHY THE SECOND COLUMN IS GONE. It held a headline, a supporting sentence and
+ * a drawn figure — a pitch. A sign-in is not a place to be sold to: the reader
+ * already decided to come here, and the only thing they want is the shortest
+ * path to the field. The reference this follows puts a mark, a heading, the
+ * fields and two links on an empty page, and that emptiness is the whole
+ * effect. Splitting the viewport put the form permanently off-centre and gave
+ * the eye a second place to go first.
  *
- * - **The form never scrolls off.** The left column is the only column below
- *   `lg`; the signature figure is not shrunk to fit a phone, it is dropped, and
- *   `mobileIntro` carries the same claim in text. A hero illustration that
- *   pushes the password field under the fold is a hero illustration that costs
- *   sign-ins.
- * - **One `h1` per page, and it is the task.** The marketing headline in the
- *   right column is large but it is not a heading — the page is "Sign in", and
- *   an outline that says otherwise is wrong for anyone reading it with assistive
- *   technology.
+ * The column is 26rem and does not grow. On a 1600px display the page does not
+ * become a 1600px form; it stays exactly as wide as the task and lets the light
+ * behind it carry the rest.
+ *
+ * ONE `h1` PER PAGE, AND IT IS THE TASK. The page is "Sign in" — not a slogan.
+ * Anything read with assistive technology gets an outline that matches what the
+ * page is actually for.
  */
 
 import type { ReactNode } from 'react'
@@ -31,43 +34,27 @@ export interface AuthScaffoldProps {
   title: string
   /** One or two sentences under the heading. */
   intro?: ReactNode
-  /** Shown above the form below `lg`, where the right column does not exist. */
-  mobileIntro?: ReactNode
-  /** The right column. Omit for a single centred column. */
-  aside?: ReactNode
   /** Links out of the page — sign in, request an account, reset. */
   footer?: ReactNode
   children: ReactNode
 }
 
-export function AuthScaffold({
-  title,
-  intro,
-  mobileIntro,
-  aside,
-  footer,
-  children,
-}: AuthScaffoldProps) {
+export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldProps) {
   const { locale, t } = useLocale()
   return (
-    <div className="auth-surface relative min-h-dvh w-full overflow-hidden">
-      {/* FULL-BLEED, not boxed into the right column. The reference bleeds its
-          gradient across the whole page and lets the content sit in the light;
-          confining it to the aside made it a decorative panel beside a plain
-          white form, which is the tell that gave the old version away. */}
+    <div className="auth-surface relative flex min-h-dvh w-full flex-col overflow-hidden">
+      {/* Full-bleed and carrying no information — see the components. The first
+          screen anyone sees should feel like a lit surface rather than a form on
+          a flat colour. */}
       <AuroraField />
-      {/* Behind everything, pointer-events-none, and carrying no information —
-          see the component. The first screen anyone sees should feel like a
-          surface rather than a form on a flat colour. */}
       <PointerLight />
 
-      {/* One centred measure holding both columns, rather than two halves of the
-          viewport. At 1600px the old split threw the form against the left edge
-          and stretched the aside to fill; a page that stays centred and simply
-          stops growing is the whole difference in feel. */}
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-[1180px] flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-16">
-      <div className="flex min-h-dvh flex-col px-6 py-10 sm:px-12 lg:px-0 lg:py-16">
-        <header className="settle settle-1">
+      {/* `justify-center` on the column, not `flex-1` on the main: the mark, the
+          form and the links travel together as one block and stay optically
+          centred, instead of the mark pinning to the top edge and the footer to
+          the bottom on a tall display. */}
+      <div className="relative mx-auto flex w-full max-w-[26rem] flex-1 flex-col justify-center px-6 py-14 sm:px-0">
+        <header className="settle settle-1 flex justify-center">
           <Link
             to="/login"
             className="inline-flex items-center gap-2.5 rounded-control"
@@ -83,49 +70,29 @@ export function AuthScaffold({
           </Link>
         </header>
 
-        <main className="flex flex-1 items-center py-14">
-          {/* The form floats as one elevated card on the lit background, the way
-              the internals' panels rest on the surface — so the first screen and
-              every screen after it share a language. `bg-elevated/80` with a
-              backdrop blur lets the pointer light read THROUGH the card without
-              washing the fields out. */}
-          {/* No card, no blur, no shadow. On a light ground those read as a
-              dialog sitting on top of a page; Mercury's sign-in IS the page.
-              The type carries the hierarchy instead of a container. */}
-          {/* 26rem, not 28. The reference keeps its sign-in column narrow and
-              lets the whitespace around it do the work; a wider measure makes
-              the same fields read as a form to be processed. */}
-          <div className="settle settle-2 mx-auto w-full max-w-[26rem] lg:mx-0">
-            {mobileIntro ? <div className="mb-8 lg:hidden">{mobileIntro}</div> : null}
+        <main className="settle settle-2 mt-14">
+          {/* Centred, because there is nothing to align to any more. The fields
+              below keep their own left-aligned labels — a centred label above a
+              left-aligned input is the tell of a template. */}
+          <h1 className="text-center text-[2.25rem] font-medium leading-[1.1] tracking-[-0.025em] text-fg sm:text-[2.5rem]">
+            {title}
+          </h1>
+          {intro ? (
+            <p className="mx-auto mt-4 max-w-[22rem] text-center text-base leading-[1.65] text-fg-muted">
+              {intro}
+            </p>
+          ) : null}
 
-            {/* 40px, down from 52. A display size belongs on a marketing hero;
-                on a sign-in it shouts over the one thing the page is for. The
-                weight and the tight tracking carry the refinement instead. */}
-            <h1 className="text-[2.25rem] font-medium leading-[1.1] tracking-[-0.025em] text-fg sm:text-[2.5rem]">
-              {title}
-            </h1>
-            {intro ? (
-              <p className="mt-4 max-w-[22rem] text-base leading-[1.65] text-fg-muted">{intro}</p>
-            ) : null}
-
-            <div className="mt-9">{children}</div>
-          </div>
+          <div className="mt-10">{children}</div>
         </main>
 
-        <footer className="settle settle-4 mx-auto w-full max-w-[26rem] space-y-2 text-sm text-fg-subtle lg:mx-0">
+        <footer className="settle settle-4 mt-10 space-y-2 text-center text-sm text-fg-subtle">
           {footer}
           {/* Attribution sits under whatever the page's own footer says, on
               every auth screen, because this is where a reader looks for who
               made the thing they are about to sign in to. */}
           <MadeBy />
         </footer>
-      </div>
-
-      {aside ? (
-        <aside className="relative hidden lg:flex lg:items-center lg:justify-center lg:py-16">
-          <div className="settle settle-3 relative">{aside}</div>
-        </aside>
-      ) : null}
       </div>
     </div>
   )

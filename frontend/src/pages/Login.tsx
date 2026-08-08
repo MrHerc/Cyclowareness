@@ -25,7 +25,6 @@ import type { Session } from '../domain/types'
 import { AuthScaffold } from '../features/auth/AuthScaffold'
 import { DemoAccounts } from '../features/auth/DemoAccounts'
 import { FederatedIdentity } from '../features/auth/FederatedIdentity'
-import { CompactIntro, PublicAside } from '../features/auth/PublicAside'
 import { rememberedEmail, setRememberedEmail } from '../features/auth/rememberedEmail'
 import { PhoneEntry } from '../features/auth/PhoneEntry'
 import { SignInForm, type SignInCredentials } from '../features/auth/SignInForm'
@@ -90,8 +89,6 @@ export default function Login() {
     <AuthScaffold
       title={t('x.sign-in')}
       intro={t('a.login-intro')}
-      mobileIntro={<CompactIntro />}
-      aside={<PublicAside />}
       footer={
         <p>
           {t('a.accounts-provisioned')}{' '}

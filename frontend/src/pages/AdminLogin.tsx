@@ -22,7 +22,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ShieldCheck } from 'lucide-react'
 import { AuthScaffold } from '../features/auth/AuthScaffold'
-import { LoopSignature } from '../features/auth/LoopSignature'
 import { api, ApiError } from '../lib/api/client'
 import { useAuth } from '../lib/auth/useAuth'
 import type { Session } from '../domain/types'
@@ -91,7 +90,6 @@ export default function AdminLogin() {
     <AuthScaffold
       title={t('x.admin-portal')}
       intro={t('a.admin-intro')}
-      aside={<LoopSignature />}
       footer={
         <p>
           {t('a.not-admin')}{' '}

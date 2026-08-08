@@ -22,7 +22,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button, Input } from '../components/ui'
 import { AuthScaffold } from '../features/auth/AuthScaffold'
-import { CompactIntro, PublicAside } from '../features/auth/PublicAside'
 import { RequestPanel } from '../features/auth/RequestPanel'
 import { PRODUCT_NAME } from '../lib/demo/registry'
 
@@ -69,8 +68,6 @@ export default function Register() {
     <AuthScaffold
       title={t('x.request-an-account')}
       intro={`${PRODUCT_NAME} accounts are created by your security team. There is no self-service sign-up in this deployment.`}
-      mobileIntro={<CompactIntro />}
-      aside={<PublicAside />}
       footer={
         <p>
           Already have an account?{' '}
