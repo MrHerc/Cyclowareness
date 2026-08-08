@@ -11,6 +11,7 @@
  */
 
 import { cn } from '../../lib/format'
+import { useT } from '../../lib/i18n'
 import { Tip } from './Tip'
 import { confidenceBand, type ConfidenceBand } from './confidence'
 
@@ -28,13 +29,14 @@ export interface ConfidenceBadgeProps {
 }
 
 export function ConfidenceBadge({ value, className }: ConfidenceBadgeProps) {
+  const t = useT()
   const chip = 'inline-flex items-center rounded-chip border px-2 py-0.5 text-xs'
 
   if (value === null || value === undefined || !Number.isFinite(value)) {
     return (
       <Tip content="Whatever produced this did not report a confidence, so none is shown.">
         <span className={cn(chip, 'border-line-subtle text-fg-faint', className)}>
-          Confidence not stated
+          {t('u.confidence-not-stated-2')}
         </span>
       </Tip>
     )

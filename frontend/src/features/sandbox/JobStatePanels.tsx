@@ -93,7 +93,7 @@ export function PasswordPrompt({ job }: { job: SandboxJobDetail }) {
               loading={supply.isPending}
               disabled={!password}
             >
-              Unlock and continue
+              {t('u.unlock-and-continue')}
             </Button>
           </form>
         </div>
@@ -140,7 +140,7 @@ export function FailurePanel({ job }: { job: SandboxJobDetail }) {
             loading={reanalyze.isPending}
             onClick={() => reanalyze.mutate(job.public_id)}
           >
-            Run the analysis again
+            {t('u.run-the-analysis-again')}
           </Button>
         </div>
       </div>

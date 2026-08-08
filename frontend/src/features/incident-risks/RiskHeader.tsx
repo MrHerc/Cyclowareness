@@ -50,7 +50,7 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
             {risk.incident_ref ? (
               <span className="tech text-fg-subtle">{risk.incident_ref}</span>
             ) : (
-              <span className="text-xs text-fg-faint">No incident reference</span>
+              <span className="text-xs text-fg-faint">{t('u.no-incident-reference')}</span>
             )}
             <Badge size="sm" status={risk.status} dot />
             <Badge size="sm" status={risk.severity} />
@@ -68,7 +68,7 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
           <h1 className="mt-2 text-title text-fg">{risk.title}</h1>
 
           <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
-            <Meta label="Risk type" value={riskTypeLabel(risk.risk_type)} />
+            <Meta label={t('u.risk-type')} value={riskTypeLabel(risk.risk_type)} />
             <Meta
               label={t('p.confidentiality')}
               value={
@@ -113,7 +113,7 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
               reason={whyCannotAssign(risk, rollup.total)}
               onClick={() => setAssigning(true)}
             >
-              Assign required work
+              {t('u.assign-required-work')}
             </GuardedAction>
             <GuardedAction
               variant="secondary"

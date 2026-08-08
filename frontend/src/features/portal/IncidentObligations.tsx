@@ -5,7 +5,7 @@
  * than it knows. Above `internal` confidentiality the narrative and the evidence
  * name other people and other systems, so the server withholds them and sends
  * `redacted` with a reason. The failure to avoid is rendering that as a blank
- * description: "there is nothing here" and "you are not cleared to read this"
+ * description: t('u.there-is-nothing-here') and "you are not cleared to read this"
  * are different facts, and only one of them is true.
  *
  * What is never withheld: the obligation, the deadline, the score to reach, and
@@ -77,7 +77,7 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
 
       {item.required_action ? (
         <div className="mt-3">
-          <span className="label text-fg-subtle">What you must do</span>
+          <span className="label text-fg-subtle">{t('u.what-you-must-do')}</span>
           <p className="mt-1 text-body text-fg">{item.required_action}</p>
         </div>
       ) : null}
@@ -94,7 +94,7 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
           )}
         </span>
         <span className="text-fg-muted">
-          <span className="text-fg-subtle">Score to reach: </span>
+          <span className="text-fg-subtle">{t('u.score-to-reach')} </span>
           {item.min_score === null ? (
             <span className="text-fg-subtle">not specified</span>
           ) : (
@@ -103,7 +103,7 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
         </span>
         {item.my_score !== null ? (
           <span className="text-fg-muted">
-            <span className="text-fg-subtle">You scored: </span>
+            <span className="text-fg-subtle">{t('u.you-scored')} </span>
             <span className="text-fg">{num(item.my_score, 0)}%</span>
           </span>
         ) : null}
@@ -113,7 +113,7 @@ function Obligation({ item }: { item: MyIncidentRisk }) {
             true; a broken deep link is neither. */}
         {item.requires_training && open ? (
           <Button asChild size="sm" variant="outline" className="ml-auto">
-            <Link to="/portal">Go to your training</Link>
+            <Link to="/portal">{t('u.go-to-your-training')}</Link>
           </Button>
         ) : null}
       </div>
@@ -133,7 +133,7 @@ export function IncidentObligations({ items }: IncidentObligationsProps) {
         <EmptyState
           compact
           icon={ShieldAlert}
-          headline="Nothing has been raised against you"
+          headline={t('u.nothing-has-been-raised-against-you')}
           description={t('x.work-appears-here-when-an')}
         />
       ) : (

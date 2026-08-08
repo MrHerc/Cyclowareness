@@ -38,7 +38,7 @@ export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: Threat
       subtitle={t('x.the-most-recent-artifacts-the')}
       actions={
         <Button size="sm" variant="ghost" asChild>
-          <Link to="/threats">All threats</Link>
+          <Link to="/threats">{t('u.all-threats')}</Link>
         </Button>
       }
     >
@@ -52,7 +52,7 @@ export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: Threat
           <EmptyState
             compact
             icon={Inbox}
-            headline="Nothing has been submitted"
+            headline={t('u.nothing-has-been-submitted')}
             description={t('x.threats-appear-here-when-an')}
           />
         }
@@ -82,7 +82,7 @@ export function ThreatIntakePanel({ threats, isLoading, error, onRetry }: Threat
                   <Badge status={threat.verdict} size="sm" />
                 ) : (
                   <span className="rounded-chip border border-dashed border-line px-2 py-0.5 text-xs text-fg-faint">
-                    Not yet analysed
+                    {t('u.not-yet-analysed')}
                   </span>
                 )}
                 <ConfidenceBadge value={threat.confidence} />

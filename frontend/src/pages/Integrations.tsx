@@ -123,7 +123,7 @@ export default function Integrations() {
                 </Badge>
               ))}
             {rows.length === 0 ? (
-              <span className="text-sm text-fg-subtle">No connection records exist.</span>
+              <span className="text-sm text-fg-subtle">{t('u.no-connection-records-exist')}</span>
             ) : null}
           </div>
           <Select

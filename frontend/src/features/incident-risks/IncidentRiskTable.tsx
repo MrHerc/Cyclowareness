@@ -69,7 +69,7 @@ export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
                   {risk.incident_ref ? (
                     <span className="tech text-fg-faint">{risk.incident_ref}</span>
                   ) : (
-                    <span className="text-xs text-fg-faint">No incident reference</span>
+                    <span className="text-xs text-fg-faint">{t('u.no-incident-reference')}</span>
                   )}
                   {risk.reopened_count > 0 && (
                     <Badge size="sm" status="reopened">
@@ -94,7 +94,7 @@ export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
                   risk.subject_count
                 ) : (
                   <NoMeasurement
-                    label="Not listed"
+                    label={t('u.not-listed')}
                     reason={t('p.the-list-response-does-not-carry')}
                     className="justify-end text-xs"
                   />
@@ -108,7 +108,7 @@ export function IncidentRiskTable({ risks }: IncidentRiskTableProps) {
                     <span className="block text-xs text-fg-faint">{formatDate(risk.deadline)}</span>
                   </span>
                 ) : (
-                  <span className="text-xs text-fg-faint">No deadline</span>
+                  <span className="text-xs text-fg-faint">{t('u.no-deadline')}</span>
                 )}
               </TableCell>
 

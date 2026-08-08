@@ -11,6 +11,7 @@
  */
 
 import { MonitorPlay } from 'lucide-react'
+import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { Tip } from './Tip'
 
@@ -21,6 +22,7 @@ export interface DemoDataBadgeProps {
 }
 
 export function DemoDataBadge({ detail, className }: DemoDataBadgeProps) {
+  const t = useT()
   return (
     <Tip
       content={
@@ -37,7 +39,7 @@ export function DemoDataBadge({ detail, className }: DemoDataBadgeProps) {
         )}
       >
         <MonitorPlay className="size-3.5 shrink-0" aria-hidden="true" />
-        Demo data
+        {t('u.demo-data-2')}
       </span>
     </Tip>
   )

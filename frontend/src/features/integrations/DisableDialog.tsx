@@ -68,7 +68,7 @@ export function DisableDialog({ integration, open, onOpenChange }: DisableDialog
               disable.mutate({ id: integration.id, body: { reason: trimmed } })
             }}
           >
-            Disable connection
+            {t('u.disable-connection')}
           </Button>
         </>
       }

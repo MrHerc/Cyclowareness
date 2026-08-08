@@ -44,7 +44,7 @@ export function IncidentRiskPanel({ risks, isLoading, error, onRetry }: Incident
       subtitle={`${risks.length} open ${risks.length === 1 ? 'record' : 'records'} raised against people`}
       actions={
         <Button size="sm" variant="ghost" asChild>
-          <Link to="/incident-risks">All incident risks</Link>
+          <Link to="/incident-risks">{t('u.all-incident-risks')}</Link>
         </Button>
       }
     >
@@ -58,7 +58,7 @@ export function IncidentRiskPanel({ risks, isLoading, error, onRetry }: Incident
           <EmptyState
             compact
             icon={ShieldAlert}
-            headline="Nothing is open"
+            headline={t('u.nothing-is-open')}
             description={t('x.incident-response-raises-a-record')}
           />
         }

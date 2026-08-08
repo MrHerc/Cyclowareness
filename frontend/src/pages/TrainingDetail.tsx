@@ -62,7 +62,7 @@ export default function TrainingDetail() {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-3.5 shrink-0" aria-hidden="true" />
-        Training Studio
+        {t('u.training-studio')}
       </Link>
 
       <AsyncBoundary
@@ -98,7 +98,7 @@ export default function TrainingDetail() {
                   onClick={() => setEditing(true)}
                   icon={<PenLine className="size-4" aria-hidden="true" />}
                 >
-                  Edit module
+                  {t('u.edit-module')}
                 </Button>
               ) : null}
             </header>

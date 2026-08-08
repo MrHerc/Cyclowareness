@@ -54,7 +54,7 @@ export function DemoControls() {
           icon={<RotateCcw className="size-4" aria-hidden="true" strokeWidth={1.75} />}
           onClick={() => setOpen(true)}
         >
-          Reset the demonstration world
+          {t('u.reset-the-demonstration-world-2')}
         </Button>
       </div>
 

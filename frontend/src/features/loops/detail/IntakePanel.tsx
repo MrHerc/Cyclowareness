@@ -47,7 +47,7 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
         stage={STAGE}
         entry={entry}
         source="live"
-        sourceDetail="Threat record"
+        sourceDetail={t('u.threat-record-2')}
       >
         <p className="text-body text-fg-muted">{t('p.this-run-has-no-threat-attached')}</p>
       </StageSection>
@@ -79,12 +79,12 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
   ]
 
   return (
-    <StageSection stage={STAGE} entry={entry} source="live" sourceDetail="Threat record">
+    <StageSection stage={STAGE} entry={entry} source="live" sourceDetail={t('u.threat-record-2')}>
       <Facts items={facts} />
 
       <dl className="mt-5 space-y-3 border-t border-line-subtle pt-4">
         <div>
-          <dt className="label text-fg-faint">Chain of custody</dt>
+          <dt className="label text-fg-faint">{t('u.chain-of-custody')}</dt>
           <dd className="mt-1 text-sm text-fg-muted">
             The platform records who submitted the artifact and when, and every later change to this
             run is in the audit strip at the foot of this page. No custody-transfer log beyond that

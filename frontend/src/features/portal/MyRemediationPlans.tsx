@@ -80,7 +80,7 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
           disabled={!note.trim()}
           loading={dispute.isPending}
         >
-          Send to a person
+          {t('u.send-to-a-person')}
         </Button>
         <Button type="button" size="sm" variant="ghost" onClick={onDone}>
           Cancel
@@ -107,7 +107,7 @@ function Dispute({ plan }: { plan: RemediationPlan }) {
   if (state === 'open') {
     return (
       <p className="mt-3 rounded-panel border border-line-subtle bg-surface p-3 text-xs text-fg-subtle">
-        <span className="text-fg-muted">You disputed this.</span> Nobody has answered yet. What you
+        <span className="text-fg-muted">{t('u.you-disputed-this')}</span> Nobody has answered yet. What you
         wrote: &ldquo;{plan.dispute_note}&rdquo;
       </p>
     )
@@ -117,7 +117,7 @@ function Dispute({ plan }: { plan: RemediationPlan }) {
     return (
       <div className="mt-3 rounded-panel border border-line-subtle bg-surface p-3 text-xs">
         <p className="text-fg-subtle">
-          <span className="text-fg-muted">You disputed this, and a person answered.</span>{' '}
+          <span className="text-fg-muted">{t('u.you-disputed-this-and-a-person-answered')}</span>{' '}
           {plan.dispute_resolution}
         </p>
         {/* The status is the server's, not a client guess: `rejected` after a
@@ -176,7 +176,7 @@ export function MyRemediationPlans({ plans }: MyRemediationPlansProps) {
 
             {plan.framing.what_to_do && plan.framing.what_to_do.length > 0 ? (
               <div className="mt-3">
-                <span className="label text-fg-subtle">What to do</span>
+                <span className="label text-fg-subtle">{t('u.what-to-do')}</span>
                 <ul className="mt-1 space-y-1">
                   {plan.framing.what_to_do.map((step) => (
                     <li key={step} className="flex items-start gap-2 text-body text-fg">

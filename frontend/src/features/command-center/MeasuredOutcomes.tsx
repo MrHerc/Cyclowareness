@@ -92,7 +92,7 @@ export function MeasuredOutcomes({
               value={metrics.phishing_click_rate}
               format="percent"
               sample={metrics.simulation_sample}
-              sampleNoun="delivered simulations"
+              sampleNoun={t('u.delivered-simulations')}
               windowDays={metrics.window_days}
               source="live"
               unmeasuredReason={unmeasured(
@@ -105,11 +105,11 @@ export function MeasuredOutcomes({
             />
 
             <HonestMetric
-              label="Report rate"
+              label={t('u.report-rate')}
               value={metrics.report_rate}
               format="percent"
               sample={metrics.simulation_sample}
-              sampleNoun="delivered simulations"
+              sampleNoun={t('u.delivered-simulations')}
               windowDays={metrics.window_days}
               source="live"
               unmeasuredReason={unmeasured(
@@ -126,7 +126,7 @@ export function MeasuredOutcomes({
               value={metrics.training_completion_rate}
               format="percent"
               sample={metrics.training_sample}
-              sampleNoun="assigned modules"
+              sampleNoun={t('u.assigned-modules')}
               windowDays={metrics.window_days}
               source="live"
               unmeasuredReason={unmeasured(
@@ -143,11 +143,11 @@ export function MeasuredOutcomes({
               value={metrics.avg_risk_score}
               format="score"
               sample={scored}
-              sampleNoun="scored employees"
+              sampleNoun={t('u.scored-employees')}
               source="live"
               tone={riskTone}
               hint={t('p.current-standing-of-the-scored-population')}
-              unmeasuredReason="No employee has a scored risk profile yet"
+              unmeasuredReason={t('u.no-employee-has-a-scored-risk-profile')}
               unmeasuredRemedy="The risk engine scores a person once they have at least one recorded event."
             />
           </div>

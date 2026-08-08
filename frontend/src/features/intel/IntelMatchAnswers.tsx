@@ -72,16 +72,16 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
 
   return (
     <>
-      <Question index={1} heading="Why does this matter to this organisation?">
+      <Question index={1} heading={t('u.why-does-this-matter-to-this-organisation')}>
         {matches.length === 0 ? (
           <NothingFound
-            headline="Nothing of ours matched this advisory."
+            headline={t('u.nothing-of-ours-matched-this-advisory')}
             detail={t('p.the-platform-compared-it-against-the')}
           />
         ) : (
           <div className="space-y-3">
             <div className="flex flex-wrap items-baseline gap-2">
-              <span className="label text-ai">Machine-derived</span>
+              <span className="label text-ai">{t('u.machine-derived')}</span>
               <p className="text-sm text-fg-subtle">
                 {matches.length === 1 ? 'One match' : `${matches.length} matches`} recorded by the
                 platform's comparison. Each carries the sentence it was recorded with.
@@ -113,11 +113,11 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
         )}
       </Question>
 
-      <Question index={2} heading="Which approved technologies are affected?">
+      <Question index={2} heading={t('u.which-approved-technologies-are-affected')}>
         <div className="space-y-4">
           {technologies.length === 0 ? (
             <NothingFound
-              headline="No approved technology was matched."
+              headline={t('u.no-approved-technology-was-matched')}
               detail={t('p.no-match-named-a-technology-from')}
             />
           ) : (
@@ -158,10 +158,10 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
         </div>
       </Question>
 
-      <Question index={3} heading="Which policy is affected?">
+      <Question index={3} heading={t('u.which-policy-is-affected')}>
         {policyMatches.length === 0 ? (
           <NothingFound
-            headline="No policy rule was matched."
+            headline={t('u.no-policy-rule-was-matched')}
             detail={t('p.no-extracted-rule-an-approved-version')}
           />
         ) : (
@@ -178,16 +178,16 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
               className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline"
             >
               <Library className="size-4" aria-hidden="true" />
-              Open the policy library
+              {t('u.open-the-policy-library')}
             </Link>
           </div>
         )}
       </Question>
 
-      <Question index={4} heading="Which users or departments are exposed?">
+      <Question index={4} heading={t('u.which-users-or-departments-are-exposed')}>
         {departmentIds.length === 0 && employeeIds.length === 0 ? (
           <NothingFound
-            headline="No department or person was named."
+            headline={t('u.no-department-or-person-was-named')}
             detail={t('p.exposure-is-carried-by-the-match')}
           />
         ) : (
@@ -218,7 +218,7 @@ export function IntelMatchAnswers({ item, departments, employees }: IntelMatchAn
                   to="/departments"
                   className="mt-2 inline-flex items-center gap-1.5 text-sm text-brand hover:underline"
                 >
-                  Open department risk
+                  {t('u.open-department-risk')}
                 </Link>
               ) : null}
             </div>

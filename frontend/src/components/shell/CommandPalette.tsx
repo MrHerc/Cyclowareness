@@ -159,7 +159,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
               'overflow-hidden rounded-panel border border-line bg-surface shadow-float',
             )}
           >
-            <RadixDialog.Title className="sr-only">Command palette</RadixDialog.Title>
+            <RadixDialog.Title className="sr-only">{t('u.command-palette-2')}</RadixDialog.Title>
 
             {/* No `onKeyDown` of our own on <Command>: cmdk calls the caller's
                 handler first and then skips its own arrow/Enter handling if the
@@ -180,7 +180,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
               <Command.List className="max-h-[min(60vh,26rem)] overflow-y-auto p-2">
                 <Command.Empty className="px-2.5 py-6 text-center text-body text-fg-subtle">
-                  Nothing matches. The palette only lists screens your role can open.
+                  {t('u.nothing-matches-the-palette-only-lists-screens-2')}
                 </Command.Empty>
 
                 <Command.Group heading={<GroupHeading>Navigation</GroupHeading>}>
@@ -281,7 +281,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       <ConfirmationDialog
         open={confirmReset}
         onOpenChange={setConfirmReset}
-        title="Reset the demonstration world"
+        title={t('u.reset-the-demonstration-world-2')}
         description="Every loop run, approval decision, simulation outcome and training result is deleted and the seeded organisation is rebuilt. This cannot be undone, and anything demonstrated so far will be gone."
         confirmLabel={t('p.reset-the-world')}
         tone="danger"

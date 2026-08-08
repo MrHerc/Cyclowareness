@@ -45,7 +45,7 @@ export function IntelViewCounts({ items, total, matched }: IntelViewCountsProps)
           value={total === null ? `${num(items.length)} shown` : num(total)}
         />
         {total !== null && total !== items.length ? (
-          <Row label="Shown here" value={num(items.length)} />
+          <Row label={t('u.shown-here')} value={num(items.length)} />
         ) : null}
         <Row
           label={t('p.with-a-match-against-us')}

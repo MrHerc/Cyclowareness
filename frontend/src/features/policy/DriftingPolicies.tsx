@@ -76,7 +76,7 @@ export function DriftingPolicies({
       <EmptyState
         compact
         icon={FileWarning}
-        headline="No policy has an open finding"
+        headline={t('u.no-policy-has-an-open-finding')}
         description={t('x.a-policy-appears-here-as')}
       />
     )

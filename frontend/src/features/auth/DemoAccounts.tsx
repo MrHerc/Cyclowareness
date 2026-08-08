@@ -25,12 +25,15 @@ export interface DemoAccountsProps {
 
 export function DemoAccounts({ onUse, pending, disabled = false }: DemoAccountsProps) {
   const t = useT()
+  // <details>, closed by default. Open, this panel was 376px of the first
+  // screen — taller than the form it sits under. It stays one click away and
+  // keeps its honest labelling; it just no longer competes.
   return (
-    <section className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface/60 p-4">
-      <header className="flex items-center justify-between gap-3">
-        <h2 className="label text-fg-subtle">{t('y.demonstration-accounts')}</h2>
+    <details className="mt-6 rounded-panel border border-dashed border-line-strong bg-surface/60 p-4">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+        <span className="label text-fg-subtle">{t('y.demonstration-accounts')}</span>
         <DemoDataBadge detail={t('p.seeded-credentials-for-the-fictional-caspian')} />
-      </header>
+      </summary>
 
       <p className="text-xs text-fg-faint mt-2">{t('p.this-deployment-reports-demo-mode-so')}</p>
 
@@ -64,6 +67,6 @@ export function DemoAccounts({ onUse, pending, disabled = false }: DemoAccountsP
           )
         })}
       </ul>
-    </section>
+    </details>
   )
 }

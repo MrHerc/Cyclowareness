@@ -8,11 +8,13 @@
  */
 
 import { SkeletonCard, SkeletonText } from '../states'
+import { useT } from '../../lib/i18n'
 
 export function PageFallback() {
+  const t = useT()
   return (
     <div className="space-y-6" aria-busy="true" aria-live="polite">
-      <span className="sr-only">Loading this screen</span>
+      <span className="sr-only">{t('u.loading-this-screen')}</span>
       <div className="max-w-md">
         <SkeletonText lines={2} />
       </div>

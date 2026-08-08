@@ -50,7 +50,7 @@ export function LoopOutcomeChart({
 
   return (
     <ChartFrame
-      title="Loop outcomes"
+      title={t('u.loop-outcomes-2')}
       caption={windowDays ? `Last ${windowDays} days · ${total} loops` : `${total} loops`}
       legend={[
         { label: 'Completed', color: COMPLETED_COLOR, value: String(completed) },
@@ -62,7 +62,7 @@ export function LoopOutcomeChart({
       loading={loading}
       error={error}
       emptyTitle={t('p.no-loops-yet')}
-      emptyMessage="No loop has been started in this window."
+      emptyMessage={t('u.loop-outcome-empty')}
       description={`Of ${total} loops, ${completed} completed, ${awaiting} are still in flight and ${failed} failed.`}
       className={className}
     >
@@ -81,7 +81,7 @@ export function LoopOutcomeChart({
             if (!props.active) return null
             return (
               <ChartTooltip
-                title="Loop outcomes"
+                title={t('u.loop-outcomes-2')}
                 note={`${total} loops in total`}
                 rows={[
                   {

@@ -74,7 +74,7 @@ export function LessonPhase({
             onClick={onReportConcern}
             icon={<Flag className="size-4" aria-hidden="true" />}
           >
-            Report a concern
+            {t('u.report-a-concern')}
           </Button>
         </div>
 

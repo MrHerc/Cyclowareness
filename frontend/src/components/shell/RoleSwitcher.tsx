@@ -89,7 +89,7 @@ export function RoleSwitcher({ className }: RoleSwitcherProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-80">
-        <DropdownMenuLabel>Seeded demonstration accounts</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('u.seeded-demonstration-accounts')}</DropdownMenuLabel>
 
         {DEMO_ACCOUNTS.map((account) => {
           const current = session?.email === account.email

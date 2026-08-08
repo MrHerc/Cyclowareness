@@ -59,7 +59,7 @@ function Severity({ row }: { row: QueueRow }) {
       >
         <span className="inline-flex items-center gap-1.5 text-sm text-fg-faint">
           <ShieldQuestion className="size-3.5" aria-hidden="true" />
-          Not derived
+          {t('u.not-derived')}
         </span>
       </Tooltip>
     )
@@ -81,12 +81,12 @@ export function QueueTable({ rows, modelConnected }: QueueTableProps) {
           <TableHead>Waiting</TableHead>
           <TableHead>Threat</TableHead>
           <TableHead>Severity</TableHead>
-          <TableHead>Generated training</TableHead>
+          <TableHead>{t('u.generated-training')}</TableHead>
           <TableHead numeric>Audience</TableHead>
           {showSanitization && <TableHead>Sanitisation</TableHead>}
           {showAnalyst && <TableHead>Analyst</TableHead>}
           <TableHead>
-            <span className="sr-only">Open review</span>
+            <span className="sr-only">{t('u.open-review')}</span>
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -115,7 +115,7 @@ export function QueueTable({ rows, modelConnected }: QueueTableProps) {
                       content={`Endorsed by ${row.endorsedBy ?? 'another analyst'} and held at the gate. A different person has to approve it.`}
                     >
                       <Badge status="awaiting_review" size="sm">
-                        Held for a second approver
+                        {t('u.held-for-a-second-approver')}
                       </Badge>
                     </Tooltip>
                   )}
@@ -171,7 +171,7 @@ export function QueueTable({ rows, modelConnected }: QueueTableProps) {
                 {row.sanitizationStatus ? (
                   <Badge status={row.sanitizationStatus} size="sm" />
                 ) : (
-                  <span className="text-sm text-fg-faint">Not reported</span>
+                  <span className="text-sm text-fg-faint">{t('u.not-reported')}</span>
                 )}
               </TableCell>
             )}

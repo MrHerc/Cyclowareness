@@ -112,7 +112,7 @@ export function JobToolbar({ job }: JobToolbarProps) {
         disabled={job.status === 'running'}
         onClick={() => reanalyze.mutate(job.public_id)}
       >
-        Re-analyse
+        {t('u.re-analyse')}
       </Button>
 
       <span aria-live="polite" className="sr-only">

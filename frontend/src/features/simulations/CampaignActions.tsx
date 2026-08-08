@@ -80,7 +80,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
             onClick={() => launch.mutate(simulation.id)}
             icon={<Send className="size-4" aria-hidden="true" />}
           >
-            Launch campaign
+            {t('u.launch-campaign')}
           </Button>
         ) : null}
 
@@ -90,7 +90,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
             onClick={() => setConfirming('complete')}
             icon={<CheckCheck className="size-4" aria-hidden="true" />}
           >
-            Close campaign
+            {t('u.close-campaign')}
           </Button>
         ) : null}
 
@@ -100,7 +100,7 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
             onClick={() => setConfirming('synthetic')}
             icon={<Dices className="size-4" aria-hidden="true" />}
           >
-            Fill outcomes synthetically (demo)
+            {t('u.fill-outcomes-synthetically-demo')}
           </Button>
         ) : null}
       </div>

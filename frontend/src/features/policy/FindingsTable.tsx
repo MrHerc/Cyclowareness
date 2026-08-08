@@ -10,6 +10,7 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { ConfidenceBadge } from '../../components/data'
 import {
   Badge,
@@ -31,6 +32,7 @@ export interface FindingsTableProps {
 }
 
 export function FindingsTable({ findings, policyNames }: FindingsTableProps) {
+  const t = useT()
   return (
     <Table containerClassName="max-h-[70vh]">
       <TableHeader>
@@ -80,7 +82,7 @@ export function FindingsTable({ findings, policyNames }: FindingsTableProps) {
                 {policyName ? (
                   <span className="block truncate">{policyName}</span>
                 ) : (
-                  <span className="text-fg-faint">Not tied to a policy</span>
+                  <span className="text-fg-faint">{t('u.not-tied-to-a-policy')}</span>
                 )}
               </TableCell>
 

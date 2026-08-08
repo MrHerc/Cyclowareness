@@ -152,7 +152,7 @@ export function QuizPhase({
               disabled={!complete}
               onClick={() => onConfirmOpenChange(true)}
             >
-              Submit answers
+              {t('u.submit-answers')}
             </Button>
           ) : (
             <Button
@@ -178,7 +178,7 @@ export function QuizPhase({
         title={t('x.submit-your-answers')}
         description={t('x.your-answers-are-graded-now')}
         confirmLabel={t('p.submit-and-grade')}
-        cancelLabel="Keep checking"
+        cancelLabel={t('u.keep-checking')}
         onConfirm={onSubmit}
         busy={submitting}
       />

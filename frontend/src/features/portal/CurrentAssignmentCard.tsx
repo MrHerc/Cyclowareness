@@ -119,7 +119,7 @@ export function CurrentAssignmentCard({
               </span>
             ) : (
               <span className="text-fg-subtle">
-                No due date — this deployment does not set one on training assignments
+                {t('u.no-due-date-this-deployment-does-not')}
               </span>
             )}
           </Fact>
@@ -128,7 +128,7 @@ export function CurrentAssignmentCard({
             {module.est_minutes > 0 ? (
               `${module.est_minutes} minutes`
             ) : (
-              <span className="text-fg-subtle">Not recorded</span>
+              <span className="text-fg-subtle">{t('u.not-recorded')}</span>
             )}
           </Fact>
 
@@ -136,7 +136,7 @@ export function CurrentAssignmentCard({
             {incident?.min_score !== null && incident?.min_score !== undefined ? (
               `${num(incident.min_score, 0)}%`
             ) : (
-              <span className="text-fg-subtle">Not specified for this assignment</span>
+              <span className="text-fg-subtle">{t('u.not-specified-for-this-assignment')}</span>
             )}
           </Fact>
         </div>

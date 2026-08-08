@@ -67,9 +67,12 @@ export function LoopStatusPill({ className }: LoopStatusPillProps) {
           <span className="block">
             {waiting === 0
               ? t('p.nothing-is-waiting-at-the-approval')
-              : `${waiting} ${waiting === 1 ? 'run is' : 'runs are'} waiting for a human decision.`}
+              : t('u.runs-are-waiting-for-a-human', {
+                  count: waiting,
+                  noun: waiting === 1 ? 'run is' : 'runs are',
+                })}
           </span>
-          <span className="block text-fg-subtle">Open Closed Loops for the full picture.</span>
+          <span className="block text-fg-subtle">{t('u.open-closed-loops-for-the-full')}</span>
         </span>
       }
     >

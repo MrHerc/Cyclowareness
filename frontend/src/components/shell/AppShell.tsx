@@ -153,7 +153,7 @@ export function AppShell() {
         side="left"
         size="sm"
         title="Navigation"
-        description="Every screen your role can open."
+        description={t('u.every-screen-your-role-can-open-2')}
       >
         <SideNavigation
           instanceId="sheet"

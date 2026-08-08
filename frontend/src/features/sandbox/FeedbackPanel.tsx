@@ -76,7 +76,7 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
             disabled={feedback.isPending}
             onClick={() => send('false_positive')}
           >
-            False positive
+            {t('u.false-positive')}
           </Button>
           <Button
             variant="outline"
@@ -85,7 +85,7 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
             disabled={feedback.isPending}
             onClick={() => send('true_positive')}
           >
-            True positive
+            {t('u.true-positive')}
           </Button>
         </div>
       </div>

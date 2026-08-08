@@ -127,25 +127,25 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                     ) : null}
                   </span>
                 ) : (
-                  <span className="text-fg-subtle">No owner recorded</span>
+                  <span className="text-fg-subtle">{t('u.no-owner-recorded')}</span>
                 )}
               </MetaRow>
               <MetaRow label={t('p.effective-from')}>{formatDate(policy.effective_date)}</MetaRow>
-              <MetaRow label="Review due">
+              <MetaRow label={t('u.review-due')}>
                 {policy.review_date ? (
                   <span className={review.overdue ? 'text-high' : undefined}>
                     {formatDate(policy.review_date)} · {review.text}
                   </span>
                 ) : (
-                  <span className="text-fg-subtle">No review date set</span>
+                  <span className="text-fg-subtle">{t('u.no-review-date-set')}</span>
                 )}
               </MetaRow>
-              <MetaRow label="Applies to">
+              <MetaRow label={t('u.applies-to')}>
                 {applicable.length > 0 ? (
                   applicable.join(', ')
                 ) : (
                   <span className="text-fg-subtle">
-                    No departments named — this policy is organisation-wide
+                    {t('u.no-departments-named-this-policy-is-organisation')}
                   </span>
                 )}
               </MetaRow>
@@ -222,7 +222,7 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                   empty={
                     <EmptyState
                       compact
-                      headline="No findings against this policy"
+                      headline={t('u.no-findings-against-this-policy')}
                       description={t('x.a-finding-appears-here-when')}
                     />
                   }
@@ -241,7 +241,7 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
                       className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline"
                     >
                       <ExternalLink className="size-3.5" aria-hidden="true" />
-                      Open these in the findings queue
+                      {t('u.open-these-in-the-findings-queue')}
                     </Link>
                   </div>
                 </AsyncBoundary>

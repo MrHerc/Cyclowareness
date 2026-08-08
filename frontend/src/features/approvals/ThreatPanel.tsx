@@ -53,6 +53,7 @@ function SectionHeading({ children }: { children: string }) {
 }
 
 function Origin({ threat }: { threat: Threat }) {
+  const t = useT()
   return (
     <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
       <dt className="text-fg-subtle">Source</dt>
@@ -63,7 +64,7 @@ function Origin({ threat }: { threat: Threat }) {
       <dd className="text-fg">{formatDateTime(threat.created_at)}</dd>
       {threat.reported_by_employee_id !== null && (
         <>
-          <dt className="text-fg-subtle">Reported by</dt>
+          <dt className="text-fg-subtle">{t('u.reported-by')}</dt>
           <dd className="text-fg">
             <Link
               to={`/employees/${threat.reported_by_employee_id}`}
@@ -108,13 +109,14 @@ function Indicators({ iocs }: { iocs: Record<string, string[]> }) {
 }
 
 function SandboxResult({ job }: { job: SandboxJobDetail }) {
+  const t = useT()
   return (
     <Card className="space-y-3 p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <FlaskConical className="size-4 text-brand" aria-hidden="true" />
-            <span className="text-body text-fg">Sandbox verdict</span>
+            <span className="text-body text-fg">{t('u.sandbox-verdict')}</span>
           </div>
           <p className="mt-1 truncate text-xs text-fg-subtle">{job.original_name}</p>
         </div>
@@ -136,7 +138,7 @@ function SandboxResult({ job }: { job: SandboxJobDetail }) {
         to={`/sandbox/${job.public_id}`}
         className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-brand-fg"
       >
-        Open the full sandbox report
+        {t('u.open-the-full-sandbox-report')}
         <ExternalLink className="size-3.5" aria-hidden="true" />
       </Link>
     </Card>
@@ -168,7 +170,7 @@ function AnalysisBlock({ analysis, note }: { analysis: AnalysisView | null; note
 
       {analysis.behaviorSummary && (
         <div>
-          <SectionHeading>Observed behaviour</SectionHeading>
+          <SectionHeading>{t('u.observed-behaviour')}</SectionHeading>
           <p className="mt-1 text-body text-fg-muted">{analysis.behaviorSummary}</p>
         </div>
       )}
@@ -211,7 +213,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
           className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-brand"
         >
           <Radar className="size-3.5" aria-hidden="true" />
-          Threat record
+          {t('u.threat-record')}
         </Link>
       }
       bodyClassName="space-y-5"
@@ -221,7 +223,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
       <Separator fade />
 
       <div className="space-y-2">
-        <SectionHeading>Analyser conclusion</SectionHeading>
+        <SectionHeading>{t('u.analyser-conclusion')}</SectionHeading>
         <AnalysisBlock analysis={analysis} note={detail.analysisNote} />
         {detail.severity && detail.severityBasis && (
           <Tooltip content={detail.severityBasis}>
@@ -241,7 +243,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
       <Separator fade />
 
       <div className="space-y-2">
-        <SectionHeading>Artifact, as received</SectionHeading>
+        <SectionHeading>{t('u.artifact-as-received')}</SectionHeading>
         {detail.artifactExcerpt ? (
           <>
             <CodeBlock
@@ -261,7 +263,7 @@ export function ThreatPanel({ detail }: ThreatPanelProps) {
 
       {evidence.length > 0 && (
         <div className="space-y-2">
-          <SectionHeading>Headers and attachment metadata</SectionHeading>
+          <SectionHeading>{t('u.headers-and-attachment-metadata')}</SectionHeading>
           <EvidenceList items={evidence} mono />
         </div>
       )}

@@ -31,7 +31,7 @@ export function ConversionPanel({ entry, module, modelConnected }: ConversionPan
   const t = useT()
   if (!module) {
     return (
-      <StageSection stage={STAGE} entry={entry} source="live" sourceDetail="Training module record">
+      <StageSection stage={STAGE} entry={entry} source="live" sourceDetail={t('u.training-module-record')}>
         <p className="text-body text-fg-muted">{t('p.no-training-module-exists-on-this')}</p>
       </StageSection>
     )
@@ -58,10 +58,10 @@ export function ConversionPanel({ entry, module, modelConnected }: ConversionPan
       stage={STAGE}
       entry={entry}
       source="live"
-      sourceDetail="Training module record"
+      sourceDetail={t('u.training-module-record')}
       actions={
         <Button asChild variant="secondary" size="sm">
-          <Link to={`/training/${module.id}`}>Open in the training studio</Link>
+          <Link to={`/training/${module.id}`}>{t('u.open-in-the-training-studio')}</Link>
         </Button>
       }
     >

@@ -60,7 +60,7 @@ export function IntelActions({ item, canManage }: IntelActionsProps) {
   const dismissed = Boolean(item.dismissed_by)
 
   return (
-    <Question index={5} heading="Should training or a finding be created?">
+    <Question index={5} heading={t('u.should-training-or-a-finding-be-created')}>
       <div className="space-y-4">
         {findings.length > 0 ? (
           <div>
@@ -107,7 +107,7 @@ export function IntelActions({ item, canManage }: IntelActionsProps) {
                 icon={<ShieldAlert className="size-4" aria-hidden="true" />}
                 onClick={() => setDialog('finding')}
               >
-                Raise a policy finding
+                {t('u.raise-a-policy-finding')}
               </Button>
             )}
             <Button variant="secondary" onClick={() => setDialog('assess')}>
@@ -126,14 +126,14 @@ export function IntelActions({ item, canManage }: IntelActionsProps) {
         <div className="space-y-2">
           <Route
             icon={GraduationCap}
-            heading="Training is not created from an advisory"
+            heading={t('u.training-is-not-created-from-an-advisory')}
             body="An advisory names a product, not a person. Training is assigned from a finding, where the affected departments and people are already recorded — raise the finding first, then assign training on it."
             to="/policy-intelligence/findings"
             linkLabel="Open policy findings"
           />
           <Route
             icon={Radar}
-            heading="A closed loop starts from an artifact"
+            heading={t('u.a-closed-loop-starts-from-an-artifact')}
             body="The loop converts something the sandbox can analyse — an email, a URL, a file — into targeted training. An advisory is a document about a threat, not the artifact itself, so there is no path from here into a loop."
             to="/threats"
             linkLabel="Open threat intake"

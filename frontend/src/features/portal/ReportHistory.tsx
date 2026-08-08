@@ -36,7 +36,7 @@ export function ReportHistory({ reports }: ReportHistoryProps) {
         <EmptyState
           compact
           icon={Flag}
-          headline="You have not reported anything yet"
+          headline={t('u.you-have-not-reported-anything-yet')}
           description={t('x.use-report-something-suspicious-at')}
         />
       ) : (
@@ -60,14 +60,14 @@ export function ReportHistory({ reports }: ReportHistoryProps) {
 
                 {report.note ? (
                   <div>
-                    <span className="label text-fg-subtle">What you said</span>
+                    <span className="label text-fg-subtle">{t('u.what-you-said')}</span>
                     <p className="mt-1 text-body text-fg-muted">{report.note}</p>
                   </div>
                 ) : null}
 
                 {report.triage_summary ? (
                   <div>
-                    <span className="label text-fg-subtle">Automated first pass</span>
+                    <span className="label text-fg-subtle">{t('u.automated-first-pass')}</span>
                     <p className="mt-1 text-body text-fg-muted">{report.triage_summary.summary}</p>
                   </div>
                 ) : (

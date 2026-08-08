@@ -60,7 +60,7 @@ export function NotificationsMenu({ className }: NotificationsMenuProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-80">
-        <DropdownMenuLabel>Waiting for you</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('u.waiting-for-you')}</DropdownMenuLabel>
 
         {isPending && (
           <p className="px-2 py-3 text-sm text-fg-subtle">{t('p.reading-the-queues')}</p>
@@ -74,13 +74,13 @@ export function NotificationsMenu({ className }: NotificationsMenuProps) {
           <>
             <DropdownMenuItem onSelect={() => navigate('/approvals')}>
               <BadgeCheck className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-              <span className="flex-1">Waiting at the approval gate</span>
+              <span className="flex-1">{t('u.waiting-at-the-approval-gate')}</span>
               <span className={approvals ? 'text-medium' : 'text-fg-faint'}>{approvals}</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem onSelect={() => navigate('/threats')}>
               <Inbox className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-              <span className="flex-1">New reports to triage</span>
+              <span className="flex-1">{t('u.new-reports-to-triage')}</span>
               <span className={reports ? 'text-fg' : 'text-fg-faint'}>{reports}</span>
             </DropdownMenuItem>
           </>

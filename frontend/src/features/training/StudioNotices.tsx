@@ -28,10 +28,10 @@ export function GenerationNotice() {
           <p className="text-body text-fg-muted">{t('p.quiz-generation-and-role-variants-are')}</p>
           <div className="flex flex-wrap gap-4">
             <Link to="/threats" className="text-sm text-brand hover:underline">
-              Submit an artifact in Threat Intake
+              {t('u.submit-an-artifact-in-threat-intake')}
             </Link>
             <Link to="/approvals" className="text-sm text-brand hover:underline">
-              See what is waiting at the approval gate
+              {t('u.see-what-is-waiting-at-the-approval')}
             </Link>
           </div>
         </div>

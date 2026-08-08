@@ -73,7 +73,7 @@ export function LoopSection({
       actions={
         selected !== null ? (
           <Button size="sm" variant="ghost" onClick={() => onSelect(null)}>
-            Clear stage filter
+            {t('u.clear-stage-filter')}
           </Button>
         ) : undefined
       }
@@ -111,7 +111,7 @@ export function LoopSection({
           {visible.length === 0 ? (
             <EmptyState
               compact
-              headline="No runs here"
+              headline={t('u.no-runs-here-2')}
               description={
                 selected === null
                   ? t('p.runs-appear-once-a-threat-is')
@@ -120,11 +120,11 @@ export function LoopSection({
               action={
                 selected === null ? (
                   <Button size="sm" variant="secondary" asChild>
-                    <Link to="/threats">Open threat intake</Link>
+                    <Link to="/threats">{t('u.open-threat-intake')}</Link>
                   </Button>
                 ) : (
                   <Button size="sm" variant="secondary" onClick={() => onSelect(null)}>
-                    Clear stage filter
+                    {t('u.clear-stage-filter')}
                   </Button>
                 )
               }

@@ -170,7 +170,7 @@ export function EmployeeTable({ rows, sort, direction, onSort, movementSample }:
                   color="var(--color-series-3)"
                 />
                 {row.movement === null ? (
-                  <span className="text-xs text-fg-faint">No recent events</span>
+                  <span className="text-xs text-fg-faint">{t('u.no-recent-events')}</span>
                 ) : (
                   <span
                     className={cn(

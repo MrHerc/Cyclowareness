@@ -1,72 +1,65 @@
-# Translation status — measured, 2026-08-06
+# Translation status — measured, 2026-08-09
 
-## What the catalogue number does and does not mean
+## The frontend is done
 
-`npm run check:i18n` reports **1548 keys, all rendered, all locales complete**.
-That measures the CATALOGUE: every key that exists is rendered somewhere, and
-Azerbaijani has an entry for every key English has (the `Record<MessageKey,
-string>` type makes a gap a compile error).
+`npm run check:i18n` reports **2015 keys, all rendered, all locales complete**,
+and the scanner (`frontend/tools/find-untranslated.py`) reports **2 remaining
+strings**, both deliberate:
 
-It does **not** measure UI coverage. A sentence that never became a key is
-invisible to it. Reading "both locales complete" as "the portal is translated"
-is the mistake this file exists to prevent.
+* `MITRE ATT&CK` in `features/approvals/ThreatPanel.tsx` — the framework's own
+  name, not prose. (The scanner flags it because `&amp;` contains a lowercase
+  run.)
+* `RANK[integration.status]` in `IntegrationHealthPanel.tsx` — the JSX regex
+  matching across an arrow function; nothing is rendered.
 
-## What is done
+Live sweep on 2026-08-09: 23 routes signed in as an analyst with the locale set
+to `az`, **zero message keys rendered as visible text**, zero contrast failures
+on the four public doors, `<html lang>` = `az`. The 2026-08-06 backlog measured
+**463** user-visible English strings across 180 files; all were wired across
+six batches (~520 new `u.*` keys), plus a FIELD layer the first scanner could
+not see (`caveat:`, `sampleNoun:`, `sourceDetail:` … inside HonestMetric
+definition objects and their kin).
 
-110 keys were added and wired on 2026-08-06, in two groups:
+## What English remains on screen, and why it is not a frontend defect
 
-* **Module-scope constant maps** — `ARTIFACT_TYPES`, `STATUS_COPY`,
-  `VERDICT_SENTENCE`, `SOURCE_LABELS`, `HOME_LABEL`, `GROUPS`, `RECORDABLE`,
-  `ACTION`, `SOURCES`, `TIER_TITLES`, `PROVIDERS`, `GENERATION_OPTIONS`,
-  `STATUS_OPTIONS`. Each now holds `MessageKey` values that the component
-  resolves, because module scope cannot call a hook.
-* **Sentences that splice a value in** — now `t(key, { …values })` rather than a
-  template literal. `HeroStrip` carried a comment saying computed captions
-  "cannot be keyed"; that stopped being true when interpolation was added.
+Walking the routes in Azerbaijani still shows English in one class of places:
+**server-supplied data** — seeded threat titles ("Chat-based credential
+phish…"), module names ("Why held-open doors are an attack."), intel
+advisories, department names. Those live in the DATABASE (`backend/app/seed.py`
+and demo content), not in the frontend catalogue. Translating them is a seeding
+decision, not an i18n gap: the same deployment pointed at a real organisation's
+data would show that organisation's own text.
 
-The seven loop stages in `domain/types.ts` gained `labelKey` / `hintKey` /
-`ownerKey` **beside** the English fields rather than replacing them. Replacing
-would have left every consumer compiling — a `MessageKey` is a string — while
-rendering `s.convert.label` to a reader.
+## The tooling (kept in `frontend/tools/`)
 
-## What is left: 465 strings across 180 files
+* `find-untranslated.py <out.json>` — scans three shapes: JSX text runs,
+  display PROPS, and object FIELDS, all via allow-lists. Skips key-shaped
+  strings (`p.foo` stored in a constant the component resolves with `t()`).
+* `wire-translations.py <batch.json>` — takes `{english: azerbaijani}`, mints
+  `u.*` keys, appends both locales, rewrites every render site the scan found,
+  injects `const t = useT()` structurally, and runs `tsc` after EVERY file —
+  a failing file is restored, never left broken. Strings absent from the scan
+  get no key, so a paraphrased batch entry cannot become an unrendered key.
+* `prune-unrendered.py` — deletes `u.*` keys nothing renders.
 
-`docs/untranslated-remaining.json` is the measured list. Two shapes:
-
-* `JSX` — text between tags: `<p>Some sentence.</p>`
-* `PROP` — a literal on a display prop: `label="Some sentence"`
-
-It is **not** the same set as the work above and is barely reduced by it: that
-work was almost entirely module-scope object literals, which this scan does not
-look at. Both sets are real; neither is a subset of the other.
-
-Regenerate with `tools/find-untranslated.py`. A sample of 19 was read by hand
-and every one was a genuine user-visible string, so the count is close to
-honest — expect a few percent noise, not an order of magnitude.
+Batch entries must be **verbatim** from the scan. Two hand cases the pipeline
+cannot do: class components (no hooks — `ErrorBoundary`'s fallback was
+extracted into a function component), and literals containing an apostrophe
+(`…incident's assignments` truncates the scanner's capture — `RiskImpactPanel`
+was wired by hand).
 
 ## Two checks, because neither alone is enough
 
-`check:i18n` cannot catch a key that is defined and referenced in a constant but
-never resolved at the render site — the reference satisfies it while the reader
-sees `p.learning-platforms`. That is not hypothetical: it happened on
-`/integrations` in this very pass and was caught only by the second check.
-
-The second check drives the SPA and looks for `prefix.slug` as visible text:
+`check:i18n` cannot catch a key that is defined and referenced in a constant
+but never resolved at the render site — the reference satisfies it while the
+reader sees `p.learning-platforms`. That happened on `/integrations` and was
+caught only by the second check: drive the SPA, locale `az`, and look for
+`prefix.slug` as visible text:
 
 ```js
 const KEYISH = /^[a-z]{1,12}\.[a-z0-9-]{3,60}$/
-const KNOWN  = /^(p|a|h|w|s|nav|t|f)\./
+const KNOWN  = /^(p|a|h|w|s|u|x|y|nav|t|f)\./
 ```
 
-Filenames (`invoice.ps1`) and API event types (`remediation.disputed`) match the
-first pattern and are not keys — hence the prefix allow-list. Last run: 20
-routes, zero leaks.
-
-## The file this replaces
-
-`docs/pending-translations.json` was a work-list of 54. It was wrong in three
-ways, all found by checking rather than trusting it: 13 entries named sites that
-a later pass had already wired under better names, one was an SVG `d` attribute
-the extractor mistook for prose, and it caught single entries of maps whose
-neighbours it never listed — wiring only those would have left panels rendering
-half in each language.
+Filenames (`invoice.ps1`) and API event types (`remediation.disputed`) match
+the first pattern and are not keys — hence the prefix allow-list.

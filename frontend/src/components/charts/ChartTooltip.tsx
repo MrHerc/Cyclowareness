@@ -1,3 +1,4 @@
+import { useT } from '../../lib/i18n'
 export interface ChartTooltipRow {
   label: string
   /** A `var(--color-*)` reference from `chartTheme`. */
@@ -28,6 +29,7 @@ export interface ChartTooltipProps {
  * data from a series that simply was not hovered.
  */
 export function ChartTooltip({ title, rows, note }: ChartTooltipProps) {
+  const t = useT()
   return (
     <div className="min-w-40 rounded-control border border-line bg-elevated px-3 py-2 shadow-float">
       <p className="text-xs text-fg-muted">{title}</p>
@@ -44,7 +46,7 @@ export function ChartTooltip({ title, rows, note }: ChartTooltipProps) {
               <span className="text-xs text-fg-muted">{row.label}</span>
             </span>
             {row.value === null ? (
-              <span className="text-xs text-fg-faint">Not measured</span>
+              <span className="text-xs text-fg-faint">{t('u.not-measured-2')}</span>
             ) : (
               <span className="text-sm text-fg">{row.value}</span>
             )}

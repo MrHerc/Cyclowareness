@@ -45,7 +45,7 @@ export default function ThreatDetail() {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
-        Threat intake
+        {t('u.threat-intake')}
       </Link>
 
       <AsyncBoundary

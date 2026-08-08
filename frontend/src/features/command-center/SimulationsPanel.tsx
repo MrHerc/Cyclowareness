@@ -44,7 +44,7 @@ export function SimulationsPanel({
       }
       actions={
         <Button size="sm" variant="ghost" asChild>
-          <Link to="/simulations">All simulations</Link>
+          <Link to="/simulations">{t('u.all-simulations')}</Link>
         </Button>
       }
     >
@@ -58,11 +58,11 @@ export function SimulationsPanel({
           <EmptyState
             compact
             icon={Send}
-            headline="No campaign is running"
+            headline={t('u.no-campaign-is-running')}
             description={t('x.a-simulation-appears-here-once')}
             action={
               <Button size="sm" variant="secondary" asChild>
-                <Link to="/simulations">Open simulations</Link>
+                <Link to="/simulations">{t('u.open-simulations')}</Link>
               </Button>
             }
           />

@@ -101,8 +101,8 @@ export function PlanQueue({ plans }: PlanQueueProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Person and trigger</TableHead>
-            <TableHead>What was attached</TableHead>
+            <TableHead>{t('u.person-and-trigger')}</TableHead>
+            <TableHead>{t('u.what-was-attached')}</TableHead>
             <TableHead>Urgency</TableHead>
             <TableHead>Status</TableHead>
             <TableHead numeric>Raised</TableHead>
@@ -129,7 +129,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                   {blocked ? (
                     <span className="inline-flex items-center gap-1.5 text-critical">
                       <ShieldX className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-                      Nothing — refused by the firewall
+                      {t('u.nothing-refused-by-the-firewall')}
                     </span>
                   ) : (
                     <>
@@ -153,7 +153,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                           />
                         ) : (
                           <span className="rounded-chip border border-line-subtle px-2 py-0.5 text-xs text-fg-subtle">
-                            Matched from your library
+                            {t('u.matched-from-your-library')}
                           </span>
                         )}
                       </span>
@@ -205,7 +205,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                       icon={<MessageSquareWarning className="size-4" aria-hidden="true" />}
                       onClick={() => setAnswering(plan)}
                     >
-                      Answer the dispute
+                      {t('u.answer-the-dispute')}
                     </Button>
                   ) : plan.status === 'proposed' ? (
                     <span className="flex gap-1.5">
@@ -228,7 +228,7 @@ export function PlanQueue({ plans }: PlanQueueProps) {
                     </span>
                   ) : blocked ? (
                     <span className="text-xs text-fg-faint">
-                      Cannot be approved. Regenerate it instead.
+                      {t('u.cannot-be-approved-regenerate-it-instead')}
                     </span>
                   ) : (
                     <span className="text-xs text-fg-subtle">

@@ -65,7 +65,7 @@ export function RiskMovementChart({
   return (
     <ChartFrame
       headingLevel={headingLevel}
-      title="Risk movement by department"
+      title={t('u.risk-movement-by-department-2')}
       caption={
         windowDays
           ? `Change in average risk over the last ${windowDays} days · negative is improvement`
@@ -81,7 +81,7 @@ export function RiskMovementChart({
       loading={loading}
       error={error}
       emptyTitle={t('p.no-movement-to-show')}
-      emptyMessage="No department has two scored points to compare in this window."
+      emptyMessage={t('u.risk-movement-empty')}
       description={`Change in average risk score per department: ${rows
         .map((row) => `${row.department} ${signed(row.delta, 1)}`)
         .join(', ')}.`}

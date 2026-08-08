@@ -56,7 +56,7 @@ export default function IncidentRisks() {
             icon={<Plus size={15} aria-hidden="true" />}
             onClick={() => setCreating(true)}
           >
-            Open a risk
+            {t('u.open-a-risk')}
           </Button>
         )}
       </header>
@@ -100,10 +100,10 @@ export default function IncidentRisks() {
               action={
                 filtered ? (
                   <StateAction tone="quiet" onClick={filterState.reset}>
-                    Clear filters
+                    {t('u.clear-filters-2')}
                   </StateAction>
                 ) : canManage ? (
-                  <StateAction onClick={() => setCreating(true)}>Open a risk</StateAction>
+                  <StateAction onClick={() => setCreating(true)}>{t('u.open-a-risk')}</StateAction>
                 ) : undefined
               }
             />

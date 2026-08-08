@@ -145,7 +145,7 @@ export function DecisionPanel({
               disabled={locked || busy || !hasModule}
               onClick={() => setPending(approveAction('approve_with_edits'))}
             >
-              Approve with edits
+              {t('u.approve-with-edits')}
             </Button>
           ) : (
             <Button
@@ -167,7 +167,7 @@ export function DecisionPanel({
             loading={busy}
             onClick={() => onDecide('second_approval')}
           >
-            Require a second approval
+            {t('u.require-a-second-approval')}
           </Button>
 
           <Tooltip
@@ -185,7 +185,7 @@ export function DecisionPanel({
                 disabled={locked || busy || !commented}
                 onClick={() => onDecide('request_revision')}
               >
-                Request revision
+                {t('u.request-revision')}
               </Button>
             </span>
           </Tooltip>
@@ -250,11 +250,11 @@ export function DecisionPanel({
               onClick={onSaveDraft}
               disabled={busy}
             >
-              Save draft
+              {t('u.save-draft')}
             </Button>
             {draftSavedAt && (
               <Button variant="ghost" size="sm" onClick={onDiscardDraft} disabled={busy}>
-                Discard draft
+                {t('u.discard-draft')}
               </Button>
             )}
           </div>
@@ -271,7 +271,7 @@ export function DecisionPanel({
         <div className="flex items-start gap-2 rounded-control border border-line-subtle px-3 py-2">
           <SendHorizontal className="mt-0.5 size-3.5 shrink-0 text-fg-faint" aria-hidden="true" />
           <p className="text-xs text-fg-faint">
-            <span className="text-fg-subtle">Escalation is not available.</span> This deployment has
+            <span className="text-fg-subtle">{t('u.escalation-is-not-available')}</span> This deployment has
             no escalation route — there is no on-call rota and no owner to hand a run to. Requiring
             a second approval is the control that does exist.
           </p>

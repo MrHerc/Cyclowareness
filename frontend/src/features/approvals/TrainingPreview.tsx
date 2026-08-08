@@ -72,7 +72,7 @@ function ModuleBody({ edits }: { edits: ModuleEdits }) {
         <>
           <Separator fade />
           <div className="rounded-control border border-brand/25 bg-brand/5 p-4">
-            <div className="label text-brand">Take away</div>
+            <div className="label text-brand">{t('u.take-away')}</div>
             <p className="mt-1.5 text-body text-fg">{edits.takeaway}</p>
           </div>
         </>
@@ -118,7 +118,7 @@ function QuizBody({ edits }: { edits: ModuleEdits }) {
                     />
                   )}
                   <span className="min-w-0">{option}</span>
-                  {correct && <span className="sr-only">Correct answer</span>}
+                  {correct && <span className="sr-only">{t('u.correct-answer')}</span>}
                 </li>
               )
             })}
@@ -154,7 +154,7 @@ function FeedbackBody({ edits }: { edits: ModuleEdits }) {
 
       {edits.takeaway && (
         <div>
-          <div className="label text-fg-faint">What they are left with</div>
+          <div className="label text-fg-faint">{t('u.what-they-are-left-with')}</div>
           <p className="mt-1 text-body text-fg">{edits.takeaway}</p>
         </div>
       )}
@@ -230,7 +230,7 @@ export function TrainingPreview({
           </div>
           {onEdit && (
             <Button size="sm" variant="outline" onClick={onEdit}>
-              Edit content
+              {t('u.edit-content')}
             </Button>
           )}
         </div>
@@ -249,7 +249,7 @@ export function TrainingPreview({
         </span>
         {dirty && (
           <Badge tone="ai" size="sm">
-            Unsaved edits shown
+            {t('u.unsaved-edits-shown')}
           </Badge>
         )}
       </div>
@@ -259,8 +259,8 @@ export function TrainingPreview({
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList>
           <TabsTrigger value="module">Module</TabsTrigger>
-          <TabsTrigger value="quiz">Quiz and answer key</TabsTrigger>
-          <TabsTrigger value="feedback">Completion screen</TabsTrigger>
+          <TabsTrigger value="quiz">{t('u.quiz-and-answer-key')}</TabsTrigger>
+          <TabsTrigger value="feedback">{t('u.completion-screen')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="module">

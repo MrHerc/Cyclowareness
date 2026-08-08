@@ -62,7 +62,7 @@ export function AnalyzerDetail({ analysis }: AnalyzerDetailProps) {
                     </span>
                   ) : (
                     <Badge tone="neutral" size="sm">
-                      Did not run
+                      {t('u.did-not-run')}
                     </Badge>
                   )
                 }

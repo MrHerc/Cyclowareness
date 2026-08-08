@@ -36,7 +36,7 @@ export function AnalystActivityPanel({
       subtitle={t('x.written-by-the-api-on')}
       actions={
         <Button size="sm" variant="ghost" asChild>
-          <Link to="/audit-log">Full audit log</Link>
+          <Link to="/audit-log">{t('u.full-audit-log')}</Link>
         </Button>
       }
     >
@@ -50,7 +50,7 @@ export function AnalystActivityPanel({
           <EmptyState
             compact
             icon={ScrollText}
-            headline="Nothing has been changed yet"
+            headline={t('u.nothing-has-been-changed-yet')}
             description={t('x.approvals-policy-decisions-integration-chang')}
           />
         }

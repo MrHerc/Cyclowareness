@@ -125,7 +125,7 @@ export function FindingFilters({
           onValueChange={(value) => filters.set('owner', value)}
         />
         <Select
-          label="Due date"
+          label={t('u.due-date')}
           options={DUE_OPTIONS}
           value={filters.values.due || ANY_VALUE}
           onValueChange={(value) => filters.set('due', value)}
@@ -145,7 +145,7 @@ export function FindingFilters({
           onClick={filters.clear}
           disabled={filters.activeCount === 0}
         >
-          Clear filters
+          {t('u.clear-filters-2')}
         </Button>
       </div>
     </div>

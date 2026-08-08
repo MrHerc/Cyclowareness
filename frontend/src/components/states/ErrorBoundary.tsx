@@ -34,6 +34,28 @@ interface ErrorBoundaryState {
 }
 
 /**
+ * The default crash panel, as its own function component — a class `render`
+ * cannot call `useT`, and this was the file the translation pass had to skip
+ * for exactly that reason. The boundary stays a class (error boundaries must
+ * be); only the words moved.
+ */
+function DefaultCrashFallback({ error, onReset }: { error: Error; onReset: () => void }) {
+  const t = useT()
+  return (
+    <ErrorState
+      error={error}
+      onRetry={onReset}
+      retryLabel={t('action.retry')}
+      action={
+        <StateAction tone="quiet" onClick={() => window.location.reload()}>
+          {t('p.reload-the-page')}
+        </StateAction>
+      }
+    />
+  )
+}
+
+/**
  * Catches render-time errors in its subtree and shows a recoverable panel.
  *
  * Wrap regions, not just the app root: a chart that throws on a malformed
@@ -60,18 +82,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (!error) return this.props.children
     if (this.props.fallback) return this.props.fallback(error, this.reset)
 
-    return (
-      <ErrorState
-        error={error}
-        onRetry={this.reset}
-        retryLabel="Try again"
-        action={
-          <StateAction tone="quiet" onClick={() => window.location.reload()}>
-            Reload the page
-          </StateAction>
-        }
-      />
-    )
+    return <DefaultCrashFallback error={error} onReset={this.reset} />
   }
 }
 
@@ -117,7 +128,7 @@ export function RouteErrorBoundary() {
         // there would be no way out of the route at all.
         action={
           <StateAction tone="quiet" onClick={() => window.history.back()}>
-            Go back
+            {t('u.go-back')}
           </StateAction>
         }
       />

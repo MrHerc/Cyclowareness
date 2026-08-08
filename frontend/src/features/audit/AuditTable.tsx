@@ -93,7 +93,7 @@ export function AuditTable({ events }: AuditTableProps) {
                       <span className="tech block text-xs text-fg-faint">{identity}</span>
                     </>
                   ) : (
-                    <span className="text-fg-faint">No object</span>
+                    <span className="text-fg-faint">{t('u.no-object')}</span>
                   )}
                 </TableCell>
 

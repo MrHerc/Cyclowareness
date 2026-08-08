@@ -41,6 +41,9 @@ export default function Login() {
   const capabilities = useCapabilities({ retry: false })
 
   const [error, setError] = useState<unknown>(null)
+  // One method on screen at a time. Both forms rendered at once measured
+  // 1459px of page on a 720px viewport — a corridor of fields, not a door.
+  const [method, setMethod] = useState<'email' | 'phone'>('email')
   const [demoPending, setDemoPending] = useState<string | null>(null)
 
   const from = (location.state as { from?: string } | null)?.from ?? null
@@ -97,14 +100,24 @@ export default function Login() {
         </p>
       }
     >
-      <SignInForm
-        onSubmit={signIn}
-        error={error}
-        defaultEmail={rememberedEmail() ?? ''}
-        busyElsewhere={demoPending !== null}
-      />
+      {method === 'email' ? (
+        <SignInForm
+          onSubmit={signIn}
+          error={error}
+          defaultEmail={rememberedEmail() ?? ''}
+          busyElsewhere={demoPending !== null}
+        />
+      ) : (
+        <PhoneEntry />
+      )}
 
-      <PhoneEntry />
+      <button
+        type="button"
+        className="mt-4 w-full text-center text-sm text-fg-subtle underline-offset-4 hover:text-fg hover:underline"
+        onClick={() => setMethod(method === 'email' ? 'phone' : 'email')}
+      >
+        {t(method === 'email' ? 'u.sign-in-with-a-phone-number-instead' : 'u.sign-in-with-email-instead')}
+      </button>
 
       <FederatedIdentity />
 

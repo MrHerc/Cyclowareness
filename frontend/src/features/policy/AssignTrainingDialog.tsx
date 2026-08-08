@@ -145,7 +145,7 @@ export function AssignTrainingDialog({
               loading={assign.isPending}
               disabled={blocked || approved.length === 0 || assignable.length === 0}
             >
-              Assign training
+              {t('u.assign-training')}
             </Button>
           </>
         )
@@ -202,7 +202,7 @@ export function AssignTrainingDialog({
           <div className="space-y-4">
             {requiredTraining ? (
               <p className="rounded-control border border-line-subtle bg-base p-3 text-sm text-fg-muted">
-                <span className="label mr-2 text-fg-faint">Training this finding asks for</span>
+                <span className="label mr-2 text-fg-faint">{t('u.training-this-finding-asks-for')}</span>
                 {requiredTraining}
               </p>
             ) : null}

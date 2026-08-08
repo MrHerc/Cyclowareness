@@ -59,20 +59,20 @@ export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
 
           <DropdownMenuItem onSelect={onOpenPalette}>
             <Command className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-            <span className="flex-1">Command palette</span>
+            <span className="flex-1">{t('u.command-palette-2')}</span>
             <Kbd>Ctrl K</Kbd>
           </DropdownMenuItem>
 
           <DropdownMenuItem onSelect={() => setShortcutsOpen(true)}>
             <Keyboard className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-            Keyboard shortcuts
+            {t('u.keyboard-shortcuts-2')}
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 
           <DropdownMenuItem onSelect={() => setAboutOpen(true)}>
             <ScrollText className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-            About this deployment
+            {t('u.about-this-deployment-2')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -80,8 +80,8 @@ export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
       <Dialog
         open={shortcutsOpen}
         onOpenChange={setShortcutsOpen}
-        title="Keyboard shortcuts"
-        description="Everything in the shell is reachable without a pointer."
+        title={t('u.keyboard-shortcuts-2')}
+        description={t('u.everything-in-the-shell-is-reachable-without-2')}
         size="sm"
       >
         <dl className="divide-line">
@@ -120,15 +120,15 @@ function DeploymentDialog({
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title="About this deployment"
-      description="Read from the running server, not from the build."
+      title={t('u.about-this-deployment-2')}
+      description={t('u.read-from-the-running-server-not-from-2')}
       size="sm"
     >
       <dl className="divide-line">
         <Row label="Product">{PRODUCT_NAME}</Row>
 
-        <Row label="API origin">
-          <span className="tech">{API_BASE_URL || 'same origin as this page'}</span>
+        <Row label={t('u.api-origin')}>
+          <span className="tech">{API_BASE_URL || t('u.same-origin-as-this-page')}</span>
         </Row>
 
         <Row label="Environment">
@@ -165,7 +165,7 @@ function DeploymentDialog({
                 : t('p.no-detonation-host-files-are-analysed')}
         </Row>
 
-        <Row label="YARA rules">
+        <Row label={t('u.yara-rules')}>
           {sandbox.isPending || sandbox.isError ? '—' : sandbox.data.yara.loaded}
         </Row>
       </dl>

@@ -53,7 +53,7 @@ export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldPro
           form and the links travel together as one block and stay optically
           centred, instead of the mark pinning to the top edge and the footer to
           the bottom on a tall display. */}
-      <div className="relative mx-auto flex w-full max-w-[26rem] flex-1 flex-col justify-center px-6 py-14 sm:px-0">
+      <div className="relative mx-auto flex w-full max-w-[26rem] flex-1 flex-col justify-center px-6 py-8 sm:px-0">
         <header className="settle settle-1 flex justify-center">
           <Link
             to="/login"
@@ -70,7 +70,7 @@ export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldPro
           </Link>
         </header>
 
-        <main className="settle settle-2 mt-14">
+        <main className="settle settle-2 mt-10">
           {/* Centred, because there is nothing to align to any more. The fields
               below keep their own left-aligned labels — a centred label above a
               left-aligned input is the tell of a template. */}
@@ -83,10 +83,10 @@ export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldPro
             </p>
           ) : null}
 
-          <div className="mt-10">{children}</div>
+          <div className="mt-8">{children}</div>
         </main>
 
-        <footer className="settle settle-4 mt-10 space-y-2 text-center text-sm text-fg-subtle">
+        <footer className="settle settle-4 mt-8 space-y-2 text-center text-sm text-fg-subtle">
           {footer}
           {/* Attribution sits under whatever the page's own footer says, on
               every auth screen, because this is where a reader looks for who

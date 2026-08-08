@@ -123,7 +123,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
             onClick={() => setDraft({ ...draft, content: [...draft.content, { heading: '', body: '' }] })}
             icon={<Plus className="size-3.5" aria-hidden="true" />}
           >
-            Add section
+            {t('u.add-section')}
           </Button>
         }
       >
@@ -174,7 +174,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
         >
           <p className="flex items-center gap-2 text-body text-critical">
             <TriangleAlert className="size-4 shrink-0" aria-hidden="true" />
-            The server would reject this module
+            {t('u.the-server-would-reject-this-module')}
           </p>
           <ul className="mt-2 space-y-1">
             {problems.map((problem) => (
@@ -199,7 +199,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
           disabled={!dirty}
           onClick={handleSave}
         >
-          Save changes
+          {t('u.save-changes')}
         </Button>
       </div>
     </div>

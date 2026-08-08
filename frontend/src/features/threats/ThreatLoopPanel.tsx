@@ -40,7 +40,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
       {loopRunId === null ? (
         resolving ? (
           <div role="status" aria-busy="true">
-            <span className="sr-only">Looking for the loop run behind this artifact</span>
+            <span className="sr-only">{t('u.looking-for-the-loop-run-behind-this')}</span>
             <SkeletonText lines={2} />
           </div>
         ) : (
@@ -49,7 +49,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
             <Button variant="secondary" size="sm" asChild>
               <Link to="/loops" className="gap-2">
                 <Route className="size-4" aria-hidden="true" />
-                Open the run list
+                {t('u.open-the-run-list')}
               </Link>
             </Button>
           </div>
@@ -111,7 +111,7 @@ export function ThreatLoopPanel({ loopRunId, resolving }: ThreatLoopPanelProps) 
       <Button variant="ghost" size="sm" asChild className="mt-2">
         <Link to="/sandbox" className="gap-2">
           <FlaskConical className="size-4" aria-hidden="true" />
-          Open the sandbox
+          {t('u.open-the-sandbox')}
         </Link>
       </Button>
     </Panel>

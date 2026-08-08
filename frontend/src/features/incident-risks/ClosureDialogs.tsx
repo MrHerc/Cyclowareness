@@ -79,7 +79,7 @@ export function CloseRiskDialog({ risk, rollup, open, onOpenChange }: CloseRiskD
             disabled={note.trim().length === 0}
             onClick={() => void submit()}
           >
-            Close the risk
+            {t('u.close-the-risk')}
           </Button>
         </>
       }

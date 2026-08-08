@@ -35,7 +35,7 @@ export function RiskTimelinePanel({ entries }: RiskTimelinePanelProps) {
         <EmptyState
           compact
           icon={History}
-          headline="Nothing has happened yet"
+          headline={t('u.nothing-has-happened-yet')}
           description={t('x.an-entry-appears-here-the')}
         />
       ) : (

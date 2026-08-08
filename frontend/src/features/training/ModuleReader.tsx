@@ -98,7 +98,7 @@ export function ModuleReader({ module }: ModuleReaderProps) {
                 ) : null}
                 {question.explanation ? (
                   <p className="mt-2 text-sm text-fg-subtle">
-                    <span className="text-fg-faint">Shown after grading: </span>
+                    <span className="text-fg-faint">{t('u.shown-after-grading')} </span>
                     {question.explanation}
                   </p>
                 ) : (

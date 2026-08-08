@@ -36,14 +36,14 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       <Panel>
         <HonestMetric
-          label="Click rate"
+          label={t('u.click-rate')}
           value={metrics.phishing_click_rate}
           format="percent"
           sample={metrics.simulation_sample}
-          sampleNoun="resolved simulation outcomes"
+          sampleNoun={t('u.resolved-simulation-outcomes')}
           windowDays={window}
           source="live"
-          sourceDetail="Platform API"
+          sourceDetail={t('u.platform-api')}
           lastUpdated={updatedAt}
           tone={metrics.phishing_click_rate !== null && metrics.phishing_click_rate > 0.1 ? 'high' : 'neutral'}
           comparison={previousPeriod(trend, 'phishing_click_rate', window, 'down')}
@@ -65,10 +65,10 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           value={metrics.report_rate}
           format="percent"
           sample={metrics.simulation_sample}
-          sampleNoun="resolved simulation outcomes"
+          sampleNoun={t('u.resolved-simulation-outcomes')}
           windowDays={window}
           source="live"
-          sourceDetail="Platform API"
+          sourceDetail={t('u.platform-api')}
           lastUpdated={updatedAt}
           tone={metrics.report_rate !== null && metrics.report_rate >= 0.5 ? 'safe' : 'neutral'}
           comparison={previousPeriod(trend, 'report_rate', window, 'up')}
@@ -90,11 +90,11 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           value={null}
           format="duration"
           sample={0}
-          sampleNoun="timed reports"
+          sampleNoun={t('u.timed-reports')}
           windowDays={window}
           source="live"
-          sourceDetail="Platform API"
-          unmeasuredReason="no endpoint reports the interval between delivery and report"
+          sourceDetail={t('u.platform-api')}
+          unmeasuredReason={t('u.no-endpoint-reports-the-interval-between-delivery')}
           unmeasuredRemedy="Campaigns record a launch time and targets record an outcome time, but nothing exposes the elapsed time between them. This figure appears when the platform aggregates it — it is not estimated here."
           definition={{
             calculation: t('p.would-be-the-median-time-from'),
@@ -111,9 +111,9 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           format="score"
           digits={1}
           sample={headcount}
-          sampleNoun="people on a scored roster"
+          sampleNoun={t('u.people-on-a-scored-roster')}
           source="live"
-          sourceDetail="Risk engine — behaviour only"
+          sourceDetail={t('u.risk-engine-behaviour-only')}
           lastUpdated={updatedAt}
           tone={
             metrics.avg_behaviour_risk === null
@@ -126,7 +126,7 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           }
           comparison={previousPeriod(trend, 'avg_behaviour_risk', window, 'down')}
           hint={t('p.zero-to-100-lower-is-safer')}
-          unmeasuredReason="no employee currently carries a score"
+          unmeasuredReason={t('u.no-employee-currently-carries-a-score')}
           unmeasuredRemedy="Scores appear once the risk engine has recorded at least one event against a person."
           definition={{
             calculation:
@@ -152,7 +152,7 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           sampleNoun="assignments"
           windowDays={window}
           source="live"
-          sourceDetail="Platform API"
+          sourceDetail={t('u.platform-api')}
           lastUpdated={updatedAt}
           comparison={previousPeriod(trend, 'training_completion_rate', window, 'up')}
           hint={t('p.attendance-not-behaviour-change-read-it')}
@@ -173,11 +173,11 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           value={null}
           format="percent"
           sample={0}
-          sampleNoun="graded quizzes"
+          sampleNoun={t('u.graded-quizzes')}
           windowDays={window}
           source="live"
-          sourceDetail="Platform API"
-          unmeasuredReason="no endpoint aggregates quiz scores into a pass rate"
+          sourceDetail={t('u.platform-api')}
+          unmeasuredReason={t('u.no-endpoint-aggregates-quiz-scores-into-a')}
           unmeasuredRemedy="Each completed assignment carries its own score against a pass mark, but the dashboard reports completion only. This figure appears when the platform aggregates those scores."
           definition={{
             calculation: t('p.would-be-graded-quizzes-at-or'),

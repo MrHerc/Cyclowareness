@@ -94,7 +94,7 @@ function Member({ member }: { member: AudienceMember }) {
               </Badge>
             </Tooltip>
           ) : (
-            <span className="text-xs text-fg-faint">No score</span>
+            <span className="text-xs text-fg-faint">{t('u.no-score')}</span>
           )}
           {member.exposed && (
             <Tooltip content="The artifact actually reached this person. Everyone else was selected on a prior.">

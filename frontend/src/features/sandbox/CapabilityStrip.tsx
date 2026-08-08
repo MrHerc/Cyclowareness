@@ -137,7 +137,7 @@ export function CapabilityStrip({ capabilities }: CapabilityStripProps) {
               )}
               <Tooltip content="Detonation needs a disposable, network-isolated machine with kernel-level control. A managed web host does not provide one, and executing hostile code on shared infrastructure is the thing this design exists to avoid.">
                 <span className="text-xs text-fg-faint underline decoration-dotted underline-offset-4">
-                  Why detonation runs off-host
+                  {t('u.why-detonation-runs-off-host')}
                 </span>
               </Tooltip>
             </div>

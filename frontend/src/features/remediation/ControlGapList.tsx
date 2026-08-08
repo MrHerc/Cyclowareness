@@ -26,7 +26,7 @@ export function ControlGapList({ data }: ControlGapListProps) {
         <EmptyState
           icon={Wrench}
           compact
-          headline="No control gap has been raised"
+          headline={t('u.no-control-gap-has-been-raised')}
           description="Every signal so far was one a person could act on. When one is not — a push-bombing campaign, for instance — the engine records the missing control here instead of assigning training that cannot fix it."
         />
       ) : (

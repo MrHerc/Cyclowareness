@@ -64,7 +64,7 @@ export function DepartmentStandingPanels({
     return (
       <EmptyState
         icon={Building2}
-        headline="No department has a scored population"
+        headline={t('u.no-department-has-a-scored-population')}
         description={t('x.departments-appear-here-once-they')}
       />
     )
@@ -118,7 +118,7 @@ export function DepartmentStandingPanels({
         reason={t('p.this-view-is-served-one-figure')}
         remedy="The organisation-wide risk trend above is measured and does answer whether risk is falling overall. Per-department movement becomes available when the platform snapshots department averages the way it snapshots the organisation."
         sample={departments.length}
-        sampleNoun="departments with a current roll-up"
+        sampleNoun={t('u.departments-with-a-current-roll-up')}
         className="xl:col-span-2"
       />
     </div>

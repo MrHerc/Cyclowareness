@@ -113,7 +113,7 @@ export function SafetyPanel({
         {secondApproval.held ? (
           <div className="space-y-1.5">
             <Badge status="awaiting_review" dot>
-              Held for a second approver
+              {t('u.held-for-a-second-approver')}
             </Badge>
             <p className="text-xs text-fg-subtle">
               Endorsed by {secondApproval.endorsedBy.join(', ') || 'another analyst'}. The loop has

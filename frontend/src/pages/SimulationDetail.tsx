@@ -51,22 +51,22 @@ function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <HonestMetric
-          label="Click rate"
+          label={t('u.click-rate')}
           value={stats.click_rate}
           format="percent"
           sample={stats.resolved}
-          sampleNoun="resolved targets"
+          sampleNoun={t('u.resolved-targets')}
           source="live"
           definition={CLICK_RATE_DEFINITION}
           unmeasuredReason={withheldReason(stats)}
           unmeasuredRemedy={unmeasuredRemedy(simulation.status)}
         />
         <HonestMetric
-          label="Report rate"
+          label={t('u.report-rate')}
           value={stats.report_rate}
           format="percent"
           sample={stats.resolved}
-          sampleNoun="resolved targets"
+          sampleNoun={t('u.resolved-targets')}
           source="live"
           definition={REPORT_RATE_DEFINITION}
           unmeasuredReason={withheldReason(stats)}
@@ -101,7 +101,7 @@ export default function SimulationDetail() {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-3.5 shrink-0" aria-hidden="true" />
-        All campaigns
+        {t('u.all-campaigns')}
       </Link>
 
       <AsyncBoundary
@@ -165,7 +165,7 @@ export default function SimulationDetail() {
                   <EmptyState
                     compact
                     icon={ListChecks}
-                    headline="This campaign has no targets"
+                    headline={t('u.this-campaign-has-no-targets')}
                     description={t('x.targets-are-chosen-when-the')}
                   />
                 </div>

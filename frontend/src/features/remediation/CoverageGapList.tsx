@@ -31,7 +31,7 @@ export function CoverageGapList({ data }: CoverageGapListProps) {
         <EmptyState
           icon={LibraryBig}
           compact
-          headline="Nothing has gone unanswered yet"
+          headline={t('u.nothing-has-gone-unanswered-yet')}
           description={`Every behaviour the engine has met so far is covered by the library. It currently answers: ${data.covered_behaviours.map(humanise).join(', ')}.`}
         />
       ) : (

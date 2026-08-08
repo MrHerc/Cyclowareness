@@ -82,11 +82,11 @@ export function ThreatsToTraining({
           sample={runs ? runs.length : loopsClosed}
           sampleNoun={runs ? 'loop runs on record' : 'closed loops counted by the server'}
           source="live"
-          sourceDetail="Platform API"
+          sourceDetail={t('u.platform-api')}
           lastUpdated={updatedAt}
           tone={loopsClosed > 0 ? 'brand' : 'neutral'}
           hint={t('p.a-threat-that-became-training-and')}
-          unmeasuredReason="the dashboard did not report a count"
+          unmeasuredReason={t('u.the-dashboard-did-not-report-a-count')}
           definition={{
             calculation: t('p.runs-that-reached-the-completed-state'),
             includes: ['Runs where training was assigned, taken, and scored'],
@@ -109,7 +109,7 @@ export function ThreatsToTraining({
         />
       ) : (
         <RestrictedNote
-          what="The run-by-run breakdown is held by the security team"
+          what={t('u.the-run-by-run-breakdown-is-held')}
           detail={t('p.loop-run-records-are-analystscoped-so')}
         />
       )}
@@ -122,7 +122,7 @@ export function ThreatsToTraining({
       >
         {!runs ? (
           <RestrictedNote
-            what="The threat list is held by the security team"
+            what={t('u.the-threat-list-is-held-by-the')}
             detail={t('p.threat-and-run-records-are-analystscoped')}
           />
         ) : drivers.length > 0 ? (
@@ -135,7 +135,7 @@ export function ThreatsToTraining({
           <EmptyState
             icon={ShieldCheck}
             compact
-            headline="No threat has reached targeting yet"
+            headline={t('u.no-threat-has-reached-targeting-yet')}
             description={t('x.a-row-appears-here-once')}
           />
         )}

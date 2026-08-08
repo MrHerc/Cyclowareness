@@ -67,7 +67,7 @@ export function ModuleMetaPanel({
                 {module.approved_by}
               </span>
             ) : (
-              <span className="text-sm text-fg-faint">No approver recorded</span>
+              <span className="text-sm text-fg-faint">{t('u.no-approver-recorded')}</span>
             )}
           </div>
         </Row>
@@ -89,7 +89,7 @@ export function ModuleMetaPanel({
         <Row label={t('p.generated-from')}>
           {module.threat_id === null ? (
             <span className="text-fg-faint">
-              No threat is linked. This module was not produced by a loop run.
+              {t('u.no-threat-is-linked-this-module-was')}
             </span>
           ) : (
             <Link
@@ -106,7 +106,7 @@ export function ModuleMetaPanel({
           {gateLoading ? (
             <span className="inline-flex items-center gap-2 text-fg-subtle">
               <Spinner size={13} />
-              Checking the approval queue
+              {t('u.checking-the-approval-queue')}
             </span>
           ) : gateRunId !== null ? (
             <Link
@@ -138,7 +138,7 @@ export function ModuleMetaPanel({
           {module.est_minutes > 0 ? (
             `${num(module.est_minutes)} minutes`
           ) : (
-            <span className="text-fg-faint">Not recorded</span>
+            <span className="text-fg-faint">{t('u.not-recorded')}</span>
           )}
         </Row>
 

@@ -50,7 +50,7 @@ export function IndicatorPanel({ iocs }: IndicatorPanelProps) {
         <EmptyState
           compact
           icon={Fingerprint}
-          headline="No indicators were extracted"
+          headline={t('u.no-indicators-were-extracted')}
           description={t('x.the-analyzer-found-nothing-it')}
         />
       ) : (

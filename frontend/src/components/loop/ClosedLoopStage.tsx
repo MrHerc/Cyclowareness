@@ -105,10 +105,10 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
       <>
         <ShieldCheck className="size-5 text-brand" aria-hidden="true" />
         <span className="label text-brand-fg" aria-hidden="true">
-          Approval gate
+          {t('u.approval-gate-2')}
         </span>
         <span className="text-xs text-fg-muted" aria-hidden="true">
-          Human decision required
+          {t('u.human-decision-required-2')}
         </span>
         <span className="flex items-baseline gap-1.5" aria-hidden="true">
           <span className={cn('text-title', waiting > 0 ? 'text-medium' : 'text-fg-subtle')}>
@@ -154,7 +154,7 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
 
         <span className="flex items-center gap-1.5 overflow-hidden" aria-hidden="true">
           {chips.length === 0 ? (
-            <span className="text-xs text-fg-faint">No runs here</span>
+            <span className="text-xs text-fg-faint">{t('u.no-runs-here-2')}</span>
           ) : (
             chips.slice(0, 2).map((chip) => (
               <span

@@ -40,7 +40,7 @@ export default function IncidentRiskDetail() {
     <div className="flex flex-col gap-6">
       <div>
         <Button asChild variant="ghost" size="sm" icon={<ArrowLeft size={14} aria-hidden="true" />}>
-          <Link to="/incident-risks">All incident risks</Link>
+          <Link to="/incident-risks">{t('u.all-incident-risks')}</Link>
         </Button>
       </div>
 
@@ -87,19 +87,19 @@ function RiskBody({
           <Panel headingLevel={2} title={t('x.the-record')}>
             <dl className="flex flex-col gap-5">
               <div>
-                <dt className="label text-fg-subtle">What happened</dt>
+                <dt className="label text-fg-subtle">{t('u.what-happened')}</dt>
                 <dd className="mt-1.5 whitespace-pre-line text-body text-fg-muted">
                   {risk.description || 'No description was recorded when this risk was opened.'}
                 </dd>
               </div>
               <div>
-                <dt className="label text-fg-subtle">Required action</dt>
+                <dt className="label text-fg-subtle">{t('u.required-action')}</dt>
                 <dd className="mt-1.5 text-body text-fg-muted">
                   {risk.required_action || 'No required action was recorded.'}
                 </dd>
               </div>
               <div>
-                <dt className="label text-fg-subtle">Closure criteria</dt>
+                <dt className="label text-fg-subtle">{t('u.closure-criteria')}</dt>
                 <dd className="mt-1.5 text-body text-fg-muted">
                   {risk.closure_criteria ||
                     'No closure criteria were recorded, so a closure note cannot be checked against anything.'}

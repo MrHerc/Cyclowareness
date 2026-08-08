@@ -97,10 +97,10 @@ export default function PolicyIntelligence() {
         actions={
           <>
             <Button asChild variant="secondary" icon={<ScrollText className="size-4" />}>
-              <Link to="/policy-intelligence/policies">Policy library</Link>
+              <Link to="/policy-intelligence/policies">{t('u.policy-library')}</Link>
             </Button>
             <Button asChild variant="primary" icon={<ListFilter className="size-4" />}>
-              <Link to="/policy-intelligence/findings?status=open">Work the queue</Link>
+              <Link to="/policy-intelligence/findings?status=open">{t('u.work-the-queue')}</Link>
             </Button>
           </>
         }
@@ -132,7 +132,7 @@ export default function PolicyIntelligence() {
                   sampleNoun="findings"
                   windowDays={summary.window_days}
                   source="live"
-                  sourceDetail="Counted by the platform API over its own records"
+                  sourceDetail={t('u.counted-by-the-platform-api-over-its')}
                   lastUpdated={summary.window_end}
                   hint={`${summary.outside_window} older finding${summary.outside_window === 1 ? '' : 's'} sit outside this window.`}
                 />
@@ -154,7 +154,7 @@ export default function PolicyIntelligence() {
 
               <Panel tone="quiet">
                 <HonestMetric
-                  label="Still open"
+                  label={t('u.still-open')}
                   value={stillOpen}
                   format="number"
                   sample={summary.sample_size}
@@ -171,7 +171,7 @@ export default function PolicyIntelligence() {
                   value={summary.overdue_open_all_time}
                   format="number"
                   sample={summary.total_all_time}
-                  sampleNoun="findings on record"
+                  sampleNoun={t('u.findings-on-record')}
                   tone={summary.overdue_open_all_time > 0 ? 'high' : 'neutral'}
                   source="live"
                   hint={t('p.counted-over-every-finding-not-just')}
@@ -184,7 +184,7 @@ export default function PolicyIntelligence() {
         ) : (
           <EmptyState
             icon={AlertTriangle}
-            headline="The finding counts are unavailable"
+            headline={t('u.the-finding-counts-are-unavailable')}
             description={t('x.the-stats-endpoint-answered-but')}
           />
         )}
@@ -259,7 +259,7 @@ export default function PolicyIntelligence() {
           subtitle={t('x.ordered-by-severity-then-by')}
           actions={
             <Button asChild variant="ghost" size="sm">
-              <Link to="/policy-intelligence/findings?status=open">See all open</Link>
+              <Link to="/policy-intelligence/findings?status=open">{t('u.see-all-open')}</Link>
             </Button>
           }
         >
@@ -272,7 +272,7 @@ export default function PolicyIntelligence() {
             empty={
               <EmptyState
                 compact
-                headline="Nothing is open"
+                headline={t('u.nothing-is-open')}
                 description={t('x.findings-appear-here-while-their')}
               />
             }

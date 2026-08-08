@@ -50,7 +50,7 @@ export function PolicyVersions({ versions, className }: PolicyVersionsProps) {
       <EmptyState
         compact
         icon={History}
-        headline="No version snapshots yet"
+        headline={t('u.no-version-snapshots-yet')}
         description={t('x.a-snapshot-is-written-the')}
         className={className}
       />

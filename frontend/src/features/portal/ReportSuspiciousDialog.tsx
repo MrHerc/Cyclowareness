@@ -70,7 +70,7 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
       ) : (
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="label text-fg-subtle">First-pass verdict</span>
+            <span className="label text-fg-subtle">{t('u.first-pass-verdict')}</span>
             <Badge tone={SUSPICION_TONE[triage.suspicion_level] ?? 'neutral'} size="sm">
               {humanise(triage.suspicion_level)} suspicion
             </Badge>
@@ -91,7 +91,7 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
 
           {triage.indicators.length > 0 ? (
             <div>
-              <span className="label text-fg-subtle">What it noticed</span>
+              <span className="label text-fg-subtle">{t('u.what-it-noticed')}</span>
               <ul className="mt-1.5 list-disc space-y-1 pl-5 text-body text-fg-muted">
                 {triage.indicators.map((indicator) => (
                   <li key={indicator}>{indicator}</li>
@@ -102,7 +102,7 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
 
           {iocEntries.length > 0 ? (
             <div>
-              <span className="label text-fg-subtle">Indicators extracted</span>
+              <span className="label text-fg-subtle">{t('u.indicators-extracted')}</span>
               <ul className="mt-1.5 space-y-1">
                 {iocEntries.map(([kind, values]) => (
                   <li key={kind} className="text-sm text-fg-muted">
@@ -118,7 +118,7 @@ function TriageResult({ report, modelConnected }: { report: Report; modelConnect
 
           {triage.recommended_action ? (
             <div>
-              <span className="label text-fg-subtle">What you should do</span>
+              <span className="label text-fg-subtle">{t('u.what-you-should-do')}</span>
               <p className="mt-1 text-body text-fg">{triage.recommended_action}</p>
             </div>
           ) : null}
@@ -175,7 +175,7 @@ export function ReportSuspiciousDialog({
         result ? (
           <>
             <Button variant="ghost" onClick={reset}>
-              Report something else
+              {t('u.report-something-else')}
             </Button>
             <Button variant="primary" onClick={() => handleClose(false)}>
               Done
@@ -192,7 +192,7 @@ export function ReportSuspiciousDialog({
               loading={submit.isPending}
               icon={<Send className="size-4" aria-hidden="true" />}
             >
-              Send report
+              {t('u.send-report')}
             </Button>
           </>
         )
@@ -203,7 +203,7 @@ export function ReportSuspiciousDialog({
       ) : (
         <div className="space-y-4">
           <Select
-            label="What is it"
+            label={t('u.what-is-it')}
             options={ARTIFACT_TYPES.map((o) => ({ value: o.value, label: t(o.label) }))}
             value={artifactType}
             onValueChange={setArtifactType}

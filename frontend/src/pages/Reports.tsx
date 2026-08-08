@@ -145,7 +145,7 @@ export default function Reports() {
               <div className="p-5 pt-0">
                 <EmptyState
                   icon={FlaskConical}
-                  headline="No settled analysis in this window"
+                  headline={t('u.no-settled-analysis-in-this-window')}
                   description={t('x.an-export-becomes-available-once')}
                 />
               </div>

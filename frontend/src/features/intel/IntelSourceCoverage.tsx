@@ -129,7 +129,7 @@ export function IntelSourceCoverage({ latestPublishedAt, canRefresh }: IntelSour
               })
             }
           >
-            Check sources now
+            {t('u.check-sources-now')}
           </Button>
         ) : (
           <p className="text-sm text-fg-subtle">{t('p.your-role-can-read-intelligence-but')}</p>

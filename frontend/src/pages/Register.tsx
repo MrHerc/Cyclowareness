@@ -72,7 +72,7 @@ export default function Register() {
         <p>
           Already have an account?{' '}
           <Link to="/login" className="text-brand-fg rounded-control hover:underline">
-            Sign in
+            {t('u.sign-in')}
           </Link>
           .
         </p>
@@ -92,9 +92,9 @@ export default function Register() {
         onSubmit={handleSubmit((values) => setRequest(composeRequest(values)))}
         className="mt-6 flex flex-col gap-4"
       >
-        <Input label="Full name" autoComplete="name" error={errors.name?.message} {...register('name')} />
+        <Input label={t('u.full-name')} autoComplete="name" error={errors.name?.message} {...register('name')} />
         <Input
-          label="Work email"
+          label={t('u.work-email')}
           type="email"
           autoComplete="email"
           spellCheck={false}
@@ -110,7 +110,7 @@ export default function Register() {
         />
 
         <Button type="submit" variant="primary" size="lg" block>
-          Prepare the request
+          {t('u.prepare-the-request')}
         </Button>
       </form>
 

@@ -43,7 +43,7 @@ export function LurePreview({
     <div className={className}>
       <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
         <Badge tone="neutral">{channelLabel(channel)}</Badge>
-        <span className="text-sm text-fg-subtle">Lure source</span>
+        <span className="text-sm text-fg-subtle">{t('u.lure-source')}</span>
         {sourceHref ? (
           <Link to={sourceHref} className="text-sm text-brand hover:underline">
             {sourceLabel}

@@ -97,7 +97,7 @@ export default function RiskProfiles() {
         empty={
           <EmptyState
             icon={GaugeCircle}
-            headline="No one is scored yet"
+            headline={t('u.no-one-is-scored-yet')}
             description={t('x.the-model-above-is-still')}
           />
         }
@@ -111,9 +111,9 @@ export default function RiskProfiles() {
                 format="score"
                 digits={1}
                 sample={roster.length}
-                sampleNoun="scored people"
+                sampleNoun={t('u.scored-people')}
                 source="live"
-                unmeasuredReason="the roster is empty"
+                unmeasuredReason={t('u.the-roster-is-empty')}
                 definition={{
                   calculation: t('p.the-mean-of-every-current-risk'),
                   includes: ['Everyone the employees endpoint returns'],
@@ -130,9 +130,9 @@ export default function RiskProfiles() {
                 format="score"
                 digits={1}
                 sample={roster.length}
-                sampleNoun="scored people"
+                sampleNoun={t('u.scored-people')}
                 source="live"
-                unmeasuredReason="the roster is empty"
+                unmeasuredReason={t('u.the-roster-is-empty')}
                 hint={t('p.where-the-organisation-would-sit-if')}
                 definition={{
                   calculation: t('p.the-mean-of-20-role-sensitivity'),
@@ -151,7 +151,7 @@ export default function RiskProfiles() {
                 format="number"
                 digits={1}
                 sample={roster.length}
-                sampleNoun="scored people"
+                sampleNoun={t('u.scored-people')}
                 source="live"
                 tone={
                   totalBehaviour === null || totalBehaviour === 0
@@ -160,10 +160,10 @@ export default function RiskProfiles() {
                       ? 'critical'
                       : 'safe'
                 }
-                unmeasuredReason="the roster is empty"
+                unmeasuredReason={t('u.the-roster-is-empty')}
                 hint={t('p.score-points-added-or-removed-by')}
                 definition={{
-                  calculation: 'Σ(current score − role baseline), over every person on the roster.',
+                  calculation: t('u.current-score-role-baseline-over-every-person'),
                   includes: ['Every non-revoked event the engine has applied'],
                   excludes: ['The role baselines themselves'],
                   caveat:

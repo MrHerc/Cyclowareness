@@ -121,7 +121,7 @@ export function EmployeePicker({
           <ErrorState error={employees.error} compact onRetry={() => void employees.refetch()} />
         ) : employees.isLoading ? (
           <div aria-busy="true" role="status">
-            <span className="sr-only">Loading the employee directory</span>
+            <span className="sr-only">{t('u.loading-the-employee-directory')}</span>
             {[0, 1, 2, 3].map((row) => (
               <SkeletonRow key={row} leading={false} />
             ))}
@@ -165,7 +165,7 @@ export function EmployeePicker({
                     <span className="flex shrink-0 items-center gap-2">
                       {isAttached && (
                         <Badge size="sm" tone="neutral">
-                          Already attached
+                          {t('u.already-attached')}
                         </Badge>
                       )}
                       <span

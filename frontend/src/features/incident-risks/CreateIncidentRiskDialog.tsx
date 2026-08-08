@@ -157,7 +157,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             Cancel
           </Button>
           <Button variant="primary" type="submit" form={FORM_ID} loading={busy}>
-            Open risk
+            {t('u.open-risk')}
           </Button>
         </>
       }
@@ -193,7 +193,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="risk_type"
             render={({ field }) => (
               <Select
-                label="Risk type"
+                label={t('u.risk-type')}
                 required
                 options={RISK_TYPE_OPTIONS}
                 value={field.value}
@@ -292,7 +292,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
         />
 
         <fieldset className="flex min-w-0 flex-col gap-3 border-0 p-0" disabled={busy}>
-          <legend className="text-sm font-medium text-fg-muted">What discharges this risk</legend>
+          <legend className="text-sm font-medium text-fg-muted">{t('u.what-discharges-this-risk')}</legend>
           <Controller
             control={form.control}
             name="requires_training"

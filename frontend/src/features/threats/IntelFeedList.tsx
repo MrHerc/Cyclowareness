@@ -108,14 +108,14 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
             <EmptyState
               compact
               icon={Rss}
-              headline="The curated feed is empty"
+              headline={t('u.the-curated-feed-is-empty')}
               description={t('x.this-feed-is-filled-by')}
             />
           ) : (
             <EmptyState
               compact
               icon={ListFilter}
-              headline="No feed item matches these filters"
+              headline={t('u.no-feed-item-matches-these-filters')}
               description={`${all.length} item${all.length === 1 ? ' is' : 's are'} in the feed. Clear the severity, type or search filter to see them.`}
             />
           )
@@ -168,11 +168,11 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
                   {item.pushed_to_loop ? (
                     <span className="inline-flex items-center gap-1.5 text-sm text-safe">
                       <CheckCircle2 className="size-4 shrink-0" aria-hidden="true" />
-                      Already pushed into the loop
+                      {t('u.already-pushed-into-the-loop')}
                     </span>
                   ) : canAct ? (
                     <Button variant="secondary" size="sm" loading={busy} onClick={() => handlePush(item)}>
-                      Push into stage 1
+                      {t('u.push-into-stage-1')}
                     </Button>
                   ) : (
                     <p className="text-sm text-fg-faint">{t('p.pushing-a-feed-item-into-the')}</p>

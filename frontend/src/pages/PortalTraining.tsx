@@ -117,7 +117,7 @@ export default function PortalTraining() {
           className="inline-flex items-center gap-2 text-sm text-fg-muted hover:text-fg"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
-          My security
+          {t('u.my-security')}
         </Link>
 
         {detail ? (

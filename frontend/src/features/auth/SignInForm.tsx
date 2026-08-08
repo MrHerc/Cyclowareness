@@ -99,7 +99,7 @@ export function SignInForm({
       ) : null}
 
       <Input
-        label="Work email"
+        label={t('u.work-email')}
         type="email"
         autoComplete="username"
         autoFocus={defaultEmail === ''}
@@ -128,12 +128,12 @@ export function SignInForm({
           to="/forgot-password"
           className="text-sm text-brand-fg rounded-control hover:underline"
         >
-          Forgot password
+          {t('u.forgot-password')}
         </Link>
       </div>
 
       <Button type="submit" variant="primary" size="lg" block loading={pending}>
-        Sign in
+        {t('u.sign-in')}
       </Button>
     </form>
   )

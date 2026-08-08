@@ -102,7 +102,7 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
             Cancel
           </Button>
           <Button type="submit" form={FORM_ID} variant="primary" loading={submit.isPending}>
-            Submit and start the loop
+            {t('u.submit-and-start-the-loop')}
           </Button>
         </>
       }

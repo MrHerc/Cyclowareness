@@ -50,7 +50,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
       stage={STAGE}
       entry={entry}
       source="live"
-      sourceDetail="Risk engine selection stored on the run"
+      sourceDetail={t('u.risk-engine-selection-stored-on-the-run')}
     >
       {targets.length === 0 ? (
         <p className="text-body text-fg-muted">{t('p.no-one-was-selected-that-is')}</p>
@@ -66,9 +66,9 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
               <TableRow>
                 <TableHead>Person</TableHead>
                 <TableHead>Department</TableHead>
-                <TableHead numeric>Risk at selection</TableHead>
+                <TableHead numeric>{t('u.risk-at-selection')}</TableHead>
                 <TableHead>Exposure</TableHead>
-                <TableHead>Why they were selected</TableHead>
+                <TableHead>{t('u.why-they-were-selected')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -100,7 +100,7 @@ export function TargetingPanel({ entry, targets, departments }: TargetingPanelPr
                     </TableCell>
                     <TableCell>
                       {target.reasons.length === 0 ? (
-                        <span className="text-sm text-fg-faint">No reason was recorded</span>
+                        <span className="text-sm text-fg-faint">{t('u.no-reason-was-recorded')}</span>
                       ) : (
                         <ul className="space-y-1">
                           {target.reasons.map((reason) => (

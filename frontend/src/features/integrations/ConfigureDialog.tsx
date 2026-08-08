@@ -90,7 +90,7 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
             Cancel
           </Button>
           <Button variant="primary" onClick={submit} loading={configure.isPending}>
-            Save configuration
+            {t('u.save-configuration')}
           </Button>
         </>
       }
@@ -113,7 +113,7 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
           maxLength={120}
         />
         <Input
-          label="Base URL"
+          label={t('u.base-url')}
           type="url"
           value={baseUrl}
           onChange={(event) => setBaseUrl(event.target.value)}
@@ -128,9 +128,9 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
         />
 
         <p className="text-xs text-fg-subtle">
-          Saving moves this connection to <span className="text-fg">configured</span>, which is a
-          statement about these settings only. A connection is reported as connected when a sync
-          reaches the provider and it answers, never because a form was submitted.
+          {t('u.saving-moves-this-connection-to')}{' '}
+          <span className="text-fg">{t('u.configured')}</span>
+          {t('u.which-is-a-statement-about-these')}
         </p>
 
         {failure ? (

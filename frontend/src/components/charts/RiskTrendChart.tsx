@@ -1,4 +1,5 @@
 import { CartesianGrid, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis } from 'recharts'
+import { useT } from '../../lib/i18n'
 import type { TrendPoint } from '../../domain/types'
 import { num, riskBandLabel } from '../../lib/format'
 import { ChartFrame } from './ChartFrame'
@@ -65,6 +66,7 @@ export function RiskTrendChart({
   error = null,
   className,
 }: RiskTrendChartProps) {
+  const t = useT()
   // Gated on the BEHAVIOUR series: the chart's claim is about behaviour, so
   // a window with a composite but no behaviour measurement has nothing to say.
   const hasData = hasEnoughPoints(points.map((p) => p.avg_behaviour_risk))
@@ -79,7 +81,7 @@ export function RiskTrendChart({
   return (
     <ChartFrame
       headingLevel={headingLevel}
-      title="Risk over time"
+      title={t('u.risk-over-time-2')}
       caption={
         (windowDays
           ? `Last ${windowDays} days · 0–100, lower is better. Only the behaviour line measures whether people are safer; the composite also falls when training is completed.`
@@ -98,7 +100,7 @@ export function RiskTrendChart({
       hasData={hasData}
       loading={loading}
       error={error}
-      emptyMessage="Behaviour risk has been measured on fewer than two days in this window."
+      emptyMessage={t('u.risk-trend-empty')}
       description="Two lines per day on a 0 to 100 scale: behaviour risk, which moves only on what people did when a threat reached them, and the composite score, which also includes training engagement. Elevated and high band thresholds are marked."
       className={className}
     >

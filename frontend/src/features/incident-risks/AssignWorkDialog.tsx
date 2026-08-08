@@ -148,11 +148,11 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
           <EmptyState
             compact
             icon={GraduationCap}
-            headline="No approved module to assign"
+            headline={t('u.no-approved-module-to-assign')}
             description={t('x.only-a-module-that-has')}
             action={
               <Button asChild variant="secondary" size="sm">
-                <Link to="/training">Go to training</Link>
+                <Link to="/training">{t('u.go-to-training')}</Link>
               </Button>
             }
           />
@@ -187,7 +187,7 @@ export function AssignWorkDialog({ risk, open, onOpenChange }: AssignWorkDialogP
             )}
 
             <fieldset className="flex min-w-0 flex-col gap-2 border-0 p-0">
-              <legend className="text-sm font-medium text-fg-muted">Who to assign</legend>
+              <legend className="text-sm font-medium text-fg-muted">{t('u.who-to-assign')}</legend>
               {assignable.length === 0 ? (
                 <p className="text-sm text-fg-subtle">{t('p.everyone-attached-to-this-risk-already')}</p>
               ) : (

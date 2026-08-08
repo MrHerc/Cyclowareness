@@ -57,7 +57,7 @@ export function IdentityPanel() {
           }
         >
           {session.employee_id === null ? (
-            <span className="text-fg-faint">Not linked</span>
+            <span className="text-fg-faint">{t('u.not-linked')}</span>
           ) : canSeeEmployees ? (
             <Button variant="outline" size="sm" asChild>
               <Link to={`/employees/${session.employee_id}`}>Open employee #{session.employee_id}</Link>

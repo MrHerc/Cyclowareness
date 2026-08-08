@@ -72,7 +72,7 @@ export function IntelFeedTable({
                   {external ? (
                     <span className="tech block text-brand">{external}</span>
                   ) : (
-                    <span className="block text-xs text-fg-faint">No external id</span>
+                    <span className="block text-xs text-fg-faint">{t('u.no-external-id')}</span>
                   )}
                   <span className="mt-0.5 block truncate text-body text-fg group-hover:text-brand-fg">
                     {item.title}
@@ -101,7 +101,7 @@ export function IntelFeedTable({
               <TableCell numeric>
                 {item.cvss_score === null || item.cvss_score === undefined ? (
                   <NoMeasurement
-                    label="Not scored"
+                    label={t('u.not-scored')}
                     reason={t('p.the-publisher-did-not-attach-a')}
                     className="justify-end"
                   />
@@ -113,7 +113,7 @@ export function IntelFeedTable({
               <TableCell numeric>
                 {matches === null ? (
                   <NoMeasurement
-                    label="Not counted"
+                    label={t('u.not-counted')}
                     reason={t('p.the-api-returned-only-part-of-2')}
                     className="justify-end"
                   />

@@ -138,22 +138,22 @@ export default function Training() {
               all.length === 0 ? (
                 <EmptyState
                   icon={GraduationCap}
-                  headline="No training module exists yet"
+                  headline={t('u.no-training-module-exists-yet')}
                   description={t('x.a-module-appears-here-when')}
                   action={
                     <Button variant="secondary" asChild>
-                      <Link to="/threats">Open Threat Intake</Link>
+                      <Link to="/threats">{t('u.open-threat-intake-2')}</Link>
                     </Button>
                   }
                 />
               ) : (
                 <EmptyState
                   icon={GraduationCap}
-                  headline="No module matches this view"
+                  headline={t('u.no-module-matches-this-view')}
                   description={t('x.change-the-review-state-or')}
                   action={
                     <Button variant="secondary" onClick={() => setParams(new URLSearchParams())}>
-                      Clear filters
+                      {t('u.clear-filters-2')}
                     </Button>
                   }
                 />

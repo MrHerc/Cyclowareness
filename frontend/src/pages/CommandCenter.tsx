@@ -344,7 +344,7 @@ export default function CommandCenter() {
                 to="/departments"
                 className="text-brand-fg underline-offset-4 hover:underline"
               >
-                Open departments
+                {t('u.open-departments')}
               </Link>
               .
             </p>

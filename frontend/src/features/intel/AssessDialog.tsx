@@ -70,7 +70,7 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
             Cancel
           </Button>
           <Button variant="primary" loading={assess.isPending} onClick={submit}>
-            Record assessment
+            {t('u.record-assessment')}
           </Button>
         </>
       }

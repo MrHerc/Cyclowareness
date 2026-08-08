@@ -132,7 +132,7 @@ export default function Employees() {
         lead={t('page.employees.lead')}
         actions={
           <Button asChild variant="secondary">
-            <Link to="/risk-profiles">How the score is computed</Link>
+            <Link to="/risk-profiles">{t('u.how-the-score-is-computed')}</Link>
           </Button>
         }
       />

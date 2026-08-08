@@ -106,7 +106,7 @@ export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFi
             onClick={onClear}
             icon={<X className="size-3.5" aria-hidden="true" />}
           >
-            Clear filters
+            {t('u.clear-filters-2')}
           </Button>
         ) : null}
       </div>

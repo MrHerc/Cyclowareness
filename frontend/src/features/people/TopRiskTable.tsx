@@ -9,6 +9,7 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui'
 import type { Employee } from '../../domain/types'
 import { cn, num, signed } from '../../lib/format'
@@ -22,6 +23,7 @@ export interface TopRiskTableProps {
 }
 
 export function TopRiskTable({ employees, departmentNames, limit = 10 }: TopRiskTableProps) {
+  const t = useT()
   const ranked = [...employees]
     .sort((a, b) => b.current_risk_score - a.current_risk_score)
     .slice(0, limit)
@@ -37,8 +39,8 @@ export function TopRiskTable({ employees, departmentNames, limit = 10 }: TopRisk
         <TableRow>
           <TableHead>Person</TableHead>
           <TableHead>Department</TableHead>
-          <TableHead numeric>Baseline from role</TableHead>
-          <TableHead numeric>From behaviour</TableHead>
+          <TableHead numeric>{t('u.baseline-from-role')}</TableHead>
+          <TableHead numeric>{t('u.from-behaviour')}</TableHead>
           <TableHead>Score</TableHead>
         </TableRow>
       </TableHeader>

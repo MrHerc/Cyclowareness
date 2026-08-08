@@ -108,7 +108,7 @@ export function ReportCard({
 
       {report.note.trim() && report.note.trim() !== headlineOf(report) ? (
         <p className="mt-3 text-body text-fg-muted">
-          <span className="text-fg-subtle">Reporter’s note: </span>
+          <span className="text-fg-subtle">{t('u.reporter-s-note')} </span>
           {report.note.trim()}
         </p>
       ) : null}
@@ -116,7 +116,7 @@ export function ReportCard({
       {/* --- the triage block ------------------------------------------- */}
       <div className="mt-4 rounded-control border border-line-subtle bg-elevated p-3.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="label text-fg-faint">Automated triage</span>
+          <span className="label text-fg-faint">{t('u.automated-triage')}</span>
           {triage ? (
             <AIProvenanceBadge
               provenance={provenanceOf(triage.source)}
@@ -208,7 +208,7 @@ export function ReportCard({
               onClick={onPush}
               icon={<ArrowRight className="size-4" aria-hidden="true" />}
             >
-              Push into the loop
+              {t('u.push-into-the-loop')}
             </Button>
             <Button
               variant="ghost"

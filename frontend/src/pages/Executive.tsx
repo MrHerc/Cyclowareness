@@ -234,7 +234,7 @@ export default function Executive() {
         empty={
           <EmptyState
             icon={BarChart3}
-            headline="The dashboard returned nothing"
+            headline={t('u.the-dashboard-returned-nothing')}
             description={t('x.the-executive-endpoint-answered-without')}
           />
         }

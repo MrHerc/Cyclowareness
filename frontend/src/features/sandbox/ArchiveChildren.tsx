@@ -71,7 +71,7 @@ export function ArchiveChildren({ members }: ArchiveChildrenProps) {
                     <Badge status={child.risk_level} size="sm" />
                   ) : (
                     <NoMeasurement
-                      label="Not scored"
+                      label={t('u.not-scored')}
                       reason={t('p.this-member-has-not-finished-analysis')}
                     />
                   )}

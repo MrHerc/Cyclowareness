@@ -144,12 +144,12 @@ export default function LoopDetail() {
                 renderEvidence={(stage) => stageEvidence(stage, run)}
                 renderActions={(stage) => (
                   <a href={`#${stageAnchor(stage)}`} className="text-sm text-brand hover:underline">
-                    Read the full stage
+                    {t('u.read-the-full-stage')}
                   </a>
                 )}
                 gateActions={
                   <a href={`#${GATE_ANCHOR}`} className="text-sm text-brand hover:underline">
-                    Go to the gate
+                    {t('u.go-to-the-gate')}
                   </a>
                 }
               />

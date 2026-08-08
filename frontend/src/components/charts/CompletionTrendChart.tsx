@@ -57,7 +57,7 @@ export function CompletionTrendChart({
 
   return (
     <ChartFrame
-      title="Training completion"
+      title={t('u.training-completion-2')}
       caption={
         windowDays
           ? `Last ${windowDays} days · completion is attendance, not behaviour change`
@@ -68,8 +68,8 @@ export function CompletionTrendChart({
       hasData={hasData}
       loading={loading}
       error={error}
-      emptyMessage="Fewer than two days in this window had assignments due."
-      description="Share of assigned training completed, per day. Days with no assignments due are omitted rather than counted as zero."
+      emptyMessage={t('u.completion-trend-empty')}
+      description={t('u.completion-trend-description')}
       className={className}
     >
       <AreaChart data={points} margin={PLOT_MARGIN} accessibilityLayer>

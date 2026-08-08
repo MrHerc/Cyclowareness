@@ -51,7 +51,7 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
           <EmptyState
             compact
             icon={ScrollText}
-            headline="No audit entry for this risk"
+            headline={t('u.no-audit-entry-for-this-risk')}
             description={t('x.the-api-writes-an-entry')}
           />
         }

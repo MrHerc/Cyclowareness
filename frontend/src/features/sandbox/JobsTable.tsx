@@ -138,7 +138,7 @@ export function JobsTable({ jobs }: JobsTableProps) {
                   <Badge status={job.risk_level} size="sm" />
                 ) : (
                   <NoMeasurement
-                    label="Not scored"
+                    label={t('u.not-scored')}
                     reason={t('p.scoring-has-not-run-for-this')}
                   />
                 )}

@@ -55,8 +55,8 @@ export function DepartmentRiskHeatmap({
   return (
     <ChartFrame
       headingLevel={headingLevel}
-      title="Risk by department"
-      caption="Average risk score, 0–100 · worst first"
+      title={t('u.risk-by-department-2')}
+      caption={t('u.average-risk-score-0-100-worst-first-2')}
       legend={[
         { label: 'Low risk', color: BAND_COLOR.low },
         { label: 'Elevated', color: BAND_COLOR.elevated },
@@ -67,9 +67,9 @@ export function DepartmentRiskHeatmap({
       loading={loading}
       error={error}
       emptyTitle={t('p.no-departments')}
-      emptyMessage="No department has a scored population yet."
+      emptyMessage={t('u.department-heatmap-empty')}
       responsive={false}
-      description="Average risk score per department, with headcount and the number of high-risk people in each."
+      description={t('u.department-heatmap-description')}
       className={className}
     >
       <ul className="grid h-full grid-cols-2 content-start gap-2 overflow-y-auto sm:grid-cols-3 xl:grid-cols-4">

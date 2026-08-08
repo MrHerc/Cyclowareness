@@ -122,14 +122,14 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
               <EmptyState
                 compact
                 icon={Radar}
-                headline="No artifact has entered the platform yet"
+                headline={t('u.no-artifact-has-entered-the-platform-yet')}
                 description={t('x.a-threat-record-is-written')}
               />
             ) : (
               <EmptyState
                 compact
                 icon={ListFilter}
-                headline="No artifact matches these filters"
+                headline={t('u.no-artifact-matches-these-filters')}
                 description={`${all.length} threat record${all.length === 1 ? ' exists' : 's exist'}. Clear the source, verdict, type or search filter to see them.`}
               />
             )}
@@ -142,7 +142,7 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
               <TableHead>Artifact</TableHead>
               <TableHead>Source</TableHead>
               <TableHead>Analysis</TableHead>
-              <TableHead>Threat type</TableHead>
+              <TableHead>{t('u.threat-type')}</TableHead>
               <TableHead>Reach</TableHead>
               <TableHead>Submitted</TableHead>
             </TableRow>

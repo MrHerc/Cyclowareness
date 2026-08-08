@@ -190,7 +190,7 @@ function Workspace({ runId }: { runId: string }) {
         className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-brand"
       >
         <ArrowLeft className="size-3.5" aria-hidden="true" />
-        Approval gate
+        {t('u.approval-gate-2')}
       </Link>
 
       <AsyncBoundary
@@ -202,7 +202,7 @@ function Workspace({ runId }: { runId: string }) {
       >
         {detail === null ? (
           <EmptyState
-            headline="This run could not be loaded"
+            headline={t('u.this-run-could-not-be-loaded')}
             description={t('x.the-approval-workspace-needs-a')}
           />
         ) : (
@@ -249,24 +249,24 @@ function Workspace({ runId }: { runId: string }) {
                   {detail.awaitingApproval ? (
                     revisionRequested ? (
                       <>
-                        <span className="text-medium">Revision requested.</span> The run is still at
+                        <span className="text-medium">{t('u.revision-requested')}</span> The run is still at
                         the gate and the module is unchanged. Edit the content and decide again.
                       </>
                     ) : detail.secondApproval.held ? (
                       <>
-                        <span className="text-brand">Held for a second approver.</span> An
+                        <span className="text-brand">{t('u.held-for-a-second-approver-2')}</span> An
                         endorsement is recorded and the loop has not advanced. A different person
                         must approve it.
                       </>
                     ) : (
                       <>
-                        <span className="text-brand">Awaiting approval.</span> This run is stopped
+                        <span className="text-brand">{t('u.awaiting-approval')}</span> This run is stopped
                         between conversion and targeting. Nothing has been assigned to anyone.
                       </>
                     )
                   ) : (
                     <>
-                      <span className="text-fg">This run has already left the gate.</span> Its status
+                      <span className="text-fg">{t('u.this-run-has-already-left-the-gate')}</span> Its status
                       is {detail.runStatus ?? 'unknown'}. The workspace below is the record of what
                       was reviewed, and no decision can be recorded against it.
                     </>

@@ -68,11 +68,11 @@ export function UnresolvedRisks({
               sample={openFindings.length}
               sampleNoun={noun}
               source="live"
-              sourceDetail="Policy intelligence"
+              sourceDetail={t('u.policy-intelligence')}
               lastUpdated={updatedAt}
               tone={severe > 0 ? 'critical' : 'safe'}
               hint={`${atLeast}Findings at critical or high severity that have not been resolved, accepted or ruled out.`}
-              unmeasuredReason="the findings list could not be read"
+              unmeasuredReason={t('u.the-findings-list-could-not-be-read')}
               definition={{
                 calculation: t('p.open-findings-whose-severity-is-critical'),
                 includes: ['Statuses open, in review, remediation planned and training assigned'],
@@ -81,7 +81,7 @@ export function UnresolvedRisks({
               }}
             />
           ) : (
-            <WithheldMetric label="Open high-risk findings" cause="unavailable" reason={UNREADABLE} />
+            <WithheldMetric label={t('u.open-high-risk-findings')} cause="unavailable" reason={UNREADABLE} />
           )}
         </Panel>
 
@@ -94,11 +94,11 @@ export function UnresolvedRisks({
               sample={openFindings.length}
               sampleNoun={noun}
               source="live"
-              sourceDetail="Policy intelligence"
+              sourceDetail={t('u.policy-intelligence')}
               lastUpdated={updatedAt}
               tone={exposure.people > 0 ? 'high' : 'safe'}
               hint={`People named by at least one open finding, across ${exposure.departments} department${exposure.departments === 1 ? '' : 's'}.`}
-              unmeasuredReason="the findings list could not be read"
+              unmeasuredReason={t('u.the-findings-list-could-not-be-read')}
               definition={{
                 calculation: t('p.distinct-employees-named-individually-by-any'),
                 includes: ['Employees a finding lists by name'],
@@ -111,7 +111,7 @@ export function UnresolvedRisks({
               }}
             />
           ) : (
-            <WithheldMetric label="Policy exposure" cause="unavailable" reason={UNREADABLE} />
+            <WithheldMetric label={t('u.policy-exposure')} cause="unavailable" reason={UNREADABLE} />
           )}
         </Panel>
 
@@ -122,9 +122,9 @@ export function UnresolvedRisks({
               value={remediation.rate}
               format="percent"
               sample={remediation.total}
-              sampleNoun="incident risks on record"
+              sampleNoun={t('u.incident-risks-on-record')}
               source="live"
-              sourceDetail="Incident risks"
+              sourceDetail={t('u.incident-risks')}
               lastUpdated={updatedAt}
               tone={remediation.rate !== null && remediation.rate >= 0.8 ? 'safe' : 'neutral'}
               hint={`${remediation.closed} of ${remediation.total} incident-response risks have been closed.`}
@@ -139,7 +139,7 @@ export function UnresolvedRisks({
             />
           ) : (
             <WithheldMetric
-              label="Incident remediation completion"
+              label={t('u.incident-remediation-completion')}
               cause="restricted"
               reason={t('p.incidentresponse-records-name-individuals-and-ar')}
             />

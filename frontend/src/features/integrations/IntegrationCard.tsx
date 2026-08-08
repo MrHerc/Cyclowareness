@@ -120,7 +120,7 @@ export function IntegrationCard({
                 <dd className="min-w-0 break-words text-sm text-fg">
                   {entry.value === null ? (
                     <span className="text-fg-faint">
-                      Withheld — this key is credential-shaped and is never displayed
+                      {t('u.withheld-this-key-is-credential-shaped-and')}
                     </span>
                   ) : (
                     entry.value
@@ -137,7 +137,7 @@ export function IntegrationCard({
       <div className="rounded-control border border-line-subtle bg-base px-3 py-2.5">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <Badge status={integration.last_sync_status} size="sm" />
-          <LastUpdated at={integration.last_sync_at} prefix="Last sync" />
+          <LastUpdated at={integration.last_sync_at} prefix={t('u.last-sync')} />
           <span className="text-xs text-fg-faint">
             {num(integration.courses_imported)} course(s) imported
           </span>
@@ -198,12 +198,12 @@ export function IntegrationCard({
                 sync.mutate({ id: integration.id, body: { scope: 'all' } })
               }}
             >
-              Sync now
+              {t('u.sync-now')}
             </Button>
             {integration.status === 'disabled' ? (
               <span className="inline-flex items-center gap-1.5 text-xs text-fg-faint">
                 <Power className="size-3.5 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-                Already disabled
+                {t('u.already-disabled')}
               </span>
             ) : (
               <Button

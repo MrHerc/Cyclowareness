@@ -61,7 +61,7 @@ export function NewModuleDialog() {
       title={t('x.new-training-module')}
       description={t('x.named-here-written-in-the')}
       trigger={
-        <Button icon={<Plus className="size-4" aria-hidden="true" />}>New module</Button>
+        <Button icon={<Plus className="size-4" aria-hidden="true" />}>{t('u.new-module')}</Button>
       }
     >
       <form
@@ -131,7 +131,7 @@ export function NewModuleDialog() {
             Cancel
           </Button>
           <Button type="submit" disabled={!canSubmit} loading={create.isPending}>
-            Create and open the editor
+            {t('u.create-and-open-the-editor')}
           </Button>
         </div>
       </form>

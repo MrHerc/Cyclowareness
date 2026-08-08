@@ -47,7 +47,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
       >
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
-            <span className="label text-fg-subtle">Score recorded</span>
+            <span className="label text-fg-subtle">{t('u.score-recorded')}</span>
             <p className="mt-1.5 text-title text-fg tabular-nums">
               {assignment.score === null ? (
                 <NoMeasurement
@@ -63,7 +63,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
             </p>
           </div>
           <div>
-            <span className="label text-fg-subtle">Time spent</span>
+            <span className="label text-fg-subtle">{t('u.time-spent')}</span>
             <p className="mt-1.5 text-title text-fg tabular-nums">
               {assignment.time_spent_seconds === null ? (
                 <NoMeasurement reason={t('p.time-spent-was-not-recorded-for')} />
@@ -73,7 +73,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
             </p>
           </div>
           <div>
-            <span className="label text-fg-subtle">Delivered as</span>
+            <span className="label text-fg-subtle">{t('u.delivered-as')}</span>
             <p className="mt-1.5 text-title text-fg">{module.est_minutes} min module</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function CompletedReview({ assignment }: CompletedReviewProps) {
 
       <div className="flex justify-end">
         <Button asChild variant="secondary">
-          <Link to="/portal">Back to my security</Link>
+          <Link to="/portal">{t('u.back-to-my-security')}</Link>
         </Button>
       </div>
     </div>

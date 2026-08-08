@@ -74,11 +74,11 @@ export function IntegrationHealthPanel({
           <EmptyState
             compact
             icon={Link2}
-            headline="No provider is connected"
+            headline={t('u.no-provider-is-connected')}
             description={t('x.training-is-delivered-inside-cyclowareness')}
             action={
               <Button size="sm" variant="secondary" asChild>
-                <Link to="/integrations">Open integrations</Link>
+                <Link to="/integrations">{t('u.open-integrations')}</Link>
               </Button>
             }
           />

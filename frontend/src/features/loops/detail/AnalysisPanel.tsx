@@ -64,7 +64,7 @@ export function AnalysisPanel({ entry, threat }: AnalysisPanelProps) {
       stage={STAGE}
       entry={entry}
       source="live"
-      sourceDetail="Platform analyzer output on the threat record"
+      sourceDetail={t('u.platform-analyzer-output-on-the-threat-record')}
     >
       <Facts items={facts} />
 

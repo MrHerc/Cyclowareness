@@ -9,6 +9,7 @@
  */
 
 import { Badge, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui'
+import { useT } from '../../lib/i18n'
 import { cn, num, signed } from '../../lib/format'
 import { SCORING_SIGNALS, type SignalDirection } from './riskModel'
 
@@ -39,6 +40,7 @@ const DIRECTION_TONE: Record<SignalDirection, 'critical' | 'safe' | 'neutral'> =
 }
 
 export function SignalWeightsTable({ observed, sample }: SignalWeightsTableProps) {
+  const t = useT()
   return (
     <Table>
       <TableCaption>
@@ -51,9 +53,9 @@ export function SignalWeightsTable({ observed, sample }: SignalWeightsTableProps
         <TableRow>
           <TableHead>Signal</TableHead>
           <TableHead>Effect</TableHead>
-          <TableHead numeric>Weight (constant)</TableHead>
-          <TableHead numeric>Recorded (measured)</TableHead>
-          <TableHead numeric>Net effect</TableHead>
+          <TableHead numeric>{t('u.weight-constant')}</TableHead>
+          <TableHead numeric>{t('u.recorded-measured')}</TableHead>
+          <TableHead numeric>{t('u.net-effect')}</TableHead>
         </TableRow>
       </TableHeader>
 

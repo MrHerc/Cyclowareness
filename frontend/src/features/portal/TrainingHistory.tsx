@@ -43,7 +43,7 @@ export function TrainingHistory({ assignments }: TrainingHistoryProps) {
         <EmptyState
           compact
           icon={GraduationCap}
-          headline="You have not finished any training yet"
+          headline={t('u.you-have-not-finished-any-training-yet')}
           description={t('x.modules-appear-here-once-you')}
         />
       ) : (

@@ -62,7 +62,7 @@ export function BehaviourTrendChart({
 
   return (
     <ChartFrame
-      title="Behaviour over time"
+      title={t('u.behaviour-over-time')}
       caption={caption}
       legend={[
         { label: 'Click rate', color: CLICK_COLOR, muted: !hasEnoughPoints(clicks) },
@@ -72,8 +72,8 @@ export function BehaviourTrendChart({
       hasData={hasData}
       loading={loading}
       error={error}
-      emptyMessage="Simulation outcomes are needed on at least two days before a behaviour trend can be drawn."
-      description="Phishing click rate and threat report rate per day. Days without resolved simulation outcomes are omitted rather than interpolated."
+      emptyMessage={t('u.behaviour-trend-empty')}
+      description={t('u.behaviour-trend-description')}
       className={className}
     >
       <LineChart data={points} margin={PLOT_MARGIN} accessibilityLayer>

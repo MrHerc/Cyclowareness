@@ -65,7 +65,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
             reason={closed ? t('p.this-risk-is-closed-reopen-it') : null}
             onClick={() => setAttaching(true)}
           >
-            Attach people
+            {t('u.attach-people')}
           </GuardedAction>
         ) : undefined
       }
@@ -75,12 +75,12 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
           <EmptyState
             compact
             icon={Users}
-            headline="Nobody is attached yet"
+            headline={t('u.nobody-is-attached-yet')}
             description={t('x.a-risk-with-no-subjects')}
             action={
               canManage && !closed ? (
                 <Button size="sm" onClick={() => setAttaching(true)}>
-                  Attach people
+                  {t('u.attach-people')}
                 </Button>
               ) : undefined
             }
@@ -95,7 +95,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
               <TableHead>Status</TableHead>
               <TableHead numeric>Score</TableHead>
               <TableHead>Completed</TableHead>
-              <TableHead>Reviewer decision</TableHead>
+              <TableHead>{t('u.reviewer-decision')}</TableHead>
               {canManage && <TableHead>Review</TableHead>}
             </TableRow>
           </TableHeader>
@@ -121,7 +121,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
                         <span className="tech text-fg-muted">#{subject.assignment_id}</span>
                       </Tooltip>
                     ) : (
-                      <span className="text-xs text-fg-faint">Nothing assigned</span>
+                      <span className="text-xs text-fg-faint">{t('u.nothing-assigned')}</span>
                     )}
                   </TableCell>
 
@@ -139,7 +139,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
                       </span>
                     ) : (
                       <NoMeasurement
-                        label="No score"
+                        label={t('u.no-score')}
                         reason={t('p.no-score-was-recorded-for-this')}
                         className="justify-end text-xs"
                       />
@@ -152,7 +152,7 @@ export function SubjectsPanel({ risk, canManage }: SubjectsPanelProps) {
                         <span className="text-fg-muted">{timeAgo(subject.completed_at)}</span>
                       </Tooltip>
                     ) : (
-                      <span className="text-xs text-fg-faint">Not completed</span>
+                      <span className="text-xs text-fg-faint">{t('u.not-completed')}</span>
                     )}
                   </TableCell>
 

@@ -68,7 +68,7 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
 
         <dl className="flex flex-col gap-4">
           <div>
-            <dt className="label text-fg-subtle">What happened</dt>
+            <dt className="label text-fg-subtle">{t('u.what-happened')}</dt>
             <dd className="mt-1.5 text-sm">
               {redacted ? (
                 <span className="text-medium">
@@ -85,7 +85,7 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
           </div>
 
           <div>
-            <dt className="label text-fg-subtle">What you must do</dt>
+            <dt className="label text-fg-subtle">{t('u.what-you-must-do')}</dt>
             <dd className="mt-1.5 text-sm text-fg">
               {risk.required_action || 'No required action was recorded.'}
               {requirements.length > 0 && (
@@ -98,14 +98,14 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
           </div>
 
           <div>
-            <dt className="label text-fg-subtle">By when</dt>
+            <dt className="label text-fg-subtle">{t('u.by-when')}</dt>
             <dd className="mt-1.5 text-sm">
               {risk.deadline ? (
                 <span className={due.overdue ? 'text-high' : 'text-fg'}>
                   {formatDate(risk.deadline)} — {due.text}
                 </span>
               ) : (
-                <span className="text-fg-subtle">No deadline was set.</span>
+                <span className="text-fg-subtle">{t('u.no-deadline-was-set')}</span>
               )}
             </dd>
           </div>
@@ -115,7 +115,7 @@ export function EmployeeViewPanel({ risk }: EmployeeViewPanelProps) {
             <dd className="mt-1.5 text-sm">
               {redacted ? (
                 <span className="text-medium">
-                  Withheld at this classification. Incident evidence routinely names other people.
+                  {t('u.withheld-at-this-classification-incident-evidence-routin')}
                 </span>
               ) : (
                 <EvidenceList

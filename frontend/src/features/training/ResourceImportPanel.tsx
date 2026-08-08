@@ -67,7 +67,7 @@ export function ResourceImportPanel() {
         <div className="flex flex-wrap items-end gap-4">
           <div className="min-w-56">
             <Select
-              label="File under"
+              label={t('u.file-under')}
               options={options.length > 0 ? options : [{ value: topic, label: topic }]}
               value={topic}
               onValueChange={setTopic}
@@ -79,7 +79,7 @@ export function ResourceImportPanel() {
             disabled={parsed.length === 0}
             loading={importer.isPending}
           >
-            Verify and add
+            {t('u.verify-and-add')}
           </Button>
         </div>
 

@@ -9,6 +9,7 @@
  */
 
 import { Compass } from 'lucide-react'
+import { useT } from '../lib/i18n'
 import { Link, useLocation } from 'react-router-dom'
 import { EmptyState } from '../components/states'
 import { Button } from '../components/ui'
@@ -16,6 +17,7 @@ import { useAuth } from '../lib/auth/useAuth'
 import { homeFor } from '../lib/auth/permissions'
 
 export default function NotFound() {
+  const t = useT()
   const { pathname } = useLocation()
   const { role } = useAuth()
 
@@ -23,11 +25,11 @@ export default function NotFound() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <EmptyState
         icon={Compass}
-        headline="This page does not exist"
+        headline={t('u.this-page-does-not-exist')}
         description={`Nothing in Cyclowareness is served at ${pathname}. The link may point at a different deployment, or the record it referred to may have been deleted.`}
         action={
           <Button asChild variant="primary">
-            <Link to={homeFor(role)}>Go to your home screen</Link>
+            <Link to={homeFor(role)}>{t('u.go-to-your-home-screen')}</Link>
           </Button>
         }
       />

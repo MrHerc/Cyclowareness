@@ -33,7 +33,7 @@ export function RunHeader({ run, updatedAt }: RunHeaderProps) {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
-        All closed loops
+        {t('u.all-closed-loops')}
       </Link>
 
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -61,7 +61,7 @@ export function RunHeader({ run, updatedAt }: RunHeaderProps) {
           <LastUpdated at={updatedAt ? new Date(updatedAt).toISOString() : null} />
           {run.status === 'awaiting_approval' ? (
             <Button asChild variant="primary" size="sm" className="mt-1">
-              <Link to={`/approvals/${run.id}`}>Open the approval</Link>
+              <Link to={`/approvals/${run.id}`}>{t('u.open-the-approval')}</Link>
             </Button>
           ) : null}
         </div>

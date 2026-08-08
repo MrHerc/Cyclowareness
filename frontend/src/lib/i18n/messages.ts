@@ -1485,8 +1485,6 @@ const en = {
     'Generated from',
   'p.give-the-campaign-a-name':
     'Give the campaign a name.',
-  'p.human-decision':
-    'HUMAN DECISION',
   'p.has-a-recorded-outcome':
     'Has a recorded outcome',
   'p.has-this-happened-to-you':
@@ -2193,8 +2191,6 @@ const en = {
     'Set by the lure source',
   'p.set-by-the-platform-not-by':
     'Set by the platform, not by this browser. Switching roles is a real sign-in against a different account.',
-  'p.seven-stages-one-human-gate':
-    'Seven stages, one human gate',
   'p.severity-is-set-when-a-finding':
     'Severity is set when a finding is raised, and is not recomputed as it ages.',
   'p.severityweighted-and-saturating-on-purpose-twent':
@@ -3046,6 +3042,944 @@ const en = {
   's.feedback.label': 'Feedback',
   's.feedback.hint': 'Evidence updates the model',
   's.feedback.owner': 'Risk engine',
+  'u.behaviour-over-time':
+    'Behaviour over time',
+  'u.about-this-deployment-2':
+    'About this deployment',
+  'u.approval-gate-2':
+    'Approval gate',
+  'u.average-risk-score-0-100-worst-first-2':
+    'Average risk score, 0–100 · worst first',
+  'u.back-to-intake-2':
+    'Back to intake',
+  'u.clear-filters-2':
+    'Clear filters',
+  'u.command-palette-2':
+    'Command palette',
+  'u.confidence-not-stated-2':
+    'Confidence not stated',
+  'u.demo-data-2':
+    'Demo data',
+  'u.every-screen-your-role-can-open-2':
+    'Every screen your role can open.',
+  'u.everything-in-the-shell-is-reachable-without-2':
+    'Everything in the shell is reachable without a pointer.',
+  'u.human-decision-required-2':
+    'Human decision required',
+  'u.keyboard-shortcuts-2':
+    'Keyboard shortcuts',
+  'u.loop-outcomes-2':
+    'Loop outcomes',
+  'u.no-runs-here-2':
+    'No runs here',
+  'u.not-measured-2':
+    'Not measured',
+  'u.nothing-matches-the-palette-only-lists-screens-2':
+    'Nothing matches. The palette only lists screens your role can open.',
+  'u.read-from-the-running-server-not-from-2':
+    'Read from the running server, not from the build.',
+  'u.reset-the-demonstration-world-2':
+    'Reset the demonstration world',
+  'u.risk-by-department-2':
+    'Risk by department',
+  'u.risk-movement-by-department-2':
+    'Risk movement by department',
+  'u.risk-over-time-2':
+    'Risk over time',
+  'u.sample-size-not-recorded-2':
+    'Sample size not recorded',
+  'u.training-completion-2':
+    'Training completion',
+  'u.all-incident-risks':
+    'All incident risks',
+  'u.all-simulations':
+    'All simulations',
+  'u.all-threats':
+    'All threats',
+  'u.analyser-conclusion':
+    'Analyser conclusion',
+  'u.approve-with-edits':
+    'Approve with edits',
+  'u.artifact-as-received':
+    'Artifact, as received',
+  'u.clear-stage-filter':
+    'Clear stage filter',
+  'u.click-rate':
+    'Click rate',
+  'u.close-the-risk':
+    'Close the risk',
+  'u.completion-screen':
+    'Completion screen',
+  'u.correct-answer':
+    'Correct answer',
+  'u.discard-changes':
+    'Discard changes',
+  'u.discard-draft':
+    'Discard draft',
+  'u.edit-content':
+    'Edit content',
+  'u.escalation-is-not-available':
+    'Escalation is not available.',
+  'u.forgot-password':
+    'Forgot password',
+  'u.full-audit-log':
+    'Full audit log',
+  'u.generated-training':
+    'Generated training',
+  'u.go-to-training':
+    'Go to training',
+  'u.headers-and-attachment-metadata':
+    'Headers and attachment metadata',
+  'u.held-for-a-second-approver':
+    'Held for a second approver',
+  'u.incident-remediation-completion':
+    'Incident remediation completion',
+  'u.items-appear-here-once-an-analyst-is':
+    'Items appear here once an analyst is named on them. Unassigned work stays in the whole queue.',
+  'u.items-appear-here-when-a-loop-run':
+    'Items appear here when a loop run finishes conversion and needs a person to release it into targeting.',
+  'u.loading-the-employee-directory':
+    'Loading the employee directory',
+  'u.loading-this-screen':
+    'Loading this screen',
+  'u.new-reports-to-triage':
+    'New reports to triage',
+  'u.no-approved-module-to-assign':
+    'No approved module to assign',
+  'u.no-campaign-is-running':
+    'No campaign is running',
+  'u.no-department-has-a-scored-population':
+    'No department has a scored population',
+  'u.no-object':
+    'No object',
+  'u.no-open-findings':
+    'No open findings.',
+  'u.no-provider-is-connected':
+    'No provider is connected',
+  'u.no-score':
+    'No score',
+  'u.no-threat-has-reached-targeting-yet':
+    'No threat has reached targeting yet',
+  'u.not-derived':
+    'Not derived',
+  'u.not-reported':
+    'Not reported',
+  'u.not-yet-analysed':
+    'Not yet analysed',
+  'u.nothing-has-been-changed-yet':
+    'Nothing has been changed yet',
+  'u.nothing-has-been-submitted':
+    'Nothing has been submitted',
+  'u.nothing-is-open':
+    'Nothing is open',
+  'u.object-type':
+    'Object type',
+  'u.observed-behaviour':
+    'Observed behaviour',
+  'u.open-high-risk-findings':
+    'Open high-risk findings',
+  'u.open-integrations':
+    'Open integrations',
+  'u.open-review':
+    'Open review',
+  'u.open-risk':
+    'Open risk',
+  'u.open-simulations':
+    'Open simulations',
+  'u.open-the-findings-register':
+    'Open the findings register',
+  'u.open-the-full-sandbox-report':
+    'Open the full sandbox report',
+  'u.open-threat-intake':
+    'Open threat intake',
+  'u.page-size':
+    'Page size',
+  'u.policy-exposure':
+    'Policy exposure',
+  'u.quiz-and-answer-key':
+    'Quiz and answer key',
+  'u.report-rate':
+    'Report rate',
+  'u.reported-by':
+    'Reported by',
+  'u.request-revision':
+    'Request revision',
+  'u.require-a-second-approval':
+    'Require a second approval',
+  'u.risk-type':
+    'Risk type',
+  'u.sandbox-verdict':
+    'Sandbox verdict',
+  'u.sanitisation-not-recorded':
+    'Sanitisation not recorded',
+  'u.save-content':
+    'Save content',
+  'u.save-draft':
+    'Save draft',
+  'u.seeded-demonstration-accounts':
+    'Seeded demonstration accounts',
+  'u.sign-in':
+    'Sign in',
+  'u.take-away':
+    'Take away',
+  'u.threat-record':
+    'Threat record',
+  'u.unsaved-edits-shown':
+    'Unsaved edits shown',
+  'u.waiting-at-the-approval-gate':
+    'Waiting at the approval gate',
+  'u.what-discharges-this-risk':
+    'What discharges this risk',
+  'u.what-they-are-left-with':
+    'What they are left with',
+  'u.who-to-assign':
+    'Who to assign',
+  'u.work-email':
+    'Work email',
+  'u.your-role-can-read-this-queue-but':
+    'Your role can read this queue but cannot decide on it.',
+  'u.a-closed-loop-starts-from-an-artifact':
+    'A closed loop starts from an artifact',
+  'u.add-evidence-row':
+    'Add evidence row',
+  'u.all-closed-loops':
+    'All closed loops',
+  'u.already-attached':
+    'Already attached',
+  'u.already-disabled':
+    'Already disabled',
+  'u.approve-and-release':
+    'Approve and release',
+  'u.assign-required-work':
+    'Assign required work',
+  'u.attach-people':
+    'Attach people',
+  'u.average-risk':
+    'Average risk',
+  'u.average-risk-today':
+    'Average risk today',
+  'u.base-url':
+    'Base URL',
+  'u.behaviours-in-use-in-this-catalogue':
+    'Behaviours in use in this catalogue',
+  'u.by-when':
+    'By when',
+  'u.chain-of-custody':
+    'Chain of custody',
+  'u.check-sources-now':
+    'Check sources now',
+  'u.clamped-to-0-100':
+    'Clamped to 0–100.',
+  'u.delivery-status':
+    'Delivery status',
+  'u.disable-connection':
+    'Disable connection',
+  'u.due-date':
+    'Due date',
+  'u.duration-not-recorded':
+    'Duration not recorded',
+  'u.edit-mapping':
+    'Edit mapping',
+  'u.force-measurement-now':
+    'Force measurement now',
+  'u.high-risk':
+    'High risk',
+  'u.last-sync':
+    'Last sync',
+  'u.loop-run':
+    'Loop run',
+  'u.machine-derived':
+    'Machine-derived',
+  'u.no-approved-technology-was-matched':
+    'No approved technology was matched.',
+  'u.no-audit-entries-for-this-run':
+    'No audit entries for this run',
+  'u.no-audit-entry-for-this-risk':
+    'No audit entry for this risk',
+  'u.no-deadline':
+    'No deadline',
+  'u.no-deadline-was-set':
+    'No deadline was set.',
+  'u.no-department-or-person-was-named':
+    'No department or person was named.',
+  'u.no-external-id':
+    'No external id',
+  'u.no-incident-reference':
+    'No incident reference',
+  'u.no-policy-rule-was-matched':
+    'No policy rule was matched.',
+  'u.no-reason-was-recorded':
+    'No reason was recorded',
+  'u.no-recent-events':
+    'No recent events',
+  'u.no-risk-events-recorded':
+    'No risk events recorded',
+  'u.nobody-is-attached-yet':
+    'Nobody is attached yet',
+  'u.not-analysed':
+    'Not analysed',
+  'u.not-completed':
+    'Not completed',
+  'u.not-counted':
+    'Not counted',
+  'u.not-from-a-loop':
+    'Not from a loop',
+  'u.not-listed':
+    'Not listed',
+  'u.not-mapped-to-any-behaviour-targeting-will':
+    'Not mapped to any behaviour — targeting will never select it.',
+  'u.not-scored':
+    'Not scored',
+  'u.not-started':
+    'Not started',
+  'u.nothing-assigned':
+    'Nothing assigned',
+  'u.nothing-has-happened-yet':
+    'Nothing has happened yet',
+  'u.nothing-of-ours-matched-this-advisory':
+    'Nothing of ours matched this advisory.',
+  'u.open-department-risk':
+    'Open department risk',
+  'u.open-in-the-training-studio':
+    'Open in the training studio',
+  'u.open-roster':
+    'Open roster',
+  'u.open-the-approval':
+    'Open the approval',
+  'u.open-the-audit-log':
+    'Open the audit log',
+  'u.open-the-full-review':
+    'Open the full review',
+  'u.open-the-policy-library':
+    'Open the policy library',
+  'u.open-the-review-workspace':
+    'Open the review workspace',
+  'u.quiz-score':
+    'Quiz score',
+  'u.raise-a-policy-finding':
+    'Raise a policy finding',
+  'u.raise-finding':
+    'Raise finding',
+  'u.record-assessment':
+    'Record assessment',
+  'u.record-decision':
+    'Record decision',
+  'u.reviewer-decision':
+    'Reviewer decision',
+  'u.risk-at-selection':
+    'Risk at selection',
+  'u.risk-band':
+    'Risk band',
+  'u.risk-change':
+    'Risk change',
+  'u.risk-now':
+    'Risk now',
+  'u.save-configuration':
+    'Save configuration',
+  'u.search-runs':
+    'Search runs',
+  'u.share-high-risk':
+    'Share high risk',
+  'u.share-of-the-score':
+    'Share of the score',
+  'u.should-training-or-a-finding-be-created':
+    'Should training or a finding be created?',
+  'u.shown-here':
+    'Shown here',
+  'u.sync-now':
+    'Sync now',
+  'u.the-baseline':
+    'The baseline',
+  'u.the-module':
+    'The module',
+  'u.the-score':
+    'The score',
+  'u.training-is-not-created-from-an-advisory':
+    'Training is not created from an advisory',
+  'u.what-happened':
+    'What happened',
+  'u.what-you-must-do':
+    'What you must do',
+  'u.which-approved-technologies-are-affected':
+    'Which approved technologies are affected?',
+  'u.which-policy-is-affected':
+    'Which policy is affected?',
+  'u.which-users-or-departments-are-exposed':
+    'Which users or departments are exposed?',
+  'u.why-does-this-matter-to-this-organisation':
+    'Why does this matter to this organisation?',
+  'u.why-they-were-selected':
+    'Why they were selected',
+  'u.withdrawn-after-review-not-counted-in-the':
+    'Withdrawn after review — not counted in the score',
+  'u.withheld-at-this-classification-incident-evidence-routin':
+    'Withheld at this classification. Incident evidence routinely names other people.',
+  'u.withheld-this-key-is-credential-shaped-and':
+    'Withheld — this key is credential-shaped and is never displayed',
+  'u.analyse-a-url':
+    'Analyse a URL',
+  'u.analyse-file':
+    'Analyse file',
+  'u.answer-the-dispute':
+    'Answer the dispute',
+  'u.applies-to':
+    'Applies to',
+  'u.assign-training':
+    'Assign training',
+  'u.automated-first-pass':
+    'Automated first pass',
+  'u.back-to-my-security':
+    'Back to my security',
+  'u.baseline-from-role':
+    'Baseline from role',
+  'u.being-attacked-is-not-a-mark-against':
+    'Being attacked is not a mark against you.',
+  'u.cannot-be-approved-regenerate-it-instead':
+    'Cannot be approved. Regenerate it instead.',
+  'u.close-campaign':
+    'Close campaign',
+  'u.copy-all':
+    'Copy all',
+  'u.create-draft':
+    'Create draft',
+  'u.delivered-as':
+    'Delivered as',
+  'u.did-not-run':
+    'Did not run',
+  'u.false-positive':
+    'False positive',
+  'u.fetch-and-analyse':
+    'Fetch and analyse',
+  'u.fill-outcomes-synthetically-demo':
+    'Fill outcomes synthetically (demo)',
+  'u.first-pass-verdict':
+    'First-pass verdict',
+  'u.from-behaviour':
+    'From behaviour',
+  'u.go-to-your-training':
+    'Go to your training',
+  'u.in-use':
+    'In use',
+  'u.indicators-extracted':
+    'Indicators extracted',
+  'u.keep-checking':
+    'Keep checking',
+  'u.last-change':
+    'Last change',
+  'u.launch-campaign':
+    'Launch campaign',
+  'u.lure-source':
+    'Lure source',
+  'u.matched-from-your-library':
+    'Matched from your library',
+  'u.md5-hash':
+    'MD5 hash',
+  'u.net-effect':
+    'Net effect',
+  'u.new-status':
+    'New status',
+  'u.no-control-gap-has-been-raised':
+    'No control gap has been raised',
+  'u.no-departments-named-this-policy-is-organisation':
+    'No departments named — this policy is organisation-wide',
+  'u.no-due-date-this-deployment-does-not':
+    'No due date — this deployment does not set one on training assignments',
+  'u.no-findings-against-this-policy':
+    'No findings against this policy',
+  'u.no-owner-recorded':
+    'No owner recorded',
+  'u.no-policy-has-an-open-finding':
+    'No policy has an open finding',
+  'u.no-review-date-set':
+    'No review date set',
+  'u.no-version-snapshots-yet':
+    'No version snapshots yet',
+  'u.none-named':
+    'None named.',
+  'u.none-recorded':
+    'None recorded',
+  'u.not-linked':
+    'Not linked',
+  'u.not-recorded':
+    'Not recorded',
+  'u.not-specified-for-this-assignment':
+    'Not specified for this assignment',
+  'u.not-tied-to-a-policy':
+    'Not tied to a policy',
+  'u.nothing-has-been-raised-against-you':
+    'Nothing has been raised against you',
+  'u.nothing-has-gone-unanswered-yet':
+    'Nothing has gone unanswered yet',
+  'u.nothing-refused-by-the-firewall':
+    'Nothing — refused by the firewall',
+  'u.open-campaign':
+    'Open campaign',
+  'u.open-findings':
+    'Open findings',
+  'u.open-these-in-the-findings-queue':
+    'Open these in the findings queue',
+  'u.organisation-wide':
+    'Organisation-wide',
+  'u.person-and-trigger':
+    'Person and trigger',
+  'u.prebuilt-template':
+    'Prebuilt template',
+  'u.re-analyse':
+    'Re-analyse',
+  'u.record-count-not-available-the-source-query':
+    'Record count not available — the source query did not answer.',
+  'u.recorded-measured':
+    'Recorded (measured)',
+  'u.registered-as-metadata-only-no-document-was':
+    'Registered as metadata only — no document was attached',
+  'u.registered-by':
+    'Registered by',
+  'u.report-a-concern':
+    'Report a concern',
+  'u.report-something-else':
+    'Report something else',
+  'u.reporting-lowers-it':
+    'Reporting lowers it.',
+  'u.review-due':
+    'Review due',
+  'u.run-extraction':
+    'Run extraction',
+  'u.run-the-analysis-again':
+    'Run the analysis again',
+  'u.save-status':
+    'Save status',
+  'u.score-recorded':
+    'Score recorded',
+  'u.score-to-reach':
+    'Score to reach:',
+  'u.send-report':
+    'Send report',
+  'u.send-to-a-person':
+    'Send to a person',
+  'u.submit-answers':
+    'Submit answers',
+  'u.target-audience':
+    'Target audience',
+  'u.template-engine':
+    'Template engine',
+  'u.the-answer-was':
+    'The answer was:',
+  'u.this-deployment-cannot-generate-this-pack':
+    'This deployment cannot generate this pack',
+  'u.this-was-not-me':
+    'This was not me',
+  'u.time-spent':
+    'Time spent',
+  'u.training-this-finding-asks-for':
+    'Training this finding asks for',
+  'u.true-positive':
+    'True positive',
+  'u.type-and-size':
+    'Type and size',
+  'u.unlock-and-continue':
+    'Unlock and continue',
+  'u.upload-a-file':
+    'Upload a file',
+  'u.weight-constant':
+    'Weight (constant)',
+  'u.what-is-it':
+    'What is it',
+  'u.what-is-lowering-it':
+    'What is lowering it',
+  'u.what-is-raising-it':
+    'What is raising it',
+  'u.what-it-noticed':
+    'What it noticed',
+  'u.what-to-do':
+    'What to do',
+  'u.what-was-attached':
+    'What was attached',
+  'u.what-you-said':
+    'What you said',
+  'u.what-you-should-do':
+    'What you should do',
+  'u.why-detonation-runs-off-host':
+    'Why detonation runs off-host',
+  'u.you-answered':
+    'You answered:',
+  'u.you-disputed-this':
+    'You disputed this.',
+  'u.you-disputed-this-and-a-person-answered':
+    'You disputed this, and a person answered.',
+  'u.you-have-not-finished-any-training-yet':
+    'You have not finished any training yet',
+  'u.you-have-not-reported-anything-yet':
+    'You have not reported anything yet',
+  'u.you-scored':
+    'You scored:',
+  'u.your-answer':
+    'Your answer',
+  'u.your-role-cannot-read-these-records-so':
+    'Your role cannot read these records, so the coverage is not counted here.',
+  'u.accept-the-risk':
+    'Accept the risk',
+  'u.add-question':
+    'Add question',
+  'u.add-section':
+    'Add section',
+  'u.all-campaigns':
+    'All campaigns',
+  'u.already-pushed-into-the-loop':
+    'Already pushed into the loop',
+  'u.already-recorded':
+    'Already recorded',
+  'u.automated-triage':
+    'Automated triage',
+  'u.awaiting-approval':
+    'Awaiting approval.',
+  'u.back-to-sign-in':
+    'Back to sign in',
+  'u.back-to-submissions':
+    'Back to submissions',
+  'u.back-to-the-queue':
+    'Back to the queue',
+  'u.back-to-the-roster':
+    'Back to the roster',
+  'u.baseline-from-the-role':
+    'Baseline from the role',
+  'u.behaviour-observed':
+    'Behaviour observed',
+  'u.change-status':
+    'Change status',
+  'u.checking-the-approval-queue':
+    'Checking the approval queue',
+  'u.closure-criteria':
+    'Closure criteria',
+  'u.create-and-open-the-editor':
+    'Create and open the editor',
+  'u.edit-module':
+    'Edit module',
+  'u.event-trail':
+    'Event trail',
+  'u.file-under':
+    'File under',
+  'u.full-name':
+    'Full name',
+  'u.generated-from':
+    'Generated from',
+  'u.go-to-the-gate':
+    'Go to the gate',
+  'u.go-to-threat-intake':
+    'Go to threat intake',
+  'u.go-to-your-home-screen':
+    'Go to your home screen',
+  'u.held-for-a-second-approver-2':
+    'Held for a second approver.',
+  'u.how-the-score-is-computed':
+    'How the score is computed',
+  'u.how-urgency-is-coloured':
+    'How urgency is coloured',
+  'u.looking-for-the-loop-run-behind-this':
+    'Looking for the loop run behind this artifact',
+  'u.mark-false-positive':
+    'Mark false positive',
+  'u.moved-by-recorded-behaviour':
+    'Moved by recorded behaviour',
+  'u.my-security':
+    'My security',
+  'u.new-campaign':
+    'New campaign',
+  'u.new-module':
+    'New module',
+  'u.no-approver-recorded':
+    'No approver recorded',
+  'u.no-artifact-has-entered-the-platform-yet':
+    'No artifact has entered the platform yet',
+  'u.no-artifact-matches-these-filters':
+    'No artifact matches these filters',
+  'u.no-campaign-matches-these-filters':
+    'No campaign matches these filters',
+  'u.no-campaigns-have-been-created':
+    'No campaigns have been created',
+  'u.no-connection-records-exist':
+    'No connection records exist.',
+  'u.no-employee-has-reported-anything-yet':
+    'No employee has reported anything yet',
+  'u.no-feed-item-matches-these-filters':
+    'No feed item matches these filters',
+  'u.no-indicators-were-extracted':
+    'No indicators were extracted',
+  'u.no-loop-runs-yet':
+    'No loop runs yet',
+  'u.no-module-matches-this-view':
+    'No module matches this view',
+  'u.no-one-is-scored-yet':
+    'No one is scored yet',
+  'u.no-report-matches-these-filters':
+    'No report matches these filters',
+  'u.no-run-matches-these-filters':
+    'No run matches these filters',
+  'u.no-settled-analysis-in-this-window':
+    'No settled analysis in this window',
+  'u.no-threat-is-linked-this-module-was':
+    'No threat is linked. This module was not produced by a loop run.',
+  'u.no-training-is-waiting-on-you':
+    'No training is waiting on you',
+  'u.no-training-module-exists-yet':
+    'No training module exists yet',
+  'u.not-from-a-threat':
+    'Not from a threat',
+  'u.not-yet':
+    'Not yet',
+  'u.nothing-is-waiting-for-a-decision':
+    'Nothing is waiting for a decision',
+  'u.open-a-risk':
+    'Open a risk',
+  'u.open-departments':
+    'Open departments',
+  'u.open-the-policy':
+    'Open the policy',
+  'u.open-the-run-list':
+    'Open the run list',
+  'u.open-the-sandbox':
+    'Open the sandbox',
+  'u.open-threat-intake-2':
+    'Open Threat Intake',
+  'u.plain-language-explanation':
+    'Plain-language explanation',
+  'u.policy-library':
+    'Policy library',
+  'u.prepare-the-request':
+    'Prepare the request',
+  'u.prepare-the-reset-request':
+    'Prepare the reset request',
+  'u.push-into-stage-1':
+    'Push into stage 1',
+  'u.push-into-the-loop':
+    'Push into the loop',
+  'u.read-the-full-stage':
+    'Read the full stage',
+  'u.real-analyzed-threat':
+    'Real analyzed threat',
+  'u.report-something-suspicious':
+    'Report something suspicious',
+  'u.reporter-s-note':
+    'Reporter’s note:',
+  'u.reports-submitted':
+    'Reports submitted',
+  'u.required-action':
+    'Required action',
+  'u.required-training':
+    'Required training',
+  'u.review-state':
+    'Review state',
+  'u.revision-requested':
+    'Revision requested.',
+  'u.risk-score':
+    'Risk score',
+  'u.role-sensitivity':
+    'Role sensitivity',
+  'u.save-changes':
+    'Save changes',
+  'u.see-all-open':
+    'See all open',
+  'u.see-every-change-in-the-audit-log':
+    'See every change in the audit log',
+  'u.see-what-is-waiting-at-the-approval':
+    'See what is waiting at the approval gate',
+  'u.shown-after-grading':
+    'Shown after grading:',
+  'u.still-open':
+    'Still open',
+  'u.submit-an-artifact-in-threat-intake':
+    'Submit an artifact in Threat Intake',
+  'u.submit-and-start-the-loop':
+    'Submit and start the loop',
+  'u.submit-artifact':
+    'Submit artifact',
+  'u.suggested-remediation':
+    'Suggested remediation',
+  'u.the-curated-feed-is-empty':
+    'The curated feed is empty',
+  'u.the-dashboard-returned-nothing':
+    'The dashboard returned nothing',
+  'u.the-finding-counts-are-unavailable':
+    'The finding counts are unavailable',
+  'u.the-server-would-reject-this-module':
+    'The server would reject this module',
+  'u.this-campaign-has-no-targets':
+    'This campaign has no targets',
+  'u.this-finding-could-not-be-loaded':
+    'This finding could not be loaded',
+  'u.this-finding-is-closed-reopen-it-before':
+    'This finding is closed. Reopen it before assigning training.',
+  'u.this-page-does-not-exist':
+    'This page does not exist',
+  'u.this-run-could-not-be-loaded':
+    'This run could not be loaded',
+  'u.this-run-has-already-left-the-gate':
+    'This run has already left the gate.',
+  'u.threat-intake':
+    'Threat intake',
+  'u.threat-type':
+    'Threat type',
+  'u.training-and-simulations':
+    'Training and simulations',
+  'u.training-studio':
+    'Training Studio',
+  'u.verify-and-add':
+    'Verify and add',
+  'u.work-the-queue':
+    'Work the queue',
+  'u.go-back':
+    'Go back',
+  'u.sign-in-with-a-phone-number-instead':
+    'Sign in with a phone number instead',
+  'u.sign-in-with-email-instead':
+    'Sign in with email instead',
+  'u.or':
+    'OR',
+  'u.an-action-matches-exactly-or-as':
+    'An action matches exactly or as a dotted prefix, so',
+  'u.api-origin':
+    'API origin',
+  'u.behaviour-trend-description':
+    'Phishing click rate and threat report rate per day. Days without resolved simulation outcomes are omitted rather than interpolated.',
+  'u.behaviour-trend-empty':
+    'Simulation outcomes are needed on at least two days before a behaviour trend can be drawn.',
+  'u.completion-trend-description':
+    'Share of assigned training completed, per day. Days with no assignments due are omitted.',
+  'u.completion-trend-empty':
+    'Fewer than two days in this window had assignments due.',
+  'u.configured':
+    'configured',
+  'u.department-heatmap-description':
+    'Average risk score per department, with headcount and the number of high-risk people in each.',
+  'u.department-heatmap-empty':
+    'No department has a scored population yet.',
+  'u.finds-every-verb-beneath-it':
+    'finds every verb beneath it. Actor is a case-insensitive substring of the email.',
+  'u.loop-outcome-empty':
+    'No loop has been started in this window.',
+  'u.open-closed-loops-for-the-full':
+    'Open Closed Loops for the full picture.',
+  'u.risk-movement-empty':
+    'No department has two scored points to compare in this window.',
+  'u.risk-trend-empty':
+    'Behaviour risk has been measured on fewer than two days in this window.',
+  'u.runs-are-waiting-for-a-human':
+    '{count} {noun} waiting for a human decision.',
+  'u.same-origin-as-this-page':
+    'same origin as this page',
+  'u.saving-moves-this-connection-to':
+    'Saving moves this connection to',
+  'u.severity-bar-empty':
+    'No findings have been raised in this view.',
+  'u.waiting-for-you':
+    'Waiting for you',
+  'u.which-is-a-statement-about-these':
+    ', which is a statement about these settings only. A connection is reported as connected when a sync reaches the provider and it answers, never because a form was submitted.',
+  'u.yara-rules':
+    'YARA rules',
+  'u.assigned-modules':
+    'assigned modules',
+  'u.attributed-risk-events':
+    'attributed risk events',
+  'u.completions-that-recorded-a-duration':
+    'completions that recorded a duration',
+  'u.counted-by-the-platform-api-over-its':
+    'Counted by the platform API over its own records',
+  'u.counted-from-the-subject-rows-on-this':
+    'Counted from the subject rows on this risk',
+  'u.current-score-role-baseline-over-every-person':
+    'Σ(current score − role baseline), over every person on the roster.',
+  'u.delivered-simulations':
+    'delivered simulations',
+  'u.departments-with-a-current-roll-up':
+    'departments with a current roll-up',
+  'u.findings-on-record':
+    'findings on record',
+  'u.graded-quizzes':
+    'graded quizzes',
+  'u.incident-risks':
+    'Incident risks',
+  'u.incident-risks-on-record':
+    'incident risks on record',
+  'u.measurement-summary-stored-on-the-run':
+    'Measurement summary stored on the run',
+  'u.no-assignment-on-this-run-has-been':
+    'No assignment on this run has been completed with a score.',
+  'u.no-completion-on-this-run-recorded-how':
+    'No completion on this run recorded how long it took.',
+  'u.no-department-reported-a-headcount':
+    'no department reported a headcount',
+  'u.no-department-reported-a-high-risk-count':
+    'no department reported a high-risk count',
+  'u.no-employee-currently-carries-a-score':
+    'no employee currently carries a score',
+  'u.no-employee-has-a-score-yet':
+    'no employee has a score yet',
+  'u.no-employee-has-a-scored-risk-profile':
+    'No employee has a scored risk profile yet',
+  'u.no-endpoint-aggregates-quiz-scores-into-a':
+    'no endpoint aggregates quiz scores into a pass rate',
+  'u.no-endpoint-reports-the-interval-between-delivery':
+    'no endpoint reports the interval between delivery and report',
+  'u.no-subject-has-recorded-a-score-yet':
+    'No subject has recorded a score yet.',
+  'u.nobody-is-attached-to-this-risk-yet':
+    'Nobody is attached to this risk yet.',
+  'u.nothing-was-assigned-on-this-run-so':
+    'Nothing was assigned on this run, so there is no rate to compute.',
+  'u.people-in-a-scored-department':
+    'people in a scored department',
+  'u.people-on-a-scored-roster':
+    'people on a scored roster',
+  'u.platform-analyzer-output-on-the-threat-record':
+    'Platform analyzer output on the threat record',
+  'u.platform-api':
+    'Platform API',
+  'u.policy-intelligence':
+    'Policy intelligence',
+  'u.quiz-scores-recorded-against-this-incident':
+    'Quiz scores recorded against this incident\'s assignments',
+  'u.recorded-risk-events':
+    'recorded risk events',
+  'u.resolved-simulation-outcomes':
+    'resolved simulation outcomes',
+  'u.resolved-targets':
+    'resolved targets',
+  'u.risk-engine':
+    'risk engine',
+  'u.risk-engine-behaviour-only':
+    'Risk engine — behaviour only',
+  'u.risk-engine-roll-ups-and-the-daily':
+    'Risk engine roll-ups and the daily metric snapshot',
+  'u.risk-engine-selection-stored-on-the-run':
+    'Risk engine selection stored on the run',
+  'u.scored-assignments':
+    'scored assignments',
+  'u.scored-employees':
+    'scored employees',
+  'u.scored-people':
+    'scored people',
+  'u.scored-subject':
+    'scored subject',
+  'u.the-dashboard-did-not-report-a-count':
+    'the dashboard did not report a count',
+  'u.the-findings-list-could-not-be-read':
+    'the findings list could not be read',
+  'u.the-roster-is-empty':
+    'the roster is empty',
+  'u.the-run-by-run-breakdown-is-held':
+    'The run-by-run breakdown is held by the security team',
+  'u.the-threat-list-is-held-by-the':
+    'The threat list is held by the security team',
+  'u.there-is-nothing-here':
+    'there is nothing here',
+  'u.threat-record-2':
+    'Threat record',
+  'u.timed-reports':
+    'timed reports',
+  'u.training-assignment-records':
+    'Training assignment records',
+  'u.training-module-record':
+    'Training module record',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -4486,8 +5420,6 @@ const az: Record<MessageKey, string> = {
     'Yaradılma mənbəyi',
   'p.give-the-campaign-a-name':
     'Kampaniyaya ad verin.',
-  'p.human-decision':
-    'İNSAN QƏRARI',
   'p.has-a-recorded-outcome':
     'Qeydə alınmış nəticəsi var',
   'p.has-this-happened-to-you':
@@ -5194,8 +6126,6 @@ const az: Record<MessageKey, string> = {
     'Tələ mənbəyi tərəfindən təyin olunur',
   'p.set-by-the-platform-not-by':
     'Bu brauzer tərəfindən deyil, platforma tərəfindən təyin olunur. Rolu dəyişmək başqa hesabla real giriş deməkdir.',
-  'p.seven-stages-one-human-gate':
-    'Yeddi mərhələ, bir insan qapısı',
   'p.severity-is-set-when-a-finding':
     'Ciddilik tapıntı qaldırılarkən müəyyən edilir və vaxt keçdikcə yenidən hesablanmır.',
   'p.severityweighted-and-saturating-on-purpose-twent':
@@ -6044,6 +6974,944 @@ const az: Record<MessageKey, string> = {
   's.feedback.label': 'Geri əlaqə',
   's.feedback.hint': 'Sübutlar modeli yeniləyir',
   's.feedback.owner': 'Risk mühərriki',
+  'u.behaviour-over-time':
+    'Davranışın zaman üzrə dəyişməsi',
+  'u.about-this-deployment-2':
+    'Bu quraşdırma haqqında',
+  'u.approval-gate-2':
+    'Təsdiq qapısı',
+  'u.average-risk-score-0-100-worst-first-2':
+    'Orta risk balı, 0–100 · ən pisdən başlayaraq',
+  'u.back-to-intake-2':
+    'Qəbula qayıdır',
+  'u.clear-filters-2':
+    'Filtrləri təmizlə',
+  'u.command-palette-2':
+    'Əmr paleti',
+  'u.confidence-not-stated-2':
+    'Etibarlılıq bildirilməyib',
+  'u.demo-data-2':
+    'Nümayiş datası',
+  'u.every-screen-your-role-can-open-2':
+    'Rolunuzun aça bildiyi bütün ekranlar.',
+  'u.everything-in-the-shell-is-reachable-without-2':
+    'İnterfeysdəki hər şeyə kursor olmadan çatmaq mümkündür.',
+  'u.human-decision-required-2':
+    'İnsan qərarı tələb olunur',
+  'u.keyboard-shortcuts-2':
+    'Klaviatura qısayolları',
+  'u.loop-outcomes-2':
+    'Dövrə nəticələri',
+  'u.no-runs-here-2':
+    'Burada axın yoxdur',
+  'u.not-measured-2':
+    'Ölçülməyib',
+  'u.nothing-matches-the-palette-only-lists-screens-2':
+    'Uyğun nəticə yoxdur. Palet yalnız rolunuzun aça bildiyi ekranları göstərir.',
+  'u.read-from-the-running-server-not-from-2':
+    'İşləyən serverdən oxunur, bildirişdən deyil.',
+  'u.reset-the-demonstration-world-2':
+    'Nümayiş mühitini sıfırla',
+  'u.risk-by-department-2':
+    'Bölmə üzrə risk',
+  'u.risk-movement-by-department-2':
+    'Bölmə üzrə riskin dəyişməsi',
+  'u.risk-over-time-2':
+    'Riskin zaman üzrə dəyişməsi',
+  'u.sample-size-not-recorded-2':
+    'Nümunə həcmi qeyd edilməyib',
+  'u.training-completion-2':
+    'Təlimin tamamlanması',
+  'u.all-incident-risks':
+    'Bütün insident riskləri',
+  'u.all-simulations':
+    'Bütün simulyasiyalar',
+  'u.all-threats':
+    'Bütün təhdidlər',
+  'u.analyser-conclusion':
+    'Analizatorun nəticəsi',
+  'u.approve-with-edits':
+    'Düzəlişlərlə təsdiqlə',
+  'u.artifact-as-received':
+    'Artefakt, alındığı kimi',
+  'u.clear-stage-filter':
+    'Mərhələ filtrini təmizlə',
+  'u.click-rate':
+    'Klik nisbəti',
+  'u.close-the-risk':
+    'Riski bağla',
+  'u.completion-screen':
+    'Tamamlama ekranı',
+  'u.correct-answer':
+    'Düzgün cavab',
+  'u.discard-changes':
+    'Dəyişiklikləri at',
+  'u.discard-draft':
+    'Qaralamanı at',
+  'u.edit-content':
+    'Məzmunu redaktə et',
+  'u.escalation-is-not-available':
+    'Eskalasiya mümkün deyil.',
+  'u.forgot-password':
+    'Parolu unutmusunuz',
+  'u.full-audit-log':
+    'Tam audit jurnalı',
+  'u.generated-training':
+    'Yaradılmış təlim',
+  'u.go-to-training':
+    'Təlimə keç',
+  'u.headers-and-attachment-metadata':
+    'Başlıqlar və qoşma metadatası',
+  'u.held-for-a-second-approver':
+    'İkinci təsdiqləyən üçün saxlanılıb',
+  'u.incident-remediation-completion':
+    'İnsident aradan qaldırılmasının tamamlanması',
+  'u.items-appear-here-once-an-analyst-is':
+    'Elementlər analitik təyin ediləndən sonra burada görünür. Təyin edilməmiş iş ümumi növbədə qalır.',
+  'u.items-appear-here-when-a-loop-run':
+    'Dövrə axını çevirməni bitirib hədəfləməyə buraxılması üçün insan gözləyəndə elementlər burada görünür.',
+  'u.loading-the-employee-directory':
+    'İşçi kataloqu yüklənir',
+  'u.loading-this-screen':
+    'Bu ekran yüklənir',
+  'u.new-reports-to-triage':
+    'Baxılmalı yeni bildirişlər',
+  'u.no-approved-module-to-assign':
+    'Təyin etmək üçün təsdiqlənmiş modul yoxdur',
+  'u.no-campaign-is-running':
+    'Heç bir kampaniya işləmir',
+  'u.no-department-has-a-scored-population':
+    'Heç bir bölmədə qiymətləndirilmiş heyət yoxdur',
+  'u.no-object':
+    'Obyekt yoxdur',
+  'u.no-open-findings':
+    'Açıq tapıntı yoxdur.',
+  'u.no-provider-is-connected':
+    'Heç bir provayder qoşulmayıb',
+  'u.no-score':
+    'Bal yoxdur',
+  'u.no-threat-has-reached-targeting-yet':
+    'Hələ heç bir təhdid hədəfləməyə çatmayıb',
+  'u.not-derived':
+    'Törədilməyib',
+  'u.not-reported':
+    'Bildirilməyib',
+  'u.not-yet-analysed':
+    'Hələ təhlil edilməyib',
+  'u.nothing-has-been-changed-yet':
+    'Hələ heç nə dəyişdirilməyib',
+  'u.nothing-has-been-submitted':
+    'Hələ heç nə göndərilməyib',
+  'u.nothing-is-open':
+    'Açıq heç nə yoxdur',
+  'u.object-type':
+    'Obyekt növü',
+  'u.observed-behaviour':
+    'Müşahidə edilən davranış',
+  'u.open-high-risk-findings':
+    'Yüksək riskli tapıntıları aç',
+  'u.open-integrations':
+    'İnteqrasiyaları aç',
+  'u.open-review':
+    'Baxışı aç',
+  'u.open-risk':
+    'Açıq risk',
+  'u.open-simulations':
+    'Simulyasiyaları aç',
+  'u.open-the-findings-register':
+    'Tapıntılar reyestrini aç',
+  'u.open-the-full-sandbox-report':
+    'Tam sandbox hesabatını aç',
+  'u.open-threat-intake':
+    'Təhdid qəbulunu aç',
+  'u.page-size':
+    'Səhifə həcmi',
+  'u.policy-exposure':
+    'Siyasət təsiri',
+  'u.quiz-and-answer-key':
+    'Test və cavab açarı',
+  'u.report-rate':
+    'Bildirmə nisbəti',
+  'u.reported-by':
+    'Bildirən',
+  'u.request-revision':
+    'Düzəliş tələb et',
+  'u.require-a-second-approval':
+    'İkinci təsdiq tələb et',
+  'u.risk-type':
+    'Risk növü',
+  'u.sandbox-verdict':
+    'Sandbox qərarı',
+  'u.sanitisation-not-recorded':
+    'Sanitarlaşdırma qeyd edilməyib',
+  'u.save-content':
+    'Məzmunu yadda saxla',
+  'u.save-draft':
+    'Qaralamanı yadda saxla',
+  'u.seeded-demonstration-accounts':
+    'Hazır nümayiş hesabları',
+  'u.sign-in':
+    'Daxil ol',
+  'u.take-away':
+    'Əsas nəticə',
+  'u.threat-record':
+    'Təhdid qeydi',
+  'u.unsaved-edits-shown':
+    'Yadda saxlanmamış düzəlişlər göstərilir',
+  'u.waiting-at-the-approval-gate':
+    'Təsdiq qapısında gözləyir',
+  'u.what-discharges-this-risk':
+    'Bu riski nə aradan qaldırır',
+  'u.what-they-are-left-with':
+    'Onlarda qalan təəssürat',
+  'u.who-to-assign':
+    'Kimə təyin etməli',
+  'u.work-email':
+    'İş e-poçtu',
+  'u.your-role-can-read-this-queue-but':
+    'Rolunuz bu növbəni oxuya bilər, lakin qərar verə bilməz.',
+  'u.a-closed-loop-starts-from-an-artifact':
+    'Qapalı dövrə artefaktdan başlayır',
+  'u.add-evidence-row':
+    'Sübut sətri əlavə et',
+  'u.all-closed-loops':
+    'Bütün qapalı dövrələr',
+  'u.already-attached':
+    'Artıq əlavə edilib',
+  'u.already-disabled':
+    'Artıq söndürülüb',
+  'u.approve-and-release':
+    'Təsdiqlə və burax',
+  'u.assign-required-work':
+    'Tələb olunan işi təyin et',
+  'u.attach-people':
+    'Şəxsləri əlavə et',
+  'u.average-risk':
+    'Orta risk',
+  'u.average-risk-today':
+    'Bu günkü orta risk',
+  'u.base-url':
+    'Əsas URL',
+  'u.behaviours-in-use-in-this-catalogue':
+    'Bu kataloqda istifadə olunan davranışlar',
+  'u.by-when':
+    'Nə vaxta qədər',
+  'u.chain-of-custody':
+    'Qeydiyyat zənciri',
+  'u.check-sources-now':
+    'Mənbələri indi yoxla',
+  'u.clamped-to-0-100':
+    '0–100 aralığına məhdudlaşdırılıb.',
+  'u.delivery-status':
+    'Çatdırılma statusu',
+  'u.disable-connection':
+    'Bağlantını söndür',
+  'u.due-date':
+    'Son tarix',
+  'u.duration-not-recorded':
+    'Müddət qeyd edilməyib',
+  'u.edit-mapping':
+    'Uyğunlaşdırmanı redaktə et',
+  'u.force-measurement-now':
+    'Ölçməni indi məcbur et',
+  'u.high-risk':
+    'Yüksək risk',
+  'u.last-sync':
+    'Son sinxronlaşdırma',
+  'u.loop-run':
+    'Dövrə axını',
+  'u.machine-derived':
+    'Maşın tərəfindən çıxarılıb',
+  'u.no-approved-technology-was-matched':
+    'Heç bir təsdiqlənmiş texnologiya uyğun gəlmədi.',
+  'u.no-audit-entries-for-this-run':
+    'Bu axın üçün audit qeydi yoxdur',
+  'u.no-audit-entry-for-this-risk':
+    'Bu risk üçün audit qeydi yoxdur',
+  'u.no-deadline':
+    'Son tarix yoxdur',
+  'u.no-deadline-was-set':
+    'Son tarix təyin edilməyib.',
+  'u.no-department-or-person-was-named':
+    'Heç bir bölmə və ya şəxs adı çəkilməyib.',
+  'u.no-external-id':
+    'Xarici ID yoxdur',
+  'u.no-incident-reference':
+    'İnsident istinadı yoxdur',
+  'u.no-policy-rule-was-matched':
+    'Heç bir siyasət qaydası uyğun gəlmədi.',
+  'u.no-reason-was-recorded':
+    'Səbəb qeyd edilməyib',
+  'u.no-recent-events':
+    'Son hadisə yoxdur',
+  'u.no-risk-events-recorded':
+    'Risk hadisəsi qeyd edilməyib',
+  'u.nobody-is-attached-yet':
+    'Hələ heç kim əlavə edilməyib',
+  'u.not-analysed':
+    'Təhlil edilməyib',
+  'u.not-completed':
+    'Tamamlanmayıb',
+  'u.not-counted':
+    'Sayılmır',
+  'u.not-from-a-loop':
+    'Dövrədən deyil',
+  'u.not-listed':
+    'Siyahıda yoxdur',
+  'u.not-mapped-to-any-behaviour-targeting-will':
+    'Heç bir davranışa bağlanmayıb — hədəfləmə onu heç vaxt seçməyəcək.',
+  'u.not-scored':
+    'Qiymətləndirilməyib',
+  'u.not-started':
+    'Başlanmayıb',
+  'u.nothing-assigned':
+    'Heç nə təyin edilməyib',
+  'u.nothing-has-happened-yet':
+    'Hələ heç nə baş verməyib',
+  'u.nothing-of-ours-matched-this-advisory':
+    'Bizdə bu bülletenə uyğun heç nə tapılmadı.',
+  'u.open-department-risk':
+    'Bölmə riskini aç',
+  'u.open-in-the-training-studio':
+    'Təlim studiyasında aç',
+  'u.open-roster':
+    'Siyahını aç',
+  'u.open-the-approval':
+    'Təsdiqi aç',
+  'u.open-the-audit-log':
+    'Audit jurnalını aç',
+  'u.open-the-full-review':
+    'Tam baxışı aç',
+  'u.open-the-policy-library':
+    'Siyasət kitabxanasını aç',
+  'u.open-the-review-workspace':
+    'Baxış iş sahəsini aç',
+  'u.quiz-score':
+    'Test balı',
+  'u.raise-a-policy-finding':
+    'Siyasət tapıntısı qaldır',
+  'u.raise-finding':
+    'Tapıntı qaldır',
+  'u.record-assessment':
+    'Qiymətləndirməni qeyd et',
+  'u.record-decision':
+    'Qərarı qeyd et',
+  'u.reviewer-decision':
+    'Baxış qərarı',
+  'u.risk-at-selection':
+    'Seçim anındakı risk',
+  'u.risk-band':
+    'Risk zolağı',
+  'u.risk-change':
+    'Risk dəyişikliyi',
+  'u.risk-now':
+    'Hazırkı risk',
+  'u.save-configuration':
+    'Konfiqurasiyanı yadda saxla',
+  'u.search-runs':
+    'Axınlarda axtar',
+  'u.share-high-risk':
+    'Yüksək risk payı',
+  'u.share-of-the-score':
+    'Balın payı',
+  'u.should-training-or-a-finding-be-created':
+    'Təlim, yoxsa tapıntı yaradılmalıdır?',
+  'u.shown-here':
+    'Burada göstərilir',
+  'u.sync-now':
+    'İndi sinxronlaşdır',
+  'u.the-baseline':
+    'Başlanğıc səviyyə',
+  'u.the-module':
+    'Modul',
+  'u.the-score':
+    'Bal',
+  'u.training-is-not-created-from-an-advisory':
+    'Bülletendən təlim yaradılmır',
+  'u.what-happened':
+    'Nə baş verib',
+  'u.what-you-must-do':
+    'Nə etməlisiniz',
+  'u.which-approved-technologies-are-affected':
+    'Hansı təsdiqlənmiş texnologiyalar təsirlənir?',
+  'u.which-policy-is-affected':
+    'Hansı siyasət təsirlənir?',
+  'u.which-users-or-departments-are-exposed':
+    'Hansı istifadəçilər və ya bölmələr risk altındadır?',
+  'u.why-does-this-matter-to-this-organisation':
+    'Bu, bu təşkilat üçün nə üçün önəmlidir?',
+  'u.why-they-were-selected':
+    'Nə üçün seçiliblər',
+  'u.withdrawn-after-review-not-counted-in-the':
+    'Baxışdan sonra geri götürülüb — bala sayılmır',
+  'u.withheld-at-this-classification-incident-evidence-routin':
+    'Bu təsnifat səviyyəsində gizlədilir. İnsident sübutlarında adətən başqa şəxslərin adları keçir.',
+  'u.withheld-this-key-is-credential-shaped-and':
+    'Gizlədilir — bu açar etimadnamə formasındadır və heç vaxt göstərilmir',
+  'u.analyse-a-url':
+    'URL təhlil et',
+  'u.analyse-file':
+    'Faylı təhlil et',
+  'u.answer-the-dispute':
+    'Etiraza cavab ver',
+  'u.applies-to':
+    'Aid olduğu',
+  'u.assign-training':
+    'Təlim təyin et',
+  'u.automated-first-pass':
+    'Avtomatlaşdırılmış ilkin baxış',
+  'u.back-to-my-security':
+    'Təhlükəsizliyimə qayıt',
+  'u.baseline-from-role':
+    'Roldan gələn başlanğıc',
+  'u.being-attacked-is-not-a-mark-against':
+    'Hücuma məruz qalmaq sizin əleyhinizə qeyd deyil.',
+  'u.cannot-be-approved-regenerate-it-instead':
+    'Təsdiqlənə bilməz. Əvəzində yenidən yaradın.',
+  'u.close-campaign':
+    'Kampaniyanı bağla',
+  'u.copy-all':
+    'Hamısını kopyala',
+  'u.create-draft':
+    'Qaralama yarat',
+  'u.delivered-as':
+    'Çatdırılma forması',
+  'u.did-not-run':
+    'İşə düşmədi',
+  'u.false-positive':
+    'Yanlış müsbət',
+  'u.fetch-and-analyse':
+    'Gətir və təhlil et',
+  'u.fill-outcomes-synthetically-demo':
+    'Nəticələri sintetik doldur (demo)',
+  'u.first-pass-verdict':
+    'İlkin baxış qərarı',
+  'u.from-behaviour':
+    'Davranışdan',
+  'u.go-to-your-training':
+    'Təliminizə keçin',
+  'u.in-use':
+    'İstifadədə',
+  'u.indicators-extracted':
+    'Çıxarılmış göstəricilər',
+  'u.keep-checking':
+    'Yoxlamağa davam edin',
+  'u.last-change':
+    'Son dəyişiklik',
+  'u.launch-campaign':
+    'Kampaniyanı başlat',
+  'u.lure-source':
+    'Tələ mənbəyi',
+  'u.matched-from-your-library':
+    'Kitabxananızdan uyğunlaşdırılıb',
+  'u.md5-hash':
+    'MD5 heşi',
+  'u.net-effect':
+    'Xalis təsir',
+  'u.new-status':
+    'Yeni status',
+  'u.no-control-gap-has-been-raised':
+    'Heç bir nəzarət boşluğu qaldırılmayıb',
+  'u.no-departments-named-this-policy-is-organisation':
+    'Bölmə adı çəkilməyib — bu siyasət bütün təşkilata aiddir',
+  'u.no-due-date-this-deployment-does-not':
+    'Son tarix yoxdur — bu quraşdırma təlim təyinatlarına son tarix qoymur',
+  'u.no-findings-against-this-policy':
+    'Bu siyasətə qarşı tapıntı yoxdur',
+  'u.no-owner-recorded':
+    'Sahib qeyd edilməyib',
+  'u.no-policy-has-an-open-finding':
+    'Heç bir siyasətin açıq tapıntısı yoxdur',
+  'u.no-review-date-set':
+    'Baxış tarixi təyin edilməyib',
+  'u.no-version-snapshots-yet':
+    'Hələ versiya snapshotu yoxdur',
+  'u.none-named':
+    'Ad çəkilməyib.',
+  'u.none-recorded':
+    'Heç nə qeyd edilməyib',
+  'u.not-linked':
+    'Bağlı deyil',
+  'u.not-recorded':
+    'Qeyd edilməyib',
+  'u.not-specified-for-this-assignment':
+    'Bu təyinat üçün göstərilməyib',
+  'u.not-tied-to-a-policy':
+    'Siyasətə bağlı deyil',
+  'u.nothing-has-been-raised-against-you':
+    'Sizə qarşı heç nə qaldırılmayıb',
+  'u.nothing-has-gone-unanswered-yet':
+    'Hələ cavabsız qalan heç nə yoxdur',
+  'u.nothing-refused-by-the-firewall':
+    'Heç nə — firewall tərəfindən rədd edilib',
+  'u.open-campaign':
+    'Kampaniyanı aç',
+  'u.open-findings':
+    'Açıq tapıntılar',
+  'u.open-these-in-the-findings-queue':
+    'Bunları tapıntılar növbəsində aç',
+  'u.organisation-wide':
+    'Bütün təşkilat üzrə',
+  'u.person-and-trigger':
+    'Şəxs və səbəb',
+  'u.prebuilt-template':
+    'Hazır şablon',
+  'u.re-analyse':
+    'Yenidən təhlil et',
+  'u.record-count-not-available-the-source-query':
+    'Qeyd sayı mövcud deyil — mənbə sorğusu cavab vermədi.',
+  'u.recorded-measured':
+    'Qeydə alınıb (ölçülüb)',
+  'u.registered-as-metadata-only-no-document-was':
+    'Yalnız metadata kimi qeydə alınıb — sənəd əlavə edilməyib',
+  'u.registered-by':
+    'Qeydə alan',
+  'u.report-a-concern':
+    'Narahatlıq bildir',
+  'u.report-something-else':
+    'Başqa bir şey bildir',
+  'u.reporting-lowers-it':
+    'Bildirmək onu azaldır.',
+  'u.review-due':
+    'Baxış vaxtı',
+  'u.run-extraction':
+    'Çıxarmanı işə sal',
+  'u.run-the-analysis-again':
+    'Təhlili yenidən işə sal',
+  'u.save-status':
+    'Statusu yadda saxla',
+  'u.score-recorded':
+    'Bal qeydə alındı',
+  'u.score-to-reach':
+    'Çatılmalı bal:',
+  'u.send-report':
+    'Bildirişi göndər',
+  'u.send-to-a-person':
+    'Şəxsə göndər',
+  'u.submit-answers':
+    'Cavabları göndər',
+  'u.target-audience':
+    'Hədəf auditoriya',
+  'u.template-engine':
+    'Şablon mühərriki',
+  'u.the-answer-was':
+    'Düzgün cavab:',
+  'u.this-deployment-cannot-generate-this-pack':
+    'Bu quraşdırma bu paketi yarada bilmir',
+  'u.this-was-not-me':
+    'Bu mən deyildim',
+  'u.time-spent':
+    'Sərf olunan vaxt',
+  'u.training-this-finding-asks-for':
+    'Bu tapıntının tələb etdiyi təlim',
+  'u.true-positive':
+    'Həqiqi müsbət',
+  'u.type-and-size':
+    'Növ və həcm',
+  'u.unlock-and-continue':
+    'Kilidi aç və davam et',
+  'u.upload-a-file':
+    'Fayl yüklə',
+  'u.weight-constant':
+    'Çəki (sabit)',
+  'u.what-is-it':
+    'Bu nədir',
+  'u.what-is-lowering-it':
+    'Onu nə azaldır',
+  'u.what-is-raising-it':
+    'Onu nə qaldırır',
+  'u.what-it-noticed':
+    'Nəyi aşkar etdi',
+  'u.what-to-do':
+    'Nə etməli',
+  'u.what-was-attached':
+    'Nə əlavə edildi',
+  'u.what-you-said':
+    'Nə dediniz',
+  'u.what-you-should-do':
+    'Nə etməlisiniz',
+  'u.why-detonation-runs-off-host':
+    'Detonasiya nə üçün hostdan kənarda işləyir',
+  'u.you-answered':
+    'Cavabınız:',
+  'u.you-disputed-this':
+    'Siz buna etiraz etdiniz.',
+  'u.you-disputed-this-and-a-person-answered':
+    'Siz buna etiraz etdiniz və bir şəxs cavab verdi.',
+  'u.you-have-not-finished-any-training-yet':
+    'Hələ heç bir təlimi bitirməmisiniz',
+  'u.you-have-not-reported-anything-yet':
+    'Hələ heç nə bildirməmisiniz',
+  'u.you-scored':
+    'Sizin balınız:',
+  'u.your-answer':
+    'Sizin cavabınız',
+  'u.your-role-cannot-read-these-records-so':
+    'Rolunuz bu qeydləri oxuya bilmir, ona görə əhatə burada sayılmır.',
+  'u.accept-the-risk':
+    'Riski qəbul et',
+  'u.add-question':
+    'Sual əlavə et',
+  'u.add-section':
+    'Bölmə əlavə et',
+  'u.all-campaigns':
+    'Bütün kampaniyalar',
+  'u.already-pushed-into-the-loop':
+    'Artıq dövrəyə ötürülüb',
+  'u.already-recorded':
+    'Artıq qeydə alınıb',
+  'u.automated-triage':
+    'Avtomatlaşdırılmış triaj',
+  'u.awaiting-approval':
+    'Təsdiq gözlənilir.',
+  'u.back-to-sign-in':
+    'Girişə qayıt',
+  'u.back-to-submissions':
+    'Göndərişlərə qayıt',
+  'u.back-to-the-queue':
+    'Növbəyə qayıt',
+  'u.back-to-the-roster':
+    'Siyahıya qayıt',
+  'u.baseline-from-the-role':
+    'Roldan gələn başlanğıc',
+  'u.behaviour-observed':
+    'Müşahidə edilən davranış',
+  'u.change-status':
+    'Statusu dəyiş',
+  'u.checking-the-approval-queue':
+    'Təsdiq növbəsi yoxlanılır',
+  'u.closure-criteria':
+    'Bağlanma meyarları',
+  'u.create-and-open-the-editor':
+    'Yarat və redaktoru aç',
+  'u.edit-module':
+    'Modulu redaktə et',
+  'u.event-trail':
+    'Hadisə izi',
+  'u.file-under':
+    'Aid olduğu mövzu',
+  'u.full-name':
+    'Ad və soyad',
+  'u.generated-from':
+    'Yaradılma mənbəyi',
+  'u.go-to-the-gate':
+    'Qapıya keç',
+  'u.go-to-threat-intake':
+    'Təhdid qəbuluna keç',
+  'u.go-to-your-home-screen':
+    'Ana ekranınıza keçin',
+  'u.held-for-a-second-approver-2':
+    'İkinci təsdiqləyən üçün saxlanılıb.',
+  'u.how-the-score-is-computed':
+    'Bal necə hesablanır',
+  'u.how-urgency-is-coloured':
+    'Təcililik necə rənglənir',
+  'u.looking-for-the-loop-run-behind-this':
+    'Bu artefaktın arxasındakı dövrə axını axtarılır',
+  'u.mark-false-positive':
+    'Yanlış müsbət kimi işarələ',
+  'u.moved-by-recorded-behaviour':
+    'Qeydə alınmış davranışla dəyişib',
+  'u.my-security':
+    'Mənim təhlükəsizliyim',
+  'u.new-campaign':
+    'Yeni kampaniya',
+  'u.new-module':
+    'Yeni modul',
+  'u.no-approver-recorded':
+    'Təsdiqləyən qeyd edilməyib',
+  'u.no-artifact-has-entered-the-platform-yet':
+    'Platformaya hələ heç bir artefakt daxil olmayıb',
+  'u.no-artifact-matches-these-filters':
+    'Bu filtrlərə uyğun artefakt yoxdur',
+  'u.no-campaign-matches-these-filters':
+    'Bu filtrlərə uyğun kampaniya yoxdur',
+  'u.no-campaigns-have-been-created':
+    'Heç bir kampaniya yaradılmayıb',
+  'u.no-connection-records-exist':
+    'Bağlantı qeydi mövcud deyil.',
+  'u.no-employee-has-reported-anything-yet':
+    'Hələ heç bir işçi bir şey bildirməyib',
+  'u.no-feed-item-matches-these-filters':
+    'Bu filtrlərə uyğun lent elementi yoxdur',
+  'u.no-indicators-were-extracted':
+    'Heç bir göstərici çıxarılmadı',
+  'u.no-loop-runs-yet':
+    'Hələ dövrə axını yoxdur',
+  'u.no-module-matches-this-view':
+    'Bu görünüşə uyğun modul yoxdur',
+  'u.no-one-is-scored-yet':
+    'Hələ heç kim qiymətləndirilməyib',
+  'u.no-report-matches-these-filters':
+    'Bu filtrlərə uyğun bildiriş yoxdur',
+  'u.no-run-matches-these-filters':
+    'Bu filtrlərə uyğun axın yoxdur',
+  'u.no-settled-analysis-in-this-window':
+    'Bu pəncərədə yekunlaşmış təhlil yoxdur',
+  'u.no-threat-is-linked-this-module-was':
+    'Heç bir təhdid bağlı deyil. Bu modul dövrə axını tərəfindən yaradılmayıb.',
+  'u.no-training-is-waiting-on-you':
+    'Sizi gözləyən təlim yoxdur',
+  'u.no-training-module-exists-yet':
+    'Hələ heç bir təlim modulu mövcud deyil',
+  'u.not-from-a-threat':
+    'Təhdiddən deyil',
+  'u.not-yet':
+    'Hələ yox',
+  'u.nothing-is-waiting-for-a-decision':
+    'Qərar gözləyən heç nə yoxdur',
+  'u.open-a-risk':
+    'Risk aç',
+  'u.open-departments':
+    'Bölmələri aç',
+  'u.open-the-policy':
+    'Siyasəti aç',
+  'u.open-the-run-list':
+    'Axın siyahısını aç',
+  'u.open-the-sandbox':
+    'Sandbox-u aç',
+  'u.open-threat-intake-2':
+    'Təhdid Qəbulunu aç',
+  'u.plain-language-explanation':
+    'Sadə dildə izah',
+  'u.policy-library':
+    'Siyasət kitabxanası',
+  'u.prepare-the-request':
+    'Sorğunu hazırla',
+  'u.prepare-the-reset-request':
+    'Sıfırlama sorğusunu hazırla',
+  'u.push-into-stage-1':
+    '1-ci mərhələyə ötür',
+  'u.push-into-the-loop':
+    'Dövrəyə ötür',
+  'u.read-the-full-stage':
+    'Mərhələni tam oxu',
+  'u.real-analyzed-threat':
+    'Real təhlil edilmiş təhdid',
+  'u.report-something-suspicious':
+    'Şübhəli bir şey bildir',
+  'u.reporter-s-note':
+    'Bildirənin qeydi:',
+  'u.reports-submitted':
+    'Göndərilmiş bildirişlər',
+  'u.required-action':
+    'Tələb olunan addım',
+  'u.required-training':
+    'Tələb olunan təlim',
+  'u.review-state':
+    'Baxış vəziyyəti',
+  'u.revision-requested':
+    'Düzəliş tələb olunub.',
+  'u.risk-score':
+    'Risk balı',
+  'u.role-sensitivity':
+    'Rol həssaslığı',
+  'u.save-changes':
+    'Dəyişiklikləri yadda saxla',
+  'u.see-all-open':
+    'Bütün açıqları gör',
+  'u.see-every-change-in-the-audit-log':
+    'Hər dəyişikliyi audit jurnalında gör',
+  'u.see-what-is-waiting-at-the-approval':
+    'Təsdiq qapısında nəyin gözlədiyinə bax',
+  'u.shown-after-grading':
+    'Qiymətləndirmədən sonra göstərilir:',
+  'u.still-open':
+    'Hələ açıqdır',
+  'u.submit-an-artifact-in-threat-intake':
+    'Təhdid Qəbulunda artefakt göndər',
+  'u.submit-and-start-the-loop':
+    'Göndər və dövrəni başlat',
+  'u.submit-artifact':
+    'Artefakt göndər',
+  'u.suggested-remediation':
+    'Təklif olunan aradan qaldırma',
+  'u.the-curated-feed-is-empty':
+    'Seçilmiş lent boşdur',
+  'u.the-dashboard-returned-nothing':
+    'Panel heç nə qaytarmadı',
+  'u.the-finding-counts-are-unavailable':
+    'Tapıntı sayları mövcud deyil',
+  'u.the-server-would-reject-this-module':
+    'Server bu modulu rədd edərdi',
+  'u.this-campaign-has-no-targets':
+    'Bu kampaniyanın hədəfi yoxdur',
+  'u.this-finding-could-not-be-loaded':
+    'Bu tapıntı yüklənə bilmədi',
+  'u.this-finding-is-closed-reopen-it-before':
+    'Bu tapıntı bağlıdır. Təlim təyin etməzdən əvvəl yenidən açın.',
+  'u.this-page-does-not-exist':
+    'Bu səhifə mövcud deyil',
+  'u.this-run-could-not-be-loaded':
+    'Bu axın yüklənə bilmədi',
+  'u.this-run-has-already-left-the-gate':
+    'Bu axın artıq qapıdan keçib.',
+  'u.threat-intake':
+    'Təhdid qəbulu',
+  'u.threat-type':
+    'Təhdid növü',
+  'u.training-and-simulations':
+    'Təlim və simulyasiyalar',
+  'u.training-studio':
+    'Təlim Studiyası',
+  'u.verify-and-add':
+    'Yoxla və əlavə et',
+  'u.work-the-queue':
+    'Növbə üzərində işlə',
+  'u.go-back':
+    'Geri qayıt',
+  'u.sign-in-with-a-phone-number-instead':
+    'Əvəzində telefon nömrəsi ilə daxil olun',
+  'u.sign-in-with-email-instead':
+    'Əvəzində e-poçt ilə daxil olun',
+  'u.or':
+    'VƏ YA',
+  'u.an-action-matches-exactly-or-as':
+    'Əməliyyat tam və ya nöqtəli prefiks kimi uyğunlaşır, məsələn',
+  'u.api-origin':
+    'API mənbəyi',
+  'u.behaviour-trend-description':
+    'Gün üzrə fişinq klik nisbəti və təhdid bildirmə nisbəti. Nəticəsi yekunlaşmamış günlər interpolyasiya edilmir, buraxılır.',
+  'u.behaviour-trend-empty':
+    'Davranış trendi çəkilməzdən əvvəl ən azı iki gündə simulyasiya nəticəsi olmalıdır.',
+  'u.completion-trend-description':
+    'Gün üzrə tamamlanmış təyin edilmiş təlimin payı. Təyinatı olmayan günlər buraxılır.',
+  'u.completion-trend-empty':
+    'Bu pəncərədə təyinatı olan gün ikidən azdır.',
+  'u.configured':
+    'konfiqurasiya edilib',
+  'u.department-heatmap-description':
+    'Bölmə üzrə orta risk balı, heyət sayı və hər bölmədəki yüksək riskli insanların sayı ilə.',
+  'u.department-heatmap-empty':
+    'Hələ heç bir bölmədə qiymətləndirilmiş heyət yoxdur.',
+  'u.finds-every-verb-beneath-it':
+    'altındakı bütün əməlləri tapır. İcraçı e-poçtun böyük-kiçik hərfə həssas olmayan hissəsidir.',
+  'u.loop-outcome-empty':
+    'Bu pəncərədə heç bir dövrə başlanmayıb.',
+  'u.open-closed-loops-for-the-full':
+    'Tam mənzərə üçün Qapalı Dövrələri açın.',
+  'u.risk-movement-empty':
+    'Bu pəncərədə müqayisə üçün iki qiymətləndirilmiş nöqtəsi olan bölmə yoxdur.',
+  'u.risk-trend-empty':
+    'Bu pəncərədə davranış riski ikidən az gündə ölçülüb.',
+  'u.runs-are-waiting-for-a-human':
+    '{count} axın insan qərarını gözləyir.',
+  'u.same-origin-as-this-page':
+    'bu səhifə ilə eyni mənbə',
+  'u.saving-moves-this-connection-to':
+    'Yadda saxlamaq bu bağlantını',
+  'u.severity-bar-empty':
+    'Bu görünüşdə heç bir tapıntı qaldırılmayıb.',
+  'u.waiting-for-you':
+    'Sizi gözləyir',
+  'u.which-is-a-statement-about-these':
+    ' statusuna keçirir — bu, yalnız bu parametrlər haqqında ifadədir. Bağlantı yalnız sinxronlaşdırma provayderə çatıb cavab alanda qoşulmuş sayılır, forma göndərildiyi üçün yox.',
+  'u.yara-rules':
+    'YARA qaydaları',
+  'u.assigned-modules':
+    'təyin edilmiş modul',
+  'u.attributed-risk-events':
+    'aid edilmiş risk hadisəsi',
+  'u.completions-that-recorded-a-duration':
+    'müddəti qeydə alınmış tamamlama',
+  'u.counted-by-the-platform-api-over-its':
+    'Platforma API-si tərəfindən öz qeydləri üzərində sayılıb',
+  'u.counted-from-the-subject-rows-on-this':
+    'Bu riskin subyekt sətirlərindən sayılıb',
+  'u.current-score-role-baseline-over-every-person':
+    'Σ(cari bal − rol başlanğıcı), siyahıdakı hər insan üzrə.',
+  'u.delivered-simulations':
+    'çatdırılmış simulyasiya',
+  'u.departments-with-a-current-roll-up':
+    'cari yekunu olan bölmə',
+  'u.findings-on-record':
+    'qeydə alınmış tapıntı',
+  'u.graded-quizzes':
+    'qiymətləndirilmiş test',
+  'u.incident-risks':
+    'İnsident riskləri',
+  'u.incident-risks-on-record':
+    'qeydə alınmış insident riski',
+  'u.measurement-summary-stored-on-the-run':
+    'Axında saxlanılan ölçmə xülasəsi',
+  'u.no-assignment-on-this-run-has-been':
+    'Bu axında heç bir təyinat balla tamamlanmayıb.',
+  'u.no-completion-on-this-run-recorded-how':
+    'Bu axında heç bir tamamlama nə qədər çəkdiyini qeydə almayıb.',
+  'u.no-department-reported-a-headcount':
+    'heç bir bölmə heyət sayı bildirmədi',
+  'u.no-department-reported-a-high-risk-count':
+    'heç bir bölmə yüksək risk sayı bildirmədi',
+  'u.no-employee-currently-carries-a-score':
+    'hazırda heç bir işçinin balı yoxdur',
+  'u.no-employee-has-a-score-yet':
+    'hələ heç bir işçinin balı yoxdur',
+  'u.no-employee-has-a-scored-risk-profile':
+    'Hələ heç bir işçinin qiymətləndirilmiş risk profili yoxdur',
+  'u.no-endpoint-aggregates-quiz-scores-into-a':
+    'heç bir son nöqtə test ballarını keçid nisbətinə cəmləmir',
+  'u.no-endpoint-reports-the-interval-between-delivery':
+    'heç bir son nöqtə çatdırılma ilə bildirmə arasındakı intervalı hesabat etmir',
+  'u.no-subject-has-recorded-a-score-yet':
+    'Hələ heç bir subyekt bal qeydə almayıb.',
+  'u.nobody-is-attached-to-this-risk-yet':
+    'Bu riskə hələ heç kim əlavə edilməyib.',
+  'u.nothing-was-assigned-on-this-run-so':
+    'Bu axında heç nə təyin edilmədi, ona görə hesablanacaq nisbət yoxdur.',
+  'u.people-in-a-scored-department':
+    'qiymətləndirilmiş bölmədəki insan',
+  'u.people-on-a-scored-roster':
+    'qiymətləndirilmiş siyahıdakı insan',
+  'u.platform-analyzer-output-on-the-threat-record':
+    'Təhdid qeydindəki platforma analizatorunun çıxışı',
+  'u.platform-api':
+    'Platforma API-si',
+  'u.policy-intelligence':
+    'Siyasət kəşfiyyatı',
+  'u.quiz-scores-recorded-against-this-incident':
+    'Bu insidentin təyinatları üzrə qeydə alınmış test balları',
+  'u.recorded-risk-events':
+    'qeydə alınmış risk hadisəsi',
+  'u.resolved-simulation-outcomes':
+    'yekunlaşmış simulyasiya nəticəsi',
+  'u.resolved-targets':
+    'yekunlaşmış hədəf',
+  'u.risk-engine':
+    'risk mühərriki',
+  'u.risk-engine-behaviour-only':
+    'Risk mühərriki — yalnız davranış',
+  'u.risk-engine-roll-ups-and-the-daily':
+    'Risk mühərrikinin yekunları və gündəlik metrik snapshotu',
+  'u.risk-engine-selection-stored-on-the-run':
+    'Axında saxlanılan risk mühərriki seçimi',
+  'u.scored-assignments':
+    'qiymətləndirilmiş təyinat',
+  'u.scored-employees':
+    'qiymətləndirilmiş işçi',
+  'u.scored-people':
+    'qiymətləndirilmiş insan',
+  'u.scored-subject':
+    'qiymətləndirilmiş subyekt',
+  'u.the-dashboard-did-not-report-a-count':
+    'panel say bildirmədi',
+  'u.the-findings-list-could-not-be-read':
+    'tapıntılar siyahısı oxuna bilmədi',
+  'u.the-roster-is-empty':
+    'siyahı boşdur',
+  'u.the-run-by-run-breakdown-is-held':
+    'Axın-axın bölgü təhlükəsizlik komandasında saxlanılır',
+  'u.the-threat-list-is-held-by-the':
+    'Təhdid siyahısı təhlükəsizlik komandasında saxlanılır',
+  'u.there-is-nothing-here':
+    'burada heç nə yoxdur',
+  'u.threat-record-2':
+    'Təhdid qeydi',
+  'u.timed-reports':
+    'vaxtı ölçülmüş bildiriş',
+  'u.training-assignment-records':
+    'Təlim təyinatı qeydləri',
+  'u.training-module-record':
+    'Təlim modulu qeydi',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

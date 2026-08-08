@@ -99,22 +99,22 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
         ) : (
           <>
             <HonestMetric
-              label="Click rate"
+              label={t('u.click-rate')}
               value={stats.click_rate}
               format="percent"
               sample={stats.resolved}
-              sampleNoun="resolved targets"
+              sampleNoun={t('u.resolved-targets')}
               source="live"
               definition={CLICK_RATE_DEFINITION}
               unmeasuredReason={withheldReason(stats)}
               unmeasuredRemedy={unmeasuredRemedy(simulation.status)}
             />
             <HonestMetric
-              label="Report rate"
+              label={t('u.report-rate')}
               value={stats.report_rate}
               format="percent"
               sample={stats.resolved}
-              sampleNoun="resolved targets"
+              sampleNoun={t('u.resolved-targets')}
               source="live"
               definition={REPORT_RATE_DEFINITION}
               unmeasuredReason={withheldReason(stats)}
@@ -128,7 +128,7 @@ export function CampaignCard({ simulation }: CampaignCardProps) {
         to={`/simulations/${simulation.id}`}
         className="inline-flex items-center gap-1.5 self-start text-sm text-brand hover:underline"
       >
-        Open campaign
+        {t('u.open-campaign')}
         <ArrowRight className="size-3.5 shrink-0" aria-hidden="true" />
       </Link>
     </Card>

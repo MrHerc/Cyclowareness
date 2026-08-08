@@ -66,7 +66,7 @@ export function SeverityBarChart({
       loading={loading}
       error={error}
       emptyTitle={t('p.nothing-to-show')}
-      emptyMessage="No findings have been raised in this view."
+      emptyMessage={t('u.severity-bar-empty')}
       description={`Counts by severity: ${rows.map((row) => `${row.label} ${row.count}`).join(', ')}.`}
       className={className}
     >

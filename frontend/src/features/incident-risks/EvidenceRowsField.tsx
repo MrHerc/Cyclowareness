@@ -78,7 +78,7 @@ export function EvidenceRowsField({ control, register, disabled }: EvidenceRowsF
           icon={<Plus size={14} aria-hidden="true" />}
           onClick={() => append({ label: '', value: '', ref: '' })}
         >
-          Add evidence row
+          {t('u.add-evidence-row')}
         </Button>
       </div>
     </fieldset>

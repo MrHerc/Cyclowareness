@@ -61,7 +61,7 @@ export default function EmployeeDetail() {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
-        Back to the roster
+        {t('u.back-to-the-roster')}
       </Link>
 
       <AsyncBoundary
@@ -96,17 +96,17 @@ export default function EmployeeDetail() {
 
                   <dl className="mt-4 space-y-2 text-sm">
                     <div className="flex items-baseline justify-between gap-3">
-                      <dt className="text-fg-subtle">Role sensitivity</dt>
+                      <dt className="text-fg-subtle">{t('u.role-sensitivity')}</dt>
                       <dd className="text-fg tabular-nums">{num(person.role_sensitivity, 1)}</dd>
                     </div>
                     <div className="flex items-baseline justify-between gap-3">
-                      <dt className="text-fg-subtle">Baseline from the role</dt>
+                      <dt className="text-fg-subtle">{t('u.baseline-from-the-role')}</dt>
                       <dd className="text-fg tabular-nums">
                         {num(baselineFor(person.role_sensitivity), 1)}
                       </dd>
                     </div>
                     <div className="flex items-baseline justify-between gap-3">
-                      <dt className="text-fg-subtle">Moved by recorded behaviour</dt>
+                      <dt className="text-fg-subtle">{t('u.moved-by-recorded-behaviour')}</dt>
                       <dd className="text-fg tabular-nums">{signed(behaviourOf(person), 1)}</dd>
                     </div>
                   </dl>
@@ -156,9 +156,9 @@ export default function EmployeeDetail() {
 
             <Tabs defaultValue="trail">
               <TabsList>
-                <TabsTrigger value="trail">Event trail</TabsTrigger>
-                <TabsTrigger value="activity">Training and simulations</TabsTrigger>
-                <TabsTrigger value="reports">Reports submitted</TabsTrigger>
+                <TabsTrigger value="trail">{t('u.event-trail')}</TabsTrigger>
+                <TabsTrigger value="activity">{t('u.training-and-simulations')}</TabsTrigger>
+                <TabsTrigger value="reports">{t('u.reports-submitted')}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="trail">

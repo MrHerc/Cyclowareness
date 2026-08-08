@@ -93,8 +93,8 @@ export function SubmissionPanel() {
     >
       <Tabs defaultValue="file">
         <TabsList>
-          <TabsTrigger value="file">Upload a file</TabsTrigger>
-          <TabsTrigger value="url">Analyse a URL</TabsTrigger>
+          <TabsTrigger value="file">{t('u.upload-a-file')}</TabsTrigger>
+          <TabsTrigger value="url">{t('u.analyse-a-url')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="file">
@@ -145,7 +145,7 @@ export function SubmissionPanel() {
                 loading={upload.isPending}
                 disabled={!file}
               >
-                Analyse file
+                {t('u.analyse-file')}
               </Button>
               <span className="text-xs text-fg-faint">
                 {file ? file.name : 'No file chosen yet.'}
@@ -177,7 +177,7 @@ export function SubmissionPanel() {
               loading={submitUrl.isPending}
               disabled={!url.trim()}
             >
-              Fetch and analyse
+              {t('u.fetch-and-analyse')}
             </Button>
           </form>
         </TabsContent>

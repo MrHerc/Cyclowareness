@@ -72,7 +72,7 @@ export default function Threats() {
             onClick={() => setSubmitOpen(true)}
             icon={<Plus className="size-4" aria-hidden="true" />}
           >
-            Submit artifact
+            {t('u.submit-artifact')}
           </Button>
         ) : null}
       </header>

@@ -71,11 +71,11 @@ export function ReportTypeCard({ type, sample, blocked = false, range }: ReportT
           <p className="mt-1">
             {blocked ? (
               <span className="text-xs text-fg-faint">
-                Your role cannot read these records, so the coverage is not counted here.
+                {t('u.your-role-cannot-read-these-records-so')}
               </span>
             ) : sample === null ? (
               <span className="text-xs text-fg-faint">
-                Record count not available — the source query did not answer.
+                {t('u.record-count-not-available-the-source-query')}
               </span>
             ) : sample === 0 ? (
               <span className="text-xs text-fg-faint">
@@ -92,7 +92,7 @@ export function ReportTypeCard({ type, sample, blocked = false, range }: ReportT
         <div className="rounded-control border border-dashed border-line-strong px-3 py-2.5">
           <p className="flex items-center gap-1.5 text-sm text-fg">
             <Ban className="size-3.5 shrink-0 text-fg-subtle" aria-hidden="true" strokeWidth={1.75} />
-            This deployment cannot generate this pack
+            {t('u.this-deployment-cannot-generate-this-pack')}
           </p>
           <p className="mt-1 text-xs text-fg-subtle">{type.missing}</p>
         </div>

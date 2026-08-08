@@ -23,6 +23,7 @@
  */
 
 import { useId } from 'react'
+import { useT } from '../../lib/i18n'
 import { APPROVAL_GATE_AFTER_STAGE, STAGES } from '../../domain/types'
 import { cn } from '../../lib/format'
 import { ClosedLoopStage } from './ClosedLoopStage'
@@ -114,6 +115,7 @@ export function ClosedLoopFlow({
   windowLabel,
   className,
 }: ClosedLoopFlowProps) {
+  const t = useT()
   // `useId` output carries delimiters (`:r0:`, `«r0»` depending on the React
   // build) that are not safe inside an SVG `url(#…)` reference.
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '')
@@ -180,7 +182,7 @@ export function ClosedLoopFlow({
             className="label"
             fill="var(--color-fg-faint)"
           >
-            Back to intake
+            {t('u.back-to-intake-2')}
           </text>
 
           {STAGES.map((stage) => {

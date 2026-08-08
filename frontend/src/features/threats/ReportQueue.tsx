@@ -144,14 +144,14 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
             <EmptyState
               compact
               icon={Inbox}
-              headline="No employee has reported anything yet"
+              headline={t('u.no-employee-has-reported-anything-yet')}
               description={t('x.reports-arrive-here-the-moment')}
             />
           ) : (
             <EmptyState
               compact
               icon={ListFilter}
-              headline="No report matches these filters"
+              headline={t('u.no-report-matches-these-filters')}
               description={`${all.length} report${all.length === 1 ? ' exists' : 's exist'} in the queue. Widen the status, the suspicion level or the search to see them.`}
             />
           )

@@ -54,7 +54,7 @@ export function QuizEditor({ quiz, onChange }: QuizEditorProps) {
           onClick={() => onChange([...quiz, emptyQuestion()])}
           icon={<Plus className="size-3.5" aria-hidden="true" />}
         >
-          Add question
+          {t('u.add-question')}
         </Button>
       }
     >

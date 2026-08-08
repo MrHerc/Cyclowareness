@@ -98,7 +98,7 @@ export function FindingStatusDialog({
             loading={update.isPending}
             disabled={blocked}
           >
-            Save status
+            {t('u.save-status')}
           </Button>
         </>
       }
@@ -108,7 +108,7 @@ export function FindingStatusDialog({
       ) : (
         <div className="space-y-4">
           <Select
-            label="New status"
+            label={t('u.new-status')}
             options={options}
             value={status}
             onValueChange={setStatus}

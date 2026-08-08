@@ -7,6 +7,7 @@
  */
 
 import { cn } from '../../lib/format'
+import { useT } from '../../lib/i18n'
 
 export interface SampleSizeLabelProps {
   sample: number
@@ -22,12 +23,13 @@ export interface SampleSizeLabelProps {
 }
 
 export function SampleSizeLabel({ sample, noun, windowDays, className }: SampleSizeLabelProps) {
+  const t = useT()
   const classes = cn('text-xs text-fg-faint', className)
 
   // A non-finite count means the caller does not know its own denominator.
   // Printing "n=NaN" is noise; claiming n=0 would be a fabricated fact.
   if (!Number.isFinite(sample)) {
-    return <span className={classes}>Sample size not recorded</span>
+    return <span className={classes}>{t('u.sample-size-not-recorded-2')}</span>
   }
 
   return (

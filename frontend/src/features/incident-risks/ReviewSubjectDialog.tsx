@@ -96,7 +96,7 @@ export function ReviewSubjectDialog({
             disabled={!canSubmit}
             onClick={() => void submit()}
           >
-            Record decision
+            {t('u.record-decision')}
           </Button>
         </>
       }

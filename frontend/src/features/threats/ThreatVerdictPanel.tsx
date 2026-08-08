@@ -48,14 +48,14 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
     >
       <dl className="space-y-4">
         <div>
-          <dt className="label text-fg-faint">Threat type</dt>
+          <dt className="label text-fg-faint">{t('u.threat-type')}</dt>
           <dd className="mt-1 text-lead text-fg">
             {threat.threat_type ? humanise(threat.threat_type) : 'Not classified'}
           </dd>
         </div>
 
         <div>
-          <dt className="label text-fg-faint">Behaviour observed</dt>
+          <dt className="label text-fg-faint">{t('u.behaviour-observed')}</dt>
           <dd className="mt-1 text-body text-fg-muted">
             {threat.behavior_summary ?? t('p.the-analyzer-returned-no-behaviour-summary')}
           </dd>
@@ -66,7 +66,7 @@ export function ThreatVerdictPanel({ threat }: ThreatVerdictPanelProps) {
               uppercases everything under it, and a shouted badge is a
               different claim from a quiet one. */}
           <dt className="flex flex-wrap items-center gap-2">
-            <span className="label text-fg-faint">Plain-language explanation</span>
+            <span className="label text-fg-faint">{t('u.plain-language-explanation')}</span>
             <AIProvenanceBadge provenance="unknown" />
           </dt>
           <dd className="mt-1 text-body text-fg-muted">

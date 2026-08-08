@@ -82,7 +82,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
       stage={STAGE}
       entry={entry}
       source="live"
-      sourceDetail="Training assignment records"
+      sourceDetail={t('u.training-assignment-records')}
       actions={
         awaitingTraining && canForce ? (
           <Button
@@ -92,7 +92,7 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
             disabled={forceMeasure.isPending}
             icon={<FastForward className="size-4" aria-hidden="true" />}
           >
-            Force measurement now
+            {t('u.force-measurement-now')}
           </Button>
         ) : undefined
       }
@@ -105,8 +105,8 @@ export function TrainingPanel({ entry, runId, status, assignments, canForce }: T
             <TableHeader>
               <TableRow>
                 <TableHead>Assignee</TableHead>
-                <TableHead>Delivery status</TableHead>
-                <TableHead numeric>Quiz score</TableHead>
+                <TableHead>{t('u.delivery-status')}</TableHead>
+                <TableHead numeric>{t('u.quiz-score')}</TableHead>
                 <TableHead>Completed</TableHead>
               </TableRow>
             </TableHeader>

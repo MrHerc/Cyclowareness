@@ -73,7 +73,7 @@ export default function Departments() {
         empty={
           <EmptyState
             icon={Building2}
-            headline="No department has a scored population"
+            headline={t('u.no-department-has-a-scored-population')}
             description={t('x.departments-appear-here-once-they-2')}
           />
         }
@@ -86,9 +86,9 @@ export default function Departments() {
                 value={orgAverage}
                 format="score"
                 sample={employees.data?.length ?? 0}
-                sampleNoun="scored people"
+                sampleNoun={t('u.scored-people')}
                 source="live"
-                unmeasuredReason="no employee has a score yet"
+                unmeasuredReason={t('u.no-employee-has-a-score-yet')}
                 definition={{
                   calculation: t('p.the-mean-current-risk-score-of'),
                   includes: ['Everyone the employees endpoint returns'],
@@ -107,7 +107,7 @@ export default function Departments() {
                 sample={rows.length}
                 sampleNoun="departments"
                 source="live"
-                unmeasuredReason="no department reported a headcount"
+                unmeasuredReason={t('u.no-department-reported-a-headcount')}
               />
             </Panel>
 
@@ -117,11 +117,11 @@ export default function Departments() {
                 value={highRisk}
                 format="number"
                 sample={headcount}
-                sampleNoun="people in a scored department"
+                sampleNoun={t('u.people-in-a-scored-department')}
                 tone={highRisk > 0 ? 'critical' : 'neutral'}
                 source="live"
                 hint={t('p.high-risk-is-a-score-of')}
-                unmeasuredReason="no department reported a high-risk count"
+                unmeasuredReason={t('u.no-department-reported-a-high-risk-count')}
               />
             </Panel>
           </div>
@@ -152,7 +152,7 @@ export default function Departments() {
                 reason={t('p.no-perdepartment-history-is-stored-the')}
                 remedy="Movement appears as soon as the risk engine records events — a completed module, a simulation outcome, a report."
                 sample={attribution.attributed}
-                sampleNoun="attributed risk events"
+                sampleNoun={t('u.attributed-risk-events')}
               />
             )}
           </div>

@@ -9,6 +9,7 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import { AIProvenanceBadge } from '../../components/data'
 import {
   Badge,
@@ -31,17 +32,18 @@ export interface ModuleTableProps {
 }
 
 export function ModuleTable({ modules, threats, modelConnected }: ModuleTableProps) {
+  const t = useT()
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Module</TableHead>
-          <TableHead>Generated from</TableHead>
+          <TableHead>{t('u.generated-from')}</TableHead>
           <TableHead>Provenance</TableHead>
           <TableHead>Channel</TableHead>
           <TableHead numeric>Questions</TableHead>
           <TableHead numeric>Minutes</TableHead>
-          <TableHead>Review state</TableHead>
+          <TableHead>{t('u.review-state')}</TableHead>
           <TableHead>Created</TableHead>
         </TableRow>
       </TableHeader>
@@ -63,7 +65,7 @@ export function ModuleTable({ modules, threats, modelConnected }: ModuleTablePro
               </TableCell>
               <TableCell>
                 {module.threat_id === null ? (
-                  <span className="text-fg-faint">Not from a threat</span>
+                  <span className="text-fg-faint">{t('u.not-from-a-threat')}</span>
                 ) : (
                   <Link
                     to={`/threats/${module.threat_id}`}

@@ -74,7 +74,7 @@ export function VersionComparison({
         </p>
       ) : null}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-        <VersionCell label="In use" value={affected} tone="text-high" />
+        <VersionCell label={t('u.in-use')} value={affected} tone="text-high" />
         <VersionCell label={t('p.approved-by-policy')} value={approved} />
         <VersionCell label="Recommended" value={recommended} tone="text-safe" />
       </div>
@@ -101,7 +101,7 @@ export function AffectedPeople({ departments, employees, className }: AffectedPe
       <div>
         <p className="label text-fg-faint">Departments · {departments.length}</p>
         {departments.length === 0 ? (
-          <p className="mt-1.5 text-sm text-fg-faint">None named.</p>
+          <p className="mt-1.5 text-sm text-fg-faint">{t('u.none-named')}</p>
         ) : (
           <ul className="mt-1.5 flex flex-wrap gap-2">
             {departments.map((department) => (
@@ -125,7 +125,7 @@ export function AffectedPeople({ departments, employees, className }: AffectedPe
       <div>
         <p className="label text-fg-faint">People · {employees.length}</p>
         {employees.length === 0 ? (
-          <p className="mt-1.5 text-sm text-fg-faint">None named.</p>
+          <p className="mt-1.5 text-sm text-fg-faint">{t('u.none-named')}</p>
         ) : (
           <ul className="mt-1.5 divide-line">
             {employees.map((employee) => (

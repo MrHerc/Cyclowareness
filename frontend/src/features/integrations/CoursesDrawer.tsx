@@ -140,7 +140,7 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
                     {course.duration_minutes !== null ? (
                       <span>{duration(course.duration_minutes * 60_000)}</span>
                     ) : (
-                      <span>Duration not recorded</span>
+                      <span>{t('u.duration-not-recorded')}</span>
                     )}
                     {course.language ? <span>{course.language}</span> : null}
                     <span>
@@ -160,7 +160,7 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
                       ))
                     ) : (
                       <span className="text-xs text-fg-subtle">
-                        Not mapped to any behaviour — targeting will never select it.
+                        {t('u.not-mapped-to-any-behaviour-targeting-will')}
                       </span>
                     )}
                   </div>
@@ -168,7 +168,7 @@ export function CoursesDrawer({ integration, open, onOpenChange }: CoursesDrawer
                   {canManage ? (
                     <div className="mt-3">
                       <Button variant="outline" size="sm" onClick={() => setEditing(course)}>
-                        Edit mapping
+                        {t('u.edit-mapping')}
                       </Button>
                     </div>
                   ) : null}

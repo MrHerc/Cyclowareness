@@ -67,7 +67,7 @@ export function LoopsTable({ runs }: LoopsTableProps) {
               {run.verdict ? (
                 <Badge status={run.verdict} size="sm" />
               ) : (
-                <span className="text-sm text-fg-faint">Not analysed</span>
+                <span className="text-sm text-fg-faint">{t('u.not-analysed')}</span>
               )}
             </TableCell>
 

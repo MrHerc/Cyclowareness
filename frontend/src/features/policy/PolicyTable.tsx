@@ -14,6 +14,7 @@
  */
 
 import { Link } from 'react-router-dom'
+import { useT } from '../../lib/i18n'
 import {
   Badge,
   Table,
@@ -58,6 +59,7 @@ export function PolicyTable({
   hrefFor,
   onSelect,
 }: PolicyTableProps) {
+  const t = useT()
   const lookup = new Map(departments.map((department) => [department.id, department.name]))
 
   return (
@@ -69,11 +71,11 @@ export function PolicyTable({
           <TableHead>Status</TableHead>
           <TableHead>Owner</TableHead>
           <TableHead>Effective</TableHead>
-          <TableHead>Review due</TableHead>
-          <TableHead>Applies to</TableHead>
+          <TableHead>{t('u.review-due')}</TableHead>
+          <TableHead>{t('u.applies-to')}</TableHead>
           <TableHead>Extraction</TableHead>
           <TableHead numeric>Rules</TableHead>
-          <TableHead numeric>Open findings</TableHead>
+          <TableHead numeric>{t('u.open-findings')}</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -115,7 +117,7 @@ export function PolicyTable({
               </TableCell>
 
               <TableCell className="max-w-[12rem] truncate">
-                {policy.owner_name || <span className="text-fg-faint">Not recorded</span>}
+                {policy.owner_name || <span className="text-fg-faint">{t('u.not-recorded')}</span>}
               </TableCell>
 
               <TableCell className="whitespace-nowrap">{formatDate(policy.effective_date)}</TableCell>
@@ -128,7 +130,7 @@ export function PolicyTable({
                 {applicable.length > 0 ? (
                   <span className="block truncate">{applicable.join(', ')}</span>
                 ) : (
-                  <span className="text-fg-faint">Organisation-wide</span>
+                  <span className="text-fg-faint">{t('u.organisation-wide')}</span>
                 )}
               </TableCell>
 

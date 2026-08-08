@@ -104,7 +104,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             Cancel
           </Button>
           <Button variant="primary" loading={create.isPending} onClick={submit}>
-            Raise finding
+            {t('u.raise-finding')}
           </Button>
         </>
       }
@@ -159,7 +159,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             hint={t('p.who-is-accountable-for-closing-it')}
           />
           <Input
-            label="Due date"
+            label={t('u.due-date')}
             type="date"
             value={dueDate}
             onChange={(event) => setDueDate(event.target.value)}

@@ -59,7 +59,7 @@ export function PolicyExposurePanel({
             <SeverityRadial data={counts} size={168} className="shrink-0" />
             <ul className="min-w-[9rem] flex-1 space-y-1.5">
               {counts.length === 0 ? (
-                <li className="text-sm text-fg-faint">No open findings.</li>
+                <li className="text-sm text-fg-faint">{t('u.no-open-findings')}</li>
               ) : (
                 counts.map((row) => (
                   <li
@@ -86,7 +86,7 @@ export function PolicyExposurePanel({
             to="/policy-intelligence/findings"
             className="text-brand-fg underline-offset-4 hover:underline"
           >
-            Open the findings register
+            {t('u.open-the-findings-register')}
           </Link>{' '}
           to assign remediation or training.
         </p>

@@ -95,7 +95,7 @@ export function ApprovalGatePanel({
   const body = waiting ? (
     <>
       <p className="text-body text-fg">
-        This run is holding at the gate. {moduleTitle ? <>The module </> : <>A module </>}
+        This run is holding at the gate. {moduleTitle ? <>{t('u.the-module')} </> : <>A module </>}
         {moduleTitle ? <span className="text-fg">“{moduleTitle}”</span> : null} and{' '}
         {proposedTargets} proposed target{proposedTargets === 1 ? '' : 's'} are waiting for a human
         decision. No employee is assigned anything until one is given.
@@ -113,7 +113,7 @@ export function ApprovalGatePanel({
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <Button asChild variant="secondary">
-          <Link to={`/approvals/${runId}`}>Open the full review</Link>
+          <Link to={`/approvals/${runId}`}>{t('u.open-the-full-review')}</Link>
         </Button>
         {canDecide ? (
           <>
@@ -122,7 +122,7 @@ export function ApprovalGatePanel({
               onClick={() => setPending('approve')}
               disabled={decide.isPending}
             >
-              Approve and release
+              {t('u.approve-and-release')}
             </Button>
             <Button
               variant="danger"
@@ -150,7 +150,7 @@ export function ApprovalGatePanel({
       )}
       <div className="mt-4">
         <Button asChild variant="secondary" size="sm">
-          <Link to={`/approvals/${runId}`}>Open the review workspace</Link>
+          <Link to={`/approvals/${runId}`}>{t('u.open-the-review-workspace')}</Link>
         </Button>
       </div>
     </>
@@ -169,7 +169,7 @@ export function ApprovalGatePanel({
         title={
           <span className="flex items-center gap-2">
             <ShieldCheck className="size-4 shrink-0 text-brand" aria-hidden="true" />
-            Approval gate
+            {t('u.approval-gate-2')}
           </span>
         }
         subtitle={t('x.between-conversion-and-targeting-the')}

@@ -63,7 +63,7 @@ export default function PolicyFindingDetail() {
         description={t('x.a-single-claim-about-the')}
         actions={
           <Button asChild variant="ghost" icon={<ArrowLeft className="size-4" />}>
-            <Link to="/policy-intelligence/findings">Back to the queue</Link>
+            <Link to="/policy-intelligence/findings">{t('u.back-to-the-queue')}</Link>
           </Button>
         }
       />
@@ -115,7 +115,7 @@ export default function PolicyFindingDetail() {
                         icon={<SquarePen className="size-4" />}
                         onClick={() => openStatus(undefined)}
                       >
-                        Change status
+                        {t('u.change-status')}
                       </Button>
                       <Button
                         variant="secondary"
@@ -123,7 +123,7 @@ export default function PolicyFindingDetail() {
                         onClick={() => setTrainingOpen(true)}
                         disabled={closed}
                       >
-                        Assign training
+                        {t('u.assign-training')}
                       </Button>
                       <Button
                         variant="outline"
@@ -131,18 +131,18 @@ export default function PolicyFindingDetail() {
                         onClick={() => openStatus('accepted_risk')}
                         disabled={finding.status === 'accepted_risk'}
                       >
-                        Accept the risk
+                        {t('u.accept-the-risk')}
                       </Button>
                       <Button
                         variant="ghost"
                         onClick={() => openStatus('false_positive')}
                         disabled={finding.status === 'false_positive'}
                       >
-                        Mark false positive
+                        {t('u.mark-false-positive')}
                       </Button>
                       {closed ? (
                         <span className="text-xs text-fg-faint">
-                          This finding is closed. Reopen it before assigning training.
+                          {t('u.this-finding-is-closed-reopen-it-before')}
                         </span>
                       ) : null}
                     </div>
@@ -165,7 +165,7 @@ export default function PolicyFindingDetail() {
                     finding.policy_id !== null ? (
                       <Button asChild variant="ghost" size="sm" icon={<ScrollText className="size-4" />}>
                         <Link to={`/policy-intelligence/policies?policy=${finding.policy_id}`}>
-                          Open the policy
+                          {t('u.open-the-policy')}
                         </Link>
                       </Button>
                     ) : null
@@ -237,13 +237,13 @@ export default function PolicyFindingDetail() {
                 <Panel title={t('x.what-to-do')}>
                   <dl className="space-y-4">
                     <div>
-                      <dt className="label text-fg-faint">Suggested remediation</dt>
+                      <dt className="label text-fg-faint">{t('u.suggested-remediation')}</dt>
                       <dd className="mt-1 text-sm text-fg-muted">
                         {finding.suggested_remediation || 'None was recorded.'}
                       </dd>
                     </div>
                     <div>
-                      <dt className="label text-fg-faint">Required training</dt>
+                      <dt className="label text-fg-faint">{t('u.required-training')}</dt>
                       <dd className="mt-1 text-sm text-fg-muted">
                         {finding.required_training ||
                           'No training was named for this finding.'}
@@ -295,7 +295,7 @@ export default function PolicyFindingDetail() {
                     <Link
                       to={`/audit-log?object_type=policy_finding&object_id=${finding.id}`}
                     >
-                      See every change in the audit log
+                      {t('u.see-every-change-in-the-audit-log')}
                     </Link>
                   </Button>
                 </Panel>
@@ -319,7 +319,7 @@ export default function PolicyFindingDetail() {
           </div>
         ) : (
           <EmptyState
-            headline="This finding could not be loaded"
+            headline={t('u.this-finding-could-not-be-loaded')}
             description={t('x.the-record-may-have-been')}
           />
         )}

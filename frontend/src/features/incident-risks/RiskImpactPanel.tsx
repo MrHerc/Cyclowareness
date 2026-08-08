@@ -44,9 +44,9 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
           sample={rollup.total}
           sampleNoun="subject"
           source="live"
-          sourceDetail="Counted from the subject rows on this risk"
+          sourceDetail={t('u.counted-from-the-subject-rows-on-this')}
           tone={completionValue === 1 ? 'safe' : 'neutral'}
-          unmeasuredReason="Nobody is attached to this risk yet."
+          unmeasuredReason={t('u.nobody-is-attached-to-this-risk-yet')}
           unmeasuredRemedy="Attach the people the incident named to start measuring."
           definition={{
             calculation:
@@ -71,7 +71,7 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
         />
 
         <dl className="grid grid-cols-2 gap-3 text-sm">
-          <Stat label="Not started" value={rollup.assigned} />
+          <Stat label={t('u.not-started')} value={rollup.assigned} />
           <Stat label={t('p.awaiting-review')} value={rollup.awaitingReview} tone={rollup.awaitingReview > 0 ? 'text-medium' : undefined} />
           <Stat label="Rejected" value={rollup.rejected} tone={rollup.rejected > 0 ? 'text-high' : undefined} />
           <Stat label={t('p.nothing-assigned')} value={rollup.unattached} tone={rollup.unattached > 0 ? 'text-medium' : undefined} />
@@ -85,15 +85,15 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
           format="number"
           digits={0}
           sample={rollup.scored}
-          sampleNoun="scored subject"
+          sampleNoun={t('u.scored-subject')}
           source="live"
-          sourceDetail="Quiz scores recorded against this incident's assignments"
+          sourceDetail={t('u.quiz-scores-recorded-against-this-incident')}
           tone={
             risk.min_score !== null && rollup.avgScore !== null && rollup.avgScore < risk.min_score
               ? 'high'
               : 'neutral'
           }
-          unmeasuredReason="No subject has recorded a score yet."
+          unmeasuredReason={t('u.no-subject-has-recorded-a-score-yet')}
           unmeasuredRemedy="A score appears once somebody submits a quiz on the assigned module."
           hint={
             risk.min_score !== null

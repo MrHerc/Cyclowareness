@@ -46,7 +46,7 @@ export default function SandboxDetail() {
         className="inline-flex items-center gap-1.5 text-sm text-fg-subtle hover:text-fg"
       >
         <ArrowLeft className="size-4" aria-hidden="true" strokeWidth={1.75} />
-        Back to submissions
+        {t('u.back-to-submissions')}
       </Link>
 
       <AsyncBoundary

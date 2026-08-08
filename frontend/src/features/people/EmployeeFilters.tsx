@@ -76,7 +76,7 @@ export function EmployeeFilters({
       />
 
       <Select
-        label="Risk band"
+        label={t('u.risk-band')}
         labelHidden
         options={BAND_OPTIONS}
         value={value.band}
@@ -86,7 +86,7 @@ export function EmployeeFilters({
 
       {active ? (
         <Button variant="ghost" icon={<X className="size-4" aria-hidden="true" />} onClick={onClear}>
-          Clear filters
+          {t('u.clear-filters-2')}
         </Button>
       ) : null}
 

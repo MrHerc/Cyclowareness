@@ -78,14 +78,14 @@ export function AuditFilters({
           className="w-64"
         />
         <Select
-          label="Object type"
+          label={t('u.object-type')}
           options={objectOptions}
           value={filters.values.object_type || ANY_VALUE}
           onValueChange={(value) => filters.set('object_type', value)}
           className="w-52"
         />
         <Select
-          label="Page size"
+          label={t('u.page-size')}
           options={LIMITS.map((value) => ({ value: String(value), label: `${num(value)} entries` }))}
           value={String(limit)}
           onValueChange={(value) => onLimitChange(Number(value))}
@@ -107,14 +107,14 @@ export function AuditFilters({
             onClick={() => filters.clear()}
             disabled={filters.activeCount === 0}
           >
-            Clear filters
+            {t('u.clear-filters-2')}
           </Button>
         </div>
       </div>
 
       <p className="text-xs text-fg-subtle">
-        An action matches exactly or as a dotted prefix, so <span className="tech">incident_risk</span>{' '}
-        finds every verb beneath it. Actor is a case-insensitive substring of the email.
+        {t('u.an-action-matches-exactly-or-as')} <span className="tech">incident_risk</span>{' '}
+        {t('u.finds-every-verb-beneath-it')}
       </p>
     </div>
   )

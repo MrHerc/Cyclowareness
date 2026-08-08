@@ -55,7 +55,7 @@ export function AudienceSelector({
 
   return (
     <fieldset className="min-w-0">
-      <legend className="text-sm font-medium text-fg-muted">Target audience</legend>
+      <legend className="text-sm font-medium text-fg-muted">{t('u.target-audience')}</legend>
       <p className="mt-1 text-xs text-fg-faint">{t('p.pick-departments-risk-bands-or-both')}</p>
 
       <div className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -87,7 +87,7 @@ export function AudienceSelector({
         </div>
 
         <div>
-          <p className="label text-fg-faint">Risk band</p>
+          <p className="label text-fg-faint">{t('u.risk-band')}</p>
           <div className="mt-2 space-y-2">
             {RISK_BANDS.map((band) => (
               <Checkbox

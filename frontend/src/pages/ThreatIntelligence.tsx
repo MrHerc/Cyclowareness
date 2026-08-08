@@ -184,7 +184,7 @@ export default function ThreatIntelligence() {
                   action={
                     hasFilters ? (
                       <StateAction tone="quiet" onClick={clearFilters}>
-                        Clear filters
+                        {t('u.clear-filters-2')}
                       </StateAction>
                     ) : undefined
                   }

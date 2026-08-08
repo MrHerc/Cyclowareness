@@ -94,7 +94,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
               <Hash label={t('p.sha256-hash')} value={job.sha256} />
             </Fact>
             <Fact label="MD5">
-              <Hash label="MD5 hash" value={job.md5} />
+              <Hash label={t('u.md5-hash')} value={job.md5} />
             </Fact>
             <Fact label="Size">{bytes(job.size_bytes)}</Fact>
             <Fact label={t('p.content-type')}>
@@ -115,7 +115,7 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
             </Fact>
             <Fact label={t('p.analysis-time')}>
               {job.duration_ms === null ? (
-                <span className="text-fg-faint">Not recorded</span>
+                <span className="text-fg-faint">{t('u.not-recorded')}</span>
               ) : (
                 duration(job.duration_ms)
               )}

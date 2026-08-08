@@ -73,7 +73,7 @@ export function MeasurementPanel({
         stage={MEASURE_STAGE}
         entry={measureEntry}
         source="live"
-        sourceDetail="Measurement summary stored on the run"
+        sourceDetail={t('u.measurement-summary-stored-on-the-run')}
       >
         {!summary ? (
           <p className="text-body text-fg-muted">{t('p.this-run-has-not-been-measured')}</p>
@@ -88,7 +88,7 @@ export function MeasurementPanel({
                 sampleNoun="assignments"
                 source="live"
                 tone="neutral"
-                unmeasuredReason="Nothing was assigned on this run, so there is no rate to compute."
+                unmeasuredReason={t('u.nothing-was-assigned-on-this-run-so')}
                 hint={t('p.measured-for-this-run-only-not')}
               />
               <HonestMetric
@@ -96,9 +96,9 @@ export function MeasurementPanel({
                 value={summary.avg_score}
                 format="score"
                 sample={scored}
-                sampleNoun="scored assignments"
+                sampleNoun={t('u.scored-assignments')}
                 source="live"
-                unmeasuredReason="No assignment on this run has been completed with a score."
+                unmeasuredReason={t('u.no-assignment-on-this-run-has-been')}
                 unmeasuredRemedy="A score appears once someone finishes the quiz."
               />
               <HonestMetric
@@ -108,9 +108,9 @@ export function MeasurementPanel({
                 // The denominator is not sent — only completions that recorded a
                 // duration are averaged, and that count never reaches the client.
                 sample={Number.NaN}
-                sampleNoun="completions that recorded a duration"
+                sampleNoun={t('u.completions-that-recorded-a-duration')}
                 source="live"
-                unmeasuredReason="No completion on this run recorded how long it took."
+                unmeasuredReason={t('u.no-completion-on-this-run-recorded-how')}
               />
             </div>
 
@@ -134,8 +134,8 @@ export function MeasurementPanel({
                   <TableHead>Person</TableHead>
                   <TableHead>Outcome</TableHead>
                   <TableHead numeric>Score</TableHead>
-                  <TableHead numeric>Risk change</TableHead>
-                  <TableHead numeric>Risk now</TableHead>
+                  <TableHead numeric>{t('u.risk-change')}</TableHead>
+                  <TableHead numeric>{t('u.risk-now')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -182,7 +182,7 @@ export function MeasurementPanel({
         stage={FEEDBACK_STAGE}
         entry={feedbackEntry}
         source="live"
-        sourceDetail="Risk engine roll-ups and the daily metric snapshot"
+        sourceDetail={t('u.risk-engine-roll-ups-and-the-daily')}
       >
         <h3 className="text-h text-fg">{t('y.departments-this-run-touched')}</h3>
         {touchedDepartments.length === 0 ? (
@@ -197,9 +197,9 @@ export function MeasurementPanel({
               <TableHeader>
                 <TableRow>
                   <TableHead>Department</TableHead>
-                  <TableHead numeric>Average risk today</TableHead>
+                  <TableHead numeric>{t('u.average-risk-today')}</TableHead>
                   <TableHead numeric>People</TableHead>
-                  <TableHead numeric>High risk</TableHead>
+                  <TableHead numeric>{t('u.high-risk')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

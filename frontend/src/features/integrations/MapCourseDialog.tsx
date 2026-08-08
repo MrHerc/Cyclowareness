@@ -116,7 +116,7 @@ export function MapCourseDialog({
         <p className="text-sm text-fg-muted">{t('p.a-mapping-is-your-assertion-that')}</p>
 
         <fieldset className="space-y-2">
-          <legend className="label text-fg-faint">Behaviours in use in this catalogue</legend>
+          <legend className="label text-fg-faint">{t('u.behaviours-in-use-in-this-catalogue')}</legend>
           {options.length === 0 ? (
             <p className="text-sm text-fg-subtle">{t('p.nothing-in-this-catalogue-is-mapped')}</p>
           ) : (

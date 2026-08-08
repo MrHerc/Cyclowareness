@@ -83,24 +83,24 @@ export default function Loops() {
           loaded.length === 0 ? (
             <EmptyState
               icon={Radar}
-              headline="No loop runs yet"
+              headline={t('u.no-loop-runs-yet')}
               description={t('x.a-run-appears-here-the')}
               action={
                 <Button asChild variant="primary">
-                  <Link to="/threats">Go to threat intake</Link>
+                  <Link to="/threats">{t('u.go-to-threat-intake')}</Link>
                 </Button>
               }
             />
           ) : (
             <EmptyState
               icon={Radar}
-              headline="No run matches these filters"
+              headline={t('u.no-run-matches-these-filters')}
               description={`${loaded.length} run${loaded.length === 1 ? '' : 's'} loaded, but none is ${
                 stage === null ? 'a match' : `sitting at ${stageLabel(stage, t)}`
               } for the current search. Widen the filters to see the rest.`}
               action={
                 <Button variant="secondary" onClick={() => patch({ status: null, stage: null, q: null })}>
-                  Clear filters
+                  {t('u.clear-filters-2')}
                 </Button>
               }
             />

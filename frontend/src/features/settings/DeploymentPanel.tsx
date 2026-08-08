@@ -88,7 +88,7 @@ export function DeploymentPanel() {
               </Badge>
             ) : (
               <Badge tone="neutral" size="sm">
-                Template engine
+                {t('u.template-engine')}
               </Badge>
             )}
           </SettingRow>
@@ -196,7 +196,7 @@ export function DeploymentPanel() {
               }
             >
               {sandbox.data?.integrations === undefined || sandbox.data.integrations.length === 0 ? (
-                <span className="text-fg-subtle">Not reported</span>
+                <span className="text-fg-subtle">{t('u.not-reported')}</span>
               ) : (
                 <>
                   {num(

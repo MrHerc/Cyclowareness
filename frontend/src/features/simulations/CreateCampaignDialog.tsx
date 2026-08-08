@@ -168,7 +168,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
             Cancel
           </Button>
           <Button variant="primary" loading={create.isPending} onClick={handleSubmit}>
-            Create draft
+            {t('u.create-draft')}
           </Button>
         </>
       }
@@ -184,15 +184,15 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
         />
 
         <div>
-          <p className="text-sm font-medium text-fg-muted">Lure source</p>
+          <p className="text-sm font-medium text-fg-muted">{t('u.lure-source')}</p>
           <Tabs
             value={sourceKind}
             onValueChange={(value) => setSourceKind(value as SourceKind)}
             className="mt-2"
           >
             <TabsList>
-              <TabsTrigger value="template">Prebuilt template</TabsTrigger>
-              <TabsTrigger value="threat">Real analyzed threat</TabsTrigger>
+              <TabsTrigger value="template">{t('u.prebuilt-template')}</TabsTrigger>
+              <TabsTrigger value="threat">{t('u.real-analyzed-threat')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="template">

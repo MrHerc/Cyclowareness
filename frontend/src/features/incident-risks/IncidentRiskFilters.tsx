@@ -76,7 +76,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
         className="w-36"
       />
       <Select
-        label="Risk type"
+        label={t('u.risk-type')}
         labelHidden
         options={ANY_RISK_TYPE_OPTIONS}
         value={filters.risk_type}

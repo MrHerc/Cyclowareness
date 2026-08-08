@@ -123,13 +123,13 @@ export default function Approvals() {
           filtered ? (
             <EmptyState
               icon={BadgeCheck}
-              headline="No run matches these filters"
+              headline={t('u.no-run-matches-these-filters')}
               description={`${page.rows.length} ${page.rows.length === 1 ? 'run is' : 'runs are'} waiting at the gate, but none of them matches the filters above. Clear them to see the rest.`}
             />
           ) : (
             <EmptyState
               icon={ShieldCheck}
-              headline="Nothing is waiting for a decision"
+              headline={t('u.nothing-is-waiting-for-a-decision')}
               description="A run appears here when a threat has been analysed and converted into training, which is the point at which the loop stops for a human. Push a threat or a reported artifact into the loop to fill this queue."
             />
           )
@@ -150,7 +150,7 @@ export default function Approvals() {
               content={`A convention of this screen, not a policy: amber past ${WAIT_THRESHOLDS.medium / 3600}h, orange past ${WAIT_THRESHOLDS.high / 3600}h, red past ${WAIT_THRESHOLDS.critical / 3600}h. No service level in the platform defines these.`}
             >
               <span className="text-xs text-fg-faint underline decoration-dotted underline-offset-4">
-                How urgency is coloured
+                {t('u.how-urgency-is-coloured')}
               </span>
             </Tooltip>
           }

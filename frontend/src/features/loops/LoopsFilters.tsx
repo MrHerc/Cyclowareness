@@ -89,7 +89,7 @@ export function LoopsFilters({
             className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-fg-faint"
           />
           <Input
-            label="Search runs"
+            label={t('u.search-runs')}
             labelHidden
             type="search"
             value={query}
@@ -115,7 +115,7 @@ export function LoopsFilters({
         </p>
         {filtered ? (
           <Button variant="ghost" size="sm" onClick={onClear}>
-            Clear filters
+            {t('u.clear-filters-2')}
           </Button>
         ) : null}
       </div>

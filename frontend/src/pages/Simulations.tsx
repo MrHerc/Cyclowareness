@@ -103,7 +103,7 @@ export default function Simulations() {
             onClick={() => setDialogOpen(true)}
             icon={<Plus className="size-4" aria-hidden="true" />}
           >
-            New campaign
+            {t('u.new-campaign')}
           </Button>
         ) : null}
       </header>
@@ -167,12 +167,12 @@ export default function Simulations() {
               all.length === 0 ? (
                 <EmptyState
                   icon={Send}
-                  headline="No campaigns have been created"
+                  headline={t('u.no-campaigns-have-been-created')}
                   description={t('x.a-campaign-appears-here-once')}
                   action={
                     canManage ? (
                       <Button variant="primary" onClick={() => setDialogOpen(true)}>
-                        New campaign
+                        {t('u.new-campaign')}
                       </Button>
                     ) : undefined
                   }
@@ -180,11 +180,11 @@ export default function Simulations() {
               ) : (
                 <EmptyState
                   icon={Send}
-                  headline="No campaign matches these filters"
+                  headline={t('u.no-campaign-matches-these-filters')}
                   description={t('x.widen-the-status-channel-or')}
                   action={
                     <Button variant="secondary" onClick={() => setParams(new URLSearchParams())}>
-                      Clear filters
+                      {t('u.clear-filters-2')}
                     </Button>
                   }
                 />

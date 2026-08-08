@@ -40,12 +40,12 @@ export function DepartmentTable({ departments, movement, movementSample }: Depar
       <TableHeader>
         <TableRow>
           <TableHead>Department</TableHead>
-          <TableHead>Average risk</TableHead>
+          <TableHead>{t('u.average-risk')}</TableHead>
           <TableHead numeric>People</TableHead>
-          <TableHead numeric>High risk</TableHead>
-          <TableHead numeric>Share high risk</TableHead>
+          <TableHead numeric>{t('u.high-risk')}</TableHead>
+          <TableHead numeric>{t('u.share-high-risk')}</TableHead>
           <TableHead>Movement</TableHead>
-          <TableHead><span className="sr-only">Open roster</span></TableHead>
+          <TableHead><span className="sr-only">{t('u.open-roster')}</span></TableHead>
         </TableRow>
       </TableHeader>
 
@@ -67,7 +67,7 @@ export function DepartmentTable({ departments, movement, movementSample }: Depar
               </TableCell>
               <TableCell>
                 {delta === undefined ? (
-                  <span className="text-xs text-fg-faint">No recent events</span>
+                  <span className="text-xs text-fg-faint">{t('u.no-recent-events')}</span>
                 ) : (
                   <span
                     className={
@@ -84,7 +84,7 @@ export function DepartmentTable({ departments, movement, movementSample }: Depar
                   to={`/employees?department=${department.id}`}
                   className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline"
                 >
-                  Open roster
+                  {t('u.open-roster')}
                   <ArrowRight className="size-3.5" aria-hidden="true" />
                 </Link>
               </TableCell>

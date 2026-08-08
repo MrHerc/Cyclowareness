@@ -40,7 +40,7 @@ export function IocPanel({ iocs }: IocPanelProps) {
             label={t('p.copy-every-indicator')}
             variant="secondary"
           >
-            Copy all
+            {t('u.copy-all')}
           </CopyButton>
         ) : undefined
       }

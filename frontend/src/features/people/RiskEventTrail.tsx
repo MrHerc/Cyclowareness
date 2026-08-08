@@ -40,7 +40,7 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
       <EmptyState
         icon={History}
         compact
-        headline="No risk events recorded"
+        headline={t('u.no-risk-events-recorded')}
         description={t('x.this-persons-score-is-still')}
       />
     )
@@ -60,7 +60,7 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
           <TableHead>Signal</TableHead>
           <TableHead numeric>Delta</TableHead>
           <TableHead>Reason</TableHead>
-          <TableHead>Loop run</TableHead>
+          <TableHead>{t('u.loop-run')}</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -121,14 +121,14 @@ export function RiskEventTrail({ events, canOpenLoops }: RiskEventTrailProps) {
                 </span>
                 {withdrawn ? (
                   <span className="mt-0.5 block text-xs text-fg-faint">
-                    Withdrawn after review — not counted in the score
+                    {t('u.withdrawn-after-review-not-counted-in-the')}
                   </span>
                 ) : null}
               </TableCell>
 
               <TableCell>
                 {event.loop_run_id === null ? (
-                  <span className="text-xs text-fg-faint">Not from a loop</span>
+                  <span className="text-xs text-fg-faint">{t('u.not-from-a-loop')}</span>
                 ) : canOpenLoops ? (
                   <Link
                     to={`/loops/${event.loop_run_id}`}

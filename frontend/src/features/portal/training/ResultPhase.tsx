@@ -87,7 +87,7 @@ export function ResultPhase({ result, module, questions, answers }: ResultPhaseP
                     </p>
 
                     <p className="text-sm text-fg-muted">
-                      <span className="text-fg-subtle">You answered: </span>
+                      <span className="text-fg-subtle">{t('u.you-answered')} </span>
                       <span className={outcome.correct ? 'text-safe' : 'text-critical'}>
                         {givenLabel}
                       </span>
@@ -95,7 +95,7 @@ export function ResultPhase({ result, module, questions, answers }: ResultPhaseP
 
                     {!outcome.correct ? (
                       <p className="text-sm text-fg-muted">
-                        <span className="text-fg-subtle">The answer was: </span>
+                        <span className="text-fg-subtle">{t('u.the-answer-was')} </span>
                         <span className="text-safe">{expectedLabel}</span>
                       </p>
                     ) : null}
@@ -115,7 +115,7 @@ export function ResultPhase({ result, module, questions, answers }: ResultPhaseP
 
       <div className="flex justify-end">
         <Button asChild variant="primary" size="lg">
-          <Link to="/portal">Back to my security</Link>
+          <Link to="/portal">{t('u.back-to-my-security')}</Link>
         </Button>
       </div>
     </div>

@@ -60,7 +60,7 @@ export function FindingOrigin({ finding }: FindingOriginProps) {
                 <span className="tech break-all text-fg">{finding.source_ref}</span>
               )
             ) : (
-              <span className="text-fg-faint">None recorded</span>
+              <span className="text-fg-faint">{t('u.none-recorded')}</span>
             )}
           </dd>
         </div>

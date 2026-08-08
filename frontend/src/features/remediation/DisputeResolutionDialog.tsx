@@ -75,7 +75,7 @@ export function DisputeResolutionDialog({
           <div className="mt-4">
             <Textarea
               id={`dispute-answer-${plan.id}`}
-              label="Your answer"
+              label={t('u.your-answer')}
               hint={t('p.they-read-this-on-their-own')}
               rows={4}
               maxLength={2000}

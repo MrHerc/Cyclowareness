@@ -46,7 +46,7 @@ export function RunAuditStrip({
       }
       actions={
         <Button asChild variant="ghost" size="sm">
-          <Link to={`/audit-log?object_type=loop_run&object_id=${runId}`}>Open the audit log</Link>
+          <Link to={`/audit-log?object_type=loop_run&object_id=${runId}`}>{t('u.open-the-audit-log')}</Link>
         </Button>
       }
       footer={
@@ -72,7 +72,7 @@ export function RunAuditStrip({
           <EmptyState
             compact
             icon={ScrollText}
-            headline="No audit entries for this run"
+            headline={t('u.no-audit-entries-for-this-run')}
             description={t('x.entries-appear-when-a-person')}
           />
         }

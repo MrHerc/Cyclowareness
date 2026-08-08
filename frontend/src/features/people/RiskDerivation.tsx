@@ -78,7 +78,7 @@ export function RiskDerivation({ employee }: RiskDerivationProps) {
             <TableHead>Factor</TableHead>
             <TableHead numeric>Events</TableHead>
             <TableHead numeric>Contribution</TableHead>
-            <TableHead>Share of the score</TableHead>
+            <TableHead>{t('u.share-of-the-score')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

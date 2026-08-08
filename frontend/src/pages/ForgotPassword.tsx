@@ -68,7 +68,7 @@ export default function ForgotPassword() {
         <p>
           Remembered it?{' '}
           <Link to="/login" className="text-brand-fg rounded-control hover:underline">
-            Back to sign in
+            {t('u.back-to-sign-in')}
           </Link>
           .
         </p>
@@ -101,7 +101,7 @@ export default function ForgotPassword() {
         />
 
         <Button type="submit" variant="primary" size="lg" block>
-          Prepare the reset request
+          {t('u.prepare-the-reset-request')}
         </Button>
       </form>
 

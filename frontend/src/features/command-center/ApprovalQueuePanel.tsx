@@ -159,7 +159,7 @@ function QueueEntry({
           <Badge status={item.sanitizationStatus} size="sm" />
         ) : (
           <span className="rounded-chip border border-dashed border-line px-2 py-0.5 text-xs text-fg-faint">
-            Sanitisation not recorded
+            {t('u.sanitisation-not-recorded')}
           </span>
         )}
 
@@ -197,7 +197,7 @@ function QueueEntry({
         </Button>
         {canDecide ? null : (
           <span className="text-xs text-fg-faint">
-            Your role can read this queue but cannot decide on it.
+            {t('u.your-role-can-read-this-queue-but')}
           </span>
         )}
       </div>
@@ -341,7 +341,7 @@ export function ApprovalQueuePanel({
             <QueueList
               items={items}
               emptyHeadline="The gate is clear"
-              emptyDescription="Items appear here when a loop run finishes conversion and needs a person to release it into targeting."
+              emptyDescription={t('u.items-appear-here-when-a-loop-run')}
               modelConnected={modelConnected}
               canDecide={canDecide}
               busy={busy}
@@ -353,7 +353,7 @@ export function ApprovalQueuePanel({
             <QueueList
               items={mine}
               emptyHeadline="Nothing is assigned to you"
-              emptyDescription="Items appear here once an analyst is named on them. Unassigned work stays in the whole queue."
+              emptyDescription={t('u.items-appear-here-once-an-analyst-is')}
               modelConnected={modelConnected}
               canDecide={canDecide}
               busy={busy}

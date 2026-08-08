@@ -70,7 +70,7 @@ export function TargetTable({ simulation, canRecord }: TargetTableProps) {
         <TableRow>
           <TableHead>Person</TableHead>
           <TableHead>Department</TableHead>
-          <TableHead numeric>Risk score</TableHead>
+          <TableHead numeric>{t('u.risk-score')}</TableHead>
           <TableHead>Outcome</TableHead>
           <TableHead>Recorded</TableHead>
           {canRecord ? <TableHead>Record</TableHead> : null}
@@ -102,13 +102,13 @@ export function TargetTable({ simulation, canRecord }: TargetTableProps) {
               {target.outcome_at ? (
                 <span title={formatDateTime(target.outcome_at)}>{timeAgo(target.outcome_at)}</span>
               ) : (
-                <span className="text-fg-faint">Not yet</span>
+                <span className="text-fg-faint">{t('u.not-yet')}</span>
               )}
             </TableCell>
             {canRecord ? (
               <TableCell>
                 {target.outcome !== 'pending' ? (
-                  <span className="text-xs text-fg-faint">Already recorded</span>
+                  <span className="text-xs text-fg-faint">{t('u.already-recorded')}</span>
                 ) : !active ? (
                   <span className="text-xs text-fg-faint">
                     {simulation.status === 'draft' ? 'Launch first' : 'Campaign closed'}

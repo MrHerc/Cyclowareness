@@ -95,7 +95,7 @@ function ContestControl({ event }: { event: RiskEvent }) {
         className="mt-1 inline-flex items-center gap-1 text-xs text-fg-faint underline-offset-4 hover:text-fg-subtle hover:underline"
       >
         <MessageSquareWarning className="size-3.5" aria-hidden="true" strokeWidth={1.75} />
-        This was not me
+        {t('u.this-was-not-me')}
       </button>
     )
   }
@@ -124,7 +124,7 @@ function ContestControl({ event }: { event: RiskEvent }) {
       />
       <div className="mt-2 flex flex-wrap gap-2">
         <Button type="submit" size="sm" variant="primary" disabled={!note.trim()} loading={contest.isPending}>
-          Send to a person
+          {t('u.send-to-a-person')}
         </Button>
         <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
           Cancel
@@ -210,9 +210,9 @@ export function RiskScorePanel({
             digits={1}
             tone={BAND_TONE[evidence.band]}
             sample={evidence.scoredEvents}
-            sampleNoun="recorded risk events"
+            sampleNoun={t('u.recorded-risk-events')}
             source="live"
-            sourceDetail="risk engine"
+            sourceDetail={t('u.risk-engine')}
             lastUpdated={evidence.lastRecalculated}
             comparison={{
               previous: evidence.lastMovementUnexplained ? null : evidence.previous,
@@ -263,13 +263,13 @@ export function RiskScorePanel({
 
         <div className="grid grid-cols-1 gap-6 border-t border-line-subtle pt-5 sm:grid-cols-2">
           <FactorColumn
-            heading="What is raising it"
+            heading={t('u.what-is-raising-it')}
             factors={evidence.increasing}
             direction="up"
             emptyCopy="Nothing. No behaviour has pushed your score up."
           />
           <FactorColumn
-            heading="What is lowering it"
+            heading={t('u.what-is-lowering-it')}
             factors={evidence.reducing}
             direction="down"
             emptyCopy="Nothing yet. Completing training and reporting suspicious messages both lower it."

@@ -80,7 +80,7 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
             loading={extract.isPending}
             onClick={run}
           >
-            Run extraction
+            {t('u.run-extraction')}
           </Button>
         ) : null
       }
@@ -94,13 +94,13 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
                 <span className="tech break-all">{policy.source_filename}</span>
               ) : (
                 <span className="text-fg-subtle">
-                  Registered as metadata only — no document was attached
+                  {t('u.registered-as-metadata-only-no-document-was')}
                 </span>
               )}
             </dd>
           </div>
           <div>
-            <dt className="label text-fg-faint">Type and size</dt>
+            <dt className="label text-fg-faint">{t('u.type-and-size')}</dt>
             <dd className="mt-1 text-sm text-fg-muted">
               {hasDocument
                 ? `${policy.source_mime || 'MIME not recorded'} · ${bytes(policy.source_bytes)}`
@@ -108,13 +108,13 @@ export function PolicyExtraction({ policy, canManage, modelConnected }: PolicyEx
             </dd>
           </div>
           <div>
-            <dt className="label text-fg-faint">Registered by</dt>
+            <dt className="label text-fg-faint">{t('u.registered-by')}</dt>
             <dd className="mt-1 text-sm text-fg-muted">
               {policy.uploaded_by || 'Not recorded'} · {formatDate(policy.created_at)}
             </dd>
           </div>
           <div>
-            <dt className="label text-fg-faint">Last change</dt>
+            <dt className="label text-fg-faint">{t('u.last-change')}</dt>
             <dd className="mt-1 text-sm text-fg-muted">{formatDate(policy.updated_at)}</dd>
           </div>
         </dl>

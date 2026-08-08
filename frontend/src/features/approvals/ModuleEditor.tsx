@@ -78,10 +78,10 @@ export function ModuleEditor({
           </span>
           <div className="flex gap-2">
             <Button variant="ghost" onClick={onCancel} disabled={saving}>
-              Discard changes
+              {t('u.discard-changes')}
             </Button>
             <Button variant="primary" onClick={onSave} loading={saving} disabled={!dirty}>
-              Save content
+              {t('u.save-content')}
             </Button>
           </div>
         </div>
@@ -190,7 +190,7 @@ export function ModuleEditor({
       <Separator fade />
 
       <Textarea
-        label="Take away"
+        label={t('u.take-away')}
         rows={3}
         value={value.takeaway}
         onChange={(event) => setField('takeaway', event.target.value)}

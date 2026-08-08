@@ -142,7 +142,7 @@ export default function Portal() {
             icon={<Flag className="size-4" aria-hidden="true" />}
             onClick={() => setReportOpen(true)}
           >
-            Report something suspicious
+            {t('u.report-something-suspicious')}
           </Button>
         </div>
       </header>
@@ -174,7 +174,7 @@ export default function Portal() {
           ) : (
             <EmptyState
               icon={CircleCheck}
-              headline="No training is waiting on you"
+              headline={t('u.no-training-is-waiting-on-you')}
               description={t('x.a-module-lands-here-when')}
             />
           )}
