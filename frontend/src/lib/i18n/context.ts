@@ -33,14 +33,22 @@ function isLocale(value: unknown): value is Locale {
   return typeof value === 'string' && (LOCALES as readonly string[]).includes(value)
 }
 
-/** The locale to start in: the stored choice, else the browser's, else English. */
+/**
+ * The locale to start in: the stored choice, else Azerbaijani.
+ *
+ * AZ IS THE DEFAULT, NOT A DETECTION RESULT. This product's home market is
+ * Azerbaijan and its owner demos it in Azerbaijani; the previous rule
+ * ("browser language, else English") meant every first-time visitor whose
+ * browser was not set to az — including the owner's — saw an English door.
+ * English remains one click away on the sign-in screen and in the user menu,
+ * and the choice persists.
+ */
 export function initialLocale(): Locale {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     if (isLocale(stored)) return stored
   } catch {
-    // Private mode or a blocked store — fall through to the browser's language.
+    // Private mode or a blocked store — fall through to the default.
   }
-  const nav = typeof navigator === 'undefined' ? '' : navigator.language.toLowerCase()
-  return nav.startsWith('az') ? 'az' : 'en'
+  return 'az'
 }

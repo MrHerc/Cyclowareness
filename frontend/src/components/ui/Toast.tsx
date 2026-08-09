@@ -99,7 +99,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
           Split by urgency because one region cannot be both: an error must
           interrupt (`assertive`), and a confirmation must not (`polite`). */}
-      <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-2">
+      {/* `left-4 right-4` below `sm`, not `w-full max-w-sm`: 24rem is wider
+          than a 375px phone, and a fixed element pinned `right-4` at that width
+          hangs 25px past the LEFT edge — toasts arrived pre-clipped. */}
+      <div className="pointer-events-none fixed bottom-4 left-4 right-4 z-[100] flex flex-col gap-2 sm:left-auto sm:w-full sm:max-w-sm">
         <div role="alert" aria-live="assertive" className="flex flex-col gap-2">
           {toasts
             .filter((toast) => toast.tone === 'error')

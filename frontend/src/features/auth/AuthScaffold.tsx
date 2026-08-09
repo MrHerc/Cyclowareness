@@ -19,7 +19,8 @@
  */
 
 import type { ReactNode } from 'react'
-import { useLocale } from '../../lib/i18n'
+import { LOCALES, LOCALE_NAMES, useLocale } from '../../lib/i18n'
+import { cn } from '../../lib/format'
 import { MadeBy } from '../../components/shell/MadeBy'
 import { AuroraField } from './AuroraField'
 import { Link } from 'react-router-dom'
@@ -37,6 +38,38 @@ export interface AuthScaffoldProps {
   /** Links out of the page — sign in, request an account, reset. */
   footer?: ReactNode
   children: ReactNode
+}
+
+/**
+ * AZ | EN on the door itself. The only other switcher lives in the user menu,
+ * which does not exist until AFTER sign-in — so a visitor who landed in the
+ * wrong language had no way out of it on the one screen where language
+ * decides whether they can proceed at all.
+ */
+function LocaleToggle() {
+  const { locale, setLocale } = useLocale()
+  return (
+    <span className="inline-flex items-center gap-1 text-xs">
+      {LOCALES.map((code, index) => (
+        <span key={code} className="inline-flex items-center gap-1">
+          {index > 0 ? <span className="text-fg-faint">·</span> : null}
+          <button
+            type="button"
+            lang={code}
+            onClick={() => setLocale(code)}
+            aria-pressed={locale === code}
+            aria-label={LOCALE_NAMES[code]}
+            className={cn(
+              'rounded-control px-1 uppercase tracking-wide',
+              locale === code ? 'font-semibold text-fg' : 'text-fg-faint hover:text-fg-muted',
+            )}
+          >
+            {code}
+          </button>
+        </span>
+      ))}
+    </span>
+  )
 }
 
 export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldProps) {
@@ -92,6 +125,9 @@ export function AuthScaffold({ title, intro, footer, children }: AuthScaffoldPro
               every auth screen, because this is where a reader looks for who
               made the thing they are about to sign in to. */}
           <MadeBy />
+          <div className="pt-1">
+            <LocaleToggle />
+          </div>
         </footer>
       </div>
     </div>
