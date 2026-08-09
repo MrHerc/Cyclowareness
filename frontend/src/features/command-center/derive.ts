@@ -18,6 +18,7 @@
  *     server sent. Nothing is warned about because it would look impressive.
  */
 
+import type { TFunction } from '../../lib/i18n'
 import { SEVERITY_ORDER, type SeverityCount } from '../../components/charts'
 import { summariseRuns } from '../../components/loop'
 import type { QueueRow } from '../approvals/contract'
@@ -166,21 +167,18 @@ const TONE_RANK: Record<WarningTone, number> = { critical: 0, high: 1, medium: 2
  * flight produces no warning rather than a reassuring silence that later turns
  * out to have been wrong.
  */
-export function systemWarnings({
-  capabilities,
-  sandbox,
-  integrations,
-  runs,
-}: SystemWarningInput): SystemWarning[] {
+export function systemWarnings(
+  { capabilities, sandbox, integrations, runs }: SystemWarningInput,
+  t: TFunction,
+): SystemWarning[] {
   const warnings: SystemWarning[] = []
 
   if (capabilities?.ai_provider === 'mock') {
     warnings.push({
       id: 'ai-provider',
       tone: 'medium',
-      title: 'No language model is connected',
-      detail:
-        'Conversion writes training from a fixed template. Anything generated here is labelled Template, never AI generated.',
+      title: t('cc.warn-no-model-title'),
+      detail: t('cc.warn-no-model-detail'),
     })
   }
 
@@ -188,11 +186,10 @@ export function systemWarnings({
     warnings.push({
       id: 'sandbox-dynamic',
       tone: 'medium',
-      title: 'Dynamic detonation is not available',
-      detail:
-        'Analysis runs static analyzers only. Behaviour that appears solely at runtime will not be observed, and verdicts say so.',
+      title: t('cc.warn-dynamic-title'),
+      detail: t('cc.warn-dynamic-detail'),
       to: '/sandbox',
-      linkLabel: 'Open the sandbox',
+      linkLabel: t('cc.open-sandbox'),
     })
   }
 
@@ -201,10 +198,13 @@ export function systemWarnings({
     warnings.push({
       id: 'sandbox-analyzers',
       tone: 'medium',
-      title: `${unavailable.length} static ${unavailable.length === 1 ? 'analyzer is' : 'analyzers are'} unavailable`,
-      detail: `Not running: ${unavailable.join(', ')}. Signals those analyzers would raise cannot appear in a verdict.`,
+      title: t('cc.warn-analyzers-title', {
+        count: unavailable.length,
+        noun: unavailable.length === 1 ? 'analyzer is' : 'analyzers are',
+      }),
+      detail: t('cc.warn-analyzers-detail', { list: unavailable.join(', ') }),
       to: '/sandbox',
-      linkLabel: 'Open the sandbox',
+      linkLabel: t('cc.open-sandbox'),
     })
   }
 
@@ -212,11 +212,10 @@ export function systemWarnings({
     warnings.push({
       id: 'sandbox-yara',
       tone: 'high',
-      title: 'No YARA rules are loaded',
-      detail:
-        sandbox.yara.error ?? 'The rule set compiled to zero rules, so no YARA signal can fire.',
+      title: t('cc.warn-yara-title'),
+      detail: sandbox.yara.error ?? t('cc.warn-yara-detail'),
       to: '/sandbox',
-      linkLabel: 'Open the sandbox',
+      linkLabel: t('cc.open-sandbox'),
     })
   }
 
@@ -227,10 +226,13 @@ export function systemWarnings({
     warnings.push({
       id: 'integrations-error',
       tone: 'critical',
-      title: `${failedIntegrations.length} ${failedIntegrations.length === 1 ? 'integration is' : 'integrations are'} in error`,
+      title: t('cc.warn-integrations-error-title', {
+        count: failedIntegrations.length,
+        noun: failedIntegrations.length === 1 ? 'integration is' : 'integrations are',
+      }),
       detail: failedIntegrations.map((integration) => integration.display_name).join(', '),
       to: '/integrations',
-      linkLabel: 'Open integrations',
+      linkLabel: t('cc.open-integrations'),
     })
   }
 
@@ -239,10 +241,13 @@ export function systemWarnings({
     warnings.push({
       id: 'integrations-degraded',
       tone: 'high',
-      title: `${degraded.length} ${degraded.length === 1 ? 'integration is' : 'integrations are'} degraded`,
+      title: t('cc.warn-integrations-degraded-title', {
+        count: degraded.length,
+        noun: degraded.length === 1 ? 'integration is' : 'integrations are',
+      }),
       detail: degraded.map((integration) => integration.display_name).join(', '),
       to: '/integrations',
-      linkLabel: 'Open integrations',
+      linkLabel: t('cc.open-integrations'),
     })
   }
 
@@ -251,13 +256,17 @@ export function systemWarnings({
     warnings.push({
       id: 'runs-failed',
       tone: 'critical',
-      title: `${failedRuns.length} loop ${failedRuns.length === 1 ? 'run has' : 'runs have'} failed`,
-      detail: `Run ${failedRuns
-        .slice(0, 4)
-        .map((run) => `#${run.id}`)
-        .join(', ')}${failedRuns.length > 4 ? ` and ${failedRuns.length - 4} more` : ''} stopped before closing the loop.`,
+      title: t('cc.warn-runs-failed-title', {
+        count: failedRuns.length,
+        noun: failedRuns.length === 1 ? 'run has' : 'runs have',
+      }),
+      detail: t('cc.warn-runs-failed-detail', {
+        list:
+          failedRuns.slice(0, 4).map((run) => `#${run.id}`).join(', ') +
+          (failedRuns.length > 4 ? ' ' + t('cc.and-n-more', { count: failedRuns.length - 4 }) : ''),
+      }),
       to: '/loops',
-      linkLabel: 'Open closed loops',
+      linkLabel: t('cc.open-loops'),
     })
   }
 

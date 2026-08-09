@@ -97,7 +97,7 @@ export function LoopSection({
           gateSelected={selected === 'gate'}
           onStageClick={(stage) => onSelect(selected === stage ? null : stage)}
           onGateClick={() => onSelect(selected === 'gate' ? null : 'gate')}
-          windowLabel="Active and recent runs"
+          windowLabel={t('u.active-and-recent-runs')}
         />
 
         <div className="mt-6 border-t border-line-subtle pt-4">

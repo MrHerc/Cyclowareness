@@ -20,11 +20,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { LocaleContext, STORAGE_KEY, initialLocale, type MessageValues } from './context'
-import { resetDateFormatCache } from '../format'
+import { resetDateFormatCache, setFormatLocale } from '../format'
 import { MESSAGES, type Locale, type MessageKey } from './messages'
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(initialLocale)
+
+  // In the render body, not the effect below: `timeAgo`/`deadlineIn` are
+  // module-scope and read this during the CHILDREN's render, which happens
+  // before any effect runs. An idempotent assignment keyed to state is safe
+  // here; an effect would leave one full render speaking the previous locale.
+  setFormatLocale(locale)
 
   useEffect(() => {
     document.documentElement.lang = locale

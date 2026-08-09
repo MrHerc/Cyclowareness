@@ -55,12 +55,15 @@ export function IntegrationHealthPanel({
       headingLevel={4}
       subtitle={
         dormant > 0
-          ? `${dormant} further ${dormant === 1 ? 'provider is' : 'providers are'} not configured in this deployment`
+          ? t('u.further-providers-not-configured', {
+              count: dormant,
+              noun: dormant === 1 ? 'provider is' : 'providers are',
+            })
           : t('p.external-learning-and-identity-systems')
       }
       actions={
         <Button size="sm" variant="ghost" asChild>
-          <Link to="/integrations">Manage</Link>
+          <Link to="/integrations">{t('u.manage')}</Link>
         </Button>
       }
     >

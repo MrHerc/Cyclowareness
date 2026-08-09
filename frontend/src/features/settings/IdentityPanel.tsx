@@ -44,7 +44,7 @@ export function IdentityPanel() {
           detail={t('p.set-by-the-platform-not-by')}
         >
           <Badge tone="brand" size="sm">
-            {role ? ROLE_LABEL[role] : 'No role'}
+            {role ? t(ROLE_LABEL[role]) : t('u.no-role')}
           </Badge>
         </SettingRow>
 

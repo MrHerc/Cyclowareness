@@ -21,7 +21,7 @@ export interface LastUpdatedProps {
   className?: string
 }
 
-export function LastUpdated({ at, prefix = 'Updated', hideIcon = false, className }: LastUpdatedProps) {
+export function LastUpdated({ at, prefix, hideIcon = false, className }: LastUpdatedProps) {
   const t = useT()
   const relative = timeAgo(at)
   const exact = formatDateTime(at)
@@ -30,7 +30,7 @@ export function LastUpdated({ at, prefix = 'Updated', hideIcon = false, classNam
   const body = (
     <span className={cn('inline-flex items-center gap-1.5 text-xs text-fg-faint', className)}>
       {hideIcon ? null : <Clock className="size-3.5 shrink-0" aria-hidden="true" />}
-      {known ? `${prefix} ${relative}` : t('p.update-time-not-recorded')}
+      {known ? `${prefix ?? t('u.updated-prefix')} ${relative}` : t('p.update-time-not-recorded')}
     </span>
   )
 

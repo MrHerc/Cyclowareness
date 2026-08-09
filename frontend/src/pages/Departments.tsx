@@ -91,8 +91,8 @@ export default function Departments() {
                 unmeasuredReason={t('u.no-employee-has-a-score-yet')}
                 definition={{
                   calculation: t('p.the-mean-current-risk-score-of'),
-                  includes: ['Everyone the employees endpoint returns'],
-                  excludes: ['Nothing — this is the whole roster, not a trailing window'],
+                  includes: [t('u.def-everyone-endpoint-returns')],
+                  excludes: [t('u.def-whole-roster')],
                   caveat:
                     t('p.computed-from-the-roster-in-the'),
                 }}

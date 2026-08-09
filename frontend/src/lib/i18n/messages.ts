@@ -3980,6 +3980,162 @@ const en = {
     'Training assignment records',
   'u.training-module-record':
     'Training module record',
+  'cc.and-n-more':
+    'and {count} more',
+  'cc.counts-current':
+    'Counts are current as of the last refresh.',
+  'cc.open-integrations':
+    'Open integrations',
+  'cc.open-loops':
+    'Open closed loops',
+  'cc.open-sandbox':
+    'Open the sandbox',
+  'cc.rates-window':
+    'Rates cover a trailing {days} days and are withheld below {min} resolved events.',
+  'cc.warn-analyzers-detail':
+    'Not running: {list}. Signals those analyzers would raise cannot appear in a verdict.',
+  'cc.warn-analyzers-title':
+    '{count} static {noun} unavailable',
+  'cc.warn-dynamic-detail':
+    'Analysis runs static analyzers only. Behaviour that appears solely at runtime will not be observed, and verdicts say so.',
+  'cc.warn-dynamic-title':
+    'Dynamic detonation is not available',
+  'cc.warn-integrations-degraded-title':
+    '{count} {noun} degraded',
+  'cc.warn-integrations-error-title':
+    '{count} {noun} in error',
+  'cc.warn-no-model-detail':
+    'Conversion writes training from a fixed template. Anything generated here is labelled Template, never AI generated.',
+  'cc.warn-no-model-title':
+    'No language model is connected',
+  'cc.warn-runs-failed-detail':
+    '{list} stopped before closing the loop.',
+  'cc.warn-runs-failed-title':
+    '{count} loop {noun} failed',
+  'cc.warn-yara-detail':
+    'The rule set compiled to zero rules, so no YARA signal can fire.',
+  'cc.warn-yara-title':
+    'No YARA rules are loaded',
+  'u.demo-dataset':
+    'Demo dataset',
+  'u.external-feed':
+    'External feed',
+  'u.live-api':
+    'Live API',
+  'u.no-role':
+    'No role',
+  'u.no-role-assigned':
+    'No role assigned',
+  'u.people-trained':
+    '{count} people trained',
+  'u.person-trained':
+    '{count} person trained',
+  'u.role-analyst':
+    'Security analyst',
+  'u.role-employee':
+    'Employee',
+  'u.role-executive':
+    'Executive',
+  'u.sandbox-full':
+    'Sandbox: full',
+  'u.sandbox-static-only':
+    'Sandbox: static only',
+  'u.updated-prefix':
+    'Updated',
+  'u.closed-loops-counted-by-server':
+    'closed loops counted by the server',
+  'u.def-assignments-before-window':
+    'Assignments made before the window, even if completed inside it',
+  'u.def-employees-named-by-finding':
+    'Employees a finding lists by name',
+  'u.def-employees-who-left':
+    'Employees who have left',
+  'u.def-events-excluded-baseline':
+    'Every recorded event — this is the starting point only',
+  'u.def-every-applied-event':
+    'Every non-revoked event the engine has applied',
+  'u.def-every-assignment-in-window':
+    'Every assignment created in the window, whatever created it',
+  'u.def-every-incident-risk':
+    'Every incident risk the platform holds, whatever its age',
+  'u.def-everyone-endpoint-returns':
+    'Everyone the employees endpoint returns',
+  'u.def-no-trailing-window-score':
+    'Any trailing window — this is the score as it stands now',
+  'u.def-no-window-on-figure':
+    'Nothing — there is no trailing window on this figure',
+  'u.def-open-statuses':
+    'Statuses open, in review, remediation planned and training assigned',
+  'u.def-people-via-department':
+    'People covered only because their department was named',
+  'u.def-platform-does-not-compute':
+    'Everything — the platform does not currently compute this',
+  'u.def-real-threats-excluded':
+    'Real threats — these are simulations only',
+  'u.def-reports-genuine-threats':
+    'Reports of genuine threats, which have no delivered denominator',
+  'u.def-reports-human-sensor-sim':
+    'Reports made through the human-sensor path against a simulated lure',
+  'u.def-resolved-accepted-fp':
+    'Resolved, accepted risk and false positive',
+  'u.def-role-baselines-excluded':
+    'The role baselines themselves',
+  'u.def-role-sensitivity':
+    'Every person’s recorded role sensitivity',
+  'u.def-runs-awaiting':
+    'Runs still awaiting approval, training or measurement',
+  'u.def-runs-closed-benign':
+    'Runs that closed at conversion because the artifact came back benign',
+  'u.def-runs-trained-scored':
+    'Runs where training was assigned, taken, and scored',
+  'u.def-sim-clicks-reports-incidents':
+    'Simulation clicks and reports, real-threat reports, incident findings',
+  'u.def-subjects-accepted':
+    'Subjects a reviewer marked accepted',
+  'u.def-subjects-completed-unreviewed':
+    'Subjects who completed but have not been reviewed',
+  'u.def-subjects-rejected':
+    'Subjects a reviewer rejected',
+  'u.def-targets-clicked-reported-ignored':
+    'Targets that clicked, reported, or ignored a delivered lure',
+  'u.def-targets-pending':
+    'Targets still pending an outcome',
+  'u.def-training-completion-moves-credit':
+    'Training completion and quiz scores — those move training credit, not this',
+  'u.def-whole-register':
+    'Any trailing window — this is the whole register',
+  'u.def-whole-roster':
+    'Nothing — this is the whole roster, not a trailing window',
+  'u.loop-runs-on-record':
+    'loop runs on record',
+  'u.open-findings-naming-neither':
+    '{count} open {noun} naming neither a person nor a department',
+  'u.active-and-recent-runs':
+    'Active and recent runs',
+  'u.converted-from':
+    'Converted from',
+  'u.flow-at-the-gate':
+    '{count} at the approval gate',
+  'u.flow-closed':
+    '{count} {noun} closed the loop.',
+  'u.flow-failed':
+    'Failed: {list}.',
+  'u.flow-in-stage':
+    '{count} in {stage}',
+  'u.flow-none':
+    'No runs are in the loop right now.',
+  'u.flow-processing':
+    'Processing: {list}.',
+  'u.flow-waiting':
+    'Waiting: {list}.',
+  'u.further-providers-not-configured':
+    '{count} further {noun} not configured in this deployment',
+  'u.gate-aria':
+    'Approval gate between stage 3 and stage 4. {waiting} waiting for a human decision. {wait}. {approved} released.',
+  'u.manage':
+    'Manage',
+  'u.standing-not-movement':
+    'Standing, not movement — the dashboard reports a current average per department and no per-department history to difference it against.',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -4034,7 +4190,7 @@ const az: Record<MessageKey, string> = {
   'nav.portal.hint': 'Sizə təyin olunmuş təlim və risk balınız',
 
   'shell.skipToContent': 'Məzmuna keç',
-  'shell.search': 'Axtar və ya keç',
+  'shell.search': 'Axtarış və keçid',
   'shell.collapse': 'Yığ',
   'shell.expand': 'Naviqasiyanı aç',
   'shell.switchAccount': 'Hesabı dəyiş',
@@ -4111,7 +4267,7 @@ const az: Record<MessageKey, string> = {
   'cc.operationalAreas': 'Əməliyyat sahələri',
   'cc.awaitingApproval': 'İnsan təsdiqi gözləyir',
   'cc.closedLoop': 'Qapalı dövrə',
-  'cc.degraded': 'Zəifləmiş imkan',
+  'cc.degraded': 'Sistem məhdudiyyətləri',
   'cc.attention': 'İndi nəyə diqqət lazımdır',
   'cc.timeline': 'İnsident vaxt xətti',
   'cc.fullAudit': 'Tam audit jurnalı',
@@ -4973,7 +5129,7 @@ const az: Record<MessageKey, string> = {
   'a.built-by':
     'Hazırlayıb',
   'a.tagline':
-    'QAPALI DÖVRƏ İNSAN KİBER RİSKİ',
+    'İNSAN KİBER RİSKİNİN QAPALI DÖVRƏSİ',
   'p.a-blank-measurement-is-a-blank':
     'Boş ölçmə boş ölçmə olaraq qalır. Platforma nəyisə hələ ölçməyibsə, yaxşı xəbər kimi görünən sıfır əvəzinə uzun tire yazır və nümunənin nə qədər böyük olduğunu bildirir.',
   'p.a-connection-record-appears-once-a':
@@ -5541,7 +5697,7 @@ const az: Record<MessageKey, string> = {
   'p.new-advisories':
     'Yeni bülletenlər',
   'p.new-threat-submissions':
-    'Yeni təhdid göndərişləri',
+    'Yeni təhdid bildirişləri',
   'p.newest-advisory-in-view':
     'Görünüşdəki ən yeni bülleten',
   'p.no-advisory-is-stored-in-this':
@@ -5947,7 +6103,7 @@ const az: Record<MessageKey, string> = {
   'p.quoted-back-when-somebody-closes-this':
     'Kimsə bunu bağlayarkən mətn yenidən göstərilir ki, bağlanış qeydi onunla tutuşdurula bilsin.',
   'p.raised-by-incident-response-against-named':
-    'İnsidentə cavab prosesi tərəfindən adı göstərilən şəxslərə qarşı qaldırılıb',
+    'İnsidentə cavab zamanı konkret əməkdaşlar barədə qaldırılıb',
   'p.raw-headers-message-text-url-or':
     'Xam başlıqlar, mesaj mətni, URL və ya fayl adı. Passiv mətn kimi saxlanılır və heç vaxt açılmır.',
   'p.reading-the-decision-from-the-audit':
@@ -6761,7 +6917,7 @@ const az: Record<MessageKey, string> = {
   'h.assigned-to-you':
     'Sizə təyin olunub',
   'h.waiting-at-the-gate':
-    'Qapıda gözləyir',
+    'Təsdiq gözləyir',
   'h.active-loops':
     'Aktiv dövrələr',
   'h.open-incident-risks':
@@ -7912,6 +8068,162 @@ const az: Record<MessageKey, string> = {
     'Təlim təyinatı qeydləri',
   'u.training-module-record':
     'Təlim modulu qeydi',
+  'cc.and-n-more':
+    'və daha {count}',
+  'cc.counts-current':
+    'Saylar son yenilənməyə əsasəndir.',
+  'cc.open-integrations':
+    'İnteqrasiyaları aç',
+  'cc.open-loops':
+    'Qapalı dövrələri aç',
+  'cc.open-sandbox':
+    'Sandbox-ı aç',
+  'cc.rates-window':
+    'Nisbətlər son {days} günü əhatə edir və {min} yekunlaşmış hadisədən az olduqda göstərilmir.',
+  'cc.warn-analyzers-detail':
+    'İşləmir: {list}. Bu analizatorların qaldıracağı siqnallar qərarda görünə bilməz.',
+  'cc.warn-analyzers-title':
+    '{count} statik analizator əlçatan deyil',
+  'cc.warn-dynamic-detail':
+    'Təhlil yalnız statik analizatorlarla aparılır. Yalnız icra zamanı üzə çıxan davranış müşahidə olunmayacaq və qərarlar bunu açıq deyir.',
+  'cc.warn-dynamic-title':
+    'Dinamik detonasiya əlçatan deyil',
+  'cc.warn-integrations-degraded-title':
+    '{count} inteqrasiyanın işi məhdudlaşıb',
+  'cc.warn-integrations-error-title':
+    '{count} inteqrasiya xətadadır',
+  'cc.warn-no-model-detail':
+    'Çevirmə təlimi sabit şablondan yazır. Burada yaradılan hər şey “Şablon” kimi işarələnir, heç vaxt “AI yaradıb” kimi yox.',
+  'cc.warn-no-model-title':
+    'Dil modeli qoşulmayıb',
+  'cc.warn-runs-failed-detail':
+    '{list} dövrəni bağlamadan dayandı.',
+  'cc.warn-runs-failed-title':
+    '{count} dövrə axını uğursuz oldu',
+  'cc.warn-yara-detail':
+    'Qayda dəsti sıfır qaydaya kompilyasiya olundu, ona görə heç bir YARA siqnalı işə düşə bilməz.',
+  'cc.warn-yara-title':
+    'Heç bir YARA qaydası yüklənməyib',
+  'u.demo-dataset':
+    'Demo dataseti',
+  'u.external-feed':
+    'Xarici lent',
+  'u.live-api':
+    'Canlı API',
+  'u.no-role':
+    'Rol yoxdur',
+  'u.no-role-assigned':
+    'Rol təyin edilməyib',
+  'u.people-trained':
+    '{count} nəfər təlim alıb',
+  'u.person-trained':
+    '{count} nəfər təlim alıb',
+  'u.role-analyst':
+    'Təhlükəsizlik analitiki',
+  'u.role-employee':
+    'İşçi',
+  'u.role-executive':
+    'Rəhbər',
+  'u.sandbox-full':
+    'Sandbox: tam',
+  'u.sandbox-static-only':
+    'Sandbox: yalnız statik',
+  'u.updated-prefix':
+    'Yeniləndi',
+  'u.closed-loops-counted-by-server':
+    'serverin saydığı qapalı dövrə',
+  'u.def-assignments-before-window':
+    'Pəncərədən əvvəl edilmiş təyinatlar, pəncərə içində tamamlansa belə',
+  'u.def-employees-named-by-finding':
+    'Tapıntının adbaad göstərdiyi işçilər',
+  'u.def-employees-who-left':
+    'İşdən ayrılmış işçilər',
+  'u.def-events-excluded-baseline':
+    'Bütün qeydə alınmış hadisələr — bu, yalnız başlanğıc nöqtəsidir',
+  'u.def-every-applied-event':
+    'Mühərrikin tətbiq etdiyi ləğv edilməmiş bütün hadisələr',
+  'u.def-every-assignment-in-window':
+    'Pəncərədə yaradılmış hər təyinat, kim yaratmasından asılı olmayaraq',
+  'u.def-every-incident-risk':
+    'Platformadakı hər insident riski, yaşından asılı olmayaraq',
+  'u.def-everyone-endpoint-returns':
+    'İşçilər son nöqtəsinin qaytardığı hər kəs',
+  'u.def-no-trailing-window-score':
+    'Heç bir zaman pəncərəsi — bu, balın hazırkı vəziyyətidir',
+  'u.def-no-window-on-figure':
+    'Heç nə — bu rəqəmdə zaman pəncərəsi yoxdur',
+  'u.def-open-statuses':
+    'Açıq, baxılır, korreksiya planlaşdırılıb və təlim təyin edilib statusları',
+  'u.def-people-via-department':
+    'Yalnız bölməsinin adı çəkildiyi üçün əhatə olunan insanlar',
+  'u.def-platform-does-not-compute':
+    'Hər şey — platforma bunu hazırda hesablamır',
+  'u.def-real-threats-excluded':
+    'Real təhdidlər — bunlar yalnız simulyasiyalardır',
+  'u.def-reports-genuine-threats':
+    'Həqiqi təhdid bildirmələri — onların çatdırılma məxrəci yoxdur',
+  'u.def-reports-human-sensor-sim':
+    'Simulyasiya tələsinə qarşı insan-sensor yolu ilə edilmiş bildirmələr',
+  'u.def-resolved-accepted-fp':
+    'Həll edilib, risk qəbul edilib və yanlış müsbət',
+  'u.def-role-baselines-excluded':
+    'Rol başlanğıc dəyərlərinin özü',
+  'u.def-role-sensitivity':
+    'Hər kəsin qeydə alınmış rol həssaslığı',
+  'u.def-runs-awaiting':
+    'Hələ təsdiq, təlim və ya ölçmə gözləyən axınlar',
+  'u.def-runs-closed-benign':
+    'Artefakt zərərsiz çıxdığı üçün çevirmə mərhələsində bağlanan axınlar',
+  'u.def-runs-trained-scored':
+    'Təlimin təyin edildiyi, keçildiyi və qiymətləndirildiyi axınlar',
+  'u.def-sim-clicks-reports-incidents':
+    'Simulyasiya klikləri və bildirmələri, real təhdid bildirmələri, insident tapıntıları',
+  'u.def-subjects-accepted':
+    'Rəyçinin qəbul edilmiş kimi işarələdiyi subyektlər',
+  'u.def-subjects-completed-unreviewed':
+    'Tamamlamış, lakin hələ baxılmamış subyektlər',
+  'u.def-subjects-rejected':
+    'Rəyçinin rədd etdiyi subyektlər',
+  'u.def-targets-clicked-reported-ignored':
+    'Çatdırılmış tələyə klikləyən, bildirən və ya məhəl qoymayan hədəflər',
+  'u.def-targets-pending':
+    'Nəticəsi hələ bilinməyən hədəflər',
+  'u.def-training-completion-moves-credit':
+    'Təlim tamamlanması və test balları — onlar bu göstəricini yox, təlim kreditini dəyişir',
+  'u.def-whole-register':
+    'Heç bir zaman pəncərəsi — bu, bütöv reyestrdir',
+  'u.def-whole-roster':
+    'Heç nə — bu, zaman pəncərəsi deyil, bütöv siyahıdır',
+  'u.loop-runs-on-record':
+    'qeydə alınmış dövrə axını',
+  'u.open-findings-naming-neither':
+    'Nə şəxs, nə də bölmə adı çəkməyən {count} açıq tapıntı',
+  'u.active-and-recent-runs':
+    'Aktiv və son axınlar',
+  'u.converted-from':
+    'Mənbəyi:',
+  'u.flow-at-the-gate':
+    '{count} təsdiq qapısında',
+  'u.flow-closed':
+    '{count} axın dövrəni bağlayıb.',
+  'u.flow-failed':
+    'Uğursuz: {list}.',
+  'u.flow-in-stage':
+    '{count} {stage} mərhələsində',
+  'u.flow-none':
+    'Hazırda dövrədə heç bir axın yoxdur.',
+  'u.flow-processing':
+    'İcra olunur: {list}.',
+  'u.flow-waiting':
+    'Gözləyir: {list}.',
+  'u.further-providers-not-configured':
+    'Daha {count} provayder bu quraşdırmada konfiqurasiya edilməyib',
+  'u.gate-aria':
+    '3-cü və 4-cü mərhələlər arasında təsdiq qapısı. {waiting} insan qərarını gözləyir. {wait}. {approved} buraxılıb.',
+  'u.manage':
+    'İdarə et',
+  'u.standing-not-movement':
+    'Dəyişmə yox, hazırkı vəziyyət — panel bölmə üzrə cari ortanı bildirir və fərq çıxarmaq üçün bölmə üzrə tarixçə yoxdur.',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

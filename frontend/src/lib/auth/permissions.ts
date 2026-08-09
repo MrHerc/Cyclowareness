@@ -118,8 +118,9 @@ export function homeFor(role: RoleName | undefined): string {
   return '/login'
 }
 
-export const ROLE_LABEL: Record<RoleName, string> = {
-  analyst: 'Security analyst',
-  employee: 'Employee',
-  executive: 'Executive',
-}
+/** Message keys — resolve with `t()` at the render site. */
+export const ROLE_LABEL = {
+  analyst: 'u.role-analyst',
+  employee: 'u.role-employee',
+  executive: 'u.role-executive',
+} as const satisfies Record<RoleName, string>

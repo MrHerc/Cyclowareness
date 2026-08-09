@@ -75,8 +75,8 @@ export function UnresolvedRisks({
               unmeasuredReason={t('u.the-findings-list-could-not-be-read')}
               definition={{
                 calculation: t('p.open-findings-whose-severity-is-critical'),
-                includes: ['Statuses open, in review, remediation planned and training assigned'],
-                excludes: ['Resolved, accepted risk and false positive'],
+                includes: [t('u.def-open-statuses')],
+                excludes: [t('u.def-resolved-accepted-fp')],
                 caveat: t('p.counted-from-the-returned-rows-not'),
               }}
             />
@@ -101,10 +101,13 @@ export function UnresolvedRisks({
               unmeasuredReason={t('u.the-findings-list-could-not-be-read')}
               definition={{
                 calculation: t('p.distinct-employees-named-individually-by-any'),
-                includes: ['Employees a finding lists by name'],
+                includes: [t('u.def-employees-named-by-finding')],
                 excludes: [
-                  'People covered only because their department was named',
-                  `${exposure.unscoped} open finding${exposure.unscoped === 1 ? '' : 's'} naming neither a person nor a department`,
+                  t('u.def-people-via-department'),
+                  t('u.open-findings-naming-neither', {
+                    count: exposure.unscoped,
+                    noun: exposure.unscoped === 1 ? 'finding' : 'findings',
+                  }),
                 ],
                 caveat:
                   t('p.a-floor-not-a-total-a'),
@@ -132,8 +135,8 @@ export function UnresolvedRisks({
               unmeasuredRemedy="The closed and open counts are still shown above. A rate appears once there are enough records for one to mean anything."
               definition={{
                 calculation: t('p.incident-risks-in-the-closed-state'),
-                includes: ['Every incident risk the platform holds, whatever its age'],
-                excludes: ['Any trailing window — this is the whole register'],
+                includes: [t('u.def-every-incident-risk')],
+                excludes: [t('u.def-whole-register')],
                 caveat: `Withheld below ${minSample} records, matching the rule the server applies to its own rates.`,
               }}
             />

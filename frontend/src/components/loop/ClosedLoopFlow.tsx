@@ -125,7 +125,7 @@ export function ClosedLoopFlow({
     stages.find((s) => s.stage === n) ?? { ...EMPTY_ACTIVITY, stage: n }
 
   const isProcessing = (n: number) => stageStateOf(activityOf(n).counts) === 'active'
-  const description = describeFlow(stages, gate)
+  const description = describeFlow(stages, gate, t)
 
   return (
     <figure className={cn('m-0', className)}>

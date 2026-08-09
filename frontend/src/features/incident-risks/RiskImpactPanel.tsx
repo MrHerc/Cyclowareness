@@ -51,10 +51,10 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
           definition={{
             calculation:
               t('p.subjects-whose-completion-a-reviewer-accepted'),
-            includes: ['Subjects a reviewer marked accepted'],
+            includes: [t('u.def-subjects-accepted')],
             excludes: [
-              'Subjects who completed but have not been reviewed',
-              'Subjects a reviewer rejected',
+              t('u.def-subjects-completed-unreviewed'),
+              t('u.def-subjects-rejected'),
             ],
             caveat:
               t('p.completion-is-not-the-same-as'),

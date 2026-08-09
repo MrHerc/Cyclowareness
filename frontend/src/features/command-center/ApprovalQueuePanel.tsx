@@ -120,7 +120,7 @@ function QueueEntry({
           </div>
 
           <p className="text-sm text-fg-muted">
-            Converted from{' '}
+            {t('u.converted-from')}{' '}
             {item.threatId !== null ? (
               <Link
                 to={`/threats/${item.threatId}`}

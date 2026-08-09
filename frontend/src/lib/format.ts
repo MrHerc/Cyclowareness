@@ -93,26 +93,69 @@ function parse(iso: string | null | undefined): Date | null {
   return Number.isNaN(date.getTime()) ? null : date
 }
 
+/**
+ * The words `timeAgo`/`deadlineIn` speak, per locale.
+ *
+ * These functions are module-scope and called from ~50 render sites, so they
+ * cannot reach the i18n context. Instead `LocaleProvider` assigns the current
+ * locale here in its render body — before any child renders — through
+ * `setFormatLocale`. Adding these to `messages.ts` instead would have meant
+ * threading `t` through every table that prints a timestamp.
+ */
+const TIME_WORDS = {
+  en: {
+    justNow: 'just now',
+    m: (n: number) => `${n}m ago`,
+    h: (n: number) => `${n}h ago`,
+    d: (n: number) => `${n}d ago`,
+    mo: (n: number) => `${n}mo ago`,
+    noDeadline: 'No deadline',
+    dueToday: 'Due today',
+    overdue: (n: number) => `${n}d overdue`,
+    inDays: (n: number) => `in ${n}d`,
+  },
+  az: {
+    justNow: 'indicə',
+    m: (n: number) => `${n} dəq əvvəl`,
+    h: (n: number) => `${n} saat əvvəl`,
+    d: (n: number) => `${n} gün əvvəl`,
+    mo: (n: number) => `${n} ay əvvəl`,
+    noDeadline: 'Son tarix yoxdur',
+    dueToday: 'Bu gün bitir',
+    overdue: (n: number) => `${n} gün gecikib`,
+    inDays: (n: number) => `${n} gün qalıb`,
+  },
+} as const
+
+let formatLocale: keyof typeof TIME_WORDS = 'en'
+
+/** Called by `LocaleProvider` — nothing else should touch this. */
+export function setFormatLocale(locale: string): void {
+  formatLocale = locale in TIME_WORDS ? (locale as keyof typeof TIME_WORDS) : 'en'
+}
+
 export function timeAgo(iso: string | null | undefined): string {
   const date = parse(iso)
   if (!date) return '—'
+  const w = TIME_WORDS[formatLocale]
   const seconds = Math.max(0, (Date.now() - date.getTime()) / 1000)
-  if (seconds < 45) return 'just now'
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
-  if (seconds < 2592000) return `${Math.floor(seconds / 86400)}d ago`
-  return `${Math.floor(seconds / 2592000)}mo ago`
+  if (seconds < 45) return w.justNow
+  if (seconds < 3600) return w.m(Math.floor(seconds / 60))
+  if (seconds < 86400) return w.h(Math.floor(seconds / 3600))
+  if (seconds < 2592000) return w.d(Math.floor(seconds / 86400))
+  return w.mo(Math.floor(seconds / 2592000))
 }
 
 /** "in 3d" / "2d overdue" — deadlines read differently from history. */
 export function deadlineIn(iso: string | null | undefined): { text: string; overdue: boolean } {
   const date = parse(iso)
-  if (!date) return { text: 'No deadline', overdue: false }
+  const w = TIME_WORDS[formatLocale]
+  if (!date) return { text: w.noDeadline, overdue: false }
   const diffMs = date.getTime() - Date.now()
   const days = Math.round(Math.abs(diffMs) / 86400000)
-  if (diffMs < 0) return { text: days === 0 ? 'Due today' : `${days}d overdue`, overdue: true }
-  if (days === 0) return { text: 'Due today', overdue: false }
-  return { text: `in ${days}d`, overdue: false }
+  if (diffMs < 0) return { text: days === 0 ? w.dueToday : w.overdue(days), overdue: true }
+  if (days === 0) return { text: w.dueToday, overdue: false }
+  return { text: w.inDays(days), overdue: false }
 }
 
 /**

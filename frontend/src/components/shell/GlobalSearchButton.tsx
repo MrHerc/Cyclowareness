@@ -8,7 +8,6 @@
  */
 
 import { Search } from 'lucide-react'
-import { Kbd } from '../ui'
 import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 
@@ -31,10 +30,7 @@ export function GlobalSearchButton({ onClick, className }: GlobalSearchButtonPro
     >
       <Search className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
       <span className="hidden flex-1 text-left md:block">{t('shell.search')}</span>
-      <span className="hidden md:block">
-        <Kbd>Ctrl K</Kbd>
-      </span>
-      <span className="md:hidden">Search</span>
+      <span className="md:hidden">{t('shell.search')}</span>
     </button>
   )
 }

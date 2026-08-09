@@ -52,8 +52,8 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           unmeasuredRemedy="Launch a simulation. The rate is withheld rather than estimated because one click out of two is not a 50% click rate."
           definition={{
             calculation: t('p.clicked-targets-divided-by-every-simulation'),
-            includes: ['Targets that clicked, reported, or ignored a delivered lure'],
-            excludes: ['Targets still pending an outcome', 'Real threats — these are simulations only'],
+            includes: [t('u.def-targets-clicked-reported-ignored')],
+            excludes: [t('u.def-targets-pending'), t('u.def-real-threats-excluded')],
             caveat: `Withheld below ${metrics.min_sample} resolved outcomes in the window.`,
           }}
         />
@@ -77,8 +77,8 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           unmeasuredRemedy="Launch a simulation. Reporting is the only behaviour on this page that improves detection rather than just avoiding harm."
           definition={{
             calculation: t('p.targets-who-reported-divided-by-every'),
-            includes: ['Reports made through the human-sensor path against a simulated lure'],
-            excludes: ['Reports of genuine threats, which have no delivered denominator'],
+            includes: [t('u.def-reports-human-sensor-sim')],
+            excludes: [t('u.def-reports-genuine-threats')],
             caveat: t('p.shares-a-denominator-with-the-click'),
           }}
         />
@@ -98,7 +98,7 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           unmeasuredRemedy="Campaigns record a launch time and targets record an outcome time, but nothing exposes the elapsed time between them. This figure appears when the platform aggregates it — it is not estimated here."
           definition={{
             calculation: t('p.would-be-the-median-time-from'),
-            excludes: ['Everything — the platform does not currently compute this'],
+            excludes: [t('u.def-platform-does-not-compute')],
             caveat: t('p.rendered-as-absent-rather-than-derived'),
           }}
         />
@@ -131,11 +131,11 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           definition={{
             calculation:
               t('p.the-mean-behaviourrisk-score-across-active'),
-            includes: ['Simulation clicks and reports, real-threat reports, incident findings'],
+            includes: [t('u.def-sim-clicks-reports-incidents')],
             excludes: [
-              'Training completion and quiz scores — those move training credit, not this',
-              'Employees who have left',
-              'Any trailing window — this is the score as it stands now',
+              t('u.def-training-completion-moves-credit'),
+              t('u.def-employees-who-left'),
+              t('u.def-no-trailing-window-score'),
             ],
             caveat:
               t('p.this-is-the-only-risk-figure'),
@@ -160,8 +160,8 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           unmeasuredRemedy="Carry a threat through the loop, or assign training from a policy finding, and completion becomes measurable."
           definition={{
             calculation: t('p.completed-assignments-divided-by-assignments-mad'),
-            includes: ['Every assignment created in the window, whatever created it'],
-            excludes: ['Assignments made before the window, even if completed inside it'],
+            includes: [t('u.def-every-assignment-in-window')],
+            excludes: [t('u.def-assignments-before-window')],
             caveat: t('p.a-high-completion-rate-is-not'),
           }}
         />
@@ -181,7 +181,7 @@ export function PostureMetrics({ metrics, trend, headcount, updatedAt }: Posture
           unmeasuredRemedy="Each completed assignment carries its own score against a pass mark, but the dashboard reports completion only. This figure appears when the platform aggregates those scores."
           definition={{
             calculation: t('p.would-be-graded-quizzes-at-or'),
-            excludes: ['Everything — the platform does not currently compute this'],
+            excludes: [t('u.def-platform-does-not-compute')],
             caveat: t('p.not-derived-from-the-perassignment-scores'),
           }}
         />

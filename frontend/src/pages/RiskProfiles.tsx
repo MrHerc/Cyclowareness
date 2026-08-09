@@ -116,8 +116,8 @@ export default function RiskProfiles() {
                 unmeasuredReason={t('u.the-roster-is-empty')}
                 definition={{
                   calculation: t('p.the-mean-of-every-current-risk'),
-                  includes: ['Everyone the employees endpoint returns'],
-                  excludes: ['Nothing — there is no trailing window on this figure'],
+                  includes: [t('u.def-everyone-endpoint-returns')],
+                  excludes: [t('u.def-no-window-on-figure')],
                   caveat: t('p.a-current-position-not-a-trend'),
                 }}
               />
@@ -136,8 +136,8 @@ export default function RiskProfiles() {
                 hint={t('p.where-the-organisation-would-sit-if')}
                 definition={{
                   calculation: t('p.the-mean-of-20-role-sensitivity'),
-                  includes: ['Every person’s recorded role sensitivity'],
-                  excludes: ['Every recorded event — this is the starting point only'],
+                  includes: [t('u.def-role-sensitivity')],
+                  excludes: [t('u.def-events-excluded-baseline')],
                   caveat:
                     t('p.role-sensitivity-is-set-when-a'),
                 }}
@@ -164,8 +164,8 @@ export default function RiskProfiles() {
                 hint={t('p.score-points-added-or-removed-by')}
                 definition={{
                   calculation: t('u.current-score-role-baseline-over-every-person'),
-                  includes: ['Every non-revoked event the engine has applied'],
-                  excludes: ['The role baselines themselves'],
+                  includes: [t('u.def-every-applied-event')],
+                  excludes: [t('u.def-role-baselines-excluded')],
                   caveat:
                     t('p.negative-is-the-good-direction-here'),
                 }}

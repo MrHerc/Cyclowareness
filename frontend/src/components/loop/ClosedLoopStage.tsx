@@ -98,9 +98,11 @@ export function ClosedLoopStage(props: ClosedLoopStageProps) {
     // Brand-framed at every state: this is the control the product is built
     // around, not a status that comes and goes.
     frameClass = 'items-center justify-center gap-1.5 border-brand/50 bg-brand/10 text-center shadow-float'
-    label =
-      `Approval gate between stage 3 and stage 4. ` +
-      `${waiting} waiting for a human decision. ${waitLine(oldestWaitSeconds)}. ${approved} released.`
+    label = t('u.gate-aria', {
+      waiting,
+      wait: waitLine(oldestWaitSeconds),
+      approved,
+    })
     body = (
       <>
         <ShieldCheck className="size-5 text-brand" aria-hidden="true" />

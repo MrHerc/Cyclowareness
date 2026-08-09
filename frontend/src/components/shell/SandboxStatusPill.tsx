@@ -75,7 +75,7 @@ export function SandboxStatusPill({ className }: SandboxStatusPillProps) {
           aria-hidden="true"
           strokeWidth={1.75}
         />
-        {dynamic ? 'Sandbox: full' : 'Sandbox: static only'}
+        {t(dynamic ? 'u.sandbox-full' : 'u.sandbox-static-only')}
       </Link>
     </Tooltip>
   )

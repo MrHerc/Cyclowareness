@@ -58,7 +58,7 @@ export function UserMenu({ className }: UserMenuProps) {
           <span className="hidden min-w-0 text-left lg:block">
             <span className="block truncate text-sm text-fg">{name}</span>
             <span className="block truncate text-xs text-fg-faint">
-              {role ? ROLE_LABEL[role] : 'No role'}
+              {role ? t(ROLE_LABEL[role]) : t('u.no-role')}
             </span>
           </span>
         </button>
@@ -71,7 +71,7 @@ export function UserMenu({ className }: UserMenuProps) {
             <p className="truncate text-body text-fg">{name}</p>
             <p className="truncate text-xs text-fg-faint">{session.email}</p>
             <p className="mt-0.5 text-xs text-fg-subtle">
-              {role ? ROLE_LABEL[role] : 'No role assigned'}
+              {role ? t(ROLE_LABEL[role]) : t('u.no-role-assigned')}
               {session.employee_id ? ` · ID ${session.employee_id}` : ''}
             </p>
           </div>

@@ -168,13 +168,16 @@ export default function CommandCenter() {
 
   const warnings = useMemo(
     () =>
-      systemWarnings({
-        capabilities: capabilities.data,
-        sandbox: sandbox.data,
-        integrations: integrations.data,
-        runs,
-      }),
-    [capabilities.data, sandbox.data, integrations.data, runs],
+      systemWarnings(
+        {
+          capabilities: capabilities.data,
+          sandbox: sandbox.data,
+          integrations: integrations.data,
+          runs,
+        },
+        t,
+      ),
+    [capabilities.data, sandbox.data, integrations.data, runs, t],
   )
 
   const decide = useApprovalDecision()
@@ -233,9 +236,9 @@ export default function CommandCenter() {
           </div>
         </div>
         <p className="text-xs text-fg-subtle">
-          Counts are current as of the last refresh.{' '}
+          {t('cc.counts-current')}{' '}
           {metrics
-            ? `Rates cover a trailing ${metrics.window_days} days and are withheld below ${metrics.min_sample} resolved events.`
+            ? t('cc.rates-window', { days: metrics.window_days, min: metrics.min_sample })
             : t('p.the-measurement-window-is-set-by')}
         </p>
       </header>
@@ -338,8 +341,7 @@ export default function CommandCenter() {
               }
             />
             <p className="text-xs text-fg-subtle">
-              Standing, not movement — the dashboard reports a current average per department and
-              no per-department history to difference it against.{' '}
+              {t('u.standing-not-movement')}{' '}
               <Link
                 to="/departments"
                 className="text-brand-fg underline-offset-4 hover:underline"

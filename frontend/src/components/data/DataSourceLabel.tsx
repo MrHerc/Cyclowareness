@@ -22,33 +22,33 @@ export interface DataSourceLabelProps {
   className?: string
 }
 
-const SOURCES: Record<DataSource, { label: string; icon: LucideIcon; tone: string; tip: MessageKey }> = {
+const SOURCES: Record<DataSource, { label: MessageKey; icon: LucideIcon; tone: string; tip: MessageKey }> = {
   live: {
-    label: 'Live API',
+    label: 'u.live-api',
     icon: Radio,
     tone: 'text-fg-muted',
     tip: 'p.measured-from-this-deployments-own-records',
   },
   sandbox: {
-    label: 'Sandbox',
+    label: 'y.sandbox',
     icon: FlaskConical,
     tone: 'text-fg-muted',
     tip: 'p.produced-by-the-analysis-sandbox-from',
   },
   demo: {
-    label: 'Demo dataset',
+    label: 'u.demo-dataset',
     icon: MonitorPlay,
     tone: 'text-fg-subtle',
     tip: 'p.demonstration-data-nothing-here-was-measured',
   },
   external: {
-    label: 'External feed',
+    label: 'u.external-feed',
     icon: Rss,
     tone: 'text-fg-muted',
     tip: 'p.supplied-by-a-third-party-cyclowareness',
   },
   unknown: {
-    label: 'Source not recorded',
+    label: 'p.source-not-recorded',
     icon: CircleHelp,
     tone: 'text-fg-faint',
     tip: 'p.this-deployment-did-not-record-where',
@@ -61,10 +61,10 @@ export function DataSourceLabel({ source, detail, className }: DataSourceLabelPr
   const Icon = spec.icon
 
   return (
-    <Tip content={detail ? `${t(spec.tip)} ${detail}` : spec.tip}>
+    <Tip content={detail ? `${t(spec.tip)} ${detail}` : t(spec.tip)}>
       <span className={cn('inline-flex items-center gap-1.5 text-xs', spec.tone, className)}>
         <Icon className="size-3.5 shrink-0" aria-hidden="true" />
-        {detail ? `${spec.label} · ${detail}` : spec.label}
+        {detail ? `${t(spec.label)} · ${detail}` : t(spec.label)}
       </span>
     </Tip>
   )

@@ -12,6 +12,7 @@
  * `avgMs: null`, not `avgMs: 0`.
  */
 
+import type { TFunction } from '../../lib/i18n'
 import { APPROVAL_GATE_AFTER_STAGE, STAGES } from '../../domain/types'
 import type { RunSummary, StageEntry } from '../../domain/types'
 import type {
@@ -173,32 +174,41 @@ function joinClauses(parts: string[]): string {
  * cannot parse a ring of nodes at a glance is not always a screen-reader user —
  * often they are the executive at the back of the room.
  */
-export function describeFlow(stages: readonly StageActivity[], gate: GateActivity): string {
+export function describeFlow(
+  stages: readonly StageActivity[],
+  gate: GateActivity,
+  t: TFunction,
+): string {
   const labelOf = (n: number) => STAGES.find((s) => s.n === n)?.label ?? `stage ${n}`
+
+  const inStage = (count: number, stage: number) =>
+    t('u.flow-in-stage', { count, stage: labelOf(stage) })
 
   const active = stages
     .filter((s) => s.counts.active > 0)
-    .map((s) => `${s.counts.active} in ${labelOf(s.stage)}`)
+    .map((s) => inStage(s.counts.active, s.stage))
 
   const waiting = [
-    ...(gate.waiting > 0 ? [`${gate.waiting} at the approval gate`] : []),
+    ...(gate.waiting > 0 ? [t('u.flow-at-the-gate', { count: gate.waiting })] : []),
     ...stages
       .filter((s) => s.counts.waiting > 0)
-      .map((s) => `${s.counts.waiting} in ${labelOf(s.stage)}`),
+      .map((s) => inStage(s.counts.waiting, s.stage)),
   ]
 
   const failed = stages
     .filter((s) => s.counts.failed > 0)
-    .map((s) => `${s.counts.failed} in ${labelOf(s.stage)}`)
+    .map((s) => inStage(s.counts.failed, s.stage))
 
   const sentences: string[] = []
-  if (active.length > 0) sentences.push(`Processing: ${joinClauses(active)}.`)
-  if (waiting.length > 0) sentences.push(`Waiting: ${joinClauses(waiting)}.`)
-  if (failed.length > 0) sentences.push(`Failed: ${joinClauses(failed)}.`)
-  if (sentences.length === 0) sentences.push('No runs are in the loop right now.')
+  if (active.length > 0) sentences.push(t('u.flow-processing', { list: joinClauses(active) }))
+  if (waiting.length > 0) sentences.push(t('u.flow-waiting', { list: joinClauses(waiting) }))
+  if (failed.length > 0) sentences.push(t('u.flow-failed', { list: joinClauses(failed) }))
+  if (sentences.length === 0) sentences.push(t('u.flow-none'))
 
   const cleared = stages.find((s) => s.stage === STAGES[STAGES.length - 1].n)?.counts.completed ?? 0
-  sentences.push(`${cleared} ${cleared === 1 ? 'run has' : 'runs have'} closed the loop.`)
+  sentences.push(
+    t('u.flow-closed', { count: cleared, noun: cleared === 1 ? 'run has' : 'runs have' }),
+  )
 
   return sentences.join(' ')
 }

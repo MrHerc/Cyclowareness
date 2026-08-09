@@ -53,7 +53,7 @@ function DriverRow({ run }: { run: RunSummary }) {
       </div>
       <div className="flex shrink-0 items-center gap-3">
         <span className="text-sm text-fg-muted">
-          {run.targets} {run.targets === 1 ? 'person trained' : 'people trained'}
+          {t(run.targets === 1 ? 'u.person-trained' : 'u.people-trained', { count: run.targets })}
         </span>
         {run.verdict ? <Badge status={run.verdict} /> : null}
       </div>
@@ -80,7 +80,7 @@ export function ThreatsToTraining({
           value={loopsClosed}
           format="number"
           sample={runs ? runs.length : loopsClosed}
-          sampleNoun={runs ? 'loop runs on record' : 'closed loops counted by the server'}
+          sampleNoun={runs ? t('u.loop-runs-on-record') : t('u.closed-loops-counted-by-server')}
           source="live"
           sourceDetail={t('u.platform-api')}
           lastUpdated={updatedAt}
@@ -89,10 +89,10 @@ export function ThreatsToTraining({
           unmeasuredReason={t('u.the-dashboard-did-not-report-a-count')}
           definition={{
             calculation: t('p.runs-that-reached-the-completed-state'),
-            includes: ['Runs where training was assigned, taken, and scored'],
+            includes: [t('u.def-runs-trained-scored')],
             excludes: [
-              'Runs that closed at conversion because the artifact came back benign',
-              'Runs still awaiting approval, training or measurement',
+              t('u.def-runs-closed-benign'),
+              t('u.def-runs-awaiting'),
             ],
             caveat: t('p.this-is-the-number-the-product'),
           }}
