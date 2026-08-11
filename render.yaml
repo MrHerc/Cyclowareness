@@ -100,6 +100,28 @@ services:
       # implying an assurance this deployment cannot give.
       - key: SIGNING_KEY
         sync: false
+      # ---------------------------------------------------------------------
+      # THE LINK TO THE STANDALONE CYCLOWARENESS SANDBOX.
+      #
+      # Both, or neither. The portal signs a session in the standalone's own
+      # format so an analyst who is signed in here does not sign in again
+      # there, and SANDBOX_APP_SECRET must equal that deployment's SECRET_KEY
+      # byte for byte — it IS that key, held on a second host, which is why it
+      # is `sync: false` and never enters git.
+      #
+      # With only the URL set, /api/capabilities reports sandbox_app: false and
+      # the top-bar button does not render at all. That is deliberate: minting
+      # would fail, and a visible door to a 503 is worse than no door.
+      - key: SANDBOX_APP_URL
+        sync: false
+      - key: SANDBOX_APP_SECRET
+        sync: false
+      # Must match the standalone's ANALYST_TENANT (empty there means
+      # "default"). A mismatch authenticates and then shows an empty sandbox,
+      # which is the confusing failure worth one line of configuration.
+      - key: SANDBOX_APP_TENANT
+        value: default
+
       # Copied verbatim into the regulatory incident record. Left empty, the
       # record names them as operator input still required rather than
       # inventing an entity.
