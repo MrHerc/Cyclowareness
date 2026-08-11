@@ -1,0 +1,107 @@
+# Cyclowareness — conference deployment (Guangzhou / USA), single VPS.
+#
+# One service. The image built from ./Dockerfile serves the API and the compiled
+# SPA from the same origin, so there is no second container and no CORS to
+# configure. Postgres is NOT here: it is the shared platform instance on the
+# `data` network (see /srv/platform on the host), so all four projects share one
+# database server with one database each.
+#
+# Deployed by .github/workflows/deploy.yml, which writes .env next to this file
+# and runs `docker compose -f docker-compose.deploy.yml up -d`.
+
+services:
+  app:
+    image: ${IMAGE}
+    container_name: cyclowareness
+    restart: unless-stopped
+
+    # Exactly one replica, and this is not a preference.
+    #  - Alembic runs inside the FastAPI lifespan (`run_migrations()`), so two
+    #    booting replicas would migrate the same database concurrently.
+    #  - The task runner is in-process asyncio (`core/task_runner.py`); a second
+    #    replica cannot see runs started by the first. TASK_RUNNER=celery is a
+    #    stub that raises NotImplementedError, so it is not an escape hatch.
+    # Scaling this out requires moving `alembic upgrade head` to a release step
+    # and wiring a real broker first.
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          # YARA + oletools + pefile are loaded together at import. The upstream
+          # render.yaml pins the 2 GB tier because the 512 MB tiers flap and
+          # restart under exactly this load.
+          memory: 2g
+
+    environment:
+      # APP_ENV=demo is load-bearing, not a leftover. config.py refuses to boot
+      # in production while SANDBOX_ANALYZER=mock, because the mock analyzer
+      # invents forensic observations and production must never present invented
+      # findings as fact. The conference build is a demo build; it says so.
+      APP_ENV: demo
+
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+
+      # Empty is fine: providers.py falls back to a deterministic MockAIProvider
+      # when the key is absent or a call fails, so the demo never dead-ends on a
+      # network error. Set the repo secret to get live Claude responses.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+      # Ed25519 seed for report attestation. Without it exports are stamped
+      # UNSIGNED — which is honest, but a signed export demos better.
+      SIGNING_KEY: ${SIGNING_KEY:-}
+
+      # Left empty deliberately. This token authorises POST /api/dynamic/report,
+      # the endpoint that writes detonation behaviour into a job and re-scores
+      # it. Empty makes the whole dynamic seam answer 503 and reports state
+      # plainly that detonation did not run. There is no detonation host behind
+      # this deployment (the VPS has no /dev/kvm), so an open seam would be a
+      # credential with nothing legitimate behind it.
+      DYNAMIC_WORKER_TOKEN: ""
+
+      # Quarantine must be writable or main.py aborts at startup by design. This
+      # is a named volume rather than /tmp so an uploaded sample survives a
+      # container restart during the show.
+      SANDBOX_QUARANTINE: /var/lib/cyclowareness/quarantine
+
+      ENTITY_NAME: ${ENTITY_NAME:-}
+      ENTITY_COUNTRY: ${ENTITY_COUNTRY:-}
+      ENTITY_SECTOR: ${ENTITY_SECTOR:-}
+      ENTITY_CONTACT: ${ENTITY_CONTACT:-}
+
+    volumes:
+      - quarantine:/var/lib/cyclowareness/quarantine
+
+    ports:
+      # Published on 8083 because the app cannot serve from a sub-path (no
+      # router basename, no vite base), so it needs its own origin. Bound to all
+      # interfaces intentionally: this is the public demo URL.
+      - "8083:8000"
+
+    networks:
+      - data
+      - edge
+
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4).status==200 else 1)"]
+      interval: 15s
+      timeout: 6s
+      retries: 5
+      # Migrations plus YARA rule compilation happen before the port answers.
+      start_period: 90s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  quarantine:
+
+networks:
+  data:
+    external: true
+  edge:
+    external: true

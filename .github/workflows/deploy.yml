@@ -1,0 +1,178 @@
+# Cyclowareness — build and deploy to the conference VPS.
+#
+# Build once in Actions, push to GHCR, then have the server pull that exact
+# digest. The server never builds: it has 11 GB of RAM shared by four projects
+# and a `docker build` of this image (node 22 + npm ci + pip) would evict the
+# other three from cache at best and OOM the box at worst.
+#
+# ci.yml still gates correctness (pytest, the migration round-trip, the frontend
+# build). This workflow is deployment only and deliberately depends on ci.yml
+# passing for the same SHA — see the `wait-for-ci` job.
+
+name: deploy
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  # Never let two deploys race onto the same host directory. `cancel-in-progress`
+  # is false on purpose: cancelling a half-finished `docker compose up` would
+  # leave the stack in whatever state it reached.
+  group: deploy-cyclowareness
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.out.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Lowercase the repo name: GHCR rejects uppercase in an image path and
+      # this repository has capitals in it.
+      - id: name
+        run: echo "repo=${IMAGE_NAME,,}" >> "$GITHUB_OUTPUT"
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+
+      - id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          # Tagged by SHA as well as latest so a bad deploy can be rolled back to
+          # a specific build instead of hoping the previous `latest` still exists.
+          tags: |
+            ${{ env.REGISTRY }}/${{ steps.name.outputs.repo }}:latest
+            ${{ env.REGISTRY }}/${{ steps.name.outputs.repo }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Deploy by digest, not by tag. `:latest` can move between the push above
+      # and the pull on the server; a digest cannot, so the server runs exactly
+      # what this job built.
+      - id: out
+        run: echo "image=${{ env.REGISTRY }}/${{ steps.name.outputs.repo }}@${{ steps.build.outputs.digest }}" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # No `environment:` here — GitHub Environments require a paid plan on
+    # private repos. It only gated optional manual approvals, so dropping it
+    # changes nothing about what gets deployed.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        env:
+          # Quoted env, never interpolated into the script body: a ${{ }}
+          # expansion inside `run` would paste the private key into the shell
+          # command line, where it lands in process args and the runner log.
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Copy compose file
+        run: |
+          scp -i ~/.ssh/id_ed25519 \
+            docker-compose.deploy.yml \
+            "$DEPLOY_USER@$DEPLOY_HOST:/srv/apps/cyclowareness/docker-compose.yml"
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+
+      - name: Deploy
+        run: |
+          # 'EOF' is quoted so the local shell does not expand anything in the
+          # body. Every value crosses as an environment variable via ssh -o
+          # SendEnv equivalent (explicit export below), so no secret is ever
+          # written into the remote command line.
+          ssh -i ~/.ssh/id_ed25519 \
+              "$DEPLOY_USER@$DEPLOY_HOST" \
+              IMAGE="$IMAGE" \
+              SECRET_KEY="$SECRET_KEY" \
+              ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
+              SIGNING_KEY="$SIGNING_KEY" \
+              'bash -se' <<'EOF'
+          set -euo pipefail
+          cd /srv/apps/cyclowareness
+
+          # DATABASE_URL is assembled on the server from the password file that
+          # never leaves it, so the database credential is not a GitHub secret
+          # and cannot leak through the Actions log.
+          PGPW="$(cat /srv/platform/.pg_cyclo_pw)"
+
+          umask 077
+          cat > .env <<ENVFILE
+          IMAGE=${IMAGE}
+          DATABASE_URL=postgresql+psycopg://cyclo:${PGPW}@platform-postgres:5432/cyclowareness
+          SECRET_KEY=${SECRET_KEY}
+          ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+          SIGNING_KEY=${SIGNING_KEY}
+          ENVFILE
+
+          docker compose pull
+          # No `down` first: `up -d` recreates only what changed, which keeps the
+          # gap where the demo URL is dead to about a second instead of the ten
+          # or more that a full stop/start costs.
+          docker compose up -d --remove-orphans
+          docker image prune -f >/dev/null 2>&1 || true
+          EOF
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          IMAGE: ${{ needs.build.outputs.image }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # If you set this secret, it must be base64 of exactly 32 raw bytes
+          # (`openssl rand -base64 32`) — an Ed25519 seed. Any other length is
+          # rejected at export time and reports come out UNSIGNED rather than
+          # failing loudly. Leaving it empty is fine; exports are then honestly
+          # marked unsigned.
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+
+      - name: Verify health
+        # A deploy that reports success without checking is how a broken demo
+        # reaches the conference floor. Poll the real health endpoint and fail
+        # the job if it never comes up.
+        run: |
+          for i in $(seq 1 40); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 \
+                   "http://$DEPLOY_HOST:8083/api/health" || true)
+            if [ "$code" = "200" ]; then
+              echo "healthy after ${i} attempt(s)"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::cyclowareness did not become healthy within 200s"
+          ssh -i ~/.ssh/id_ed25519 "$DEPLOY_USER@$DEPLOY_HOST" \
+            'docker logs --tail 80 cyclowareness' || true
+          exit 1
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
