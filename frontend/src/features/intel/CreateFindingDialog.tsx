@@ -129,7 +129,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
         ) : null}
 
         <Input
-          label="Title"
+          label={t('u.title')}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           hint={t('p.defaults-to-the-advisorys-own-title')}
@@ -143,7 +143,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             onValueChange={setFindingType}
           />
           <Select
-            label="Severity"
+            label={t('u.severity')}
             options={FINDING_SEVERITY_OPTIONS}
             value={severity}
             onValueChange={setSeverity}
@@ -153,7 +153,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
-            label="Owner"
+            label={t('u.owner')}
             value={owner}
             onChange={(event) => setOwner(event.target.value)}
             hint={t('p.who-is-accountable-for-closing-it')}
@@ -163,7 +163,7 @@ export function CreateFindingDialog({ item, open, onOpenChange }: CreateFindingD
             type="date"
             value={dueDate}
             onChange={(event) => setDueDate(event.target.value)}
-            hint="Optional."
+            hint={t('u.optional')}
           />
         </div>
 

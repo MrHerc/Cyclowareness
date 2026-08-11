@@ -75,13 +75,13 @@ export function RiskAuditPanel({ riskId }: RiskAuditPanelProps) {
                 {(event.before || event.after) && (
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <CodeBlock
-                      label="Before"
+                      label={t('u.before')}
                       wrap
                       maxHeight="12rem"
                       value={JSON.stringify(event.before ?? null, null, 2)}
                     />
                     <CodeBlock
-                      label="After"
+                      label={t('u.after')}
                       wrap
                       maxHeight="12rem"
                       value={JSON.stringify(event.after ?? null, null, 2)}

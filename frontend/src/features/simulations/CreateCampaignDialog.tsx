@@ -197,7 +197,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
 
             <TabsContent value="template">
               <Select
-                label="Template"
+                label={t('u.template')}
                 labelHidden
                 placeholder={templates.isLoading ? 'Loading templates…' : 'Choose a template'}
                 value={templateId}
@@ -242,7 +242,7 @@ export function CreateCampaignDialog({ open, onOpenChange }: CreateCampaignDialo
 
         <div>
           <Select
-            label="Channel"
+            label={t('u.channel')}
             options={[
               {
                 value: lure.channel ?? 'unset',

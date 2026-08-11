@@ -64,8 +64,8 @@ export function ReportCard({
   const iocs = triage?.likely_iocs ?? {}
   const indicatorGroups: { label: string; values: string[] }[] = [
     { label: 'URLs', values: iocs.urls ?? [] },
-    { label: 'Domains', values: iocs.domains ?? [] },
-    { label: 'Sender patterns', values: iocs.sender_patterns ?? [] },
+    { label: t('u.domains-2'), values: iocs.domains ?? [] },
+    { label: t('u.sender-patterns-2'), values: iocs.sender_patterns ?? [] },
   ].filter((group) => group.values.length > 0)
 
   return (

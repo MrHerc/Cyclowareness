@@ -74,9 +74,9 @@ export function PolicyVersions({ versions, className }: PolicyVersionsProps) {
           ) : null}
 
           <div className="mt-2 space-y-1">
-            <DiffKeys label="Added" keys={keysOf(version.diff, 'added')} tone="text-safe" />
-            <DiffKeys label="Removed" keys={keysOf(version.diff, 'removed')} tone="text-high" />
-            <DiffKeys label="Changed" keys={keysOf(version.diff, 'changed')} tone="text-medium" />
+            <DiffKeys label={t('u.added')} keys={keysOf(version.diff, 'added')} tone="text-safe" />
+            <DiffKeys label={t('u.removed')} keys={keysOf(version.diff, 'removed')} tone="text-high" />
+            <DiffKeys label={t('u.changed')} keys={keysOf(version.diff, 'changed')} tone="text-medium" />
           </div>
 
           <p className="mt-2 text-xs text-fg-faint">

@@ -144,13 +144,18 @@ export const NAV_SECTIONS: NavSection[] = [
         hintKey: 'nav.training.hint',
       },
       {
+        // "Portal" is doing real work in this name. There are two sandboxes an
+        // analyst can reach — these screens, and the standalone deployment the
+        // top bar opens — and they share an engine but not a database, an audit
+        // chain or a set of controls. Calling this one "Sandbox" left the other
+        // one with no name at all, and nowhere obvious to look for it.
         id: 'sandbox',
-        label: 'Sandbox',
+        label: 'Portal Sandbox',
         labelKey: 'nav.sandbox',
         to: '/sandbox',
         icon: Boxes,
         permission: 'sandbox.view',
-        hint: 'Static and behavioural analysis of files and URLs',
+        hint: 'Static and behavioural analysis of files and URLs, inside the portal',
         hintKey: 'nav.sandbox.hint',
       },
     ],

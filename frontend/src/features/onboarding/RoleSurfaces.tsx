@@ -25,7 +25,7 @@ export function RoleSurfaces({ can, onNavigate }: RoleSurfacesProps) {
   const mine = EMPLOYEE_NAV.filter((item) => can(item.permission))
   const groups: { id: string; label: string; items: NavItem[] }[] = [
     ...sections,
-    ...(mine.length ? [{ id: 'mine', label: 'Yours', items: mine }] : []),
+    ...(mine.length ? [{ id: 'mine', label: t('u.yours-2'), items: mine }] : []),
   ]
 
   if (groups.length === 0) {

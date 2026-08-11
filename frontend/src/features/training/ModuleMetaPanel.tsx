@@ -72,7 +72,7 @@ export function ModuleMetaPanel({
           </div>
         </Row>
 
-        <Row label="Provenance">
+        <Row label={t('u.provenance')}>
           <div className="flex flex-wrap items-center gap-2">
             <AIProvenanceBadge
               provenance={provenance}
@@ -142,9 +142,9 @@ export function ModuleMetaPanel({
           )}
         </Row>
 
-        <Row label="Channel">{channelLabel(module.channel)}</Row>
+        <Row label={t('u.channel')}>{channelLabel(module.channel)}</Row>
 
-        <Row label="Created">{formatDateTime(module.created_at)}</Row>
+        <Row label={t('u.created')}>{formatDateTime(module.created_at)}</Row>
       </dl>
     </Panel>
   )

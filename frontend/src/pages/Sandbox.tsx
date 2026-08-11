@@ -12,21 +12,22 @@ import { useSearchParams } from 'react-router-dom'
 import { CapabilityStrip } from '../features/sandbox/CapabilityStrip'
 import { JobsTable } from '../features/sandbox/JobsTable'
 import { QueueSummary } from '../features/sandbox/QueueSummary'
+import { StandaloneHandoff } from '../features/sandbox/StandaloneHandoff'
 import { SubmissionPanel } from '../features/sandbox/SubmissionPanel'
 import { useT } from '../lib/i18n'
 import { DataSourceLabel } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonCard, SkeletonTable } from '../components/states'
-import { Panel, Select } from '../components/ui'
+import { Panel, Select, type SelectOption } from '../components/ui'
 import { useSandboxCapabilities, useSandboxJobs, useSandboxStats } from '../lib/api/queries'
 import { backingFor } from '../lib/demo/registry'
 
-const STATUS_OPTIONS = [
-  { value: 'all', label: 'All submissions' },
-  { value: 'queued', label: 'Queued' },
-  { value: 'running', label: 'Running' },
-  { value: 'awaiting_password', label: 'Awaiting password' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'failed', label: 'Failed' },
+const STATUS_OPTIONS: SelectOption[] = [
+  { value: 'all', label: 'All submissions', labelKey: 'u.all-submissions' },
+  { value: 'queued', label: 'Queued', labelKey: 'u.queued' },
+  { value: 'running', label: 'Running', labelKey: 'u.running' },
+  { value: 'awaiting_password', label: 'Awaiting password', labelKey: 'u.awaiting-password' },
+  { value: 'completed', label: 'Completed', labelKey: 'u.completed' },
+  { value: 'failed', label: 'Failed', labelKey: 'u.failed' },
 ]
 
 export default function Sandbox() {
@@ -71,6 +72,9 @@ export default function Sandbox() {
 
       <SubmissionPanel />
 
+      {/* Renders nothing when no standalone deployment is configured. */}
+      <StandaloneHandoff />
+
       {/* Rendered only once the counts have actually arrived. Zeroed tiles under
           a spinner are indistinguishable from a deployment that has analysed
           nothing, and that is the one reading this panel must never invite. */}
@@ -92,7 +96,7 @@ export default function Sandbox() {
         flush
         actions={
           <Select
-            label="Status"
+            label={t('u.status')}
             labelHidden
             options={STATUS_OPTIONS}
             value={status}

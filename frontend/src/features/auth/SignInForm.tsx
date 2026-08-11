@@ -70,7 +70,7 @@ export function SignInForm({
     defaultValues: { email: defaultEmail, password: '' },
   })
 
-  const failure = error ? signInFailure(error) : null
+  const failure = error ? signInFailure(error, t) : null
   const pending = isSubmitting || busyElsewhere
 
   return (
@@ -109,7 +109,7 @@ export function SignInForm({
       />
 
       <PasswordField
-        label="Password"
+        label={t('u.password')}
         autoComplete="current-password"
         autoFocus={defaultEmail !== ''}
         error={errors.password?.message}

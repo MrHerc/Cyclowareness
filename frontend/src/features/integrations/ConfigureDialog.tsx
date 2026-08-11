@@ -56,7 +56,7 @@ export function ConfigureDialog({ integration, open, onOpenChange }: ConfigureDi
   const configure = useIntegrationAction('configure', {
     onSuccess: () => {
       toast.show({
-        title: 'Configuration stored',
+        title: t('u.configuration-stored-2'),
         description: `${providerLabel(integration.provider)} now holds this connection shape. No provider request was made.`,
         tone: 'success',
       })

@@ -84,7 +84,7 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
               }
             />
             <Meta
-              label="Deadline"
+              label={t('u.deadline')}
               value={
                 risk.deadline ? (
                   <span className={due.overdue ? 'text-high' : undefined}>
@@ -95,10 +95,10 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
                 )
               }
             />
-            <Meta label="Subjects" value={`${rollup.total}`} hint={`${rollup.accepted} accepted`} />
-            <Meta label="Approver" value={risk.approver_name || 'Not recorded'} />
+            <Meta label={t('u.subjects')} value={`${rollup.total}`} hint={`${rollup.accepted} accepted`} />
+            <Meta label={t('u.approver')} value={risk.approver_name || 'Not recorded'} />
             <Meta
-              label="Opened"
+              label={t('u.opened')}
               value={timeAgo(risk.created_at)}
               hint={`${formatDateTime(risk.created_at)}${risk.created_by ? ` by ${risk.created_by}` : ''}`}
             />

@@ -86,7 +86,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
   const deadlineReadout = deadline ? deadlineIn(`${deadline}T23:59:59Z`) : null
 
   const departmentOptions = [
-    { value: 'none', label: 'No single department' },
+    { value: 'none', label: t('u.no-single-department-2') },
     ...(departments.data ?? []).map((department) => ({
       value: String(department.id),
       label: department.name,
@@ -174,7 +174,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
-            label="Title"
+            label={t('u.title')}
             required
             className="sm:col-span-2"
             error={form.formState.errors.title?.message}
@@ -206,7 +206,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             name="severity"
             render={({ field }) => (
               <Select
-                label="Severity"
+                label={t('u.severity')}
                 required
                 options={SEVERITY_OPTIONS}
                 value={field.value}
@@ -343,7 +343,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             {...form.register('min_score')}
           />
           <Input
-            label="Deadline"
+            label={t('u.deadline')}
             type="date"
             hint={
               deadlineReadout
@@ -353,7 +353,7 @@ export function CreateIncidentRiskDialog({ open, onOpenChange }: CreateIncidentR
             {...form.register('deadline')}
           />
           <Input
-            label="Approver"
+            label={t('u.approver')}
             required
             error={form.formState.errors.approver_name?.message}
             hint={t('p.shown-to-the-affected-employee-as')}

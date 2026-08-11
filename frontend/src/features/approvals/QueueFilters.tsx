@@ -15,22 +15,22 @@
 
 import { useT, type MessageKey } from '../../lib/i18n'
 import { Search } from 'lucide-react'
-import { Input, Select } from '../../components/ui'
+import { Input, Select, type SelectOption } from '../../components/ui'
 import { type QueueFilterState } from './filterState'
 
-const SEVERITY_OPTIONS = [
-  { value: 'all', label: 'Any severity' },
-  { value: 'critical', label: 'Critical' },
-  { value: 'high', label: 'High' },
-  { value: 'medium', label: 'Medium' },
+const SEVERITY_OPTIONS: SelectOption[] = [
+  { value: 'all', label: 'Any severity', labelKey: 'u.any-severity' },
+  { value: 'critical', label: 'Critical', labelKey: 'u.critical' },
+  { value: 'high', label: 'High', labelKey: 'u.high' },
+  { value: 'medium', label: 'Medium', labelKey: 'u.medium' },
   { value: 'low', label: 'Low' },
 ]
 
-const VERDICT_OPTIONS = [
-  { value: 'all', label: 'Any verdict' },
-  { value: 'malicious', label: 'Malicious' },
-  { value: 'suspicious', label: 'Suspicious' },
-  { value: 'benign', label: 'Benign' },
+const VERDICT_OPTIONS: SelectOption[] = [
+  { value: 'all', label: 'Any verdict', labelKey: 'u.any-verdict' },
+  { value: 'malicious', label: 'Malicious', labelKey: 'u.malicious' },
+  { value: 'suspicious', label: 'Suspicious', labelKey: 'u.suspicious' },
+  { value: 'benign', label: 'Benign', labelKey: 'u.benign' },
 ]
 
 const GENERATION_OPTIONS: { value: string; label: MessageKey }[] = [
@@ -40,9 +40,9 @@ const GENERATION_OPTIONS: { value: string; label: MessageKey }[] = [
   { value: 'none', label: 'p.no-engine-recorded' },
 ]
 
-const SORT_OPTIONS = [
-  { value: 'longest_wait', label: 'Longest wait first' },
-  { value: 'shortest_wait', label: 'Newest first' },
+const SORT_OPTIONS: SelectOption[] = [
+  { value: 'longest_wait', label: 'Longest wait first', labelKey: 'u.longest-wait-first' },
+  { value: 'shortest_wait', label: 'Newest first', labelKey: 'u.newest-first' },
 ]
 
 export interface QueueFiltersProps {
@@ -63,7 +63,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
           className="pointer-events-none absolute left-3 top-[2.05rem] size-4 text-fg-faint"
         />
         <Input
-          label="Search"
+          label={t('u.search')}
           type="search"
           placeholder={t('p.threat-or-module-title')}
           value={value.q}
@@ -73,7 +73,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
       </div>
 
       <Select
-        label="Severity"
+        label={t('u.severity')}
         options={SEVERITY_OPTIONS}
         value={value.severity}
         onValueChange={(next) => set('severity', next)}
@@ -91,7 +91,7 @@ export function QueueFilters({ value, onChange }: QueueFiltersProps) {
         onValueChange={(next) => set('generation', next)}
       />
       <Select
-        label="Order"
+        label={t('u.order')}
         options={SORT_OPTIONS}
         value={value.sort}
         onValueChange={(next) => set('sort', next === 'shortest_wait' ? 'shortest_wait' : 'longest_wait')}

@@ -340,17 +340,56 @@ ANCHOR_PROVENANCE: dict[str, dict[str, str]] = {
     # actually carries in its chain, which is where this list reads its
     # fingerprints from.
     #
-    # Measured rather than assumed: the two share a subject public key,
-    # sha256 6b3b57e9ec88d1bb3d01637ff33c7698b3c9758255e9f01ea9178f3e7f3b2b52.
-    # A cross-certificate re-issues the same key under a different issuer, so
+    # Measured rather than assumed: the two share a subject public key. A
+    # cross-certificate re-issues the same key under a different issuer, so
     # anchoring either one trusts exactly the same key and Certum's published
     # root corroborates this fingerprint completely.
+    #
+    # The key below is DATA, not prose, and that distinction was itself a defect.
+    # It lived only in this comment, so `tools/verify_anchor_provenance.py` could
+    # not read it: run the way its own docstring documents, the tool retrieved
+    # Certum's published root, saw a fingerprint that is SUPPOSED to differ, and
+    # told the operator to delete a vendor-confirmed anchor. Both sides are now
+    # checked mechanically -- see `expected_public_key()` below for who checks
+    # which, because a key recorded here and never compared to anything would be
+    # an assertion dressed up as a measurement.
     "08e7eac998a62c4155cc4cbc5eda32f5b41a12c012f29ab3433bd366348149f0": {
         "url": "https://repository.certum.pl/ctnca2.cer",
         "match": "subject public key (this anchor is the cross-signed issuance "
                  "of the published self-signed root)",
+        "key": "6b3b57e9ec88d1bb3d01637ff33c7698b3c9758255e9f01ea9178f3e7f3b2b52",
     },
 }
+
+
+def expected_public_key(fingerprint: str) -> str:
+    """SHA-256 of the SubjectPublicKeyInfo an anchor is recorded as carrying.
+
+    Empty for the nine anchors confirmed by fingerprint, which need no such
+    record: the published certificate IS the anchor, so the key comes with it.
+
+    It is populated only for a cross-signed anchor, where the authority
+    publishes a different certificate carrying the same key -- and it is worth
+    being precise about what that value proves on its own, which is nothing. It
+    is checked from two directions by two tools that cannot both be fooled by
+    one wrong line here:
+
+      * `tools/verify_anchor_provenance.py` (network) compares it against the
+        key in the certificate the AUTHORITY publishes. A value invented to
+        silence that tool has to match a certificate served by Certum.
+      * `backend/tools/verify_trust_anchors.py` (offline, needs signed samples)
+        compares it against the key in the ANCHOR certificate itself, read out
+        of a real signed binary.
+
+    Passing both means the shipped anchor and the published root carry one key,
+    which is the entire claim. Recording a key without the second check would
+    let a rogue anchor be waved through by pairing it with any published
+    certificate's key, so the offline tool fails on a recorded key that the
+    anchor certificate contradicts, and — because most anchors are absent from
+    most sample sets — prints which records it could not reach rather than
+    letting "all offline checks passed" imply it reached them.
+    """
+    return str(ANCHOR_PROVENANCE.get(fingerprint, {}).get("key") or "")
 
 
 def describe() -> dict[str, Any]:

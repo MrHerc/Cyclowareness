@@ -15,6 +15,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState, type InputHTMLAttributes, type Ref } from 'react'
 import { CONTROL_CLASSES, controlBorder, Field } from '../../components/ui'
 import { cn } from '../../lib/format'
+import { useT } from '../../lib/i18n'
 
 export interface PasswordFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'id' | 'className' | 'type'> {
@@ -25,6 +26,7 @@ export interface PasswordFieldProps
 }
 
 export function PasswordField({ label, hint, error, ref, ...rest }: PasswordFieldProps) {
+  const t = useT()
   const [visible, setVisible] = useState(false)
 
   return (
@@ -42,7 +44,10 @@ export function PasswordField({ label, hint, error, ref, ...rest }: PasswordFiel
             type="button"
             onClick={() => setVisible((current) => !current)}
             aria-pressed={visible}
-            aria-label={visible ? 'Hide password' : 'Show password'}
+            // The accessible name is the only name this control has — it is an
+            // icon. A screen-reader user on the Azerbaijani sign-in screen heard
+            // the one English string on the page.
+            aria-label={visible ? t('u.hide-password') : t('u.show-password')}
             className="absolute inset-y-0 right-0 grid w-9 place-items-center rounded-control text-fg-subtle transition-colors duration-150 hover:text-fg"
           >
             {visible ? (

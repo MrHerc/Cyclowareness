@@ -109,7 +109,7 @@ export default function PortalTraining() {
           already the largest thing on the page; a second copy would be noise for
           everyone who can see it and the fix is for everyone who cannot. It
           names the module once loaded, and says what the page is before then. */}
-      <h1 className="sr-only">{detail ? detail.module.title : 'Your training module'}</h1>
+      <h1 className="sr-only">{detail ? detail.module.title : t('u.your-training-module-2')}</h1>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link

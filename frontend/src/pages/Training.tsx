@@ -19,17 +19,28 @@ import { NewModuleDialog } from '../features/training/NewModuleDialog'
 import { ResourceImportPanel } from '../features/training/ResourceImportPanel'
 import { usePermission } from '../lib/auth/useAuth'
 import { AsyncBoundary, EmptyState, SkeletonTable } from '../components/states'
-import { Button, Input, Panel, Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui'
+import {
+  Button,
+  Input,
+  Panel,
+  type SelectOption,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '../components/ui'
 import { ModuleTable } from '../features/training/ModuleTable'
 import { GenerationNotice } from '../features/training/StudioNotices'
 import { useCapabilities, useThreats, useTrainingModules } from '../lib/api/queries'
 import { num } from '../lib/format'
 import type { ModuleStatus, Threat, TrainingModule } from '../domain/types'
 
-const STATUS_TABS: { value: string; label: string }[] = [
-  { value: 'pending_review', label: 'Pending review' },
-  { value: 'approved', label: 'Approved' },
-  { value: 'rejected', label: 'Rejected' },
+// Typed as SelectOption so `labelKey` is checked against the catalogue rather
+// than widened to `string`, which is what an inline shape does to it.
+const STATUS_TABS: SelectOption[] = [
+  { value: 'pending_review', label: 'Pending review', labelKey: 'u.pending-review' },
+  { value: 'approved', label: 'Approved', labelKey: 'u.approved' },
+  { value: 'rejected', label: 'Rejected', labelKey: 'u.rejected' },
   { value: 'all', label: 'All' },
 ]
 
@@ -107,7 +118,7 @@ export default function Training() {
             <TabsList>
               {STATUS_TABS.map((tab) => (
                 <TabsTrigger key={tab.value} value={tab.value}>
-                  {tab.label}
+                  {tab.labelKey ? t(tab.labelKey) : tab.label}
                   <span className="ml-2 text-xs text-fg-faint">
                     {num(counts.get(tab.value) ?? 0)}
                   </span>

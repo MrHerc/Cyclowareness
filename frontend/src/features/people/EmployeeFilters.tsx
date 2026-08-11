@@ -10,7 +10,7 @@
 import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
 import type { DepartmentRisk } from '../../domain/types'
-import { Button, Input, Select } from '../../components/ui'
+import { Button, Input, Select, type SelectOption } from '../../components/ui'
 
 export interface EmployeeFiltersValue {
   q: string
@@ -28,11 +28,11 @@ export interface EmployeeFiltersProps {
   total: number
 }
 
-const BAND_OPTIONS = [
-  { value: 'all', label: 'Any risk band' },
-  { value: 'high', label: 'High risk (60–100)' },
-  { value: 'elevated', label: 'Elevated (40–59)' },
-  { value: 'low', label: 'Low risk (0–39)' },
+const BAND_OPTIONS: SelectOption[] = [
+  { value: 'all', label: 'Any risk band', labelKey: 'u.any-risk-band' },
+  { value: 'high', label: 'High risk (60–100)', labelKey: 'u.high-risk-60-100' },
+  { value: 'elevated', label: 'Elevated (40–59)', labelKey: 'u.elevated-40-59' },
+  { value: 'low', label: 'Low risk (0–39)', labelKey: 'u.low-risk-0-39' },
 ]
 
 export function EmployeeFilters({
@@ -46,8 +46,8 @@ export function EmployeeFilters({
   const t = useT()
   const active = value.q !== '' || value.departmentId !== null || value.band !== 'all'
 
-  const departmentOptions = [
-    { value: 'all', label: 'All departments' },
+  const departmentOptions: SelectOption[] = [
+    { value: 'all', label: 'All departments', labelKey: 'u.all-departments' },
     ...departments.map((department) => ({
       value: String(department.id),
       label: department.name,
@@ -67,7 +67,7 @@ export function EmployeeFilters({
       />
 
       <Select
-        label="Department"
+        label={t('u.department')}
         labelHidden
         options={departmentOptions}
         value={value.departmentId === null ? 'all' : String(value.departmentId)}

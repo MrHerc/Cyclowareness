@@ -97,7 +97,7 @@ export function SeverityBarChart({
                 title={row.label}
                 rows={[
                   {
-                    label: 'Findings',
+                    label: t('u.findings-2'),
                     color: SEVERITY_COLOR[row.severity],
                     value: String(row.count),
                   },

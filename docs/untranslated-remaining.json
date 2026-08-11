@@ -1,14 +1,2264 @@
 [
  {
-  "file": "features/approvals/ThreatPanel.tsx",
-  "line": 277,
-  "kind": "JSX",
-  "text": "MITRE ATT&amp;CK"
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 68,
+  "kind": "FIELD",
+  "text": "Click rate"
  },
  {
-  "file": "features/command-center/IntegrationHealthPanel.tsx",
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 69,
+  "kind": "FIELD",
+  "text": "Report rate"
+ },
+ {
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 109,
+  "kind": "FIELD",
+  "text": "Click rate"
+ },
+ {
+  "file": "components/charts/BehaviourTrendChart.tsx",
+  "line": 117,
+  "kind": "FIELD",
+  "text": "Report rate"
+ },
+ {
+  "file": "components/charts/CompletionTrendChart.tsx",
+  "line": 66,
+  "kind": "FIELD",
+  "text": "Completion rate"
+ },
+ {
+  "file": "components/charts/CompletionTrendChart.tsx",
+  "line": 111,
+  "kind": "FIELD",
+  "text": "Completion rate"
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 61,
+  "kind": "FIELD",
+  "text": "Low risk"
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 62,
+  "kind": "FIELD",
+  "text": "Elevated"
+ },
+ {
+  "file": "components/charts/DepartmentRiskHeatmap.tsx",
+  "line": 63,
+  "kind": "FIELD",
+  "text": "High risk"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 56,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 57,
+  "kind": "FIELD",
+  "text": "Awaiting"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 58,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 88,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 93,
+  "kind": "FIELD",
+  "text": "Awaiting"
+ },
+ {
+  "file": "components/charts/LoopOutcomeChart.tsx",
+  "line": 98,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "components/charts/RiskMovementChart.tsx",
+  "line": 75,
+  "kind": "FIELD",
+  "text": "Risk rose"
+ },
+ {
+  "file": "components/charts/RiskMovementChart.tsx",
+  "line": 76,
+  "kind": "FIELD",
+  "text": "Risk fell"
+ },
+ {
+  "file": "components/charts/RiskMovementChart.tsx",
+  "line": 77,
+  "kind": "FIELD",
+  "text": "No material change"
+ },
+ {
+  "file": "components/charts/RiskTrendChart.tsx",
+  "line": 94,
+  "kind": "FIELD",
+  "text": "Behaviour risk"
+ },
+ {
+  "file": "components/charts/RiskTrendChart.tsx",
+  "line": 95,
+  "kind": "FIELD",
+  "text": "Composite score"
+ },
+ {
+  "file": "components/charts/RiskTrendChart.tsx",
+  "line": 151,
+  "kind": "FIELD",
+  "text": "Behaviour risk"
+ },
+ {
+  "file": "components/charts/RiskTrendChart.tsx",
+  "line": 156,
+  "kind": "FIELD",
+  "text": "Composite score"
+ },
+ {
+  "file": "components/charts/SeverityBarChart.tsx",
+  "line": 100,
+  "kind": "FIELD",
+  "text": "Findings"
+ },
+ {
+  "file": "components/data/AIProvenanceBadge.tsx",
+  "line": 49,
+  "kind": "FIELD",
+  "text": "Analyst edited"
+ },
+ {
+  "file": "components/data/AIProvenanceBadge.tsx",
+  "line": 55,
+  "kind": "FIELD",
+  "text": "Human approved"
+ },
+ {
+  "file": "components/data/AIProvenanceBadge.tsx",
+  "line": 61,
+  "kind": "FIELD",
+  "text": "Template"
+ },
+ {
+  "file": "components/data/AIProvenanceBadge.tsx",
+  "line": 73,
+  "kind": "FIELD",
+  "text": "Provenance unknown"
+ },
+ {
+  "file": "components/data/ConfidenceBadge.tsx",
+  "line": 19,
+  "kind": "FIELD",
+  "text": "High confidence"
+ },
+ {
+  "file": "components/data/ConfidenceBadge.tsx",
+  "line": 20,
+  "kind": "FIELD",
+  "text": "Moderate confidence"
+ },
+ {
+  "file": "components/data/ConfidenceBadge.tsx",
+  "line": 21,
+  "kind": "FIELD",
+  "text": "Low confidence"
+ },
+ {
+  "file": "components/data/ConfidenceBadge.tsx",
+  "line": 22,
+  "kind": "FIELD",
+  "text": "Very low confidence"
+ },
+ {
+  "file": "components/data/MetricDefinition.tsx",
+  "line": 82,
+  "kind": "PROP",
+  "text": "Counted"
+ },
+ {
+  "file": "components/data/MetricDefinition.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Excluded"
+ },
+ {
+  "file": "components/data/dateRange.ts",
+  "line": 26,
+  "kind": "FIELD",
+  "text": "Last 7 days"
+ },
+ {
+  "file": "components/data/dateRange.ts",
+  "line": 27,
+  "kind": "FIELD",
+  "text": "Last 30 days"
+ },
+ {
+  "file": "components/data/dateRange.ts",
+  "line": 28,
+  "kind": "FIELD",
+  "text": "Last 90 days"
+ },
+ {
+  "file": "components/data/dateRange.ts",
+  "line": 29,
+  "kind": "FIELD",
+  "text": "This quarter"
+ },
+ {
+  "file": "components/loop/LoopStatusBadge.tsx",
+  "line": 26,
+  "kind": "FIELD",
+  "text": "Running"
+ },
+ {
+  "file": "components/loop/LoopStatusBadge.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "Awaiting approval"
+ },
+ {
+  "file": "components/loop/LoopStatusBadge.tsx",
+  "line": 37,
+  "kind": "FIELD",
+  "text": "Awaiting training"
+ },
+ {
+  "file": "components/loop/LoopStatusBadge.tsx",
+  "line": 42,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "components/loop/LoopStatusBadge.tsx",
+  "line": 47,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 102,
+  "kind": "PROP",
+  "text": "Started"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 103,
+  "kind": "PROP",
+  "text": "Completed"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 105,
+  "kind": "PROP",
+  "text": "Took"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 106,
+  "kind": "PROP",
+  "text": "Actor"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
   "line": 48,
-  "kind": "JSX",
-  "text": "RANK[integration.status]"
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 50,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "components/loop/StageDetailPanel.tsx",
+  "line": 51,
+  "kind": "FIELD",
+  "text": "Not reached"
+ },
+ {
+  "file": "components/shell/AppShell.tsx",
+  "line": 155,
+  "kind": "PROP",
+  "text": "Navigation"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 52,
+  "kind": "PROP",
+  "text": "Help"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 128,
+  "kind": "PROP",
+  "text": "Product"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 134,
+  "kind": "PROP",
+  "text": "Environment"
+ },
+ {
+  "file": "components/shell/HelpMenu.tsx",
+  "line": 154,
+  "kind": "PROP",
+  "text": "Analyzer"
+ },
+ {
+  "file": "components/shell/SideNavigation.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Primary"
+ },
+ {
+  "file": "components/ui/Dialog.tsx",
+  "line": 85,
+  "kind": "PROP",
+  "text": "Close"
+ },
+ {
+  "file": "components/ui/Drawer.tsx",
+  "line": 74,
+  "kind": "PROP",
+  "text": "Close"
+ },
+ {
+  "file": "components/ui/Toast.tsx",
+  "line": 150,
+  "kind": "PROP",
+  "text": "Dismiss"
+ },
+ {
+  "file": "features/approvals/AudiencePanel.tsx",
+  "line": 29,
+  "kind": "FIELD",
+  "text": "High risk"
+ },
+ {
+  "file": "features/approvals/AudiencePanel.tsx",
+  "line": 30,
+  "kind": "FIELD",
+  "text": "Elevated"
+ },
+ {
+  "file": "features/approvals/AudiencePanel.tsx",
+  "line": 31,
+  "kind": "FIELD",
+  "text": "Low risk"
+ },
+ {
+  "file": "features/approvals/DecisionPanel.tsx",
+  "line": 107,
+  "kind": "FIELD",
+  "text": "Reject this content"
+ },
+ {
+  "file": "features/approvals/ModuleEditor.tsx",
+  "line": 103,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/approvals/ModuleEditor.tsx",
+  "line": 108,
+  "kind": "PROP",
+  "text": "Description"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 66,
+  "kind": "PROP",
+  "text": "Search"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 76,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 94,
+  "kind": "PROP",
+  "text": "Order"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 22,
+  "kind": "FIELD",
+  "text": "Any severity"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 23,
+  "kind": "FIELD",
+  "text": "Critical"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 24,
+  "kind": "FIELD",
+  "text": "High"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 25,
+  "kind": "FIELD",
+  "text": "Medium"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 30,
+  "kind": "FIELD",
+  "text": "Any verdict"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 31,
+  "kind": "FIELD",
+  "text": "Malicious"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "Suspicious"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 33,
+  "kind": "FIELD",
+  "text": "Benign"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 44,
+  "kind": "FIELD",
+  "text": "Longest wait first"
+ },
+ {
+  "file": "features/approvals/QueueFilters.tsx",
+  "line": 45,
+  "kind": "FIELD",
+  "text": "Newest first"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 58,
+  "kind": "PROP",
+  "text": "Search"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 66,
+  "kind": "PROP",
+  "text": "Actor"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 74,
+  "kind": "PROP",
+  "text": "Action"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 42,
+  "kind": "FIELD",
+  "text": "Every action"
+ },
+ {
+  "file": "features/audit/AuditFilters.tsx",
+  "line": 50,
+  "kind": "FIELD",
+  "text": "Every object type"
+ },
+ {
+  "file": "features/audit/AuditTable.tsx",
+  "line": 109,
+  "kind": "PROP",
+  "text": "Before"
+ },
+ {
+  "file": "features/audit/AuditTable.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "After"
+ },
+ {
+  "file": "features/auth/SignInForm.tsx",
+  "line": 112,
+  "kind": "PROP",
+  "text": "Password"
+ },
+ {
+  "file": "features/auth/loopStory.ts",
+  "line": 76,
+  "kind": "FIELD",
+  "text": "Human approval gate"
+ },
+ {
+  "file": "features/auth/signInError.ts",
+  "line": 23,
+  "kind": "FIELD",
+  "text": "Something unexpected stopped the request before it reached the platform. Reload the page and try again."
+ },
+ {
+  "file": "features/auth/signInError.ts",
+  "line": 41,
+  "kind": "FIELD",
+  "text": "The platform did not recognise that combination. Passwords are case sensitive, and accounts are issued by the security team rather than self-registered."
+ },
+ {
+  "file": "features/auth/signInError.ts",
+  "line": 47,
+  "kind": "FIELD",
+  "text": "The service may still be starting, or the connection dropped. Your credentials were not sent anywhere else — try again in a moment."
+ },
+ {
+  "file": "features/incident-risks/AssignWorkDialog.tsx",
+  "line": 217,
+  "kind": "PROP",
+  "text": "Note"
+ },
+ {
+  "file": "features/incident-risks/AttachSubjectsDialog.tsx",
+  "line": 100,
+  "kind": "PROP",
+  "text": "Note"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 177,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 209,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 346,
+  "kind": "PROP",
+  "text": "Deadline"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 356,
+  "kind": "PROP",
+  "text": "Approver"
+ },
+ {
+  "file": "features/incident-risks/CreateIncidentRiskDialog.tsx",
+  "line": 89,
+  "kind": "FIELD",
+  "text": "No single department"
+ },
+ {
+  "file": "features/incident-risks/EvidenceRowsField.tsx",
+  "line": 47,
+  "kind": "PROP",
+  "text": "Label"
+ },
+ {
+  "file": "features/incident-risks/EvidenceRowsField.tsx",
+  "line": 52,
+  "kind": "PROP",
+  "text": "Value"
+ },
+ {
+  "file": "features/incident-risks/EvidenceRowsField.tsx",
+  "line": 57,
+  "kind": "PROP",
+  "text": "Reference"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "Search"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 63,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 71,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 87,
+  "kind": "PROP",
+  "text": "Department"
+ },
+ {
+  "file": "features/incident-risks/IncidentRiskFilters.tsx",
+  "line": 43,
+  "kind": "FIELD",
+  "text": "Any department"
+ },
+ {
+  "file": "features/incident-risks/ReviewSubjectDialog.tsx",
+  "line": 145,
+  "kind": "PROP",
+  "text": "Decision"
+ },
+ {
+  "file": "features/incident-risks/ReviewSubjectDialog.tsx",
+  "line": 163,
+  "kind": "PROP",
+  "text": "Note"
+ },
+ {
+  "file": "features/incident-risks/ReviewSubjectDialog.tsx",
+  "line": 151,
+  "kind": "FIELD",
+  "text": "Accept"
+ },
+ {
+  "file": "features/incident-risks/ReviewSubjectDialog.tsx",
+  "line": 156,
+  "kind": "FIELD",
+  "text": "Reject"
+ },
+ {
+  "file": "features/incident-risks/RiskAuditPanel.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Before"
+ },
+ {
+  "file": "features/incident-risks/RiskAuditPanel.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "After"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 87,
+  "kind": "PROP",
+  "text": "Deadline"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 98,
+  "kind": "PROP",
+  "text": "Subjects"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 99,
+  "kind": "PROP",
+  "text": "Approver"
+ },
+ {
+  "file": "features/incident-risks/RiskHeader.tsx",
+  "line": 101,
+  "kind": "PROP",
+  "text": "Opened"
+ },
+ {
+  "file": "features/incident-risks/RiskImpactPanel.tsx",
+  "line": 76,
+  "kind": "PROP",
+  "text": "Rejected"
+ },
+ {
+  "file": "features/integrations/ConfigureDialog.tsx",
+  "line": 59,
+  "kind": "FIELD",
+  "text": "Configuration stored"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 68,
+  "kind": "FIELD",
+  "text": "Sync completed"
+ },
+ {
+  "file": "features/integrations/IntegrationCard.tsx",
+  "line": 77,
+  "kind": "FIELD",
+  "text": "Sync refused"
+ },
+ {
+  "file": "features/integrations/MapCourseDialog.tsx",
+  "line": 174,
+  "kind": "PROP",
+  "text": "Note"
+ },
+ {
+  "file": "features/intel/AssessDialog.tsx",
+  "line": 80,
+  "kind": "PROP",
+  "text": "Judgement"
+ },
+ {
+  "file": "features/intel/AssessDialog.tsx",
+  "line": 91,
+  "kind": "PROP",
+  "text": "Reason"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 132,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 146,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 156,
+  "kind": "PROP",
+  "text": "Owner"
+ },
+ {
+  "file": "features/intel/CreateFindingDialog.tsx",
+  "line": 166,
+  "kind": "PROP",
+  "text": "Optional."
+ },
+ {
+  "file": "features/intel/DismissDialog.tsx",
+  "line": 80,
+  "kind": "PROP",
+  "text": "Reason"
+ },
+ {
+  "file": "features/intel/DismissDialog.tsx",
+  "line": 42,
+  "kind": "FIELD",
+  "text": "Advisory dismissed"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 59,
+  "kind": "PROP",
+  "text": "Source"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 65,
+  "kind": "PROP",
+  "text": "Type"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 71,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "Assessment"
+ },
+ {
+  "file": "features/intel/IntelFilters.tsx",
+  "line": 86,
+  "kind": "PROP",
+  "text": "Search"
+ },
+ {
+  "file": "features/intel/IntelSourceCoverage.tsx",
+  "line": 71,
+  "kind": "PROP",
+  "text": "Requested"
+ },
+ {
+  "file": "features/intel/IntelViewCounts.tsx",
+  "line": 57,
+  "kind": "PROP",
+  "text": "Dismissed"
+ },
+ {
+  "file": "features/intel/vocabulary.ts",
+  "line": 117,
+  "kind": "FIELD",
+  "text": "Urgent"
+ },
+ {
+  "file": "features/intel/vocabulary.ts",
+  "line": 122,
+  "kind": "FIELD",
+  "text": "Relevant"
+ },
+ {
+  "file": "features/intel/vocabulary.ts",
+  "line": 127,
+  "kind": "FIELD",
+  "text": "Monitoring"
+ },
+ {
+  "file": "features/intel/vocabulary.ts",
+  "line": 132,
+  "kind": "FIELD",
+  "text": "Not applicable"
+ },
+ {
+  "file": "features/intel/vocabulary.ts",
+  "line": 133,
+  "kind": "FIELD",
+  "text": "We assessed it and it does not touch us. A reason is required."
+ },
+ {
+  "file": "features/loops/LoopsFilters.tsx",
+  "line": 75,
+  "kind": "PROP",
+  "text": "Stage"
+ },
+ {
+  "file": "features/loops/LoopsFilters.tsx",
+  "line": 81,
+  "kind": "FIELD",
+  "text": "All stages"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 30,
+  "kind": "FIELD",
+  "text": "Domains"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 31,
+  "kind": "FIELD",
+  "text": "Sender patterns"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "Hashes"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 45,
+  "kind": "FIELD",
+  "text": "Verdict"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 55,
+  "kind": "FIELD",
+  "text": "Confidence"
+ },
+ {
+  "file": "features/loops/detail/AnalysisPanel.tsx",
+  "line": 57,
+  "kind": "FIELD",
+  "text": "Threat type"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 45,
+  "kind": "FIELD",
+  "text": "Status"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 46,
+  "kind": "FIELD",
+  "text": "Channel"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 47,
+  "kind": "FIELD",
+  "text": "Estimated time"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 48,
+  "kind": "FIELD",
+  "text": "Sections"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 49,
+  "kind": "FIELD",
+  "text": "Quiz questions"
+ },
+ {
+  "file": "features/loops/detail/ConversionPanel.tsx",
+  "line": 51,
+  "kind": "FIELD",
+  "text": "Approved by"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 62,
+  "kind": "FIELD",
+  "text": "Source"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 63,
+  "kind": "FIELD",
+  "text": "Submitted"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 65,
+  "kind": "FIELD",
+  "text": "Reported by"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 69,
+  "kind": "FIELD",
+  "text": "Artifact type"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 71,
+  "kind": "FIELD",
+  "text": "Affected department"
+ },
+ {
+  "file": "features/loops/detail/IntakePanel.tsx",
+  "line": 75,
+  "kind": "FIELD",
+  "text": "Severity at intake"
+ },
+ {
+  "file": "features/loops/detail/MeasurementPanel.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "Completion"
+ },
+ {
+  "file": "features/loops/filters.ts",
+  "line": 17,
+  "kind": "FIELD",
+  "text": "Running"
+ },
+ {
+  "file": "features/loops/filters.ts",
+  "line": 18,
+  "kind": "FIELD",
+  "text": "Awaiting approval"
+ },
+ {
+  "file": "features/loops/filters.ts",
+  "line": 19,
+  "kind": "FIELD",
+  "text": "Awaiting training"
+ },
+ {
+  "file": "features/loops/filters.ts",
+  "line": 20,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "features/loops/filters.ts",
+  "line": 21,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "features/onboarding/RoleSurfaces.tsx",
+  "line": 28,
+  "kind": "FIELD",
+  "text": "Yours"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 70,
+  "kind": "PROP",
+  "text": "Department"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "Any risk band"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 33,
+  "kind": "FIELD",
+  "text": "High risk (60–100)"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 34,
+  "kind": "FIELD",
+  "text": "Elevated (40–59)"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 35,
+  "kind": "FIELD",
+  "text": "Low risk (0–39)"
+ },
+ {
+  "file": "features/people/EmployeeFilters.tsx",
+  "line": 50,
+  "kind": "FIELD",
+  "text": "All departments"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 62,
+  "kind": "FIELD",
+  "text": "Person"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 63,
+  "kind": "FIELD",
+  "text": "Department"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 64,
+  "kind": "FIELD",
+  "text": "Role"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 65,
+  "kind": "FIELD",
+  "text": "Sensitivity"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 66,
+  "kind": "FIELD",
+  "text": "Risk score"
+ },
+ {
+  "file": "features/people/EmployeeTable.tsx",
+  "line": 67,
+  "kind": "FIELD",
+  "text": "Recent movement"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 66,
+  "kind": "FIELD",
+  "text": "Role sensitivity baseline"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 75,
+  "kind": "FIELD",
+  "text": "Clicked a simulated phish"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 82,
+  "kind": "FIELD",
+  "text": "Reported a simulated phish"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 89,
+  "kind": "FIELD",
+  "text": "Reported a real threat"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 96,
+  "kind": "FIELD",
+  "text": "Was reached by a real threat"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 104,
+  "kind": "FIELD",
+  "text": "Completed training"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 111,
+  "kind": "FIELD",
+  "text": "Training comprehension"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 119,
+  "kind": "FIELD",
+  "text": "Failed the quiz"
+ },
+ {
+  "file": "features/people/riskModel.ts",
+  "line": 133,
+  "kind": "FIELD",
+  "text": "Analyst adjustment"
+ },
+ {
+  "file": "features/policy/AssignTrainingDialog.tsx",
+  "line": 101,
+  "kind": "FIELD",
+  "text": "Nobody was assigned"
+ },
+ {
+  "file": "features/policy/FindingFacts.tsx",
+  "line": 79,
+  "kind": "PROP",
+  "text": "Recommended"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 85,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 91,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 97,
+  "kind": "PROP",
+  "text": "Policy"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 103,
+  "kind": "PROP",
+  "text": "Department"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 110,
+  "kind": "PROP",
+  "text": "Technology"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "Source"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 122,
+  "kind": "PROP",
+  "text": "Owner"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 35,
+  "kind": "FIELD",
+  "text": "Any due date"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 36,
+  "kind": "FIELD",
+  "text": "Overdue"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 37,
+  "kind": "FIELD",
+  "text": "Due within 7 days"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 38,
+  "kind": "FIELD",
+  "text": "Due within 30 days"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 63,
+  "kind": "FIELD",
+  "text": "Any policy"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 67,
+  "kind": "FIELD",
+  "text": "Any department"
+ },
+ {
+  "file": "features/policy/FindingFilters.tsx",
+  "line": 74,
+  "kind": "FIELD",
+  "text": "Any source"
+ },
+ {
+  "file": "features/policy/FindingStatusDialog.tsx",
+  "line": 118,
+  "kind": "PROP",
+  "text": "Reason"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 116,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "features/policy/PolicyDrawer.tsx",
+  "line": 121,
+  "kind": "PROP",
+  "text": "Owner"
+ },
+ {
+  "file": "features/policy/PolicyFilters.tsx",
+  "line": 58,
+  "kind": "PROP",
+  "text": "Search"
+ },
+ {
+  "file": "features/policy/PolicyFilters.tsx",
+  "line": 71,
+  "kind": "PROP",
+  "text": "Type"
+ },
+ {
+  "file": "features/policy/PolicyFilters.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "features/policy/PolicyFilters.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Department"
+ },
+ {
+  "file": "features/policy/PolicyFilters.tsx",
+  "line": 41,
+  "kind": "FIELD",
+  "text": "Any department"
+ },
+ {
+  "file": "features/policy/PolicyHeader.tsx",
+  "line": 21,
+  "kind": "FIELD",
+  "text": "Overview"
+ },
+ {
+  "file": "features/policy/PolicyHeader.tsx",
+  "line": 22,
+  "kind": "FIELD",
+  "text": "Policy library"
+ },
+ {
+  "file": "features/policy/PolicyHeader.tsx",
+  "line": 23,
+  "kind": "FIELD",
+  "text": "Findings"
+ },
+ {
+  "file": "features/policy/PolicyVersions.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "Added"
+ },
+ {
+  "file": "features/policy/PolicyVersions.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Removed"
+ },
+ {
+  "file": "features/policy/PolicyVersions.tsx",
+  "line": 79,
+  "kind": "PROP",
+  "text": "Changed"
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 42,
+  "kind": "FIELD",
+  "text": "Sent to a person"
+ },
+ {
+  "file": "features/portal/MyRemediationPlans.tsx",
+  "line": 49,
+  "kind": "FIELD",
+  "text": "That did not send"
+ },
+ {
+  "file": "features/portal/Recognition.tsx",
+  "line": 115,
+  "kind": "PROP",
+  "text": "Points"
+ },
+ {
+  "file": "features/portal/Recognition.tsx",
+  "line": 118,
+  "kind": "PROP",
+  "text": "Standing"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 51,
+  "kind": "FIELD",
+  "text": "Sent to a person"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 58,
+  "kind": "FIELD",
+  "text": "That did not send"
+ },
+ {
+  "file": "features/portal/RiskScorePanel.tsx",
+  "line": 223,
+  "kind": "FIELD",
+  "text": "since your last recorded change"
+ },
+ {
+  "file": "features/portal/training/QuizPhase.tsx",
+  "line": 89,
+  "kind": "PROP",
+  "text": "Questions"
+ },
+ {
+  "file": "features/remediation/RemediationSummary.tsx",
+  "line": 51,
+  "kind": "PROP",
+  "text": "Plans"
+ },
+ {
+  "file": "features/remediation/RemediationSummary.tsx",
+  "line": 53,
+  "kind": "PROP",
+  "text": "Waiting"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 69,
+  "kind": "FIELD",
+  "text": "loop runs closed in the window"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 72,
+  "kind": "FIELD",
+  "text": "Open Closed Loops"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 90,
+  "kind": "FIELD",
+  "text": "departments in the organisation"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 93,
+  "kind": "FIELD",
+  "text": "Open Departments"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 111,
+  "kind": "FIELD",
+  "text": "findings detected in the window"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 114,
+  "kind": "FIELD",
+  "text": "Open Findings"
+ },
+ {
+  "file": "features/reports/catalogue.ts",
+  "line": 132,
+  "kind": "FIELD",
+  "text": "incident risks raised in the window"
+ },
+ {
+  "file": "features/sandbox/ClassificationPanel.tsx",
+  "line": 72,
+  "kind": "PROP",
+  "text": "Platform"
+ },
+ {
+  "file": "features/sandbox/ClassificationPanel.tsx",
+  "line": 73,
+  "kind": "PROP",
+  "text": "Category"
+ },
+ {
+  "file": "features/sandbox/ClassificationPanel.tsx",
+  "line": 74,
+  "kind": "PROP",
+  "text": "Family"
+ },
+ {
+  "file": "features/sandbox/FeedbackPanel.tsx",
+  "line": 34,
+  "kind": "FIELD",
+  "text": "Feedback recorded"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "JSON report"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 34,
+  "kind": "FIELD",
+  "text": "PDF report"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 43,
+  "kind": "FIELD",
+  "text": "Signed evidence"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 64,
+  "kind": "FIELD",
+  "text": "Re-analysis queued"
+ },
+ {
+  "file": "features/sandbox/JobToolbar.tsx",
+  "line": 69,
+  "kind": "FIELD",
+  "text": "Could not re-analyse"
+ },
+ {
+  "file": "features/sandbox/QueueSummary.tsx",
+  "line": 52,
+  "kind": "PROP",
+  "text": "Submitted"
+ },
+ {
+  "file": "features/sandbox/QueueSummary.tsx",
+  "line": 54,
+  "kind": "PROP",
+  "text": "Analysed"
+ },
+ {
+  "file": "features/sandbox/QueueSummary.tsx",
+  "line": 58,
+  "kind": "PROP",
+  "text": "Malicious"
+ },
+ {
+  "file": "features/sandbox/QueueSummary.tsx",
+  "line": 59,
+  "kind": "PROP",
+  "text": "Suspicious"
+ },
+ {
+  "file": "features/sandbox/QueueSummary.tsx",
+  "line": 60,
+  "kind": "PROP",
+  "text": "Clean"
+ },
+ {
+  "file": "features/sandbox/SubmissionPanel.tsx",
+  "line": 104,
+  "kind": "PROP",
+  "text": "File"
+ },
+ {
+  "file": "features/sandbox/VerdictHeader.tsx",
+  "line": 99,
+  "kind": "PROP",
+  "text": "Size"
+ },
+ {
+  "file": "features/sandbox/VerdictHeader.tsx",
+  "line": 106,
+  "kind": "PROP",
+  "text": "Family"
+ },
+ {
+  "file": "features/sandbox/VerdictHeader.tsx",
+  "line": 112,
+  "kind": "PROP",
+  "text": "Submitted"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 166,
+  "kind": "FIELD",
+  "text": "Domains"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 168,
+  "kind": "FIELD",
+  "text": "Email addresses"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 169,
+  "kind": "FIELD",
+  "text": "Hashes"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 170,
+  "kind": "FIELD",
+  "text": "File paths"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 171,
+  "kind": "FIELD",
+  "text": "Registry keys"
+ },
+ {
+  "file": "features/sandbox/shared.ts",
+  "line": 172,
+  "kind": "FIELD",
+  "text": "Mutexes"
+ },
+ {
+  "file": "features/settings/DemoControls.tsx",
+  "line": 40,
+  "kind": "FIELD",
+  "text": "Reset failed"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 36,
+  "kind": "FIELD",
+  "text": "Campaign launched"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 41,
+  "kind": "FIELD",
+  "text": "Launch failed"
+ },
+ {
+  "file": "features/simulations/CampaignActions.tsx",
+  "line": 47,
+  "kind": "FIELD",
+  "text": "Campaign closed"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 200,
+  "kind": "PROP",
+  "text": "Template"
+ },
+ {
+  "file": "features/simulations/CreateCampaignDialog.tsx",
+  "line": 245,
+  "kind": "PROP",
+  "text": "Channel"
+ },
+ {
+  "file": "features/simulations/TargetTable.tsx",
+  "line": 62,
+  "kind": "FIELD",
+  "text": "Outcome not recorded"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 14,
+  "kind": "FIELD",
+  "text": "High risk"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 14,
+  "kind": "FIELD",
+  "text": "Score of 60 or more"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 15,
+  "kind": "FIELD",
+  "text": "Elevated"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 15,
+  "kind": "FIELD",
+  "text": "Score of 40 to 59"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 16,
+  "kind": "FIELD",
+  "text": "Low risk"
+ },
+ {
+  "file": "features/simulations/audience.ts",
+  "line": 16,
+  "kind": "FIELD",
+  "text": "Score under 40"
+ },
+ {
+  "file": "features/simulations/outcomeMetrics.ts",
+  "line": 16,
+  "kind": "FIELD",
+  "text": "targets recorded as clicked ÷ targets with any recorded outcome"
+ },
+ {
+  "file": "features/simulations/outcomeMetrics.ts",
+  "line": 22,
+  "kind": "FIELD",
+  "text": "Outcomes are recorded by an analyst. This deployment has no tracked-link delivery, so the rate measures what was observed and entered, not what a mail gateway saw."
+ },
+ {
+  "file": "features/simulations/outcomeMetrics.ts",
+  "line": 27,
+  "kind": "FIELD",
+  "text": "targets recorded as reported ÷ targets with any recorded outcome"
+ },
+ {
+  "file": "features/simulations/outcomeMetrics.ts",
+  "line": 33,
+  "kind": "FIELD",
+  "text": "Reporting is the behaviour worth rewarding, but it is only counted when someone records it against the campaign."
+ },
+ {
+  "file": "features/threats/IndicatorPanel.tsx",
+  "line": 37,
+  "kind": "FIELD",
+  "text": "Domains"
+ },
+ {
+  "file": "features/threats/IndicatorPanel.tsx",
+  "line": 38,
+  "kind": "FIELD",
+  "text": "Sender patterns"
+ },
+ {
+  "file": "features/threats/IndicatorPanel.tsx",
+  "line": 39,
+  "kind": "FIELD",
+  "text": "Hashes"
+ },
+ {
+  "file": "features/threats/IntelFeedList.tsx",
+  "line": 85,
+  "kind": "PROP",
+  "text": "Severity"
+ },
+ {
+  "file": "features/threats/ReportCard.tsx",
+  "line": 67,
+  "kind": "FIELD",
+  "text": "Domains"
+ },
+ {
+  "file": "features/threats/ReportCard.tsx",
+  "line": 68,
+  "kind": "FIELD",
+  "text": "Sender patterns"
+ },
+ {
+  "file": "features/threats/ReportQueue.tsx",
+  "line": 67,
+  "kind": "FIELD",
+  "text": "Report dismissed"
+ },
+ {
+  "file": "features/threats/SubmitArtifactDialog.tsx",
+  "line": 120,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/threats/SubmitArtifactDialog.tsx",
+  "line": 130,
+  "kind": "PROP",
+  "text": "Sender"
+ },
+ {
+  "file": "features/threats/SubmitArtifactDialog.tsx",
+  "line": 138,
+  "kind": "PROP",
+  "text": "Subject"
+ },
+ {
+  "file": "features/threats/ThreatList.tsx",
+  "line": 95,
+  "kind": "PROP",
+  "text": "Source"
+ },
+ {
+  "file": "features/threats/ThreatList.tsx",
+  "line": 103,
+  "kind": "PROP",
+  "text": "Verdict"
+ },
+ {
+  "file": "features/threats/ThreatOriginPanel.tsx",
+  "line": 77,
+  "kind": "PROP",
+  "text": "Source"
+ },
+ {
+  "file": "features/threats/ThreatOriginPanel.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Submitted"
+ },
+ {
+  "file": "features/threats/ThreatOriginPanel.tsx",
+  "line": 87,
+  "kind": "PROP",
+  "text": "Reporter"
+ },
+ {
+  "file": "features/threats/ThreatOriginPanel.tsx",
+  "line": 109,
+  "kind": "PROP",
+  "text": "Reach"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 83,
+  "kind": "FIELD",
+  "text": "Any artifact type"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 89,
+  "kind": "FIELD",
+  "text": "Any source"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 90,
+  "kind": "FIELD",
+  "text": "Human sensor"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 91,
+  "kind": "FIELD",
+  "text": "Curated feed"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 92,
+  "kind": "FIELD",
+  "text": "Analyst submission"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 96,
+  "kind": "FIELD",
+  "text": "Any verdict"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 97,
+  "kind": "FIELD",
+  "text": "Malicious"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 98,
+  "kind": "FIELD",
+  "text": "Suspicious"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 99,
+  "kind": "FIELD",
+  "text": "Benign"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 100,
+  "kind": "FIELD",
+  "text": "No verdict recorded"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 104,
+  "kind": "FIELD",
+  "text": "Awaiting triage"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 105,
+  "kind": "FIELD",
+  "text": "Pushed into the loop"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 106,
+  "kind": "FIELD",
+  "text": "Dismissed"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 107,
+  "kind": "FIELD",
+  "text": "Every report"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 111,
+  "kind": "FIELD",
+  "text": "Any suspicion level"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 112,
+  "kind": "FIELD",
+  "text": "High suspicion"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 113,
+  "kind": "FIELD",
+  "text": "Medium suspicion"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 114,
+  "kind": "FIELD",
+  "text": "Low suspicion"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 118,
+  "kind": "FIELD",
+  "text": "Any severity"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 119,
+  "kind": "FIELD",
+  "text": "Critical"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 120,
+  "kind": "FIELD",
+  "text": "High"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 121,
+  "kind": "FIELD",
+  "text": "Medium"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 128,
+  "kind": "FIELD",
+  "text": "Email"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 130,
+  "kind": "FIELD",
+  "text": "File"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 132,
+  "kind": "FIELD",
+  "text": "QR code"
+ },
+ {
+  "file": "features/threats/filters.ts",
+  "line": 133,
+  "kind": "FIELD",
+  "text": "Chat message"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 91,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 97,
+  "kind": "PROP",
+  "text": "Description"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 105,
+  "kind": "PROP",
+  "text": "Takeaway"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 48,
+  "kind": "FIELD",
+  "text": "Module saved"
+ },
+ {
+  "file": "features/training/ModuleEditor.tsx",
+  "line": 55,
+  "kind": "FIELD",
+  "text": "Module not saved"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 75,
+  "kind": "PROP",
+  "text": "Provenance"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 145,
+  "kind": "PROP",
+  "text": "Channel"
+ },
+ {
+  "file": "features/training/ModuleMetaPanel.tsx",
+  "line": 147,
+  "kind": "PROP",
+  "text": "Created"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 85,
+  "kind": "PROP",
+  "text": "Title"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 103,
+  "kind": "PROP",
+  "text": "Channel"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 26,
+  "kind": "FIELD",
+  "text": "Email"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 27,
+  "kind": "FIELD",
+  "text": "SMS / phone"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 28,
+  "kind": "FIELD",
+  "text": "QR code"
+ },
+ {
+  "file": "features/training/NewModuleDialog.tsx",
+  "line": 29,
+  "kind": "FIELD",
+  "text": "Chat"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 37,
+  "kind": "FIELD",
+  "text": "Command Center"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 43,
+  "kind": "FIELD",
+  "text": "Closed Loops"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 45,
+  "kind": "FIELD",
+  "text": "Real LoopRun records. The stages you see are the stages that executed."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 51,
+  "kind": "FIELD",
+  "text": "Real Threat records from reports, the curated feed and analyst submissions."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 55,
+  "kind": "FIELD",
+  "text": "Approval Gate"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 57,
+  "kind": "FIELD",
+  "text": "The queue is derived from loop runs actually waiting for a human decision."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 61,
+  "kind": "FIELD",
+  "text": "Sandbox"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 63,
+  "kind": "FIELD",
+  "text": "Real static analysis on the same engine as the standalone product. Dynamic detonation runs off-host and is reported as not run unless a worker is attached."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 67,
+  "kind": "FIELD",
+  "text": "Simulations"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 69,
+  "kind": "FIELD",
+  "text": "Campaign records and outcomes come from the platform. Delivery is not wired to a mail gateway."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 73,
+  "kind": "FIELD",
+  "text": "Training"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 75,
+  "kind": "FIELD",
+  "text": "Modules, assignments and quiz results are real records."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 79,
+  "kind": "FIELD",
+  "text": "Employees"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 81,
+  "kind": "FIELD",
+  "text": "A fictional organisation (Caspian Dynamics) is seeded for demonstration. The risk model operating on it is the real one."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 93,
+  "kind": "FIELD",
+  "text": "Advisories are seeded. No external feed is connected — refreshing reports that honestly rather than inventing items."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 105,
+  "kind": "FIELD",
+  "text": "No external LMS or SSO provider is connected. Connection states are real; course data is demonstration data."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 109,
+  "kind": "FIELD",
+  "text": "Reports"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 111,
+  "kind": "FIELD",
+  "text": "Exports are generated from the same records the screens read."
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 115,
+  "kind": "FIELD",
+  "text": "Audit Log"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 146,
+  "kind": "FIELD",
+  "text": "The operational command centre and every governance surface"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 152,
+  "kind": "FIELD",
+  "text": "A targeted employee with assigned training"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 158,
+  "kind": "FIELD",
+  "text": "Repeated simulation failures and a raised risk score"
+ },
+ {
+  "file": "lib/demo/registry.ts",
+  "line": 164,
+  "kind": "FIELD",
+  "text": "Read-only posture view"
+ },
+ {
+  "file": "pages/Approvals.tsx",
+  "line": 58,
+  "kind": "PROP",
+  "text": "Waiting"
+ },
+ {
+  "file": "pages/PortalTraining.tsx",
+  "line": 112,
+  "kind": "FIELD",
+  "text": "Your training module"
+ },
+ {
+  "file": "pages/Remediation.tsx",
+  "line": 78,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 95,
+  "kind": "PROP",
+  "text": "Status"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 24,
+  "kind": "FIELD",
+  "text": "All submissions"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 25,
+  "kind": "FIELD",
+  "text": "Queued"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 26,
+  "kind": "FIELD",
+  "text": "Running"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 27,
+  "kind": "FIELD",
+  "text": "Awaiting password"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 28,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "pages/Sandbox.tsx",
+  "line": 29,
+  "kind": "FIELD",
+  "text": "Failed"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 80,
+  "kind": "PROP",
+  "text": "Targeted"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 81,
+  "kind": "PROP",
+  "text": "Resolved"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 82,
+  "kind": "PROP",
+  "text": "Clicked"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 83,
+  "kind": "PROP",
+  "text": "Reported"
+ },
+ {
+  "file": "pages/SimulationDetail.tsx",
+  "line": 84,
+  "kind": "PROP",
+  "text": "Pending"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 133,
+  "kind": "PROP",
+  "text": "Channel"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 39,
+  "kind": "FIELD",
+  "text": "Draft"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 40,
+  "kind": "FIELD",
+  "text": "Active"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 41,
+  "kind": "FIELD",
+  "text": "Completed"
+ },
+ {
+  "file": "pages/Simulations.tsx",
+  "line": 77,
+  "kind": "FIELD",
+  "text": "Every channel"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 30,
+  "kind": "FIELD",
+  "text": "Pending review"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 31,
+  "kind": "FIELD",
+  "text": "Approved"
+ },
+ {
+  "file": "pages/Training.tsx",
+  "line": 32,
+  "kind": "FIELD",
+  "text": "Rejected"
  }
 ]

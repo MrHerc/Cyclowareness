@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import io
 import ipaddress
+import re
 from datetime import datetime, timezone
 from typing import Any
 
@@ -196,9 +197,25 @@ def _without_infrastructure(
         # Key-based removal cannot reach a hostname built into a SENTENCE, and
         # one was: "Detonated on the capev2 worker (detonation-01)." The
         # sentence no longer says it, but rows written before that still do.
+        #
+        # WHOLE TOKENS ONLY. This was a bare substring replace, and a worker name
+        # is an operator-chosen string: `cape` as a worker name rewrote every
+        # occurrence of `capev2`, `escape`, `landscape` and `Netscape` in the
+        # report -- including inside the signed evidence, whose whole claim is
+        # that not one bit of it changed. Short or common names made the scrub
+        # corrupt the document it was protecting.
+        #
+        # A token boundary is anything that is not a letter, digit, underscore or
+        # hyphen, so `detonation-01` still matches inside "on detonation-01." and
+        # `cape` no longer matches inside "capev2".
         for name in names:
-            if name in value:
-                value = value.replace(name, "the attached worker")
+            if not name:
+                continue
+            value = re.sub(
+                rf"(?<![A-Za-z0-9_-]){re.escape(name)}(?![A-Za-z0-9_-])",
+                "the attached worker",
+                value,
+            )
     return value
 
 

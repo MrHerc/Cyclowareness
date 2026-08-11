@@ -15,7 +15,7 @@
 
 import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
-import { Select } from '../../components/ui'
+import { Select, type SelectOption } from '../../components/ui'
 import { Button } from '../../components/ui'
 import type { DepartmentRisk, Policy } from '../../domain/types'
 import { ANY_VALUE, type UrlFilters } from './useUrlFilters'
@@ -28,14 +28,14 @@ import {
   type FindingFilterKey,
 } from './vocabulary'
 
-const SEVERITY_OPTIONS = optionsFrom(SEVERITY_LABELS, 'Any severity')
+const SEVERITY_OPTIONS = optionsFrom(SEVERITY_LABELS, 'Any severity', 'u.any-severity')
 const STATUS_OPTIONS = optionsFrom(FINDING_STATUS_LABELS, 'Any status')
 
-const DUE_OPTIONS = [
-  { value: ANY_VALUE, label: 'Any due date' },
-  { value: 'overdue', label: 'Overdue' },
-  { value: '7d', label: 'Due within 7 days' },
-  { value: '30d', label: 'Due within 30 days' },
+const DUE_OPTIONS: SelectOption[] = [
+  { value: ANY_VALUE, label: 'Any due date', labelKey: 'u.any-due-date' },
+  { value: 'overdue', label: 'Overdue', labelKey: 'u.overdue' },
+  { value: '7d', label: 'Due within 7 days', labelKey: 'u.due-within-7-days' },
+  { value: '30d', label: 'Due within 30 days', labelKey: 'u.due-within-30-days' },
 ]
 
 export interface FindingFiltersProps {
@@ -59,19 +59,19 @@ export function FindingFilters({
   owners,
 }: FindingFiltersProps) {
   const t = useT()
-  const policyOptions = [
-    { value: ANY_VALUE, label: 'Any policy' },
+  const policyOptions: SelectOption[] = [
+    { value: ANY_VALUE, label: 'Any policy', labelKey: 'u.any-policy' },
     ...policies.map((policy) => ({ value: String(policy.id), label: policy.name })),
   ]
-  const departmentOptions = [
-    { value: ANY_VALUE, label: 'Any department' },
+  const departmentOptions: SelectOption[] = [
+    { value: ANY_VALUE, label: 'Any department', labelKey: 'u.any-department' },
     ...departments.map((department) => ({
       value: String(department.id),
       label: department.name,
     })),
   ]
-  const sourceOptions = [
-    { value: ANY_VALUE, label: 'Any source' },
+  const sourceOptions: SelectOption[] = [
+    { value: ANY_VALUE, label: 'Any source', labelKey: 'u.any-source' },
     ...sources.map((prefix) => ({
       value: prefix,
       label: SOURCE_PREFIX_LABELS[prefix] ?? prefix,
@@ -82,44 +82,44 @@ export function FindingFilters({
     <div className="space-y-3">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Select
-          label="Severity"
+          label={t('u.severity')}
           options={SEVERITY_OPTIONS}
           value={filters.values.severity || ANY_VALUE}
           onValueChange={(value) => filters.set('severity', value)}
         />
         <Select
-          label="Status"
+          label={t('u.status')}
           options={STATUS_OPTIONS}
           value={filters.values.status || ANY_VALUE}
           onValueChange={(value) => filters.set('status', value)}
         />
         <Select
-          label="Policy"
+          label={t('u.policy')}
           options={policyOptions}
           value={filters.values.policy || ANY_VALUE}
           onValueChange={(value) => filters.set('policy', value)}
         />
         <Select
-          label="Department"
+          label={t('u.department')}
           options={departmentOptions}
           value={filters.values.department || ANY_VALUE}
           onValueChange={(value) => filters.set('department', value)}
           hint={t('p.runs-over-the-most-recent-findings')}
         />
         <Select
-          label="Technology"
+          label={t('u.technology')}
           options={optionsFromValues(technologies, 'Any technology')}
           value={filters.values.technology || ANY_VALUE}
           onValueChange={(value) => filters.set('technology', value)}
         />
         <Select
-          label="Source"
+          label={t('u.source')}
           options={sourceOptions}
           value={filters.values.source || ANY_VALUE}
           onValueChange={(value) => filters.set('source', value)}
         />
         <Select
-          label="Owner"
+          label={t('u.owner')}
           options={optionsFromValues(owners, 'Any owner')}
           value={filters.values.owner || ANY_VALUE}
           onValueChange={(value) => filters.set('owner', value)}

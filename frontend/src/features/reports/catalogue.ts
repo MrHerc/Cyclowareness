@@ -66,10 +66,10 @@ export function reportTypes(t: (key: MessageKey) => string): ReportType[] {
       'Completion, quiz score and the risk delta recorded per person',
     ],
     scoping: 'range',
-    sampleNoun: 'loop runs closed in the window',
+    sampleNoun: t('u.loop-runs-closed-in-the-window'),
     emptyHint:
       'A run appears here once it passes measurement. Push a threat through the loop and approve it to start the count.',
-    surface: { to: '/loops', label: 'Open Closed Loops' },
+    surface: { to: '/loops', label: t('u.open-closed-loops-2') },
     missing:
       'The platform has no report-generation route. The records exist and are served by /api/loop-runs, but nothing renders them into a signed, timestamped document.',
   },
@@ -87,10 +87,10 @@ export function reportTypes(t: (key: MessageKey) => string): ReportType[] {
       'Movement since the previous review, where two periods were measured',
     ],
     scoping: 'snapshot',
-    sampleNoun: 'departments in the organisation',
+    sampleNoun: t('u.departments-in-the-organisation'),
     emptyHint:
       'Departments appear once the organisation is loaded. An empty organisation has no risk to roll up.',
-    surface: { to: '/departments', label: 'Open Departments' },
+    surface: { to: '/departments', label: t('u.open-departments-3') },
     missing:
       'No export route exists for the department rollup. It is also a point-in-time read: the platform stores today’s scores, not a per-day history it could re-derive a past quarter from.',
   },
@@ -108,10 +108,10 @@ export function reportTypes(t: (key: MessageKey) => string): ReportType[] {
       'Departments and people in scope, and any training already assigned',
     ],
     scoping: 'range',
-    sampleNoun: 'findings detected in the window',
+    sampleNoun: t('u.findings-detected-in-the-window'),
     emptyHint:
       'A finding is raised when intelligence matches an extracted policy rule, or when an analyst records one directly.',
-    surface: { to: '/policy-intelligence/findings', label: 'Open Findings' },
+    surface: { to: '/policy-intelligence/findings', label: t('u.open-findings-3') },
     missing:
       'No export route exists under /api/policy. Findings are readable and filterable through the API; nothing serialises them into a pack.',
   },
@@ -129,7 +129,7 @@ export function reportTypes(t: (key: MessageKey) => string): ReportType[] {
       'The reviewer decision per subject, and the closure note',
     ],
     scoping: 'range',
-    sampleNoun: 'incident risks raised in the window',
+    sampleNoun: t('u.incident-risks-raised-in-the-window'),
     emptyHint:
       'An incident risk appears when incident response records one against a person or a department.',
     surface: { to: '/incident-risks', label: 'Open Incident Risks' },

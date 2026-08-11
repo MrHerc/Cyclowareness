@@ -42,13 +42,13 @@ export function ConversionPanel({ entry, module, modelConnected }: ConversionPan
   })
 
   const facts: Fact[] = [
-    { label: 'Status', value: <Badge status={module.status} size="sm" /> },
-    { label: 'Channel', value: channelLabel(module.channel) },
-    { label: 'Estimated time', value: `${module.est_minutes} min` },
-    { label: 'Sections', value: String(module.content?.length ?? 0) },
-    { label: 'Quiz questions', value: String(module.quiz?.length ?? 0) },
+    { label: t('u.status-2'), value: <Badge status={module.status} size="sm" /> },
+    { label: t('u.channel-2'), value: channelLabel(module.channel) },
+    { label: t('u.estimated-time-2'), value: `${module.est_minutes} min` },
+    { label: t('u.sections-2'), value: String(module.content?.length ?? 0) },
+    { label: t('u.quiz-questions-2'), value: String(module.quiz?.length ?? 0) },
     {
-      label: 'Approved by',
+      label: t('u.approved-by-2'),
       value: module.approved_by ?? 'Not approved',
     },
   ]

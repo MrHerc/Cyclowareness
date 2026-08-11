@@ -65,8 +65,8 @@ export function BehaviourTrendChart({
       title={t('u.behaviour-over-time')}
       caption={caption}
       legend={[
-        { label: 'Click rate', color: CLICK_COLOR, muted: !hasEnoughPoints(clicks) },
-        { label: 'Report rate', color: REPORT_COLOR, muted: !hasEnoughPoints(reports) },
+        { label: t('u.click-rate-3'), color: CLICK_COLOR, muted: !hasEnoughPoints(clicks) },
+        { label: t('u.report-rate-3'), color: REPORT_COLOR, muted: !hasEnoughPoints(reports) },
       ]}
       height={height}
       hasData={hasData}
@@ -106,7 +106,7 @@ export function BehaviourTrendChart({
                 title={formatDayFull(point.date)}
                 rows={[
                   {
-                    label: 'Click rate',
+                    label: t('u.click-rate-3'),
                     color: CLICK_COLOR,
                     value:
                       point.phishing_click_rate === null
@@ -114,7 +114,7 @@ export function BehaviourTrendChart({
                         : pct(point.phishing_click_rate, 1),
                   },
                   {
-                    label: 'Report rate',
+                    label: t('u.report-rate-3'),
                     color: REPORT_COLOR,
                     value: point.report_rate === null ? null : pct(point.report_rate, 1),
                   },

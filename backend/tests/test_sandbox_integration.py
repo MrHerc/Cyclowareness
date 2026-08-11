@@ -448,3 +448,53 @@ def test_an_unsigned_deployment_says_so_rather_than_implying_an_assurance(
     assert body["unsigned_reason"]
     # The report itself is still there — the point of the export.
     assert body.get("payload_digest", "").startswith("sha256:")
+
+
+def test_a_full_quarantine_disk_is_an_operator_fault_not_a_server_bug(
+    client, analyst_headers, monkeypatch
+):
+    """507, not 500, when the quarantine volume has no headroom left.
+
+    `storage.QuarantineFull` arrived with the 2026-08-09 engine and the portal's
+    upload route did not catch it, so a full disk surfaced as a bare
+    `500 Internal Server Error`. That sends an operator looking for a bug in the
+    application; the fault is on their volume and the response has to say so.
+    The standalone answers 507 here, and a verdict path shared byte for byte
+    should not disagree with it about what a failure means.
+    """
+    from app.routers import sandbox as sandbox_router
+    from app.sandbox.engine.storage import QuarantineFull
+
+    def _full(*_args, **_kwargs):
+        raise QuarantineFull(free=1 * 1024 * 1024, required=64 * 1024 * 1024)
+
+    monkeypatch.setattr(sandbox_router, "store_stream", _full)
+
+    r = client.post(
+        "/api/sandbox/upload",
+        headers=analyst_headers,
+        files={"file": ("payload.bin", io.BytesIO(b"anything"), None)},
+    )
+    assert r.status_code == 507, r.text
+    # The operator needs the remedy, not just the code.
+    assert "SAMPLE_RETENTION_DAYS" in r.json()["detail"]
+
+
+def test_a_full_quarantine_disk_refuses_a_url_submission_the_same_way(
+    client, analyst_headers, monkeypatch
+):
+    """The URL path stores through the same quarantine and must answer alike."""
+    from app.routers import sandbox as sandbox_router
+    from app.sandbox.engine.storage import QuarantineFull
+
+    def _full(*_args, **_kwargs):
+        raise QuarantineFull(free=0, required=64 * 1024 * 1024)
+
+    monkeypatch.setattr(sandbox_router, "fetch", _full)
+
+    r = client.post(
+        "/api/sandbox/url",
+        headers=analyst_headers,
+        json={"url": "https://example.com/sample.bin"},
+    )
+    assert r.status_code == 507, r.text

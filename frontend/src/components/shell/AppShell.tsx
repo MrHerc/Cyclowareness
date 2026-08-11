@@ -152,7 +152,7 @@ export function AppShell() {
         onOpenChange={setSheetOpen}
         side="left"
         size="sm"
-        title="Navigation"
+        title={t('u.navigation')}
         description={t('u.every-screen-your-role-can-open-2')}
       >
         <SideNavigation

@@ -124,10 +124,15 @@ ENGINES: list[Engine] = [
         destination="strelka",
         requires="A reachable Strelka frontend: set STRELKA_URL.",
         notes=(
-            "Real-time, scalable file-scanning and enrichment orchestrator "
-            "(YARA rules, unpackers, metadata extractors). Static only — it "
-            "does not execute the sample. Files are streamed to a separate "
-            "Strelka cluster and the scan tree is ingested."
+            "NOT WIRED. `strelka_scan()` is written and nothing in the pipeline "
+            "calls it — the only caller in the tree is a test. Setting "
+            "STRELKA_URL changes nothing about how a sample is analysed. Kept "
+            "in this list rather than deleted because the client, the "
+            "sovereignty destination and the refusal path are real and tested; "
+            "what is missing is the call site. "
+            "When wired: a real-time file-scanning and enrichment orchestrator "
+            "(YARA rules, unpackers, metadata extractors), static only — it "
+            "does not execute the sample."
         ),
         docs_url="https://github.com/target/strelka",
     ),

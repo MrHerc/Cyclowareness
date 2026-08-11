@@ -37,9 +37,16 @@ VISIBLE_PROPS = (
     "|what|detail"
 )
 
+# KEEP THIS IN STEP WITH `find-untranslated.py`. The scanner found `label:` and
+# `title:` inside object literals and this list did not carry them, so the tool
+# minted a key for every one of those strings and then rewrote none of their
+# render sites — 43 files reported "skipped" and 177 keys landed in the
+# catalogue rendered by nothing, which is exactly what `check:i18n` exists to
+# reject. A scanner and a writer that disagree about what a display field is
+# will always produce orphans.
 VISIBLE_FIELDS = (
     "calculation|caveat|sampleNoun|sourceDetail|unmeasuredReason|what|detail"
-    "|hint|description|note"
+    "|hint|description|note|label|title|subtitle|summary|blurb|caption"
 )
 
 # a component whose body can hold a hook: `function X(`, `export function X(`,
@@ -58,9 +65,24 @@ def esc(s):
 
 
 def tsc():
+    # NOT `shell=True`. With a list argv that is a Windows-only spelling: POSIX
+    # hands the list to the shell as `$0 $1 ...`, so it ran a bare `npx`, got a
+    # usage message and exit 0, and every file "passed" the check that exists to
+    # restore a broken one. The guard has to be able to fail on the machine it
+    # runs on.
     r = subprocess.run(["npx", "tsc", "--noEmit", "-p", "tsconfig.app.json"],
                        cwd=FRONTEND, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace", shell=True)
+                       encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        return False, (r.stdout or "") + (r.stderr or "")
+    # tsc is not the whole gate. Step 4 puts `const t = useT()` wherever a
+    # rewritten line lives, and it can land in a plain exported function that
+    # merely LOOKS like a component — `signInFailure(error)` took one and
+    # compiled clean, because calling a hook outside a component is a React
+    # rule, not a type error. oxlint's rules-of-hooks is what catches it, so a
+    # file is only accepted once both agree.
+    r = subprocess.run(["npx", "oxlint", "src"], cwd=FRONTEND, capture_output=True,
+                       text=True, encoding="utf-8", errors="replace")
     return r.returncode == 0, (r.stdout or "") + (r.stderr or "")
 
 

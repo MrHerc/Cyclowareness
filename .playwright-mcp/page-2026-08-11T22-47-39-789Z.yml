@@ -1,0 +1,97 @@
+- generic [ref=f7e2]:
+  - generic [ref=f7e3]:
+    - link "Məzmuna keç" [ref=f7e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=f7e5]:
+      - link "Cyclowareness" [ref=f7e6] [cursor=pointer]:
+        - /url: /command-center
+      - generic [ref=f7e12]: Checking environment
+      - button "Axtarış və keçid" [ref=f7e17]
+      - generic [ref=f7e22]:
+        - generic [ref=f7e23]: Loop status
+        - generic [ref=f7e31]: Sandbox
+        - button "Waiting for you" [ref=f7e42]
+        - button "Kömək" [ref=f7e46]
+        - button "Account menu — signed in as analyst@caspiandynamics.az" [ref=f7e54]:
+          - generic "analyst@caspiandynamics.az" [ref=f7e56]: A
+          - generic [ref=f7e57]:
+            - generic [ref=f7e58]: analyst@caspiandynamics.az
+            - generic [ref=f7e59]: Təhlükəsizlik analitiki
+    - generic [ref=f7e60]:
+      - complementary [ref=f7e61]:
+        - navigation "Əsas" [ref=f7e62]:
+          - generic [ref=f7e63]:
+            - paragraph [ref=f7e64]: Əməliyyat
+            - list [ref=f7e65]:
+              - listitem [ref=f7e66]:
+                - link "Komanda Mərkəzi" [ref=f7e67] [cursor=pointer]:
+                  - /url: /command-center
+              - listitem [ref=f7e74]:
+                - link "Qapalı dövrələr" [ref=f7e75] [cursor=pointer]:
+                  - /url: /loops
+              - listitem [ref=f7e84]:
+                - link "Təhdid qəbulu" [ref=f7e85] [cursor=pointer]:
+                  - /url: /threats
+              - listitem [ref=f7e90]:
+                - link "Təsdiq qapısı" [ref=f7e91] [cursor=pointer]:
+                  - /url: /approvals
+          - generic [ref=f7e96]:
+            - paragraph [ref=f7e97]: Proqram
+            - list [ref=f7e98]:
+              - listitem [ref=f7e99]:
+                - link "Simulyasiyalar" [ref=f7e100] [cursor=pointer]:
+                  - /url: /simulations
+              - listitem [ref=f7e105]:
+                - link "Təlim Studiyası" [ref=f7e106] [cursor=pointer]:
+                  - /url: /training
+              - listitem [ref=f7e111]:
+                - link "Portal Sandbox" [ref=f7e112] [cursor=pointer]:
+                  - /url: /sandbox
+          - generic [ref=f7e125]:
+            - paragraph [ref=f7e126]: İnsanlar və risk
+            - list [ref=f7e127]:
+              - listitem [ref=f7e128]:
+                - link "İşçilər" [ref=f7e129] [cursor=pointer]:
+                  - /url: /employees
+              - listitem [ref=f7e136]:
+                - link "Departamentlər" [ref=f7e137] [cursor=pointer]:
+                  - /url: /departments
+              - listitem [ref=f7e143]:
+                - link "Risk profilləri" [ref=f7e144] [cursor=pointer]:
+                  - /url: /risk-profiles
+              - listitem [ref=f7e150]:
+                - link "Korrektiv tədbirlər" [ref=f7e151] [cursor=pointer]:
+                  - /url: /remediation
+              - listitem [ref=f7e160]:
+                - link "İnsident riskləri" [ref=f7e161] [cursor=pointer]:
+                  - /url: /incident-risks
+          - generic [ref=f7e165]:
+            - paragraph [ref=f7e166]: İdarəetmə
+            - list [ref=f7e167]:
+              - listitem [ref=f7e168]:
+                - link "Siyasət kəşfiyyatı" [ref=f7e169] [cursor=pointer]:
+                  - /url: /policy-intelligence
+              - listitem [ref=f7e173]:
+                - link "Təhdid kəşfiyyatı" [ref=f7e174] [cursor=pointer]:
+                  - /url: /threat-intelligence
+              - listitem [ref=f7e178]:
+                - link "Hesabatlar" [ref=f7e179] [cursor=pointer]:
+                  - /url: /reports
+              - listitem [ref=f7e184]:
+                - link "Rəhbər baxışı" [ref=f7e185] [cursor=pointer]:
+                  - /url: /executive
+          - generic [ref=f7e192]:
+            - paragraph [ref=f7e193]: Sistem
+            - list [ref=f7e194]:
+              - listitem [ref=f7e195]:
+                - link "İnteqrasiyalar" [ref=f7e196] [cursor=pointer]:
+                  - /url: /integrations
+              - listitem [ref=f7e201]:
+                - link "Audit jurnalı" [ref=f7e202] [cursor=pointer]:
+                  - /url: /audit-log
+          - button "Yığ" [expanded] [ref=f7e208]
+      - main [ref=f7e212]:
+        - generic [ref=f7e213]: Bu ekran yüklənir
+  - generic:
+    - alert
+    - status

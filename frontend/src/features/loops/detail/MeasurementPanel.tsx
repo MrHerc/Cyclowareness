@@ -81,7 +81,7 @@ export function MeasurementPanel({
           <>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               <HonestMetric
-                label="Completion"
+                label={t('u.completion')}
                 value={assigned > 0 ? summary.completion_rate : null}
                 format="percent"
                 sample={assigned}

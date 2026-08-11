@@ -14,11 +14,11 @@ import type { RunSummary } from '../../domain/types'
 
 export const STATUS_FILTERS = [
   { value: 'all', label: 'All' },
-  { value: 'running', label: 'Running' },
-  { value: 'awaiting_approval', label: 'Awaiting approval' },
-  { value: 'awaiting_training', label: 'Awaiting training' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'failed', label: 'Failed' },
+  { value: 'running', label: 'Running', labelKey: 'u.running' },
+  { value: 'awaiting_approval', label: 'Awaiting approval', labelKey: 'u.awaiting-approval-2' },
+  { value: 'awaiting_training', label: 'Awaiting training', labelKey: 'u.awaiting-training' },
+  { value: 'completed', label: 'Completed', labelKey: 'u.completed' },
+  { value: 'failed', label: 'Failed', labelKey: 'u.failed' },
 ] as const
 
 export type StatusFilter = (typeof STATUS_FILTERS)[number]['value']

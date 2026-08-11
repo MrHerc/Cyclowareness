@@ -54,7 +54,7 @@ export function IntelViewCounts({ items, total, matched }: IntelViewCountsProps)
         />
         <Row label={t('p.assessed-as-urgent')} value={num(urgent)} />
         <Row label={t('p.not-yet-assessed')} value={num(unassessed)} />
-        <Row label="Dismissed" value={num(dismissed)} />
+        <Row label={t('u.dismissed')} value={num(dismissed)} />
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-fg-faint">{t('p.counts-describe-the-advisories-stored-in')}</p>

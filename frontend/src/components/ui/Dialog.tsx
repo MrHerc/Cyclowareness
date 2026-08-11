@@ -13,6 +13,7 @@
  */
 
 import * as RadixDialog from '@radix-ui/react-dialog'
+import { useT } from '../../lib/i18n'
 import { X } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/format'
@@ -55,6 +56,7 @@ export function Dialog({
   className,
   children,
 }: DialogProps) {
+  const t = useT()
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
       {trigger && <RadixDialog.Trigger asChild>{trigger}</RadixDialog.Trigger>}
@@ -82,7 +84,7 @@ export function Dialog({
               )}
             </div>
             <RadixDialog.Close asChild>
-              <IconButton label="Close" size="sm" variant="ghost">
+              <IconButton label={t('u.close')} size="sm" variant="ghost">
                 <X size={16} aria-hidden="true" />
               </IconButton>
             </RadixDialog.Close>

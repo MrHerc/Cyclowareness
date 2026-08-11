@@ -73,7 +73,7 @@ export function RiskImpactPanel({ risk, rollup }: RiskImpactPanelProps) {
         <dl className="grid grid-cols-2 gap-3 text-sm">
           <Stat label={t('u.not-started')} value={rollup.assigned} />
           <Stat label={t('p.awaiting-review')} value={rollup.awaitingReview} tone={rollup.awaitingReview > 0 ? 'text-medium' : undefined} />
-          <Stat label="Rejected" value={rollup.rejected} tone={rollup.rejected > 0 ? 'text-high' : undefined} />
+          <Stat label={t('u.rejected')} value={rollup.rejected} tone={rollup.rejected > 0 ? 'text-high' : undefined} />
           <Stat label={t('p.nothing-assigned')} value={rollup.unattached} tone={rollup.unattached > 0 ? 'text-medium' : undefined} />
         </dl>
 

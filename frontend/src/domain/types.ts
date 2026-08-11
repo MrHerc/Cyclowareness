@@ -41,6 +41,10 @@ export interface Capabilities {
   demo_mode: boolean
   ai_provider: 'anthropic' | 'mock'
   analyzer: string
+  /** Whether the standalone Cyclowareness Sandbox is linked from this
+   *  deployment. False on a server that predates the field, which is the right
+   *  answer for it: no flag, no door to draw. */
+  sandbox_app?: boolean
   /** Who BUILT the platform — not the organisation running it, which is the
    *  notifying entity on regulatory records and a different field entirely. */
   vendor_name: string

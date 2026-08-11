@@ -16,6 +16,7 @@
  */
 
 import type { SelectOption } from '../../components/ui'
+import type { MessageKey } from '../../lib/i18n'
 import type {
   FindingType,
   IntelMatch,
@@ -111,26 +112,36 @@ export const FINDING_TYPE_OPTIONS: SelectOption[] = FINDING_TYPES.map((value) =>
  * The four judgements an analyst may assert. `unassessed` is missing on purpose:
  * it is the absence of a judgement, and the API refuses to have one asserted.
  */
-export const ASSESSABLE_RELEVANCE: { value: IntelRelevance; label: string; hint: string }[] = [
+export const ASSESSABLE_RELEVANCE: {
+  value: IntelRelevance
+  label: string
+  labelKey: MessageKey
+  hint: string
+  hintKey: MessageKey
+}[] = [
   {
     value: 'urgent',
-    label: 'Urgent',
+    label: 'Urgent', labelKey: 'u.urgent',
     hint: 'It reaches something we run and it needs action now.',
+    hintKey: 'u.it-reaches-something-we-run',
   },
   {
     value: 'relevant',
-    label: 'Relevant',
+    label: 'Relevant', labelKey: 'u.relevant',
     hint: 'It applies to this organisation and belongs in the queue.',
+    hintKey: 'u.it-applies-to-this-organisation-and',
   },
   {
     value: 'monitoring',
-    label: 'Monitoring',
+    label: 'Monitoring', labelKey: 'u.monitoring',
     hint: 'It could apply. Watch it; do not act yet.',
+    hintKey: 'u.it-could-apply-watch-it',
   },
   {
     value: 'not_applicable',
-    label: 'Not applicable',
+    label: 'Not applicable', labelKey: 'u.not-applicable',
     hint: 'We assessed it and it does not touch us. A reason is required.',
+    hintKey: 'u.we-assessed-it-and-it-does-not',
   },
 ]
 

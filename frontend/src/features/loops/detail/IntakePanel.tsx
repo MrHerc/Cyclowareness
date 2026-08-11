@@ -59,20 +59,20 @@ export function IntakePanel({ entry, threat, reporterName, reporterId }: IntakeP
   const metaEntries = Object.entries(meta).filter(([key]) => key !== 'targeted_departments')
 
   const facts: Fact[] = [
-    { label: 'Source', value: humanise(threat.source) },
-    { label: 'Submitted', value: formatDateTime(threat.created_at) },
+    { label: t('u.source-2'), value: humanise(threat.source) },
+    { label: t('u.submitted-2'), value: formatDateTime(threat.created_at) },
     {
-      label: 'Reported by',
+      label: t('u.reported-by-3'),
       value: reporterName ?? (reporterId === null ? t('p.not-a-humansensor-report') : `Employee ${reporterId}`),
       to: reporterId !== null ? `/employees/${reporterId}` : undefined,
     },
-    { label: 'Artifact type', value: humanise(threat.artifact_type) },
+    { label: t('u.artifact-type-2'), value: humanise(threat.artifact_type) },
     {
-      label: 'Affected department',
+      label: t('u.affected-department-2'),
       value: departments === undefined ? t('p.not-stated-on-the-artifact') : describeMeta(departments),
     },
     {
-      label: 'Severity at intake',
+      label: t('u.severity-at-intake-2'),
       value: 'Not recorded',
       hint: t('p.nothing-is-graded-on-arrival-the'),
     },

@@ -33,18 +33,18 @@ export function CampaignActions({ simulation }: CampaignActionsProps) {
   const launch = useSimulationAction('launch', {
     onSuccess: () =>
       toast.show({
-        title: 'Campaign launched',
+        title: t('u.campaign-launched-2'),
         description: t('p.targets-are-now-open-for-outcome'),
         tone: 'success',
       }),
     onError: (error) =>
-      toast.show({ title: 'Launch failed', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.launch-failed-2'), description: error.message, tone: 'error' }),
   })
 
   const complete = useSimulationAction('complete', {
     onSuccess: () => {
       setConfirming(null)
-      toast.show({ title: 'Campaign closed', tone: 'success' })
+      toast.show({ title: t('u.campaign-closed-2'), tone: 'success' })
     },
     onError: (error) => {
       setConfirming(null)

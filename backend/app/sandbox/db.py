@@ -2,14 +2,18 @@
 
 `app/sandbox/engine/` is a **verbatim copy** of the standalone Cyclowareness
 Sandbox engine — the same files, byte for byte, so that the two deployments
-cannot drift apart. The engine reaches out of itself in exactly three places:
+cannot drift apart. The engine reaches out of itself in exactly four places:
 
     from ..db import Base
     from ..util import utcnow
     from ..config import get_settings
+    from ... import sovereignty          # from inside engine/analyzers/
 
-This module, `util.py` and `config.py` next to it exist only to satisfy those
-three imports out of the portal's own modules. Nothing else may be added here:
+This module, `util.py`, `config.py` and `sovereignty.py` beside it exist only to
+satisfy those four imports out of the portal's own modules. The count said three
+while the seam had been four since the sovereignty choke point landed, and
+`test_the_engine_seam_holds` has asserted four the whole time — so this file was
+the one place a reader could be told the wrong number. Nothing else may be added:
 the moment the engine needs a fourth thing from the host, that is a signal to
 push the dependency back down into the engine instead of widening this seam.
 

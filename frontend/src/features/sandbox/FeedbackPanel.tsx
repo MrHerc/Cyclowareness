@@ -31,7 +31,7 @@ export function FeedbackPanel({ job }: FeedbackPanelProps) {
       setNote('')
       setSubmitting(null)
       toast.show({
-        title: 'Feedback recorded',
+        title: t('u.feedback-recorded-2'),
         description: t('p.it-is-attached-to-this-job'),
         tone: 'success',
       })

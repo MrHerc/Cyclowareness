@@ -357,8 +357,18 @@ def classify(
     # `suspicious` and took fd.zip with it.
     #
     # Deliberately narrow. `AMBIENT_SIGNALS` is demoted FOR SCORING ONLY by
-    # design and is NOT filtered here: routing it into the capability engine was
-    # measured and took the detonation fixture from 84 of 88 to 68.
+    # design and is NOT filtered here: routing it into the capability engine
+    # costs a detection on the fixture (69 of 88 -> 68, re-derived 2026-08-09).
+    #
+    # THAT NUMBER USED TO READ "84 of 88 to 68", and the correction is worth
+    # more than the arithmetic. It claimed this decision was worth sixteen
+    # detections; it is worth one. The baseline came from a recording that no
+    # longer exists -- see MIN_MALWARE_DETECTED in test_detonation_corpus.py.
+    # The decision is unchanged because it never rested on the size of that
+    # number: `FAMILY_AMBIENT_SIGNALS` makes a different claim, and a capability
+    # the sample does not have is not a capability. But at a real cost of one,
+    # revisiting it is a legitimate proposal rather than an obviously bad trade,
+    # and it must be measured against the benign corpus before anyone does.
     # `FAMILY_AMBIENT_SIGNALS` makes a different claim — not "ordinary software
     # does this too" but "this is the interpreter, not the sample" — and a
     # capability the sample does not have is not a capability.

@@ -64,7 +64,7 @@ export function ReportQueue({ query, artifactType }: ReportQueueProps) {
   const dismiss = useDismissReport({
     onSuccess: () => {
       setDismissTarget(null)
-      toast.show({ title: 'Report dismissed', tone: 'info' })
+      toast.show({ title: t('u.report-dismissed-2'), tone: 'info' })
     },
     onError: (error) => {
       toast.show({ title: t('p.the-report-was-not-dismissed'), description: error.message, tone: 'error' })

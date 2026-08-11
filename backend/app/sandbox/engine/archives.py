@@ -60,6 +60,15 @@ ARCHIVE_MIMES = {
     "application/zip",
     "application/x-rar-compressed",
     "application/x-7z-compressed",
+    # tar and the single-stream compressors. `identify` has always called these
+    # `archive`; this set did not contain them, and `_archive_stage` returns the
+    # same value for "will not open" as for "not a container" -- so a gzipped
+    # dropper was scored as a 1.7 clean text file with no signal saying anything
+    # had been skipped. See `_read_tarlike`.
+    "application/x-tar",
+    "application/gzip",
+    "application/x-bzip2",
+    "application/x-xz",
     # APK and JAR are ZIP containers too, but they have dedicated deep analyzers
     # (manifest/permissions, Java class inspection) rather than generic member
     # promotion, so they are intentionally NOT unpacked here.
@@ -301,6 +310,203 @@ def _read_zip(path: str, password: str | None, budget: ExpansionBudget) -> Archi
     return result
 
 
+# --- tar, gzip, bzip2, xz -----------------------------------------------------
+#
+# THESE WERE IDENTIFIED AS ARCHIVES AND NEVER OPENED.
+#
+# `identify._family_for` mapped `application/gzip`, `x-bzip2`, `x-xz` and
+# `x-tar` to family `archive`; `ARCHIVE_MIMES` did not contain them; and
+# `pipeline._archive_stage` returns `(None, False)` for a mime it will not
+# unpack -- the same value it returns for "this is not a container at all". So
+# nothing was extracted, nothing was promoted to a child job, and nothing said
+# so. Measured by the pentest: `gzip dropper.ps1` turned a 70.0 / malicious
+# verdict into 1.7 / clean with zero signals. One command, and the product's
+# entire purpose is bypassed -- in the ordinary shapes of a mail attachment.
+#
+# The stdlib opens all four, so the fix is to open them rather than only to
+# disclose them. The disclosure stays as well, for whatever is left.
+
+_TARLIKE_MIMES = {
+    "application/x-tar",
+    "application/gzip",
+    "application/x-bzip2",
+    "application/x-xz",
+}
+
+#: Suffixes stripped to name the single member of a bare compressed stream.
+_STREAM_SUFFIXES = (".gz", ".tgz", ".bz2", ".tbz2", ".xz", ".txz", ".Z")
+
+
+def _read_tarlike(path: str, mime: str, budget: ExpansionBudget) -> ArchiveResult:
+    """A tar (optionally compressed), or a single compressed stream.
+
+    `tarfile` transparently handles `.tar.gz` / `.tar.bz2` / `.tar.xz`, so it is
+    tried first; a bare `gzip`ped file is not a tar and falls through to the
+    single-stream path.
+
+    Three things this refuses on purpose, because a tar can express them and a
+    ZIP cannot:
+
+    * anything that is not a regular file -- a symlink, hardlink, device or FIFO
+      is a way to make an extractor write outside the tree or block on open();
+    * a member whose name escapes the archive (`..`, an absolute path). The name
+      is never used as a path here -- members are stored by content hash -- but
+      it is displayed, and a name that looks like an escape is worth recording;
+    * anything past the shared expansion budget, which is what stops a bomb.
+    """
+    result = ArchiveResult(kind="tar")
+
+    try:
+        import tarfile
+
+        with tarfile.open(path, "r:*") as tf:
+            infos = []
+            for info in tf:                      # streaming: never getmembers()
+                infos.append(info)
+                if len(infos) > MAX_MEMBERS:
+                    result.truncated = True
+                    infos.pop()
+                    break
+
+            for info in infos:
+                member = Member(
+                    name=_safe_display_name(info.name),
+                    size=int(info.size),
+                    # tar's header does not carry a per-member compressed size;
+                    # the whole stream is compressed as one. Reporting the
+                    # uncompressed size for both keeps `ratio` at 1.0 rather
+                    # than inventing a ratio the format cannot express.
+                    compressed_size=int(info.size),
+                    encrypted=False,
+                    is_dir=info.isdir(),
+                )
+                result.members.append(member)
+                if member.is_dir:
+                    continue
+                if not info.isfile():
+                    member.skipped_reason = (
+                        f"not a regular file ({_tar_kind(info)}); extracting it would "
+                        "act on the filesystem rather than read bytes"
+                    )
+                    continue
+                if member.size > MAX_MEMBER_BYTES:
+                    member.skipped_reason = "larger than the per-member limit"
+                    continue
+                if not budget.affordable(member.size):
+                    member.skipped_reason = "total expansion budget exhausted"
+                    result.truncated = True
+                    continue
+                try:
+                    handle = tf.extractfile(info)
+                    if handle is None:
+                        member.skipped_reason = "could not be read: no data stream"
+                        continue
+                    with handle:
+                        data = handle.read(MAX_MEMBER_BYTES + 1)
+                    if len(data) > MAX_MEMBER_BYTES:
+                        member.skipped_reason = "declared size understated the real size"
+                        continue
+                    budget.spend(len(data))
+                    member.stored = store_bytes(data)
+                except Exception as exc:  # noqa: BLE001 — one bad member is not a failed job
+                    member.skipped_reason = f"could not be read: {type(exc).__name__}"
+
+        # A TAR THAT PARSED TO NOTHING IS PROBABLY NOT A TAR.
+        #
+        # The end of a tar is two 512-byte blocks of zeros, so a stream that is
+        # ALL zeros parses as a valid, empty archive -- and `gzip` of a few
+        # megabytes of zeros is exactly the shape of the simplest decompression
+        # bomb. Returning an empty result there would have reported "a container
+        # with nothing in it" and never decompressed a byte, which is a
+        # different way of missing the payload than the one this function was
+        # written to fix. Fall through and read it as a stream.
+        if result.members:
+            return result
+    except Exception:  # noqa: BLE001 — not a tar; try the single-stream shapes
+        pass
+
+    if mime == "application/x-tar":
+        # A bare .tar that yielded no members really is an empty tar; there is
+        # no compressed stream underneath to fall back to.
+        return ArchiveResult(kind="tar")
+    return _read_compressed_stream(path, mime, budget)
+
+
+def _tar_kind(info) -> str:
+    if info.issym():
+        return "symlink"
+    if info.islnk():
+        return "hardlink"
+    if info.ischr() or info.isblk():
+        return "device node"
+    if info.isfifo():
+        return "FIFO"
+    return "special entry"
+
+
+def _read_compressed_stream(path: str, mime: str, budget: ExpansionBudget) -> ArchiveResult:
+    """One file, compressed with gzip / bzip2 / xz. The commonest evasion shape.
+
+    Decompressed in bounded chunks rather than in one call: `gzip.open().read()`
+    on a bomb allocates whatever the stream expands to, and the point of the
+    budget is that nothing here gets to choose how much memory it uses.
+    """
+    import bz2
+    import gzip
+    import lzma
+
+    openers = {
+        "application/gzip": gzip.open,
+        "application/x-bzip2": bz2.open,
+        "application/x-xz": lzma.open,
+    }
+    result = ArchiveResult(kind=mime.rsplit("/", 1)[-1].lstrip("x-") or "stream")
+    opener = openers.get(mime)
+    if opener is None:
+        return result
+
+    name = os.path.basename(path)
+    for suffix in _STREAM_SUFFIXES:
+        if name.endswith(suffix):
+            name = name[: -len(suffix)]
+            break
+    member = Member(
+        name=_safe_display_name(name or "decompressed"),
+        size=0,
+        compressed_size=os.path.getsize(path) if os.path.exists(path) else 0,
+        encrypted=False,
+        is_dir=False,
+    )
+    result.members.append(member)
+
+    chunks: list[bytes] = []
+    total = 0
+    try:
+        with opener(path, "rb") as fh:          # type: ignore[operator]
+            while True:
+                chunk = fh.read(1024 * 256)
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > MAX_MEMBER_BYTES:
+                    member.skipped_reason = "larger than the per-member limit"
+                    return result
+                if not budget.affordable(total):
+                    member.skipped_reason = "total expansion budget exhausted"
+                    result.truncated = True
+                    return result
+                chunks.append(chunk)
+    except Exception as exc:  # noqa: BLE001
+        member.skipped_reason = f"could not be read: {type(exc).__name__}"
+        return result
+
+    data = b"".join(chunks)
+    member.size = len(data)
+    budget.spend(len(data))
+    member.stored = store_bytes(data)
+    return result
+
+
 # --- ISO 9660 -----------------------------------------------------------------
 
 
@@ -391,8 +597,29 @@ def _read_7z(path: str, password: str | None, budget: ExpansionBudget) -> Archiv
         result.encrypted = True
         raise PasswordRequired("7z")
 
+    # THE SIZE GUARD BELOW PICKS WHAT IS KEPT, NOT WHAT IS DECOMPRESSED.
+    #
+    # 7z stores members in SOLID BLOCKS: to reach any member of a block, the
+    # whole block is decompressed. So `targets` — the list the per-member limit,
+    # the ratio threshold and the budget have already filtered — only decides
+    # what py7zr HANDS BACK. Everything sharing a block with a target is
+    # inflated anyway, and the members this code explicitly refused are exactly
+    # the expensive ones.
+    #
+    # Measured by an authorised pentest: a 1.19 MiB upload, 6,900:1
+    # amplification, 42.4 seconds of one of four analysis threads, and nothing
+    # anywhere on the analysis path imposes a wall clock. Four such uploads stop
+    # the product.
+    #
+    # `max_extract_size` is py7zr's own ceiling and it is applied during
+    # decompression rather than after it, which is the difference that matters:
+    # it raises `DecompressionBombError` mid-block instead of letting the block
+    # finish. Passed the SUBMISSION's remaining budget, so a tree of nested 7z
+    # files shares one ceiling rather than getting a fresh one each.
     try:
-        with py7zr.SevenZipFile(path, mode="r", password=password) as zf:
+        with py7zr.SevenZipFile(
+            path, mode="r", password=password, max_extract_size=max(0, budget.remaining)
+        ) as zf:
             for info in zf.list()[:MAX_MEMBERS]:
                 result.members.append(
                     Member(
@@ -446,6 +673,33 @@ def _read_7z(path: str, password: str | None, budget: ExpansionBudget) -> Archiv
                 member.stored = store_bytes(data)
     except py7zr.exceptions.PasswordRequired as exc:
         raise PasswordRequired("7z", attempted=bool(password)) from exc
+    except py7zr.exceptions.DecompressionBombError:
+        # The ceiling fired mid-block. Whatever was already stored stays — those
+        # members were real and are worth analysing — and the archive says it
+        # stopped, rather than reporting the members it happened to reach as if
+        # they were all of them.
+        result.truncated = True
+        for member in result.members:
+            if member.stored is None and member.skipped_reason is None:
+                member.skipped_reason = (
+                    "not extracted: the archive expanded past the submission's total "
+                    "budget while decompressing"
+                )
+        result.signals.append(
+            Signal(
+                id="archive.decompression_bomb",
+                title="Archive expands past the analysis budget",
+                severity="high",
+                detail=(
+                    "Decompression was stopped after the submission's total expansion "
+                    "budget was reached. 7z stores members in solid blocks, so reaching "
+                    "one member inflates its whole block — an archive built this way "
+                    "costs analysis time out of all proportion to its size, which is "
+                    "what a decompression bomb is for."
+                ),
+            )
+        )
+        return result
     except Exception as exc:
         # A WRONG password does not announce itself. py7zr hands the ciphertext
         # to LZMA and LZMA says `LZMAError: Corrupt input data` — no mention of a
@@ -620,6 +874,8 @@ def unpack(
         result = _read_7z(path, password, budget)
     elif mime == "application/x-rar-compressed":
         result = _read_rar(path, password, budget)
+    elif mime in _TARLIKE_MIMES:
+        result = _read_tarlike(path, mime, budget)
     else:
         result = _read_zip(path, password, budget)
 
@@ -638,15 +894,44 @@ def unpack(
             )
         )
     if result.truncated:
+        # SAY WHICH. One flag covers two situations that mean opposite things,
+        # and the sentence here described only the harmless one: "extraction
+        # stopped at a safety limit" tells the analyst WE chose to stop and the
+        # data is there. It is also raised when a container declares members it
+        # does not contain -- a directory record names a block and a length, and
+        # the sample chose both, so an ISO cut off after its directory lists an
+        # executable whose bytes are simply absent. Reporting the sample's lie
+        # as our own limit puts the fault on the wrong side and invites the
+        # reader to assume the unread member was ordinary.
+        reasons = sorted({
+            m.skipped_reason for m in result.members if m.skipped_reason
+        })
+        unread = [m for m in result.members if m.skipped_reason]
+        if reasons:
+            detail = (
+                "%d of %d members were not read: %s. Their contents are unknown -- "
+                "not examined and found ordinary."
+                % (len(unread), len([m for m in result.members if not m.is_dir]),
+                   "; ".join(reasons))
+            )
+        else:
+            detail = (
+                "Extraction stopped at a safety limit (member count, member size, or "
+                "the total expansion budget). Members beyond that point were not "
+                "analysed."
+            )
         result.signals.append(
             Signal(
                 id="archive.truncated",
                 title="Archive was only partially unpacked",
                 severity="info",
-                detail=(
-                    "Extraction stopped at a safety limit (member count, member size, or the "
-                    "total expansion budget). Members beyond that point were not analysed."
-                ),
+                detail=detail,
+                evidence={
+                    "unread_members": [
+                        _safe_display_name(m.name) for m in unread[:20]
+                    ],
+                    "reasons": reasons[:10],
+                },
             )
         )
     return result

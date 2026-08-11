@@ -30,6 +30,7 @@ import { NotificationsMenu } from './NotificationsMenu'
 import { ProductMark } from './ProductMark'
 import { RoleSwitcher } from './RoleSwitcher'
 import { SandboxStatusPill } from './SandboxStatusPill'
+import { StandaloneSandboxButton } from './StandaloneSandboxButton'
 import { UserMenu } from './UserMenu'
 
 export interface TopNavigationProps {
@@ -96,6 +97,12 @@ export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigat
       <div className="flex shrink-0 items-center gap-2">
         {showLoop && <LoopStatusPill className="hidden xl:inline-flex" />}
         {showSandbox && <SandboxStatusPill className="hidden xl:inline-flex" />}
+
+        {/* At every width, unlike the readouts above it. Those repeat something
+            the analyst can find elsewhere; this is the ONLY way into the
+            standalone, and hiding the only door on a narrow screen is how it
+            came to be unfindable in the first place. */}
+        <StandaloneSandboxButton />
 
         {showRoleSwitcher && <RoleSwitcher className="hidden md:inline-flex" />}
         {showNotifications && <NotificationsMenu />}

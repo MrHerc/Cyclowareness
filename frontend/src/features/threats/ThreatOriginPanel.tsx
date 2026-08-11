@@ -74,17 +74,17 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
   return (
     <Panel title={t('x.provenance')} subtitle={t('x.every-fact-this-deployment-records')}>
       <dl className="divide-line">
-        <DetailRow label="Source">
+        <DetailRow label={t('u.source')}>
           <SourceTag source={threat.source} />
         </DetailRow>
 
         <DetailRow label={t('p.artifact-type')}>{channelLabel(threat.artifact_type)}</DetailRow>
 
-        <DetailRow label="Submitted">
+        <DetailRow label={t('u.submitted')}>
           <time dateTime={threat.created_at}>{formatDateTime(threat.created_at)}</time>
         </DetailRow>
 
-        <DetailRow label="Reporter">
+        <DetailRow label={t('u.reporter')}>
           {reporterId !== null && reporterId !== undefined ? (
             <>
               <Link to={`/employees/${reporterId}`} className="text-brand hover:underline">
@@ -106,7 +106,7 @@ export function ThreatOriginPanel({ threat, report, reporter, loopRunId }: Threa
           <DetailRow label={t('p.reporters-note')}>{report.note.trim()}</DetailRow>
         ) : null}
 
-        <DetailRow label="Reach">
+        <DetailRow label={t('u.reach')}>
           {reach ?? (
             <NoMeasurement
               label={t('p.not-recorded')}

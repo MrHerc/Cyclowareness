@@ -80,57 +80,57 @@ export function matchesValue(selected: string, actual: string | null | undefined
 export function artifactTypeOptions(types: (string | null | undefined)[]): SelectOption[] {
   const unique = Array.from(new Set(types.filter((t): t is string => Boolean(t)))).sort()
   return [
-    { value: ALL, label: 'Any artifact type' },
+    { value: ALL, label: 'Any artifact type', labelKey: 'u.any-artifact-type' },
     ...unique.map((type) => ({ value: type, label: channelLabel(type) })),
   ]
 }
 
 export const SOURCE_OPTIONS: SelectOption[] = [
-  { value: ALL, label: 'Any source' },
-  { value: 'human_sensor', label: 'Human sensor' },
-  { value: 'feed', label: 'Curated feed' },
-  { value: 'manual', label: 'Analyst submission' },
+  { value: ALL, label: 'Any source', labelKey: 'u.any-source' },
+  { value: 'human_sensor', label: 'Human sensor', labelKey: 'u.human-sensor' },
+  { value: 'feed', label: 'Curated feed', labelKey: 'u.curated-feed' },
+  { value: 'manual', label: 'Analyst submission', labelKey: 'u.analyst-submission' },
 ]
 
 export const VERDICT_OPTIONS: SelectOption[] = [
-  { value: ALL, label: 'Any verdict' },
-  { value: 'malicious', label: 'Malicious' },
-  { value: 'suspicious', label: 'Suspicious' },
-  { value: 'benign', label: 'Benign' },
-  { value: 'none', label: 'No verdict recorded' },
+  { value: ALL, label: 'Any verdict', labelKey: 'u.any-verdict' },
+  { value: 'malicious', label: 'Malicious', labelKey: 'u.malicious' },
+  { value: 'suspicious', label: 'Suspicious', labelKey: 'u.suspicious' },
+  { value: 'benign', label: 'Benign', labelKey: 'u.benign' },
+  { value: 'none', label: 'No verdict recorded', labelKey: 'u.no-verdict-recorded' },
 ]
 
 export const REPORT_STATUS_OPTIONS: SelectOption[] = [
-  { value: 'new', label: 'Awaiting triage' },
-  { value: 'in_loop', label: 'Pushed into the loop' },
-  { value: 'dismissed', label: 'Dismissed' },
-  { value: ALL, label: 'Every report' },
+  { value: 'new', label: 'Awaiting triage', labelKey: 'u.awaiting-triage' },
+  { value: 'in_loop', label: 'Pushed into the loop', labelKey: 'u.pushed-into-the-loop' },
+  { value: 'dismissed', label: 'Dismissed', labelKey: 'u.dismissed' },
+  { value: ALL, label: 'Every report', labelKey: 'u.every-report' },
 ]
 
 export const SUSPICION_OPTIONS: SelectOption[] = [
-  { value: ALL, label: 'Any suspicion level' },
-  { value: 'high', label: 'High suspicion' },
-  { value: 'medium', label: 'Medium suspicion' },
-  { value: 'low', label: 'Low suspicion' },
+  { value: ALL, label: 'Any suspicion level', labelKey: 'u.any-suspicion-level' },
+  { value: 'high', label: 'High suspicion', labelKey: 'u.high-suspicion' },
+  { value: 'medium', label: 'Medium suspicion', labelKey: 'u.medium-suspicion' },
+  { value: 'low', label: 'Low suspicion', labelKey: 'u.low-suspicion' },
 ]
 
 export const SEVERITY_OPTIONS: SelectOption[] = [
-  { value: ALL, label: 'Any severity' },
-  { value: 'critical', label: 'Critical' },
-  { value: 'high', label: 'High' },
-  { value: 'medium', label: 'Medium' },
+  { value: ALL, label: 'Any severity', labelKey: 'u.any-severity' },
+  { value: 'critical', label: 'Critical', labelKey: 'u.critical' },
+  { value: 'high', label: 'High', labelKey: 'u.high' },
+  { value: 'medium', label: 'Medium', labelKey: 'u.medium' },
   { value: 'low', label: 'Low' },
   { value: 'info', label: 'Info' },
 ]
 
 /** The types `ThreatSubmit` documents. Anything else is rejected downstream. */
 export const ARTIFACT_TYPE_OPTIONS: SelectOption[] = [
-  { value: 'email', label: 'Email' },
+  { value: 'email', label: 'Email', labelKey: 'u.email' },
   { value: 'url', label: 'URL' },
-  { value: 'file', label: 'File' },
+  { value: 'file', label: 'File', labelKey: 'u.file' },
   { value: 'sms', label: 'SMS' },
-  { value: 'qr', label: 'QR code' },
-  { value: 'chat', label: 'Chat message' },
+  { value: 'qr', label: 'QR code', labelKey: 'u.qr-code' },
+  { value: 'chat', label: 'Chat message', labelKey: 'u.chat-message' },
 ]
 
 /* ============================================================================

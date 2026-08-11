@@ -22,6 +22,7 @@ import {
   Input,
   Panel,
   Select,
+  type SelectOption,
   Tabs,
   TabsContent,
   TabsList,
@@ -34,11 +35,13 @@ import { usePermission } from '../lib/auth/useAuth'
 import { channelLabel, num } from '../lib/format'
 import type { Simulation, SimulationStatus } from '../domain/types'
 
-const STATUS_TABS: { value: string; label: string }[] = [
+// Typed as SelectOption so `labelKey` is checked against the catalogue rather
+// than widened to `string`, which is what an inline shape does to it.
+const STATUS_TABS: SelectOption[] = [
   { value: 'all', label: 'All' },
-  { value: 'draft', label: 'Draft' },
-  { value: 'active', label: 'Active' },
-  { value: 'completed', label: 'Completed' },
+  { value: 'draft', label: 'Draft', labelKey: 'u.draft' },
+  { value: 'active', label: 'Active', labelKey: 'u.active' },
+  { value: 'completed', label: 'Completed', labelKey: 'u.completed' },
 ]
 
 function matches(simulation: Simulation, status: string, channel: string, query: string): boolean {
@@ -71,10 +74,10 @@ export default function Simulations() {
   // Channels are read off the data rather than a fixed list: the API derives a
   // campaign's channel from its lure, so a hard-coded menu would eventually
   // offer a filter that matches nothing.
-  const channelOptions = useMemo(() => {
+  const channelOptions = useMemo((): SelectOption[] => {
     const seen = [...new Set(all.map((item) => item.channel).filter(Boolean))].sort()
     return [
-      { value: 'all', label: 'Every channel' },
+      { value: 'all', label: 'Every channel', labelKey: 'u.every-channel' },
       ...seen.map((value) => ({ value, label: channelLabel(value) })),
     ]
   }, [all])
@@ -120,7 +123,7 @@ export default function Simulations() {
             <TabsList>
               {STATUS_TABS.map((tab) => (
                 <TabsTrigger key={tab.value} value={tab.value}>
-                  {tab.label}
+                  {tab.labelKey ? t(tab.labelKey) : tab.label}
                   <span className="ml-2 text-xs text-fg-faint">
                     {num(counts.get(tab.value) ?? 0)}
                   </span>
@@ -130,7 +133,7 @@ export default function Simulations() {
 
             <div className="flex flex-wrap items-end gap-3">
               <Select
-                label="Channel"
+                label={t('u.channel')}
                 options={channelOptions}
                 value={channel}
                 onValueChange={(value) => setParam('channel', value)}

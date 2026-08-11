@@ -55,7 +55,7 @@ function Summary({ rows, total }: { rows: QueueRow[]; total: number | null }) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <Stat
-        label="Waiting"
+        label={t('u.waiting')}
         value={num(total ?? rows.length)}
         caption={total !== null && total !== rows.length ? `${rows.length} loaded on this page` : t('p.runs-held-at-the-gate')}
       />

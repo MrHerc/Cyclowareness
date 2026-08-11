@@ -76,7 +76,7 @@ export function VersionComparison({
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <VersionCell label={t('u.in-use')} value={affected} tone="text-high" />
         <VersionCell label={t('p.approved-by-policy')} value={approved} />
-        <VersionCell label="Recommended" value={recommended} tone="text-safe" />
+        <VersionCell label={t('u.recommended')} value={recommended} tone="text-safe" />
       </div>
     </div>
   )

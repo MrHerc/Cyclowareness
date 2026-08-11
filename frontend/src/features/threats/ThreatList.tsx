@@ -92,7 +92,7 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
           which means this row carries its own padding. */}
       <div className="flex flex-wrap items-end gap-2 border-b border-line-subtle px-5 py-3">
         <Select
-          label="Source"
+          label={t('u.source')}
           labelHidden
           options={SOURCE_OPTIONS}
           value={source}
@@ -100,7 +100,7 @@ export function ThreatList({ query, artifactType }: ThreatListProps) {
           className="w-full sm:w-44"
         />
         <Select
-          label="Verdict"
+          label={t('u.verdict')}
           labelHidden
           options={VERDICT_OPTIONS}
           value={verdict}

@@ -39,14 +39,14 @@ function DisputeForm({ plan, onDone }: { plan: RemediationPlan; onDone: () => vo
   const dispute = useRemediationDispute({
     onSuccess: () => {
       toast.show({
-        title: 'Sent to a person',
+        title: t('u.sent-to-a-person-2'),
         description: t('p.someone-will-read-what-you-wrote'),
         tone: 'success',
       })
       onDone()
     },
     onError: (error) =>
-      toast.show({ title: 'That did not send', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.that-did-not-send-2'), description: error.message, tone: 'error' }),
   })
 
   return (

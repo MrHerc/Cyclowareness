@@ -69,9 +69,9 @@ export function ClassificationPanel({ verdict }: ClassificationPanelProps) {
 
         <div className="min-w-0 space-y-5">
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {answer.platform ? <Fact label="Platform" value={answer.platform} /> : null}
-            {answer.category ? <Fact label="Category" value={answer.category} /> : null}
-            {answer.family ? <Fact label="Family" value={answer.family} /> : null}
+            {answer.platform ? <Fact label={t('u.platform')} value={answer.platform} /> : null}
+            {answer.category ? <Fact label={t('u.category')} value={answer.category} /> : null}
+            {answer.family ? <Fact label={t('u.family')} value={answer.family} /> : null}
           </dl>
 
           <div>

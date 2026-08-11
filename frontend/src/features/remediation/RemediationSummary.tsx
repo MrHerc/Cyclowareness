@@ -48,9 +48,9 @@ export function RemediationSummary({ stats }: RemediationSummaryProps) {
   return (
     <Panel>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-7">
-        <Tile label="Plans" value={num(stats.total, 0)} />
+        <Tile label={t('u.plans')} value={num(stats.total, 0)} />
         <Tile
-          label="Waiting"
+          label={t('u.waiting')}
           value={num(stats.by_status.proposed ?? 0, 0)}
           caption={t('x.for-a-human-decision')}
         />

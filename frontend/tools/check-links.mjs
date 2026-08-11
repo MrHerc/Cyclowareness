@@ -38,6 +38,13 @@ for (const m of routesSrc.matchAll(/path:\s*'([^']+)'/g)) {
   const p = m[1]
   registered.add(p.startsWith('/') ? p : '/' + p)
 }
+// An INDEX route carries no `path`, so the pattern above cannot see it — and
+// `/` is exactly the target most likely to be linked from a header, a logo and
+// a footer at once. Before this, every one of those links was reported broken
+// the moment the landing took `/`, which reads as "the home page does not
+// exist". React Router only permits one index per parent; the router itself
+// rejects a second, so registering the path once here is enough.
+if (/\bindex:\s*true\b/.test(routesSrc)) registered.add('/')
 if (registered.size === 0) {
   console.error('check-links: read no routes from %s — refusing to pass.', ROUTES_FILE)
   process.exit(1)

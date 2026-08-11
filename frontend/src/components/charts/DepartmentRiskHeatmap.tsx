@@ -58,9 +58,9 @@ export function DepartmentRiskHeatmap({
       title={t('u.risk-by-department-2')}
       caption={t('u.average-risk-score-0-100-worst-first-2')}
       legend={[
-        { label: 'Low risk', color: BAND_COLOR.low },
-        { label: 'Elevated', color: BAND_COLOR.elevated },
-        { label: 'High risk', color: BAND_COLOR.high },
+        { label: t('u.low-risk-2'), color: BAND_COLOR.low },
+        { label: t('u.elevated-2'), color: BAND_COLOR.elevated },
+        { label: t('u.high-risk-3'), color: BAND_COLOR.high },
       ]}
       height={height}
       hasData={ordered.length > 0}

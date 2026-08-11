@@ -107,6 +107,34 @@ class Settings(BaseSettings):
     # fabricate behaviour for any job.
     dynamic_worker_token: str = ""
 
+    # --- the standalone Cyclowareness Sandbox, reachable from this portal ----
+    #
+    # The standalone is a separate product with its own database, audit chain
+    # and interface. It is not re-implemented here; it is LINKED, and the only
+    # thing this portal does for it is spare the analyst a second password.
+    #
+    # `sandbox_app_secret` MUST equal the standalone's own `SECRET_KEY`. The
+    # portal signs a session token in the standalone's format so the analyst
+    # arrives already authenticated — and it signs it with the REAL person's
+    # address in the subject claim, not a shared service account, because the
+    # standalone's chain of custody is only worth having if it records who
+    # actually did the thing.
+    #
+    # Left empty, the hand-off is closed and the portal simply does not offer
+    # the link. That is the safe direction: a missing secret must not silently
+    # degrade to "everyone shares one identity".
+    #
+    # NOTE FOR DEMO DEPLOYMENTS: the standalone generates a random signing key
+    # per boot when `SECRET_KEY` is unset, so it must be given an explicit one
+    # for this to work at all. A token signed with a key that was regenerated
+    # two seconds ago verifies against nothing.
+    sandbox_app_url: str = ""
+    sandbox_app_secret: str = ""
+    #: Must match the standalone's `ANALYST_TENANT` (empty there means "default").
+    sandbox_app_tenant: str = "default"
+    #: Short by design — it is a hand-off, not a session the portal manages.
+    sandbox_app_ttl_minutes: int = 30
+
     # Report signing. A base64 or hex Ed25519 seed; empty means reports are
     # still exported in full but carry `"signed": false` and the reason, rather
     # than implying an assurance the deployment cannot give.

@@ -45,14 +45,14 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
   const update = useUpdateModule({
     onSuccess: () => {
       toast.show({
-        title: 'Module saved',
+        title: t('u.module-saved-2'),
         description: t('p.this-content-is-now-analystedited'),
         tone: 'success',
       })
       onSaved()
     },
     onError: (error) =>
-      toast.show({ title: 'Module not saved', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.module-not-saved-2'), description: error.message, tone: 'error' }),
   })
 
   const problems = validateDraft(draft)
@@ -88,13 +88,13 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
       <Panel title={t('x.module')} headingLevel={2}>
         <div className="space-y-4">
           <Input
-            label="Title"
+            label={t('u.title')}
             required
             value={draft.title}
             onChange={(event) => setDraft({ ...draft, title: event.target.value })}
           />
           <Textarea
-            label="Description"
+            label={t('u.description')}
             required
             rows={3}
             hint={t('p.the-oneparagraph-summary-an-employee-sees')}
@@ -102,7 +102,7 @@ export function ModuleEditor({ module, onSaved, onCancel }: ModuleEditorProps) {
             onChange={(event) => setDraft({ ...draft, description: event.target.value })}
           />
           <Textarea
-            label="Takeaway"
+            label={t('u.takeaway')}
             required
             rows={2}
             hint={t('p.the-single-behaviour-this-module-is')}

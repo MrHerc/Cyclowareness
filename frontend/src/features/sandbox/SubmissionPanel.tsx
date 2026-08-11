@@ -101,7 +101,7 @@ export function SubmissionPanel() {
           <form onSubmit={onUpload} className="space-y-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Field
-                label="File"
+                label={t('u.file')}
                 hint={
                   // NAMED BEFORE THE UPLOAD, not only in the 413 afterwards.
                   // `SampleTooLarge` has always stated the ceiling, but only to

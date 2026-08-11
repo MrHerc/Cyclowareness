@@ -208,3 +208,21 @@ jobs:
         run: npm run check:links
       - name: Message keys are rendered and complete
         run: npm run check:i18n
+      # `check:i18n` proves the CATALOGUE is sound — no orphan keys, both
+      # locales complete. It says nothing about text that never became a key,
+      # which is the other half and the bigger one: 130 hardcoded labels
+      # (`label="Password"`, on the sign-in screen) passed it for months.
+      #
+      # `find-untranslated.py` is what finds those, and it is only worth having
+      # if it works. It spent that whole time pointed at an absolute path on one
+      # Windows machine, so it crashed everywhere else and nobody noticed. The
+      # self-test asserts it still finds two known-untranslated strings and
+      # still ignores two known-fine ones — cheap, and it fails loudly when the
+      # scanner rots again.
+      #
+      # The scan itself is NOT a gate: there is a real backlog of prose behind
+      # it (`npm run find:untranslated` prints it, `docs/pending-translations.json`
+      # holds the Azerbaijani already written for the parked keys). Gating on
+      # zero today would just mean disabling the step.
+      - name: The untranslated-string scanner still works
+        run: npm run check:scanner

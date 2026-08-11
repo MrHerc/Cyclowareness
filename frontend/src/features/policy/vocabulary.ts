@@ -14,6 +14,7 @@
  */
 
 import { provenanceOf, type Provenance } from '../../domain/types'
+import type { MessageKey } from '../../lib/i18n'
 import type { SelectOption } from '../../components/ui'
 
 /* ============================================================================
@@ -222,16 +223,24 @@ export function sourceLabel(source: string | null | undefined): string {
 
 const ANY = { value: 'all', label: 'Any' }
 
-export function optionsFrom(labels: Record<string, string>, anyLabel = 'Any'): SelectOption[] {
+export function optionsFrom(
+  labels: Record<string, string>,
+  anyLabel = 'Any',
+  anyLabelKey?: MessageKey,
+): SelectOption[] {
   return [
-    { ...ANY, label: anyLabel },
+    { ...ANY, label: anyLabel, labelKey: anyLabelKey },
     ...Object.entries(labels).map(([value, label]) => ({ value, label })),
   ]
 }
 
-export function optionsFromValues(values: string[], anyLabel = 'Any'): SelectOption[] {
+export function optionsFromValues(
+  values: string[],
+  anyLabel = 'Any',
+  anyLabelKey?: MessageKey,
+): SelectOption[] {
   return [
-    { ...ANY, label: anyLabel },
+    { ...ANY, label: anyLabel, labelKey: anyLabelKey },
     ...values.map((value) => ({ value, label: value })),
   ]
 }

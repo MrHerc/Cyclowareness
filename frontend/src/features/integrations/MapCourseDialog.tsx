@@ -171,7 +171,7 @@ export function MapCourseDialog({
         ) : null}
 
         <Textarea
-          label="Note"
+          label={t('u.note')}
           value={note}
           onChange={(event) => setNote(event.target.value)}
           rows={2}

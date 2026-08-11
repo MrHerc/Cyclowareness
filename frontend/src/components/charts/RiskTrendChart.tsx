@@ -91,8 +91,8 @@ export function RiskTrendChart({
           : '')
       }
       legend={[
-        { label: 'Behaviour risk', color: BEHAVIOUR_COLOR },
-        { label: 'Composite score', color: RISK_COLOR },
+        { label: t('u.behaviour-risk-2'), color: BEHAVIOUR_COLOR },
+        { label: t('u.composite-score-2'), color: RISK_COLOR },
         { label: `Elevated at ${ELEVATED_AT}`, color: BAND_COLOR.elevated },
         { label: `High at ${HIGH_AT}`, color: BAND_COLOR.high },
       ]}
@@ -148,12 +148,12 @@ export function RiskTrendChart({
                 note={behaviour === null ? undefined : riskBandLabel(behaviour)}
                 rows={[
                   {
-                    label: 'Behaviour risk',
+                    label: t('u.behaviour-risk-2'),
                     color: BEHAVIOUR_COLOR,
                     value: behaviour === null ? null : num(behaviour, 1),
                   },
                   {
-                    label: 'Composite score',
+                    label: t('u.composite-score-2'),
                     color: RISK_COLOR,
                     value: score === null ? null : num(score, 1),
                   },

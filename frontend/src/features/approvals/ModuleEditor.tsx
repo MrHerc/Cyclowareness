@@ -100,12 +100,12 @@ export function ModuleEditor({
 
       <div className="space-y-4">
         <Input
-          label="Title"
+          label={t('u.title')}
           value={value.title}
           onChange={(event) => setField('title', event.target.value)}
         />
         <Textarea
-          label="Description"
+          label={t('u.description')}
           rows={3}
           value={value.description}
           onChange={(event) => setField('description', event.target.value)}

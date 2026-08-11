@@ -15,6 +15,7 @@ Every finding below was a real defect found in that shape.
 from __future__ import annotations
 
 import ast
+import os
 import pathlib
 
 import pytest
@@ -125,19 +126,49 @@ def test_the_engine_package_holds_no_portal_only_module():
     )
 
 # --- the drift itself, when the other repository is on this machine ------------
-#: The standalone checkout, if the developer has one beside the portal. CI does
-#: not, which is why every other test in this file checks the portal alone.
-_STANDALONE = pathlib.Path(
-    "C:/Users/Safar/Desktop/Cyclowareness/cyclowareness-sandbox/backend/app/engine"
+#: Where to look for the standalone checkout, relative to this repository. CI has
+#: only one repository, which is why every other test in this file checks the
+#: portal alone.
+#:
+#: THE PATH USED TO BE AN ABSOLUTE ONE — `C:/Users/Safar/Desktop/...` — so the
+#: check was dead on every machine but the one it was written on, including on
+#: the developer machines it exists to serve. It reported SKIPPED and everyone
+#: read that as "CI does not have the other repo"; meanwhile twelve engine files
+#: drifted and the portal spent a week asserting ATT&CK techniques the standalone
+#: had already withdrawn. A guard that can only fire in one home directory is not
+#: a guard. Resolved relatively now, with an override for a checkout somewhere
+#: else, and `-o "not skip"` in `pytest.ini` is deliberately NOT set so the skip
+#: reason stays visible in `-rs` output.
+_REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
+_CANDIDATES = (
+    # a sibling of the portal checkout — the usual arrangement
+    _REPO_ROOT.parent / "cyclowareness-sandbox" / "backend" / "app" / "engine",
+    # nested inside it, for a developer who clones one into the other
+    _REPO_ROOT / "cyclowareness-sandbox" / "backend" / "app" / "engine",
 )
 
 
+def _find_standalone() -> pathlib.Path | None:
+    """The standalone's engine package, wherever this developer keeps it."""
+    override = os.environ.get("CYCLOWARENESS_SANDBOX_ENGINE")
+    if override:
+        # An explicit override that does not exist is an operator error worth
+        # seeing, not a reason to silently skip.
+        path = pathlib.Path(override)
+        return path if path.is_dir() else None
+    return next((p for p in _CANDIDATES if p.is_dir()), None)
+
+
+_STANDALONE = _find_standalone()
+
+
 @pytest.mark.skipif(
-    not _STANDALONE.is_dir(),
+    _STANDALONE is None,
     reason=(
         "the standalone checkout is not on this machine — CI runs one repository "
         "at a time, so the byte-identity check can only run for a developer who "
-        "has both"
+        "has both. Point CYCLOWARENESS_SANDBOX_ENGINE at "
+        "<sandbox>/backend/app/engine if it lives somewhere unusual."
     ),
 )
 def test_the_vendored_engine_is_byte_identical_to_the_standalone():

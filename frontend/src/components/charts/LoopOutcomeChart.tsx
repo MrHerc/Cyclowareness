@@ -53,9 +53,9 @@ export function LoopOutcomeChart({
       title={t('u.loop-outcomes-2')}
       caption={windowDays ? `Last ${windowDays} days · ${total} loops` : `${total} loops`}
       legend={[
-        { label: 'Completed', color: COMPLETED_COLOR, value: String(completed) },
-        { label: 'Awaiting', color: AWAITING_COLOR, value: String(awaiting) },
-        { label: 'Failed', color: FAILED_COLOR, value: String(failed) },
+        { label: t('u.completed-2'), color: COMPLETED_COLOR, value: String(completed) },
+        { label: t('u.awaiting-2'), color: AWAITING_COLOR, value: String(awaiting) },
+        { label: t('u.failed-2'), color: FAILED_COLOR, value: String(failed) },
       ]}
       height={height}
       hasData={total > 0}
@@ -85,17 +85,17 @@ export function LoopOutcomeChart({
                 note={`${total} loops in total`}
                 rows={[
                   {
-                    label: 'Completed',
+                    label: t('u.completed-2'),
                     color: COMPLETED_COLOR,
                     value: `${completed} · ${share(completed) ?? '—'}`,
                   },
                   {
-                    label: 'Awaiting',
+                    label: t('u.awaiting-2'),
                     color: AWAITING_COLOR,
                     value: `${awaiting} · ${share(awaiting) ?? '—'}`,
                   },
                   {
-                    label: 'Failed',
+                    label: t('u.failed-2'),
                     color: FAILED_COLOR,
                     value: `${failed} · ${share(failed) ?? '—'}`,
                   },

@@ -94,13 +94,13 @@ export function AudienceSelector({
                 key={band.value}
                 label={
                   <span>
-                    {band.label}
+                    {t(band.labelKey)}
                     <span className="ml-2 text-xs text-fg-faint">
                       {loading ? 'counting…' : `${num(bandCounts.get(band.value) ?? 0)} people`}
                     </span>
                   </span>
                 }
-                hint={band.hint}
+                hint={t(band.hintKey)}
                 disabled={loading}
                 checked={bands.includes(band.value)}
                 onCheckedChange={() => onBandsChange(toggle(bands, band.value))}

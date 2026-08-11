@@ -14,6 +14,7 @@
  */
 
 import { X } from 'lucide-react'
+import { useT } from '../../lib/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { cn } from '../../lib/format'
 import { IconButton } from './Button'
@@ -129,6 +130,7 @@ function ToastCard({
   toast: ToastRecord
   onDismiss: (id: string) => void
 }) {
+  const t = useT()
   return (
     <div
       className={cn(
@@ -147,7 +149,7 @@ function ToastCard({
         )}
       </div>
       <IconButton
-        label="Dismiss"
+        label={t('u.dismiss')}
         size="sm"
         variant="ghost"
         onClick={() => onDismiss(toast.id)}

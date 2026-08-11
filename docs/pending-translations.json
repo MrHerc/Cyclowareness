@@ -1,0 +1,1298 @@
+{
+ "u.a-fictional-organisation-caspian-dynamics-is-seeded": {
+  "en": "A fictional organisation (Caspian Dynamics) is seeded for demonstration. The risk model operating on it is the real one.",
+  "az": "Nümayiş üçün uydurma təşkilat (Caspian Dynamics) toxumlanıb. Onun üzərində işləyən risk modeli isə realdır."
+ },
+ "u.a-fictional-organisation-caspian-dynamics-is-seeded-2": {
+  "en": "A fictional organisation (Caspian Dynamics) is seeded for demonstration. The risk model operating on it is the real one.",
+  "az": "Nümayiş üçün uydurma təşkilat (Caspian Dynamics) toxumlanıb. Onun üzərində işləyən risk modeli isə realdır."
+ },
+ "u.a-targeted-employee-with-assigned-training": {
+  "en": "A targeted employee with assigned training",
+  "az": "Təyin edilmiş təlimi olan hədəflənmiş işçi"
+ },
+ "u.a-targeted-employee-with-assigned-training-2": {
+  "en": "A targeted employee with assigned training",
+  "az": "Təyin edilmiş təlimi olan hədəflənmiş işçi"
+ },
+ "u.accept": {
+  "en": "Accept",
+  "az": "Qəbul et"
+ },
+ "u.action-2": {
+  "en": "Action",
+  "az": "Əməliyyat"
+ },
+ "u.active-2": {
+  "en": "Active",
+  "az": "Aktiv"
+ },
+ "u.actor-2": {
+  "en": "Actor",
+  "az": "İcraçı"
+ },
+ "u.added-2": {
+  "en": "Added",
+  "az": "Əlavə edilib"
+ },
+ "u.advisories-are-seeded-no-external-feed-is": {
+  "en": "Advisories are seeded. No external feed is connected — refreshing reports that honestly rather than inventing items.",
+  "az": "Xəbərdarlıqlar toxumlanıb. Heç bir xarici lent qoşulmayıb — yeniləmə element uydurmaq əvəzinə bunu dürüst bildirir."
+ },
+ "u.advisories-are-seeded-no-external-feed-is-2": {
+  "en": "Advisories are seeded. No external feed is connected — refreshing reports that honestly rather than inventing items.",
+  "az": "Xəbərdarlıqlar toxumlanıb. Heç bir xarici lent qoşulmayıb — yeniləmə element uydurmaq əvəzinə bunu dürüst bildirir."
+ },
+ "u.advisory-dismissed": {
+  "en": "Advisory dismissed",
+  "az": "Xəbərdarlıq rədd edildi"
+ },
+ "u.affected-department": {
+  "en": "Affected department",
+  "az": "Təsirlənən departament"
+ },
+ "u.after-2": {
+  "en": "After",
+  "az": "Sonra"
+ },
+ "u.all-departments-2": {
+  "en": "All departments",
+  "az": "Bütün departamentlər"
+ },
+ "u.all-stages": {
+  "en": "All stages",
+  "az": "Bütün mərhələlər"
+ },
+ "u.all-submissions-2": {
+  "en": "All submissions",
+  "az": "Bütün göndərişlər"
+ },
+ "u.analysed-2": {
+  "en": "Analysed",
+  "az": "Təhlil edilib"
+ },
+ "u.analyst-adjustment": {
+  "en": "Analyst adjustment",
+  "az": "Analitik düzəlişi"
+ },
+ "u.analyst-adjustment-2": {
+  "en": "Analyst adjustment",
+  "az": "Analitik düzəlişi"
+ },
+ "u.analyst-edited": {
+  "en": "Analyst edited",
+  "az": "Analitik redaktə edib"
+ },
+ "u.analyst-edited-2": {
+  "en": "Analyst edited",
+  "az": "Analitik redaktə edib"
+ },
+ "u.analyst-submission-2": {
+  "en": "Analyst submission",
+  "az": "Analitik göndərişi"
+ },
+ "u.analyzer-2": {
+  "en": "Analyzer",
+  "az": "Analizator"
+ },
+ "u.any-artifact-type-2": {
+  "en": "Any artifact type",
+  "az": "İstənilən artefakt növü"
+ },
+ "u.any-due-date-2": {
+  "en": "Any due date",
+  "az": "İstənilən son tarix"
+ },
+ "u.any-policy-2": {
+  "en": "Any policy",
+  "az": "İstənilən siyasət"
+ },
+ "u.any-risk-band-2": {
+  "en": "Any risk band",
+  "az": "İstənilən risk zolağı"
+ },
+ "u.any-severity-2": {
+  "en": "Any severity",
+  "az": "İstənilən ciddilik"
+ },
+ "u.any-source-2": {
+  "en": "Any source",
+  "az": "İstənilən mənbə"
+ },
+ "u.any-suspicion-level-2": {
+  "en": "Any suspicion level",
+  "az": "İstənilən şübhə səviyyəsi"
+ },
+ "u.any-verdict-2": {
+  "en": "Any verdict",
+  "az": "İstənilən hökm"
+ },
+ "u.approval-gate": {
+  "en": "Approval Gate",
+  "az": "Təsdiq qapısı"
+ },
+ "u.approval-gate-3": {
+  "en": "Approval Gate",
+  "az": "Təsdiq qapısı"
+ },
+ "u.approved-2": {
+  "en": "Approved",
+  "az": "Təsdiqlənib"
+ },
+ "u.approved-by": {
+  "en": "Approved by",
+  "az": "Təsdiqləyən"
+ },
+ "u.approver-2": {
+  "en": "Approver",
+  "az": "Təsdiqləyici"
+ },
+ "u.artifact-type": {
+  "en": "Artifact type",
+  "az": "Artefakt növü"
+ },
+ "u.assessment-2": {
+  "en": "Assessment",
+  "az": "Qiymətləndirmə"
+ },
+ "u.audit-log": {
+  "en": "Audit Log",
+  "az": "Audit jurnalı"
+ },
+ "u.audit-log-2": {
+  "en": "Audit Log",
+  "az": "Audit jurnalı"
+ },
+ "u.awaiting": {
+  "en": "Awaiting",
+  "az": "Gözləyir"
+ },
+ "u.awaiting-approval-3": {
+  "en": "Awaiting approval",
+  "az": "Təsdiq gözləyir"
+ },
+ "u.awaiting-password-2": {
+  "en": "Awaiting password",
+  "az": "Parol gözləyir"
+ },
+ "u.awaiting-training-2": {
+  "en": "Awaiting training",
+  "az": "Təlim gözləyir"
+ },
+ "u.awaiting-triage-2": {
+  "en": "Awaiting triage",
+  "az": "Triaj gözləyir"
+ },
+ "u.before-2": {
+  "en": "Before",
+  "az": "Əvvəl"
+ },
+ "u.behaviour-risk": {
+  "en": "Behaviour risk",
+  "az": "Davranış riski"
+ },
+ "u.benign-2": {
+  "en": "Benign",
+  "az": "Zərərsiz"
+ },
+ "u.campaign-closed": {
+  "en": "Campaign closed",
+  "az": "Kampaniya bağlandı"
+ },
+ "u.campaign-launched": {
+  "en": "Campaign launched",
+  "az": "Kampaniya başladıldı"
+ },
+ "u.campaign-records-and-outcomes-come-from-the": {
+  "en": "Campaign records and outcomes come from the platform. Delivery is not wired to a mail gateway.",
+  "az": "Kampaniya qeydləri və nəticələri platformadan gəlir. Çatdırılma poçt şlüzünə qoşulmayıb."
+ },
+ "u.campaign-records-and-outcomes-come-from-the-2": {
+  "en": "Campaign records and outcomes come from the platform. Delivery is not wired to a mail gateway.",
+  "az": "Kampaniya qeydləri və nəticələri platformadan gəlir. Çatdırılma poçt şlüzünə qoşulmayıb."
+ },
+ "u.category-2": {
+  "en": "Category",
+  "az": "Kateqoriya"
+ },
+ "u.changed-2": {
+  "en": "Changed",
+  "az": "Dəyişdirilib"
+ },
+ "u.chat-2": {
+  "en": "Chat",
+  "az": "Çat"
+ },
+ "u.chat-message-2": {
+  "en": "Chat message",
+  "az": "Çat mesajı"
+ },
+ "u.clean-2": {
+  "en": "Clean",
+  "az": "Təmiz"
+ },
+ "u.click-rate-2": {
+  "en": "Click rate",
+  "az": "Klik nisbəti"
+ },
+ "u.clicked-2": {
+  "en": "Clicked",
+  "az": "Klikləyib"
+ },
+ "u.clicked-a-simulated-phish": {
+  "en": "Clicked a simulated phish",
+  "az": "Simulyasiya edilmiş fişinq linkinə klikləyib"
+ },
+ "u.clicked-a-simulated-phish-2": {
+  "en": "Clicked a simulated phish",
+  "az": "Simulyasiya edilmiş fişinq linkinə klikləyib"
+ },
+ "u.close-2": {
+  "en": "Close",
+  "az": "Bağla"
+ },
+ "u.closed-loops": {
+  "en": "Closed Loops",
+  "az": "Qapalı dövrələr"
+ },
+ "u.closed-loops-2": {
+  "en": "Closed Loops",
+  "az": "Qapalı dövrələr"
+ },
+ "u.command-center": {
+  "en": "Command Center",
+  "az": "Komanda Mərkəzi"
+ },
+ "u.command-center-2": {
+  "en": "Command Center",
+  "az": "Komanda Mərkəzi"
+ },
+ "u.completed-training": {
+  "en": "Completed training",
+  "az": "Təlimi tamamlayıb"
+ },
+ "u.completed-training-2": {
+  "en": "Completed training",
+  "az": "Təlimi tamamlayıb"
+ },
+ "u.completion-2": {
+  "en": "Completion",
+  "az": "Tamamlanma"
+ },
+ "u.completion-rate": {
+  "en": "Completion rate",
+  "az": "Tamamlanma nisbəti"
+ },
+ "u.composite-score": {
+  "en": "Composite score",
+  "az": "Məcmu bal"
+ },
+ "u.confidence": {
+  "en": "Confidence",
+  "az": "Əminlik"
+ },
+ "u.confidence-2": {
+  "en": "Confidence",
+  "az": "Əminlik"
+ },
+ "u.configuration-stored": {
+  "en": "Configuration stored",
+  "az": "Konfiqurasiya yadda saxlanıldı"
+ },
+ "u.could-not-re-analyse": {
+  "en": "Could not re-analyse",
+  "az": "Yenidən təhlil edilə bilmədi"
+ },
+ "u.could-not-re-analyse-2": {
+  "en": "Could not re-analyse",
+  "az": "Yenidən təhlil edilə bilmədi"
+ },
+ "u.counted-2": {
+  "en": "Counted",
+  "az": "Sayılıb"
+ },
+ "u.created-2": {
+  "en": "Created",
+  "az": "Yaradılıb"
+ },
+ "u.critical-2": {
+  "en": "Critical",
+  "az": "Kritik"
+ },
+ "u.curated-feed-2": {
+  "en": "Curated feed",
+  "az": "Seçilmiş lent"
+ },
+ "u.deadline-2": {
+  "en": "Deadline",
+  "az": "Son tarix"
+ },
+ "u.decision-2": {
+  "en": "Decision",
+  "az": "Qərar"
+ },
+ "u.department-2": {
+  "en": "Department",
+  "az": "Departament"
+ },
+ "u.departments-in-the-organisation-2": {
+  "en": "departments in the organisation",
+  "az": "təşkilatdakı departament"
+ },
+ "u.description-2": {
+  "en": "Description",
+  "az": "Təsvir"
+ },
+ "u.dismiss-2": {
+  "en": "Dismiss",
+  "az": "Rədd et"
+ },
+ "u.dismissed-2": {
+  "en": "Dismissed",
+  "az": "Rədd edilib"
+ },
+ "u.domains": {
+  "en": "Domains",
+  "az": "Domenlər"
+ },
+ "u.draft-2": {
+  "en": "Draft",
+  "az": "Qaralama"
+ },
+ "u.due-within-30-days-2": {
+  "en": "Due within 30 days",
+  "az": "30 gün ərzində vaxtı çatır"
+ },
+ "u.due-within-7-days-2": {
+  "en": "Due within 7 days",
+  "az": "7 gün ərzində vaxtı çatır"
+ },
+ "u.elevated-40-59-2": {
+  "en": "Elevated (40–59)",
+  "az": "Yüksəlmiş (40–59)"
+ },
+ "u.email-2": {
+  "en": "Email",
+  "az": "E-poçt"
+ },
+ "u.email-addresses": {
+  "en": "Email addresses",
+  "az": "E-poçt ünvanları"
+ },
+ "u.email-addresses-2": {
+  "en": "Email addresses",
+  "az": "E-poçt ünvanları"
+ },
+ "u.employees": {
+  "en": "Employees",
+  "az": "İşçilər"
+ },
+ "u.employees-2": {
+  "en": "Employees",
+  "az": "İşçilər"
+ },
+ "u.environment-2": {
+  "en": "Environment",
+  "az": "Mühit"
+ },
+ "u.estimated-time": {
+  "en": "Estimated time",
+  "az": "Təxmini vaxt"
+ },
+ "u.every-action": {
+  "en": "Every action",
+  "az": "Bütün əməliyyatlar"
+ },
+ "u.every-channel-2": {
+  "en": "Every channel",
+  "az": "Bütün kanallar"
+ },
+ "u.every-object-type": {
+  "en": "Every object type",
+  "az": "Bütün obyekt növləri"
+ },
+ "u.every-report-2": {
+  "en": "Every report",
+  "az": "Bütün hesabatlar"
+ },
+ "u.excluded-2": {
+  "en": "Excluded",
+  "az": "Kənarlaşdırılıb"
+ },
+ "u.exports-are-generated-from-the-same-records": {
+  "en": "Exports are generated from the same records the screens read.",
+  "az": "İxraclar ekranların oxuduğu eyni qeydlərdən yaradılır."
+ },
+ "u.exports-are-generated-from-the-same-records-2": {
+  "en": "Exports are generated from the same records the screens read.",
+  "az": "İxraclar ekranların oxuduğu eyni qeydlərdən yaradılır."
+ },
+ "u.failed-the-quiz": {
+  "en": "Failed the quiz",
+  "az": "Testdən keçə bilməyib"
+ },
+ "u.failed-the-quiz-2": {
+  "en": "Failed the quiz",
+  "az": "Testdən keçə bilməyib"
+ },
+ "u.family-2": {
+  "en": "Family",
+  "az": "Ailə"
+ },
+ "u.feedback-recorded": {
+  "en": "Feedback recorded",
+  "az": "Rəy qeydə alındı"
+ },
+ "u.file-2": {
+  "en": "File",
+  "az": "Fayl"
+ },
+ "u.file-paths": {
+  "en": "File paths",
+  "az": "Fayl yolları"
+ },
+ "u.file-paths-2": {
+  "en": "File paths",
+  "az": "Fayl yolları"
+ },
+ "u.findings": {
+  "en": "Findings",
+  "az": "Tapıntılar"
+ },
+ "u.findings-detected-in-the-window-2": {
+  "en": "findings detected in the window",
+  "az": "bu pəncərədə aşkarlanan tapıntı"
+ },
+ "u.hashes": {
+  "en": "Hashes",
+  "az": "Heşlər"
+ },
+ "u.help-2": {
+  "en": "Help",
+  "az": "Kömək"
+ },
+ "u.high-2": {
+  "en": "High",
+  "az": "Yüksək"
+ },
+ "u.high-confidence": {
+  "en": "High confidence",
+  "az": "Yüksək əminlik"
+ },
+ "u.high-confidence-2": {
+  "en": "High confidence",
+  "az": "Yüksək əminlik"
+ },
+ "u.high-risk-2": {
+  "en": "High risk",
+  "az": "Yüksək risk"
+ },
+ "u.high-risk-60-100-2": {
+  "en": "High risk (60–100)",
+  "az": "Yüksək risk (60–100)"
+ },
+ "u.high-suspicion-2": {
+  "en": "High suspicion",
+  "az": "Yüksək şübhə"
+ },
+ "u.human-approval-gate": {
+  "en": "Human approval gate",
+  "az": "İnsan təsdiq qapısı"
+ },
+ "u.human-approval-gate-2": {
+  "en": "Human approval gate",
+  "az": "İnsan təsdiq qapısı"
+ },
+ "u.human-approved": {
+  "en": "Human approved",
+  "az": "İnsan təsdiqləyib"
+ },
+ "u.human-approved-2": {
+  "en": "Human approved",
+  "az": "İnsan təsdiqləyib"
+ },
+ "u.human-sensor-2": {
+  "en": "Human sensor",
+  "az": "İnsan sensoru"
+ },
+ "u.incident-risks-raised-in-the-window-2": {
+  "en": "incident risks raised in the window",
+  "az": "bu pəncərədə qaldırılan insident riski"
+ },
+ "u.json-report": {
+  "en": "JSON report",
+  "az": "JSON hesabatı"
+ },
+ "u.json-report-2": {
+  "en": "JSON report",
+  "az": "JSON hesabatı"
+ },
+ "u.judgement-2": {
+  "en": "Judgement",
+  "az": "Rəy"
+ },
+ "u.label-2": {
+  "en": "Label",
+  "az": "Etiket"
+ },
+ "u.last-30-days": {
+  "en": "Last 30 days",
+  "az": "Son 30 gün"
+ },
+ "u.last-30-days-2": {
+  "en": "Last 30 days",
+  "az": "Son 30 gün"
+ },
+ "u.last-7-days": {
+  "en": "Last 7 days",
+  "az": "Son 7 gün"
+ },
+ "u.last-7-days-2": {
+  "en": "Last 7 days",
+  "az": "Son 7 gün"
+ },
+ "u.last-90-days": {
+  "en": "Last 90 days",
+  "az": "Son 90 gün"
+ },
+ "u.last-90-days-2": {
+  "en": "Last 90 days",
+  "az": "Son 90 gün"
+ },
+ "u.launch-failed": {
+  "en": "Launch failed",
+  "az": "Başladılma uğursuz oldu"
+ },
+ "u.longest-wait-first-2": {
+  "en": "Longest wait first",
+  "az": "Əvvəlcə ən uzun gözləyənlər"
+ },
+ "u.loop-runs-closed-in-the-window-2": {
+  "en": "loop runs closed in the window",
+  "az": "bu pəncərədə bağlanan dövrə icrası"
+ },
+ "u.low-confidence": {
+  "en": "Low confidence",
+  "az": "Aşağı əminlik"
+ },
+ "u.low-confidence-2": {
+  "en": "Low confidence",
+  "az": "Aşağı əminlik"
+ },
+ "u.low-risk-0-39-2": {
+  "en": "Low risk (0–39)",
+  "az": "Aşağı risk (0–39)"
+ },
+ "u.low-suspicion-2": {
+  "en": "Low suspicion",
+  "az": "Aşağı şübhə"
+ },
+ "u.malicious-2": {
+  "en": "Malicious",
+  "az": "Zərərli"
+ },
+ "u.medium-2": {
+  "en": "Medium",
+  "az": "Orta"
+ },
+ "u.medium-suspicion-2": {
+  "en": "Medium suspicion",
+  "az": "Orta şübhə"
+ },
+ "u.moderate-confidence": {
+  "en": "Moderate confidence",
+  "az": "Orta əminlik"
+ },
+ "u.moderate-confidence-2": {
+  "en": "Moderate confidence",
+  "az": "Orta əminlik"
+ },
+ "u.module-not-saved": {
+  "en": "Module not saved",
+  "az": "Modul yadda saxlanılmadı"
+ },
+ "u.module-saved": {
+  "en": "Module saved",
+  "az": "Modul yadda saxlanıldı"
+ },
+ "u.modules-assignments-and-quiz-results-are-real": {
+  "en": "Modules, assignments and quiz results are real records.",
+  "az": "Modullar, təyinatlar və test nəticələri real qeydlərdir."
+ },
+ "u.modules-assignments-and-quiz-results-are-real-2": {
+  "en": "Modules, assignments and quiz results are real records.",
+  "az": "Modullar, təyinatlar və test nəticələri real qeydlərdir."
+ },
+ "u.monitoring-2": {
+  "en": "Monitoring",
+  "az": "Müşahidə"
+ },
+ "u.mutexes": {
+  "en": "Mutexes",
+  "az": "Mütekslər"
+ },
+ "u.mutexes-2": {
+  "en": "Mutexes",
+  "az": "Mütekslər"
+ },
+ "u.navigation-2": {
+  "en": "Navigation",
+  "az": "Naviqasiya"
+ },
+ "u.newest-first-2": {
+  "en": "Newest first",
+  "az": "Əvvəlcə ən yenilər"
+ },
+ "u.no-external-lms-or-sso-provider-is": {
+  "en": "No external LMS or SSO provider is connected. Connection states are real; course data is demonstration data.",
+  "az": "Heç bir xarici LMS və ya SSO provayderi qoşulmayıb. Qoşulma vəziyyətləri realdır; kurs məlumatları isə nümayiş məlumatıdır."
+ },
+ "u.no-external-lms-or-sso-provider-is-2": {
+  "en": "No external LMS or SSO provider is connected. Connection states are real; course data is demonstration data.",
+  "az": "Heç bir xarici LMS və ya SSO provayderi qoşulmayıb. Qoşulma vəziyyətləri realdır; kurs məlumatları isə nümayiş məlumatıdır."
+ },
+ "u.no-material-change": {
+  "en": "No material change",
+  "az": "Əhəmiyyətli dəyişiklik yoxdur"
+ },
+ "u.no-single-department": {
+  "en": "No single department",
+  "az": "Vahid departament yoxdur"
+ },
+ "u.no-verdict-recorded-2": {
+  "en": "No verdict recorded",
+  "az": "Hökm qeydə alınmayıb"
+ },
+ "u.nobody-was-assigned": {
+  "en": "Nobody was assigned",
+  "az": "Heç kimə təyin edilməyib"
+ },
+ "u.not-applicable-2": {
+  "en": "Not applicable",
+  "az": "Aid deyil"
+ },
+ "u.not-reached": {
+  "en": "Not reached",
+  "az": "Çatmayıb"
+ },
+ "u.not-reached-2": {
+  "en": "Not reached",
+  "az": "Çatmayıb"
+ },
+ "u.note-2": {
+  "en": "Note",
+  "az": "Qeyd"
+ },
+ "u.open-closed-loops": {
+  "en": "Open Closed Loops",
+  "az": "Qapalı dövrələri aç"
+ },
+ "u.open-departments-2": {
+  "en": "Open Departments",
+  "az": "Departamentləri aç"
+ },
+ "u.open-findings-2": {
+  "en": "Open Findings",
+  "az": "Tapıntıları aç"
+ },
+ "u.opened-2": {
+  "en": "Opened",
+  "az": "Açılıb"
+ },
+ "u.optional-2": {
+  "en": "Optional.",
+  "az": "Məcburi deyil."
+ },
+ "u.order-2": {
+  "en": "Order",
+  "az": "Sıralama"
+ },
+ "u.outcome-not-recorded": {
+  "en": "Outcome not recorded",
+  "az": "Nəticə qeydə alınmayıb"
+ },
+ "u.outcomes-are-recorded-by-an-analyst-this": {
+  "en": "Outcomes are recorded by an analyst. This deployment has no tracked-link delivery, so the rate measures what was observed and entered, not what a mail gateway saw.",
+  "az": "Nəticələri analitik qeyd edir. Bu quraşdırmada izlənilən link vasitəsilə çatdırılma yoxdur, ona görə nisbət poçt şlüzünün gördüyünü deyil, müşahidə edilib daxil ediləni ölçür."
+ },
+ "u.outcomes-are-recorded-by-an-analyst-this-2": {
+  "en": "Outcomes are recorded by an analyst. This deployment has no tracked-link delivery, so the rate measures what was observed and entered, not what a mail gateway saw.",
+  "az": "Nəticələri analitik qeyd edir. Bu quraşdırmada izlənilən link vasitəsilə çatdırılma yoxdur, ona görə nisbət poçt şlüzünün gördüyünü deyil, müşahidə edilib daxil ediləni ölçür."
+ },
+ "u.overdue-2": {
+  "en": "Overdue",
+  "az": "Vaxtı keçib"
+ },
+ "u.overview": {
+  "en": "Overview",
+  "az": "İcmal"
+ },
+ "u.overview-2": {
+  "en": "Overview",
+  "az": "İcmal"
+ },
+ "u.owner-2": {
+  "en": "Owner",
+  "az": "Sahib"
+ },
+ "u.password-2": {
+  "en": "Password",
+  "az": "Parol"
+ },
+ "u.pdf-report": {
+  "en": "PDF report",
+  "az": "PDF hesabatı"
+ },
+ "u.pdf-report-2": {
+  "en": "PDF report",
+  "az": "PDF hesabatı"
+ },
+ "u.pending-2": {
+  "en": "Pending",
+  "az": "Gözləyir"
+ },
+ "u.pending-review-2": {
+  "en": "Pending review",
+  "az": "Baxış gözləyir"
+ },
+ "u.person": {
+  "en": "Person",
+  "az": "Şəxs"
+ },
+ "u.person-2": {
+  "en": "Person",
+  "az": "Şəxs"
+ },
+ "u.plans-2": {
+  "en": "Plans",
+  "az": "Planlar"
+ },
+ "u.platform-2": {
+  "en": "Platform",
+  "az": "Platforma"
+ },
+ "u.points-2": {
+  "en": "Points",
+  "az": "Xal"
+ },
+ "u.policy-2": {
+  "en": "Policy",
+  "az": "Siyasət"
+ },
+ "u.policy-library-2": {
+  "en": "Policy library",
+  "az": "Siyasət kitabxanası"
+ },
+ "u.policy-library-3": {
+  "en": "Policy library",
+  "az": "Siyasət kitabxanası"
+ },
+ "u.primary-2": {
+  "en": "Primary",
+  "az": "Əsas"
+ },
+ "u.product-2": {
+  "en": "Product",
+  "az": "Məhsul"
+ },
+ "u.provenance-2": {
+  "en": "Provenance",
+  "az": "Mənşə"
+ },
+ "u.provenance-unknown": {
+  "en": "Provenance unknown",
+  "az": "Mənşə naməlum"
+ },
+ "u.provenance-unknown-2": {
+  "en": "Provenance unknown",
+  "az": "Mənşə naməlum"
+ },
+ "u.pushed-into-the-loop-2": {
+  "en": "Pushed into the loop",
+  "az": "Dövrəyə göndərilib"
+ },
+ "u.qr-code-2": {
+  "en": "QR code",
+  "az": "QR kod"
+ },
+ "u.questions-2": {
+  "en": "Questions",
+  "az": "Suallar"
+ },
+ "u.queued-2": {
+  "en": "Queued",
+  "az": "Növbədə"
+ },
+ "u.quiz-questions": {
+  "en": "Quiz questions",
+  "az": "Test sualları"
+ },
+ "u.re-analysis-queued": {
+  "en": "Re-analysis queued",
+  "az": "Yenidən təhlil növbəyə alındı"
+ },
+ "u.re-analysis-queued-2": {
+  "en": "Re-analysis queued",
+  "az": "Yenidən təhlil növbəyə alındı"
+ },
+ "u.reach-2": {
+  "en": "Reach",
+  "az": "Əhatə"
+ },
+ "u.read-only-posture-view": {
+  "en": "Read-only posture view",
+  "az": "Yalnız oxumaq üçün vəziyyət görünüşü"
+ },
+ "u.read-only-posture-view-2": {
+  "en": "Read-only posture view",
+  "az": "Yalnız oxumaq üçün vəziyyət görünüşü"
+ },
+ "u.real-looprun-records-the-stages-you-see": {
+  "en": "Real LoopRun records. The stages you see are the stages that executed.",
+  "az": "Real LoopRun qeydləri. Gördüyünüz mərhələlər həqiqətən icra olunmuş mərhələlərdir."
+ },
+ "u.real-looprun-records-the-stages-you-see-2": {
+  "en": "Real LoopRun records. The stages you see are the stages that executed.",
+  "az": "Real LoopRun qeydləri. Gördüyünüz mərhələlər həqiqətən icra olunmuş mərhələlərdir."
+ },
+ "u.real-static-analysis-on-the-same-engine": {
+  "en": "Real static analysis on the same engine as the standalone product. Dynamic detonation runs off-host and is reported as not run unless a worker is attached.",
+  "az": "Müstəqil məhsulla eyni mühərrik üzərində real statik təhlil. Dinamik detonasiya host-dan kənarda işləyir və işçi qoşulmayıbsa, icra olunmamış kimi bildirilir."
+ },
+ "u.real-static-analysis-on-the-same-engine-2": {
+  "en": "Real static analysis on the same engine as the standalone product. Dynamic detonation runs off-host and is reported as not run unless a worker is attached.",
+  "az": "Müstəqil məhsulla eyni mühərrik üzərində real statik təhlil. Dinamik detonasiya host-dan kənarda işləyir və işçi qoşulmayıbsa, icra olunmamış kimi bildirilir."
+ },
+ "u.real-threat-records-from-reports-the-curated": {
+  "en": "Real Threat records from reports, the curated feed and analyst submissions.",
+  "az": "Bildirişlərdən, seçilmiş lentdən və analitik göndərişlərindən gələn real Təhdid qeydləri."
+ },
+ "u.real-threat-records-from-reports-the-curated-2": {
+  "en": "Real Threat records from reports, the curated feed and analyst submissions.",
+  "az": "Bildirişlərdən, seçilmiş lentdən və analitik göndərişlərindən gələn real Təhdid qeydləri."
+ },
+ "u.reason-2": {
+  "en": "Reason",
+  "az": "Səbəb"
+ },
+ "u.recent-movement": {
+  "en": "Recent movement",
+  "az": "Son dəyişmə"
+ },
+ "u.recent-movement-2": {
+  "en": "Recent movement",
+  "az": "Son dəyişmə"
+ },
+ "u.recommended-2": {
+  "en": "Recommended",
+  "az": "Tövsiyə olunan"
+ },
+ "u.reference-2": {
+  "en": "Reference",
+  "az": "İstinad"
+ },
+ "u.registry-keys": {
+  "en": "Registry keys",
+  "az": "Registr açarları"
+ },
+ "u.registry-keys-2": {
+  "en": "Registry keys",
+  "az": "Registr açarları"
+ },
+ "u.reject": {
+  "en": "Reject",
+  "az": "Rədd et"
+ },
+ "u.reject-this-content": {
+  "en": "Reject this content",
+  "az": "Bu məzmunu rədd et"
+ },
+ "u.rejected-2": {
+  "en": "Rejected",
+  "az": "Rədd edilib"
+ },
+ "u.relevant-2": {
+  "en": "Relevant",
+  "az": "Aidiyyatı var"
+ },
+ "u.removed-2": {
+  "en": "Removed",
+  "az": "Silinib"
+ },
+ "u.repeated-simulation-failures-and-a-raised-risk": {
+  "en": "Repeated simulation failures and a raised risk score",
+  "az": "Təkrarlanan simulyasiya uğursuzluqları və artmış risk balı"
+ },
+ "u.repeated-simulation-failures-and-a-raised-risk-2": {
+  "en": "Repeated simulation failures and a raised risk score",
+  "az": "Təkrarlanan simulyasiya uğursuzluqları və artmış risk balı"
+ },
+ "u.report-dismissed": {
+  "en": "Report dismissed",
+  "az": "Bildiriş rədd edildi"
+ },
+ "u.report-rate-2": {
+  "en": "Report rate",
+  "az": "Bildirmə nisbəti"
+ },
+ "u.reported-2": {
+  "en": "Reported",
+  "az": "Bildirib"
+ },
+ "u.reported-a-real-threat": {
+  "en": "Reported a real threat",
+  "az": "Real təhdid barədə bildirib"
+ },
+ "u.reported-a-real-threat-2": {
+  "en": "Reported a real threat",
+  "az": "Real təhdid barədə bildirib"
+ },
+ "u.reported-a-simulated-phish": {
+  "en": "Reported a simulated phish",
+  "az": "Simulyasiya edilmiş fişinq barədə bildirib"
+ },
+ "u.reported-a-simulated-phish-2": {
+  "en": "Reported a simulated phish",
+  "az": "Simulyasiya edilmiş fişinq barədə bildirib"
+ },
+ "u.reported-by-2": {
+  "en": "Reported by",
+  "az": "Bildirən"
+ },
+ "u.reporter-2": {
+  "en": "Reporter",
+  "az": "Bildirən"
+ },
+ "u.reporting-is-the-behaviour-worth-rewarding-but": {
+  "en": "Reporting is the behaviour worth rewarding, but it is only counted when someone records it against the campaign.",
+  "az": "Bildirmək mükafatlandırılmağa dəyər davranışdır, lakin yalnız kimsə onu kampaniyaya qarşı qeyd etdikdə sayılır."
+ },
+ "u.reporting-is-the-behaviour-worth-rewarding-but-2": {
+  "en": "Reporting is the behaviour worth rewarding, but it is only counted when someone records it against the campaign.",
+  "az": "Bildirmək mükafatlandırılmağa dəyər davranışdır, lakin yalnız kimsə onu kampaniyaya qarşı qeyd etdikdə sayılır."
+ },
+ "u.reports": {
+  "en": "Reports",
+  "az": "Hesabatlar"
+ },
+ "u.reports-2": {
+  "en": "Reports",
+  "az": "Hesabatlar"
+ },
+ "u.requested-2": {
+  "en": "Requested",
+  "az": "Tələb edilib"
+ },
+ "u.reset-failed": {
+  "en": "Reset failed",
+  "az": "Sıfırlama uğursuz oldu"
+ },
+ "u.resolved-2": {
+  "en": "Resolved",
+  "az": "Həll edilib"
+ },
+ "u.risk-fell": {
+  "en": "Risk fell",
+  "az": "Risk azaldı"
+ },
+ "u.risk-rose": {
+  "en": "Risk rose",
+  "az": "Risk artdı"
+ },
+ "u.risk-score-2": {
+  "en": "Risk score",
+  "az": "Risk balı"
+ },
+ "u.risk-score-3": {
+  "en": "Risk score",
+  "az": "Risk balı"
+ },
+ "u.role": {
+  "en": "Role",
+  "az": "Rol"
+ },
+ "u.role-2": {
+  "en": "Role",
+  "az": "Rol"
+ },
+ "u.role-sensitivity-baseline": {
+  "en": "Role sensitivity baseline",
+  "az": "Rol həssaslığı bazası"
+ },
+ "u.role-sensitivity-baseline-2": {
+  "en": "Role sensitivity baseline",
+  "az": "Rol həssaslığı bazası"
+ },
+ "u.running-2": {
+  "en": "Running",
+  "az": "İcra olunur"
+ },
+ "u.sandbox": {
+  "en": "Sandbox",
+  "az": "Sandbox"
+ },
+ "u.sandbox-2": {
+  "en": "Sandbox",
+  "az": "Sandbox"
+ },
+ "u.score-of-40-to-59-2": {
+  "en": "Score of 40 to 59",
+  "az": "40-dan 59-a qədər bal"
+ },
+ "u.score-of-60-or-more-2": {
+  "en": "Score of 60 or more",
+  "az": "60 və daha yüksək bal"
+ },
+ "u.score-under-40-2": {
+  "en": "Score under 40",
+  "az": "40-dan aşağı bal"
+ },
+ "u.search-2": {
+  "en": "Search",
+  "az": "Axtarış"
+ },
+ "u.sections": {
+  "en": "Sections",
+  "az": "Bölmələr"
+ },
+ "u.sender-2": {
+  "en": "Sender",
+  "az": "Göndərən"
+ },
+ "u.sender-patterns": {
+  "en": "Sender patterns",
+  "az": "Göndərən şablonları"
+ },
+ "u.sensitivity": {
+  "en": "Sensitivity",
+  "az": "Həssaslıq"
+ },
+ "u.sensitivity-2": {
+  "en": "Sensitivity",
+  "az": "Həssaslıq"
+ },
+ "u.sent-to-a-person": {
+  "en": "Sent to a person",
+  "az": "Şəxsə göndərilib"
+ },
+ "u.severity-2": {
+  "en": "Severity",
+  "az": "Ciddilik"
+ },
+ "u.severity-at-intake": {
+  "en": "Severity at intake",
+  "az": "Qəbul anındakı ciddilik"
+ },
+ "u.signed-evidence": {
+  "en": "Signed evidence",
+  "az": "İmzalanmış sübut"
+ },
+ "u.signed-evidence-2": {
+  "en": "Signed evidence",
+  "az": "İmzalanmış sübut"
+ },
+ "u.simulations": {
+  "en": "Simulations",
+  "az": "Simulyasiyalar"
+ },
+ "u.simulations-2": {
+  "en": "Simulations",
+  "az": "Simulyasiyalar"
+ },
+ "u.since-your-last-recorded-change": {
+  "en": "since your last recorded change",
+  "az": "sonuncu qeydə alınmış dəyişikliyinizdən bəri"
+ },
+ "u.size-2": {
+  "en": "Size",
+  "az": "Ölçü"
+ },
+ "u.sms-phone-2": {
+  "en": "SMS / phone",
+  "az": "SMS / telefon"
+ },
+ "u.something-unexpected-stopped-the-request-before-it-2": {
+  "en": "Something unexpected stopped the request before it reached the platform. Reload the page and try again.",
+  "az": "Gözlənilməz bir şey sorğunu platformaya çatmamış dayandırdı. Səhifəni yeniləyin və yenidən cəhd edin."
+ },
+ "u.stage-2": {
+  "en": "Stage",
+  "az": "Mərhələ"
+ },
+ "u.standing-2": {
+  "en": "Standing",
+  "az": "Mövqe"
+ },
+ "u.started-2": {
+  "en": "Started",
+  "az": "Başlayıb"
+ },
+ "u.subject-2": {
+  "en": "Subject",
+  "az": "Mövzu"
+ },
+ "u.subjects-2": {
+  "en": "Subjects",
+  "az": "Aidiyyatı olan şəxslər"
+ },
+ "u.suspicious-2": {
+  "en": "Suspicious",
+  "az": "Şübhəli"
+ },
+ "u.sync-completed": {
+  "en": "Sync completed",
+  "az": "Sinxronizasiya tamamlandı"
+ },
+ "u.sync-refused": {
+  "en": "Sync refused",
+  "az": "Sinxronizasiya rədd edildi"
+ },
+ "u.takeaway-2": {
+  "en": "Takeaway",
+  "az": "Əsas nəticə"
+ },
+ "u.targeted-2": {
+  "en": "Targeted",
+  "az": "Hədəflənib"
+ },
+ "u.targets-recorded-as-clicked-targets-with-any": {
+  "en": "targets recorded as clicked ÷ targets with any recorded outcome",
+  "az": "klikləmiş kimi qeyd olunan hədəflər ÷ hər hansı nəticəsi qeyd olunan hədəflər"
+ },
+ "u.targets-recorded-as-clicked-targets-with-any-2": {
+  "en": "targets recorded as clicked ÷ targets with any recorded outcome",
+  "az": "klikləmiş kimi qeyd olunan hədəflər ÷ hər hansı nəticəsi qeyd olunan hədəflər"
+ },
+ "u.targets-recorded-as-reported-targets-with-any": {
+  "en": "targets recorded as reported ÷ targets with any recorded outcome",
+  "az": "bildirmiş kimi qeyd olunan hədəflər ÷ hər hansı nəticəsi qeyd olunan hədəflər"
+ },
+ "u.targets-recorded-as-reported-targets-with-any-2": {
+  "en": "targets recorded as reported ÷ targets with any recorded outcome",
+  "az": "bildirmiş kimi qeyd olunan hədəflər ÷ hər hansı nəticəsi qeyd olunan hədəflər"
+ },
+ "u.technology-2": {
+  "en": "Technology",
+  "az": "Texnologiya"
+ },
+ "u.template-2": {
+  "en": "Template",
+  "az": "Şablon"
+ },
+ "u.that-did-not-send": {
+  "en": "That did not send",
+  "az": "Göndərilmədi"
+ },
+ "u.the-operational-command-centre-and-every-governance": {
+  "en": "The operational command centre and every governance surface",
+  "az": "Əməliyyat komanda mərkəzi və bütün idarəetmə səthləri"
+ },
+ "u.the-operational-command-centre-and-every-governance-2": {
+  "en": "The operational command centre and every governance surface",
+  "az": "Əməliyyat komanda mərkəzi və bütün idarəetmə səthləri"
+ },
+ "u.the-platform-did-not-recognise-that-combination-2": {
+  "en": "The platform did not recognise that combination. Passwords are case sensitive, and accounts are issued by the security team rather than self-registered.",
+  "az": "Platforma bu kombinasiyanı tanımadı. Parollar böyük-kiçik hərfə həssasdır və hesablar özünüqeydiyyat yolu ilə deyil, təhlükəsizlik komandası tərəfindən verilir."
+ },
+ "u.the-queue-is-derived-from-loop-runs": {
+  "en": "The queue is derived from loop runs actually waiting for a human decision.",
+  "az": "Növbə həqiqətən insan qərarı gözləyən dövrə icralarından çıxarılır."
+ },
+ "u.the-queue-is-derived-from-loop-runs-2": {
+  "en": "The queue is derived from loop runs actually waiting for a human decision.",
+  "az": "Növbə həqiqətən insan qərarı gözləyən dövrə icralarından çıxarılır."
+ },
+ "u.the-service-may-still-be-starting-or-2": {
+  "en": "The service may still be starting, or the connection dropped. Your credentials were not sent anywhere else — try again in a moment.",
+  "az": "Xidmət hələ başlaya bilər və ya bağlantı kəsildi. Giriş məlumatlarınız başqa yerə göndərilmədi — bir azdan yenidən cəhd edin."
+ },
+ "u.this-quarter": {
+  "en": "This quarter",
+  "az": "Bu rüb"
+ },
+ "u.this-quarter-2": {
+  "en": "This quarter",
+  "az": "Bu rüb"
+ },
+ "u.threat-type-2": {
+  "en": "Threat type",
+  "az": "Təhdid növü"
+ },
+ "u.threat-type-3": {
+  "en": "Threat type",
+  "az": "Təhdid növü"
+ },
+ "u.title-2": {
+  "en": "Title",
+  "az": "Başlıq"
+ },
+ "u.took-2": {
+  "en": "Took",
+  "az": "Çəkdi"
+ },
+ "u.training": {
+  "en": "Training",
+  "az": "Təlim"
+ },
+ "u.training-2": {
+  "en": "Training",
+  "az": "Təlim"
+ },
+ "u.training-comprehension": {
+  "en": "Training comprehension",
+  "az": "Təlimi mənimsəmə"
+ },
+ "u.training-comprehension-2": {
+  "en": "Training comprehension",
+  "az": "Təlimi mənimsəmə"
+ },
+ "u.type-2": {
+  "en": "Type",
+  "az": "Növ"
+ },
+ "u.urgent-2": {
+  "en": "Urgent",
+  "az": "Təcili"
+ },
+ "u.value-2": {
+  "en": "Value",
+  "az": "Dəyər"
+ },
+ "u.verdict-2": {
+  "en": "Verdict",
+  "az": "Hökm"
+ },
+ "u.very-low-confidence": {
+  "en": "Very low confidence",
+  "az": "Çox aşağı əminlik"
+ },
+ "u.very-low-confidence-2": {
+  "en": "Very low confidence",
+  "az": "Çox aşağı əminlik"
+ },
+ "u.waiting-2": {
+  "en": "Waiting",
+  "az": "Gözləyir"
+ },
+ "u.was-reached-by-a-real-threat": {
+  "en": "Was reached by a real threat",
+  "az": "Real təhdidə məruz qalıb"
+ },
+ "u.was-reached-by-a-real-threat-2": {
+  "en": "Was reached by a real threat",
+  "az": "Real təhdidə məruz qalıb"
+ },
+ "u.we-assessed-it-and-it-does-not-2": {
+  "en": "We assessed it and it does not touch us. A reason is required.",
+  "az": "Qiymətləndirdik və bizə aid deyil. Səbəb göstərilməlidir."
+ },
+ "u.your-training-module": {
+  "en": "Your training module",
+  "az": "Sizin təlim modulunuz"
+ },
+ "u.yours": {
+  "en": "Yours",
+  "az": "Sizin"
+ }
+}

@@ -220,6 +220,12 @@ def capabilities():
         "demo_mode": settings.is_demo,
         "ai_provider": "anthropic" if settings.anthropic_api_key else "mock",
         "analyzer": settings.sandbox_analyzer,
+        # Whether the standalone Cyclowareness Sandbox is reachable from here,
+        # so the top bar can draw its door on the first paint or not at all.
+        # BOTH halves, not just the URL: without the shared secret `mint`
+        # refuses — correctly, rather than handing everyone one identity — and a
+        # button that leads to a 503 is worse than no button.
+        "sandbox_app": bool(settings.sandbox_app_url and settings.sandbox_app_secret),
         # Who built the platform. Distinct from the notifying entity, which is
         # whoever is RUNNING it — the UI shows this where a reader looks for
         # provenance of the software itself.

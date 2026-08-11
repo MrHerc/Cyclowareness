@@ -106,14 +106,14 @@ export function AuditTable({ events }: AuditTableProps) {
                     <div className="space-y-4 py-2">
                       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <CodeBlock
-                          label="Before"
+                          label={t('u.before')}
                           value={payloadText(event.before)}
                           wrap
                           copyable
                           maxHeight="18rem"
                         />
                         <CodeBlock
-                          label="After"
+                          label={t('u.after')}
                           value={payloadText(event.after)}
                           wrap
                           copyable

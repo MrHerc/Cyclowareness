@@ -75,7 +75,7 @@ export default function Remediation() {
         flush
         actions={
           <Select
-            label="Status"
+            label={t('u.status')}
             labelHidden
             options={STATUS_OPTIONS.map((o) => ({ value: o.value, label: t(o.label) }))}
             value={status}

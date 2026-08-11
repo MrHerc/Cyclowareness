@@ -522,8 +522,20 @@ def reapply_container_inheritance(db: Session, job: SandboxJob) -> bool:
     worst_score = (worst.final_score or 0.0) if worst is not None else 0.0
     if worst is not None and worst_score > (job.final_score or 0.0):
         breakdown = dict(job.score_breakdown or {})
+        # KEEP THE ORIGINAL. This path runs when a descendant finishes after the
+        # container did, and it can run more than once — a second, worse member
+        # arriving raises the score again. Reading `job.final_score` here reads a
+        # value that may ALREADY be a floor, so the field that is supposed to
+        # mean "what the container's own analysis produced" silently became "the
+        # value before the most recent raise".
+        #
+        # Measured on `wrap.zip`: it recorded 70.0 while the published formula
+        # over the published rule and model scores gives 19.7, so an analyst
+        # checking the arithmetic found a fifty-point hole and no account of it.
+        # The first raise recorded the right number and the second overwrote it.
+        previous = (job.score_breakdown or {}).get("contents_floor") or {}
         breakdown["contents_floor"] = {
-            "computed_score": job.final_score,
+            "computed_score": previous.get("computed_score", job.final_score),
             "descendant_score": worst_score,
             "descendant": worst.archive_path or worst.original_name,
             "sha256": worst.sha256,

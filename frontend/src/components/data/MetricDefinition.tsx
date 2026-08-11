@@ -11,6 +11,7 @@
  */
 
 import { Info } from 'lucide-react'
+import { useT } from '../../lib/i18n'
 import * as Popover from '@radix-ui/react-popover'
 import { cn } from '../../lib/format'
 
@@ -51,6 +52,7 @@ export function MetricDefinition({
   caveat,
   className,
 }: MetricDefinitionProps) {
+  const t = useT()
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
@@ -79,8 +81,8 @@ export function MetricDefinition({
             <p className="mt-1 text-sm text-fg-muted">{calculation}</p>
           </div>
 
-          {includes?.length ? <Section title="Counted" items={includes} /> : null}
-          {excludes?.length ? <Section title="Excluded" items={excludes} /> : null}
+          {includes?.length ? <Section title={t('u.counted')} items={includes} /> : null}
+          {excludes?.length ? <Section title={t('u.excluded')} items={excludes} /> : null}
           {caveat ? <p className="border-t border-line-subtle pt-3 text-sm text-fg-subtle">{caveat}</p> : null}
 
           <Popover.Arrow className="fill-elevated" />

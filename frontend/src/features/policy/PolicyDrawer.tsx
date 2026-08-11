@@ -113,12 +113,12 @@ export function PolicyDrawer({ policyId, onClose }: PolicyDrawerProps) {
         {policy ? (
           <div className="space-y-5">
             <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <MetaRow label="Status">
+              <MetaRow label={t('u.status')}>
                 <Badge status={policy.status} size="sm" dot>
                   {POLICY_STATUS_LABELS[policy.status] ?? policy.status}
                 </Badge>
               </MetaRow>
-              <MetaRow label="Owner">
+              <MetaRow label={t('u.owner')}>
                 {policy.owner_name ? (
                   <span>
                     {policy.owner_name}

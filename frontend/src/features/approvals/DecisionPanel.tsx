@@ -104,7 +104,7 @@ export function DecisionPanel({
 
   const rejectAction: PendingAction = {
     kind: 'reject',
-    title: 'Reject this content',
+    title: t('u.reject-this-content-2'),
     description:
       t('p.the-module-is-marked-rejected-and'),
     confirmLabel: 'Reject',

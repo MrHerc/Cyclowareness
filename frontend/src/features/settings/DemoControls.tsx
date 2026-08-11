@@ -37,7 +37,7 @@ export function DemoControls() {
       })
     },
     onError: (error) =>
-      toast.show({ title: 'Reset failed', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.reset-failed-2'), description: error.message, tone: 'error' }),
   })
 
   return (

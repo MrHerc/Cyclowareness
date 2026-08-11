@@ -115,7 +115,7 @@ export function FindingStatusDialog({
           />
 
           <Textarea
-            label="Reason"
+            label={t('u.reason')}
             rows={4}
             required={noteRequired}
             value={note}

@@ -51,8 +51,12 @@ const en = {
   'nav.simulations.hint': 'Safe campaigns built from real threats',
   'nav.training': 'Training Studio',
   'nav.training.hint': 'Author, review and version training content',
-  'nav.sandbox': 'Sandbox',
-  'nav.sandbox.hint': 'Static and behavioural analysis of files and URLs',
+  'nav.sandbox': 'Portal Sandbox',
+  'nav.sandbox.hint': 'Static and behavioural analysis of files and URLs, inside the portal',
+  'nav.sandbox.app': 'Full Sandbox',
+  'nav.sandbox.app.hint':
+    'Opens the full sandbox deployment in a new tab, already signed in as you.',
+  'nav.sandbox.app.failed': 'Could not open the sandbox',
   'nav.employees': 'Employees',
   'nav.employees.hint': 'Individual behaviour and risk history',
   'nav.departments': 'Departments',
@@ -112,7 +116,7 @@ const en = {
   'page.approvals.title': 'Approval gate',
   'page.simulations.title': 'Simulations',
   'page.training.title': 'Training Studio',
-  'page.sandbox.title': 'Sandbox',
+  'page.sandbox.title': 'Portal Sandbox',
   'page.employees.title': 'Employees',
   'page.departments.title': 'Departments',
   'page.risk-profiles.title': 'Risk profiles',
@@ -4136,6 +4140,666 @@ const en = {
     'Manage',
   'u.standing-not-movement':
     'Standing, not movement — the dashboard reports a current average per department and no per-department history to difference it against.',
+  'u.action':
+    'Action',
+  'u.active':
+    'Active',
+  'u.actor':
+    'Actor',
+  'u.added':
+    'Added',
+  'u.after':
+    'After',
+  'u.all-departments':
+    'All departments',
+  'u.all-submissions':
+    'All submissions',
+  'u.analysed':
+    'Analysed',
+  'u.analyst-submission':
+    'Analyst submission',
+  'u.analyzer':
+    'Analyzer',
+  'u.any-artifact-type':
+    'Any artifact type',
+  'u.any-department':
+    'Any department',
+  'u.any-due-date':
+    'Any due date',
+  'u.any-policy':
+    'Any policy',
+  'u.any-risk-band':
+    'Any risk band',
+  'u.any-severity':
+    'Any severity',
+  'u.any-source':
+    'Any source',
+  'u.any-suspicion-level':
+    'Any suspicion level',
+  'u.any-verdict':
+    'Any verdict',
+  'u.approved':
+    'Approved',
+  'u.approver':
+    'Approver',
+  'u.assessment':
+    'Assessment',
+  'u.awaiting-approval-2':
+    'Awaiting approval',
+  'u.awaiting-password':
+    'Awaiting password',
+  'u.awaiting-training':
+    'Awaiting training',
+  'u.awaiting-triage':
+    'Awaiting triage',
+  'u.before':
+    'Before',
+  'u.benign':
+    'Benign',
+  'u.category':
+    'Category',
+  'u.changed':
+    'Changed',
+  'u.channel':
+    'Channel',
+  'u.chat':
+    'Chat',
+  'u.chat-message':
+    'Chat message',
+  'u.clean':
+    'Clean',
+  'u.clicked':
+    'Clicked',
+  'u.close':
+    'Close',
+  'u.completed':
+    'Completed',
+  'u.completion':
+    'Completion',
+  'u.counted':
+    'Counted',
+  'u.created':
+    'Created',
+  'u.critical':
+    'Critical',
+  'u.curated-feed':
+    'Curated feed',
+  'u.deadline':
+    'Deadline',
+  'u.decision':
+    'Decision',
+  'u.department':
+    'Department',
+  'u.departments-in-the-organisation':
+    'departments in the organisation',
+  'u.description':
+    'Description',
+  'u.dismiss':
+    'Dismiss',
+  'u.dismissed':
+    'Dismissed',
+  'u.draft':
+    'Draft',
+  'u.due-within-30-days':
+    'Due within 30 days',
+  'u.due-within-7-days':
+    'Due within 7 days',
+  'u.elevated':
+    'Elevated',
+  'u.elevated-40-59':
+    'Elevated (40–59)',
+  'u.email':
+    'Email',
+  'u.environment':
+    'Environment',
+  'u.every-channel':
+    'Every channel',
+  'u.every-report':
+    'Every report',
+  'u.excluded':
+    'Excluded',
+  'u.failed':
+    'Failed',
+  'u.family':
+    'Family',
+  'u.file':
+    'File',
+  'u.findings-detected-in-the-window':
+    'findings detected in the window',
+  'u.help':
+    'Help',
+  'u.high':
+    'High',
+  'u.high-risk-60-100':
+    'High risk (60–100)',
+  'u.high-suspicion':
+    'High suspicion',
+  'u.human-sensor':
+    'Human sensor',
+  'u.incident-risks-raised-in-the-window':
+    'incident risks raised in the window',
+  'u.judgement':
+    'Judgement',
+  'u.label':
+    'Label',
+  'u.longest-wait-first':
+    'Longest wait first',
+  'u.loop-runs-closed-in-the-window':
+    'loop runs closed in the window',
+  'u.low-risk':
+    'Low risk',
+  'u.low-risk-0-39':
+    'Low risk (0–39)',
+  'u.low-suspicion':
+    'Low suspicion',
+  'u.malicious':
+    'Malicious',
+  'u.medium':
+    'Medium',
+  'u.medium-suspicion':
+    'Medium suspicion',
+  'u.monitoring':
+    'Monitoring',
+  'u.navigation':
+    'Navigation',
+  'u.newest-first':
+    'Newest first',
+  'u.no-verdict-recorded':
+    'No verdict recorded',
+  'u.not-applicable':
+    'Not applicable',
+  'u.note':
+    'Note',
+  'u.opened':
+    'Opened',
+  'u.optional':
+    'Optional.',
+  'u.order':
+    'Order',
+  'u.overdue':
+    'Overdue',
+  'u.owner':
+    'Owner',
+  'u.password':
+    'Password',
+  'u.pending':
+    'Pending',
+  'u.pending-review':
+    'Pending review',
+  'u.plans':
+    'Plans',
+  'u.platform':
+    'Platform',
+  'u.points':
+    'Points',
+  'u.policy':
+    'Policy',
+  'u.primary':
+    'Primary',
+  'u.product':
+    'Product',
+  'u.provenance':
+    'Provenance',
+  'u.pushed-into-the-loop':
+    'Pushed into the loop',
+  'u.qr-code':
+    'QR code',
+  'u.questions':
+    'Questions',
+  'u.queued':
+    'Queued',
+  'u.reach':
+    'Reach',
+  'u.reason':
+    'Reason',
+  'u.recommended':
+    'Recommended',
+  'u.reference':
+    'Reference',
+  'u.rejected':
+    'Rejected',
+  'u.relevant':
+    'Relevant',
+  'u.removed':
+    'Removed',
+  'u.reported':
+    'Reported',
+  'u.reporter':
+    'Reporter',
+  'u.requested':
+    'Requested',
+  'u.resolved':
+    'Resolved',
+  'u.running':
+    'Running',
+  'u.score-of-40-to-59':
+    'Score of 40 to 59',
+  'u.score-of-60-or-more':
+    'Score of 60 or more',
+  'u.score-under-40':
+    'Score under 40',
+  'u.search':
+    'Search',
+  'u.sender':
+    'Sender',
+  'u.severity':
+    'Severity',
+  'u.size':
+    'Size',
+  'u.sms-phone':
+    'SMS / phone',
+  'u.something-unexpected-stopped-the-request-before-it':
+    'Something unexpected stopped the request before it reached the platform. Reload the page and try again.',
+  'u.source':
+    'Source',
+  'u.stage':
+    'Stage',
+  'u.standing':
+    'Standing',
+  'u.started':
+    'Started',
+  'u.status':
+    'Status',
+  'u.subject':
+    'Subject',
+  'u.subjects':
+    'Subjects',
+  'u.submitted':
+    'Submitted',
+  'u.suspicious':
+    'Suspicious',
+  'u.takeaway':
+    'Takeaway',
+  'u.targeted':
+    'Targeted',
+  'u.technology':
+    'Technology',
+  'u.template':
+    'Template',
+  'u.the-platform-did-not-recognise-that-combination':
+    'The platform did not recognise that combination. Passwords are case sensitive, and accounts are issued by the security team rather than self-registered.',
+  'u.the-service-may-still-be-starting-or':
+    'The service may still be starting, or the connection dropped. Your credentials were not sent anywhere else — try again in a moment.',
+  'u.title':
+    'Title',
+  'u.took':
+    'Took',
+  'u.type':
+    'Type',
+  'u.urgent':
+    'Urgent',
+  'u.value':
+    'Value',
+  'u.verdict':
+    'Verdict',
+  'u.waiting':
+    'Waiting',
+  'u.we-assessed-it-and-it-does-not':
+    'We assessed it and it does not touch us. A reason is required.',
+  'u.accept-2':
+    'Accept',
+  'u.advisory-dismissed-2':
+    'Advisory dismissed',
+  'u.affected-department-2':
+    'Affected department',
+  'u.all-stages-2':
+    'All stages',
+  'u.any-department-2':
+    'Any department',
+  'u.approved-by-2':
+    'Approved by',
+  'u.artifact-type-2':
+    'Artifact type',
+  'u.awaiting-2':
+    'Awaiting',
+  'u.behaviour-risk-2':
+    'Behaviour risk',
+  'u.campaign-closed-2':
+    'Campaign closed',
+  'u.campaign-launched-2':
+    'Campaign launched',
+  'u.channel-2':
+    'Channel',
+  'u.click-rate-3':
+    'Click rate',
+  'u.completed-2':
+    'Completed',
+  'u.completion-rate-2':
+    'Completion rate',
+  'u.composite-score-2':
+    'Composite score',
+  'u.configuration-stored-2':
+    'Configuration stored',
+  'u.domains-2':
+    'Domains',
+  'u.elevated-2':
+    'Elevated',
+  'u.estimated-time-2':
+    'Estimated time',
+  'u.every-action-2':
+    'Every action',
+  'u.every-object-type-2':
+    'Every object type',
+  'u.failed-2':
+    'Failed',
+  'u.feedback-recorded-2':
+    'Feedback recorded',
+  'u.findings-2':
+    'Findings',
+  'u.hashes-2':
+    'Hashes',
+  'u.high-risk-3':
+    'High risk',
+  'u.launch-failed-2':
+    'Launch failed',
+  'u.low-risk-2':
+    'Low risk',
+  'u.module-not-saved-2':
+    'Module not saved',
+  'u.module-saved-2':
+    'Module saved',
+  'u.no-material-change-2':
+    'No material change',
+  'u.no-single-department-2':
+    'No single department',
+  'u.nobody-was-assigned-2':
+    'Nobody was assigned',
+  'u.open-closed-loops-2':
+    'Open Closed Loops',
+  'u.open-departments-3':
+    'Open Departments',
+  'u.open-findings-3':
+    'Open Findings',
+  'u.outcome-not-recorded-2':
+    'Outcome not recorded',
+  'u.quiz-questions-2':
+    'Quiz questions',
+  'u.reject-2':
+    'Reject',
+  'u.reject-this-content-2':
+    'Reject this content',
+  'u.report-dismissed-2':
+    'Report dismissed',
+  'u.report-rate-3':
+    'Report rate',
+  'u.reported-by-3':
+    'Reported by',
+  'u.reset-failed-2':
+    'Reset failed',
+  'u.risk-fell-2':
+    'Risk fell',
+  'u.risk-rose-2':
+    'Risk rose',
+  'u.sections-2':
+    'Sections',
+  'u.sender-patterns-2':
+    'Sender patterns',
+  'u.sent-to-a-person-2':
+    'Sent to a person',
+  'u.severity-at-intake-2':
+    'Severity at intake',
+  'u.since-your-last-recorded-change-2':
+    'since your last recorded change',
+  'u.source-2':
+    'Source',
+  'u.status-2':
+    'Status',
+  'u.submitted-2':
+    'Submitted',
+  'u.sync-completed-2':
+    'Sync completed',
+  'u.sync-refused-2':
+    'Sync refused',
+  'u.that-did-not-send-2':
+    'That did not send',
+  'u.your-training-module-2':
+    'Your training module',
+  'u.yours-2':
+    'Yours',
+  'u.it-applies-to-this-organisation-and':
+    'It applies to this organisation and belongs in the queue.',
+  'u.it-could-apply-watch-it':
+    'It could apply. Watch it; do not act yet.',
+  'u.it-reaches-something-we-run':
+    'It reaches something we run and it needs action now.',
+  'u.hide-password':
+    'Hide password',
+  'u.show-password':
+    'Show password',
+
+  // --- the public landing (`/`) --------------------------------------------
+  'l.cta.body':
+    'The demonstration build carries a seeded organisation and a loop already waiting at its approval gate, so the whole cycle can be walked in a few minutes.',
+  'l.cta.note':
+    'No card, no trial timer. Accounts are issued by the security team.',
+  'l.cta.title':
+    'See it running against a real threat.',
+  'l.faq.ai.a':
+    'The training text, and nothing else. The verdict and the score come from the engine\'s own analyzers and its weighted model — they do not change whether a language model is configured or not. Generated modules are held at a human approval gate, carry the name of the engine that wrote them, and can be edited before anyone receives them.',
+  'l.faq.ai.q':
+    'How much of this is a language model?',
+  'l.faq.data.a':
+    'It stays in the deployment you run. Outbound calls in the analysis path pass through a single sovereignty checkpoint that can be closed, and every refusal it makes is counted and reported. The one deliberate exception is fetching a URL an analyst submitted, because submitting a URL for analysis is a request to fetch it — and that too can be switched off for an air-gapped install.',
+  'l.faq.data.q':
+    'Where does our data go?',
+  'l.faq.eyebrow':
+    'Questions',
+  'l.faq.gaps.a':
+    'Roster import and outbound mail. There is no write path for employees and no mail transport, so a pilot today is loaded and driven by an analyst rather than by an HR feed and a mail gateway. Both are named in the roadmap in the public repository, with the sequence and the effort. A page that implied otherwise would be contradicted by the first file a technical reader opens.',
+  'l.faq.gaps.q':
+    'What is not built yet?',
+  'l.faq.intro':
+    'Including the ones about what is not built yet.',
+  'l.faq.malware.a':
+    'No. The web service parses samples and never executes them; a test forbids the code paths that could. Dynamic detonation runs on a separate, disposable machine the operator controls, and posts its findings back over an authenticated seam. With no such machine attached, reports say the sample was not detonated.',
+  'l.faq.malware.q':
+    'Do you run malware on the server?',
+  'l.faq.start.a':
+    'Request an account and we will set up a single-tenant instance with your own threats in it. There is no self-service signup: accounts are issued by the security team, which is the same reason the sign-in screen has no registration form.',
+  'l.faq.start.q':
+    'How do we start?',
+  'l.faq.title':
+    'The things a security team asks first.',
+  'l.faq.what.a':
+    'A closed-loop security awareness platform. It analyses a real threat that reached your organisation, converts the verdict into a short training module, assigns it to the employees most at risk, measures what changes, and feeds the result back into the risk model. The analysis engine behind it is also sold on its own as Cyclowareness Sandbox.',
+  'l.faq.what.q':
+    'What is Cyclowareness?',
+  'l.footer.line':
+    'Closed-loop human cyber risk. Real threats become targeted training, and the result is measured.',
+  'l.hero.eyebrow':
+    'Closed-loop security awareness',
+  'l.hero.figure.analyzers':
+    'static analyzers, dispatched by content',
+  'l.hero.figure.rules':
+    'YARA rules shipped with the engine',
+  'l.hero.figure.stages':
+    'stages in the loop, each one persisted',
+  'l.hero.lead':
+    'A threat that actually reached your people is analysed, turned into a short module for the specific employees most at risk, and the change in their behaviour is fed back into the model. Not a template course anyone can ignore once a year.',
+  'l.hero.note':
+    'Accounts are issued by the security team.',
+  'l.hero.secondary':
+    'See how the loop turns',
+  'l.hero.title':
+    'Real attacks. Targeted training. Behaviour you can measure.',
+  'l.honesty.audit':
+    'Numbers can be walked back',
+  'l.honesty.audit.body':
+    'Each score movement is a stored event with a weight, a written reason and a timestamp, and the person it concerns can contest it.',
+  'l.honesty.execute':
+    'Nothing hostile runs on the web tier',
+  'l.honesty.execute.body':
+    'The service parses samples and never executes them. Detonation belongs to a disposable machine the operator controls, and the boundary is enforced by a test, not by a policy document.',
+  'l.honesty.eyebrow':
+    'What it will not do',
+  'l.honesty.gate':
+    'A model does not speak to staff',
+  'l.honesty.gate.body':
+    'Generated training is held at an approval gate until an analyst has read it. The gate is what makes the loop stop, and that is the intended cost.',
+  'l.honesty.intro':
+    'Anyone can build a dashboard that always has a number. These are the places this one declines to produce one, and each exists because the opposite behaviour shipped once and was caught.',
+  'l.honesty.provenance':
+    'Provenance is recorded, not inferred',
+  'l.honesty.provenance.body':
+    'Every module names the engine that wrote it. A fallback to the offline generator is recorded as such rather than passed off as model output.',
+  'l.honesty.sample':
+    'Being targeted is not a mark against you',
+  'l.honesty.sample.body':
+    'A threat reaching an employee is recorded but scores zero. Weighting it let an outsider raise somebody else\'s risk by mailing them — so it measures what the person did, not what was done to them.',
+  'l.honesty.tiers':
+    'A blind spot is stated',
+  'l.honesty.tiers.body':
+    'Every report names the analysis tiers that ran. A verdict computed without dynamic analysis says so, instead of being presented as a behavioural finding.',
+  'l.honesty.title':
+    'The refusals are the product.',
+  'l.loop.eyebrow':
+    'The loop',
+  'l.loop.footnote':
+    'Every pass is a persisted record with its stage history, so a run that stalled is inspectable rather than merely missing.',
+  'l.loop.gate.body':
+    'Between Convert and Target an analyst reviews — and may edit — every generated module. Nothing written by a model reaches an employee unread.',
+  'l.loop.gate.eyebrow':
+    'Human gate',
+  'l.loop.intro':
+    'Most awareness tools stop at delivery. This one records what happened afterwards and changes who gets trained next — which is the only thing that makes a programme different in month six than it was in month one.',
+  'l.loop.stage.analyze':
+    'Analyze',
+  'l.loop.stage.analyze.detail':
+    'The sandbox engine identifies it by content, scores it, and extracts indicators.',
+  'l.loop.stage.convert':
+    'Convert',
+  'l.loop.stage.convert.detail':
+    'The verdict becomes a short module: a lesson, a three-to-five question quiz, one takeaway.',
+  'l.loop.stage.feedback':
+    'Feedback',
+  'l.loop.stage.feedback.detail':
+    'Every result updates the score, which changes who the next threat targets.',
+  'l.loop.stage.ingest':
+    'Ingest',
+  'l.loop.stage.ingest.detail':
+    'A threat arrives — reported by an employee, pulled from a feed, or submitted by an analyst.',
+  'l.loop.stage.measure':
+    'Measure',
+  'l.loop.stage.measure.detail':
+    'Completion, comprehension and later behaviour are recorded as individual events.',
+  'l.loop.stage.target':
+    'Target',
+  'l.loop.stage.target.detail':
+    'The risk engine selects who receives it, and states in writing why each person was chosen.',
+  'l.loop.stage.train':
+    'Train',
+  'l.loop.stage.train.detail':
+    'The module is assigned. The employee sees the threat that caused it, not a generic topic.',
+  'l.loop.title':
+    'Seven stages, and the whole point is the seventh.',
+  'l.nav.open-portal':
+    'Open the portal',
+  'l.nav.sign-in':
+    'Sign in',
+  'l.risk.baseline.body':
+    'The baseline is role sensitivity, not behaviour: how much damage this seat could do if it were used against the organisation. Everything above and below it is something the person actually did.',
+  'l.risk.baseline.title':
+    'Where a score starts',
+  'l.risk.col.delta':
+    'Change',
+  'l.risk.col.signal':
+    'Signal',
+  'l.risk.eyebrow':
+    'The risk model',
+  'l.risk.footnote':
+    'Baseline plus the sum of every non-revoked event equals the score on screen. If it does not, that is a defect, and a test says so.',
+  'l.risk.intro':
+    'A human-risk score a vendor will not show the arithmetic for is one an employee cannot contest and a buyer cannot audit. This is the table the engine actually uses.',
+  'l.risk.split.body':
+    'Behaviour risk moves only on what someone did when a threat reached them. Training credit moves on engagement with the programme. Efficacy is reported from behaviour alone — otherwise assigning more training would lower the score and the product would report its own activity as improvement.',
+  'l.risk.split.title':
+    'Two numbers, not one',
+  'l.risk.table-caption':
+    'Score change applied by each recorded signal',
+  'l.risk.title':
+    'The whole scoring table, in public.',
+  'l.risk.w.click':
+    'Clicked a simulated phishing lure',
+  'l.risk.w.completed':
+    'Completed an assigned module',
+  'l.risk.w.comprehension':
+    'Quiz comprehension, scaled by the score achieved',
+  'l.risk.w.exposure':
+    'Was reached by a real threat — recorded, deliberately unweighted',
+  'l.risk.w.failed':
+    'Completed training but failed the quiz',
+  'l.risk.w.ignored':
+    'Let assigned training expire',
+  'l.risk.w.report-real':
+    'Reported a genuinely suspicious artifact',
+  'l.risk.w.report-sim':
+    'Reported a simulated phish instead of acting on it',
+  'l.sandbox.cap.archives':
+    'Archives, with bounds',
+  'l.sandbox.cap.archives.body':
+    'Members are unpacked under expansion, ratio and depth limits, and each becomes its own scored job. An encrypted archive pauses and asks for the password — it is never brute-forced.',
+  'l.sandbox.cap.export':
+    'Evidence that leaves the building',
+  'l.sandbox.cap.export.body':
+    'JSON, STIX 2.1 and PDF, each stating which analysis tiers actually ran. With a signing key configured, the report carries an Ed25519 signature a recipient can verify without trusting the deployment.',
+  'l.sandbox.cap.identify':
+    'Identified by its bytes',
+  'l.sandbox.cap.identify.body':
+    'An executable renamed invoice.pdf is flagged the moment its content disagrees with its name. The extension is treated as a claim, not a fact.',
+  'l.sandbox.cap.score':
+    'A score with its arithmetic',
+  'l.sandbox.cap.score.body':
+    '0.6 × rule + 0.4 × model, banded low to critical. The model is expert-weighted and labelled as such — not presented as a classifier trained on a corpus it never saw.',
+  'l.sandbox.cap.static':
+    'Parsed, never run',
+  'l.sandbox.cap.static.body':
+    'PE imports, Office macros, script obfuscation with base64 layers decoded, PDF actions, ELF sections — plus a YARA tier. The web service never executes a sample, and a test forbids the code paths that could.',
+  'l.sandbox.cap.url':
+    'URLs, behind a guard',
+  'l.sandbox.cap.url.body':
+    'A submitted URL is fetched server-side behind an SSRF guard that refuses private, loopback and cloud-metadata addresses, and re-checks every redirect.',
+  'l.sandbox.eyebrow':
+    'The analysis engine',
+  'l.sandbox.families':
+    'Analyzers dispatched by content type',
+  'l.sandbox.footnote':
+    'Dynamic detonation runs off-host on an isolated worker. With no worker attached, every report says the sample was not detonated rather than reporting a clean behavioural result nobody observed.',
+  'l.sandbox.intro':
+    'The same engine runs as a standalone product and as stage two of the loop — the same files, byte for byte, checked by a test that fails when they differ. A verdict reached in one place is reached by the same code in the other.',
+  'l.sandbox.title':
+    'A verdict you can take apart.',
+  'l.skip-to-content':
+    'Skip to content',
+  'l.hero.scene-alt':
+    'A desk and an open laptop standing in a mountain meadow at dawn; the camera moves in until the screen fills the frame.',
+  'l.hero.scroll-hint':
+    'Scroll',
+  'l.loop.shot-alt':
+    'The Closed Loops screen: each run with its stage history and current status.',
+  'l.risk.shot-alt':
+    'The risk profiles screen, where every score is broken down into the events that produced it.',
+  'l.sandbox.shot-alt':
+    'A completed analysis: the file, its classification, the score and the techniques mapped from it.',
+  'l.loop.gate.shot-alt':
+    'The approval queue: a generated module held for an analyst to read before anyone receives it.',
+  'l.loop.tabs-hint':
+    'Pick a stage to see the screen it runs on.',
+  'sbx.standalone.body':
+    'Opens in a new tab, already signed in as you — no second password. The session carries your own address, so the standalone\'s chain of custody records the person who acted rather than a shared account.',
+  'sbx.standalone.cap.audit':
+    'Chain of custody',
+  'sbx.standalone.cap.engines':
+    'Engine matrix',
+  'sbx.standalone.cap.retention':
+    'Retention policy',
+  'sbx.standalone.cap.tuning':
+    'Score tuning',
+  'sbx.standalone.open':
+    'Open the sandbox',
+  'sbx.standalone.subtitle':
+    'Same engine, byte for byte — plus the operator surfaces this portal does not re-implement.',
+  'sbx.standalone.title':
+    'The full sandbox deployment',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -4162,8 +4826,12 @@ const az: Record<MessageKey, string> = {
   'nav.simulations.hint': 'Real təhdidlərdən qurulan təhlükəsiz kampaniyalar',
   'nav.training': 'Təlim Studiyası',
   'nav.training.hint': 'Təlim məzmununu yarat, nəzərdən keçir və versiyalarını saxla',
-  'nav.sandbox': 'Sandbox',
-  'nav.sandbox.hint': 'Fayl və URL-lərin statik və davranış təhlili',
+  'nav.sandbox': 'Portal Sandbox',
+  'nav.sandbox.hint': 'Portalın içində fayl və ünvanların statik və davranış təhlili',
+  'nav.sandbox.app': 'Tam Sandbox',
+  'nav.sandbox.app.hint':
+    'Tam sandbox quraşdırmasını yeni səhifədə, sizin adınıza açıq şəkildə açır.',
+  'nav.sandbox.app.failed': 'Sandbox açıla bilmədi',
   'nav.employees': 'İşçilər',
   'nav.employees.hint': 'Fərdi davranış və risk tarixçəsi',
   'nav.departments': 'Departamentlər',
@@ -4217,7 +4885,7 @@ const az: Record<MessageKey, string> = {
   'page.approvals.title': 'Təsdiq qapısı',
   'page.simulations.title': 'Simulyasiyalar',
   'page.training.title': 'Təlim Studiyası',
-  'page.sandbox.title': 'Sandbox',
+  'page.sandbox.title': 'Portal Sandbox',
   'page.employees.title': 'İşçilər',
   'page.departments.title': 'Departamentlər',
   'page.risk-profiles.title': 'Risk profilləri',
@@ -8224,6 +8892,664 @@ const az: Record<MessageKey, string> = {
     'İdarə et',
   'u.standing-not-movement':
     'Dəyişmə yox, hazırkı vəziyyət — panel bölmə üzrə cari ortanı bildirir və fərq çıxarmaq üçün bölmə üzrə tarixçə yoxdur.',
+  'u.action':
+    'Əməliyyat',
+  'u.active':
+    'Aktiv',
+  'u.actor':
+    'İcraçı',
+  'u.added':
+    'Əlavə edilib',
+  'u.after':
+    'Sonra',
+  'u.all-departments':
+    'Bütün departamentlər',
+  'u.all-submissions':
+    'Bütün göndərişlər',
+  'u.analysed':
+    'Təhlil edilib',
+  'u.analyst-submission':
+    'Analitik göndərişi',
+  'u.analyzer':
+    'Analizator',
+  'u.any-artifact-type':
+    'İstənilən artefakt növü',
+  'u.any-department':
+    'İstənilən departament',
+  'u.any-due-date':
+    'İstənilən son tarix',
+  'u.any-policy':
+    'İstənilən siyasət',
+  'u.any-risk-band':
+    'İstənilən risk zolağı',
+  'u.any-severity':
+    'İstənilən ciddilik',
+  'u.any-source':
+    'İstənilən mənbə',
+  'u.any-suspicion-level':
+    'İstənilən şübhə səviyyəsi',
+  'u.any-verdict':
+    'İstənilən hökm',
+  'u.approved':
+    'Təsdiqlənib',
+  'u.approver':
+    'Təsdiqləyici',
+  'u.assessment':
+    'Qiymətləndirmə',
+  'u.awaiting-approval-2':
+    'Təsdiq gözləyir',
+  'u.awaiting-password':
+    'Parol gözləyir',
+  'u.awaiting-training':
+    'Təlim gözləyir',
+  'u.awaiting-triage':
+    'Triaj gözləyir',
+  'u.before':
+    'Əvvəl',
+  'u.benign':
+    'Zərərsiz',
+  'u.category':
+    'Kateqoriya',
+  'u.changed':
+    'Dəyişdirilib',
+  'u.channel':
+    'Kanal',
+  'u.chat':
+    'Çat',
+  'u.chat-message':
+    'Çat mesajı',
+  'u.clean':
+    'Təmiz',
+  'u.clicked':
+    'Klikləyib',
+  'u.close':
+    'Bağla',
+  'u.completed':
+    'Tamamlanıb',
+  'u.completion':
+    'Tamamlanma',
+  'u.counted':
+    'Sayılıb',
+  'u.created':
+    'Yaradılıb',
+  'u.critical':
+    'Kritik',
+  'u.curated-feed':
+    'Seçilmiş lent',
+  'u.deadline':
+    'Son tarix',
+  'u.decision':
+    'Qərar',
+  'u.department':
+    'Departament',
+  'u.departments-in-the-organisation':
+    'təşkilatdakı departament',
+  'u.description':
+    'Təsvir',
+  'u.dismiss':
+    'Rədd et',
+  'u.dismissed':
+    'Rədd edilib',
+  'u.draft':
+    'Qaralama',
+  'u.due-within-30-days':
+    '30 gün ərzində vaxtı çatır',
+  'u.due-within-7-days':
+    '7 gün ərzində vaxtı çatır',
+  'u.elevated':
+    'Yüksəlmiş',
+  'u.elevated-40-59':
+    'Yüksəlmiş (40–59)',
+  'u.email':
+    'E-poçt',
+  'u.environment':
+    'Mühit',
+  'u.every-channel':
+    'Bütün kanallar',
+  'u.every-report':
+    'Bütün hesabatlar',
+  'u.excluded':
+    'Kənarlaşdırılıb',
+  'u.failed':
+    'Uğursuz',
+  'u.family':
+    'Ailə',
+  'u.file':
+    'Fayl',
+  'u.findings-detected-in-the-window':
+    'bu pəncərədə aşkarlanan tapıntı',
+  'u.help':
+    'Kömək',
+  'u.high':
+    'Yüksək',
+  'u.high-risk-60-100':
+    'Yüksək risk (60–100)',
+  'u.high-suspicion':
+    'Yüksək şübhə',
+  'u.human-sensor':
+    'İnsan sensoru',
+  'u.incident-risks-raised-in-the-window':
+    'bu pəncərədə qaldırılan insident riski',
+  'u.judgement':
+    'Rəy',
+  'u.label':
+    'Etiket',
+  'u.longest-wait-first':
+    'Əvvəlcə ən uzun gözləyənlər',
+  'u.loop-runs-closed-in-the-window':
+    'bu pəncərədə bağlanan dövrə icrası',
+  'u.low-risk':
+    'Aşağı risk',
+  'u.low-risk-0-39':
+    'Aşağı risk (0–39)',
+  'u.low-suspicion':
+    'Aşağı şübhə',
+  'u.malicious':
+    'Zərərli',
+  'u.medium':
+    'Orta',
+  'u.medium-suspicion':
+    'Orta şübhə',
+  'u.monitoring':
+    'Müşahidə',
+  'u.navigation':
+    'Naviqasiya',
+  'u.newest-first':
+    'Əvvəlcə ən yenilər',
+  'u.no-verdict-recorded':
+    'Hökm qeydə alınmayıb',
+  'u.not-applicable':
+    'Aid deyil',
+  'u.note':
+    'Qeyd',
+  'u.opened':
+    'Açılıb',
+  'u.optional':
+    'Məcburi deyil.',
+  'u.order':
+    'Sıralama',
+  'u.overdue':
+    'Vaxtı keçib',
+  'u.owner':
+    'Sahib',
+  'u.password':
+    'Parol',
+  'u.pending':
+    'Gözləyir',
+  'u.pending-review':
+    'Baxış gözləyir',
+  'u.plans':
+    'Planlar',
+  'u.platform':
+    'Platforma',
+  'u.points':
+    'Xal',
+  'u.policy':
+    'Siyasət',
+  'u.primary':
+    'Əsas',
+  'u.product':
+    'Məhsul',
+  'u.provenance':
+    'Mənşə',
+  'u.pushed-into-the-loop':
+    'Dövrəyə göndərilib',
+  'u.qr-code':
+    'QR kod',
+  'u.questions':
+    'Suallar',
+  'u.queued':
+    'Növbədə',
+  'u.reach':
+    'Əhatə',
+  'u.reason':
+    'Səbəb',
+  'u.recommended':
+    'Tövsiyə olunan',
+  'u.reference':
+    'İstinad',
+  'u.rejected':
+    'Rədd edilib',
+  'u.relevant':
+    'Aidiyyatı var',
+  'u.removed':
+    'Silinib',
+  'u.reported':
+    'Bildirib',
+  'u.reporter':
+    'Bildirən',
+  'u.requested':
+    'Tələb edilib',
+  'u.resolved':
+    'Həll edilib',
+  'u.running':
+    'İcra olunur',
+  'u.score-of-40-to-59':
+    '40-dan 59-a qədər bal',
+  'u.score-of-60-or-more':
+    '60 və daha yüksək bal',
+  'u.score-under-40':
+    '40-dan aşağı bal',
+  'u.search':
+    'Axtarış',
+  'u.sender':
+    'Göndərən',
+  'u.severity':
+    'Ciddilik',
+  'u.size':
+    'Ölçü',
+  'u.sms-phone':
+    'SMS / telefon',
+  'u.something-unexpected-stopped-the-request-before-it':
+    'Gözlənilməz bir şey sorğunu platformaya çatmamış dayandırdı. Səhifəni yeniləyin və yenidən cəhd edin.',
+  'u.source':
+    'Mənbə',
+  'u.stage':
+    'Mərhələ',
+  'u.standing':
+    'Mövqe',
+  'u.started':
+    'Başlayıb',
+  'u.status':
+    'Status',
+  'u.subject':
+    'Mövzu',
+  'u.subjects':
+    'Aidiyyatı olan şəxslər',
+  'u.submitted':
+    'Göndərilib',
+  'u.suspicious':
+    'Şübhəli',
+  'u.takeaway':
+    'Əsas nəticə',
+  'u.targeted':
+    'Hədəflənib',
+  'u.technology':
+    'Texnologiya',
+  'u.template':
+    'Şablon',
+  'u.the-platform-did-not-recognise-that-combination':
+    'Platforma bu kombinasiyanı tanımadı. Parollar böyük-kiçik hərfə həssasdır və hesablar özünüqeydiyyat yolu ilə deyil, təhlükəsizlik komandası tərəfindən verilir.',
+  'u.the-service-may-still-be-starting-or':
+    'Xidmət hələ başlaya bilər və ya bağlantı kəsildi. Giriş məlumatlarınız başqa yerə göndərilmədi — bir azdan yenidən cəhd edin.',
+  'u.title':
+    'Başlıq',
+  'u.took':
+    'Çəkdi',
+  'u.type':
+    'Növ',
+  'u.urgent':
+    'Təcili',
+  'u.value':
+    'Dəyər',
+  'u.verdict':
+    'Hökm',
+  'u.waiting':
+    'Gözləyir',
+  'u.we-assessed-it-and-it-does-not':
+    'Qiymətləndirdik və bizə aid deyil. Səbəb göstərilməlidir.',
+  'u.accept-2':
+    'Qəbul et',
+  'u.advisory-dismissed-2':
+    'Xəbərdarlıq rədd edildi',
+  'u.affected-department-2':
+    'Təsirlənən departament',
+  'u.all-stages-2':
+    'Bütün mərhələlər',
+  'u.any-department-2':
+    'İstənilən departament',
+  'u.approved-by-2':
+    'Təsdiqləyən',
+  'u.artifact-type-2':
+    'Artefakt növü',
+  'u.awaiting-2':
+    'Gözləyir',
+  'u.behaviour-risk-2':
+    'Davranış riski',
+  'u.campaign-closed-2':
+    'Kampaniya bağlandı',
+  'u.campaign-launched-2':
+    'Kampaniya başladıldı',
+  'u.channel-2':
+    'Kanal',
+  'u.click-rate-3':
+    'Klik nisbəti',
+  'u.completed-2':
+    'Tamamlanıb',
+  'u.completion-rate-2':
+    'Tamamlanma nisbəti',
+  'u.composite-score-2':
+    'Məcmu bal',
+  'u.configuration-stored-2':
+    'Konfiqurasiya yadda saxlanıldı',
+  'u.domains-2':
+    'Domenlər',
+  'u.elevated-2':
+    'Yüksəlmiş',
+  'u.estimated-time-2':
+    'Təxmini vaxt',
+  'u.every-action-2':
+    'Bütün əməliyyatlar',
+  'u.every-object-type-2':
+    'Bütün obyekt növləri',
+  'u.failed-2':
+    'Uğursuz',
+  'u.feedback-recorded-2':
+    'Rəy qeydə alındı',
+  'u.findings-2':
+    'Tapıntılar',
+  'u.hashes-2':
+    'Heşlər',
+  'u.high-risk-3':
+    'Yüksək risk',
+  'u.launch-failed-2':
+    'Başladılma uğursuz oldu',
+  'u.low-risk-2':
+    'Aşağı risk',
+  'u.module-not-saved-2':
+    'Modul yadda saxlanılmadı',
+  'u.module-saved-2':
+    'Modul yadda saxlanıldı',
+  'u.no-material-change-2':
+    'Əhəmiyyətli dəyişiklik yoxdur',
+  'u.no-single-department-2':
+    'Vahid departament yoxdur',
+  'u.nobody-was-assigned-2':
+    'Heç kimə təyin edilməyib',
+  'u.open-closed-loops-2':
+    'Qapalı dövrələri aç',
+  'u.open-departments-3':
+    'Departamentləri aç',
+  'u.open-findings-3':
+    'Tapıntıları aç',
+  'u.outcome-not-recorded-2':
+    'Nəticə qeydə alınmayıb',
+  'u.quiz-questions-2':
+    'Test sualları',
+  'u.reject-2':
+    'Rədd et',
+  'u.reject-this-content-2':
+    'Bu məzmunu rədd et',
+  'u.report-dismissed-2':
+    'Bildiriş rədd edildi',
+  'u.report-rate-3':
+    'Bildirmə nisbəti',
+  'u.reported-by-3':
+    'Bildirən',
+  'u.reset-failed-2':
+    'Sıfırlama uğursuz oldu',
+  'u.risk-fell-2':
+    'Risk azaldı',
+  'u.risk-rose-2':
+    'Risk artdı',
+  'u.sections-2':
+    'Bölmələr',
+  'u.sender-patterns-2':
+    'Göndərən şablonları',
+  'u.sent-to-a-person-2':
+    'Şəxsə göndərilib',
+  'u.severity-at-intake-2':
+    'Qəbul anındakı ciddilik',
+  'u.since-your-last-recorded-change-2':
+    'sonuncu qeydə alınmış dəyişikliyinizdən bəri',
+  'u.source-2':
+    'Mənbə',
+  'u.status-2':
+    'Status',
+  'u.submitted-2':
+    'Göndərilib',
+  'u.sync-completed-2':
+    'Sinxronizasiya tamamlandı',
+  'u.sync-refused-2':
+    'Sinxronizasiya rədd edildi',
+  'u.that-did-not-send-2':
+    'Göndərilmədi',
+  'u.your-training-module-2':
+    'Sizin təlim modulunuz',
+  'u.yours-2':
+    'Sizin',
+  'u.it-applies-to-this-organisation-and':
+    'Bu təşkilata aiddir və növbəyə düşməlidir.',
+  'u.it-could-apply-watch-it':
+    'Aid ola bilər. İzləyin; hələ tədbir görməyin.',
+  'u.it-reaches-something-we-run':
+    'Bizdə işlək olan bir şeyə toxunur və indi tədbir tələb edir.',
+  'u.hide-password':
+    'Parolu gizlət',
+  'u.show-password':
+    'Parolu göstər',
+  'l.cta.body':
+    'Nümayiş quruluşu toxumlanmış təşkilat və artıq təsdiq qapısında gözləyən dövrə daşıyır — beləliklə bütün tsikl bir neçə dəqiqəyə gəzilə bilər.',
+  'l.cta.note':
+    'Kart yoxdur, sınaq sayğacı yoxdur. Hesabları təhlükəsizlik komandası verir.',
+  'l.cta.title':
+    'Real təhdid üzərində işlədiyini görün.',
+  'l.faq.ai.a':
+    'Yalnız təlim mətni, başqa heç nə. Hökm və bal mühərrikin öz analizatorlarından və çəkili modelindən gəlir — dil modelinin qoşulub-qoşulmamasından asılı olaraq dəyişmir. Yaradılmış modullar insan təsdiq qapısında saxlanılır, onları yazan mühərrikin adını daşıyır və kimsə onları almazdan əvvəl redaktə edilə bilər.',
+  'l.faq.ai.q':
+    'Bunun nə qədəri dil modelidir?',
+  'l.faq.data.a':
+    'Sizin işlətdiyiniz quraşdırmada qalır. Təhlil yolundakı bütün xarici çağırışlar bağlana bilən vahid suverenlik nəzarət nöqtəsindən keçir və hər imtina sayılıb bildirilir. Yeganə qəsdi istisna analitikin göndərdiyi URL-in yüklənməsidir, çünki URL-i təhlilə göndərmək onu yükləmək tələbidir — və bu da hava boşluqlu quraşdırma üçün söndürülə bilər.',
+  'l.faq.data.q':
+    'Məlumatlarımız hara gedir?',
+  'l.faq.eyebrow':
+    'Suallar',
+  'l.faq.gaps.a':
+    'İşçi siyahısının idxalı və göndərilən poçt. İşçilər üçün yazma yolu və poçt nəqliyyatı yoxdur, ona görə bugünkü pilot HR lenti və poçt şlüzü ilə deyil, analitik tərəfindən yüklənir və idarə olunur. Hər ikisi açıq repozitoriyadakı yol xəritəsində ardıcıllığı və həcmi ilə birlikdə adlandırılıb. Əksini nəzərdə tutan səhifə texniki oxucunun açdığı ilk fayl tərəfindən təkzib edilərdi.',
+  'l.faq.gaps.q':
+    'Hələ nə qurulmayıb?',
+  'l.faq.intro':
+    'Hələ qurulmamış şeylər haqqındakılar da daxil olmaqla.',
+  'l.faq.malware.a':
+    'Xeyr. Veb xidmət nümunələri təhlil edir, heç vaxt icra etmir; bunu edə biləcək kod yollarını bir test qadağan edir. Dinamik detonasiya operatorun idarə etdiyi ayrıca, birdəfəlik maşında işləyir və tapıntılarını autentifikasiyalı kanal üzərindən geri göndərir. Belə maşın qoşulmayıbsa, hesabatlar nümunənin detonasiya edilmədiyini bildirir.',
+  'l.faq.malware.q':
+    'Serverdə zərərli proqram işlədirsinizmi?',
+  'l.faq.start.a':
+    'Hesab tələb edin, biz sizin öz təhdidlərinizlə tək-icarəçili nümunə quraq. Özünüqeydiyyat yoxdur: hesabları təhlükəsizlik komandası verir — giriş ekranında qeydiyyat formasının olmamasının səbəbi də budur.',
+  'l.faq.start.q':
+    'Necə başlayaq?',
+  'l.faq.title':
+    'Təhlükəsizlik komandasının ilk soruşduqları.',
+  'l.faq.what.a':
+    'Qapalı dövrəli təhlükəsizlik məlumatlandırma platforması. Təşkilatınıza çatmış real təhdidi təhlil edir, hökmü qısa təlim moduluna çevirir, onu riski ən yüksək işçilərə təyin edir, nəyin dəyişdiyini ölçür və nəticəni risk modelinə qaytarır. Arxasındakı analiz mühərriki həm də Cyclowareness Sandbox adı ilə ayrıca satılır.',
+  'l.faq.what.q':
+    'Cyclowareness nədir?',
+  'l.footer.line':
+    'Qapalı dövrəli insan kiber riski. Real təhdidlər hədəflənmiş təlimə çevrilir və nəticə ölçülür.',
+  'l.hero.eyebrow':
+    'Qapalı dövrəli təhlükəsizlik məlumatlandırması',
+  'l.hero.figure.analyzers':
+    'statik analizator, məzmuna görə seçilir',
+  'l.hero.figure.rules':
+    'mühərriklə gələn YARA qaydası',
+  'l.hero.figure.stages':
+    'dövrə mərhələsi, hər biri qeydə alınır',
+  'l.hero.lead':
+    'İşçilərinizə həqiqətən çatmış təhdid təhlil olunur, riski ən yüksək olan konkret işçilər üçün qısa modula çevrilir və onların davranışındakı dəyişiklik modelə geri qaytarılır. İldə bir dəfə göz ardı edilən şablon kurs deyil.',
+  'l.hero.note':
+    'Hesabları təhlükəsizlik komandası yaradır.',
+  'l.hero.secondary':
+    'Dövrənin necə döndüyünə bax',
+  'l.hero.title':
+    'Real hücumlar. Hədəflənmiş təlim. Ölçə biləcəyiniz davranış.',
+  'l.honesty.audit':
+    'Rəqəmlər geriyə izlənə bilir',
+  'l.honesty.audit.body':
+    'Hər bal dəyişməsi çəkisi, yazılı səbəbi və vaxt möhürü olan saxlanılmış hadisədir və aidiyyatı olan şəxs ona etiraz edə bilər.',
+  'l.honesty.execute':
+    'Veb qatında zərərli heç nə icra olunmur',
+  'l.honesty.execute.body':
+    'Xidmət nümunələri təhlil edir, heç vaxt icra etmir. Detonasiya operatorun idarə etdiyi birdəfəlik maşına aiddir və sərhəd siyasət sənədi ilə deyil, testlə qorunur.',
+  'l.honesty.eyebrow':
+    'Nə etməyəcək',
+  'l.honesty.gate':
+    'Model işçi ilə birbaşa danışmır',
+  'l.honesty.gate.body':
+    'Yaradılmış təlim analitik onu oxuyana qədər təsdiq qapısında saxlanılır. Qapı dövrəni dayandıran şeydir və bu, nəzərdə tutulmuş qiymətdir.',
+  'l.honesty.intro':
+    'Hər zaman rəqəmi olan panel qurmaq çətin deyil. Bunlar isə bu məhsulun rəqəm verməkdən imtina etdiyi yerlərdir və hər biri ona görə var ki, əks davranış bir dəfə buraxılıb və tutulub.',
+  'l.honesty.provenance':
+    'Mənşə qeyd olunur, ehtimal edilmir',
+  'l.honesty.provenance.body':
+    'Hər modul onu yazan mühərriki adlandırır. Oflayn generatora keçid model nəticəsi kimi göstərilmir, olduğu kimi qeyd olunur.',
+  'l.honesty.sample':
+    'Hədəf olmaq sizin əleyhinizə deyil',
+  'l.honesty.sample.body':
+    'Təhdidin işçiyə çatması qeyd olunur, amma sıfır bal alır. Ona çəki vermək kənar şəxsə sadəcə məktub göndərməklə başqasının riskini qaldırmağa imkan verirdi — ona görə ölçülən şəxsin etdiyidir, ona edilən deyil.',
+  'l.honesty.tiers':
+    'Kor nöqtə açıq bildirilir',
+  'l.honesty.tiers.body':
+    'Hər hesabat işləmiş təhlil qatlarını adlandırır. Dinamik təhlil olmadan verilən hökm bunu bildirir, davranış tapıntısı kimi təqdim edilmir.',
+  'l.honesty.title':
+    'İmtinalar məhsulun özüdür.',
+  'l.loop.eyebrow':
+    'Dövrə',
+  'l.loop.footnote':
+    'Hər keçid mərhələ tarixçəsi ilə saxlanılan qeyddir — ona görə dayanmış icra sadəcə itmir, araşdırıla bilir.',
+  'l.loop.gate.body':
+    'Çevirmə ilə Hədəfləmə arasında analitik hər yaradılmış modula baxır və onu redaktə edə bilər. Model tərəfindən yazılmış heç nə oxunmadan işçiyə çatmır.',
+  'l.loop.gate.eyebrow':
+    'İnsan qapısı',
+  'l.loop.intro':
+    'Əksər məlumatlandırma alətləri çatdırılma ilə bitir. Bu isə sonra nə baş verdiyini qeyd edir və növbəti dəfə kimin təlim alacağını dəyişir — altıncı ayda proqramı birinci aydan fərqli edən yeganə şey budur.',
+  'l.loop.stage.analyze':
+    'Təhlil',
+  'l.loop.stage.analyze.detail':
+    'Sandbox mühərriki onu məzmununa görə tanıyır, bal verir və indikatorları çıxarır.',
+  'l.loop.stage.convert':
+    'Çevirmə',
+  'l.loop.stage.convert.detail':
+    'Hökm qısa modula çevrilir: dərs, üç-beş suallıq test, bir əsas nəticə.',
+  'l.loop.stage.feedback':
+    'Geri əlaqə',
+  'l.loop.stage.feedback.detail':
+    'Hər nəticə balı yeniləyir və bu, növbəti təhdidin kimi hədəflədiyini dəyişir.',
+  'l.loop.stage.ingest':
+    'Qəbul',
+  'l.loop.stage.ingest.detail':
+    'Təhdid daxil olur — işçi bildirir, lentdən gəlir və ya analitik göndərir.',
+  'l.loop.stage.measure':
+    'Ölçmə',
+  'l.loop.stage.measure.detail':
+    'Tamamlanma, mənimsəmə və sonrakı davranış ayrı-ayrı hadisələr kimi qeydə alınır.',
+  'l.loop.stage.target':
+    'Hədəfləmə',
+  'l.loop.stage.target.detail':
+    'Risk mühərriki kimin alacağını seçir və hər şəxsin niyə seçildiyini yazılı bildirir.',
+  'l.loop.stage.train':
+    'Təlim',
+  'l.loop.stage.train.detail':
+    'Modul təyin olunur. İşçi ümumi mövzunu deyil, ona səbəb olan təhdidi görür.',
+  'l.loop.title':
+    'Yeddi mərhələ, və bütün məsələ yeddincidədir.',
+  'l.nav.open-portal':
+    'Portala keç',
+  'l.nav.sign-in':
+    'Daxil ol',
+  'l.risk.baseline.body':
+    'Baza davranış deyil, rol həssaslığıdır: bu vəzifə təşkilata qarşı istifadə olunsa nə qədər ziyan verə bilər. Ondan yuxarı və aşağı olan hər şey şəxsin həqiqətən etdiyidir.',
+  'l.risk.baseline.title':
+    'Bal haradan başlayır',
+  'l.risk.col.delta':
+    'Dəyişiklik',
+  'l.risk.col.signal':
+    'Siqnal',
+  'l.risk.eyebrow':
+    'Risk modeli',
+  'l.risk.footnote':
+    'Baza üstəgəl ləğv edilməmiş hadisələrin cəmi ekrandakı bala bərabərdir. Bərabər deyilsə, bu nasazlıqdır və bir test bunu bildirir.',
+  'l.risk.intro':
+    'Satıcının hesablamasını göstərmədiyi insan-risk balı işçinin etiraz edə bilmədiyi, alıcının auditdən keçirə bilmədiyi baldır. Bu, mühərrikin həqiqətən işlətdiyi cədvəldir.',
+  'l.risk.split.body':
+    'Davranış riski yalnız təhdid çatanda şəxsin nə etdiyinə görə dəyişir. Təlim krediti proqramda iştiraka görə dəyişir. Səmərəlilik yalnız davranışdan hesablanır — əks halda daha çox təlim təyin etmək balı aşağı salardı və məhsul öz fəaliyyətini irəliləyiş kimi göstərərdi.',
+  'l.risk.split.title':
+    'Bir deyil, iki rəqəm',
+  'l.risk.table-caption':
+    'Hər qeydə alınmış siqnalın tətbiq etdiyi bal dəyişikliyi',
+  'l.risk.title':
+    'Bütün bal cədvəli, açıq şəkildə.',
+  'l.risk.w.click':
+    'Simulyasiya edilmiş fişinq tələsinə klikləyib',
+  'l.risk.w.completed':
+    'Təyin edilmiş modulu tamamlayıb',
+  'l.risk.w.comprehension':
+    'Testi mənimsəmə, alınan bala görə miqyaslanır',
+  'l.risk.w.exposure':
+    'Real təhdidə məruz qalıb — qeyd olunur, qəsdən çəkisizdir',
+  'l.risk.w.failed':
+    'Təlimi tamamlayıb, amma testdən keçməyib',
+  'l.risk.w.ignored':
+    'Təyin edilmiş təlimin vaxtını keçirib',
+  'l.risk.w.report-real':
+    'Həqiqətən şübhəli artefakt barədə bildirib',
+  'l.risk.w.report-sim':
+    'Simulyasiya edilmiş fişinqə əməl etmək əvəzinə bildirib',
+  'l.sandbox.cap.archives':
+    'Arxivlər, hədlərlə',
+  'l.sandbox.cap.archives.body':
+    'Üzvlər genişlənmə, nisbət və dərinlik hədləri altında açılır və hər biri ayrıca bal alan işə çevrilir. Şifrələnmiş arxiv dayanıb parol soruşur — heç vaxt brute-force edilmir.',
+  'l.sandbox.cap.export':
+    'Binadan çıxan sübut',
+  'l.sandbox.cap.export.body':
+    'JSON, STIX 2.1 və PDF — hər biri hansı təhlil qatlarının həqiqətən işlədiyini bildirir. İmza açarı təyin edilibsə, hesabat alıcının quraşdırmaya güvənmədən yoxlaya biləcəyi Ed25519 imzası daşıyır.',
+  'l.sandbox.cap.identify':
+    'Baytlarına görə tanınır',
+  'l.sandbox.cap.identify.body':
+    'invoice.pdf adı verilmiş icra faylı, məzmunu adı ilə ziddiyyət təşkil etdiyi anda işarələnir. Uzantı fakt deyil, iddia sayılır.',
+  'l.sandbox.cap.score':
+    'Hesablaması göstərilən bal',
+  'l.sandbox.cap.score.body':
+    '0.6 × qayda + 0.4 × model, aşağıdan kritikə qədər zolaqlarla. Model ekspert çəkiləri ilə qurulub və belə də adlandırılır — heç vaxt görmədiyi korpusda öyrədilmiş klassifikator kimi təqdim edilmir.',
+  'l.sandbox.cap.static':
+    'Təhlil olunur, icra edilmir',
+  'l.sandbox.cap.static.body':
+    'PE importları, Office makroları, base64 qatları açılmış skript gizlətməsi, PDF əməliyyatları, ELF bölmələri — üstəgəl YARA qatı. Veb xidmət nümunəni heç vaxt icra etmir və bunu edə biləcək kod yollarını bir test qadağan edir.',
+  'l.sandbox.cap.url':
+    'URL-lər, mühafizə arxasında',
+  'l.sandbox.cap.url.body':
+    'Göndərilən URL server tərəfdə, özəl, loopback və bulud-metadata ünvanlarını rədd edən SSRF mühafizəsi arxasında yüklənir və hər yönləndirmə yenidən yoxlanılır.',
+  'l.sandbox.eyebrow':
+    'Analiz mühərriki',
+  'l.sandbox.families':
+    'Məzmun növünə görə seçilən analizatorlar',
+  'l.sandbox.footnote':
+    'Dinamik detonasiya host-dan kənarda, izolyasiya olunmuş işçidə icra olunur. İşçi qoşulmayıbsa, hər hesabat heç kimin müşahidə etmədiyi təmiz davranış nəticəsi bildirmək əvəzinə, nümunənin detonasiya edilmədiyini yazır.',
+  'l.sandbox.intro':
+    'Eyni mühərrik həm müstəqil məhsul, həm də dövrənin ikinci mərhələsi kimi işləyir — eyni fayllar, bayt-bayt, və fərqlənsələr düşən bir testlə yoxlanılır. Bir yerdə verilən hökm digərində eyni kodla verilir.',
+  'l.sandbox.title':
+    'Hissələrinə ayıra biləcəyiniz hökm.',
+  'l.skip-to-content':
+    'Məzmuna keç',
+  'l.hero.scene-alt':
+    'Dan yeri sökülərkən dağ çəmənində duran masa və açıq noutbuk; kamera ekran bütün kadrı dolduranadək yaxınlaşır.',
+  'l.hero.scroll-hint':
+    'Aşağı sürüşdürün',
+  'l.loop.shot-alt':
+    'Qapalı dövrələr ekranı: hər icra mərhələ tarixçəsi və hazırkı statusu ilə.',
+  'l.risk.shot-alt':
+    'Risk profilləri ekranı — burada hər bal onu yaradan hadisələrə ayrılır.',
+  'l.sandbox.shot-alt':
+    'Tamamlanmış təhlil: fayl, təsnifatı, balı və ondan çıxarılan texnikalar.',
+  'l.loop.gate.shot-alt':
+    'Təsdiq növbəsi: yaradılmış modul kimsə onu almazdan əvvəl analitikin oxuması üçün saxlanılır.',
+  'l.loop.tabs-hint':
+    'Hansı ekranda baş verdiyini görmək üçün mərhələni seçin.',
+  'sbx.standalone.body':
+    'Yeni səhifədə, sizin adınıza açıq şəkildə açılır — ikinci parol yoxdur. Sessiya sizin öz ünvanınızı daşıyır, ona görə oradakı təhvil zənciri ortaq hesabı deyil, əməliyyatı edən şəxsi qeyd edir.',
+  'sbx.standalone.cap.audit':
+    'Təhvil zənciri',
+  'sbx.standalone.cap.engines':
+    'Mühərrik matrisi',
+  'sbx.standalone.cap.retention':
+    'Saxlama siyasəti',
+  'sbx.standalone.cap.tuning':
+    'Bal tənzimləməsi',
+  'sbx.standalone.open':
+    'Sandbox-u aç',
+  'sbx.standalone.subtitle':
+    'Eyni mühərrik, bayt-bayt — üstəgəl bu portalda təkrarlanmayan operator ekranları.',
+  'sbx.standalone.title':
+    'Tam sandbox quraşdırması',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

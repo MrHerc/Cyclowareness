@@ -11,6 +11,7 @@
 import { lazy } from 'react'
 
 /* --- public ------------------------------------------------------------- */
+export const Landing = lazy(() => import('../pages/Landing'))
 export const Login = lazy(() => import('../pages/Login'))
 export const AdminEntry = lazy(() => import('../pages/AdminEntry'))
 export const Register = lazy(() => import('../pages/Register'))

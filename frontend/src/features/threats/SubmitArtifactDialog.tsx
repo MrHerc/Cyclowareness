@@ -117,7 +117,7 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
         />
 
         <Input
-          label="Title"
+          label={t('u.title')}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           hint={t('p.optional-left-blank-the-platform-names')}
@@ -127,7 +127,7 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
         {artifactType === 'email' ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input
-              label="Sender"
+              label={t('u.sender')}
               value={sender}
               onChange={(event) => setSender(event.target.value)}
               hint={t('p.recorded-asis-never-contacted')}
@@ -135,7 +135,7 @@ export function SubmitArtifactDialog({ open, onOpenChange }: SubmitArtifactDialo
               spellCheck={false}
             />
             <Input
-              label="Subject"
+              label={t('u.subject')}
               value={subject}
               onChange={(event) => setSubject(event.target.value)}
               autoComplete="off"

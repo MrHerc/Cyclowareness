@@ -65,7 +65,7 @@ export function IntegrationCard({
       }
       setOutcome(null)
       toast.show({
-        title: 'Sync completed',
+        title: t('u.sync-completed-2'),
         description: result
           ? `${num(result.coursesImported)} course(s) imported.`
           : t('p.the-provider-answered'),
@@ -74,7 +74,7 @@ export function IntegrationCard({
     },
     onError: (error) => {
       setOutcome(error.message)
-      toast.show({ title: 'Sync refused', description: error.message, tone: 'error' })
+      toast.show({ title: t('u.sync-refused-2'), description: error.message, tone: 'error' })
     },
   })
 

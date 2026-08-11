@@ -49,7 +49,7 @@ export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <IconButton label="Help" variant="ghost" size="sm" className={className}>
+          <IconButton label={t('u.help')} variant="ghost" size="sm" className={className}>
             <LifeBuoy className="size-4" aria-hidden="true" strokeWidth={1.75} />
           </IconButton>
         </DropdownMenuTrigger>
@@ -125,13 +125,13 @@ function DeploymentDialog({
       size="sm"
     >
       <dl className="divide-line">
-        <Row label="Product">{PRODUCT_NAME}</Row>
+        <Row label={t('u.product')}>{PRODUCT_NAME}</Row>
 
         <Row label={t('u.api-origin')}>
           <span className="tech">{API_BASE_URL || t('u.same-origin-as-this-page')}</span>
         </Row>
 
-        <Row label="Environment">
+        <Row label={t('u.environment')}>
           {capabilities.isPending
             ? 'Not answered yet'
             : capabilities.isError
@@ -151,7 +151,7 @@ function DeploymentDialog({
                 : t('p.not-connected-content-is-template-output')}
         </Row>
 
-        <Row label="Analyzer">
+        <Row label={t('u.analyzer')}>
           {capabilities.isPending || capabilities.isError ? '—' : capabilities.data.analyzer}
         </Row>
 

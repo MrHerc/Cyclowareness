@@ -72,13 +72,13 @@ export function LoopsFilters({
         </div>
 
         <Select
-          label="Stage"
+          label={t('u.stage')}
           labelHidden
           className="w-52"
           value={stage === null ? ALL_STAGES : String(stage)}
           onValueChange={(value) => onStageChange(value === ALL_STAGES ? null : Number(value))}
           options={[
-            { value: ALL_STAGES, label: 'All stages' },
+            { value: ALL_STAGES, label: t('u.all-stages-2') },
             ...STAGES.map((s) => ({ value: String(s.n), label: `${s.n}. ${t(s.labelKey)}` })),
           ]}
         />

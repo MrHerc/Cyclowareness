@@ -112,10 +112,10 @@ export function Recognition({
     >
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
-          <Stat label="Points" value={num(points, 0)} />
+          <Stat label={t('u.points')} value={num(points, 0)} />
           <Stat label={t('p.passing-streak')} value={num(streak, 0)} />
           <Stat label={t('p.reports-sent')} value={num(reportsSubmitted, 0)} />
-          <Stat label="Standing" value={rank === null ? 'Unranked' : `#${num(rank, 0)}`} />
+          <Stat label={t('u.standing')} value={rank === null ? 'Unranked' : `#${num(rank, 0)}`} />
         </div>
 
         {badges.length > 0 ? (

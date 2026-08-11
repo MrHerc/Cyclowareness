@@ -98,7 +98,7 @@ export function AssignTrainingDialog({
           setResult(parsed)
           if (parsed && parsed.assigned.length === 0) {
             toast.show({
-              title: 'Nobody was assigned',
+              title: t('u.nobody-was-assigned-2'),
               description: t('p.every-named-person-was-skipped-the'),
               tone: 'warning',
             })

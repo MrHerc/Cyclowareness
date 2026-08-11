@@ -59,7 +59,7 @@ export function TargetTable({ simulation, canRecord }: TargetTableProps) {
     // A rejected outcome is usually a race: someone else recorded it, or the
     // campaign closed while this table was open. Say which.
     onError: (error) =>
-      toast.show({ title: 'Outcome not recorded', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.outcome-not-recorded-2'), description: error.message, tone: 'error' }),
   })
   const active = simulation.status === 'active'
   const pendingTargetId = record.isPending ? record.variables?.targetId : undefined

@@ -68,8 +68,28 @@ def _saturate(weight: float, count: int) -> float:
 #:
 #: Measured: Rufus, a signed and widely-used disk utility that ships UPX-packed,
 #: scored 74.1 on the rule side with three of its six high signals being that one
-#: fact — 43 of the 46.9 points its high band contributed — and came out
-#: `malicious` at 64 with no accusing capability at all.
+#: fact, and came out `malicious` at 64 with no accusing capability at all.
+#:
+#: THE ARITHMETIC IN THIS COMMENT WAS WRONG AND THE CORRECTION IS WORTH KEEPING,
+#: because it says what this rule does and does not buy. It read "43 of the 46.9
+#: points its high band contributed", which conflates two different quantities:
+#: 43.0 is what THREE high signals contribute in total, not the share of 46.9
+#: that three of six are responsible for. The band saturates —
+#:
+#:     1 high signal  -> 26.00      5 -> 46.40
+#:     2              -> 37.70      6 -> 46.90
+#:     3              -> 43.00      7 -> 47.10
+#:     4              -> 45.30      8 -> 47.20
+#:
+#: — so collapsing three correlated signals of six moves the band from 46.90 to
+#: 45.30. That is 1.6 points, not 43.
+#:
+#: The rule is unchanged, because it was never really about the points: three
+#: detectors reporting one fact is three votes for one observation, and a score
+#: built from votes has to count the observation once. But it must not be sold
+#: as a large numerical effect. On a sample whose high band is already saturated
+#: it is worth almost nothing; it matters at the margin, where a file has two or
+#: three high signals and all of them say the same thing.
 #:
 #: This is not a deny-list of "signals benign software trips". It is a statement
 #: about which detectors are correlated by construction, which is a property of
@@ -151,7 +171,11 @@ def _collapse_correlated(signals: list[Signal]) -> list[Signal]:
 #: of the picture. What stops is a pile of them adding up to an accusation.
 #:
 #: EVERY MEMBER WAS MEASURED. Against the 88-malware detonation fixture this set
-#: costs ZERO detections (84 of 88 before and after). Three candidates were
+#: costs ZERO detections. Re-derived 2026-08-09: 69 of 88 with the demotion and
+#: 69 without it. (This read "84 of 88 before and after" and that baseline came
+#: from a recording that no longer exists anywhere -- see MIN_MALWARE_DETECTED in
+#: test_detonation_corpus.py. The zero cost, which is what this comment actually
+#: asserts, reproduces exactly.) Three candidates were
 #: REJECTED for costing one each: `pe.overlay_present` and
 #: `generic.high_entropy_overall` both lose WannaCry, and
 #: `capev2.pe_exports_in_executable` loses RaccoonStealer. Two more were rejected
@@ -217,8 +241,12 @@ AMBIENT_SIGNALS = frozenset({
     #   cmdline_http_link           2%          3%
     #
     # The fifteen below all run the other way. Measured: benign 20 of 50 clean
-    # -> 23, fixture 84 of 88 -> 84. The principled fifteen buy exactly what the
-    # greedy twenty-five did.
+    # -> 23, and zero cost on the detonation fixture. The principled fifteen buy
+    # exactly what the greedy twenty-five did.
+    #
+    # The fixture figure read "84 of 88 -> 84" against a recording that no longer
+    # exists; re-derived 2026-08-09 on the corpus that ships it is 69 -> 69.
+    # Same claim, checkable baseline.
     "capev2.modify_certs",
     "capev2.driver_load",
     "capev2.sysinternals_tools",
@@ -776,10 +804,25 @@ WEIGHTS: dict[str, float] = {
 #: nothing in should read as "nothing found", not as a coin flip.
 BIAS: float = -3.1
 
+#: What the model side of the score is, and exactly how far a hand-check should
+#: agree — because "can be checked by hand" without a tolerance is a promise
+#: that fails on rounding and looks like a missing term.
+#:
+#: Measured over the 1,218 stored jobs carrying a published breakdown: summing
+#: the contributions, adding the bias and squashing reproduces the published
+#: score exactly on 1,208 and to within 0.06 on the other ten. Nothing is
+#: missing from the published breakdown; the contributions are rounded to three
+#: decimals and the score to one, and summing rounded terms accumulates a few
+#: hundredths. Saying so is the difference between an auditor concluding "the
+#: arithmetic is close enough" and concluding "there is a term they are not
+#: showing me".
 MODEL_PROVENANCE = (
     "Expert-weighted logistic model (8 features). Coefficients are set from "
     "domain knowledge, not fitted to a labelled corpus — the contribution of "
-    "every feature is shown so the score can be checked by hand."
+    "every feature is shown so the score can be checked by hand: sum the "
+    "contributions, add the bias, apply 100/(1+e^-x). Published values are "
+    "rounded (contributions to 3 decimals, the score to 1), so a hand-check "
+    "agrees to within about 0.1."
 )
 
 #: Feature ids whose presence means "this binary can do something", used to

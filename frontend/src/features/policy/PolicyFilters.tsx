@@ -38,7 +38,7 @@ export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
   }, [filters.values.q])
 
   const departmentOptions = [
-    { value: ANY_VALUE, label: 'Any department' },
+    { value: ANY_VALUE, label: t('u.any-department-2') },
     ...departments.map((department) => ({
       value: String(department.id),
       label: department.name,
@@ -55,7 +55,7 @@ export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
     >
       <div className="flex items-end gap-2">
         <Input
-          label="Search"
+          label={t('u.search')}
           hint={t('p.name-owner-or-notes-press-enter')}
           value={term}
           onChange={(event) => setTerm(event.target.value)}
@@ -68,19 +68,19 @@ export function PolicyFilters({ filters, departments }: PolicyFiltersProps) {
       </div>
 
       <Select
-        label="Type"
+        label={t('u.type')}
         options={TYPE_OPTIONS}
         value={filters.values.type || ANY_VALUE}
         onValueChange={(value) => filters.set('type', value)}
       />
       <Select
-        label="Status"
+        label={t('u.status')}
         options={STATUS_OPTIONS}
         value={filters.values.status || ANY_VALUE}
         onValueChange={(value) => filters.set('status', value)}
       />
       <Select
-        label="Department"
+        label={t('u.department')}
         options={departmentOptions}
         value={filters.values.department || ANY_VALUE}
         onValueChange={(value) => filters.set('department', value)}

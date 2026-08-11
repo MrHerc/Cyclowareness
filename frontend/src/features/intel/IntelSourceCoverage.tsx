@@ -68,7 +68,7 @@ function Result({ view }: { view: RefreshView }) {
         <Fact label={t('p.new-advisories')} value={count(view.itemsAdded)} />
         <Fact label={t('p.advisories-updated')} value={count(view.itemsUpdated)} />
         {view.requestedAt ? (
-          <Fact label="Requested" value={formatDateTime(view.requestedAt)} />
+          <Fact label={t('u.requested')} value={formatDateTime(view.requestedAt)} />
         ) : null}
       </div>
 

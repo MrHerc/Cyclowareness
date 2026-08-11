@@ -72,9 +72,9 @@ export function RiskMovementChart({
           : t('p.change-in-average-risk-negative-is')
       }
       legend={[
-        { label: 'Risk rose', color: DIVERGING.worse },
-        { label: 'Risk fell', color: DIVERGING.better },
-        { label: 'No material change', color: DIVERGING.neutral },
+        { label: t('u.risk-rose-2'), color: DIVERGING.worse },
+        { label: t('u.risk-fell-2'), color: DIVERGING.better },
+        { label: t('u.no-material-change-2'), color: DIVERGING.neutral },
       ]}
       height={height}
       hasData={rows.length > 0}

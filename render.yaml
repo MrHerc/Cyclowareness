@@ -29,8 +29,47 @@ services:
       - key: APP_ENV
         value: demo
       # A strong signing key, generated once by Render and kept out of git.
+      #
+      # `generateValue` produces a long random string, but the length is not
+      # declared anywhere and `validate_production()` wants >= 32 bytes. Under
+      # APP_ENV=demo that validator does not run, so a short key would be
+      # accepted in silence — check it once in the dashboard before flipping
+      # this service to production.
       - key: SECRET_KEY
         generateValue: true
+
+      # ---------------------------------------------------------------------
+      # PERSISTENCE. Read this before a demo anyone is meant to come back to.
+      #
+      # DATABASE_URL is deliberately NOT set, so config.py's default applies:
+      # `sqlite:///./cyclowareness.db`, a file on the container's own
+      # filesystem. Render replaces that filesystem on every deploy AND on
+      # every restart, so the database is recreated and re-seeded from
+      # `seed.py` each time.
+      #
+      # For a booth demo that is the desired behaviour — the world resets to a
+      # known state and nothing an attendee typed sticks around. It is NOT
+      # acceptable for anything else: an approval an analyst gave, a risk event
+      # an employee earned and every sandbox job record disappear at the next
+      # push, with nothing reporting a fault. This file said none of that,
+      # which is how it stayed unnoticed.
+      #
+      # To keep the data, do BOTH of the following — a disk alone is not enough,
+      # because nothing points the database at it:
+      #
+      #   1. uncomment the `disk:` block below, and
+      #   2. uncomment DATABASE_URL here.
+      #
+      # A disk pins the service to a single instance, which this app requires
+      # anyway (Alembic runs in the FastAPI lifespan and the task runner is
+      # in-process asyncio — see docker-compose.deploy.yml).
+      #
+      # For a real deployment, prefer a managed Postgres over a disk and set
+      # DATABASE_URL to `postgresql+psycopg://…` with APP_ENV=production.
+      #
+      # - key: DATABASE_URL
+      #   value: sqlite:////var/lib/cyclowareness/cyclowareness.db
+      # ---------------------------------------------------------------------
       # The awareness loop and the sandbox both run the mock/heuristic engines unless
       # a key is supplied. Set these in the dashboard (sync:false = never in git)
       # to switch on live Claude and the real VirusTotal adapter.
@@ -72,3 +111,13 @@ services:
         sync: false
       - key: ENTITY_CONTACT
         sync: false
+
+    # The disk that makes the database survive a deploy. Commented out because
+    # the exhibition build is meant to reset; uncomment it together with
+    # DATABASE_URL above (both, or neither — a mounted disk nothing writes to
+    # is just a bill). Mount path and the sqlite path must agree.
+    #
+    # disk:
+    #   name: cyclowareness-data
+    #   mountPath: /var/lib/cyclowareness
+    #   sizeGB: 1

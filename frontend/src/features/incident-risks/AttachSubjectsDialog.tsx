@@ -97,7 +97,7 @@ export function AttachSubjectsDialog({ risk, open, onOpenChange }: AttachSubject
         />
 
         <Textarea
-          label="Note"
+          label={t('u.note')}
           rows={2}
           value={note}
           onChange={(event) => setNote(event.target.value)}

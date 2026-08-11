@@ -86,7 +86,7 @@ export function QuizPhase({
             tone="brand"
           />
 
-          <nav aria-label="Questions" className="flex flex-wrap gap-2">
+          <nav aria-label={t('u.questions')} className="flex flex-wrap gap-2">
             {questions.map((_, position) => {
               const isAnswered = answers[position] !== null
               const isCurrent = position === index

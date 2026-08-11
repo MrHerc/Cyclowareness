@@ -65,6 +65,22 @@ export const routes: RouteObject[] = [
     children: [
       /* --- public ---------------------------------------------------------- */
       {
+        // `/` IS THE LANDING, FOR EVERYONE, INCLUDING A SIGNED-IN READER.
+        //
+        // It used to be `RootRedirect` inside the shell, so the product's front
+        // door was a redirect to a password field: a visitor without an account
+        // could not find out what the thing does, and the pitch that
+        // `AuthScaffold` deliberately removed from the sign-in screen had
+        // nowhere to live.
+        //
+        // Deliberately NOT wrapped in a "redirect if authenticated" guard. A
+        // marketing URL that bounces half the people it is shared with into an
+        // application is a URL nobody can share; the header offers those readers
+        // `/app` instead, which is where `RootRedirect` moved to.
+        index: true,
+        element: page(<Page.Landing />),
+      },
+      {
         path: '/login',
         element: page(
           <RedirectIfAuthenticated>
@@ -117,7 +133,11 @@ export const routes: RouteObject[] = [
           </RequireAuth>
         ),
         children: [
-          { index: true, element: <RootRedirect /> },
+          // `/app` is the authenticated entry point: it resolves the reader's
+          // role and forwards to that role's home. It was `index: true` — i.e.
+          // `/` — until the landing took that path; the redirect logic itself is
+          // unchanged, only its address.
+          { path: 'app', element: <RootRedirect /> },
 
           /* operate */
           {

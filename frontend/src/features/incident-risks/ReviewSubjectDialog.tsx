@@ -142,25 +142,25 @@ export function ReviewSubjectDialog({
           </dl>
 
           <RadioGroup
-            label="Decision"
+            label={t('u.decision')}
             value={decision}
             onValueChange={setDecision}
             options={[
               {
                 value: 'accepted',
-                label: 'Accept',
+                label: t('u.accept-2'),
                 hint: t('p.the-required-action-was-met-to'),
               },
               {
                 value: 'rejected',
-                label: 'Reject',
+                label: t('u.reject-2'),
                 hint: t('p.it-fell-short-a-note-saying'),
               },
             ]}
           />
 
           <Textarea
-            label="Note"
+            label={t('u.note')}
             required={rejecting}
             rows={3}
             value={note}

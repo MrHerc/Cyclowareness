@@ -44,17 +44,17 @@ export function EvidenceRowsField({ control, register, disabled }: EvidenceRowsF
             className="grid grid-cols-1 gap-2 rounded-control border border-line-subtle bg-base p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:items-end"
           >
             <Input
-              label="Label"
+              label={t('u.label')}
               placeholder={t('p.mail-gateway-verdict')}
               {...register(`evidence.${index}.label` as const)}
             />
             <Input
-              label="Value"
+              label={t('u.value')}
               placeholder={t('p.delivered-to-inbox-no-quarantine')}
               {...register(`evidence.${index}.value` as const)}
             />
             <Input
-              label="Reference"
+              label={t('u.reference')}
               placeholder={t('p.optional-url-log-id-ticket')}
               inputClassName="tech"
               {...register(`evidence.${index}.ref` as const)}

@@ -77,11 +77,11 @@ function Outcomes({ simulation }: { simulation: SimulationDetailModel }) {
       <Separator className="my-5" />
 
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
-        <CountStat label="Targeted" value={stats.targets} />
-        <CountStat label="Resolved" value={stats.resolved} hint={t('p.has-a-recorded-outcome')} />
-        <CountStat label="Clicked" value={stats.clicked} />
-        <CountStat label="Reported" value={stats.reported} />
-        <CountStat label="Pending" value={pending} hint={`${num(ignored)} ignored`} />
+        <CountStat label={t('u.targeted')} value={stats.targets} />
+        <CountStat label={t('u.resolved')} value={stats.resolved} hint={t('p.has-a-recorded-outcome')} />
+        <CountStat label={t('u.clicked')} value={stats.clicked} />
+        <CountStat label={t('u.reported')} value={stats.reported} />
+        <CountStat label={t('u.pending')} value={pending} hint={`${num(ignored)} ignored`} />
       </div>
     </Panel>
   )

@@ -39,7 +39,7 @@ export function AuditFilters({
 }: AuditFiltersProps) {
   const t = useT()
   const actionOptions = [
-    { value: ANY_VALUE, label: 'Every action' },
+    { value: ANY_VALUE, label: t('u.every-action-2') },
     ...actions.map((entry) => ({
       value: entry.action,
       label: entry.count === null ? entry.action : `${entry.action} (${num(entry.count)})`,
@@ -47,7 +47,7 @@ export function AuditFilters({
   ]
 
   const objectOptions = [
-    { value: ANY_VALUE, label: 'Every object type' },
+    { value: ANY_VALUE, label: t('u.every-object-type-2') },
     ...objectTypes.map((value) => ({ value, label: humanise(value) })),
   ]
 
@@ -55,7 +55,7 @@ export function AuditFilters({
     <div className="space-y-3">
       <div className="flex flex-wrap items-end gap-3">
         <Input
-          label="Search"
+          label={t('u.search')}
           type="search"
           value={filters.values.q}
           onChange={(event) => filters.set('q', event.target.value)}
@@ -63,7 +63,7 @@ export function AuditFilters({
           className="w-64"
         />
         <Input
-          label="Actor"
+          label={t('u.actor')}
           type="search"
           value={filters.values.actor}
           onChange={(event) => filters.set('actor', event.target.value)}
@@ -71,7 +71,7 @@ export function AuditFilters({
           className="w-56"
         />
         <Select
-          label="Action"
+          label={t('u.action')}
           options={actionOptions}
           value={filters.values.action || ANY_VALUE}
           onValueChange={(value) => filters.set('action', value)}

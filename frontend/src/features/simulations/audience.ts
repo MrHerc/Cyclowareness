@@ -6,14 +6,45 @@
  * constant or a helper falls back to a full reload on every edit.
  */
 
+import type { MessageKey } from '../../lib/i18n'
 import type { Employee, RiskBand } from '../../domain/types'
 import { riskBand } from '../../lib/format'
 
-/** Ordered worst-first: the band an analyst most often targets is at the top. */
-export const RISK_BANDS: { value: RiskBand; label: string; hint: string }[] = [
-  { value: 'high', label: 'High risk', hint: 'Score of 60 or more' },
-  { value: 'elevated', label: 'Elevated', hint: 'Score of 40 to 59' },
-  { value: 'low', label: 'Low risk', hint: 'Score under 40' },
+/**
+ * Ordered worst-first: the band an analyst most often targets is at the top.
+ *
+ * `labelKey`/`hintKey` carry the catalogue entries; the English stays as the
+ * fallback. A module-scope constant cannot call `useT()`, so the lookup belongs
+ * to the component that renders it — the same split `app/navigation.ts` uses.
+ */
+export const RISK_BANDS: {
+  value: RiskBand
+  label: string
+  labelKey: MessageKey
+  hint: string
+  hintKey: MessageKey
+}[] = [
+  {
+    value: 'high',
+    label: 'High risk',
+    labelKey: 'u.high-risk',
+    hint: 'Score of 60 or more',
+    hintKey: 'u.score-of-60-or-more',
+  },
+  {
+    value: 'elevated',
+    label: 'Elevated',
+    labelKey: 'u.elevated',
+    hint: 'Score of 40 to 59',
+    hintKey: 'u.score-of-40-to-59',
+  },
+  {
+    value: 'low',
+    label: 'Low risk',
+    labelKey: 'u.low-risk',
+    hint: 'Score under 40',
+    hintKey: 'u.score-under-40',
+  },
 ]
 
 /**

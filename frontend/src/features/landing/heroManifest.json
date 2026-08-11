@@ -1,0 +1,20 @@
+{
+  "desktop": {
+    "totalFrames": 192,
+    "basePath": "/hero-frames",
+    "prefix": "frame_",
+    "ext": "avif",
+    "pad": 4,
+    "width": 1280,
+    "height": 720
+  },
+  "mobile": {
+    "totalFrames": 96,
+    "basePath": "/hero-frames-mobile",
+    "prefix": "frame_",
+    "ext": "avif",
+    "pad": 4,
+    "width": 720,
+    "height": 406
+  }
+}

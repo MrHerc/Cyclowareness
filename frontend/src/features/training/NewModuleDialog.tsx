@@ -20,13 +20,13 @@ import { useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { ApiError } from '../../lib/api/client'
 import { useCreateModule } from '../../lib/api/mutations'
-import { Button, Dialog, Input, Select, Textarea } from '../../components/ui'
+import { Button, Dialog, Input, Select, type SelectOption, Textarea } from '../../components/ui'
 
-const CHANNELS = [
-  { value: 'email', label: 'Email' },
-  { value: 'sms', label: 'SMS / phone' },
-  { value: 'qr', label: 'QR code' },
-  { value: 'chat', label: 'Chat' },
+const CHANNELS: SelectOption[] = [
+  { value: 'email', label: 'Email', labelKey: 'u.email' },
+  { value: 'sms', label: 'SMS / phone', labelKey: 'u.sms-phone' },
+  { value: 'qr', label: 'QR code', labelKey: 'u.qr-code' },
+  { value: 'chat', label: 'Chat', labelKey: 'u.chat' },
   { value: 'web', label: 'Web' },
 ]
 
@@ -82,7 +82,7 @@ export function NewModuleDialog() {
       >
         <Input
           id="new-module-title"
-          label="Title"
+          label={t('u.title')}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           maxLength={255}
@@ -100,7 +100,7 @@ export function NewModuleDialog() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Select
-            label="Channel"
+            label={t('u.channel')}
             options={CHANNELS}
             value={channel}
             onValueChange={setChannel}

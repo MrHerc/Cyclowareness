@@ -40,7 +40,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
   }, [search, filters.q, set])
 
   const departmentOptions = [
-    { value: 'all', label: 'Any department' },
+    { value: 'all', label: t('u.any-department-2') },
     ...(departments.data ?? []).map((department) => ({
       value: String(department.id),
       label: department.name,
@@ -50,7 +50,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
   return (
     <div className="flex flex-wrap items-end gap-3">
       <Input
-        label="Search"
+        label={t('u.search')}
         labelHidden
         type="search"
         value={search}
@@ -60,7 +60,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
         autoComplete="off"
       />
       <Select
-        label="Status"
+        label={t('u.status')}
         labelHidden
         options={ANY_STATUS_OPTIONS}
         value={filters.status}
@@ -68,7 +68,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
         className="w-40"
       />
       <Select
-        label="Severity"
+        label={t('u.severity')}
         labelHidden
         options={ANY_SEVERITY_OPTIONS}
         value={filters.severity}
@@ -84,7 +84,7 @@ export function IncidentRiskFilters({ state }: IncidentRiskFiltersProps) {
         className="w-48"
       />
       <Select
-        label="Department"
+        label={t('u.department')}
         labelHidden
         options={departmentOptions}
         value={filters.department_id}

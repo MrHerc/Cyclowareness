@@ -80,7 +80,7 @@ export function SideNavigation({
 
   return (
     <nav
-      aria-label="Primary"
+      aria-label={t('u.primary')}
       className={cn('flex h-full flex-col gap-1 overflow-y-auto px-2 py-3', className)}
     >
       {sections.map((section, index) => (

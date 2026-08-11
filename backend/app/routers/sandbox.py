@@ -32,11 +32,11 @@ from ..config import Settings, get_settings
 from ..core.task_runner import get_task_runner
 from ..database import get_db, session_scope
 from ..models import User
-from ..sandbox import links as links_mod
+from ..sandbox import handoff, links as links_mod
 from ..sandbox.engine import attestation, incident as incident_mod, pipeline, report as report_mod
 from ..sandbox.engine.fetcher import FetchFailed, UnsafeURL, fetch
 from ..sandbox.engine.models import Feedback, JobSource, JobStatus, SandboxJob
-from ..sandbox.engine.storage import EmptySample, SampleTooLarge, store_stream
+from ..sandbox.engine.storage import EmptySample, QuarantineFull, SampleTooLarge, store_stream
 from ..sandbox.links import SandboxJobLink
 from ..sandbox.schemas import (
     FamilyCount,
@@ -255,6 +255,50 @@ def sandbox_capabilities(settings: Settings = Depends(get_settings)):
     }
 
 
+# --- hand-off to the standalone deployment -----------------------------------
+@router.post("/app-session")
+def app_session(
+    user: User = Depends(require_analyst),
+    settings: Settings = Depends(get_settings),
+):
+    """Mint a session for the standalone Cyclowareness Sandbox, for this analyst.
+
+    The standalone is a separate product with its own database and its own chain
+    of custody. This portal links to it rather than re-implementing it, and this
+    is the whole of the integration: an analyst who is already signed in here
+    does not sign in again there.
+
+    THE TOKEN NAMES THE PERSON. It would be less work to hold one shared
+    standalone credential and hand the same session to all 26 portal users, and
+    the standalone's audit trail would then record `analyst` for every action
+    any of them took — hollowing out the one claim that product is sold on. The
+    subject is this user's own address.
+
+    404, not 501, when unconfigured: to a client, an integration the operator
+    has not set up is indistinguishable from one this build does not have, and
+    404 is the honest shape for "there is nothing at this address here".
+    """
+    if not settings.sandbox_app_url:
+        raise HTTPException(status_code=404, detail="No standalone sandbox is configured")
+    try:
+        token, expires_at = handoff.mint(
+            user.email,
+            secret=settings.sandbox_app_secret,
+            ttl_minutes=settings.sandbox_app_ttl_minutes,
+            tenant=settings.sandbox_app_tenant,
+        )
+    except handoff.HandoffUnavailable as exc:
+        # The secret is missing while a URL is set — a half-configured link.
+        # Saying so beats a 401 from the other product that nobody can explain.
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    return {
+        "url": settings.sandbox_app_url.rstrip("/"),
+        "token": token,
+        "subject": user.email,
+        "expires_at": expires_at,
+    }
+
+
 # --- submission --------------------------------------------------------------
 @router.post("/upload", response_model=JobDetail, status_code=201)
 async def upload(
@@ -269,6 +313,11 @@ async def upload(
         stored = store_stream(file.file, max_bytes=settings.max_sample_mb * 1024 * 1024)
     except SampleTooLarge as exc:
         raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except QuarantineFull as exc:
+        # 507 Insufficient Storage, not 500: this is a fault on the operator's
+        # volume, and a 5xx that reads as a bug sends them looking in the
+        # application. The message names the remedy, so it is passed through.
+        raise HTTPException(status_code=507, detail=str(exc)) from exc
     except EmptySample as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     finally:
@@ -305,6 +354,8 @@ def submit_url(
         raise HTTPException(status_code=422, detail=f"Refusing to fetch: {exc}") from exc
     except SampleTooLarge as exc:
         raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except QuarantineFull as exc:
+        raise HTTPException(status_code=507, detail=str(exc)) from exc
     except FetchFailed as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 

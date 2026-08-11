@@ -9,6 +9,8 @@
     "lint": "oxlint",
     "check:links": "node tools/check-links.mjs",
     "check:i18n": "node tools/check-i18n.mjs",
+    "check:scanner": "python3 tools/find-untranslated.py --self-test",
+    "find:untranslated": "python3 tools/find-untranslated.py",
     "preview": "vite preview"
   },
   "dependencies": {

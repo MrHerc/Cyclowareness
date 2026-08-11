@@ -13,12 +13,32 @@
 import * as RadixSelect from '@radix-ui/react-select'
 import { Check, ChevronDown } from 'lucide-react'
 import { cn } from '../../lib/format'
+import { useT, type MessageKey } from '../../lib/i18n'
 import { Field } from './Field'
 import { CONTROL_CLASSES, controlBorder } from './field-styles'
 
 export interface SelectOption {
   value: string
+  /**
+   * The English text. Kept as the fallback, and as what a reader of the option
+   * list sees without opening the catalogue.
+   */
   label: string
+  /**
+   * The catalogue key, when there is one — `t(labelKey)` wins over `label`.
+   *
+   * Every option list in this product is a module-scope constant
+   * (`SEVERITY_OPTIONS`, `VERDICT_OPTIONS`, …), and a module-scope constant
+   * cannot call `useT()`: there is no component around it. So the constants kept
+   * their English and 167 filter options stayed English on an Azerbaijani
+   * screen — `Any severity`, `Awaiting triage`, `Curated feed` — while the page
+   * around them was fully translated.
+   *
+   * Resolving here rather than at each of the 26 call sites is the same shape
+   * `app/navigation.ts` already uses for `labelKey`: the data carries the key,
+   * the component that renders it does the lookup.
+   */
+  labelKey?: MessageKey
   disabled?: boolean
 }
 
@@ -56,6 +76,7 @@ export function Select({
   id,
   className,
 }: SelectProps) {
+  const t = useT()
   return (
     <Field
       label={label}
@@ -113,7 +134,9 @@ export function Select({
                     <RadixSelect.ItemIndicator className="absolute left-2 inline-flex">
                       <Check size={13} className="text-brand" aria-hidden="true" />
                     </RadixSelect.ItemIndicator>
-                    <RadixSelect.ItemText>{option.label}</RadixSelect.ItemText>
+                    <RadixSelect.ItemText>
+                      {option.labelKey ? t(option.labelKey) : option.label}
+                    </RadixSelect.ItemText>
                   </RadixSelect.Item>
                 ))}
               </RadixSelect.Viewport>

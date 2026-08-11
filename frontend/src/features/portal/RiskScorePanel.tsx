@@ -48,14 +48,14 @@ function ContestControl({ event }: { event: RiskEvent }) {
   const contest = useContestRiskEvent({
     onSuccess: () => {
       toast.show({
-        title: 'Sent to a person',
+        title: t('u.sent-to-a-person-2'),
         description: t('p.someone-will-read-what-you-wrote'),
         tone: 'success',
       })
       setOpen(false)
     },
     onError: (error) =>
-      toast.show({ title: 'That did not send', description: error.message, tone: 'error' }),
+      toast.show({ title: t('u.that-did-not-send-2'), description: error.message, tone: 'error' }),
   })
 
   if (event.revoked_at) {
@@ -220,7 +220,7 @@ export function RiskScorePanel({
               reason: evidence.lastMovementUnexplained
                 ? 'a record was withdrawn after review, and your score was recalculated without it'
                 : 'nothing has moved your score yet',
-              label: 'since your last recorded change',
+              label: t('u.since-your-last-recorded-change-2'),
               improvement: 'down',
             }}
           />

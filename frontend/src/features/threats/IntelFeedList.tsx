@@ -82,7 +82,7 @@ export function IntelFeedList({ query, artifactType }: IntelFeedListProps) {
       subtitle={t('x.realworld-items-an-analyst-can')}
       actions={
         <Select
-          label="Severity"
+          label={t('u.severity')}
           labelHidden
           options={SEVERITY_OPTIONS}
           value={severity}

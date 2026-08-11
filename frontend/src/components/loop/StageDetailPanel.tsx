@@ -10,6 +10,7 @@
  */
 
 import type { ReactNode } from 'react'
+import { useT } from '../../lib/i18n'
 import { CircleCheck, CircleDashed, CircleDot, TriangleAlert } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { StageStatus } from '../../domain/types'
@@ -74,6 +75,7 @@ export function StageDetailPanel({
   actions,
   className,
 }: StageDetailPanelProps) {
+  const t = useT()
   const style = STATUS_STYLE[status]
   const StageIcon = STAGE_ICONS[stage.key]
   const elapsed = msBetween(startedAt, completedAt)
@@ -99,11 +101,11 @@ export function StageDetailPanel({
       </header>
 
       <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Meta label="Started" value={formatDateTime(startedAt)} />
-        <Meta label="Completed" value={formatDateTime(completedAt)} />
+        <Meta label={t('u.started')} value={formatDateTime(startedAt)} />
+        <Meta label={t('u.completed')} value={formatDateTime(completedAt)} />
         {/* No end time means we do not know how long it took — not that it was instant. */}
-        <Meta label="Took" value={elapsed === null ? '—' : duration(elapsed)} />
-        <Meta label="Actor" value={actor ? `${actor} (${stage.owner})` : stage.owner} />
+        <Meta label={t('u.took')} value={elapsed === null ? '—' : duration(elapsed)} />
+        <Meta label={t('u.actor')} value={actor ? `${actor} (${stage.owner})` : stage.owner} />
       </dl>
 
       {detail && <p className="mt-3 text-body text-fg-muted">{detail}</p>}

@@ -49,15 +49,15 @@ export function QueueSummary({ stats }: QueueSummaryProps) {
   return (
     <Panel>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-6">
-        <Tile label="Submitted" value={num(stats.total, 0)} />
+        <Tile label={t('u.submitted')} value={num(stats.total, 0)} />
         <Tile
-          label="Analysed"
+          label={t('u.analysed')}
           value={num(stats.completed, 0)}
           caption={stats.in_flight > 0 ? `${num(stats.in_flight, 0)} still running` : undefined}
         />
-        <Tile label="Malicious" value={num(verdicts.malicious, 0)} tone="text-critical" />
-        <Tile label="Suspicious" value={num(verdicts.suspicious, 0)} tone="text-high" />
-        <Tile label="Clean" value={num(verdicts.clean, 0)} tone="text-safe" />
+        <Tile label={t('u.malicious')} value={num(verdicts.malicious, 0)} tone="text-critical" />
+        <Tile label={t('u.suspicious')} value={num(verdicts.suspicious, 0)} tone="text-high" />
+        <Tile label={t('u.clean')} value={num(verdicts.clean, 0)} tone="text-safe" />
         <Tile
           label={t('p.unclassified')}
           value={num(verdicts.unclassified, 0)}

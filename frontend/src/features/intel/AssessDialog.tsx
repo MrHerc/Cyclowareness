@@ -77,18 +77,18 @@ export function AssessDialog({ item, open, onOpenChange }: AssessDialogProps) {
     >
       <div className="space-y-4">
         <RadioGroup
-          label="Judgement"
+          label={t('u.judgement')}
           value={relevance}
           onValueChange={setRelevance}
           options={ASSESSABLE_RELEVANCE.map((option) => ({
             value: option.value,
-            label: option.label,
-            hint: option.hint,
+            label: t(option.labelKey),
+            hint: t(option.hintKey),
           }))}
         />
 
         <Textarea
-          label="Reason"
+          label={t('u.reason')}
           required={reasonRequired}
           value={reason}
           onChange={(event) => setReason(event.target.value)}

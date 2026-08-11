@@ -63,7 +63,7 @@ export function CompletionTrendChart({
           ? `Last ${windowDays} days · completion is attendance, not behaviour change`
           : t('p.completion-is-attendance-not-behaviour-change')
       }
-      legend={[{ label: 'Completion rate', color: COMPLETION_COLOR }]}
+      legend={[{ label: t('u.completion-rate-2'), color: COMPLETION_COLOR }]}
       height={height}
       hasData={hasData}
       loading={loading}
@@ -108,7 +108,7 @@ export function CompletionTrendChart({
                 title={formatDayFull(point.date)}
                 rows={[
                   {
-                    label: 'Completion rate',
+                    label: t('u.completion-rate-2'),
                     color: COMPLETION_COLOR,
                     value:
                       point.training_completion_rate === null

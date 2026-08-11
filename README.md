@@ -83,14 +83,29 @@ First time (or on another machine), prerequisites: Python 3.12+, Node 20+.
 ```bash
 # 1. Backend (SQLite + mock sandbox + mock AI — the full loop works offline)
 cd backend
-python -m venv .venv
-.venv\Scripts\pip install -r requirements.txt        # Windows
-.venv\Scripts\python -m uvicorn app.main:app --port 8000
+python3.12 -m venv .venv
+. .venv/bin/activate                      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+APP_ENV=demo python -m uvicorn app.main:app --port 8000
 
 # 2. Frontend (separate terminal)
 cd frontend
 npm install
 npm run dev            # http://localhost:5173  (proxies /api → :8000)
+```
+
+`APP_ENV=demo` is not optional. The default is `production`, which refuses to
+boot on SQLite and on a demo-grade `SECRET_KEY` — deliberately, so a
+misconfigured deployment fails loudly rather than quietly serving demo
+behaviour. Without it the first command exits instead of starting.
+
+**Running this alongside the standalone sandbox?** Both default to Vite on 5173
+and an API on 8000, so the second one to start silently proxies to the first.
+Give one of them its own pair:
+
+```bash
+APP_ENV=demo python -m uvicorn app.main:app --port 8001      # sandbox API
+PORT=5174 VITE_API_TARGET=http://127.0.0.1:8001 npm run dev  # sandbox UI
 ```
 
 The database is created and seeded automatically on first start (fictional company *Caspian Dynamics*: 26 employees, 6 months of metric history, past loop runs, an active simulation, a triage queue and a run already waiting for approval).
@@ -185,13 +200,29 @@ Score 0–100 per employee; baseline `20 + role_sensitivity × 20`; every moveme
 | Signal | Δ |
 |---|---|
 | Clicked a simulated phishing lure | **+12** |
-| Exposed (targeted) by a real threat | **+8** |
+| Exposed (targeted) by a real threat | **0** — recorded, deliberately unweighted † |
 | Ignored assigned training (expired) | **+4** |
 | Completed training but failed quiz | **+3** |
 | Reported a real suspicious artifact | **−4** |
 | Completed a training module | **−4** |
 | Quiz comprehension (scaled by score) | **−6 × score** |
 | Reported a simulated phish | **−5** |
+
+† **This row said `+8` long after the code stopped applying it.** Weighting "a
+threat reached you" handed an outsider a write primitive on somebody else's
+score: mail a chosen employee six times and they top the risk heatmap having
+done nothing, and one BEC mail to finance charged +8 to the whole department.
+`real_threat_exposure` is weighted `0.0` in `risk_engine.py` and the event is
+still written, because the fact is worth showing in the audit trail and it is
+what justifies *training* someone — it just no longer moves a number that claims
+to measure their behaviour.
+
+The score is also split in two: **behaviour risk** moves only on what a person
+did when a threat reached them; **training credit** moves on engagement with the
+programme. Efficacy is reported from behaviour alone, because completing
+assigned training subtracts 10 points between two of the rows above — so
+reporting the composite as proof would have meant assigning more training made
+the line go down with no behaviour change anywhere.
 
 The current score is the direct input to the TARGET stage — riskier people are trained first, and their improvement changes who gets targeted next time. That is the feedback that closes the loop.
 
@@ -208,24 +239,47 @@ All Claude calls live behind `ai_service` with strict output schemas, defensive 
 
 ```bash
 cd backend
-.venv\Scripts\pip install -r requirements-dev.txt
-.venv\Scripts\python -m pytest -q          # 35 tests: risk engine, loop
-                                           # orchestrator (all 7 stages +
-                                           # idempotency), analyzer contract,
-                                           # AI schemas, auth/RBAC
+pip install -r requirements-dev.txt         # Windows: .venv\Scripts\pip install …
+APP_ENV=demo python -m pytest -q            # 354 tests: risk engine, loop
+                                            # orchestrator (all 7 stages +
+                                            # idempotency), analyzer contract,
+                                            # AI schemas, auth/RBAC, and the
+                                            # vendored-engine seam
 ```
+
+`APP_ENV=demo` is required: the production validator refuses to boot on SQLite,
+which is correct and is what the suite runs against.
+
+One test is a **developer's** check rather than a CI gate —
+`test_the_vendored_engine_is_byte_identical_to_the_standalone` needs the
+standalone sandbox checked out too, and CI has one repository at a time. It
+looks for it beside this one (`../cyclowareness-sandbox`); set
+`CYCLOWARENESS_SANDBOX_ENGINE` if yours lives elsewhere. Run the suite with
+`-rs` to see whether it ran or skipped — it was pinned to an absolute path on
+one machine for a while, reported SKIPPED everywhere else, and twelve engine
+files drifted behind it.
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the backend suite and the
 frontend type-check + build on every push and pull request.
 
 ## Production deployment
 
-`docker-compose.yml` ships the full production topology (PostgreSQL + Redis + API). Steps to harden:
+`docker-compose.deploy.yml` is the deployment topology: **one container**, which
+serves the API and the compiled SPA from the same origin, against a PostgreSQL
+instance that lives outside this file. There is no `docker-compose.yml` in this
+repository and no Redis — this paragraph promised both for a long time, which
+sent anyone following it looking for a file that was never written.
+
+Steps to harden:
 
 1. Set a real `SECRET_KEY`, `DATABASE_URL` (Postgres) and `ANTHROPIC_API_KEY` in the environment — never in code.
-2. Enable Celery: `TASK_RUNNER=celery`, run workers (`celery -A app.worker worker`), wire the task in `core/task_runner.py` (documented TODO).
-3. Enable a real sandbox: `SANDBOX_ANALYZER=real` + backend credentials (see `analyzers/real_analyzer.py`).
-4. Replace the seeded demo users with your identity provider.
+2. Enable a real sandbox: `SANDBOX_ANALYZER=real` + backend credentials (see `analyzers/real_analyzer.py`).
+3. Replace the seeded demo users with your identity provider.
+
+**`TASK_RUNNER=celery` is not an option yet.** `core/task_runner.py` raises
+`NotImplementedError` for it; the loop runs on in-process asyncio tasks, which is
+also why the deployment pins exactly one replica. Wiring a broker is a piece of
+work, not a setting — the seam is there, the implementation is not.
 
 ## Repository layout
 

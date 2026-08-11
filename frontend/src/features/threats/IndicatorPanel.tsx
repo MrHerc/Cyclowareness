@@ -34,9 +34,9 @@ export function IndicatorPanel({ iocs }: IndicatorPanelProps) {
   const t = useT()
   const groups: Group[] = [
     { key: 'urls', label: 'URLs', values: iocs?.urls ?? [], defanged: true },
-    { key: 'domains', label: 'Domains', values: iocs?.domains ?? [], defanged: true },
-    { key: 'sender_patterns', label: 'Sender patterns', values: iocs?.sender_patterns ?? [], defanged: true },
-    { key: 'hashes', label: 'Hashes', values: iocs?.hashes ?? [], defanged: false },
+    { key: 'domains', label: t('u.domains-2'), values: iocs?.domains ?? [], defanged: true },
+    { key: 'sender_patterns', label: t('u.sender-patterns-2'), values: iocs?.sender_patterns ?? [], defanged: true },
+    { key: 'hashes', label: t('u.hashes-2'), values: iocs?.hashes ?? [], defanged: false },
   ].filter((group) => group.values.length > 0)
 
   const total = groups.reduce((sum, group) => sum + group.values.length, 0)

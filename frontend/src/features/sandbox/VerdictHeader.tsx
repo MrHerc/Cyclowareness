@@ -96,20 +96,20 @@ export function VerdictHeader({ job }: VerdictHeaderProps) {
             <Fact label="MD5">
               <Hash label={t('u.md5-hash')} value={job.md5} />
             </Fact>
-            <Fact label="Size">{bytes(job.size_bytes)}</Fact>
+            <Fact label={t('u.size')}>{bytes(job.size_bytes)}</Fact>
             <Fact label={t('p.content-type')}>
               <span className="tech break-words">{job.mime || 'unknown'}</span>
               {job.magic ? (
                 <span className="mt-0.5 block text-xs text-fg-subtle">{job.magic}</span>
               ) : null}
             </Fact>
-            <Fact label="Family">{humanise(job.family)}</Fact>
+            <Fact label={t('u.family')}>{humanise(job.family)}</Fact>
             {job.archive_path ? (
               <Fact label={t('p.inside-archive')}>
                 <span className="tech break-all">{job.archive_path}</span>
               </Fact>
             ) : null}
-            <Fact label="Submitted">
+            <Fact label={t('u.submitted')}>
               {formatDateTime(job.created_at)}
               <span className="ml-2 text-fg-subtle">via {humanise(job.source)}</span>
             </Fact>

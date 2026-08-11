@@ -39,7 +39,7 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
       {
         onSuccess: () => {
           toast.show({
-            title: 'Advisory dismissed',
+            title: t('u.advisory-dismissed-2'),
             description: t('p.the-reason-is-on-the-audit'),
           })
           onOpenChange(false)
@@ -77,7 +77,7 @@ export function DismissDialog({ item, open, onOpenChange }: DismissDialogProps) 
         </p>
 
         <Textarea
-          label="Reason"
+          label={t('u.reason')}
           required
           autoFocus
           value={reason}

@@ -10,18 +10,27 @@
  */
 
 import { ApiError } from '../../lib/api/client'
+import type { TFunction } from '../../lib/i18n'
 
 export interface SignInFailure {
   headline: string
   detail: string
 }
 
-export function signInFailure(error: unknown): SignInFailure {
+/**
+ * The translator is a PARAMETER, not a `useT()` call in the body.
+ *
+ * This is a plain function, so calling the hook here breaks the rules of hooks —
+ * it compiled, and only `oxlint` said so. The caller is a component that already
+ * holds a translator; passing it down keeps this table testable without a React
+ * tree around it.
+ */
+export function signInFailure(error: unknown, t: TFunction): SignInFailure {
   if (!(error instanceof ApiError)) {
     return {
       headline: 'Sign-in could not be completed',
       detail:
-        'Something unexpected stopped the request before it reached the platform. Reload the page and try again.',
+        t('u.something-unexpected-stopped-the-request-before-it'),
     }
   }
 
@@ -39,13 +48,13 @@ export function signInFailure(error: unknown): SignInFailure {
       return {
         headline: 'Incorrect email or password',
         detail:
-          'The platform did not recognise that combination. Passwords are case sensitive, and accounts are issued by the security team rather than self-registered.',
+          t('u.the-platform-did-not-recognise-that-combination'),
       }
     case 'unreachable':
       return {
         headline: 'Cannot reach the Cyclowareness API',
         detail:
-          'The service may still be starting, or the connection dropped. Your credentials were not sent anywhere else — try again in a moment.',
+          t('u.the-service-may-still-be-starting-or'),
       }
     case 'timeout':
       return {

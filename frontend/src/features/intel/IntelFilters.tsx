@@ -56,25 +56,25 @@ export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFi
     <div className="space-y-3">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Select
-          label="Source"
+          label={t('u.source')}
           options={SOURCE_OPTIONS}
           value={values.source || ANY}
           onValueChange={(value) => onChange('source', value === ANY ? '' : value)}
         />
         <Select
-          label="Type"
+          label={t('u.type')}
           options={TYPE_OPTIONS}
           value={values.type || ANY}
           onValueChange={(value) => onChange('type', value === ANY ? '' : value)}
         />
         <Select
-          label="Severity"
+          label={t('u.severity')}
           options={SEVERITY_OPTIONS}
           value={values.severity || ANY}
           onValueChange={(value) => onChange('severity', value === ANY ? '' : value)}
         />
         <Select
-          label="Assessment"
+          label={t('u.assessment')}
           options={RELEVANCE_OPTIONS}
           value={values.relevance || ANY}
           onValueChange={(value) => onChange('relevance', value === ANY ? '' : value)}
@@ -83,7 +83,7 @@ export function IntelFilters({ values, onChange, onClear, resultLabel }: IntelFi
 
       <form onSubmit={submit} className="flex items-end gap-2">
         <Input
-          label="Search"
+          label={t('u.search')}
           type="search"
           value={term}
           onChange={(event) => setTerm(event.target.value)}
