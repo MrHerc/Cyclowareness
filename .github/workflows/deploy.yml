@@ -117,6 +117,7 @@ jobs:
               SECRET_KEY="$SECRET_KEY" \
               ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
               SIGNING_KEY="$SIGNING_KEY" \
+              SANDBOX_APP_URL="$SANDBOX_APP_URL" \
               'bash -se' <<'EOF'
           set -euo pipefail
           cd /srv/apps/cyclowareness
@@ -126,6 +127,21 @@ jobs:
           # and cannot leak through the Actions log.
           PGPW="$(cat /srv/platform/.pg_cyclo_pw)"
 
+          # The hand-off to the standalone sandbox is a shared signing key: this
+          # must be byte-identical to the standalone's SECRET_KEY or a token
+          # minted here verifies against nothing there, and the analyst lands on
+          # a login screen they have no password for. Reading the standalone's
+          # own key file is what keeps the two from drifting — it is never
+          # copied into a GitHub secret, where it would have to be updated twice.
+          SANDBOX_SECRET=""
+          if [ -s /srv/platform/.sandbox_secret_key ]; then
+            SANDBOX_SECRET="$(cat /srv/platform/.sandbox_secret_key)"
+          else
+            echo "WARNING: /srv/platform/.sandbox_secret_key is missing." >&2
+            echo "Deploy the sandbox first; the portal will start with the" >&2
+            echo "hand-off closed (the link simply is not offered)." >&2
+          fi
+
           umask 077
           cat > .env <<ENVFILE
           IMAGE=${IMAGE}
@@ -133,6 +149,9 @@ jobs:
           SECRET_KEY=${SECRET_KEY}
           ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
           SIGNING_KEY=${SIGNING_KEY}
+          SANDBOX_APP_URL=${SANDBOX_APP_URL}
+          SANDBOX_APP_SECRET=${SANDBOX_SECRET}
+          SANDBOX_APP_TENANT=default
           ENVFILE
 
           docker compose pull
@@ -154,6 +173,10 @@ jobs:
           # failing loudly. Leaving it empty is fine; exports are then honestly
           # marked unsigned.
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          # Where the analyst's browser is sent for the hand-off, so it must be
+          # the address THEY can reach, not a container name. Empty closes the
+          # link and the portal stops offering it — the safe direction.
+          SANDBOX_APP_URL: ${{ vars.SANDBOX_APP_URL || format('http://{0}:8084', secrets.DEPLOY_HOST) }}
 
       - name: Verify health
         # A deploy that reports success without checking is how a broken demo

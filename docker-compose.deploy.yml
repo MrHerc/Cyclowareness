@@ -64,6 +64,28 @@ services:
       # container restart during the show.
       SANDBOX_QUARANTINE: /var/lib/cyclowareness/quarantine
 
+      # --- hand-off to the standalone Cyclowareness Sandbox -------------------
+      #
+      # The portal mints a session token in the standalone's own format and the
+      # analyst's BROWSER carries it there in the URL fragment. These two
+      # services never call each other: nothing here dials 8084, and the
+      # standalone never dials back. The link is a shared signing key, not an
+      # API client.
+      #
+      # SANDBOX_APP_SECRET must equal the standalone's SECRET_KEY exactly —
+      # that equality IS the trust relationship. Both are written from the same
+      # file on the server (/srv/platform/.sandbox_secret_key), so they cannot
+      # drift apart; rotating means rewriting that file and redeploying both.
+      #
+      # Anyone holding this value can mint a session on the standalone as any
+      # subject, so it is a signing key rather than a password.
+      SANDBOX_APP_URL: ${SANDBOX_APP_URL:-}
+      SANDBOX_APP_SECRET: ${SANDBOX_APP_SECRET:-}
+      # Must match the standalone's ANALYST_TENANT. That defaults to "" there,
+      # which resolves to DEFAULT_TENANT ("default") — the value used here. A
+      # mismatch authenticates fine and then shows an empty deployment.
+      SANDBOX_APP_TENANT: ${SANDBOX_APP_TENANT:-default}
+
       ENTITY_NAME: ${ENTITY_NAME:-}
       ENTITY_COUNTRY: ${ENTITY_COUNTRY:-}
       ENTITY_SECTOR: ${ENTITY_SECTOR:-}
