@@ -4878,6 +4878,66 @@ const en = {
     'Matches are reviewed and escalated on the intel screen.',
   'pl.watch-has-not-run-yet':
     'The background scan has not run yet. Run one now, or wait for the interval.',
+
+  // --- the guided tour ----------------------------------------------------
+  'tour.ai.body':
+    'Ask it about any screen, who depends on which system, or what actually prevents an attack. Every answer carries where it came from, and a question it has no grounding for is refused rather than improvised.',
+  'tour.ai.title':
+    'Cyber AI, in the corner',
+  'tour.aria':
+    'Guided tour',
+  'tour.back':
+    'Back',
+  'tour.cc.body':
+    'One question per screen: what needs a person right now. The tiles are live counts — what waits at the approval gate, what is moving through the loop, what the sandbox cannot do today. Every tile is a link.',
+  'tour.cc.title':
+    'Start here: the Command Center',
+  'tour.end':
+    'End the tour',
+  'tour.finish':
+    'Finish',
+  'tour.gate.body':
+    'Nothing generated reaches an employee until a named person approves it. The analyst reads exactly what the employee will read, may edit it, and a rejection requires a written reason. This gate is the product\'s central claim, not a setting.',
+  'tour.gate.title':
+    'The approval gate',
+  'tour.grc.body':
+    'Your own documents as a rules register — ISO 27001, NIST CSF, NIS2, PCI DSS are here. The watcher matches new advisories against the active rules in the background and surfaces what it finds; escalating a match into a finding stays your decision.',
+  'tour.grc.title':
+    'Policy and the GRC watch',
+  'tour.incident.body':
+    'This is the product\'s front door for governance work. A finding binds named people, may carry a deadline, and "Auto-train" turns it into training: an approved module from the catalogue when one fits, or a generated one queued for review when nothing does.',
+  'tour.incident.title':
+    'Incident risks: the IR team\'s findings',
+  'tour.intake.body':
+    'Real artifacts, from three doors: an employee reports one, a curated feed carries one, or an analyst submits one here. Everything downstream is built from these — the training is never invented from a template about a threat nobody saw.',
+  'tour.intake.title':
+    'Intake: where a threat arrives',
+  'tour.next':
+    'Next',
+  'tour.people.body':
+    'Behaviour moves the score, attendance does not. Completing training earns credit on a separate axis, so a person cannot lower their risk by clicking through lessons. Where a score was never measured, the screen says so instead of showing a zero.',
+  'tour.people.title':
+    'People and risk',
+  'tour.portal.body':
+    'What is assigned to you and why — each item says which real incident or threat put it here. Finish a lesson, answer the questions, and the result feeds back into your own risk picture.',
+  'tour.portal.title':
+    'Your training',
+  'tour.report.body':
+    'An email, a link, a text, a chat message or a file. It reaches an analyst; if it turns out to be real it starts a loop that protects everyone else. Reporting is always the right move — including after you clicked.',
+  'tour.report.title':
+    'Report anything suspicious',
+  'tour.sandbox.body':
+    'Static analysis runs here; dynamic detonation runs only on an isolated off-host worker, never inside this web application. When detonation is unavailable the verdict says so rather than implying it looked and found nothing.',
+  'tour.sandbox.title':
+    'Analysis: the sandbox',
+  'tour.step-of':
+    'Step {n} of {total}',
+  'tour.take-the-tour':
+    'Take the tour',
+  'tour.training.body':
+    'Micro-lessons converted from real threats, backed by verified external material — YouTube and Coursera links that something actually fetched and checked. A link that has never been dereferenced is not shown at all.',
+  'tour.training.title':
+    'Training: modules and real courses',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -9705,6 +9765,65 @@ const az: Record<MessageKey, string> = {
     'Uyğunluqlara kəşfiyyat ekranında baxılır və eskalasiya olunur.',
   'pl.watch-has-not-run-yet':
     'Arxa plan skanı hələ işləməyib. İndi işə salın və ya intervalı gözləyin.',
+
+  'tour.ai.body':
+    'İstənilən ekran, kimin hansı sistemdən asılı olduğu, və ya hücumun qarşısını əslində nəyin aldığı barədə soruşun. Hər cavab mənbəyini daşıyır; əsası olmayan sual uydurulmur, rədd edilir.',
+  'tour.ai.title':
+    'Cyber AI, küncdə',
+  'tour.aria':
+    'Bələdçili tur',
+  'tour.back':
+    'Geri',
+  'tour.cc.body':
+    'Hər ekranın bir sualı var: indi nəyə insan lazımdır. Plitələr canlı saylardır — təsdiq qapısında gözləyənlər, dövrədə hərəkət edənlər, sandbox-un bu gün edə bilmədikləri. Hər plitə keçiddir.',
+  'tour.cc.title':
+    'Buradan başlayın: Komanda Mərkəzi',
+  'tour.end':
+    'Turu bitir',
+  'tour.finish':
+    'Bitir',
+  'tour.gate.body':
+    'Yaradılan heç nə adı bəlli şəxs təsdiqləməyincə işçiyə çatmır. Analitik işçinin oxuyacağını eynilə oxuyur, redaktə edə bilir, rədd üçün isə yazılı səbəb tələb olunur. Bu qapı məhsulun əsas iddiasıdır, parametr deyil.',
+  'tour.gate.title':
+    'Təsdiq qapısı',
+  'tour.grc.body':
+    'Öz sənədləriniz qaydalar reyestri kimi — ISO 27001, NIST CSF, NIS2, PCI DSS buradadır. Müşahidəçi yeni bülletenləri arxa planda aktiv qaydalarla tutuşdurur və tapdığını göstərir; uyğunluğu tapıntıya çevirmək sizin qərarınız olaraq qalır.',
+  'tour.grc.title':
+    'Siyasət və GRC müşahidəsi',
+  'tour.incident.body':
+    'Bu, idarəetmə işinin əsas qapısıdır. Tapıntı konkret şəxsləri bağlayır, son tarix daşıya bilər, və "Avtomatik təlim" onu təlimə çevirir: kataloqdan uyğun təsdiqlənmiş modul, uyğun yoxdursa isə yaradılıb təsdiq növbəsinə qoyulan modul.',
+  'tour.incident.title':
+    'İnsident riskləri: İR komandasının tapıntıları',
+  'tour.intake.body':
+    'Real artefaktlar, üç qapıdan: işçi bildirir, seçilmiş lent gətirir, və ya analitik burada göndərir. Sonrakı hər şey bunlardan qurulur — təlim heç kimin görmədiyi təhdid haqqında şablondan uydurulmur.',
+  'tour.intake.title':
+    'Qəbul: təhdid buradan gəlir',
+  'tour.next':
+    'İrəli',
+  'tour.people.body':
+    'Balı davranış dəyişir, iştirak yox. Təlimi tamamlamaq ayrı oxda kredit qazandırır — yəni insan dərsləri kliklə keçərək riskini aşağı sala bilməz. Bal ölçülməyibsə, ekran sıfır göstərmək əvəzinə bunu deyir.',
+  'tour.people.title':
+    'İnsanlar və risk',
+  'tour.portal.body':
+    'Sizə nə təyin edilib və niyə — hər element onu buraya hansı real insident və ya təhdidin gətirdiyini deyir. Dərsi bitirin, suallara cavab verin, nəticə isə sizin risk mənzərənizə qayıdır.',
+  'tour.portal.title':
+    'Sizin təliminiz',
+  'tour.report.body':
+    'E-poçt, link, SMS, söhbət mesajı və ya fayl. O, analitikə çatır; real çıxsa, hamını qoruyan dövrəni başladır. Bildirmək həmişə düzgün addımdır — kliklədikdən sonra da.',
+  'tour.report.title':
+    'Şübhəli olan hər şeyi bildirin',
+  'tour.sandbox.body':
+    'Statik təhlil burada işləyir; dinamik detonasiya yalnız izolyasiya olunmuş kənar işçidə, heç vaxt bu veb tətbiqin içində. Detonasiya əlçatan olmayanda qərar bunu açıq deyir — baxıb heç nə tapmadığını iddia etmir.',
+  'tour.sandbox.title':
+    'Təhlil: sandbox',
+  'tour.step-of':
+    '{total} addımdan {n}-cisi',
+  'tour.take-the-tour':
+    'Turu keç',
+  'tour.training.body':
+    'Real təhdidlərdən çevrilmiş qısa dərslər, yoxlanılmış xarici material ilə — həqiqətən açılıb yoxlanılmış YouTube və Coursera linkləri. Heç vaxt açılmamış link ümumiyyətlə göstərilmir.',
+  'tour.training.title':
+    'Təlim: modullar və real kurslar',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

@@ -38,10 +38,12 @@ export interface TopNavigationProps {
   onOpenSearch: () => void
   /** Opens the navigation sheet. Only reachable below the `lg` breakpoint. */
   onOpenNav: () => void
+  /** Restarts the guided tour. Held by the shell, like the palette. */
+  onStartTour: () => void
   className?: string
 }
 
-export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigationProps) {
+export function TopNavigation({ onOpenSearch, onOpenNav, onStartTour, className }: TopNavigationProps) {
   const t = useT()
   const { role, can } = useAuth()
   const { data: capabilities } = useCapabilities()
@@ -106,7 +108,7 @@ export function TopNavigation({ onOpenSearch, onOpenNav, className }: TopNavigat
 
         {showRoleSwitcher && <RoleSwitcher className="hidden md:inline-flex" />}
         {showNotifications && <NotificationsMenu />}
-        <HelpMenu onOpenPalette={onOpenSearch} />
+        <HelpMenu onOpenPalette={onOpenSearch} onStartTour={onStartTour} />
         <UserMenu />
       </div>
     </header>

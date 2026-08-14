@@ -32,6 +32,8 @@ import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { CommandPalette } from './CommandPalette'
 import { CyberAIDock } from '../../features/cyber-ai/CyberAIDock'
+import { GuidedTour } from '../../features/tour/GuidedTour'
+import { tourSeen } from '../../features/tour/steps'
 import { PageFallback } from './PageFallback'
 import { SideNavigation } from './SideNavigation'
 import { TopNavigation } from './TopNavigation'
@@ -56,6 +58,15 @@ export function AppShell() {
   const [collapsed, setCollapsed] = useState(readCollapsed)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  // Offered once per browser, and only after the shell has actually
+  // rendered — a tour that starts before the first screen paints rings
+  // an element that is not there yet.
+  const [tourOpen, setTourOpen] = useState(false)
+  useEffect(() => {
+    if (tourSeen()) return
+    const timer = window.setTimeout(() => setTourOpen(true), 900)
+    return () => window.clearTimeout(timer)
+  }, [])
   const { pathname } = useLocation()
 
   // A sheet that survives navigation covers the page the user just asked for.
@@ -104,7 +115,11 @@ export function AppShell() {
         {t('shell.skipToContent')}
       </a>
 
-      <TopNavigation onOpenSearch={openPalette} onOpenNav={() => setSheetOpen(true)} />
+      <TopNavigation
+        onOpenSearch={openPalette}
+        onOpenNav={() => setSheetOpen(true)}
+        onStartTour={() => setTourOpen(true)}
+      />
 
       <div className="flex flex-1 items-start">
         <aside
@@ -166,6 +181,7 @@ export function AppShell() {
 
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
       <CyberAIDock />
+      <GuidedTour open={tourOpen} onOpenChange={setTourOpen} />
       <DisconnectedBanner />
     </div>
   )

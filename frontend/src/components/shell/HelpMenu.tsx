@@ -9,7 +9,7 @@
  */
 
 import { type MessageKey, useT } from '../../lib/i18n'
-import { Command, Keyboard, LifeBuoy, ScrollText } from 'lucide-react'
+import { Command, Compass, Keyboard, LifeBuoy, ScrollText } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import {
   Dialog,
@@ -29,6 +29,8 @@ import { PRODUCT_NAME } from '../../lib/demo/registry'
 export interface HelpMenuProps {
   /** Opens the command palette — the menu never owns palette state itself. */
   onOpenPalette: () => void
+  /** Restarts the guided tour from step one. */
+  onStartTour: () => void
   className?: string
 }
 
@@ -40,7 +42,7 @@ const SHORTCUTS: { keys: string[]; action: MessageKey }[] = [
   { keys: ['Tab'], action: 'p.move-to-the-next-control-the' },
 ]
 
-export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
+export function HelpMenu({ onOpenPalette, onStartTour, className }: HelpMenuProps) {
   const t = useT()
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
@@ -56,6 +58,11 @@ export function HelpMenu({ onOpenPalette, className }: HelpMenuProps) {
 
         <DropdownMenuContent className="w-64">
           <DropdownMenuLabel>Help</DropdownMenuLabel>
+
+          <DropdownMenuItem onSelect={onStartTour}>
+            <Compass className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
+            {t('tour.take-the-tour')}
+          </DropdownMenuItem>
 
           <DropdownMenuItem onSelect={onOpenPalette}>
             <Command className="size-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />

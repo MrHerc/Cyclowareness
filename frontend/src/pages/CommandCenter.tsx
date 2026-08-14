@@ -245,7 +245,7 @@ export default function CommandCenter() {
 
       <SystemWarnings warnings={warnings} />
 
-      <section aria-labelledby="attention-heading">
+      <section aria-labelledby="attention-heading" data-tour="attention">
         <h2 id="attention-heading" className="sr-only">
           {t('cc.attention')}
         </h2>
