@@ -239,6 +239,12 @@ class TrainingModule(Base):
     generation_source: Mapped[str] = mapped_column(String(20), default="")
     status: Mapped[str] = mapped_column(String(20), default=ModuleStatus.PENDING_REVIEW)
     approved_by: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    # Why this module exists, when it was generated FOR someone. Shape:
+    #   {"kind": "policy_finding"|"incident_risk", "id": int, "employee_ids": [int]}
+    # NULL for hand-authored and threat-converted modules. Read exactly once, by
+    # the approval router AFTER a human approves — generation never assigns,
+    # approval does, so the human gate keeps its full strength.
+    origin: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 

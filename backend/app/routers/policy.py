@@ -42,7 +42,10 @@ from ..models import (
     User,
     utcnow,
 )
+from ..schemas import AutoTrainResource, AutoTrainResult
+from ..training import pipeline as training_pipeline
 from ..platform.models import (
+    IntelMatch,
     ExtractionSource,
     ExtractionStatus,
     FindingStatus,
@@ -1183,6 +1186,132 @@ def update_finding(
     db.commit()
     db.refresh(finding)
     return finding
+
+
+@router.get("/watch")
+def grc_watch_status(db: Session = Depends(get_db), user: User = Depends(require_analyst)):
+    """The GRC watcher's pulse: when it last ran and what it surfaced.
+
+    `last_scan` is None until the first scan completes, and the response says
+    "has not run" rather than presenting zeroes that would read as a clean
+    bill of health nothing measured.
+    """
+    from ..platform import grc_watch
+
+    interval = get_settings().grc_watch_interval_seconds
+    recent = db.scalars(
+        select(IntelMatch)
+        .where(IntelMatch.explanation.like("GRC watch:%"))
+        .order_by(IntelMatch.created_at.desc())
+        .limit(20)
+    ).all()
+    return {
+        "enabled": interval > 0,
+        "interval_seconds": interval,
+        "last_scan": grc_watch.last_scan,
+        "recent_matches": [
+            {
+                "match_id": m.id,
+                "intel_item_id": m.intel_item_id,
+                "intel_title": m.intel_item.title if m.intel_item else "",
+                "rule_id": m.matched_rule_id,
+                "technology": m.matched_technology,
+                "explanation": m.explanation,
+                "created_at": m.created_at,
+                "escalated_finding_id": m.created_finding_id,
+            }
+            for m in recent
+        ],
+    }
+
+
+@router.post("/watch/run")
+def grc_watch_run(db: Session = Depends(get_db), user: User = Depends(require_analyst)):
+    """Run one scan now. The same code the background loop runs on its interval."""
+    from ..platform import grc_watch
+
+    return grc_watch.scan_once(db)
+
+
+@router.post("/findings/{finding_id}/auto-train", response_model=AutoTrainResult)
+async def auto_train_finding(
+    finding_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+):
+    """The pipeline, end to end, from one click on a finding.
+
+    Retrieval first: an approved module matching the finding's topic is
+    assigned to the named employees immediately, with verified external
+    resources attached. Generation second: when the shelf is empty a module is
+    written and queued for review, and the approval click completes the
+    assignment. The response states which path ran — nothing is implied.
+    """
+    finding = _finding_or_404(db, finding_id)
+    if finding.status in TERMINAL_FINDING_STATUSES:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Finding {finding.id} is {finding.status}; reopen it before assigning training",
+        )
+    employee_ids = [e for e in (finding.affected_employee_ids or []) if isinstance(e, int)]
+    if not employee_ids:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "This finding names no employees, so there is nobody to train. "
+                "Attach the affected people to the finding first."
+            ),
+        )
+
+    outcome = await training_pipeline.auto_train(
+        db,
+        kind="policy_finding",
+        ref_id=finding.id,
+        title=finding.title,
+        description=finding.description or "",
+        severity=finding.severity,
+        type_value=finding.finding_type,
+        required_action=finding.required_training or finding.suggested_remediation or "",
+        employee_ids=employee_ids,
+    )
+    module = outcome["module"]
+    if outcome["assigned"] and finding.status != FindingStatus.TRAINING_ASSIGNED:
+        finding.status = FindingStatus.TRAINING_ASSIGNED
+
+    _audit(
+        db, request, user,
+        action="policy.finding.auto_train",
+        object_type="policy_finding",
+        object_id=finding.id,
+        object_label=finding.title,
+        summary=(
+            f"Auto-train ({outcome['path']}): module '{module.title}' — "
+            f"{len(outcome['assigned'])} assigned, {len(outcome['skipped'])} skipped"
+        ),
+        after={
+            "path": outcome["path"],
+            "topic": outcome["topic"],
+            "module_id": module.id,
+            "assignment_ids": [a["assignment_id"] for a in outcome["assigned"]],
+            "resources": [r["id"] for r in outcome["resources"]],
+            "finding_status": finding.status,
+        },
+    )
+    db.commit()
+    db.refresh(module)
+    return AutoTrainResult(
+        path=outcome["path"],
+        topic=outcome["topic"],
+        module_id=module.id,
+        module_title=module.title,
+        module_status=module.status,
+        generation_source=outcome["generation_source"],
+        assigned=outcome["assigned"],
+        skipped=outcome["skipped"],
+        resources=[AutoTrainResource(**r) for r in outcome["resources"]],
+        note=outcome["note"],
+    )
 
 
 @router.post("/findings/{finding_id}/assign-training", response_model=FindingTrainingResult)

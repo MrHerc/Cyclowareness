@@ -31,6 +31,7 @@ import { Drawer } from '../ui'
 import { useT } from '../../lib/i18n'
 import { cn } from '../../lib/format'
 import { CommandPalette } from './CommandPalette'
+import { CyberAIDock } from '../../features/cyber-ai/CyberAIDock'
 import { PageFallback } from './PageFallback'
 import { SideNavigation } from './SideNavigation'
 import { TopNavigation } from './TopNavigation'
@@ -164,6 +165,7 @@ export function AppShell() {
       </Drawer>
 
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+      <CyberAIDock />
       <DisconnectedBanner />
     </div>
   )

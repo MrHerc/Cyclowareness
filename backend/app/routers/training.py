@@ -30,7 +30,9 @@ from ..schemas import (
     TrainingResourceTopic,
 )
 from ..platform import models as platform_models
+from ..schemas import ModuleReviewRequest, ModuleReviewResult
 from ..training import resources as resource_service
+from ..training.assignment import assign_module_to_employees
 from ..security import get_current_user, require_analyst
 
 router = APIRouter(prefix="/api/training", tags=["training"])
@@ -140,6 +142,118 @@ def edit_module(
             setattr(module, field, value)
     db.commit()
     return module
+
+
+@router.post("/modules/{module_id}/review", response_model=ModuleReviewResult)
+def review_module(
+    module_id: int,
+    payload: ModuleReviewRequest,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+):
+    """Approve or reject a STANDALONE module — the gate the pipeline routes through.
+
+    Loop-run modules are decided in the approvals queue; this endpoint exists
+    for modules with no run: hand-authored ones, and modules the finding→
+    training pipeline GENERATED. Until it existed there was no way to approve
+    those at all.
+
+    The origin hook is the whole point. When an approved module carries
+    `origin` — the finding or incident risk it was generated for, and the
+    employees it was generated FOR — approval is the moment the assignment
+    actually happens. Generation queued the decision; a named person makes it;
+    only then does anything reach an employee. The response lists exactly who
+    was assigned and who was skipped, with reasons.
+    """
+    module = db.get(TrainingModule, module_id)
+    if module is None:
+        raise HTTPException(status_code=404, detail="Module not found")
+    if module.status != ModuleStatus.PENDING_REVIEW:
+        raise HTTPException(
+            status_code=409, detail=f"Module is {module.status}, not pending review"
+        )
+    if payload.decision not in ("approve", "reject"):
+        raise HTTPException(status_code=422, detail='decision must be "approve" or "reject"')
+    if payload.decision == "reject" and not payload.comment.strip():
+        raise HTTPException(
+            status_code=422,
+            detail="A rejection needs a comment — the queue must know what is wrong with it.",
+        )
+
+    assigned: list[dict] = []
+    skipped: list[dict] = []
+    origin_note = ""
+    if payload.decision == "approve":
+        module.status = ModuleStatus.APPROVED
+        module.approved_by = user.email
+        origin = module.origin if isinstance(module.origin, dict) else None
+        if origin and origin.get("employee_ids"):
+            kind = origin.get("kind", "")
+            ref = origin.get("id")
+            reason = (
+                f"Policy finding #{ref}" if kind == "policy_finding"
+                else f"Incident risk #{ref}" if kind == "incident_risk"
+                else "Generated training"
+            )
+            assigned, skipped = assign_module_to_employees(
+                db, module, list(origin["employee_ids"]), f"{reason}: {module.title}"
+            )
+            if assigned:
+                if kind == "policy_finding" and ref is not None:
+                    finding = db.get(platform_models.PolicyFinding, ref)
+                    if finding is not None and finding.status not in (
+                        platform_models.FindingStatus.RESOLVED,
+                        platform_models.FindingStatus.ACCEPTED_RISK,
+                        platform_models.FindingStatus.FALSE_POSITIVE,
+                    ):
+                        finding.status = platform_models.FindingStatus.TRAINING_ASSIGNED
+                elif kind == "incident_risk" and ref is not None:
+                    risk = db.get(platform_models.IncidentRisk, ref)
+                    subjects = db.scalars(
+                        select(platform_models.IncidentRiskSubject).where(
+                            platform_models.IncidentRiskSubject.incident_risk_id == ref
+                        )
+                    ).all()
+                    by_employee = {a["employee_id"]: a["assignment_id"] for a in assigned}
+                    for subject in subjects:
+                        if subject.employee_id in by_employee and subject.assignment_id is None:
+                            subject.assignment_id = by_employee[subject.employee_id]
+                    if risk is not None and risk.status in (
+                        platform_models.IncidentRiskStatus.DRAFT,
+                        platform_models.IncidentRiskStatus.OPEN,
+                        platform_models.IncidentRiskStatus.REOPENED,
+                    ):
+                        risk.status = platform_models.IncidentRiskStatus.ASSIGNED
+            origin_note = (
+                f"Approval completed the generated-training pipeline: {len(assigned)} assigned, "
+                f"{len(skipped)} skipped, raised by {reason.lower()}."
+            )
+    else:
+        module.status = ModuleStatus.REJECTED
+
+    platform_models.record(
+        db,
+        actor=user,
+        action=f"training.module.{payload.decision}",
+        object_type="training_module",
+        object_id=module.id,
+        object_label=module.title[:120],
+        summary=(payload.comment.strip() or f"Module {payload.decision}d in the studio.")
+        + (f" {origin_note}" if origin_note else ""),
+        after={
+            "status": module.status,
+            "assigned": assigned,
+            "skipped": skipped,
+        },
+    )
+    db.commit()
+    db.refresh(module)
+    return ModuleReviewResult(
+        module=TrainingModuleOut.model_validate(module),
+        assigned=assigned,
+        skipped=skipped,
+        origin_note=origin_note,
+    )
 
 
 def _validate_quiz_shape(quiz: list) -> None:

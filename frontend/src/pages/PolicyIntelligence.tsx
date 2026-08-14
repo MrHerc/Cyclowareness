@@ -39,6 +39,7 @@ import {
 } from '../features/policy/data'
 import { DriftingPolicies } from '../features/policy/DriftingPolicies'
 import { FindingCard } from '../features/policy/FindingCard'
+import { GrcWatchPanel } from '../features/policy/GrcWatchPanel'
 import { PolicyHeader } from '../features/policy/PolicyHeader'
 import { StatusBreakdown } from '../features/policy/StatusBreakdown'
 import { SEVERITY_ORDER } from '../features/policy/vocabulary'
@@ -231,6 +232,8 @@ export default function PolicyIntelligence() {
         </Panel>
       </div>
       </section>
+
+      <GrcWatchPanel />
 
       {/* --- drift ranking and the queue ------------------------------------- */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">

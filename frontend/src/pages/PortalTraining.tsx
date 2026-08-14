@@ -13,6 +13,7 @@
  */
 
 import { useT } from '../lib/i18n'
+import { ResourcePanel } from '../features/training/ResourcePanel'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
@@ -26,7 +27,7 @@ import { LessonPhase } from '../features/portal/training/LessonPhase'
 import { QuizPhase } from '../features/portal/training/QuizPhase'
 import { ResultPhase } from '../features/portal/training/ResultPhase'
 import { useCompleteAssignment, useStartAssignment } from '../lib/api/mutations'
-import { useAssignment, useCapabilities } from '../lib/api/queries'
+import { useAssignment, useCapabilities, useModuleResources } from '../lib/api/queries'
 
 type Phase = 'lesson' | 'quiz'
 
@@ -69,6 +70,7 @@ export default function PortalTraining() {
   })
 
   const detail = assignment.data ?? null
+  const lessonResources = useModuleResources(detail?.module.id)
   const quiz = useMemo(() => detail?.module.quiz ?? [], [detail])
 
   const startMutate = start.mutate
@@ -152,12 +154,23 @@ export default function PortalTraining() {
           ) : detail.status === 'completed' || detail.status === 'expired' ? (
             <CompletedReview assignment={detail} />
           ) : phase === 'lesson' ? (
-            <LessonPhase
-              module={detail.module}
-              questionCount={quiz.length}
-              onReportConcern={() => setReportOpen(true)}
-              onContinue={() => setPhase('quiz')}
-            />
+            <div className="space-y-6">
+              <LessonPhase
+                module={detail.module}
+                questionCount={quiz.length}
+                onReportConcern={() => setReportOpen(true)}
+                onContinue={() => setPhase('quiz')}
+              />
+              {/* The LMS half of the lesson: the verified external material —
+                  YouTube/Coursera courses matched to this module's channel —
+                  shown to the EMPLOYEE, not only to the analyst studio. */}
+              <ResourcePanel
+                resources={lessonResources.data ?? []}
+                isLoading={lessonResources.isLoading}
+                error={lessonResources.data ? null : lessonResources.error}
+                headingLevel={2}
+              />
+            </div>
           ) : (
             <QuizPhase
               questions={quiz}

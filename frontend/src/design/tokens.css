@@ -68,11 +68,12 @@
      THE ACCENT IS NOT A STATUS COLOUR. Lime means "the thing you are pointing
      at". Red, amber and green mean risk and only risk, which is why the two
      severity hues nearest the accent moved — see the block below. */
-  --color-brand: #c9f24d;
-  --color-brand-fg: #d8f77e;
-  --color-brand-deep: #7fa32a;
-  /* Text and icons ON a lime fill. Near-black, never white. */
-  --color-on-brand: #0b1004;
+  --color-brand: #ff7a1a;
+  --color-brand-fg: #ff984d;
+  --color-brand-deep: #c24e00;
+  /* Text and icons ON an orange fill. Near-black, never white — white on
+     this orange measures ~3:1 and fails body-text AA. */
+  --color-on-brand: #1c0d02;
 
   /* THE PRIMARY BUTTON'S OWN COLOUR, separate from the accent.
      On the console the call to action IS the accent — lime on near-black reads
@@ -80,9 +81,9 @@
      a saturated fill on white is a marketing button, and Mercury's is plain
      near-black. One token, overridden in `.auth-surface`, so the same
      `variant="primary"` is right in both rooms without a second variant. */
-  --color-cta: #c9f24d;
-  --color-cta-fg: #d8f77e;
-  --color-on-cta: #0b1004;
+  --color-cta: #ff7a1a;
+  --color-cta-fg: #ff984d;
+  --color-on-cta: #1c0d02;
 
   /* --- machine reasoning: violet. AI provenance, intelligence, inference -- */
   --color-ai: #a78bfa;
@@ -108,9 +109,9 @@
      carries its label besides. 54 degrees, on purpose.
 
      All five clear 5.8:1 on `surface`, well past the 3:1 non-text floor. */
-  --color-critical: #ff5252;
-  --color-high: #ff7f38;
-  --color-medium: #ffa62e;
+  --color-critical: #ff4747;
+  --color-high: #ffb020;
+  --color-medium: #ffd166;
   --color-low: #5eb0ff;
   --color-safe: #25d0c0;
 
@@ -173,9 +174,9 @@
     Menlo, Consolas, monospace;
 
   /* --- radii: small reads as instrumentation, large reads as consumer app -- */
-  --radius-panel: 0.75rem;
-  --radius-control: 0.5rem;
-  --radius-chip: 0.375rem;
+  --radius-panel: 1.25rem;
+  --radius-control: 0.75rem;
+  --radius-chip: 999px;
 
   /* --- elevation: light from above, never a grey drop shadow -------------- */
   --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.04) inset,
@@ -361,9 +362,9 @@ body {
   --color-fg-faint: #666a72;
 
   /* The accent, dark enough to read as text on white. */
-  --color-brand: #4a6b12;
-  --color-brand-fg: #3d5a0e;
-  --color-brand-deep: #2f470a;
+  --color-brand: #c2410c;
+  --color-brand-fg: #9a3412;
+  --color-brand-deep: #7c2d12;
   --color-on-brand: #ffffff;
 
   /* Near-black, not the accent. 17.9:1 with white on it. */

@@ -9,6 +9,8 @@
  */
 
 import { useT } from '../../lib/i18n'
+import { AutoTrainAction } from '../pipeline/AutoTrainAction'
+import { useAutoTrainRisk } from '../pipeline/api'
 import { CheckCircle2, Lock, RotateCcw, Send } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { Badge, Panel, Tooltip } from '../../components/ui'
@@ -36,6 +38,7 @@ export interface RiskHeaderProps {
 export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
   const t = useT()
   const [assigning, setAssigning] = useState(false)
+  const autoTrain = useAutoTrainRisk()
   const [closing, setClosing] = useState(false)
   const [reopening, setReopening] = useState(false)
 
@@ -107,6 +110,11 @@ export function RiskHeader({ risk, rollup, canManage }: RiskHeaderProps) {
 
         {canManage && (
           <div className="flex flex-wrap items-start gap-3">
+            <AutoTrainAction
+              onRun={() => autoTrain.mutateAsync(risk.id)}
+              busy={autoTrain.isPending}
+              disabledReason={whyCannotAssign(risk, rollup.total) ?? undefined}
+            />
             <GuardedAction
               variant="primary"
               icon={<Send size={15} aria-hidden="true" />}

@@ -89,6 +89,10 @@ CONTEST_REVISION = "0007_contest"
 #: The revision that added the verified external-resource catalogue.
 RESOURCES_REVISION = "0008_resources"
 
+#: The revision that gave a generated module its origin, so approval can
+#: finish the assignment it was generated for.
+ORIGIN_REVISION = "0009_origin"
+
 #: Newest revision first. A pre-Alembic database is stamped at the first entry
 #: whose marker columns are ALL present, then upgraded from there.
 #:
@@ -112,6 +116,7 @@ RESOURCES_REVISION = "0008_resources"
 #: tables is dated. **Every revision that adds a table or a column adds a rung
 #: here.**
 _ADOPTION_LADDER: tuple[tuple[str, dict[str, set[str]]], ...] = (
+    (ORIGIN_REVISION, {"training_modules": {"origin"}}),
     # A table-only revision: the empty set means "this table must exist".
     # Forgetting this rung reproduced the documented failure a THIRD time —
     # `table training_resources already exists`, 157 test errors — within

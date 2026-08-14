@@ -113,7 +113,55 @@ class TrainingModuleOut(ORMModel):
     generation_source: str
     status: str
     approved_by: str | None
+    # {"kind": "policy_finding"|"incident_risk", "id": int, "employee_ids": [int]}
+    # — present only on modules the pipeline generated FOR someone.
+    origin: dict[str, Any] | None = None
     created_at: datetime
+
+
+class ModuleReviewRequest(BaseModel):
+    decision: str  # "approve" | "reject" — validated in the router with a reason
+    comment: str = ""
+
+
+class ModuleReviewResult(BaseModel):
+    """What the review actually did — including the origin hook's assignments."""
+
+    module: TrainingModuleOut
+    assigned: list[dict[str, Any]]
+    skipped: list[dict[str, Any]]
+    origin_note: str
+
+
+class AutoTrainResource(BaseModel):
+    """A verified catalogue row attached to an auto-train outcome."""
+
+    id: int
+    provider: str
+    title: str
+    url: str
+    duration_seconds: int | None = None
+
+
+class AutoTrainResult(BaseModel):
+    """The pipeline's one honest answer: which path ran, and for whom.
+
+    `path` is "assigned" when an already-approved module matched and the
+    assignments were created immediately, or "generated_awaiting_approval"
+    when nothing matched and a module was generated — in which case nothing
+    has reached an employee yet, and `assigned` is empty on purpose.
+    """
+
+    path: str
+    topic: str
+    module_id: int
+    module_title: str
+    module_status: str
+    generation_source: str = ""
+    assigned: list[dict[str, Any]]
+    skipped: list[dict[str, Any]]
+    resources: list[AutoTrainResource]
+    note: str
 
 
 class ModuleCreate(BaseModel):

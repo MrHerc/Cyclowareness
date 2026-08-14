@@ -159,6 +159,9 @@ class Settings(BaseSettings):
 
     # Behaviour
     auto_approve_training: bool = False
+    #: Seconds between GRC-watch scans of intel against active policy rules.
+    #: <= 0 disables the background loop; the manual run endpoint still works.
+    grc_watch_interval_seconds: int = 300
     access_token_expire_minutes: int = 720
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 

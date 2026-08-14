@@ -71,6 +71,8 @@ from ..platform.schemas import (
     RequirementOutcome,
     SkippedSubject,
 )
+from ..schemas import AutoTrainResource, AutoTrainResult
+from ..training import pipeline as training_pipeline
 from ..security import get_current_user, require_analyst
 
 router = APIRouter(prefix="/api/incident-risks", tags=["incident-risk"])
@@ -602,6 +604,95 @@ def add_subjects(
     db.commit()
     db.refresh(risk)
     return _detail(db, risk)
+
+
+@router.post("/{risk_id}/auto-train", response_model=AutoTrainResult)
+async def auto_train_risk(
+    risk_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_analyst),
+):
+    """The pipeline for an IR finding: match the catalogue, else generate.
+
+    The employees are the risk's attached subjects. When an approved module
+    matches the risk's topic it is assigned immediately and each subject row
+    is linked to its assignment; when nothing matches, a module is generated
+    and queued for review, and the approval click completes the assignment
+    and the subject links.
+    """
+    risk = _risk_or_404(db, risk_id)
+    if risk.status == IncidentRiskStatus.CLOSED:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Risk {risk.id} is closed; reopen it before assigning anything.",
+        )
+    subjects = list(risk.subjects or [])
+    if not subjects:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Risk {risk.id} has no subjects attached; POST /{risk.id}/subjects first.",
+        )
+    employee_ids = [s.employee_id for s in subjects]
+
+    outcome = await training_pipeline.auto_train(
+        db,
+        kind="incident_risk",
+        ref_id=risk.id,
+        title=risk.title,
+        description=risk.description or "",
+        severity=risk.severity,
+        type_value=risk.risk_type,
+        required_action=risk.required_action or "",
+        employee_ids=employee_ids,
+    )
+    module = outcome["module"]
+    if outcome["assigned"]:
+        by_employee = {a["employee_id"]: a["assignment_id"] for a in outcome["assigned"]}
+        for subject in subjects:
+            if subject.employee_id in by_employee and subject.assignment_id is None:
+                subject.assignment_id = by_employee[subject.employee_id]
+        if risk.status in (
+            IncidentRiskStatus.DRAFT,
+            IncidentRiskStatus.OPEN,
+            IncidentRiskStatus.REOPENED,
+        ):
+            risk.status = IncidentRiskStatus.ASSIGNED
+
+    record(
+        db,
+        actor=user,
+        action="incident_risk.auto_train",
+        object_type="incident_risk",
+        object_id=risk.id,
+        object_label=risk.title[:120],
+        summary=(
+            f"Auto-train ({outcome['path']}): module '{module.title}' — "
+            f"{len(outcome['assigned'])} assigned, {len(outcome['skipped'])} skipped"
+        ),
+        after={
+            "path": outcome["path"],
+            "topic": outcome["topic"],
+            "module_id": module.id,
+            "assignment_ids": [a["assignment_id"] for a in outcome["assigned"]],
+            "risk_status": risk.status,
+        },
+        **_request_context(request),
+    )
+    db.commit()
+    db.refresh(module)
+    return AutoTrainResult(
+        path=outcome["path"],
+        topic=outcome["topic"],
+        module_id=module.id,
+        module_title=module.title,
+        module_status=module.status,
+        generation_source=outcome["generation_source"],
+        assigned=outcome["assigned"],
+        skipped=outcome["skipped"],
+        resources=[AutoTrainResource(**r) for r in outcome["resources"]],
+        note=outcome["note"],
+    )
 
 
 @router.post("/{risk_id}/assign", response_model=IncidentRiskAssignResult)

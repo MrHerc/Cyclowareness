@@ -28,6 +28,7 @@ from .routers import (
     threats,
     training,
     ws,
+    assistant,
 )
 from .seed import seed_if_empty
 
@@ -126,6 +127,12 @@ async def lifespan(app: FastAPI):
         db = session_scope()
         try:
             seed_if_empty(db)
+            # The GRC framework register is idempotent BY NAME, separately from
+            # seed_if_empty's all-or-nothing guard — so a deployment seeded
+            # before these documents existed still receives them on upgrade.
+            from .platform.seed_grc import seed_grc_documents
+
+            seed_grc_documents(db)
         finally:
             db.close()
     _recover_orphaned_runs()
@@ -142,6 +149,14 @@ async def lifespan(app: FastAPI):
     from .core.events import manager
 
     manager.attach_loop(loop)
+
+    # The GRC watcher: intel scanned against active policy rules on an
+    # interval, surfacing matches for a person to judge. Submitted through the
+    # task runner so demo and production share one lifecycle; the loop itself
+    # exits immediately when the interval is configured to zero.
+    from .platform.grc_watch import watch_loop
+
+    runner.submit(watch_loop(), name="grc-watch")
     yield
 
 
@@ -195,6 +210,7 @@ app.include_router(remediation.router)
 app.include_router(incident_risks.router)
 app.include_router(approvals.router)
 app.include_router(audit.router)
+app.include_router(assistant.router)
 
 
 @app.get("/api/health")

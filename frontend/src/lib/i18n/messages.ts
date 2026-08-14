@@ -4800,6 +4800,84 @@ const en = {
     'Same engine, byte for byte — plus the operator surfaces this portal does not re-implement.',
   'sbx.standalone.title':
     'The full sandbox deployment',
+
+  // --- the finding->training pipeline, GRC watch and Cyber AI -------------
+  'pl.approve-module':
+    'Approve module',
+  'pl.ask-cyber-ai':
+    'Ask Cyber AI',
+  'pl.assigned-to':
+    'Assigned to',
+  'pl.assistant-error':
+    'The assistant could not answer',
+  'pl.assistant-intro':
+    'Ask about the portal\'s screens, who depends on which system, or what prevents an attack.',
+  'pl.assistant-thinking':
+    'Thinking…',
+  'pl.auto-train':
+    'Auto-train',
+  'pl.awaiting-review':
+    'Awaiting review',
+  'pl.close-assistant':
+    'Close the assistant',
+  'pl.cyber-ai':
+    'Cyber AI',
+  'pl.cyber-ai-tagline':
+    'The portal, the inventory, and prevention — grounded answers only.',
+  'pl.escalated':
+    'Escalated',
+  'pl.finding-is-closed':
+    'This finding is closed',
+  'pl.generated-awaiting-approval':
+    'Generated — awaiting approval',
+  'pl.grc-watch':
+    'GRC watch',
+  'pl.grc-watch-subtitle':
+    'Intel scanned against the active policy rules in the background. News surfaces here; escalating it stays your decision.',
+  'pl.knowledge-base':
+    'Knowledge base',
+  'pl.last-scan-summary':
+    'Last scan {when}: {rules} rules watched against {items} intel items.',
+  'pl.no-employees-on-finding':
+    'This finding names no employees',
+  'pl.no-watch-matches-yet':
+    'No watch matches on record yet.',
+  'pl.open-threat-intelligence':
+    'Open threat intelligence',
+  'pl.path-assigned':
+    'Assigned',
+  'pl.path-generated':
+    'Awaiting approval',
+  'pl.reading-watch-status':
+    'Reading the watch status',
+  'pl.reject-module':
+    'Reject',
+  'pl.rejection-reason':
+    'Why is this module being rejected?',
+  'pl.scan-now':
+    'Scan now',
+  'pl.send':
+    'Send',
+  'pl.skipped':
+    'Skipped',
+  'pl.suggest-interface':
+    'What does the Command Center show?',
+  'pl.suggest-inventory':
+    'What does the ERP depend on?',
+  'pl.suggest-preventive':
+    'How do I prevent phishing?',
+  'pl.supporting-resources':
+    'Supporting resources',
+  'pl.template':
+    'Template',
+  'pl.training-assigned':
+    'Training assigned',
+  'pl.watch-disabled':
+    'The background scan is disabled on this deployment; manual scans still work.',
+  'pl.watch-footer':
+    'Matches are reviewed and escalated on the intel screen.',
+  'pl.watch-has-not-run-yet':
+    'The background scan has not run yet. Run one now, or wait for the interval.',
 } as const
 
 export type MessageKey = keyof typeof en
@@ -9550,6 +9628,83 @@ const az: Record<MessageKey, string> = {
     'Eyni mühərrik, bayt-bayt — üstəgəl bu portalda təkrarlanmayan operator ekranları.',
   'sbx.standalone.title':
     'Tam sandbox quraşdırması',
+
+  'pl.approve-module':
+    'Modulu təsdiqlə',
+  'pl.ask-cyber-ai':
+    'Cyber AI-dan soruş',
+  'pl.assigned-to':
+    'Təyin edilib',
+  'pl.assistant-error':
+    'Köməkçi cavab verə bilmədi',
+  'pl.assistant-intro':
+    'Portalın ekranları, kimin hansı sistemdən asılı olduğu və ya hücumun qarşısını nəyin aldığı barədə soruşun.',
+  'pl.assistant-thinking':
+    'Düşünür…',
+  'pl.auto-train':
+    'Avtomatik təlim',
+  'pl.awaiting-review':
+    'Baxış gözləyir',
+  'pl.close-assistant':
+    'Köməkçini bağla',
+  'pl.cyber-ai':
+    'Cyber AI',
+  'pl.cyber-ai-tagline':
+    'Portal, inventar və qabaqlayıcı tədbirlər — yalnız əsaslandırılmış cavablar.',
+  'pl.escalated':
+    'Eskalasiya olunub',
+  'pl.finding-is-closed':
+    'Bu tapıntı bağlıdır',
+  'pl.generated-awaiting-approval':
+    'Yaradıldı — təsdiq gözləyir',
+  'pl.grc-watch':
+    'GRC müşahidəçisi',
+  'pl.grc-watch-subtitle':
+    'Kəşfiyyat lenti arxa planda aktiv siyasət qaydaları ilə tutuşdurulur. Yeniliklər burada görünür; tapıntıya çevirmək sizin qərarınızdır.',
+  'pl.knowledge-base':
+    'Bilik bazası',
+  'pl.last-scan-summary':
+    'Son skan {when}: {rules} qayda {items} kəşfiyyat elementi ilə tutuşdurulub.',
+  'pl.no-employees-on-finding':
+    'Bu tapıntıda işçi adı yoxdur',
+  'pl.no-watch-matches-yet':
+    'Hələ qeydə alınmış uyğunluq yoxdur.',
+  'pl.open-threat-intelligence':
+    'Təhdid kəşfiyyatını aç',
+  'pl.path-assigned':
+    'Təyin edildi',
+  'pl.path-generated':
+    'Təsdiq gözləyir',
+  'pl.reading-watch-status':
+    'Müşahidə statusu oxunur',
+  'pl.reject-module':
+    'Rədd et',
+  'pl.rejection-reason':
+    'Bu modul niyə rədd edilir?',
+  'pl.scan-now':
+    'İndi skan et',
+  'pl.send':
+    'Göndər',
+  'pl.skipped':
+    'Ötürülüb',
+  'pl.suggest-interface':
+    'Komanda Mərkəzi nə göstərir?',
+  'pl.suggest-inventory':
+    'ERP hansı serverdən asılıdır?',
+  'pl.suggest-preventive':
+    'Fişinqə qarşı nə edim?',
+  'pl.supporting-resources':
+    'Dəstəkləyici resurslar',
+  'pl.template':
+    'Şablon',
+  'pl.training-assigned':
+    'Təlim təyin edildi',
+  'pl.watch-disabled':
+    'Bu quraşdırmada arxa plan skanı söndürülüb; əl ilə skan işləyir.',
+  'pl.watch-footer':
+    'Uyğunluqlara kəşfiyyat ekranında baxılır və eskalasiya olunur.',
+  'pl.watch-has-not-run-yet':
+    'Arxa plan skanı hələ işləməyib. İndi işə salın və ya intervalı gözləyin.',
 }
 
 export const MESSAGES: Record<Locale, Record<MessageKey, string>> = { en, az }

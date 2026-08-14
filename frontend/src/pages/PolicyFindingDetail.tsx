@@ -21,6 +21,8 @@ import { ConfidenceBadge, EvidenceList } from '../components/data'
 import { AsyncBoundary, EmptyState, SkeletonText } from '../components/states'
 import { Badge, Button, Panel, Separator } from '../components/ui'
 import { AssignTrainingDialog } from '../features/policy/AssignTrainingDialog'
+import { AutoTrainAction } from '../features/pipeline/AutoTrainAction'
+import { useAutoTrainFinding } from '../features/pipeline/api'
 import type { PolicyFindingDetailResponse } from '../features/policy/data'
 import { AffectedPeople, VersionComparison } from '../features/policy/FindingFacts'
 import { FindingOrigin } from '../features/policy/FindingOrigin'
@@ -45,6 +47,7 @@ export default function PolicyFindingDetail() {
   const [statusOpen, setStatusOpen] = useState(false)
   const [statusPreset, setStatusPreset] = useState<string | undefined>(undefined)
   const [trainingOpen, setTrainingOpen] = useState(false)
+  const autoTrain = useAutoTrainFinding()
 
   const finding = query.data as PolicyFindingDetailResponse | undefined
 
@@ -125,6 +128,17 @@ export default function PolicyFindingDetail() {
                       >
                         {t('u.assign-training')}
                       </Button>
+                      <AutoTrainAction
+                        onRun={() => autoTrain.mutateAsync(finding.id)}
+                        busy={autoTrain.isPending}
+                        disabledReason={
+                          closed
+                            ? t('pl.finding-is-closed')
+                            : (finding.affected_employees ?? []).length === 0
+                              ? t('pl.no-employees-on-finding')
+                              : undefined
+                        }
+                      />
                       <Button
                         variant="outline"
                         icon={<ShieldCheck className="size-4" />}

@@ -20,6 +20,7 @@ import { ModuleEditor } from '../features/training/ModuleEditor'
 import { ModuleMetaPanel } from '../features/training/ModuleMetaPanel'
 import { ModuleReader } from '../features/training/ModuleReader'
 import { ResourcePanel } from '../features/training/ResourcePanel'
+import { useReviewModule } from '../features/pipeline/api'
 import { GenerationNotice, VersionHistoryNotice } from '../features/training/StudioNotices'
 import {
   useApprovalQueue,
@@ -34,6 +35,17 @@ export default function TrainingDetail() {
   const t = useT()
   const { id } = useParams<{ id: string }>()
   const [editing, setEditing] = useState(false)
+  const [reviewOutcome, setReviewOutcome] = useState<string | null>(null)
+  const review = useReviewModule({
+    onSuccess: (result) => {
+      setReviewOutcome(
+        result.origin_note ||
+          (result.assigned.length > 0
+            ? `${result.assigned.length} assignment(s) created.`
+            : null),
+      )
+    },
+  })
   const canAuthor = usePermission('training.author')
 
   const module = useTrainingModule(id)
@@ -92,16 +104,57 @@ export default function TrainingDetail() {
                     : t('p.this-is-the-module-exactly-as')}
                 </p>
               </div>
-              {canAuthor && !editing ? (
-                <Button
-                  variant="primary"
-                  onClick={() => setEditing(true)}
-                  icon={<PenLine className="size-4" aria-hidden="true" />}
-                >
-                  {t('u.edit-module')}
-                </Button>
-              ) : null}
+              <div className="flex flex-wrap items-center gap-2">
+                {canAuthor && !editing ? (
+                  <Button
+                    variant="secondary"
+                    onClick={() => setEditing(true)}
+                    icon={<PenLine className="size-4" aria-hidden="true" />}
+                  >
+                    {t('u.edit-module')}
+                  </Button>
+                ) : null}
+                {/* Standalone modules — hand-authored or pipeline-generated —
+                    have no loop run, so the approvals queue never shows them.
+                    This is their gate. A module a run holds is decided THERE,
+                    so these controls hide when a gate run exists. */}
+                {canAuthor && !editing && data.status === 'pending_review' && gateRunId === null ? (
+                  <>
+                    <Button
+                      variant="primary"
+                      loading={review.isPending}
+                      onClick={() =>
+                        review.mutate({ moduleId: data.id, decision: 'approve' })
+                      }
+                    >
+                      {t('pl.approve-module')}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      loading={review.isPending}
+                      onClick={() => {
+                        const comment = window.prompt(t('pl.rejection-reason'))
+                        if (comment && comment.trim()) {
+                          review.mutate({
+                            moduleId: data.id,
+                            decision: 'reject',
+                            comment: comment.trim(),
+                          })
+                        }
+                      }}
+                    >
+                      {t('pl.reject-module')}
+                    </Button>
+                  </>
+                ) : null}
+              </div>
             </header>
+
+            {reviewOutcome ? (
+              <div className="rounded-control border border-safe/35 bg-safe/12 px-4 py-3 text-sm text-fg">
+                {reviewOutcome}
+              </div>
+            ) : null}
 
             {editing ? (
               <ModuleEditor

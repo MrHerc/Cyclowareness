@@ -30,6 +30,17 @@ from app.seed import seed_if_empty  # noqa: E402
 @pytest.fixture(scope="session", autouse=True)
 def _database():
     Base.metadata.drop_all(bind=engine)
+    # `alembic_version` is not in the metadata, so drop_all leaves it behind —
+    # and a STALE version in a fresh-built schema makes the app's own
+    # run_migrations() re-apply whatever landed after that version against
+    # tables create_all just built with the new columns already present
+    # ("duplicate column name", the trap this repo has now paid for FOUR
+    # times). With the table gone, adoption stamps the database at the rung
+    # its columns actually match, which is the machinery working as designed.
+    from sqlalchemy import text
+
+    with engine.begin() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS alembic_version"))
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:

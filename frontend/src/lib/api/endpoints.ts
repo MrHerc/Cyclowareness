@@ -86,6 +86,7 @@ export const endpoints = {
     resourceTopics: () => '/api/training/resources/topics',
     moduleResources: (id: number | string) => `/api/training/modules/${id}/resources`,
     importResources: () => '/api/training/resources/import',
+    reviewModule: (id: number | string) => `/api/training/modules/${id}/review`,
   },
 
   /* --- simulations ------------------------------------------------------- */
@@ -184,6 +185,9 @@ export const endpoints = {
     finding: (id: number | string) => `/api/policy/findings/${id}`,
     updateFinding: (id: number | string) => `/api/policy/findings/${id}`,
     assignTraining: (id: number | string) => `/api/policy/findings/${id}/assign-training`,
+    autoTrain: (id: number | string) => `/api/policy/findings/${id}/auto-train`,
+    watch: () => '/api/policy/watch',
+    watchRun: () => '/api/policy/watch/run',
     stats: () => '/api/policy/stats',
   },
 
@@ -217,11 +221,17 @@ export const endpoints = {
     update: (id: number | string) => `/api/incident-risks/${id}`,
     addSubjects: (id: number | string) => `/api/incident-risks/${id}/subjects`,
     assign: (id: number | string) => `/api/incident-risks/${id}/assign`,
+    autoTrain: (id: number | string) => `/api/incident-risks/${id}/auto-train`,
     reviewSubject: (id: number | string, subjectId: number | string) =>
       `/api/incident-risks/${id}/subjects/${subjectId}/review`,
     close: (id: number | string) => `/api/incident-risks/${id}/close`,
     reopen: (id: number | string) => `/api/incident-risks/${id}/reopen`,
     mine: () => '/api/incident-risks/my',
+  },
+
+  /* --- the Cyber AI assistant --------------------------------------------- */
+  assistant: {
+    chat: () => '/api/assistant/chat',
   },
 
   /* --- integrations ------------------------------------------------------ */
