@@ -99,19 +99,22 @@ for _topic in list(_RISK_TYPE_TOPIC.values()) + list(_FINDING_TYPE_TOPIC.values(
 def topic_for(kind: str, type_value: str, text: str) -> str:
     """The catalogue topic a finding trains against. Always returns one.
 
-    THE CURATED TABLE DECIDES; keywords are the fallback for the types it does
-    not cover. The first version had this backwards — it scanned the keywords
-    first and returned on the first bare SUBSTRING hit, so "call" matched
-    inside "critically", "voice" inside "invoice", and the two-letter "qr"
-    inside the ordinary Azerbaijani words "qrup" and "qrafik". A finding about
-    password reuse trained people about voice phishing, and every log said it
-    worked. `knowledge.py` carries the same whole-word rule for the same
+    THE PROSE DECIDES WHEN IT SAYS SOMETHING; the type table is the floor.
+    A finding's TYPE is a governance category — `missing_control`,
+    `exposure_match` — and every one of the eight is mapped here, so a table
+    that ran first would answer every question and the title would never be
+    read at all. "MFA push prompts approved repeatedly" is a `missing_control`
+    finding and must train mfa_fatigue, not the type's generic data_handling.
+
+    The real defect was never the ordering, it was the MATCHING: the first
+    version tested each keyword as a bare substring, so "call" fired inside
+    "critically", "voice" inside "invoice", and the two-letter "qr" inside the
+    ordinary Azerbaijani words "qrup" and "qrafik" — a finding about password
+    reuse trained people about voice phishing while every log said it worked.
+    Keywords now match at a word boundary, and the shortest ones only as whole
+    words, which is the rule `knowledge.py` already carries for the same
     reason.
     """
-    table = _RISK_TYPE_TOPIC if kind == "incident_risk" else _FINDING_TYPE_TOPIC
-    mapped = table.get(type_value)
-    if mapped:
-        return mapped
     haystack = text.lower()
     words = set(re.findall(r"[^\W_]+", haystack, re.UNICODE))
     for needle, topic in _KEYWORDS:
@@ -129,7 +132,12 @@ def topic_for(kind: str, type_value: str, text: str) -> str:
             # but "call" must not fire inside "critically" and "voice" must
             # not fire inside "invoice".
             return topic
-    return "phishing"
+
+    # The prose said nothing recognisable — fall to the finding's own type,
+    # and only then to the commonest attack. Returning a bare "phishing" here
+    # would throw away the one classification a human actually made.
+    table = _RISK_TYPE_TOPIC if kind == "incident_risk" else _FINDING_TYPE_TOPIC
+    return table.get(type_value) or "phishing"
 
 
 #: Topic -> the threat_type vocabulary the generation seam already speaks.

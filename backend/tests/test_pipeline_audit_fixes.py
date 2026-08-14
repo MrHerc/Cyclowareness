@@ -79,10 +79,28 @@ def test_origin_is_stripped_from_the_employee_view(client, db):
 
 # --- 2. the curated table decides; keywords never match mid-word -----------
 
-def test_topic_derivation_prefers_the_table_and_respects_word_boundaries():
-    # The table is consulted FIRST for a type it covers.
+def test_topic_derivation_reads_the_prose_and_falls_back_to_the_type():
+    # The PROSE decides when it says something. Every one of the eight finding
+    # types is mapped, so a table consulted first would answer every question
+    # and the title would never be read: an MFA-fatigue finding filed as
+    # `missing_control` would train data handling.
+    assert (
+        topic_for("policy_finding", "missing_control", "MFA push prompts approved repeatedly")
+        == "mfa_fatigue"
+    )
+    assert (
+        topic_for("policy_finding", "exposure_match", "Password reuse is widespread")
+        == "credential_theft"
+    )
+
+    # Silent prose falls to the type — the one classification a human made —
+    # and only then to the commonest attack.
     assert topic_for("incident_risk", "alert_fatigue", "anything at all") == "mfa_fatigue"
-    assert topic_for("policy_finding", "missing_control", "anything at all") == "data_handling"
+    assert (
+        topic_for("policy_finding", "missing_control", "Quarterly review not performed")
+        == "data_handling"
+    )
+    assert topic_for("policy_finding", "", "nothing recognisable here") == "phishing"
 
     # The three substring collisions the audit reproduced.
     assert (

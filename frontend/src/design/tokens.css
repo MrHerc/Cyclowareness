@@ -222,9 +222,22 @@ body {
      A faint engineering grid sits under it, at the threshold of visibility:
      present when you look for it, absent when you read data. Fixed, so the
      light stays put while content scrolls. */
+     Both stops read the accent through `color-mix` rather than repeating it.
+     The retheme to orange rewrote every `--color-*` and missed this pair,
+     because `rgb(201 242 77)` is `#c9f24d` spelled a second way and no search
+     for the hex could find it — leaving a lime glow on a page whose every
+     control had turned orange, under a comment claiming the two agreed. */
   background-image:
-    radial-gradient(1100px 620px at 12% -14%, rgb(201 242 77 / 0.10), transparent 60%),
-    radial-gradient(760px 460px at 6% 4%, rgb(201 242 77 / 0.05), transparent 55%),
+    radial-gradient(
+      1100px 620px at 12% -14%,
+      color-mix(in oklab, var(--color-brand) 10%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      760px 460px at 6% 4%,
+      color-mix(in oklab, var(--color-brand) 5%, transparent),
+      transparent 55%
+    ),
     linear-gradient(to right, rgb(255 255 255 / 0.016) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(255 255 255 / 0.016) 1px, transparent 1px);
   background-size: auto, auto, 56px 56px, 56px 56px;
@@ -347,7 +360,7 @@ body {
    floor on the darkest ground, keeping muted > subtle > faint distinct.
 
    The lime accent is kept for continuity but darkened for text use — the
-   console's #c9f24d measures 1.7 on white and is unreadable there.
+   console's accent measures 1.7 on white and is unreadable there.
    ========================================================================== */
 .auth-surface {
   --color-void: #fbfbfa;

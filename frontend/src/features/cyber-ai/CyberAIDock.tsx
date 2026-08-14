@@ -3,8 +3,17 @@
  *
  * A fixed, NON-modal panel rather than a Drawer: the whole point is asking
  * about the screen you are looking at, so the screen must stay interactive
- * behind it. Same layering rules as the toast viewport (`Toast.tsx`): fixed,
- * below the toasts, above the content.
+ * behind it.
+ *
+ * THE STACK IT LIVES IN, and the one it must not climb into. Content sits
+ * below; the sticky top bar is z-40; every MODAL surface — Dialog, Drawer,
+ * Popover, the command palette, ConfirmationDialog — is z-50; toasts are
+ * z-100. The dock is z-45: above the page and the top bar, below anything
+ * modal. It was z-90 first, on the reasoning that it should sit "below the
+ * toasts, above the content" — true of content and false of dialogs, so an
+ * open assistant covered the footer of the very auto-train dialog this
+ * feature ships, and on a phone it covered the lower two thirds of every
+ * confirmation.
  *
  * Every reply carries its provenance. `generated_by` renders as a chip — the
  * knowledge base and the live model are different claims, and the demo
@@ -85,7 +94,7 @@ export function CyberAIDock() {
         aria-expanded={open}
         aria-label={t('pl.cyber-ai')}
         className={cn(
-          'fixed bottom-4 right-4 z-[90] flex size-12 items-center justify-center rounded-full',
+          'fixed bottom-4 right-4 z-45 flex size-12 items-center justify-center rounded-full',
           'bg-brand text-on-brand shadow-float transition-transform hover:scale-105',
           open && 'scale-0',
         )}
@@ -97,7 +106,7 @@ export function CyberAIDock() {
         <section
           aria-label={t('pl.cyber-ai')}
           className={cn(
-            'fixed bottom-4 left-4 right-4 z-[90] flex flex-col overflow-hidden rounded-panel',
+            'fixed bottom-4 left-4 right-4 z-45 flex flex-col overflow-hidden rounded-panel',
             'border border-line bg-elevated shadow-float',
             'h-[min(34rem,calc(100dvh-6rem))] sm:left-auto sm:w-[24rem]',
           )}
