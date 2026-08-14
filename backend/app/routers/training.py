@@ -190,14 +190,27 @@ def review_module(
         if origin and origin.get("employee_ids"):
             kind = origin.get("kind", "")
             ref = origin.get("id")
+            # BOTH auto-train endpoints refuse a terminal finding or a closed
+            # risk ("reopen it before assigning training"). Approval happens
+            # later — sometimes days later — so the same question has to be
+            # asked again here. Without this, a finding ruled a false positive
+            # on Tuesday still puts obligations on named people when somebody
+            # works the review queue on Wednesday.
+            blocked = _origin_is_terminal(db, kind, ref)
+            if blocked:
+                origin_note = (
+                    f"Approved, but nothing was assigned: {blocked} "
+                    f"Reopen it and run auto-train again to raise the obligation."
+                )
             reason = (
                 f"Policy finding #{ref}" if kind == "policy_finding"
                 else f"Incident risk #{ref}" if kind == "incident_risk"
                 else "Generated training"
             )
-            assigned, skipped = assign_module_to_employees(
-                db, module, list(origin["employee_ids"]), f"{reason}: {module.title}"
-            )
+            if not blocked:
+                assigned, skipped = assign_module_to_employees(
+                    db, module, list(origin["employee_ids"]), f"{reason}: {module.title}"
+                )
             if assigned:
                 if kind == "policy_finding" and ref is not None:
                     finding = db.get(platform_models.PolicyFinding, ref)
@@ -224,10 +237,12 @@ def review_module(
                         platform_models.IncidentRiskStatus.REOPENED,
                     ):
                         risk.status = platform_models.IncidentRiskStatus.ASSIGNED
-            origin_note = (
-                f"Approval completed the generated-training pipeline: {len(assigned)} assigned, "
-                f"{len(skipped)} skipped, raised by {reason.lower()}."
-            )
+            if not blocked:
+                origin_note = (
+                    f"Approval completed the generated-training pipeline: "
+                    f"{len(assigned)} assigned, {len(skipped)} skipped, "
+                    f"raised by {reason.lower()}."
+                )
     else:
         module.status = ModuleStatus.REJECTED
 
@@ -254,6 +269,29 @@ def review_module(
         skipped=skipped,
         origin_note=origin_note,
     )
+
+
+def _origin_is_terminal(db: Session, kind: str, ref: int | None) -> str:
+    """Why this origin can no longer raise an obligation, or '' if it still can."""
+    if ref is None:
+        return ""
+    if kind == "policy_finding":
+        finding = db.get(platform_models.PolicyFinding, ref)
+        if finding is None:
+            return f"policy finding #{ref} no longer exists."
+        if finding.status in (
+            platform_models.FindingStatus.RESOLVED,
+            platform_models.FindingStatus.ACCEPTED_RISK,
+            platform_models.FindingStatus.FALSE_POSITIVE,
+        ):
+            return f"policy finding #{ref} is {finding.status}."
+    elif kind == "incident_risk":
+        risk = db.get(platform_models.IncidentRisk, ref)
+        if risk is None:
+            return f"incident risk #{ref} no longer exists."
+        if risk.status == platform_models.IncidentRiskStatus.CLOSED:
+            return f"incident risk #{ref} is closed."
+    return ""
 
 
 def _validate_quiz_shape(quiz: list) -> None:
@@ -410,6 +448,13 @@ def _assignment_detail(assignment: TrainingAssignment) -> AssignmentDetail:
         {"question": q.get("question", ""), "options": q.get("options", [])}
         for q in (assignment.module.quiz or [])
     ]
+    # AND NEVER THE ORIGIN. It carries the incident-risk/finding id and the
+    # employee ids of everyone else that investigation named. `incident_risks`
+    # withholds exactly this from its own employee view, and shipping it
+    # through the training route would route around that redaction — the
+    # failure its module docstring predicts for "redaction implemented as an
+    # `if` in one route". The analyst-facing module routes keep it.
+    module.origin = None
     detail.module = module
     detail.employee_name = assignment.employee.name if assignment.employee else ""
     return detail
